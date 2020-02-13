@@ -44,15 +44,6 @@ extension MarketplaceCommerceAnalytics {
     //MARK: Shapes
 
     public struct GenerateDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerDefinedValues", required: false, type: .map), 
-            AWSShapeMember(label: "dataSetPublicationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "dataSetType", required: true, type: .enum), 
-            AWSShapeMember(label: "destinationS3BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "destinationS3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "roleNameArn", required: true, type: .string), 
-            AWSShapeMember(label: "snsTopicArn", required: true, type: .string)
-        ]
 
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file. These key-value pairs can be used to correlated responses with tracking information from other systems.
         public let customerDefinedValues: [String: String]?
@@ -103,9 +94,6 @@ extension MarketplaceCommerceAnalytics {
     }
 
     public struct GenerateDataSetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSetRequestId", required: false, type: .string)
-        ]
 
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
@@ -120,15 +108,6 @@ extension MarketplaceCommerceAnalytics {
     }
 
     public struct StartSupportDataExportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerDefinedValues", required: false, type: .map), 
-            AWSShapeMember(label: "dataSetType", required: true, type: .enum), 
-            AWSShapeMember(label: "destinationS3BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "destinationS3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "fromDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "roleNameArn", required: true, type: .string), 
-            AWSShapeMember(label: "snsTopicArn", required: true, type: .string)
-        ]
 
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
         public let customerDefinedValues: [String: String]?
@@ -179,9 +158,6 @@ extension MarketplaceCommerceAnalytics {
     }
 
     public struct StartSupportDataExportResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSetRequestId", required: false, type: .string)
-        ]
 
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?

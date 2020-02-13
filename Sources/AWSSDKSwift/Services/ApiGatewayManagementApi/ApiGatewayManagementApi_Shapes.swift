@@ -10,7 +10,7 @@ extension ApiGatewayManagementApi {
 
     public struct DeleteConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId"), required: true, type: .string)
+            AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId"))
         ]
 
         public let connectionId: String
@@ -26,7 +26,7 @@ extension ApiGatewayManagementApi {
 
     public struct GetConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId"), required: true, type: .string)
+            AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId"))
         ]
 
         public let connectionId: String
@@ -42,9 +42,9 @@ extension ApiGatewayManagementApi {
 
     public struct GetConnectionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectedAt", location: .body(locationName: "connectedAt"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Identity", location: .body(locationName: "identity"), required: false, type: .structure), 
-            AWSShapeMember(label: "LastActiveAt", location: .body(locationName: "lastActiveAt"), required: false, type: .timestamp)
+            AWSShapeMember(label: "ConnectedAt", location: .body(locationName: "connectedAt")), 
+            AWSShapeMember(label: "Identity", location: .body(locationName: "identity")), 
+            AWSShapeMember(label: "LastActiveAt", location: .body(locationName: "lastActiveAt"))
         ]
 
         public let connectedAt: TimeStamp?
@@ -66,8 +66,8 @@ extension ApiGatewayManagementApi {
 
     public struct Identity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIp", location: .body(locationName: "sourceIp"), required: true, type: .string), 
-            AWSShapeMember(label: "UserAgent", location: .body(locationName: "userAgent"), required: true, type: .string)
+            AWSShapeMember(label: "SourceIp", location: .body(locationName: "sourceIp")), 
+            AWSShapeMember(label: "UserAgent", location: .body(locationName: "userAgent"))
         ]
 
         /// The source IP address of the TCP connection making the request to API Gateway.
@@ -90,8 +90,8 @@ extension ApiGatewayManagementApi {
         /// The key for the payload
         public static let payloadPath: String? = "Data"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Data", required: true, type: .blob)
+            AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId")), 
+            AWSShapeMember(label: "Data", encoding: .blob)
         ]
 
         public let connectionId: String

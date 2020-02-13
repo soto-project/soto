@@ -24,14 +24,6 @@ extension MediaStore {
     //MARK: Shapes
 
     public struct Container: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessLoggingEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The state of access logging on the container. This value is false by default, indicating that AWS Elemental MediaStore does not send access logs to Amazon CloudWatch Logs. When you enable access logging on the container, MediaStore changes this value to true, indicating that the service delivers access logs for objects stored in that container to CloudWatch Logs.
         public let accessLoggingEnabled: Bool?
@@ -66,13 +58,6 @@ extension MediaStore {
     }
 
     public struct CorsRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedHeaders", required: true, type: .list), 
-            AWSShapeMember(label: "AllowedMethods", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedOrigins", required: true, type: .list), 
-            AWSShapeMember(label: "ExposeHeaders", required: false, type: .list), 
-            AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer)
-        ]
 
         /// Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Request-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back.  This element can contain only one wildcard character (*).
         public let allowedHeaders: [String]
@@ -131,10 +116,6 @@ extension MediaStore {
     }
 
     public struct CreateContainerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The name for the container. The name must be from 1 to 255 characters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you don’t have an existing container with that name.
         public let containerName: String
@@ -162,9 +143,6 @@ extension MediaStore {
     }
 
     public struct CreateContainerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Container", required: true, type: .structure)
-        ]
 
         /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;. For example: arn:aws:mediastore:us-west-2:111122223333:container/movies  ContainerName: The container name as specified in the request. CreationTime: Unix time stamp. Status: The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When an endpoint is available, the status changes to ACTIVE. The return value does not include the container's endpoint. To make downstream requests, you must obtain this value by using DescribeContainer or ListContainers.
         public let container: Container
@@ -179,9 +157,6 @@ extension MediaStore {
     }
 
     public struct DeleteContainerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container to delete. 
         public let containerName: String
@@ -210,9 +185,6 @@ extension MediaStore {
     }
 
     public struct DeleteContainerPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container that holds the policy.
         public let containerName: String
@@ -241,9 +213,6 @@ extension MediaStore {
     }
 
     public struct DeleteCorsPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container to remove the policy from.
         public let containerName: String
@@ -272,9 +241,6 @@ extension MediaStore {
     }
 
     public struct DeleteLifecyclePolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container that holds the object lifecycle policy.
         public let containerName: String
@@ -303,9 +269,6 @@ extension MediaStore {
     }
 
     public struct DescribeContainerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: false, type: .string)
-        ]
 
         /// The name of the container to query.
         public let containerName: String?
@@ -326,9 +289,6 @@ extension MediaStore {
     }
 
     public struct DescribeContainerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Container", required: false, type: .structure)
-        ]
 
         /// The name of the queried container.
         public let container: Container?
@@ -343,9 +303,6 @@ extension MediaStore {
     }
 
     public struct GetContainerPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container. 
         public let containerName: String
@@ -366,9 +323,6 @@ extension MediaStore {
     }
 
     public struct GetContainerPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: true, type: .string)
-        ]
 
         /// The contents of the access policy.
         public let policy: String
@@ -383,9 +337,6 @@ extension MediaStore {
     }
 
     public struct GetCorsPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container that the policy is assigned to.
         public let containerName: String
@@ -406,9 +357,6 @@ extension MediaStore {
     }
 
     public struct GetCorsPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CorsPolicy", required: true, type: .list)
-        ]
 
         /// The CORS policy assigned to the container.
         public let corsPolicy: [CorsRule]
@@ -423,9 +371,6 @@ extension MediaStore {
     }
 
     public struct GetLifecyclePolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container that the object lifecycle policy is assigned to.
         public let containerName: String
@@ -446,9 +391,6 @@ extension MediaStore {
     }
 
     public struct GetLifecyclePolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecyclePolicy", required: true, type: .string)
-        ]
 
         /// The object lifecycle policy that is assigned to the container.
         public let lifecyclePolicy: String
@@ -463,10 +405,6 @@ extension MediaStore {
     }
 
     public struct ListContainersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Enter the maximum number of containers in the response. Use from 1 to 255 characters. 
         public let maxResults: Int?
@@ -493,10 +431,6 @@ extension MediaStore {
     }
 
     public struct ListContainersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Containers", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of the containers.
         public let containers: [Container]
@@ -515,9 +449,6 @@ extension MediaStore {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resource", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the container.
         public let resource: String
@@ -538,9 +469,6 @@ extension MediaStore {
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// An array of key:value pairs that are assigned to the container.
         public let tags: [Tag]?
@@ -555,10 +483,6 @@ extension MediaStore {
     }
 
     public struct PutContainerPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: true, type: .string)
-        ]
 
         /// The name of the container.
         public let containerName: String
@@ -594,10 +518,6 @@ extension MediaStore {
     }
 
     public struct PutCorsPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string), 
-            AWSShapeMember(label: "CorsPolicy", required: true, type: .list)
-        ]
 
         /// The name of the container that you want to assign the CORS policy to.
         public let containerName: String
@@ -635,10 +555,6 @@ extension MediaStore {
     }
 
     public struct PutLifecyclePolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string), 
-            AWSShapeMember(label: "LifecyclePolicy", required: true, type: .string)
-        ]
 
         /// The name of the container that you want to assign the object lifecycle policy to.
         public let containerName: String
@@ -674,9 +590,6 @@ extension MediaStore {
     }
 
     public struct StartAccessLoggingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container that you want to start access logging on.
         public let containerName: String
@@ -705,9 +618,6 @@ extension MediaStore {
     }
 
     public struct StopAccessLoggingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
-        ]
 
         /// The name of the container that you want to stop access logging on.
         public let containerName: String
@@ -736,10 +646,6 @@ extension MediaStore {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
@@ -765,10 +671,6 @@ extension MediaStore {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resource", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the container. 
         public let resource: String
@@ -804,10 +706,6 @@ extension MediaStore {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resource", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the container.
         public let resource: String

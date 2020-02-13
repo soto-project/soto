@@ -60,10 +60,6 @@ extension ForecastService {
     //MARK: Shapes
 
     public struct CategoricalParameterRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The name of the categorical hyperparameter to tune.
         public let name: String
@@ -94,12 +90,6 @@ extension ForecastService {
     }
 
     public struct ContinuousParameterRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxValue", required: true, type: .double), 
-            AWSShapeMember(label: "MinValue", required: true, type: .double), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingType", required: false, type: .enum)
-        ]
 
         /// The maximum tunable value of the hyperparameter.
         public let maxValue: Double
@@ -132,11 +122,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetArns", required: false, type: .list), 
-            AWSShapeMember(label: "DatasetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Domain", required: true, type: .enum)
-        ]
 
         /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group.
         public let datasetArns: [String]?
@@ -169,9 +154,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetGroupArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
@@ -186,12 +168,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetArn", required: true, type: .string), 
-            AWSShapeMember(label: "DatasetImportJobName", required: true, type: .string), 
-            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
-            AWSShapeMember(label: "TimestampFormat", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to.
         public let datasetArn: String
@@ -229,9 +205,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetImportJobArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String?
@@ -246,14 +219,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataFrequency", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetName", required: true, type: .string), 
-            AWSShapeMember(label: "DatasetType", required: true, type: .enum), 
-            AWSShapeMember(label: "Domain", required: true, type: .enum), 
-            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Schema", required: true, type: .structure)
-        ]
 
         /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "D" indicates every day and "15min" indicates every 15 minutes.
         public let dataFrequency: String?
@@ -297,9 +262,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
@@ -314,11 +276,6 @@ extension ForecastService {
     }
 
     public struct CreateForecastExportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "ForecastArn", required: true, type: .string), 
-            AWSShapeMember(label: "ForecastExportJobName", required: true, type: .string)
-        ]
 
         /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
         public let destination: DataDestination
@@ -350,9 +307,6 @@ extension ForecastService {
     }
 
     public struct CreateForecastExportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastExportJobArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the export job.
         public let forecastExportJobArn: String?
@@ -367,11 +321,6 @@ extension ForecastService {
     }
 
     public struct CreateForecastRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastName", required: true, type: .string), 
-            AWSShapeMember(label: "ForecastTypes", required: false, type: .list), 
-            AWSShapeMember(label: "PredictorArn", required: true, type: .string)
-        ]
 
         /// A name for the forecast.
         public let forecastName: String
@@ -407,9 +356,6 @@ extension ForecastService {
     }
 
     public struct CreateForecastResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String?
@@ -424,19 +370,6 @@ extension ForecastService {
     }
 
     public struct CreatePredictorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmArn", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EvaluationParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "FeaturizationConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ForecastHorizon", required: true, type: .integer), 
-            AWSShapeMember(label: "HPOConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "PerformAutoML", required: false, type: .boolean), 
-            AWSShapeMember(label: "PerformHPO", required: false, type: .boolean), 
-            AWSShapeMember(label: "PredictorName", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/Deep_AR_Plus  Supports hyperparameter optimization (HPO)    arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet   
         public let algorithmArn: String?
@@ -509,9 +442,6 @@ extension ForecastService {
     }
 
     public struct CreatePredictorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredictorArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the predictor.
         public let predictorArn: String?
@@ -526,9 +456,6 @@ extension ForecastService {
     }
 
     public struct DataDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Config", required: true, type: .structure)
-        ]
 
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket.
         public let s3Config: S3Config
@@ -547,9 +474,6 @@ extension ForecastService {
     }
 
     public struct DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Config", required: true, type: .structure)
-        ]
 
         /// The path to the training data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
         public let s3Config: S3Config
@@ -568,12 +492,6 @@ extension ForecastService {
     }
 
     public struct DatasetGroupSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp)
-        ]
 
         /// When the dataset group was created.
         public let creationTime: TimeStamp?
@@ -600,15 +518,6 @@ extension ForecastService {
     }
 
     public struct DatasetImportJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetImportJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetImportJobName", required: false, type: .string), 
-            AWSShapeMember(label: "DataSource", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the dataset import job was created.
         public let creationTime: TimeStamp?
@@ -647,14 +556,6 @@ extension ForecastService {
     }
 
     public struct DatasetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetName", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetType", required: false, type: .enum), 
-            AWSShapeMember(label: "Domain", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp)
-        ]
 
         /// When the dataset was created.
         public let creationTime: TimeStamp?
@@ -689,9 +590,6 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetGroupArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset group to delete.
         public let datasetGroupArn: String
@@ -711,9 +609,6 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetImportJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset import job to delete.
         public let datasetImportJobArn: String
@@ -733,9 +628,6 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
@@ -755,9 +647,6 @@ extension ForecastService {
     }
 
     public struct DeleteForecastExportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastExportJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the forecast export job to delete.
         public let forecastExportJobArn: String
@@ -777,9 +666,6 @@ extension ForecastService {
     }
 
     public struct DeleteForecastRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the forecast to delete.
         public let forecastArn: String
@@ -799,9 +685,6 @@ extension ForecastService {
     }
 
     public struct DeletePredictorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredictorArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the predictor to delete.
         public let predictorArn: String
@@ -821,9 +704,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetGroupArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
@@ -843,15 +723,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetArns", required: false, type: .list), 
-            AWSShapeMember(label: "DatasetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Domain", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the dataset group was created.
         public let creationTime: TimeStamp?
@@ -890,9 +761,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetImportJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String
@@ -912,19 +780,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetImportJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetImportJobName", required: false, type: .string), 
-            AWSShapeMember(label: "DataSize", required: false, type: .double), 
-            AWSShapeMember(label: "DataSource", required: false, type: .structure), 
-            AWSShapeMember(label: "FieldStatistics", required: false, type: .map), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TimestampFormat", required: false, type: .string)
-        ]
 
         /// When the dataset import job was created.
         public let creationTime: TimeStamp?
@@ -979,9 +834,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String
@@ -1001,18 +853,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataFrequency", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetName", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetType", required: false, type: .enum), 
-            AWSShapeMember(label: "Domain", required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Schema", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the dataset was created.
         public let creationTime: TimeStamp?
@@ -1063,9 +903,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastExportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastExportJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the forecast export job.
         public let forecastExportJobArn: String
@@ -1085,16 +922,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastExportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Destination", required: false, type: .structure), 
-            AWSShapeMember(label: "ForecastArn", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastExportJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastExportJobName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the forecast export job was created.
         public let creationTime: TimeStamp?
@@ -1137,9 +964,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String
@@ -1159,17 +983,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastArn", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastName", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastTypes", required: false, type: .list), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "PredictorArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the forecast creation task was created.
         public let creationTime: TimeStamp?
@@ -1216,9 +1029,6 @@ extension ForecastService {
     }
 
     public struct DescribePredictorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredictorArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the predictor that you want information about.
         public let predictorArn: String
@@ -1238,27 +1048,6 @@ extension ForecastService {
     }
 
     public struct DescribePredictorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmArn", required: false, type: .string), 
-            AWSShapeMember(label: "AutoMLAlgorithmArns", required: false, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetImportJobArns", required: false, type: .list), 
-            AWSShapeMember(label: "EncryptionConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EvaluationParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "FeaturizationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ForecastHorizon", required: false, type: .integer), 
-            AWSShapeMember(label: "HPOConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "PerformAutoML", required: false, type: .boolean), 
-            AWSShapeMember(label: "PerformHPO", required: false, type: .boolean), 
-            AWSShapeMember(label: "PredictorArn", required: false, type: .string), 
-            AWSShapeMember(label: "PredictorExecutionDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "PredictorName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the algorithm used for model training.
         public let algorithmArn: String?
@@ -1345,10 +1134,6 @@ extension ForecastService {
     }
 
     public struct EncryptionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKeyArn", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the KMS key.
         public let kMSKeyArn: String
@@ -1374,10 +1159,6 @@ extension ForecastService {
     }
 
     public struct EvaluationParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackTestWindowOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfBacktestWindows", required: false, type: .integer)
-        ]
 
         /// The point from the end of the dataset where you want to split the data for model training and testing (evaluation). Specify the value as the number of data points. The default is the value of the forecast horizon. BackTestWindowOffset can be used to mimic a past virtual forecast start date. This value must be greater than or equal to the forecast horizon and less than half of the TARGET_TIME_SERIES dataset length.  ForecastHorizon &lt;= BackTestWindowOffset &lt; 1/2 * TARGET_TIME_SERIES dataset length
         public let backTestWindowOffset: Int?
@@ -1396,10 +1177,6 @@ extension ForecastService {
     }
 
     public struct EvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmArn", required: false, type: .string), 
-            AWSShapeMember(label: "TestWindows", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
         public let algorithmArn: String?
@@ -1418,10 +1195,6 @@ extension ForecastService {
     }
 
     public struct Featurization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "FeaturizationPipeline", required: false, type: .list)
-        ]
 
         /// The name of the schema attribute that specifies the data field to be featurized. Only the target field of the TARGET_TIME_SERIES dataset type is supported. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value.
         public let attributeName: String
@@ -1451,11 +1224,6 @@ extension ForecastService {
     }
 
     public struct FeaturizationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Featurizations", required: false, type: .list), 
-            AWSShapeMember(label: "ForecastDimensions", required: false, type: .list), 
-            AWSShapeMember(label: "ForecastFrequency", required: true, type: .string)
-        ]
 
         /// An array of featurization (transformation) information for the fields of a dataset. Only a single featurization is supported.
         public let featurizations: [Featurization]?
@@ -1494,10 +1262,6 @@ extension ForecastService {
     }
 
     public struct FeaturizationMethod: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeaturizationMethodName", required: true, type: .enum), 
-            AWSShapeMember(label: "FeaturizationMethodParameters", required: false, type: .map)
-        ]
 
         /// The name of the method. The "filling" method is the only supported method.
         public let featurizationMethodName: FeaturizationMethodName
@@ -1525,11 +1289,6 @@ extension ForecastService {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Condition", required: true, type: .enum), 
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The condition to apply. To include the objects that match the statement, specify IS. To exclude matching objects, specify IS_NOT.
         public let condition: FilterConditionString
@@ -1559,15 +1318,6 @@ extension ForecastService {
     }
 
     public struct ForecastExportJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Destination", required: false, type: .structure), 
-            AWSShapeMember(label: "ForecastExportJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastExportJobName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the forecast export job was created.
         public let creationTime: TimeStamp?
@@ -1606,16 +1356,6 @@ extension ForecastService {
     }
 
     public struct ForecastSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastArn", required: false, type: .string), 
-            AWSShapeMember(label: "ForecastName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "PredictorArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the forecast creation task was created.
         public let creationTime: TimeStamp?
@@ -1658,9 +1398,6 @@ extension ForecastService {
     }
 
     public struct GetAccuracyMetricsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredictorArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
         public let predictorArn: String
@@ -1680,9 +1417,6 @@ extension ForecastService {
     }
 
     public struct GetAccuracyMetricsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredictorEvaluationResults", required: false, type: .list)
-        ]
 
         /// An array of results from evaluating the predictor.
         public let predictorEvaluationResults: [EvaluationResult]?
@@ -1697,9 +1431,6 @@ extension ForecastService {
     }
 
     public struct HyperParameterTuningJobConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterRanges", required: false, type: .structure)
-        ]
 
         /// Specifies the ranges of valid values for the hyperparameters.
         public let parameterRanges: ParameterRanges?
@@ -1718,10 +1449,6 @@ extension ForecastService {
     }
 
     public struct InputDataConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "SupplementaryFeatures", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
@@ -1750,12 +1477,6 @@ extension ForecastService {
     }
 
     public struct IntegerParameterRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxValue", required: true, type: .integer), 
-            AWSShapeMember(label: "MinValue", required: true, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingType", required: false, type: .enum)
-        ]
 
         /// The maximum tunable value of the hyperparameter.
         public let maxValue: Int
@@ -1788,10 +1509,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1817,10 +1534,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that summarize each dataset group's properties.
         public let datasetGroups: [DatasetGroupSummary]?
@@ -1839,11 +1552,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetImportJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the datasets that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the datasets that match the statement, specify IS. To exclude matching datasets, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetArn and Status.    Value - The value to match.   For example, to list all dataset import jobs whose status is ACTIVE, you specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ] 
         public let filters: [Filter]?
@@ -1876,10 +1584,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetImportJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetImportJobs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that summarize each dataset import job's properties.
         public let datasetImportJobs: [DatasetImportJobSummary]?
@@ -1898,10 +1602,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1927,10 +1627,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Datasets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that summarize each dataset's properties.
         public let datasets: [DatasetSummary]?
@@ -1949,11 +1645,6 @@ extension ForecastService {
     }
 
     public struct ListForecastExportJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are ForecastArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityforecast, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast" } ] 
         public let filters: [Filter]?
@@ -1986,10 +1677,6 @@ extension ForecastService {
     }
 
     public struct ListForecastExportJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastExportJobs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that summarize each export job's properties.
         public let forecastExportJobs: [ForecastExportJobSummary]?
@@ -2008,11 +1695,6 @@ extension ForecastService {
     }
 
     public struct ListForecastsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecasts that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecasts that match the statement, specify IS. To exclude matching forecasts, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn, PredictorArn, and Status.    Value - The value to match.   For example, to list all forecasts whose status is not ACTIVE, you would specify:  "Filters": [ { "Condition": "IS_NOT", "Key": "Status", "Value": "ACTIVE" } ] 
         public let filters: [Filter]?
@@ -2045,10 +1727,6 @@ extension ForecastService {
     }
 
     public struct ListForecastsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Forecasts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that summarize each forecast's properties.
         public let forecasts: [ForecastSummary]?
@@ -2067,11 +1745,6 @@ extension ForecastService {
     }
 
     public struct ListPredictorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictors that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictors that match the statement, specify IS. To exclude matching predictors, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn and Status.    Value - The value to match.   For example, to list all predictors whose status is ACTIVE, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ] 
         public let filters: [Filter]?
@@ -2104,10 +1777,6 @@ extension ForecastService {
     }
 
     public struct ListPredictorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Predictors", required: false, type: .list)
-        ]
 
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
@@ -2126,10 +1795,6 @@ extension ForecastService {
     }
 
     public struct Metrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RMSE", required: false, type: .double), 
-            AWSShapeMember(label: "WeightedQuantileLosses", required: false, type: .list)
-        ]
 
         /// The root mean square error (RMSE).
         public let rmse: Double?
@@ -2148,11 +1813,6 @@ extension ForecastService {
     }
 
     public struct ParameterRanges: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CategoricalParameterRanges", required: false, type: .list), 
-            AWSShapeMember(label: "ContinuousParameterRanges", required: false, type: .list), 
-            AWSShapeMember(label: "IntegerParameterRanges", required: false, type: .list)
-        ]
 
         /// Specifies the tunable range for each categorical hyperparameter.
         public let categoricalParameterRanges: [CategoricalParameterRange]?
@@ -2193,10 +1853,6 @@ extension ForecastService {
     }
 
     public struct PredictorExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmArn", required: false, type: .string), 
-            AWSShapeMember(label: "TestWindows", required: false, type: .list)
-        ]
 
         /// The ARN of the algorithm used to test the predictor.
         public let algorithmArn: String?
@@ -2215,9 +1871,6 @@ extension ForecastService {
     }
 
     public struct PredictorExecutionDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredictorExecutions", required: false, type: .list)
-        ]
 
         /// An array of the backtests performed to evaluate the accuracy of the predictor against a particular algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
         public let predictorExecutions: [PredictorExecution]?
@@ -2232,15 +1885,6 @@ extension ForecastService {
     }
 
     public struct PredictorSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatasetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastModificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "PredictorArn", required: false, type: .string), 
-            AWSShapeMember(label: "PredictorName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// When the model training task was created.
         public let creationTime: TimeStamp?
@@ -2279,11 +1923,6 @@ extension ForecastService {
     }
 
     public struct S3Config: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "Path", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
         public let kMSKeyArn: String?
@@ -2314,9 +1953,6 @@ extension ForecastService {
     }
 
     public struct Schema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
 
         /// An array of attributes specifying the name and type of each field in a dataset.
         public let attributes: [SchemaAttribute]?
@@ -2337,10 +1973,6 @@ extension ForecastService {
     }
 
     public struct SchemaAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeType", required: false, type: .enum)
-        ]
 
         /// The name of the dataset field.
         public let attributeName: String?
@@ -2365,16 +1997,6 @@ extension ForecastService {
     }
 
     public struct Statistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Avg", required: false, type: .double), 
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "CountDistinct", required: false, type: .integer), 
-            AWSShapeMember(label: "CountNan", required: false, type: .integer), 
-            AWSShapeMember(label: "CountNull", required: false, type: .integer), 
-            AWSShapeMember(label: "Max", required: false, type: .string), 
-            AWSShapeMember(label: "Min", required: false, type: .string), 
-            AWSShapeMember(label: "Stddev", required: false, type: .double)
-        ]
 
         /// For a numeric field, the average value in the field.
         public let avg: Double?
@@ -2417,10 +2039,6 @@ extension ForecastService {
     }
 
     public struct SupplementaryFeature: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the feature. This must be "holiday".
         public let name: String
@@ -2447,12 +2065,6 @@ extension ForecastService {
     }
 
     public struct TestWindowSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TestWindowEnd", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TestWindowStart", required: false, type: .timestamp)
-        ]
 
         /// If the test failed, the reason why it failed.
         public let message: String?
@@ -2479,10 +2091,6 @@ extension ForecastService {
     }
 
     public struct UpdateDatasetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetArns", required: true, type: .list), 
-            AWSShapeMember(label: "DatasetGroupArn", required: true, type: .string)
-        ]
 
         /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group.
         public let datasetArns: [String]
@@ -2518,10 +2126,6 @@ extension ForecastService {
     }
 
     public struct WeightedQuantileLoss: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LossValue", required: false, type: .double), 
-            AWSShapeMember(label: "Quantile", required: false, type: .double)
-        ]
 
         /// The difference between the predicted value and the actual value over the quantile, weighted (normalized) by dividing by the sum over all quantiles.
         public let lossValue: Double?
@@ -2540,13 +2144,6 @@ extension ForecastService {
     }
 
     public struct WindowSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationType", required: false, type: .enum), 
-            AWSShapeMember(label: "ItemCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Metrics", required: false, type: .structure), 
-            AWSShapeMember(label: "TestWindowEnd", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TestWindowStart", required: false, type: .timestamp)
-        ]
 
         /// The type of evaluation.    SUMMARY - The average metrics across all windows.    COMPUTED - The metrics for the specified window.  
         public let evaluationType: EvaluationType?

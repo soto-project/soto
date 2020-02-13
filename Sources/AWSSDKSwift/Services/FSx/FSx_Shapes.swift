@@ -88,10 +88,6 @@ extension FSx {
     //MARK: Shapes
 
     public struct ActiveDirectoryBackupAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string)
-        ]
 
         /// The ID of the AWS Managed Microsoft Active Directory instance to which the file system is joined.
         public let activeDirectoryId: String?
@@ -110,19 +106,6 @@ extension FSx {
     }
 
     public struct Backup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "FileSystem", required: true, type: .structure), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: true, type: .enum), 
-            AWSShapeMember(label: "ProgressPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The ID of the backup.
         public let backupId: String
@@ -176,9 +159,6 @@ extension FSx {
     }
 
     public struct BackupFailureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// A message describing the backup creation failure.
         public let message: String?
@@ -193,9 +173,6 @@ extension FSx {
     }
 
     public struct CancelDataRepositoryTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskId", required: true, type: .string)
-        ]
 
         /// Specifies the data repository task to cancel.
         public let taskId: String
@@ -216,10 +193,6 @@ extension FSx {
     }
 
     public struct CancelDataRepositoryTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Lifecycle", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskId", required: false, type: .string)
-        ]
 
         /// The lifecycle status of the data repository task, as follows:    PENDING - Amazon FSx has not started the task.    EXECUTING - Amazon FSx is processing the task.    FAILED - Amazon FSx was not able to complete the task. For example, there may be files the task failed to process. The DataRepositoryTaskFailureDetails property provides more information about task failures.    SUCCEEDED - FSx completed the task successfully.    CANCELED - Amazon FSx canceled the task and it did not complete.    CANCELING - FSx is in process of canceling the task.  
         public let lifecycle: DataRepositoryTaskLifecycle?
@@ -238,12 +211,6 @@ extension FSx {
     }
 
     public struct CompletionReport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Format", required: false, type: .enum), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: false, type: .enum)
-        ]
 
         /// Set Enabled to True to generate a CompletionReport when the task completes. If set to true, then you need to provide a report Scope, Path, and Format. Set Enabled to False if you do not want a CompletionReport generated when the task completes.
         public let enabled: Bool
@@ -276,11 +243,6 @@ extension FSx {
     }
 
     public struct CreateBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
@@ -317,9 +279,6 @@ extension FSx {
     }
 
     public struct CreateBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
-        ]
 
         /// A description of the backup.
         public let backup: Backup?
@@ -334,14 +293,6 @@ extension FSx {
     }
 
     public struct CreateDataRepositoryTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "Paths", required: false, type: .list), 
-            AWSShapeMember(label: "Report", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         public let clientRequestToken: String?
         public let fileSystemId: String
@@ -394,9 +345,6 @@ extension FSx {
     }
 
     public struct CreateDataRepositoryTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataRepositoryTask", required: false, type: .structure)
-        ]
 
         /// The description of the data repository task that you just created.
         public let dataRepositoryTask: DataRepositoryTask?
@@ -411,14 +359,6 @@ extension FSx {
     }
 
     public struct CreateFileSystemFromBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
-        ]
 
         public let backupId: String
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
@@ -479,9 +419,6 @@ extension FSx {
     }
 
     public struct CreateFileSystemFromBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystem", required: false, type: .structure)
-        ]
 
         /// A description of the file system.
         public let fileSystem: FileSystem?
@@ -496,12 +433,6 @@ extension FSx {
     }
 
     public struct CreateFileSystemLustreConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportPath", required: false, type: .string), 
-            AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ImportPath", required: false, type: .string), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
-        ]
 
         /// (Optional) The path in Amazon S3 where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you only specify a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket.
         public let exportPath: String?
@@ -542,17 +473,6 @@ extension FSx {
     }
 
     public struct CreateFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemType", required: true, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "StorageCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
-        ]
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
@@ -626,9 +546,6 @@ extension FSx {
     }
 
     public struct CreateFileSystemResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystem", required: false, type: .structure)
-        ]
 
         /// The configuration of the file system that was created.
         public let fileSystem: FileSystem?
@@ -643,17 +560,6 @@ extension FSx {
     }
 
     public struct CreateFileSystemWindowsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
-            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
-            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
-            AWSShapeMember(label: "PreferredSubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ThroughputCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
-        ]
 
         /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
@@ -719,11 +625,6 @@ extension FSx {
     }
 
     public struct DataRepositoryConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportPath", required: false, type: .string), 
-            AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ImportPath", required: false, type: .string)
-        ]
 
         /// The export path to the Amazon S3 bucket (and prefix) that you are using to store new and changed Lustre file system files in S3.
         public let exportPath: String?
@@ -746,21 +647,6 @@ extension FSx {
     }
 
     public struct DataRepositoryTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: true, type: .enum), 
-            AWSShapeMember(label: "Paths", required: false, type: .list), 
-            AWSShapeMember(label: "Report", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TaskId", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         public let creationTime: TimeStamp
         /// The time that Amazon FSx completed processing the task, populated after the task is complete.
@@ -818,9 +704,6 @@ extension FSx {
     }
 
     public struct DataRepositoryTaskFailureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         public let message: String?
 
@@ -834,10 +717,6 @@ extension FSx {
     }
 
     public struct DataRepositoryTaskFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// Name of the task property to use in filtering the tasks returned in the response.   Use file-system-id to retrieve data repository tasks for specific file systems.   Use task-lifecycle to retrieve data repository tasks with one or more specific lifecycle states, as follows: CANCELED, EXECUTING, FAILED, PENDING, and SUCCEEDED.  
         public let name: DataRepositoryTaskFilterName?
@@ -865,12 +744,6 @@ extension FSx {
     }
 
     public struct DataRepositoryTaskStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedCount", required: false, type: .long), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SucceededCount", required: false, type: .long), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .long)
-        ]
 
         /// A running total of the number of files that the task failed to process.
         public let failedCount: Int64?
@@ -897,10 +770,6 @@ extension FSx {
     }
 
     public struct DeleteBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
-        ]
 
         /// The ID of the backup you want to delete.
         public let backupId: String
@@ -928,10 +797,6 @@ extension FSx {
     }
 
     public struct DeleteBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: false, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .enum)
-        ]
 
         /// The ID of the backup deleted.
         public let backupId: String?
@@ -950,11 +815,6 @@ extension FSx {
     }
 
     public struct DeleteFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
-        ]
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
         public let clientRequestToken: String?
@@ -986,11 +846,6 @@ extension FSx {
     }
 
     public struct DeleteFileSystemResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .enum), 
-            AWSShapeMember(label: "WindowsResponse", required: false, type: .structure)
-        ]
 
         /// The ID of the file system being deleted.
         public let fileSystemId: String?
@@ -1012,10 +867,6 @@ extension FSx {
     }
 
     public struct DeleteFileSystemWindowsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinalBackupTags", required: false, type: .list), 
-            AWSShapeMember(label: "SkipFinalBackup", required: false, type: .boolean)
-        ]
 
         /// A set of tags for your final backup.
         public let finalBackupTags: [Tag]?
@@ -1042,10 +893,6 @@ extension FSx {
     }
 
     public struct DeleteFileSystemWindowsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinalBackupId", required: false, type: .string), 
-            AWSShapeMember(label: "FinalBackupTags", required: false, type: .list)
-        ]
 
         /// The ID of the final backup for this file system.
         public let finalBackupId: String?
@@ -1064,12 +911,6 @@ extension FSx {
     }
 
     public struct DescribeBackupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupIds", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// (Optional) IDs of the backups you want to retrieve (String). This overrides any filters. If any IDs are not found, BackupNotFound will be thrown.
         public let backupIds: [String]?
@@ -1113,10 +954,6 @@ extension FSx {
     }
 
     public struct DescribeBackupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Any array of backups.
         public let backups: [Backup]?
@@ -1135,12 +972,6 @@ extension FSx {
     }
 
     public struct DescribeDataRepositoryTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TaskIds", required: false, type: .list)
-        ]
 
         /// (Optional) You can use filters to narrow the DescribeDataRepositoryTasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state.
         public let filters: [DataRepositoryTaskFilter]?
@@ -1182,10 +1013,6 @@ extension FSx {
     }
 
     public struct DescribeDataRepositoryTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataRepositoryTasks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The collection of data repository task descriptions returned.
         public let dataRepositoryTasks: [DataRepositoryTask]?
@@ -1203,11 +1030,6 @@ extension FSx {
     }
 
     public struct DescribeFileSystemsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// (Optional) IDs of the file systems whose descriptions you want to retrieve (String).
         public let fileSystemIds: [String]?
@@ -1243,10 +1065,6 @@ extension FSx {
     }
 
     public struct DescribeFileSystemsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystems", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of file system descriptions.
         public let fileSystems: [FileSystem]?
@@ -1265,24 +1083,6 @@ extension FSx {
     }
 
     public struct FileSystem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DNSName", required: false, type: .string), 
-            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "FileSystemId", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemType", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .enum), 
-            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "NetworkInterfaceIds", required: false, type: .list), 
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "StorageCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
-        ]
 
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
         public let creationTime: TimeStamp?
@@ -1355,9 +1155,6 @@ extension FSx {
     }
 
     public struct FileSystemFailureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// A message describing any failures that occurred during file system creation.
         public let message: String?
@@ -1372,10 +1169,6 @@ extension FSx {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// The name for this filter.
         public let name: FilterName?
@@ -1403,11 +1196,6 @@ extension FSx {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// (Optional) Maximum number of tags to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
         public let maxResults: Int?
@@ -1440,10 +1228,6 @@ extension FSx {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// This is present if there are more tags than returned in the response (String). You can use the NextToken value in the later request to fetch the tags. 
         public let nextToken: String?
@@ -1462,10 +1246,6 @@ extension FSx {
     }
 
     public struct LustreFileSystemConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataRepositoryConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
-        ]
 
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
         /// The UTC time that you want to begin your weekly maintenance window.
@@ -1483,13 +1263,6 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsIps", required: false, type: .list), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemAdministratorsGroup", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
@@ -1520,14 +1293,6 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsIps", required: true, type: .list), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FileSystemAdministratorsGroup", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory. The IP addresses need to be either in the same VPC CIDR range as the one in which your Amazon FSx file system is being created, or in the private IP version 4 (IPv4) address ranges, as specified in RFC 1918:   10.0.0.0 - 10.255.255.255 (10/8 prefix)   172.16.0.0 - 172.31.255.255 (172.16/12 prefix)   192.168.0.0 - 192.168.255.255 (192.168/16 prefix)  
         public let dnsIps: [String]
@@ -1587,11 +1352,6 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsIps", required: false, type: .list), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
@@ -1630,10 +1390,6 @@ extension FSx {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
         public let key: String?
@@ -1661,10 +1417,6 @@ extension FSx {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon FSx resource that you want to tag.
         public let resourceARN: String
@@ -1702,10 +1454,6 @@ extension FSx {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The ARN of the Amazon FSx resource to untag.
         public let resourceARN: String
@@ -1745,9 +1493,6 @@ extension FSx {
     }
 
     public struct UpdateFileSystemLustreConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
-        ]
 
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
@@ -1768,12 +1513,6 @@ extension FSx {
     }
 
     public struct UpdateFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "LustreConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "WindowsConfiguration", required: false, type: .structure)
-        ]
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
@@ -1809,9 +1548,6 @@ extension FSx {
     }
 
     public struct UpdateFileSystemResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystem", required: false, type: .structure)
-        ]
 
         /// A description of the file system that was updated.
         public let fileSystem: FileSystem?
@@ -1826,12 +1562,6 @@ extension FSx {
     }
 
     public struct UpdateFileSystemWindowsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
-            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
-        ]
 
         /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
         public let automaticBackupRetentionDays: Int?
@@ -1870,20 +1600,6 @@ extension FSx {
     }
 
     public struct WindowsFileSystemConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
-            AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
-            AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaintenanceOperationsInProgress", required: false, type: .list), 
-            AWSShapeMember(label: "PreferredFileServerIp", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredSubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "RemoteAdministrationEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ThroughputCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
-        ]
 
         /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
         public let activeDirectoryId: String?

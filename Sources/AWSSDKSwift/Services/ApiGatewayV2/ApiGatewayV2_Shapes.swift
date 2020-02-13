@@ -90,8 +90,8 @@ extension ApiGatewayV2 {
 
     public struct AccessLogSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationArn", location: .body(locationName: "destinationArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: false, type: .string)
+            AWSShapeMember(label: "DestinationArn", location: .body(locationName: "destinationArn")), 
+            AWSShapeMember(label: "Format", location: .body(locationName: "format"))
         ]
 
         /// The ARN of the CloudWatch Logs log group to receive access logs.
@@ -112,20 +112,20 @@ extension ApiGatewayV2 {
 
     public struct Api: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: true, type: .enum), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
+            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint")), 
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version")), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"))
         ]
 
         /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com. The stage name is typically appended to this URI to form a complete path to a deployed API stage.
@@ -194,10 +194,10 @@ extension ApiGatewayV2 {
 
     public struct ApiMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
-            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId")), 
+            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey")), 
+            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"))
         ]
 
         /// The API identifier.
@@ -226,15 +226,15 @@ extension ApiGatewayV2 {
 
     public struct Authorizer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri"), required: false, type: .string), 
-            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource"), required: false, type: .list), 
-            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds")), 
+            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType")), 
+            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri")), 
+            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource")), 
+            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression")), 
+            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
         ]
 
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null. Supported only for REQUEST authorizers.
@@ -284,12 +284,12 @@ extension ApiGatewayV2 {
 
     public struct Cors: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowCredentials", location: .body(locationName: "allowCredentials"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AllowHeaders", location: .body(locationName: "allowHeaders"), required: false, type: .list), 
-            AWSShapeMember(label: "AllowMethods", location: .body(locationName: "allowMethods"), required: false, type: .list), 
-            AWSShapeMember(label: "AllowOrigins", location: .body(locationName: "allowOrigins"), required: false, type: .list), 
-            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "exposeHeaders"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxAge", location: .body(locationName: "maxAge"), required: false, type: .integer)
+            AWSShapeMember(label: "AllowCredentials", location: .body(locationName: "allowCredentials")), 
+            AWSShapeMember(label: "AllowHeaders", location: .body(locationName: "allowHeaders")), 
+            AWSShapeMember(label: "AllowMethods", location: .body(locationName: "allowMethods")), 
+            AWSShapeMember(label: "AllowOrigins", location: .body(locationName: "allowOrigins")), 
+            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "exposeHeaders")), 
+            AWSShapeMember(label: "MaxAge", location: .body(locationName: "maxAge"))
         ]
 
         /// Specifies whether credentials are included in the CORS request. Supported only for HTTP APIs.
@@ -331,10 +331,10 @@ extension ApiGatewayV2 {
 
     public struct CreateApiMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey")), 
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName")), 
+            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"))
         ]
 
         public let apiId: String
@@ -359,10 +359,10 @@ extension ApiGatewayV2 {
 
     public struct CreateApiMappingResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
-            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId")), 
+            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey")), 
+            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"))
         ]
 
         public let apiId: String?
@@ -387,18 +387,18 @@ extension ApiGatewayV2 {
 
     public struct CreateApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: true, type: .enum), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version"))
         ]
 
         public let apiKeySelectionExpression: String?
@@ -451,20 +451,20 @@ extension ApiGatewayV2 {
 
     public struct CreateApiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
+            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint")), 
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version")), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"))
         ]
 
         public let apiEndpoint: String?
@@ -519,15 +519,15 @@ extension ApiGatewayV2 {
 
     public struct CreateAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType"), required: true, type: .enum), 
-            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri"), required: false, type: .string), 
-            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource"), required: true, type: .list), 
-            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn")), 
+            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds")), 
+            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType")), 
+            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri")), 
+            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource")), 
+            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression")), 
+            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
         ]
 
         public let apiId: String
@@ -572,15 +572,15 @@ extension ApiGatewayV2 {
 
     public struct CreateAuthorizerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri"), required: false, type: .string), 
-            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource"), required: false, type: .list), 
-            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds")), 
+            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType")), 
+            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri")), 
+            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource")), 
+            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression")), 
+            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
         ]
 
         public let authorizerCredentialsArn: String?
@@ -620,9 +620,9 @@ extension ApiGatewayV2 {
 
     public struct CreateDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"))
         ]
 
         public let apiId: String
@@ -644,12 +644,12 @@ extension ApiGatewayV2 {
 
     public struct CreateDeploymentResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed"), required: false, type: .boolean), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus")), 
+            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"))
         ]
 
         public let autoDeployed: Bool?
@@ -680,9 +680,9 @@ extension ApiGatewayV2 {
 
     public struct CreateDomainNameRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName")), 
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let domainName: String
@@ -704,10 +704,10 @@ extension ApiGatewayV2 {
 
     public struct CreateDomainNameResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression")), 
+            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName")), 
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let apiMappingSelectionExpression: String?
@@ -732,21 +732,21 @@ extension ApiGatewayV2 {
 
     public struct CreateIntegrationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType"), required: true, type: .enum), 
-            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri"), required: false, type: .string), 
-            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
+            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod")), 
+            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType")), 
+            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri")), 
+            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior")), 
+            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression")), 
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"))
         ]
 
         public let apiId: String
@@ -809,13 +809,13 @@ extension ApiGatewayV2 {
 
     public struct CreateIntegrationResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey"), required: true, type: .string), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"))
         ]
 
         public let apiId: String
@@ -849,12 +849,12 @@ extension ApiGatewayV2 {
 
     public struct CreateIntegrationResponseResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId")), 
+            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"))
         ]
 
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -885,23 +885,23 @@ extension ApiGatewayV2 {
 
     public struct CreateIntegrationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri"), required: false, type: .string), 
-            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
+            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod")), 
+            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression")), 
+            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType")), 
+            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri")), 
+            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior")), 
+            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression")), 
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"))
         ]
 
         public let apiGatewayManaged: Bool?
@@ -965,11 +965,11 @@ extension ApiGatewayV2 {
 
     public struct CreateModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"))
         ]
 
         public let apiId: String
@@ -997,11 +997,11 @@ extension ApiGatewayV2 {
 
     public struct CreateModelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
+            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"))
         ]
 
         public let contentType: String?
@@ -1029,18 +1029,18 @@ extension ApiGatewayV2 {
 
     public struct CreateRouteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes"), required: false, type: .list), 
-            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired")), 
+            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes")), 
+            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName")), 
+            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target"))
         ]
 
         public let apiId: String
@@ -1089,12 +1089,12 @@ extension ApiGatewayV2 {
 
     public struct CreateRouteResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"))
         ]
 
         public let apiId: String
@@ -1125,11 +1125,11 @@ extension ApiGatewayV2 {
 
     public struct CreateRouteResponseResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId")), 
+            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"))
         ]
 
         public let modelSelectionExpression: String?
@@ -1157,19 +1157,19 @@ extension ApiGatewayV2 {
 
     public struct CreateRouteResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes"), required: false, type: .list), 
-            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired")), 
+            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes")), 
+            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName")), 
+            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target"))
         ]
 
         public let apiGatewayManaged: Bool?
@@ -1221,17 +1221,17 @@ extension ApiGatewayV2 {
 
     public struct CreateStageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId"), required: false, type: .string), 
-            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
-            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: true, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings")), 
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy")), 
+            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId")), 
+            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings")), 
+            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName")), 
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let accessLogSettings: AccessLogSettings?
@@ -1277,20 +1277,20 @@ extension ApiGatewayV2 {
 
     public struct CreateStageResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
-            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings")), 
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy")), 
+            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage")), 
+            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate")), 
+            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings")), 
+            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName")), 
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let accessLogSettings: AccessLogSettings?
@@ -1345,8 +1345,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteApiMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
+            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let apiMappingId: String
@@ -1365,7 +1365,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -1381,8 +1381,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
         public let apiId: String
@@ -1401,7 +1401,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteCorsConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -1417,8 +1417,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
         public let apiId: String
@@ -1437,7 +1437,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteDomainNameRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let domainName: String
@@ -1453,8 +1453,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteIntegrationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"))
         ]
 
         public let apiId: String
@@ -1473,9 +1473,9 @@ extension ApiGatewayV2 {
 
     public struct DeleteIntegrationResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
         public let apiId: String
@@ -1497,8 +1497,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"))
         ]
 
         public let apiId: String
@@ -1517,8 +1517,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -1537,9 +1537,9 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
         public let apiId: String
@@ -1561,9 +1561,9 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteKey", location: .uri(locationName: "routeKey"), required: true, type: .string), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "RouteKey", location: .uri(locationName: "routeKey")), 
+            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"))
         ]
 
         public let apiId: String
@@ -1585,8 +1585,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteStageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"))
         ]
 
         public let apiId: String
@@ -1605,12 +1605,12 @@ extension ApiGatewayV2 {
 
     public struct Deployment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed"), required: false, type: .boolean), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus")), 
+            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"))
         ]
 
         /// Specifies whether a deployment was automatically released.
@@ -1647,10 +1647,10 @@ extension ApiGatewayV2 {
 
     public struct DomainName: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression")), 
+            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName")), 
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         /// The API mapping selection expression.
@@ -1679,15 +1679,15 @@ extension ApiGatewayV2 {
 
     public struct DomainNameConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayDomainName", location: .body(locationName: "apiGatewayDomainName"), required: false, type: .string), 
-            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
-            AWSShapeMember(label: "CertificateName", location: .body(locationName: "certificateName"), required: false, type: .string), 
-            AWSShapeMember(label: "CertificateUploadDate", location: .body(locationName: "certificateUploadDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainNameStatus", location: .body(locationName: "domainNameStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "DomainNameStatusMessage", location: .body(locationName: "domainNameStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "EndpointType", location: .body(locationName: "endpointType"), required: false, type: .enum), 
-            AWSShapeMember(label: "HostedZoneId", location: .body(locationName: "hostedZoneId"), required: false, type: .string), 
-            AWSShapeMember(label: "SecurityPolicy", location: .body(locationName: "securityPolicy"), required: false, type: .enum)
+            AWSShapeMember(label: "ApiGatewayDomainName", location: .body(locationName: "apiGatewayDomainName")), 
+            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn")), 
+            AWSShapeMember(label: "CertificateName", location: .body(locationName: "certificateName")), 
+            AWSShapeMember(label: "CertificateUploadDate", location: .body(locationName: "certificateUploadDate")), 
+            AWSShapeMember(label: "DomainNameStatus", location: .body(locationName: "domainNameStatus")), 
+            AWSShapeMember(label: "DomainNameStatusMessage", location: .body(locationName: "domainNameStatusMessage")), 
+            AWSShapeMember(label: "EndpointType", location: .body(locationName: "endpointType")), 
+            AWSShapeMember(label: "HostedZoneId", location: .body(locationName: "hostedZoneId")), 
+            AWSShapeMember(label: "SecurityPolicy", location: .body(locationName: "securityPolicy"))
         ]
 
         /// A domain name for the API.
@@ -1736,8 +1736,8 @@ extension ApiGatewayV2 {
 
     public struct GetApiMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
+            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let apiMappingId: String
@@ -1756,10 +1756,10 @@ extension ApiGatewayV2 {
 
     public struct GetApiMappingResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
-            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId")), 
+            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey")), 
+            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"))
         ]
 
         public let apiId: String?
@@ -1784,9 +1784,9 @@ extension ApiGatewayV2 {
 
     public struct GetApiMappingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let domainName: String
@@ -1808,8 +1808,8 @@ extension ApiGatewayV2 {
 
     public struct GetApiMappingsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [ApiMapping]?
@@ -1828,7 +1828,7 @@ extension ApiGatewayV2 {
 
     public struct GetApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -1844,20 +1844,20 @@ extension ApiGatewayV2 {
 
     public struct GetApiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
+            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint")), 
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version")), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"))
         ]
 
         public let apiEndpoint: String?
@@ -1912,8 +1912,8 @@ extension ApiGatewayV2 {
 
     public struct GetApisRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: String?
@@ -1932,8 +1932,8 @@ extension ApiGatewayV2 {
 
     public struct GetApisResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [Api]?
@@ -1952,8 +1952,8 @@ extension ApiGatewayV2 {
 
     public struct GetAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
         public let apiId: String
@@ -1972,15 +1972,15 @@ extension ApiGatewayV2 {
 
     public struct GetAuthorizerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri"), required: false, type: .string), 
-            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource"), required: false, type: .list), 
-            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds")), 
+            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType")), 
+            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri")), 
+            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource")), 
+            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression")), 
+            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
         ]
 
         public let authorizerCredentialsArn: String?
@@ -2020,9 +2020,9 @@ extension ApiGatewayV2 {
 
     public struct GetAuthorizersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2044,8 +2044,8 @@ extension ApiGatewayV2 {
 
     public struct GetAuthorizersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [Authorizer]?
@@ -2064,8 +2064,8 @@ extension ApiGatewayV2 {
 
     public struct GetDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
         public let apiId: String
@@ -2084,12 +2084,12 @@ extension ApiGatewayV2 {
 
     public struct GetDeploymentResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed"), required: false, type: .boolean), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus")), 
+            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"))
         ]
 
         public let autoDeployed: Bool?
@@ -2120,9 +2120,9 @@ extension ApiGatewayV2 {
 
     public struct GetDeploymentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2144,8 +2144,8 @@ extension ApiGatewayV2 {
 
     public struct GetDeploymentsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [Deployment]?
@@ -2164,7 +2164,7 @@ extension ApiGatewayV2 {
 
     public struct GetDomainNameRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let domainName: String
@@ -2180,10 +2180,10 @@ extension ApiGatewayV2 {
 
     public struct GetDomainNameResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression")), 
+            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName")), 
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let apiMappingSelectionExpression: String?
@@ -2208,8 +2208,8 @@ extension ApiGatewayV2 {
 
     public struct GetDomainNamesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: String?
@@ -2228,8 +2228,8 @@ extension ApiGatewayV2 {
 
     public struct GetDomainNamesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [DomainName]?
@@ -2248,8 +2248,8 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"))
         ]
 
         public let apiId: String
@@ -2268,9 +2268,9 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
         public let apiId: String
@@ -2292,12 +2292,12 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResponseResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId")), 
+            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"))
         ]
 
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -2328,10 +2328,10 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResponsesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2356,8 +2356,8 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResponsesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [IntegrationResponse]?
@@ -2376,23 +2376,23 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri"), required: false, type: .string), 
-            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
+            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod")), 
+            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression")), 
+            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType")), 
+            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri")), 
+            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior")), 
+            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression")), 
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"))
         ]
 
         public let apiGatewayManaged: Bool?
@@ -2456,9 +2456,9 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2480,8 +2480,8 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [Integration]?
@@ -2500,8 +2500,8 @@ extension ApiGatewayV2 {
 
     public struct GetModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"))
         ]
 
         public let apiId: String
@@ -2520,11 +2520,11 @@ extension ApiGatewayV2 {
 
     public struct GetModelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
+            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"))
         ]
 
         public let contentType: String?
@@ -2552,8 +2552,8 @@ extension ApiGatewayV2 {
 
     public struct GetModelTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"))
         ]
 
         public let apiId: String
@@ -2572,7 +2572,7 @@ extension ApiGatewayV2 {
 
     public struct GetModelTemplateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: false, type: .string)
+            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
         ]
 
         public let value: String?
@@ -2588,9 +2588,9 @@ extension ApiGatewayV2 {
 
     public struct GetModelsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2612,8 +2612,8 @@ extension ApiGatewayV2 {
 
     public struct GetModelsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [Model]?
@@ -2632,8 +2632,8 @@ extension ApiGatewayV2 {
 
     public struct GetRouteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -2652,9 +2652,9 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
         public let apiId: String
@@ -2676,11 +2676,11 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResponseResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId")), 
+            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"))
         ]
 
         public let modelSelectionExpression: String?
@@ -2708,10 +2708,10 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResponsesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -2736,8 +2736,8 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResponsesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [RouteResponse]?
@@ -2756,19 +2756,19 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes"), required: false, type: .list), 
-            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired")), 
+            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes")), 
+            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName")), 
+            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target"))
         ]
 
         public let apiGatewayManaged: Bool?
@@ -2820,9 +2820,9 @@ extension ApiGatewayV2 {
 
     public struct GetRoutesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2844,8 +2844,8 @@ extension ApiGatewayV2 {
 
     public struct GetRoutesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [Route]?
@@ -2864,8 +2864,8 @@ extension ApiGatewayV2 {
 
     public struct GetStageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"))
         ]
 
         public let apiId: String
@@ -2884,20 +2884,20 @@ extension ApiGatewayV2 {
 
     public struct GetStageResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
-            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings")), 
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy")), 
+            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage")), 
+            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate")), 
+            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings")), 
+            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName")), 
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let accessLogSettings: AccessLogSettings?
@@ -2952,9 +2952,9 @@ extension ApiGatewayV2 {
 
     public struct GetStagesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2976,8 +2976,8 @@ extension ApiGatewayV2 {
 
     public struct GetStagesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Items", location: .body(locationName: "items")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         public let items: [Stage]?
@@ -2996,7 +2996,7 @@ extension ApiGatewayV2 {
 
     public struct GetTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -3012,7 +3012,7 @@ extension ApiGatewayV2 {
 
     public struct GetTagsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let tags: [String: String]
@@ -3028,9 +3028,9 @@ extension ApiGatewayV2 {
 
     public struct ImportApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Basepath", location: .querystring(locationName: "basepath"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", location: .body(locationName: "body"), required: true, type: .string), 
-            AWSShapeMember(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"), required: false, type: .boolean)
+            AWSShapeMember(label: "Basepath", location: .querystring(locationName: "basepath")), 
+            AWSShapeMember(label: "Body", location: .body(locationName: "body")), 
+            AWSShapeMember(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"))
         ]
 
         public let basepath: String?
@@ -3052,20 +3052,20 @@ extension ApiGatewayV2 {
 
     public struct ImportApiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
+            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint")), 
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version")), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"))
         ]
 
         public let apiEndpoint: String?
@@ -3120,23 +3120,23 @@ extension ApiGatewayV2 {
 
     public struct Integration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri"), required: false, type: .string), 
-            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
+            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod")), 
+            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression")), 
+            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType")), 
+            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri")), 
+            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior")), 
+            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression")), 
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"))
         ]
 
         /// Specifies whether an integration is managed by API Gateway. If you created an API using using quick create, the resulting integration is managed by API Gateway. You can update a managed integration, but you can't delete it.
@@ -3222,12 +3222,12 @@ extension ApiGatewayV2 {
 
     public struct IntegrationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey"), required: true, type: .string), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId")), 
+            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"))
         ]
 
         /// Supported only for WebSocket APIs. Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification.
@@ -3264,8 +3264,8 @@ extension ApiGatewayV2 {
 
     public struct JWTConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Audience", location: .body(locationName: "audience"), required: false, type: .list), 
-            AWSShapeMember(label: "Issuer", location: .body(locationName: "issuer"), required: false, type: .string)
+            AWSShapeMember(label: "Audience", location: .body(locationName: "audience")), 
+            AWSShapeMember(label: "Issuer", location: .body(locationName: "issuer"))
         ]
 
         /// A list of the intended recipients of the JWT. A valid JWT must provide an aud that matches at least one entry in this list. See RFC 7519. Supported only for HTTP APIs.
@@ -3287,11 +3287,11 @@ extension ApiGatewayV2 {
 
     public struct Model: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
+            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"))
         ]
 
         /// The content-type for the model, for example, "application/json".
@@ -3324,7 +3324,7 @@ extension ApiGatewayV2 {
 
     public struct ParameterConstraints: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Required", location: .body(locationName: "required"), required: false, type: .boolean)
+            AWSShapeMember(label: "Required", location: .body(locationName: "required"))
         ]
 
         /// Whether or not the parameter is required.
@@ -3341,10 +3341,10 @@ extension ApiGatewayV2 {
 
     public struct ReimportApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "Basepath", location: .querystring(locationName: "basepath"), required: false, type: .string), 
-            AWSShapeMember(label: "Body", location: .body(locationName: "body"), required: true, type: .string), 
-            AWSShapeMember(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"), required: false, type: .boolean)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "Basepath", location: .querystring(locationName: "basepath")), 
+            AWSShapeMember(label: "Body", location: .body(locationName: "body")), 
+            AWSShapeMember(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"))
         ]
 
         public let apiId: String
@@ -3369,20 +3369,20 @@ extension ApiGatewayV2 {
 
     public struct ReimportApiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
+            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint")), 
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version")), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"))
         ]
 
         public let apiEndpoint: String?
@@ -3437,19 +3437,19 @@ extension ApiGatewayV2 {
 
     public struct Route: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes"), required: false, type: .list), 
-            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired")), 
+            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes")), 
+            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName")), 
+            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target"))
         ]
 
         /// Specifies whether a route is managed by API Gateway. If you created an API using quick create, the $default route is managed by API Gateway. You can't modify the $default route key.
@@ -3514,11 +3514,11 @@ extension ApiGatewayV2 {
 
     public struct RouteResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: true, type: .string)
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId")), 
+            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"))
         ]
 
         /// Represents the model selection expression of a route response. Supported only for WebSocket APIs.
@@ -3551,11 +3551,11 @@ extension ApiGatewayV2 {
 
     public struct RouteSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataTraceEnabled", location: .body(locationName: "dataTraceEnabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "DetailedMetricsEnabled", location: .body(locationName: "detailedMetricsEnabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "LoggingLevel", location: .body(locationName: "loggingLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "ThrottlingBurstLimit", location: .body(locationName: "throttlingBurstLimit"), required: false, type: .integer), 
-            AWSShapeMember(label: "ThrottlingRateLimit", location: .body(locationName: "throttlingRateLimit"), required: false, type: .double)
+            AWSShapeMember(label: "DataTraceEnabled", location: .body(locationName: "dataTraceEnabled")), 
+            AWSShapeMember(label: "DetailedMetricsEnabled", location: .body(locationName: "detailedMetricsEnabled")), 
+            AWSShapeMember(label: "LoggingLevel", location: .body(locationName: "loggingLevel")), 
+            AWSShapeMember(label: "ThrottlingBurstLimit", location: .body(locationName: "throttlingBurstLimit")), 
+            AWSShapeMember(label: "ThrottlingRateLimit", location: .body(locationName: "throttlingRateLimit"))
         ]
 
         /// Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs.
@@ -3588,20 +3588,20 @@ extension ApiGatewayV2 {
 
     public struct Stage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
-            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: true, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings")), 
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy")), 
+            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage")), 
+            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate")), 
+            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings")), 
+            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName")), 
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         /// Settings for logging access in this stage.
@@ -3670,8 +3670,8 @@ extension ApiGatewayV2 {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let resourceArn: String
@@ -3698,8 +3698,8 @@ extension ApiGatewayV2 {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -3718,11 +3718,11 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId"), required: true, type: .string), 
-            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
+            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey")), 
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName")), 
+            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"))
         ]
 
         public let apiId: String
@@ -3750,10 +3750,10 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiMappingResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
-            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiMappingId", location: .body(locationName: "apiMappingId")), 
+            AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey")), 
+            AWSShapeMember(label: "Stage", location: .body(locationName: "stage"))
         ]
 
         public let apiId: String?
@@ -3778,17 +3778,17 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version"))
         ]
 
         public let apiId: String
@@ -3838,20 +3838,20 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId"), required: false, type: .string), 
-            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: false, type: .enum), 
-            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
+            AWSShapeMember(label: "ApiEndpoint", location: .body(locationName: "apiEndpoint")), 
+            AWSShapeMember(label: "ApiId", location: .body(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", location: .body(locationName: "apiKeySelectionExpression")), 
+            AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation")), 
+            AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType")), 
+            AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version")), 
+            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"))
         ]
 
         public let apiEndpoint: String?
@@ -3906,16 +3906,16 @@ extension ApiGatewayV2 {
 
     public struct UpdateAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"), required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri"), required: false, type: .string), 
-            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource"), required: false, type: .list), 
-            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn")), 
+            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId")), 
+            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds")), 
+            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType")), 
+            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri")), 
+            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource")), 
+            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression")), 
+            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
         ]
 
         public let apiId: String
@@ -3963,15 +3963,15 @@ extension ApiGatewayV2 {
 
     public struct UpdateAuthorizerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds"), required: false, type: .integer), 
-            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri"), required: false, type: .string), 
-            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource"), required: false, type: .list), 
-            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "AuthorizerCredentialsArn", location: .body(locationName: "authorizerCredentialsArn")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "AuthorizerResultTtlInSeconds", location: .body(locationName: "authorizerResultTtlInSeconds")), 
+            AWSShapeMember(label: "AuthorizerType", location: .body(locationName: "authorizerType")), 
+            AWSShapeMember(label: "AuthorizerUri", location: .body(locationName: "authorizerUri")), 
+            AWSShapeMember(label: "IdentitySource", location: .body(locationName: "identitySource")), 
+            AWSShapeMember(label: "IdentityValidationExpression", location: .body(locationName: "identityValidationExpression")), 
+            AWSShapeMember(label: "JwtConfiguration", location: .body(locationName: "jwtConfiguration")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
         ]
 
         public let authorizerCredentialsArn: String?
@@ -4011,9 +4011,9 @@ extension ApiGatewayV2 {
 
     public struct UpdateDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"))
         ]
 
         public let apiId: String
@@ -4035,12 +4035,12 @@ extension ApiGatewayV2 {
 
     public struct UpdateDeploymentResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed"), required: false, type: .boolean), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+            AWSShapeMember(label: "AutoDeployed", location: .body(locationName: "autoDeployed")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "DeploymentStatus", location: .body(locationName: "deploymentStatus")), 
+            AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"))
         ]
 
         public let autoDeployed: Bool?
@@ -4071,8 +4071,8 @@ extension ApiGatewayV2 {
 
     public struct UpdateDomainNameRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName")), 
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"))
         ]
 
         public let domainName: String
@@ -4091,10 +4091,10 @@ extension ApiGatewayV2 {
 
     public struct UpdateDomainNameResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression")), 
+            AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName")), 
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let apiMappingSelectionExpression: String?
@@ -4119,22 +4119,22 @@ extension ApiGatewayV2 {
 
     public struct UpdateIntegrationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri"), required: false, type: .string), 
-            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
+            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod")), 
+            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType")), 
+            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri")), 
+            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior")), 
+            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression")), 
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"))
         ]
 
         public let apiId: String
@@ -4200,14 +4200,14 @@ extension ApiGatewayV2 {
 
     public struct UpdateIntegrationResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"), required: true, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId")), 
+            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"))
         ]
 
         public let apiId: String
@@ -4244,12 +4244,12 @@ extension ApiGatewayV2 {
 
     public struct UpdateIntegrationResponseResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "IntegrationResponseId", location: .body(locationName: "integrationResponseId")), 
+            AWSShapeMember(label: "IntegrationResponseKey", location: .body(locationName: "integrationResponseKey")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"))
         ]
 
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -4280,23 +4280,23 @@ extension ApiGatewayV2 {
 
     public struct UpdateIntegrationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy"), required: false, type: .enum), 
-            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri"), required: false, type: .string), 
-            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
-            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
+            AWSShapeMember(label: "ConnectionType", location: .body(locationName: "connectionType")), 
+            AWSShapeMember(label: "ContentHandlingStrategy", location: .body(locationName: "contentHandlingStrategy")), 
+            AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "IntegrationId", location: .body(locationName: "integrationId")), 
+            AWSShapeMember(label: "IntegrationMethod", location: .body(locationName: "integrationMethod")), 
+            AWSShapeMember(label: "IntegrationResponseSelectionExpression", location: .body(locationName: "integrationResponseSelectionExpression")), 
+            AWSShapeMember(label: "IntegrationType", location: .body(locationName: "integrationType")), 
+            AWSShapeMember(label: "IntegrationUri", location: .body(locationName: "integrationUri")), 
+            AWSShapeMember(label: "PassthroughBehavior", location: .body(locationName: "passthroughBehavior")), 
+            AWSShapeMember(label: "PayloadFormatVersion", location: .body(locationName: "payloadFormatVersion")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates")), 
+            AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression")), 
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"))
         ]
 
         public let apiGatewayManaged: Bool?
@@ -4360,12 +4360,12 @@ extension ApiGatewayV2 {
 
     public struct UpdateModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"))
         ]
 
         public let apiId: String
@@ -4396,11 +4396,11 @@ extension ApiGatewayV2 {
 
     public struct UpdateModelResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
+            AWSShapeMember(label: "ContentType", location: .body(locationName: "contentType")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "ModelId", location: .body(locationName: "modelId")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Schema", location: .body(locationName: "schema"))
         ]
 
         public let contentType: String?
@@ -4428,19 +4428,19 @@ extension ApiGatewayV2 {
 
     public struct UpdateRouteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes"), required: false, type: .list), 
-            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired")), 
+            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes")), 
+            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName")), 
+            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target"))
         ]
 
         public let apiId: String
@@ -4492,13 +4492,13 @@ extension ApiGatewayV2 {
 
     public struct UpdateRouteResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"), required: true, type: .string), 
-            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId")), 
+            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"))
         ]
 
         public let apiId: String
@@ -4532,11 +4532,11 @@ extension ApiGatewayV2 {
 
     public struct UpdateRouteResponseResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels"), required: false, type: .map), 
-            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "ResponseModels", location: .body(locationName: "responseModels")), 
+            AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters")), 
+            AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId")), 
+            AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"))
         ]
 
         public let modelSelectionExpression: String?
@@ -4564,19 +4564,19 @@ extension ApiGatewayV2 {
 
     public struct UpdateRouteResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes"), required: false, type: .list), 
-            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels"), required: false, type: .map), 
-            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
-            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "ApiKeyRequired", location: .body(locationName: "apiKeyRequired")), 
+            AWSShapeMember(label: "AuthorizationScopes", location: .body(locationName: "authorizationScopes")), 
+            AWSShapeMember(label: "AuthorizationType", location: .body(locationName: "authorizationType")), 
+            AWSShapeMember(label: "AuthorizerId", location: .body(locationName: "authorizerId")), 
+            AWSShapeMember(label: "ModelSelectionExpression", location: .body(locationName: "modelSelectionExpression")), 
+            AWSShapeMember(label: "OperationName", location: .body(locationName: "operationName")), 
+            AWSShapeMember(label: "RequestModels", location: .body(locationName: "requestModels")), 
+            AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters")), 
+            AWSShapeMember(label: "RouteId", location: .body(locationName: "routeId")), 
+            AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey")), 
+            AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression")), 
+            AWSShapeMember(label: "Target", location: .body(locationName: "target"))
         ]
 
         public let apiGatewayManaged: Bool?
@@ -4628,16 +4628,16 @@ extension ApiGatewayV2 {
 
     public struct UpdateStageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId"), required: false, type: .string), 
-            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
+            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings")), 
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy")), 
+            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId")), 
+            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings")), 
+            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName")), 
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"))
         ]
 
         public let accessLogSettings: AccessLogSettings?
@@ -4680,20 +4680,20 @@ extension ApiGatewayV2 {
 
     public struct UpdateStageResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
-            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings")), 
+            AWSShapeMember(label: "ApiGatewayManaged", location: .body(locationName: "apiGatewayManaged")), 
+            AWSShapeMember(label: "AutoDeploy", location: .body(locationName: "autoDeploy")), 
+            AWSShapeMember(label: "ClientCertificateId", location: .body(locationName: "clientCertificateId")), 
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate")), 
+            AWSShapeMember(label: "DefaultRouteSettings", location: .body(locationName: "defaultRouteSettings")), 
+            AWSShapeMember(label: "DeploymentId", location: .body(locationName: "deploymentId")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "LastDeploymentStatusMessage", location: .body(locationName: "lastDeploymentStatusMessage")), 
+            AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate")), 
+            AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings")), 
+            AWSShapeMember(label: "StageName", location: .body(locationName: "stageName")), 
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         public let accessLogSettings: AccessLogSettings?

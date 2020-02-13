@@ -95,9 +95,6 @@ extension Batch {
     //MARK: Shapes
 
     public struct ArrayProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "size", required: false, type: .integer)
-        ]
 
         /// The size of the array job.
         public let size: Int?
@@ -112,11 +109,6 @@ extension Batch {
     }
 
     public struct ArrayPropertiesDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "index", required: false, type: .integer), 
-            AWSShapeMember(label: "size", required: false, type: .integer), 
-            AWSShapeMember(label: "statusSummary", required: false, type: .map)
-        ]
 
         /// The job index within the array that is associated with this job. This parameter is returned for array job children.
         public let index: Int?
@@ -139,10 +131,6 @@ extension Batch {
     }
 
     public struct ArrayPropertiesSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "index", required: false, type: .integer), 
-            AWSShapeMember(label: "size", required: false, type: .integer)
-        ]
 
         /// The job index within the array that is associated with this job. This parameter is returned for children of array jobs.
         public let index: Int?
@@ -161,14 +149,6 @@ extension Batch {
     }
 
     public struct AttemptContainerDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "networkInterfaces", required: false, type: .list), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "taskArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that hosts the job attempt.
         public let containerInstanceArn: String?
@@ -203,12 +183,6 @@ extension Batch {
     }
 
     public struct AttemptDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "container", required: false, type: .structure), 
-            AWSShapeMember(label: "startedAt", required: false, type: .long), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string), 
-            AWSShapeMember(label: "stoppedAt", required: false, type: .long)
-        ]
 
         /// Details about the container in this job attempt.
         public let container: AttemptContainerDetail?
@@ -235,10 +209,6 @@ extension Batch {
     }
 
     public struct CancelJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "reason", required: true, type: .string)
-        ]
 
         /// The AWS Batch job ID of the job to cancel.
         public let jobId: String
@@ -265,17 +235,6 @@ extension Batch {
     }
 
     public struct ComputeEnvironmentDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironmentArn", required: true, type: .string), 
-            AWSShapeMember(label: "computeEnvironmentName", required: true, type: .string), 
-            AWSShapeMember(label: "computeResources", required: false, type: .structure), 
-            AWSShapeMember(label: "ecsClusterArn", required: true, type: .string), 
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String
@@ -322,10 +281,6 @@ extension Batch {
     }
 
     public struct ComputeEnvironmentOrder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironment", required: true, type: .string), 
-            AWSShapeMember(label: "order", required: true, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironment: String
@@ -344,24 +299,6 @@ extension Batch {
     }
 
     public struct ComputeResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allocationStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "bidPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "desiredvCpus", required: false, type: .integer), 
-            AWSShapeMember(label: "ec2KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "imageId", required: false, type: .string), 
-            AWSShapeMember(label: "instanceRole", required: true, type: .string), 
-            AWSShapeMember(label: "instanceTypes", required: true, type: .list), 
-            AWSShapeMember(label: "launchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "maxvCpus", required: true, type: .integer), 
-            AWSShapeMember(label: "minvCpus", required: true, type: .integer), 
-            AWSShapeMember(label: "placementGroup", required: false, type: .string), 
-            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "spotIamFleetRole", required: false, type: .string), 
-            AWSShapeMember(label: "subnets", required: true, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The allocation strategy to use for the compute resource in case not enough instances of the best fitting instance type can be allocated. This could be due to availability of the instance type in the region or Amazon EC2 service limits. If this is not specified, the default is BEST_FIT, which will use only the best fitting instance type, waiting for additional capacity if it's not available. This allocation strategy keeps costs lower but can limit scaling. If you are using Spot Fleets with BEST_FIT then the Spot Fleet IAM Role must be specified. BEST_FIT_PROGRESSIVE will select additional instance types that are large enough to meet the requirements of the jobs in the queue, with a preference for instance types with a lower cost per vCPU. SPOT_CAPACITY_OPTIMIZED is only available for Spot Instance compute resources and will select additional instance types that are large enough to meet the requirements of the jobs in the queue, with a preference for instance types that are less likely to be interrupted. For more information, see Allocation Strategies in the AWS Batch User Guide.
         public let allocationStrategy: CRAllocationStrategy?
@@ -436,11 +373,6 @@ extension Batch {
     }
 
     public struct ComputeResourceUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "desiredvCpus", required: false, type: .integer), 
-            AWSShapeMember(label: "maxvCpus", required: false, type: .integer), 
-            AWSShapeMember(label: "minvCpus", required: false, type: .integer)
-        ]
 
         /// The desired number of Amazon EC2 vCPUS in the compute environment.
         public let desiredvCpus: Int?
@@ -463,29 +395,6 @@ extension Batch {
     }
 
     public struct ContainerDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "command", required: false, type: .list), 
-            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "environment", required: false, type: .list), 
-            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "image", required: false, type: .string), 
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "jobRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "linuxParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "memory", required: false, type: .integer), 
-            AWSShapeMember(label: "mountPoints", required: false, type: .list), 
-            AWSShapeMember(label: "networkInterfaces", required: false, type: .list), 
-            AWSShapeMember(label: "privileged", required: false, type: .boolean), 
-            AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
-            AWSShapeMember(label: "taskArn", required: false, type: .string), 
-            AWSShapeMember(label: "ulimits", required: false, type: .list), 
-            AWSShapeMember(label: "user", required: false, type: .string), 
-            AWSShapeMember(label: "vcpus", required: false, type: .integer), 
-            AWSShapeMember(label: "volumes", required: false, type: .list)
-        ]
 
         /// The command that is passed to the container.
         public let command: [String]?
@@ -580,14 +489,6 @@ extension Batch {
     }
 
     public struct ContainerOverrides: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "command", required: false, type: .list), 
-            AWSShapeMember(label: "environment", required: false, type: .list), 
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "memory", required: false, type: .integer), 
-            AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
-            AWSShapeMember(label: "vcpus", required: false, type: .integer)
-        ]
 
         /// The command to send to the container that overrides the default command from the Docker image or the job definition.
         public let command: [String]?
@@ -622,23 +523,6 @@ extension Batch {
     }
 
     public struct ContainerProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "command", required: false, type: .list), 
-            AWSShapeMember(label: "environment", required: false, type: .list), 
-            AWSShapeMember(label: "image", required: false, type: .string), 
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "jobRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "linuxParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "memory", required: false, type: .integer), 
-            AWSShapeMember(label: "mountPoints", required: false, type: .list), 
-            AWSShapeMember(label: "privileged", required: false, type: .boolean), 
-            AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
-            AWSShapeMember(label: "ulimits", required: false, type: .list), 
-            AWSShapeMember(label: "user", required: false, type: .string), 
-            AWSShapeMember(label: "vcpus", required: false, type: .integer), 
-            AWSShapeMember(label: "volumes", required: false, type: .list)
-        ]
 
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd.
         public let command: [String]?
@@ -709,10 +593,6 @@ extension Batch {
     }
 
     public struct ContainerSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "reason", required: false, type: .string)
-        ]
 
         /// The exit code to return upon completion.
         public let exitCode: Int?
@@ -731,13 +611,6 @@ extension Batch {
     }
 
     public struct CreateComputeEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironmentName", required: true, type: .string), 
-            AWSShapeMember(label: "computeResources", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceRole", required: true, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public let computeEnvironmentName: String
@@ -768,10 +641,6 @@ extension Batch {
     }
 
     public struct CreateComputeEnvironmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironmentArn", required: false, type: .string), 
-            AWSShapeMember(label: "computeEnvironmentName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String?
@@ -790,12 +659,6 @@ extension Batch {
     }
 
     public struct CreateJobQueueRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironmentOrder", required: true, type: .list), 
-            AWSShapeMember(label: "jobQueueName", required: true, type: .string), 
-            AWSShapeMember(label: "priority", required: true, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
@@ -822,10 +685,6 @@ extension Batch {
     }
 
     public struct CreateJobQueueResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobQueueArn", required: true, type: .string), 
-            AWSShapeMember(label: "jobQueueName", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the job queue.
         public let jobQueueArn: String
@@ -844,9 +703,6 @@ extension Batch {
     }
 
     public struct DeleteComputeEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironment", required: true, type: .string)
-        ]
 
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete.
         public let computeEnvironment: String
@@ -869,9 +725,6 @@ extension Batch {
     }
 
     public struct DeleteJobQueueRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobQueue", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
         public let jobQueue: String
@@ -894,9 +747,6 @@ extension Batch {
     }
 
     public struct DeregisterJobDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDefinition", required: true, type: .string)
-        ]
 
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister.
         public let jobDefinition: String
@@ -919,11 +769,6 @@ extension Batch {
     }
 
     public struct DescribeComputeEnvironmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironments", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries.
         public let computeEnvironments: [String]?
@@ -946,10 +791,6 @@ extension Batch {
     }
 
     public struct DescribeComputeEnvironmentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironments", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of compute environments.
         public let computeEnvironments: [ComputeEnvironmentDetail]?
@@ -968,13 +809,6 @@ extension Batch {
     }
 
     public struct DescribeJobDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDefinitionName", required: false, type: .string), 
-            AWSShapeMember(label: "jobDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string)
-        ]
 
         /// The name of the job definition to describe.
         public let jobDefinitionName: String?
@@ -1005,10 +839,6 @@ extension Batch {
     }
 
     public struct DescribeJobDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of job definitions.
         public let jobDefinitions: [JobDefinition]?
@@ -1027,11 +857,6 @@ extension Batch {
     }
 
     public struct DescribeJobQueuesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobQueues", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
         public let jobQueues: [String]?
@@ -1054,10 +879,6 @@ extension Batch {
     }
 
     public struct DescribeJobQueuesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobQueues", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of job queues.
         public let jobQueues: [JobQueueDetail]?
@@ -1076,9 +897,6 @@ extension Batch {
     }
 
     public struct DescribeJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: true, type: .list)
-        ]
 
         /// A list of up to 100 job IDs.
         public let jobs: [String]
@@ -1093,9 +911,6 @@ extension Batch {
     }
 
     public struct DescribeJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list)
-        ]
 
         /// The list of jobs.
         public let jobs: [JobDetail]?
@@ -1110,11 +925,6 @@ extension Batch {
     }
 
     public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerPath", required: false, type: .string), 
-            AWSShapeMember(label: "hostPath", required: true, type: .string), 
-            AWSShapeMember(label: "permissions", required: false, type: .list)
-        ]
 
         /// The path inside the container at which to expose the host device. By default the hostPath value is used.
         public let containerPath: String?
@@ -1137,9 +947,6 @@ extension Batch {
     }
 
     public struct Host: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourcePath", required: false, type: .string)
-        ]
 
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If this parameter contains a file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the source path location does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
@@ -1154,18 +961,6 @@ extension Batch {
     }
 
     public struct JobDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "jobDefinitionArn", required: true, type: .string), 
-            AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
-            AWSShapeMember(label: "nodeProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "parameters", required: false, type: .map), 
-            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeMember(label: "revision", required: true, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "timeout", required: false, type: .structure), 
-            AWSShapeMember(label: "type", required: true, type: .string)
-        ]
 
         /// An object with various properties specific to container-based jobs.
         public let containerProperties: ContainerProperties?
@@ -1216,10 +1011,6 @@ extension Batch {
     }
 
     public struct JobDependency: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The job ID of the AWS Batch job associated with this dependency.
         public let jobId: String?
@@ -1238,26 +1029,6 @@ extension Batch {
     }
 
     public struct JobDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "attempts", required: false, type: .list), 
-            AWSShapeMember(label: "container", required: false, type: .structure), 
-            AWSShapeMember(label: "createdAt", required: false, type: .long), 
-            AWSShapeMember(label: "dependsOn", required: false, type: .list), 
-            AWSShapeMember(label: "jobDefinition", required: true, type: .string), 
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "jobName", required: true, type: .string), 
-            AWSShapeMember(label: "jobQueue", required: true, type: .string), 
-            AWSShapeMember(label: "nodeDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "nodeProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "parameters", required: false, type: .map), 
-            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeMember(label: "startedAt", required: true, type: .long), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string), 
-            AWSShapeMember(label: "stoppedAt", required: false, type: .long), 
-            AWSShapeMember(label: "timeout", required: false, type: .structure)
-        ]
 
         /// The array properties of the job, if it is an array job.
         public let arrayProperties: ArrayPropertiesDetail?
@@ -1340,15 +1111,6 @@ extension Batch {
     }
 
     public struct JobQueueDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironmentOrder", required: true, type: .list), 
-            AWSShapeMember(label: "jobQueueArn", required: true, type: .string), 
-            AWSShapeMember(label: "jobQueueName", required: true, type: .string), 
-            AWSShapeMember(label: "priority", required: true, type: .integer), 
-            AWSShapeMember(label: "state", required: true, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
-        ]
 
         /// The compute environments that are attached to the job queue and the order in which job placement is preferred. Compute environments are selected for job placement in ascending order.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
@@ -1387,18 +1149,6 @@ extension Batch {
     }
 
     public struct JobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "container", required: false, type: .structure), 
-            AWSShapeMember(label: "createdAt", required: false, type: .long), 
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "jobName", required: true, type: .string), 
-            AWSShapeMember(label: "nodeProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "startedAt", required: false, type: .long), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string), 
-            AWSShapeMember(label: "stoppedAt", required: false, type: .long)
-        ]
 
         /// The array properties of the job, if it is an array job.
         public let arrayProperties: ArrayPropertiesSummary?
@@ -1449,9 +1199,6 @@ extension Batch {
     }
 
     public struct JobTimeout: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attemptDurationSeconds", required: false, type: .integer)
-        ]
 
         /// The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
         public let attemptDurationSeconds: Int?
@@ -1466,10 +1213,6 @@ extension Batch {
     }
 
     public struct KeyValuePair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
@@ -1488,11 +1231,6 @@ extension Batch {
     }
 
     public struct LaunchTemplateSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "launchTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "launchTemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -1515,9 +1253,6 @@ extension Batch {
     }
 
     public struct LinuxParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devices", required: false, type: .list)
-        ]
 
         /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.
         public let devices: [Device]?
@@ -1532,14 +1267,6 @@ extension Batch {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayJobId", required: false, type: .string), 
-            AWSShapeMember(label: "jobQueue", required: false, type: .string), 
-            AWSShapeMember(label: "jobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "multiNodeJobId", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The job ID for an array job. Specifying an array job ID with this parameter lists all child jobs from within the specified array.
         public let arrayJobId: String?
@@ -1574,10 +1301,6 @@ extension Batch {
     }
 
     public struct ListJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummaryList", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of job summaries that match the request.
         public let jobSummaryList: [JobSummary]
@@ -1596,11 +1319,6 @@ extension Batch {
     }
 
     public struct MountPoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerPath", required: false, type: .string), 
-            AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "sourceVolume", required: false, type: .string)
-        ]
 
         /// The path on the container at which to mount the host volume.
         public let containerPath: String?
@@ -1623,11 +1341,6 @@ extension Batch {
     }
 
     public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentId", required: false, type: .string), 
-            AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
-            AWSShapeMember(label: "privateIpv4Address", required: false, type: .string)
-        ]
 
         /// The attachment ID for the network interface.
         public let attachmentId: String?
@@ -1650,10 +1363,6 @@ extension Batch {
     }
 
     public struct NodeDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isMainNode", required: false, type: .boolean), 
-            AWSShapeMember(label: "nodeIndex", required: false, type: .integer)
-        ]
 
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
@@ -1672,10 +1381,6 @@ extension Batch {
     }
 
     public struct NodeOverrides: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nodePropertyOverrides", required: false, type: .list), 
-            AWSShapeMember(label: "numNodes", required: false, type: .integer)
-        ]
 
         /// The node property overrides for the job.
         public let nodePropertyOverrides: [NodePropertyOverride]?
@@ -1694,11 +1399,6 @@ extension Batch {
     }
 
     public struct NodeProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mainNode", required: true, type: .integer), 
-            AWSShapeMember(label: "nodeRangeProperties", required: true, type: .list), 
-            AWSShapeMember(label: "numNodes", required: true, type: .integer)
-        ]
 
         /// Specifies the node index for the main node of a multi-node parallel job. This node index value must be fewer than the number of nodes.
         public let mainNode: Int
@@ -1721,11 +1421,6 @@ extension Batch {
     }
 
     public struct NodePropertiesSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isMainNode", required: false, type: .boolean), 
-            AWSShapeMember(label: "nodeIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "numNodes", required: false, type: .integer)
-        ]
 
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
@@ -1748,10 +1443,6 @@ extension Batch {
     }
 
     public struct NodePropertyOverride: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerOverrides", required: false, type: .structure), 
-            AWSShapeMember(label: "targetNodes", required: true, type: .string)
-        ]
 
         /// The overrides that should be sent to a node range.
         public let containerOverrides: ContainerOverrides?
@@ -1770,10 +1461,6 @@ extension Batch {
     }
 
     public struct NodeRangeProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "container", required: false, type: .structure), 
-            AWSShapeMember(label: "targetNodes", required: true, type: .string)
-        ]
 
         /// The container details for the node range.
         public let container: ContainerProperties?
@@ -1792,15 +1479,6 @@ extension Batch {
     }
 
     public struct RegisterJobDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
-            AWSShapeMember(label: "nodeProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "parameters", required: false, type: .map), 
-            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeMember(label: "timeout", required: false, type: .structure), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// An object with various properties specific to single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties.
         public let containerProperties: ContainerProperties?
@@ -1839,11 +1517,6 @@ extension Batch {
     }
 
     public struct RegisterJobDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDefinitionArn", required: true, type: .string), 
-            AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
-            AWSShapeMember(label: "revision", required: true, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the job definition.
         public let jobDefinitionArn: String
@@ -1866,10 +1539,6 @@ extension Batch {
     }
 
     public struct ResourceRequirement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The type of resource to assign to a container. Currently, the only supported resource type is GPU.
         public let `type`: ResourceType
@@ -1888,9 +1557,6 @@ extension Batch {
     }
 
     public struct RetryStrategy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attempts", required: false, type: .integer)
-        ]
 
         /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
         public let attempts: Int?
@@ -1905,18 +1571,6 @@ extension Batch {
     }
 
     public struct SubmitJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "containerOverrides", required: false, type: .structure), 
-            AWSShapeMember(label: "dependsOn", required: false, type: .list), 
-            AWSShapeMember(label: "jobDefinition", required: true, type: .string), 
-            AWSShapeMember(label: "jobName", required: true, type: .string), 
-            AWSShapeMember(label: "jobQueue", required: true, type: .string), 
-            AWSShapeMember(label: "nodeOverrides", required: false, type: .structure), 
-            AWSShapeMember(label: "parameters", required: false, type: .map), 
-            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeMember(label: "timeout", required: false, type: .structure)
-        ]
 
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see Array Jobs in the AWS Batch User Guide.
         public let arrayProperties: ArrayProperties?
@@ -1967,10 +1621,6 @@ extension Batch {
     }
 
     public struct SubmitJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "jobName", required: true, type: .string)
-        ]
 
         /// The unique identifier for the job.
         public let jobId: String
@@ -1989,10 +1639,6 @@ extension Batch {
     }
 
     public struct TerminateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "reason", required: true, type: .string)
-        ]
 
         /// The AWS Batch job ID of the job to terminate.
         public let jobId: String
@@ -2019,11 +1665,6 @@ extension Batch {
     }
 
     public struct Ulimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hardLimit", required: true, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "softLimit", required: true, type: .integer)
-        ]
 
         /// The hard limit for the ulimit type.
         public let hardLimit: Int
@@ -2046,12 +1687,6 @@ extension Batch {
     }
 
     public struct UpdateComputeEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironment", required: true, type: .string), 
-            AWSShapeMember(label: "computeResources", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
         public let computeEnvironment: String
@@ -2078,10 +1713,6 @@ extension Batch {
     }
 
     public struct UpdateComputeEnvironmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironmentArn", required: false, type: .string), 
-            AWSShapeMember(label: "computeEnvironmentName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String?
@@ -2100,12 +1731,6 @@ extension Batch {
     }
 
     public struct UpdateJobQueueRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeEnvironmentOrder", required: false, type: .list), 
-            AWSShapeMember(label: "jobQueue", required: true, type: .string), 
-            AWSShapeMember(label: "priority", required: false, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment should execute a given job.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
@@ -2132,10 +1757,6 @@ extension Batch {
     }
 
     public struct UpdateJobQueueResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobQueueArn", required: false, type: .string), 
-            AWSShapeMember(label: "jobQueueName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the job queue.
         public let jobQueueArn: String?
@@ -2154,10 +1775,6 @@ extension Batch {
     }
 
     public struct Volume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "host", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running.
         public let host: Host?

@@ -36,12 +36,6 @@ extension QLDB {
     //MARK: Shapes
 
     public struct CreateLedgerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "PermissionsMode", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
         public let deletionProtection: Bool?
@@ -80,13 +74,6 @@ extension QLDB {
     }
 
     public struct CreateLedgerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
@@ -118,7 +105,7 @@ extension QLDB {
 
     public struct DeleteLedgerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the ledger that you want to delete.
@@ -141,8 +128,8 @@ extension QLDB {
 
     public struct DescribeJournalS3ExportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportId", location: .uri(locationName: "exportId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "ExportId", location: .uri(locationName: "exportId")), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The unique ID of the journal export job that you want to describe.
@@ -171,9 +158,6 @@ extension QLDB {
     }
 
     public struct DescribeJournalS3ExportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportDescription", required: true, type: .structure)
-        ]
 
         /// Information about the journal export job returned by a DescribeJournalS3Export request.
         public let exportDescription: JournalS3ExportDescription
@@ -189,7 +173,7 @@ extension QLDB {
 
     public struct DescribeLedgerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the ledger that you want to describe.
@@ -211,13 +195,6 @@ extension QLDB {
     }
 
     public struct DescribeLedgerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
@@ -249,11 +226,7 @@ extension QLDB {
 
     public struct ExportJournalToS3Request: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveEndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "InclusiveStartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "S3ExportConfiguration", required: true, type: .structure)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The exclusive end date and time for the range of journal contents that you want to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The ExclusiveEndTime must be less than or equal to the current UTC date and time.
@@ -294,9 +267,6 @@ extension QLDB {
     }
 
     public struct ExportJournalToS3Response: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportId", required: true, type: .string)
-        ]
 
         /// The unique ID that QLDB assigns to each journal export job. To describe your export request and check the status of the job, you can use ExportId to call DescribeJournalS3Export.
         public let exportId: String
@@ -312,9 +282,7 @@ extension QLDB {
 
     public struct GetBlockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockAddress", required: true, type: .structure), 
-            AWSShapeMember(label: "DigestTipAddress", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14} 
@@ -346,10 +314,6 @@ extension QLDB {
     }
 
     public struct GetBlockResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Block", required: true, type: .structure), 
-            AWSShapeMember(label: "Proof", required: false, type: .structure)
-        ]
 
         /// The block data object in Amazon Ion format.
         public let block: ValueHolder
@@ -369,7 +333,7 @@ extension QLDB {
 
     public struct GetDigestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the ledger.
@@ -391,10 +355,6 @@ extension QLDB {
     }
 
     public struct GetDigestResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Digest", required: true, type: .blob), 
-            AWSShapeMember(label: "DigestTipAddress", required: true, type: .structure)
-        ]
 
         /// The 256-bit hash value representing the digest returned by a GetDigest request.
         public let digest: Data
@@ -414,10 +374,7 @@ extension QLDB {
 
     public struct GetRevisionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockAddress", required: true, type: .structure), 
-            AWSShapeMember(label: "DigestTipAddress", required: false, type: .structure), 
-            AWSShapeMember(label: "DocumentId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14} 
@@ -456,10 +413,6 @@ extension QLDB {
     }
 
     public struct GetRevisionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Proof", required: false, type: .structure), 
-            AWSShapeMember(label: "Revision", required: true, type: .structure)
-        ]
 
         /// The proof object in Amazon Ion format returned by a GetRevision request. A proof contains the list of hash values that are required to recalculate the specified digest using a Merkle tree, starting with the specified document revision.
         public let proof: ValueHolder?
@@ -478,16 +431,6 @@ extension QLDB {
     }
 
     public struct JournalS3ExportDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveEndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ExportCreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ExportId", required: true, type: .string), 
-            AWSShapeMember(label: "InclusiveStartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "LedgerName", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "S3ExportConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
 
         /// The exclusive end date and time for the range of journal contents that are specified in the original export request.
         public let exclusiveEndTime: TimeStamp
@@ -529,11 +472,6 @@ extension QLDB {
     }
 
     public struct LedgerSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let creationDateTime: TimeStamp?
@@ -557,9 +495,9 @@ extension QLDB {
 
     public struct ListJournalS3ExportsForLedgerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of results to return in a single ListJournalS3ExportsForLedger request. (The actual number of results returned might be fewer.)
@@ -594,10 +532,6 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsForLedgerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JournalS3Exports", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The array of journal export job descriptions that are associated with the specified ledger.
         public let journalS3Exports: [JournalS3ExportDescription]?
@@ -617,8 +551,8 @@ extension QLDB {
 
     public struct ListJournalS3ExportsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of results to return in a single ListJournalS3Exports request. (The actual number of results returned might be fewer.)
@@ -646,10 +580,6 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JournalS3Exports", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region.
         public let journalS3Exports: [JournalS3ExportDescription]?
@@ -669,8 +599,8 @@ extension QLDB {
 
     public struct ListLedgersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of results to return in a single ListLedgers request. (The actual number of results returned might be fewer.)
@@ -698,10 +628,6 @@ extension QLDB {
     }
 
     public struct ListLedgersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ledgers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The array of ledger summaries that are associated with the current AWS account and Region.
         public let ledgers: [LedgerSummary]?
@@ -721,7 +647,7 @@ extension QLDB {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for which you want to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
@@ -742,9 +668,6 @@ extension QLDB {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The tags that are currently associated with the specified Amazon QLDB resource.
         public let tags: [String: String]?
@@ -759,10 +682,6 @@ extension QLDB {
     }
 
     public struct S3EncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectEncryptionType", required: true, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) for a customer master key (CMK) in AWS Key Management Service (AWS KMS). You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public let kmsKeyArn: String?
@@ -786,11 +705,6 @@ extension QLDB {
     }
 
     public struct S3ExportConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string)
-        ]
 
         /// The Amazon S3 bucket name in which a journal export job writes the journal contents. The bucket name must comply with the Amazon S3 bucket naming conventions. For more information, see Bucket Restrictions and Limitations in the Amazon S3 Developer Guide.
         public let bucket: String
@@ -823,8 +737,7 @@ extension QLDB {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) to which you want to add the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
@@ -864,8 +777,8 @@ extension QLDB {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) from which you want to remove the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
@@ -905,8 +818,7 @@ extension QLDB {
 
     public struct UpdateLedgerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
@@ -932,13 +844,6 @@ extension QLDB {
     }
 
     public struct UpdateLedgerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
@@ -969,9 +874,6 @@ extension QLDB {
     }
 
     public struct ValueHolder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IonText", required: false, type: .string)
-        ]
 
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public let ionText: String?

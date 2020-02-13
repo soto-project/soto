@@ -44,18 +44,6 @@ extension CloudHSMV2 {
     //MARK: Shapes
 
     public struct Backup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "BackupState", required: false, type: .enum), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeleteTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
-            AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
-            AWSShapeMember(label: "SourceRegion", required: false, type: .string), 
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The identifier (ID) of the backup.
         public let backupId: String
@@ -105,13 +93,6 @@ extension CloudHSMV2 {
     }
 
     public struct Certificates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsHardwareCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterCsr", required: false, type: .string), 
-            AWSShapeMember(label: "HsmCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "ManufacturerHardwareCertificate", required: false, type: .string)
-        ]
 
         /// The HSM hardware certificate issued (signed) by AWS CloudHSM.
         public let awsHardwareCertificate: String?
@@ -142,22 +123,6 @@ extension CloudHSMV2 {
     }
 
     public struct Cluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPolicy", required: false, type: .enum), 
-            AWSShapeMember(label: "Certificates", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Hsms", required: false, type: .list), 
-            AWSShapeMember(label: "HsmType", required: false, type: .string), 
-            AWSShapeMember(label: "PreCoPassword", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroup", required: false, type: .string), 
-            AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetMapping", required: false, type: .map), 
-            AWSShapeMember(label: "TagList", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The cluster's backup policy.
         public let backupPolicy: BackupPolicy?
@@ -223,11 +188,6 @@ extension CloudHSMV2 {
     }
 
     public struct CopyBackupToRegionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationRegion", required: true, type: .string), 
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The ID of the backup that will be copied to the destination region. 
         public let backupId: String
@@ -259,9 +219,6 @@ extension CloudHSMV2 {
     }
 
     public struct CopyBackupToRegionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationBackup", required: false, type: .structure)
-        ]
 
         /// Information on the backup that will be copied to the destination region, including CreateTimestamp, SourceBackup, SourceCluster, and Source Region. CreateTimestamp of the destination backup will be the same as that of the source backup. You will need to use the sourceBackupID returned in this operation to use the DescribeBackups operation on the backup that will be copied to the destination region.
         public let destinationBackup: DestinationBackup?
@@ -276,12 +233,6 @@ extension CloudHSMV2 {
     }
 
     public struct CreateClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmType", required: true, type: .string), 
-            AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
         public let hsmType: String
@@ -322,9 +273,6 @@ extension CloudHSMV2 {
     }
 
     public struct CreateClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cluster", required: false, type: .structure)
-        ]
 
         /// Information about the cluster that was created.
         public let cluster: Cluster?
@@ -339,11 +287,6 @@ extension CloudHSMV2 {
     }
 
     public struct CreateHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string)
-        ]
 
         /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters.
         public let availabilityZone: String
@@ -372,9 +315,6 @@ extension CloudHSMV2 {
     }
 
     public struct CreateHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Hsm", required: false, type: .structure)
-        ]
 
         /// Information about the HSM that was created.
         public let hsm: Hsm?
@@ -389,9 +329,6 @@ extension CloudHSMV2 {
     }
 
     public struct DeleteBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
-        ]
 
         /// The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation.
         public let backupId: String
@@ -410,9 +347,6 @@ extension CloudHSMV2 {
     }
 
     public struct DeleteBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
-        ]
 
         /// Information on the Backup object deleted.
         public let backup: Backup?
@@ -427,9 +361,6 @@ extension CloudHSMV2 {
     }
 
     public struct DeleteClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
-        ]
 
         /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters.
         public let clusterId: String
@@ -448,9 +379,6 @@ extension CloudHSMV2 {
     }
 
     public struct DeleteClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cluster", required: false, type: .structure)
-        ]
 
         /// Information about the cluster that was deleted.
         public let cluster: Cluster?
@@ -465,12 +393,6 @@ extension CloudHSMV2 {
     }
 
     public struct DeleteHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "EniId", required: false, type: .string), 
-            AWSShapeMember(label: "EniIp", required: false, type: .string), 
-            AWSShapeMember(label: "HsmId", required: false, type: .string)
-        ]
 
         /// The identifier (ID) of the cluster that contains the HSM that you are deleting.
         public let clusterId: String
@@ -504,9 +426,6 @@ extension CloudHSMV2 {
     }
 
     public struct DeleteHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmId", required: false, type: .string)
-        ]
 
         /// The identifier (ID) of the HSM that was deleted.
         public let hsmId: String?
@@ -521,12 +440,6 @@ extension CloudHSMV2 {
     }
 
     public struct DescribeBackupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .map), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortAscending", required: false, type: .boolean)
-        ]
 
         /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
         public let filters: [String: [String]]?
@@ -563,10 +476,6 @@ extension CloudHSMV2 {
     }
 
     public struct DescribeBackupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of backups.
         public let backups: [Backup]?
@@ -585,11 +494,6 @@ extension CloudHSMV2 {
     }
 
     public struct DescribeClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .map), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// One or more filters to limit the items returned in the response. Use the clusterIds filter to return only the specified clusters. Specify clusters by their cluster identifier (ID). Use the vpcIds filter to return only the clusters in the specified virtual private clouds (VPCs). Specify VPCs by their VPC identifier (ID). Use the states filter to return only clusters that match the specified state.
         public let filters: [String: [String]]?
@@ -622,10 +526,6 @@ extension CloudHSMV2 {
     }
 
     public struct DescribeClustersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Clusters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of clusters.
         public let clusters: [Cluster]?
@@ -644,12 +544,6 @@ extension CloudHSMV2 {
     }
 
     public struct DestinationBackup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceBackup", required: false, type: .string), 
-            AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
-            AWSShapeMember(label: "SourceRegion", required: false, type: .string)
-        ]
 
         /// The date and time when both the source backup was created.
         public let createTimestamp: TimeStamp?
@@ -676,16 +570,6 @@ extension CloudHSMV2 {
     }
 
     public struct Hsm: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "EniId", required: false, type: .string), 
-            AWSShapeMember(label: "EniIp", required: false, type: .string), 
-            AWSShapeMember(label: "HsmId", required: true, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string)
-        ]
 
         /// The Availability Zone that contains the HSM.
         public let availabilityZone: String?
@@ -728,11 +612,6 @@ extension CloudHSMV2 {
     }
 
     public struct InitializeClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "SignedCert", required: true, type: .string), 
-            AWSShapeMember(label: "TrustAnchor", required: true, type: .string)
-        ]
 
         /// The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters.
         public let clusterId: String
@@ -763,10 +642,6 @@ extension CloudHSMV2 {
     }
 
     public struct InitializeClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateMessage", required: false, type: .string)
-        ]
 
         /// The cluster's state.
         public let state: ClusterState?
@@ -785,11 +660,6 @@ extension CloudHSMV2 {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
 
         /// The maximum number of tags to return in the response. When there are more tags than the number you specify, the response contains a NextToken value.
         public let maxResults: Int?
@@ -820,10 +690,6 @@ extension CloudHSMV2 {
     }
 
     public struct ListTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
 
         /// An opaque string that indicates that the response contains only a subset of tags. Use this value in a subsequent ListTags request to get more tags.
         public let nextToken: String?
@@ -842,9 +708,6 @@ extension CloudHSMV2 {
     }
 
     public struct RestoreBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
-        ]
 
         /// The ID of the backup to be restored. To find the ID of a backup, use the DescribeBackups operation.
         public let backupId: String
@@ -863,9 +726,6 @@ extension CloudHSMV2 {
     }
 
     public struct RestoreBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
-        ]
 
         /// Information on the Backup object created.
         public let backup: Backup?
@@ -880,10 +740,6 @@ extension CloudHSMV2 {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The key of the tag.
         public let key: String
@@ -911,10 +767,6 @@ extension CloudHSMV2 {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
 
         /// The cluster identifier (ID) for the cluster that you are tagging. To find the cluster ID, use DescribeClusters.
         public let resourceId: String
@@ -950,10 +802,6 @@ extension CloudHSMV2 {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list)
-        ]
 
         /// The cluster identifier (ID) for the cluster whose tags you are removing. To find the cluster ID, use DescribeClusters.
         public let resourceId: String

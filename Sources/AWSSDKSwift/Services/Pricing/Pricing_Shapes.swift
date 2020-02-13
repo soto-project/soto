@@ -14,9 +14,6 @@ extension Pricing {
     //MARK: Shapes
 
     public struct AttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The specific value of an attributeName.
         public let value: String?
@@ -31,12 +28,6 @@ extension Pricing {
     }
 
     public struct DescribeServicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceCode", required: false, type: .string)
-        ]
 
         /// The format version that you want the response to be in. Valid values are: aws_v1 
         public let formatVersion: String?
@@ -68,11 +59,6 @@ extension Pricing {
     }
 
     public struct DescribeServicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Services", required: false, type: .list)
-        ]
 
         /// The format version of the response. For example, aws_v1.
         public let formatVersion: String?
@@ -95,11 +81,6 @@ extension Pricing {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Field", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes.
         public let field: String
@@ -122,12 +103,6 @@ extension Pricing {
     }
 
     public struct GetAttributeValuesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceCode", required: true, type: .string)
-        ]
 
         /// The name of the attribute that you want to retrieve the values for, such as volumeType.
         public let attributeName: String
@@ -159,10 +134,6 @@ extension Pricing {
     }
 
     public struct GetAttributeValuesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeValues", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of values for an attribute. For example, Throughput Optimized HDD and Provisioned IOPS are two available values for the AmazonEC2 volumeType.
         public let attributeValues: [AttributeValue]?
@@ -181,13 +152,6 @@ extension Pricing {
     }
 
     public struct GetProductsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceCode", required: false, type: .string)
-        ]
 
         /// The list of filters that limit the returned products. only products that match all filters are returned.
         public let filters: [Filter]?
@@ -223,11 +187,6 @@ extension Pricing {
     }
 
     public struct GetProductsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FormatVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PriceList", required: false, type: .list)
-        ]
 
         /// The format version of the response. For example, aws_v1.
         public let formatVersion: String?
@@ -250,10 +209,6 @@ extension Pricing {
     }
 
     public struct Service: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceCode", required: false, type: .string)
-        ]
 
         /// The attributes that are available for this service.
         public let attributeNames: [String]?

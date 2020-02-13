@@ -44,11 +44,6 @@ extension AppConfig {
     //MARK: Shapes
 
     public struct Application: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The description of the application.
         public let description: String?
@@ -71,10 +66,6 @@ extension AppConfig {
     }
 
     public struct Applications: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The elements from this collection.
         public let items: [Application]?
@@ -96,9 +87,9 @@ extension AppConfig {
         /// The key for the payload
         public static let payloadPath: String? = "Content"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationVersion", location: .header(locationName: "Configuration-Version"), required: false, type: .string), 
-            AWSShapeMember(label: "Content", required: false, type: .blob), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string)
+            AWSShapeMember(label: "ConfigurationVersion", location: .header(locationName: "Configuration-Version")), 
+            AWSShapeMember(label: "Content", encoding: .blob), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"))
         ]
 
         /// The configuration version.
@@ -122,15 +113,6 @@ extension AppConfig {
     }
 
     public struct ConfigurationProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RetrievalRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Validators", required: false, type: .list)
-        ]
 
         /// The application ID.
         public let applicationId: String?
@@ -169,13 +151,6 @@ extension AppConfig {
     }
 
     public struct ConfigurationProfileSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ValidatorTypes", required: false, type: .list)
-        ]
 
         /// The application ID.
         public let applicationId: String?
@@ -206,10 +181,6 @@ extension AppConfig {
     }
 
     public struct ConfigurationProfiles: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The elements from this collection.
         public let items: [ConfigurationProfileSummary]?
@@ -228,11 +199,6 @@ extension AppConfig {
     }
 
     public struct CreateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// A description of the application.
         public let description: String?
@@ -268,13 +234,7 @@ extension AppConfig {
 
     public struct CreateConfigurationProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RetrievalRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Validators", required: false, type: .list)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"))
         ]
 
         /// The application ID.
@@ -337,16 +297,6 @@ extension AppConfig {
     }
 
     public struct CreateDeploymentStrategyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentDurationInMinutes", required: true, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FinalBakeTimeInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "GrowthFactor", required: true, type: .float), 
-            AWSShapeMember(label: "GrowthType", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicateTo", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// Total amount of time for a deployment to last.
         public let deploymentDurationInMinutes: Int
@@ -408,11 +358,7 @@ extension AppConfig {
 
     public struct CreateEnvironmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Monitors", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"))
         ]
 
         /// The application ID.
@@ -463,7 +409,7 @@ extension AppConfig {
 
     public struct DeleteApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"))
         ]
 
         /// The ID of the application to delete.
@@ -484,8 +430,8 @@ extension AppConfig {
 
     public struct DeleteConfigurationProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
         ]
 
         /// The application ID that includes the configuration profile you want to delete.
@@ -511,7 +457,7 @@ extension AppConfig {
 
     public struct DeleteDeploymentStrategyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"), required: true, type: .string)
+            AWSShapeMember(label: "DeploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
         ]
 
         /// The ID of the deployment strategy you want to delete.
@@ -532,8 +478,8 @@ extension AppConfig {
 
     public struct DeleteEnvironmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"))
         ]
 
         /// The application ID that includes the environment you want to delete.
@@ -558,25 +504,6 @@ extension AppConfig {
     }
 
     public struct Deployment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "CompletedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ConfigurationLocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationProfileId", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentDurationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "DeploymentNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "DeploymentStrategyId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "FinalBakeTimeInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "GrowthFactor", required: false, type: .float), 
-            AWSShapeMember(label: "GrowthType", required: false, type: .enum), 
-            AWSShapeMember(label: "PercentageComplete", required: false, type: .float), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The ID of the application that was deployed.
         public let applicationId: String?
@@ -655,10 +582,6 @@ extension AppConfig {
     }
 
     public struct DeploymentStrategies: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The elements from this collection.
         public let items: [DeploymentStrategy]?
@@ -677,16 +600,6 @@ extension AppConfig {
     }
 
     public struct DeploymentStrategy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentDurationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FinalBakeTimeInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "GrowthFactor", required: false, type: .float), 
-            AWSShapeMember(label: "GrowthType", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicateTo", required: false, type: .enum)
-        ]
 
         /// Total amount of time the deployment lasted.
         public let deploymentDurationInMinutes: Int?
@@ -729,19 +642,6 @@ extension AppConfig {
     }
 
     public struct DeploymentSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentDurationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "DeploymentNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "FinalBakeTimeInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "GrowthFactor", required: false, type: .float), 
-            AWSShapeMember(label: "GrowthType", required: false, type: .enum), 
-            AWSShapeMember(label: "PercentageComplete", required: false, type: .float), 
-            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// Time the deployment completed.
         public let completedAt: TimeStamp?
@@ -796,10 +696,6 @@ extension AppConfig {
     }
 
     public struct Deployments: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The elements from this collection.
         public let items: [DeploymentSummary]?
@@ -818,14 +714,6 @@ extension AppConfig {
     }
 
     public struct Environment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Monitors", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The application ID.
         public let applicationId: String?
@@ -860,10 +748,6 @@ extension AppConfig {
     }
 
     public struct Environments: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The elements from this collection.
         public let items: [Environment]?
@@ -883,7 +767,7 @@ extension AppConfig {
 
     public struct GetApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"))
         ]
 
         /// The ID of the application you want to get.
@@ -904,8 +788,8 @@ extension AppConfig {
 
     public struct GetConfigurationProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
         ]
 
         /// The ID of the application that includes the configuration profile you want to get.
@@ -931,11 +815,11 @@ extension AppConfig {
 
     public struct GetConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Application", location: .uri(locationName: "Application"), required: true, type: .string), 
-            AWSShapeMember(label: "ClientConfigurationVersion", location: .querystring(locationName: "client_configuration_version"), required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", location: .querystring(locationName: "client_id"), required: true, type: .string), 
-            AWSShapeMember(label: "Configuration", location: .uri(locationName: "Configuration"), required: true, type: .string), 
-            AWSShapeMember(label: "Environment", location: .uri(locationName: "Environment"), required: true, type: .string)
+            AWSShapeMember(label: "Application", location: .uri(locationName: "Application")), 
+            AWSShapeMember(label: "ClientConfigurationVersion", location: .querystring(locationName: "client_configuration_version")), 
+            AWSShapeMember(label: "ClientId", location: .querystring(locationName: "client_id")), 
+            AWSShapeMember(label: "Configuration", location: .uri(locationName: "Configuration")), 
+            AWSShapeMember(label: "Environment", location: .uri(locationName: "Environment"))
         ]
 
         /// The application to get.
@@ -981,9 +865,9 @@ extension AppConfig {
 
     public struct GetDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentNumber", location: .uri(locationName: "DeploymentNumber"), required: true, type: .integer), 
-            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "DeploymentNumber", location: .uri(locationName: "DeploymentNumber")), 
+            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"))
         ]
 
         /// The ID of the application that includes the deployment you want to get. 
@@ -1013,7 +897,7 @@ extension AppConfig {
 
     public struct GetDeploymentStrategyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"), required: true, type: .string)
+            AWSShapeMember(label: "DeploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
         ]
 
         /// The ID of the deployment strategy to get.
@@ -1034,8 +918,8 @@ extension AppConfig {
 
     public struct GetEnvironmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"))
         ]
 
         /// The ID of the application that includes the environment you want to get.
@@ -1061,8 +945,8 @@ extension AppConfig {
 
     public struct ListApplicationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -1090,9 +974,9 @@ extension AppConfig {
 
     public struct ListConfigurationProfilesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The application ID.
@@ -1125,8 +1009,8 @@ extension AppConfig {
 
     public struct ListDeploymentStrategiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -1154,10 +1038,10 @@ extension AppConfig {
 
     public struct ListDeploymentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The application ID.
@@ -1195,9 +1079,9 @@ extension AppConfig {
 
     public struct ListEnvironmentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max_results")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The application ID.
@@ -1230,7 +1114,7 @@ extension AppConfig {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The resource ARN.
@@ -1252,10 +1136,6 @@ extension AppConfig {
     }
 
     public struct Monitor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmArn", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmRoleArn", required: false, type: .string)
-        ]
 
         /// ARN of the Amazon CloudWatch alarm.
         public let alarmArn: String?
@@ -1283,9 +1163,6 @@ extension AppConfig {
     }
 
     public struct ResourceTags: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// Metadata to assign to AppConfig resources. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
@@ -1301,13 +1178,8 @@ extension AppConfig {
 
     public struct StartDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationProfileId", required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationVersion", required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentStrategyId", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"))
         ]
 
         /// The application ID.
@@ -1364,9 +1236,9 @@ extension AppConfig {
 
     public struct StopDeploymentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeploymentNumber", location: .uri(locationName: "DeploymentNumber"), required: true, type: .integer), 
-            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "DeploymentNumber", location: .uri(locationName: "DeploymentNumber")), 
+            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"))
         ]
 
         /// The application ID.
@@ -1396,8 +1268,7 @@ extension AppConfig {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The ARN of the resource for which to retrieve tags.
@@ -1429,8 +1300,8 @@ extension AppConfig {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn")), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource for which to remove tags.
@@ -1463,9 +1334,7 @@ extension AppConfig {
 
     public struct UpdateApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"))
         ]
 
         /// The application ID.
@@ -1498,12 +1367,8 @@ extension AppConfig {
 
     public struct UpdateConfigurationProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RetrievalRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Validators", required: false, type: .list)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
         ]
 
         /// The application ID.
@@ -1557,12 +1422,7 @@ extension AppConfig {
 
     public struct UpdateDeploymentStrategyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentDurationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "DeploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FinalBakeTimeInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "GrowthFactor", required: false, type: .float), 
-            AWSShapeMember(label: "GrowthType", required: false, type: .enum)
+            AWSShapeMember(label: "DeploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
         ]
 
         /// Total amount of time for a deployment to last.
@@ -1611,11 +1471,8 @@ extension AppConfig {
 
     public struct UpdateEnvironmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Monitors", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "EnvironmentId", location: .uri(locationName: "EnvironmentId"))
         ]
 
         /// The application ID.
@@ -1662,9 +1519,9 @@ extension AppConfig {
 
     public struct ValidateConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationVersion", location: .querystring(locationName: "configuration_version"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "ApplicationId")), 
+            AWSShapeMember(label: "ConfigurationProfileId", location: .uri(locationName: "ConfigurationProfileId")), 
+            AWSShapeMember(label: "ConfigurationVersion", location: .querystring(locationName: "configuration_version"))
         ]
 
         /// The application ID.
@@ -1695,10 +1552,6 @@ extension AppConfig {
     }
 
     public struct Validator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// Either the JSON Schema content or an AWS Lambda function name.
         public let content: String

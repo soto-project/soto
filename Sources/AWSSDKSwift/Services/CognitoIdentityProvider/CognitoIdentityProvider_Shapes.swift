@@ -257,9 +257,6 @@ extension CognitoIdentityProvider {
     //MARK: Shapes
 
     public struct AccountRecoverySettingType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecoveryMechanisms", required: false, type: .list)
-        ]
 
         /// The list of RecoveryOptionTypes.
         public let recoveryMechanisms: [RecoveryOptionType]?
@@ -282,10 +279,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AccountTakeoverActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventAction", required: true, type: .enum), 
-            AWSShapeMember(label: "Notify", required: true, type: .boolean)
-        ]
 
         /// The event action.    BLOCK Choosing this action will block the request.    MFA_IF_CONFIGURED Throw MFA challenge if user has configured it, else allow the request.    MFA_REQUIRED Throw MFA challenge if user has configured it, else block the request.    NO_ACTION Allow the user sign-in.  
         public let eventAction: AccountTakeoverEventActionType
@@ -304,11 +297,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AccountTakeoverActionsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HighAction", required: false, type: .structure), 
-            AWSShapeMember(label: "LowAction", required: false, type: .structure), 
-            AWSShapeMember(label: "MediumAction", required: false, type: .structure)
-        ]
 
         /// Action to take for a high risk.
         public let highAction: AccountTakeoverActionType?
@@ -331,10 +319,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AccountTakeoverRiskConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .structure), 
-            AWSShapeMember(label: "NotifyConfiguration", required: false, type: .structure)
-        ]
 
         /// Account takeover risk configuration actions
         public let actions: AccountTakeoverActionsType
@@ -357,10 +341,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AddCustomAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAttributes", required: true, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// An array of custom attributes, such as Mutable and Name.
         public let customAttributes: [SchemaAttributeType]
@@ -398,11 +378,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminAddUserToGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The group name.
         public let groupName: String
@@ -437,11 +412,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminConfirmSignUpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  If your user pool configuration includes triggers, the AdminConfirmSignUp API action invokes the AWS Lambda function that is specified for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. In this payload, the clientMetadata attribute provides the data that you assigned to the ClientMetadata parameter in your AdminConfirmSignUp request. In your function code in AWS Lambda, you can process the ClientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -481,11 +451,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminCreateUserConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowAdminCreateUserOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "InviteMessageTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "UnusedAccountValidityDays", required: false, type: .integer)
-        ]
 
         /// Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
         public let allowAdminCreateUserOnly: Bool?
@@ -514,17 +479,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminCreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "DesiredDeliveryMediums", required: false, type: .list), 
-            AWSShapeMember(label: "ForceAliasCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "MessageAction", required: false, type: .enum), 
-            AWSShapeMember(label: "TemporaryPassword", required: false, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ValidationData", required: false, type: .list)
-        ]
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -589,9 +543,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminCreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// The newly created user.
         public let user: UserType?
@@ -606,11 +557,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminDeleteUserAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserAttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
         public let userAttributeNames: [String]
@@ -655,10 +601,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminDeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user name of the user you wish to delete.
         public let username: String
@@ -686,10 +628,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminDisableProviderForUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: true, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user to be disabled.
         public let user: ProviderUserIdentifierType
@@ -720,10 +658,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminDisableUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user name of the user you wish to disable.
         public let username: String
@@ -759,10 +693,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminEnableUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user name of the user you wish to enable.
         public let username: String
@@ -798,11 +728,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminForgetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The device key.
         public let deviceKey: String
@@ -837,11 +762,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminGetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The device key.
         public let deviceKey: String
@@ -876,9 +796,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminGetDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: true, type: .structure)
-        ]
 
         /// The device.
         public let device: DeviceType
@@ -893,10 +810,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminGetUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user name of the user you wish to retrieve.
         public let username: String
@@ -924,17 +837,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminGetUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
-            AWSShapeMember(label: "PreferredMfaSetting", required: false, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "UserCreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserLastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserMFASettingList", required: false, type: .list), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserStatus", required: false, type: .enum)
-        ]
 
         /// Indicates that the status is enabled.
         public let enabled: Bool?
@@ -981,15 +883,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminInitiateAuthRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "AuthFlow", required: true, type: .enum), 
-            AWSShapeMember(label: "AuthParameters", required: false, type: .map), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "ContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -1037,12 +930,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminInitiateAuthResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map), 
-            AWSShapeMember(label: "Session", required: false, type: .string)
-        ]
 
         /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
         public let authenticationResult: AuthenticationResultType?
@@ -1069,11 +956,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminLinkProviderForUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationUser", required: true, type: .structure), 
-            AWSShapeMember(label: "SourceUser", required: true, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The existing user in the user pool to be linked to the external identity provider user account. Can be a native (Username + Password) Cognito User Pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, an exception is thrown. This is the user that is returned when the new user (with the linked identity provider attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.
         public let destinationUser: ProviderUserIdentifierType
@@ -1109,12 +991,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The limit of the devices request.
         public let limit: Int?
@@ -1154,10 +1030,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListDevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Devices", required: false, type: .list), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
-        ]
 
         /// The devices in the list of devices response.
         public let devices: [DeviceType]?
@@ -1176,12 +1048,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListGroupsForUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The limit of the request to list groups.
         public let limit: Int?
@@ -1221,10 +1087,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListGroupsForUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The groups that the user belongs to.
         public let groups: [GroupType]?
@@ -1243,12 +1105,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListUserAuthEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The maximum number of authentication events to return.
         public let maxResults: Int?
@@ -1288,10 +1144,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListUserAuthEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthEvents", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The response object. It includes the EventID, EventType, CreationDate, EventRisk, and EventResponse.
         public let authEvents: [AuthEventType]?
@@ -1310,11 +1162,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminRemoveUserFromGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The group name.
         public let groupName: String
@@ -1349,11 +1196,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminResetUserPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -1393,16 +1235,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminRespondToAuthChallengeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: true, type: .enum), 
-            AWSShapeMember(label: "ChallengeResponses", required: false, type: .map), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "ContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -1456,12 +1288,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminRespondToAuthChallengeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map), 
-            AWSShapeMember(label: "Session", required: false, type: .string)
-        ]
 
         /// The result returned by the server in response to the authentication request.
         public let authenticationResult: AuthenticationResultType?
@@ -1488,12 +1314,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminSetUserMFAPreferenceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SMSMfaSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "SoftwareTokenMfaSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The SMS text message MFA settings.
         public let sMSMfaSettings: SMSMfaSettingsType?
@@ -1537,12 +1357,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminSetUserPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "Permanent", required: false, type: .boolean), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The password for the user.
         public let password: String
@@ -1589,11 +1403,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminSetUserSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFAOptions", required: true, type: .list), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// You can use this parameter only to set an SMS configuration that uses SMS for delivery.
         public let mFAOptions: [MFAOptionType]
@@ -1636,12 +1445,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminUpdateAuthEventFeedbackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventId", required: true, type: .string), 
-            AWSShapeMember(label: "FeedbackValue", required: true, type: .enum), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The authentication event ID.
         public let eventId: String
@@ -1688,12 +1491,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminUpdateDeviceStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceRememberedStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The device key.
         public let deviceKey: String
@@ -1740,12 +1537,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminUpdateUserAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "UserAttributes", required: true, type: .list), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -1792,10 +1583,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminUserGlobalSignOutRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user name.
         public let username: String
@@ -1831,12 +1618,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AnalyticsConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
-            AWSShapeMember(label: "ExternalId", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "UserDataShared", required: false, type: .boolean)
-        ]
 
         /// The application ID for an Amazon Pinpoint application.
         public let applicationId: String
@@ -1870,9 +1651,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AnalyticsMetadataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsEndpointId", required: false, type: .string)
-        ]
 
         /// The endpoint ID.
         public let analyticsEndpointId: String?
@@ -1887,10 +1665,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AssociateSoftwareTokenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "Session", required: false, type: .string)
-        ]
 
         /// The access token.
         public let accessToken: String?
@@ -1915,10 +1689,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AssociateSoftwareTokenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretCode", required: false, type: .string), 
-            AWSShapeMember(label: "Session", required: false, type: .string)
-        ]
 
         /// A unique generated shared secret code that is used in the TOTP algorithm to generate a one time code.
         public let secretCode: String?
@@ -1937,10 +1707,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AttributeType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The name of the attribute.
         public let name: String
@@ -1966,16 +1732,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AuthEventType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChallengeResponses", required: false, type: .list), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "EventFeedback", required: false, type: .structure), 
-            AWSShapeMember(label: "EventId", required: false, type: .string), 
-            AWSShapeMember(label: "EventResponse", required: false, type: .enum), 
-            AWSShapeMember(label: "EventRisk", required: false, type: .structure), 
-            AWSShapeMember(label: "EventType", required: false, type: .enum)
-        ]
 
         /// The challenge responses.
         public let challengeResponses: [ChallengeResponseType]?
@@ -2018,14 +1774,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct AuthenticationResultType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "ExpiresIn", required: false, type: .integer), 
-            AWSShapeMember(label: "IdToken", required: false, type: .string), 
-            AWSShapeMember(label: "NewDeviceMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "RefreshToken", required: false, type: .string), 
-            AWSShapeMember(label: "TokenType", required: false, type: .string)
-        ]
 
         /// The access token.
         public let accessToken: String?
@@ -2060,10 +1808,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ChallengeResponseType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeResponse", required: false, type: .enum)
-        ]
 
         /// The challenge name
         public let challengeName: ChallengeName?
@@ -2082,11 +1826,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ChangePasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "PreviousPassword", required: true, type: .string), 
-            AWSShapeMember(label: "ProposedPassword", required: true, type: .string)
-        ]
 
         /// The access token.
         public let accessToken: String
@@ -2127,11 +1866,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CodeDeliveryDetailsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryMedium", required: false, type: .enum), 
-            AWSShapeMember(label: "Destination", required: false, type: .string)
-        ]
 
         /// The attribute name.
         public let attributeName: String?
@@ -2154,9 +1888,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CompromisedCredentialsActionsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventAction", required: true, type: .enum)
-        ]
 
         /// The event action.
         public let eventAction: CompromisedCredentialsEventActionType
@@ -2171,10 +1902,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CompromisedCredentialsRiskConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .structure), 
-            AWSShapeMember(label: "EventFilter", required: false, type: .list)
-        ]
 
         /// The compromised credentials risk configuration actions.
         public let actions: CompromisedCredentialsActionsType
@@ -2193,12 +1920,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ConfirmDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceSecretVerifierConfig", required: false, type: .structure)
-        ]
 
         /// The access token.
         public let accessToken: String
@@ -2234,9 +1955,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ConfirmDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserConfirmationNecessary", required: false, type: .boolean)
-        ]
 
         /// Indicates whether the user confirmation is necessary to confirm the device response.
         public let userConfirmationNecessary: Bool?
@@ -2251,16 +1969,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ConfirmForgotPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "ConfirmationCode", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -2329,16 +2037,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ConfirmSignUpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "ConfirmationCode", required: true, type: .string), 
-            AWSShapeMember(label: "ForceAliasCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmSignUp calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -2404,13 +2102,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ContextDataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncodedData", required: false, type: .string), 
-            AWSShapeMember(label: "HttpHeaders", required: true, type: .list), 
-            AWSShapeMember(label: "IpAddress", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerPath", required: true, type: .string)
-        ]
 
         /// Encoded data containing device fingerprinting details, collected using the Amazon Cognito context data collection library.
         public let encodedData: String?
@@ -2441,13 +2132,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// A string containing the description of the group.
         public let description: String?
@@ -2492,9 +2176,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
 
         /// The group object for the group.
         public let group: GroupType?
@@ -2509,14 +2190,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
-            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "ProviderDetails", required: true, type: .map), 
-            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// A mapping of identity provider attributes to standard and custom user pool attributes.
         public let attributeMapping: [String: String]?
@@ -2571,9 +2244,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateIdentityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
-        ]
 
         /// The newly created identity provider object.
         public let identityProvider: IdentityProviderType
@@ -2588,12 +2258,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateResourceServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scopes", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// A unique resource server identifier for the resource server. This could be an HTTPS endpoint where the resource server is located. For example, https://my-weather-api.example.com.
         public let identifier: String
@@ -2636,9 +2300,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateResourceServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
-        ]
 
         /// The newly created resource server.
         public let resourceServer: ResourceServerType
@@ -2653,11 +2314,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
         public let cloudWatchLogsRoleArn: String
@@ -2692,9 +2348,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -2709,24 +2362,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
-            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CallbackURLs", required: false, type: .list), 
-            AWSShapeMember(label: "ClientName", required: true, type: .string), 
-            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
-            AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "GenerateSecret", required: false, type: .boolean), 
-            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
-            AWSShapeMember(label: "PreventUserExistenceErrors", required: false, type: .enum), 
-            AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
-            AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "WriteAttributes", required: false, type: .list)
-        ]
 
         /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
         public let allowedOAuthFlows: [OAuthFlowType]?
@@ -2851,9 +2486,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
-        ]
 
         /// The user pool client that was just created.
         public let userPoolClient: UserPoolClientType?
@@ -2868,11 +2500,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomDomainConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Domain", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
         public let customDomainConfig: CustomDomainConfigType?
@@ -2905,9 +2532,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFrontDomain", required: false, type: .string)
-        ]
 
         /// The Amazon CloudFront endpoint that you use as the target of the alias that you set up with your Domain Name Service (DNS) provider.
         public let cloudFrontDomain: String?
@@ -2922,28 +2546,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountRecoverySetting", required: false, type: .structure), 
-            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "AliasAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "PoolName", required: true, type: .string), 
-            AWSShapeMember(label: "Schema", required: false, type: .list), 
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "UsernameAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
-            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure)
-        ]
 
         /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.  Starting February 1, 2020, the value of AccountRecoverySetting will default to verified_email first and verified_phone_number as the second option for newly created user pools if no value is provided. 
         public let accountRecoverySetting: AccountRecoverySettingType?
@@ -3070,9 +2672,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPool", required: false, type: .structure)
-        ]
 
         /// A container for the user pool details.
         public let userPool: UserPoolType?
@@ -3087,9 +2686,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct CustomDomainConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an AWS Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         public let certificateArn: String
@@ -3110,10 +2706,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The name of the group.
         public let groupName: String
@@ -3141,10 +2733,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The identity provider name.
         public let providerName: String
@@ -3172,10 +2760,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteResourceServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The identifier for the resource server.
         public let identifier: String
@@ -3203,10 +2787,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "UserAttributeNames", required: true, type: .list)
-        ]
 
         /// The access token used in the request to delete user attributes.
         public let accessToken: String
@@ -3242,10 +2822,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserPoolClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The app client ID of the app associated with the user pool.
         public let clientId: String
@@ -3273,10 +2849,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserPoolDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The domain string.
         public let domain: String
@@ -3312,9 +2884,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user pool ID for the user pool you want to delete.
         public let userPoolId: String
@@ -3335,9 +2904,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
 
         /// The access token from a request to delete a user.
         public let accessToken: String
@@ -3356,10 +2922,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The identity provider name.
         public let providerName: String
@@ -3387,9 +2949,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeIdentityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
-        ]
 
         /// The identity provider that was deleted.
         public let identityProvider: IdentityProviderType
@@ -3404,10 +2963,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeResourceServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The identifier for the resource server
         public let identifier: String
@@ -3435,9 +2990,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeResourceServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
-        ]
 
         /// The resource server.
         public let resourceServer: ResourceServerType
@@ -3452,10 +3004,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeRiskConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The app client ID.
         public let clientId: String?
@@ -3483,9 +3031,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeRiskConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RiskConfiguration", required: true, type: .structure)
-        ]
 
         /// The risk configuration.
         public let riskConfiguration: RiskConfigurationType
@@ -3500,10 +3045,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The job ID for the user import job.
         public let jobId: String
@@ -3531,9 +3072,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -3548,10 +3086,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The app client ID of the app associated with the user pool.
         public let clientId: String
@@ -3579,9 +3113,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
-        ]
 
         /// The user pool client from a server response to describe the user pool client.
         public let userPoolClient: UserPoolClientType?
@@ -3596,9 +3127,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string)
-        ]
 
         /// The domain string.
         public let domain: String
@@ -3619,9 +3147,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainDescription", required: false, type: .structure)
-        ]
 
         /// A domain description object containing information about the domain.
         public let domainDescription: DomainDescriptionType?
@@ -3636,9 +3161,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user pool ID for the user pool you want to describe.
         public let userPoolId: String
@@ -3659,9 +3181,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPool", required: false, type: .structure)
-        ]
 
         /// The container of metadata returned by the server to describe the pool.
         public let userPool: UserPoolType?
@@ -3676,10 +3195,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeviceConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChallengeRequiredOnNewDevice", required: false, type: .boolean), 
-            AWSShapeMember(label: "DeviceOnlyRememberedOnUserPrompt", required: false, type: .boolean)
-        ]
 
         /// Indicates whether a challenge is required on a new device. Only applicable to a new device.
         public let challengeRequiredOnNewDevice: Bool?
@@ -3698,10 +3213,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeviceSecretVerifierConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordVerifier", required: false, type: .string), 
-            AWSShapeMember(label: "Salt", required: false, type: .string)
-        ]
 
         /// The password verifier.
         public let passwordVerifier: String?
@@ -3720,13 +3231,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeviceType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "DeviceCreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeviceKey", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceLastAuthenticatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp)
-        ]
 
         /// The device attributes.
         public let deviceAttributes: [AttributeType]?
@@ -3757,16 +3261,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct DomainDescriptionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AWSAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "CloudFrontDistribution", required: false, type: .string), 
-            AWSShapeMember(label: "CustomDomainConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
 
         /// The AWS account ID for the user pool owner.
         public let aWSAccountId: String?
@@ -3809,13 +3303,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct EmailConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSet", required: false, type: .string), 
-            AWSShapeMember(label: "EmailSendingAccount", required: false, type: .enum), 
-            AWSShapeMember(label: "From", required: false, type: .string), 
-            AWSShapeMember(label: "ReplyToEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string)
-        ]
 
         /// The set of configuration rules that can be applied to emails sent using Amazon SES. A configuration set is applied to an email by including a reference to the configuration set in the headers of the email. Once applied, all of the rules in that configuration set are applied to the email. Configuration sets can be used to apply the following types of rules to emails:    Event publishing – Amazon SES can track the number of send, delivery, open, click, bounce, and complaint events for each email sent. Use event publishing to send information about these events to other AWS services such as SNS and CloudWatch.   IP pool management – When leasing dedicated IP addresses with Amazon SES, you can create groups of IP addresses, called dedicated IP pools. You can then associate the dedicated IP pools with configuration sets.  
         public let configurationSet: String?
@@ -3856,13 +3343,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct EventContextDataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "City", required: false, type: .string), 
-            AWSShapeMember(label: "Country", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string)
-        ]
 
         /// The user's city.
         public let city: String?
@@ -3893,11 +3373,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct EventFeedbackType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeedbackDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FeedbackValue", required: true, type: .enum), 
-            AWSShapeMember(label: "Provider", required: true, type: .string)
-        ]
 
         /// The event feedback date.
         public let feedbackDate: TimeStamp?
@@ -3920,10 +3395,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct EventRiskType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RiskDecision", required: false, type: .enum), 
-            AWSShapeMember(label: "RiskLevel", required: false, type: .enum)
-        ]
 
         /// The risk decision.
         public let riskDecision: RiskDecisionType?
@@ -3942,10 +3413,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ForgetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string)
-        ]
 
         /// The access token for the forgotten device request.
         public let accessToken: String?
@@ -3971,14 +3438,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ForgotPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ForgotPassword calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -4025,9 +3484,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ForgotPasswordResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
-        ]
 
         /// The code delivery details returned by the server in response to the request to reset a password.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -4042,9 +3498,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetCSVHeaderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user pool ID for the user pool that the users are to be imported into.
         public let userPoolId: String
@@ -4065,10 +3518,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetCSVHeaderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSVHeader", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// The header information for the .csv file for the user import job.
         public let cSVHeader: [String]?
@@ -4087,10 +3536,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string)
-        ]
 
         /// The access token.
         public let accessToken: String?
@@ -4116,9 +3561,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: true, type: .structure)
-        ]
 
         /// The device.
         public let device: DeviceType
@@ -4133,10 +3575,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The name of the group.
         public let groupName: String
@@ -4164,9 +3602,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
 
         /// The group object for the group.
         public let group: GroupType?
@@ -4181,10 +3616,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetIdentityProviderByIdentifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdpIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The identity provider ID.
         public let idpIdentifier: String
@@ -4212,9 +3643,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetIdentityProviderByIdentifierResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
-        ]
 
         /// The identity provider object.
         public let identityProvider: IdentityProviderType
@@ -4229,9 +3657,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetSigningCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user pool ID.
         public let userPoolId: String
@@ -4252,9 +3677,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetSigningCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string)
-        ]
 
         /// The signing certificate.
         public let certificate: String?
@@ -4269,10 +3691,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUICustomizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The client ID for the client app.
         public let clientId: String?
@@ -4300,9 +3718,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUICustomizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UICustomization", required: true, type: .structure)
-        ]
 
         /// The UI customization information.
         public let uICustomization: UICustomizationType
@@ -4317,11 +3732,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserAttributeVerificationCodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map)
-        ]
 
         /// The access token returned by the server response to get the user attribute verification code.
         public let accessToken: String
@@ -4351,9 +3761,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserAttributeVerificationCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
-        ]
 
         /// The code delivery details returned by the server in response to the request to get the user attribute verification code.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -4368,9 +3775,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserPoolMfaConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The user pool ID.
         public let userPoolId: String
@@ -4391,11 +3795,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserPoolMfaConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure)
-        ]
 
         /// The multi-factor (MFA) configuration. Valid values include:    OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.  
         public let mfaConfiguration: UserPoolMfaType?
@@ -4418,9 +3817,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
 
         /// The access token returned by the server response to get information about the user.
         public let accessToken: String
@@ -4439,13 +3835,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
-            AWSShapeMember(label: "PreferredMfaSetting", required: false, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: true, type: .list), 
-            AWSShapeMember(label: "UserMFASettingList", required: false, type: .list), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         ///  This response parameter is no longer supported. It provides information only about SMS MFA configurations. It doesn't provide information about TOTP software token MFA configurations. To look up information about either type of MFA configuration, use the use the GetUserResponse$UserMFASettingList response instead.
         public let mFAOptions: [MFAOptionType]?
@@ -4476,9 +3865,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GlobalSignOutRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
 
         /// The access token.
         public let accessToken: String
@@ -4505,15 +3891,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct GroupType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// The date the group was created.
         public let creationDate: TimeStamp?
@@ -4552,10 +3929,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct HttpHeader: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "headerName", required: false, type: .string), 
-            AWSShapeMember(label: "headerValue", required: false, type: .string)
-        ]
 
         /// The header name
         public let headerName: String?
@@ -4574,16 +3947,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct IdentityProviderType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProviderDetails", required: false, type: .map), 
-            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// A mapping of identity provider attributes to standard and custom user pool attributes.
         public let attributeMapping: [String: String]?
@@ -4626,14 +3989,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct InitiateAuthRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "AuthFlow", required: true, type: .enum), 
-            AWSShapeMember(label: "AuthParameters", required: false, type: .map), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure)
-        ]
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -4674,12 +4029,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct InitiateAuthResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map), 
-            AWSShapeMember(label: "Session", required: false, type: .string)
-        ]
 
         /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
         public let authenticationResult: AuthenticationResultType?
@@ -4706,18 +4055,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct LambdaConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateAuthChallenge", required: false, type: .string), 
-            AWSShapeMember(label: "CustomMessage", required: false, type: .string), 
-            AWSShapeMember(label: "DefineAuthChallenge", required: false, type: .string), 
-            AWSShapeMember(label: "PostAuthentication", required: false, type: .string), 
-            AWSShapeMember(label: "PostConfirmation", required: false, type: .string), 
-            AWSShapeMember(label: "PreAuthentication", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignUp", required: false, type: .string), 
-            AWSShapeMember(label: "PreTokenGeneration", required: false, type: .string), 
-            AWSShapeMember(label: "UserMigration", required: false, type: .string), 
-            AWSShapeMember(label: "VerifyAuthChallengeResponse", required: false, type: .string)
-        ]
 
         /// Creates an authentication challenge.
         public let createAuthChallenge: String?
@@ -4801,11 +4138,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
-        ]
 
         /// The access tokens for the request to list devices.
         public let accessToken: String
@@ -4836,10 +4168,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListDevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Devices", required: false, type: .list), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
-        ]
 
         /// The devices returned in the list devices response.
         public let devices: [DeviceType]?
@@ -4858,11 +4186,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The limit of the request to list groups.
         public let limit: Int?
@@ -4895,10 +4218,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The group objects for the groups.
         public let groups: [GroupType]?
@@ -4917,11 +4236,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListIdentityProvidersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The maximum number of identity providers to return.
         public let maxResults: Int?
@@ -4954,10 +4268,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListIdentityProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Providers", required: true, type: .list)
-        ]
 
         /// A pagination token.
         public let nextToken: String?
@@ -4976,11 +4286,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListResourceServersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The maximum number of resource servers to return.
         public let maxResults: Int?
@@ -5013,10 +4318,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListResourceServersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceServers", required: true, type: .list)
-        ]
 
         /// A pagination token.
         public let nextToken: String?
@@ -5035,9 +4336,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
         public let resourceArn: String
@@ -5058,9 +4356,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The tags that are assigned to the user pool.
         public let tags: [String: String]?
@@ -5075,11 +4370,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUserImportJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The maximum number of import jobs you want the request to return.
         public let maxResults: Int
@@ -5112,10 +4402,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUserImportJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserImportJobs", required: false, type: .list)
-        ]
 
         /// An identifier that can be used to return the next set of user import jobs in the list.
         public let paginationToken: String?
@@ -5134,11 +4420,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUserPoolClientsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The maximum number of results you want the request to return when listing the user pool clients.
         public let maxResults: Int?
@@ -5171,10 +4452,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUserPoolClientsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolClients", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -5193,10 +4470,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUserPoolsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results you want the request to return when listing the user pools.
         public let maxResults: Int
@@ -5222,10 +4495,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUserPoolsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPools", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -5244,12 +4513,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUsersInGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The name of the group.
         public let groupName: String
@@ -5289,10 +4552,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUsersInGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Users", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -5311,13 +4570,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeMember(label: "Filter", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// An array of strings, where each string is the name of a user attribute to be returned for each user in the search results. If the array is null, all attributes are returned.
         public let attributesToGet: [String]?
@@ -5364,10 +4616,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "Users", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let paginationToken: String?
@@ -5386,10 +4634,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct MFAOptionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryMedium", required: false, type: .enum)
-        ]
 
         /// The attribute name of the MFA option type. The only valid value is phone_number.
         public let attributeName: String?
@@ -5414,11 +4658,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct MessageTemplateType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailSubject", required: false, type: .string), 
-            AWSShapeMember(label: "SMSMessage", required: false, type: .string)
-        ]
 
         /// The message template for email messages.
         public let emailMessage: String?
@@ -5453,10 +4692,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct NewDeviceMetadataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceGroupKey", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: false, type: .string)
-        ]
 
         /// The device group key.
         public let deviceGroupKey: String?
@@ -5475,14 +4710,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct NotifyConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockEmail", required: false, type: .structure), 
-            AWSShapeMember(label: "From", required: false, type: .string), 
-            AWSShapeMember(label: "MfaEmail", required: false, type: .structure), 
-            AWSShapeMember(label: "NoActionEmail", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplyTo", required: false, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: true, type: .string)
-        ]
 
         /// Email template used when a detected risk event is blocked.
         public let blockEmail: NotifyEmailType?
@@ -5526,11 +4753,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct NotifyEmailType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HtmlBody", required: false, type: .string), 
-            AWSShapeMember(label: "Subject", required: true, type: .string), 
-            AWSShapeMember(label: "TextBody", required: false, type: .string)
-        ]
 
         /// The HTML body.
         public let htmlBody: String?
@@ -5565,10 +4787,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct NumberAttributeConstraintsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxValue", required: false, type: .string), 
-            AWSShapeMember(label: "MinValue", required: false, type: .string)
-        ]
 
         /// The maximum value of an attribute that is of the number data type.
         public let maxValue: String?
@@ -5587,14 +4805,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct PasswordPolicyType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinimumLength", required: false, type: .integer), 
-            AWSShapeMember(label: "RequireLowercase", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequireSymbols", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequireUppercase", required: false, type: .boolean), 
-            AWSShapeMember(label: "TemporaryPasswordValidityDays", required: false, type: .integer)
-        ]
 
         /// The minimum length of the password policy that you have set. Cannot be less than 6.
         public let minimumLength: Int?
@@ -5636,12 +4846,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ProviderDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderType", required: false, type: .enum)
-        ]
 
         /// The date the provider was added to the user pool.
         public let creationDate: TimeStamp?
@@ -5668,11 +4872,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ProviderUserIdentifierType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderAttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderAttributeValue", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderName", required: false, type: .string)
-        ]
 
         /// The name of the provider attribute to link to, for example, NameID.
         public let providerAttributeName: String?
@@ -5701,10 +4900,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct RecoveryOptionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Priority", required: true, type: .integer)
-        ]
 
         /// Specifies the recovery method for a user.
         public let name: RecoveryOptionNameType
@@ -5728,14 +4923,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ResendConfirmationCodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ResendConfirmationCode calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -5782,9 +4969,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ResendConfirmationCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
-        ]
 
         /// The code delivery details returned by the server in response to the request to resend the confirmation code.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -5799,10 +4983,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ResourceServerScopeType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScopeDescription", required: true, type: .string), 
-            AWSShapeMember(label: "ScopeName", required: true, type: .string)
-        ]
 
         /// A description of the scope.
         public let scopeDescription: String
@@ -5829,12 +5009,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct ResourceServerType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Scopes", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// The identifier for the resource server.
         public let identifier: String?
@@ -5861,15 +5035,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct RespondToAuthChallengeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: true, type: .enum), 
-            AWSShapeMember(label: "ChallengeResponses", required: false, type: .map), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure)
-        ]
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for RespondToAuthChallenge calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -5916,12 +5081,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct RespondToAuthChallengeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map), 
-            AWSShapeMember(label: "Session", required: false, type: .string)
-        ]
 
         /// The result returned by the server in response to the request to respond to the authentication challenge.
         public let authenticationResult: AuthenticationResultType?
@@ -5948,14 +5107,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct RiskConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountTakeoverRiskConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "CompromisedCredentialsRiskConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RiskExceptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// The account takeover risk configuration object including the NotifyConfiguration object and Actions to take in the case of an account takeover.
         public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
@@ -5990,10 +5141,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct RiskExceptionConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockedIPRangeList", required: false, type: .list), 
-            AWSShapeMember(label: "SkippedIPRangeList", required: false, type: .list)
-        ]
 
         /// Overrides the risk decision to always block the pre-authentication requests. The IP range is in CIDR notation: a compact representation of an IP address and its associated routing prefix.
         public let blockedIPRangeList: [String]?
@@ -6017,10 +5164,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SMSMfaSettingsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredMfa", required: false, type: .boolean)
-        ]
 
         /// Specifies whether SMS text message MFA is enabled.
         public let enabled: Bool?
@@ -6039,15 +5182,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SchemaAttributeType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeDataType", required: false, type: .enum), 
-            AWSShapeMember(label: "DeveloperOnlyAttribute", required: false, type: .boolean), 
-            AWSShapeMember(label: "Mutable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberAttributeConstraints", required: false, type: .structure), 
-            AWSShapeMember(label: "Required", required: false, type: .boolean), 
-            AWSShapeMember(label: "StringAttributeConstraints", required: false, type: .structure)
-        ]
 
         /// The attribute data type.
         public let attributeDataType: AttributeDataType?
@@ -6092,13 +5226,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetRiskConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountTakeoverRiskConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "CompromisedCredentialsRiskConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RiskExceptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The account takeover risk configuration.
         public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
@@ -6140,9 +5267,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetRiskConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RiskConfiguration", required: true, type: .structure)
-        ]
 
         /// The risk configuration.
         public let riskConfiguration: RiskConfigurationType
@@ -6157,12 +5281,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetUICustomizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "CSS", required: false, type: .string), 
-            AWSShapeMember(label: "ImageFile", required: false, type: .blob), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The client ID for the client app.
         public let clientId: String?
@@ -6198,9 +5316,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetUICustomizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UICustomization", required: true, type: .structure)
-        ]
 
         /// The UI customization information.
         public let uICustomization: UICustomizationType
@@ -6215,11 +5330,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetUserMFAPreferenceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "SMSMfaSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "SoftwareTokenMfaSettings", required: false, type: .structure)
-        ]
 
         /// The access token for the user.
         public let accessToken: String
@@ -6254,12 +5364,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetUserPoolMfaConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The MFA configuration. Valid values include:    OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.  
         public let mfaConfiguration: UserPoolMfaType?
@@ -6293,11 +5397,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetUserPoolMfaConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure)
-        ]
 
         /// The MFA configuration. Valid values include:    OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.  
         public let mfaConfiguration: UserPoolMfaType?
@@ -6320,10 +5419,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SetUserSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "MFAOptions", required: true, type: .list)
-        ]
 
         /// The access token for the set user settings request.
         public let accessToken: String
@@ -6357,17 +5452,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SignUpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "ValidationData", required: false, type: .list)
-        ]
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for SignUp calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -6435,11 +5519,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SignUpResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "UserConfirmed", required: true, type: .boolean), 
-            AWSShapeMember(label: "UserSub", required: true, type: .string)
-        ]
 
         /// The code delivery details returned by the server response to the user registration request.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -6462,10 +5541,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SmsConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
-            AWSShapeMember(label: "SnsCallerArn", required: true, type: .string)
-        ]
 
         /// The external ID is a value that we recommend you use to add security to your IAM role which is used to call Amazon SNS to send SMS messages for your user pool. If you provide an ExternalId, the Cognito User Pool will include it when attempting to assume your IAM role, so that you can set your roles trust policy to require the ExternalID. If you use the Cognito Management Console to create a role for SMS MFA, Cognito will create a role with the required permissions and a trust policy that demonstrates use of the ExternalId.
         public let externalId: String?
@@ -6490,10 +5565,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SmsMfaConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure)
-        ]
 
         /// The SMS authentication message that will be sent to users with the code they need to sign in. The message must contain the ‘{####}’ placeholder, which will be replaced with the code. If the message is not included, and default message will be used.
         public let smsAuthenticationMessage: String?
@@ -6519,9 +5590,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SoftwareTokenMfaConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         /// Specifies whether software token MFA is enabled.
         public let enabled: Bool?
@@ -6536,10 +5604,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct SoftwareTokenMfaSettingsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredMfa", required: false, type: .boolean)
-        ]
 
         /// Specifies whether software token MFA is enabled.
         public let enabled: Bool?
@@ -6558,10 +5622,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct StartUserImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The job ID for the user import job.
         public let jobId: String
@@ -6589,9 +5649,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct StartUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -6606,10 +5663,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct StopUserImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The job ID for the user import job.
         public let jobId: String
@@ -6637,9 +5690,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct StopUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -6654,10 +5704,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct StringAttributeConstraintsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxLength", required: false, type: .string), 
-            AWSShapeMember(label: "MinLength", required: false, type: .string)
-        ]
 
         /// The maximum length.
         public let maxLength: String?
@@ -6676,10 +5722,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user pool to assign the tags to.
         public let resourceArn: String
@@ -6718,15 +5760,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UICustomizationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CSS", required: false, type: .string), 
-            AWSShapeMember(label: "CSSVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// The client ID for the client app.
         public let clientId: String?
@@ -6765,10 +5798,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
         public let resourceArn: String
@@ -6805,13 +5834,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateAuthEventFeedbackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventId", required: true, type: .string), 
-            AWSShapeMember(label: "FeedbackToken", required: true, type: .string), 
-            AWSShapeMember(label: "FeedbackValue", required: true, type: .enum), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The event ID.
         public let eventId: String
@@ -6863,11 +5885,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateDeviceStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceRememberedStatus", required: false, type: .enum)
-        ]
 
         /// The access token.
         public let accessToken: String
@@ -6905,13 +5922,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// A string containing the new description of the group.
         public let description: String?
@@ -6956,9 +5966,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
 
         /// The group object for the group.
         public let group: GroupType?
@@ -6973,13 +5980,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
-            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "ProviderDetails", required: false, type: .map), 
-            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The identity provider attribute mapping to be changed.
         public let attributeMapping: [String: String]?
@@ -7030,9 +6030,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateIdentityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
-        ]
 
         /// The identity provider object.
         public let identityProvider: IdentityProviderType
@@ -7047,12 +6044,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateResourceServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scopes", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The identifier for the resource server.
         public let identifier: String
@@ -7095,9 +6086,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateResourceServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
-        ]
 
         /// The resource server.
         public let resourceServer: ResourceServerType
@@ -7112,11 +6100,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "UserAttributes", required: true, type: .list)
-        ]
 
         /// The access token for the request to update user attributes.
         public let accessToken: String
@@ -7146,9 +6129,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetailsList", required: false, type: .list)
-        ]
 
         /// The code delivery details list from the server for the request to update user attributes.
         public let codeDeliveryDetailsList: [CodeDeliveryDetailsType]?
@@ -7163,24 +6143,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserPoolClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
-            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CallbackURLs", required: false, type: .list), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientName", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
-            AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
-            AWSShapeMember(label: "PreventUserExistenceErrors", required: false, type: .enum), 
-            AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
-            AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "WriteAttributes", required: false, type: .list)
-        ]
 
         /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint.
         public let allowedOAuthFlows: [OAuthFlowType]?
@@ -7308,9 +6270,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserPoolClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
-        ]
 
         /// The user pool client value from the response from the server when an update user pool client request is made.
         public let userPoolClient: UserPoolClientType?
@@ -7325,11 +6284,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserPoolDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomDomainConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "Domain", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
 
         /// The configuration for a custom domain that hosts the sign-up and sign-in pages for your application. Use this object to specify an SSL certificate that is managed by ACM.
         public let customDomainConfig: CustomDomainConfigType
@@ -7362,9 +6316,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserPoolDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFrontDomain", required: false, type: .string)
-        ]
 
         /// The Amazon CloudFront endpoint that Amazon Cognito set up when you added the custom domain to your user pool.
         public let cloudFrontDomain: String?
@@ -7379,25 +6330,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateUserPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountRecoverySetting", required: false, type: .structure), 
-            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
-            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure)
-        ]
 
         /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
         public let accountRecoverySetting: AccountRecoverySettingType?
@@ -7515,9 +6447,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserContextDataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncodedData", required: false, type: .string)
-        ]
 
         /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
         public let encodedData: String?
@@ -7532,21 +6461,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserImportJobType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompletionMessage", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailedUsers", required: false, type: .long), 
-            AWSShapeMember(label: "ImportedUsers", required: false, type: .long), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SkippedUsers", required: false, type: .long), 
-            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
         public let cloudWatchLogsRoleArn: String?
@@ -7609,9 +6523,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserPoolAddOnsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdvancedSecurityMode", required: true, type: .enum)
-        ]
 
         /// The advanced security mode.
         public let advancedSecurityMode: AdvancedSecurityModeType
@@ -7626,11 +6537,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserPoolClientDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "ClientName", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// The ID of the client associated with the user pool.
         public let clientId: String?
@@ -7653,27 +6559,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserPoolClientType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
-            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CallbackURLs", required: false, type: .list), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "ClientName", required: false, type: .string), 
-            AWSShapeMember(label: "ClientSecret", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
-            AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
-            AWSShapeMember(label: "PreventUserExistenceErrors", required: false, type: .enum), 
-            AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
-            AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "WriteAttributes", required: false, type: .list)
-        ]
 
         /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
         public let allowedOAuthFlows: [OAuthFlowType]?
@@ -7760,14 +6645,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserPoolDescriptionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The date the user pool description was created.
         public let creationDate: TimeStamp?
@@ -7802,9 +6679,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserPoolPolicyType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordPolicy", required: false, type: .structure)
-        ]
 
         /// The password policy.
         public let passwordPolicy: PasswordPolicyType?
@@ -7823,38 +6697,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserPoolType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountRecoverySetting", required: false, type: .structure), 
-            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "AliasAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CustomDomain", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailConfigurationFailure", required: false, type: .string), 
-            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedNumberOfUsers", required: false, type: .integer), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "SchemaAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsConfigurationFailure", required: false, type: .string), 
-            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UsernameAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
-            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure)
-        ]
 
         /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
         public let accountRecoverySetting: AccountRecoverySettingType?
@@ -7985,15 +6827,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct UserType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
-            AWSShapeMember(label: "UserCreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserLastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "UserStatus", required: false, type: .enum)
-        ]
 
         /// A container with information about the user type attributes.
         public let attributes: [AttributeType]?
@@ -8032,14 +6865,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct VerificationMessageTemplateType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultEmailOption", required: false, type: .enum), 
-            AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailMessageByLink", required: false, type: .string), 
-            AWSShapeMember(label: "EmailSubject", required: false, type: .string), 
-            AWSShapeMember(label: "EmailSubjectByLink", required: false, type: .string), 
-            AWSShapeMember(label: "SmsMessage", required: false, type: .string)
-        ]
 
         /// The default email option.
         public let defaultEmailOption: DefaultEmailOptionType?
@@ -8092,12 +6917,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct VerifySoftwareTokenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "FriendlyDeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "UserCode", required: true, type: .string)
-        ]
 
         /// The access token.
         public let accessToken: String?
@@ -8133,10 +6952,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct VerifySoftwareTokenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The session which should be passed both ways in challenge-response calls to the service.
         public let session: String?
@@ -8155,11 +6970,6 @@ extension CognitoIdentityProvider {
     }
 
     public struct VerifyUserAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "Code", required: true, type: .string)
-        ]
 
         /// Represents the access token of the request to verify user attributes.
         public let accessToken: String

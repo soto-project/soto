@@ -69,13 +69,6 @@ extension Imagebuilder {
     //MARK: Shapes
 
     public struct Ami: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "image", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .structure)
-        ]
 
         ///  The description of the EC2 AMI. 
         public let description: String?
@@ -105,12 +98,6 @@ extension Imagebuilder {
     }
 
     public struct AmiDistributionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "amiTags", required: false, type: .map), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "launchPermission", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         ///  The tags to apply to AMIs distributed to this region. 
         public let amiTags: [String: String]?
@@ -151,10 +138,6 @@ extension Imagebuilder {
     }
 
     public struct CancelImageCreationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "imageBuildVersionArn", required: true, type: .string)
-        ]
 
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String
@@ -179,11 +162,6 @@ extension Imagebuilder {
     }
 
     public struct CancelImageCreationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "imageBuildVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
@@ -206,21 +184,6 @@ extension Imagebuilder {
     }
 
     public struct Component: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "changeDescription", required: false, type: .string), 
-            AWSShapeMember(label: "data", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
@@ -283,9 +246,6 @@ extension Imagebuilder {
     }
 
     public struct ComponentConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentArn", required: true, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the component. 
         public let componentArn: String
@@ -304,18 +264,6 @@ extension Imagebuilder {
     }
 
     public struct ComponentSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "changeDescription", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
@@ -366,16 +314,6 @@ extension Imagebuilder {
     }
 
     public struct ComponentVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
@@ -418,18 +356,6 @@ extension Imagebuilder {
     }
 
     public struct CreateComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "changeDescription", required: false, type: .string), 
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "data", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "platform", required: true, type: .enum), 
-            AWSShapeMember(label: "semanticVersion", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "uri", required: false, type: .string)
-        ]
 
         /// CThe change description of the component. Describes what change has been made in this version. In other words what makes this version different from other versions of this component.
         public let changeDescription: String?
@@ -501,11 +427,6 @@ extension Imagebuilder {
     }
 
     public struct CreateComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "componentBuildVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         /// CThe idempotency token used to make this request idempotent.
         public let clientToken: String?
@@ -528,13 +449,6 @@ extension Imagebuilder {
     }
 
     public struct CreateDistributionConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "distributions", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         ///  The idempotency token of the distribution configuration. 
         public let clientToken: String
@@ -582,11 +496,6 @@ extension Imagebuilder {
     }
 
     public struct CreateDistributionConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -609,18 +518,6 @@ extension Imagebuilder {
     }
 
     public struct CreateImagePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "imageRecipeArn", required: true, type: .string), 
-            AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -690,11 +587,6 @@ extension Imagebuilder {
     }
 
     public struct CreateImagePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "imagePipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -717,16 +609,6 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRecipeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blockDeviceMappings", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "components", required: true, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "parentImage", required: true, type: .string), 
-            AWSShapeMember(label: "semanticVersion", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         ///  The block device mappings of the image recipe. 
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
@@ -793,11 +675,6 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRecipeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "imageRecipeArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -820,14 +697,6 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "imageRecipeArn", required: true, type: .string), 
-            AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -877,11 +746,6 @@ extension Imagebuilder {
     }
 
     public struct CreateImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "imageBuildVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -904,20 +768,6 @@ extension Imagebuilder {
     }
 
     public struct CreateInfrastructureConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "instanceProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "instanceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "keyPair", required: false, type: .string), 
-            AWSShapeMember(label: "logging", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "terminateInstanceOnFailure", required: false, type: .boolean)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -1003,11 +853,6 @@ extension Imagebuilder {
     }
 
     public struct CreateInfrastructureConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -1031,7 +876,7 @@ extension Imagebuilder {
 
     public struct DeleteComponentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"), required: true, type: .string)
+            AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the component build version to delete. 
@@ -1051,10 +896,6 @@ extension Imagebuilder {
     }
 
     public struct DeleteComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentBuildVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the component build version that was deleted. 
         public let componentBuildVersionArn: String?
@@ -1074,7 +915,7 @@ extension Imagebuilder {
 
     public struct DeleteDistributionConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"), required: true, type: .string)
+            AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the distribution configuration to delete. 
@@ -1094,10 +935,6 @@ extension Imagebuilder {
     }
 
     public struct DeleteDistributionConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the distribution configuration that was deleted. 
         public let distributionConfigurationArn: String?
@@ -1117,7 +954,7 @@ extension Imagebuilder {
 
     public struct DeleteImagePipelineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"), required: true, type: .string)
+            AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image pipeline to delete. 
@@ -1137,10 +974,6 @@ extension Imagebuilder {
     }
 
     public struct DeleteImagePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the image pipeline that was deleted. 
         public let imagePipelineArn: String?
@@ -1160,7 +993,7 @@ extension Imagebuilder {
 
     public struct DeleteImageRecipeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"), required: true, type: .string)
+            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe to delete. 
@@ -1180,10 +1013,6 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageRecipeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe that was deleted. 
         public let imageRecipeArn: String?
@@ -1203,7 +1032,7 @@ extension Imagebuilder {
 
     public struct DeleteImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"), required: true, type: .string)
+            AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image to delete. 
@@ -1223,10 +1052,6 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageBuildVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the image that was deleted. 
         public let imageBuildVersionArn: String?
@@ -1246,7 +1071,7 @@ extension Imagebuilder {
 
     public struct DeleteInfrastructureConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"), required: true, type: .string)
+            AWSShapeMember(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the infrastructure configuration to delete. 
@@ -1266,10 +1091,6 @@ extension Imagebuilder {
     }
 
     public struct DeleteInfrastructureConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted. 
         public let infrastructureConfigurationArn: String?
@@ -1288,11 +1109,6 @@ extension Imagebuilder {
     }
 
     public struct Distribution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "amiDistributionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "licenseConfigurationArns", required: false, type: .list), 
-            AWSShapeMember(label: "region", required: true, type: .string)
-        ]
 
         ///  
         public let amiDistributionConfiguration: AmiDistributionConfiguration?
@@ -1321,16 +1137,6 @@ extension Imagebuilder {
     }
 
     public struct DistributionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "dateUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "distributions", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "timeoutMinutes", required: true, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public let arn: String?
@@ -1373,14 +1179,6 @@ extension Imagebuilder {
     }
 
     public struct DistributionConfigurationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "dateUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public let arn: String?
@@ -1415,15 +1213,6 @@ extension Imagebuilder {
     }
 
     public struct EbsInstanceBlockDeviceSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeMember(label: "encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "iops", required: false, type: .integer), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "snapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "volumeSize", required: false, type: .integer), 
-            AWSShapeMember(label: "volumeType", required: false, type: .enum)
-        ]
 
         /// Use to configure delete on termination of the associated device.
         public let deleteOnTermination: Bool?
@@ -1473,10 +1262,6 @@ extension Imagebuilder {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         ///  
         public let name: String?
@@ -1505,7 +1290,7 @@ extension Imagebuilder {
 
     public struct GetComponentPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentArn", location: .querystring(locationName: "componentArn"), required: true, type: .string)
+            AWSShapeMember(label: "componentArn", location: .querystring(locationName: "componentArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the component whose policy you wish to retrieve. 
@@ -1525,10 +1310,6 @@ extension Imagebuilder {
     }
 
     public struct GetComponentPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The component policy. 
         public let policy: String?
@@ -1548,7 +1329,7 @@ extension Imagebuilder {
 
     public struct GetComponentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"), required: true, type: .string)
+            AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the component that you wish to retrieve. 
@@ -1568,10 +1349,6 @@ extension Imagebuilder {
     }
 
     public struct GetComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "component", required: false, type: .structure), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The component object associated with the specified ARN. 
         public let component: Component?
@@ -1591,7 +1368,7 @@ extension Imagebuilder {
 
     public struct GetDistributionConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"), required: true, type: .string)
+            AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the distribution configuration that you wish to retrieve. 
@@ -1611,10 +1388,6 @@ extension Imagebuilder {
     }
 
     public struct GetDistributionConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "distributionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The distribution configuration object. 
         public let distributionConfiguration: DistributionConfiguration?
@@ -1634,7 +1407,7 @@ extension Imagebuilder {
 
     public struct GetImagePipelineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"), required: true, type: .string)
+            AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image pipeline that you wish to retrieve. 
@@ -1654,10 +1427,6 @@ extension Imagebuilder {
     }
 
     public struct GetImagePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePipeline", required: false, type: .structure), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The image pipeline object. 
         public let imagePipeline: ImagePipeline?
@@ -1677,7 +1446,7 @@ extension Imagebuilder {
 
     public struct GetImagePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageArn", location: .querystring(locationName: "imageArn"), required: true, type: .string)
+            AWSShapeMember(label: "imageArn", location: .querystring(locationName: "imageArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image whose policy you wish to retrieve. 
@@ -1697,10 +1466,6 @@ extension Imagebuilder {
     }
 
     public struct GetImagePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The image policy object. 
         public let policy: String?
@@ -1720,7 +1485,7 @@ extension Imagebuilder {
 
     public struct GetImageRecipePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"), required: true, type: .string)
+            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe whose policy you wish to retrieve. 
@@ -1740,10 +1505,6 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The image recipe policy object. 
         public let policy: String?
@@ -1763,7 +1524,7 @@ extension Imagebuilder {
 
     public struct GetImageRecipeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"), required: true, type: .string)
+            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe that you wish to retrieve. 
@@ -1783,10 +1544,6 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipe", required: false, type: .structure), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The image recipe object. 
         public let imageRecipe: ImageRecipe?
@@ -1806,7 +1563,7 @@ extension Imagebuilder {
 
     public struct GetImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"), required: true, type: .string)
+            AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image that you wish to retrieve. 
@@ -1826,10 +1583,6 @@ extension Imagebuilder {
     }
 
     public struct GetImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "image", required: false, type: .structure), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The image object. 
         public let image: Image?
@@ -1849,7 +1602,7 @@ extension Imagebuilder {
 
     public struct GetInfrastructureConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"), required: true, type: .string)
+            AWSShapeMember(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the infrastructure configuration that you wish to retrieve. 
@@ -1869,10 +1622,6 @@ extension Imagebuilder {
     }
 
     public struct GetInfrastructureConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "infrastructureConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The infrastructure configuration object. 
         public let infrastructureConfiguration: InfrastructureConfiguration?
@@ -1891,22 +1640,6 @@ extension Imagebuilder {
     }
 
     public struct Image: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "distributionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "imageRecipe", required: false, type: .structure), 
-            AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "infrastructureConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "outputResources", required: false, type: .structure), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "sourcePipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "sourcePipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
@@ -1973,23 +1706,6 @@ extension Imagebuilder {
     }
 
     public struct ImagePipeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "dateLastRun", required: false, type: .string), 
-            AWSShapeMember(label: "dateNextRun", required: false, type: .string), 
-            AWSShapeMember(label: "dateUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "imageRecipeArn", required: false, type: .string), 
-            AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the image pipeline.
         public let arn: String?
@@ -2060,19 +1776,6 @@ extension Imagebuilder {
     }
 
     public struct ImageRecipe: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "blockDeviceMappings", required: false, type: .list), 
-            AWSShapeMember(label: "components", required: false, type: .list), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "parentImage", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
@@ -2127,15 +1830,6 @@ extension Imagebuilder {
     }
 
     public struct ImageRecipeSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "parentImage", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
@@ -2174,10 +1868,6 @@ extension Imagebuilder {
     }
 
     public struct ImageState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         ///  The reason for the image's status. 
         public let reason: String?
@@ -2196,17 +1886,6 @@ extension Imagebuilder {
     }
 
     public struct ImageSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "outputResources", required: false, type: .structure), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "state", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
@@ -2253,10 +1932,6 @@ extension Imagebuilder {
     }
 
     public struct ImageTestsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageTestsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "timeoutMinutes", required: false, type: .integer)
-        ]
 
         /// Defines if tests should be executed when building this image.
         public let imageTestsEnabled: Bool?
@@ -2280,14 +1955,6 @@ extension Imagebuilder {
     }
 
     public struct ImageVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the image semantic verion.
         public let arn: String?
@@ -2322,20 +1989,6 @@ extension Imagebuilder {
     }
 
     public struct ImportComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "changeDescription", required: false, type: .string), 
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "data", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "format", required: true, type: .enum), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "platform", required: true, type: .enum), 
-            AWSShapeMember(label: "semanticVersion", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "uri", required: false, type: .string)
-        ]
 
         ///  The change description of the component. Describes what change has been made in this version. In other words what makes this version different from other versions of this component. 
         public let changeDescription: String?
@@ -2415,11 +2068,6 @@ extension Imagebuilder {
     }
 
     public struct ImportComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "componentBuildVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -2442,22 +2090,6 @@ extension Imagebuilder {
     }
 
     public struct InfrastructureConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "dateUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "instanceProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "instanceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "keyPair", required: false, type: .string), 
-            AWSShapeMember(label: "logging", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "terminateInstanceOnFailure", required: false, type: .boolean)
-        ]
 
         /// The Amazon Resource Name (ARN) of the infrastruction configuration.
         public let arn: String?
@@ -2524,14 +2156,6 @@ extension Imagebuilder {
     }
 
     public struct InfrastructureConfigurationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dateCreated", required: false, type: .string), 
-            AWSShapeMember(label: "dateUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public let arn: String?
@@ -2566,12 +2190,6 @@ extension Imagebuilder {
     }
 
     public struct InstanceBlockDeviceMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceName", required: false, type: .string), 
-            AWSShapeMember(label: "ebs", required: false, type: .structure), 
-            AWSShapeMember(label: "noDevice", required: false, type: .string), 
-            AWSShapeMember(label: "virtualName", required: false, type: .string)
-        ]
 
         /// The device to which these mappings apply.
         public let deviceName: String?
@@ -2608,10 +2226,6 @@ extension Imagebuilder {
     }
 
     public struct LaunchPermissionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userGroups", required: false, type: .list), 
-            AWSShapeMember(label: "userIds", required: false, type: .list)
-        ]
 
         ///  
         public let userGroups: [String]?
@@ -2641,11 +2255,6 @@ extension Imagebuilder {
     }
 
     public struct ListComponentBuildVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentVersionArn", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  The component version arn whose versions you wish to list. 
         public let componentVersionArn: String
@@ -2676,11 +2285,6 @@ extension Imagebuilder {
     }
 
     public struct ListComponentBuildVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of component summaries for the specified semantic version. 
         public let componentSummaryList: [ComponentSummary]?
@@ -2703,12 +2307,6 @@ extension Imagebuilder {
     }
 
     public struct ListComponentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .enum)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -2747,11 +2345,6 @@ extension Imagebuilder {
     }
 
     public struct ListComponentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentVersionList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of component semantic versions. 
         public let componentVersionList: [ComponentVersion]?
@@ -2774,11 +2367,6 @@ extension Imagebuilder {
     }
 
     public struct ListDistributionConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -2813,11 +2401,6 @@ extension Imagebuilder {
     }
 
     public struct ListDistributionConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "distributionConfigurationSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of distributions. 
         public let distributionConfigurationSummaryList: [DistributionConfigurationSummary]?
@@ -2840,12 +2423,6 @@ extension Imagebuilder {
     }
 
     public struct ListImageBuildVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "imageVersionArn", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -2885,11 +2462,6 @@ extension Imagebuilder {
     }
 
     public struct ListImageBuildVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of image build versions. 
         public let imageSummaryList: [ImageSummary]?
@@ -2912,12 +2484,6 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelineImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "imagePipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -2957,11 +2523,6 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelineImagesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of images built by this pipeline. 
         public let imageSummaryList: [ImageSummary]?
@@ -2984,11 +2545,6 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelinesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -3023,11 +2579,6 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelinesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePipelineList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of image pipelines. 
         public let imagePipelineList: [ImagePipeline]?
@@ -3050,12 +2601,6 @@ extension Imagebuilder {
     }
 
     public struct ListImageRecipesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .enum)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -3094,11 +2639,6 @@ extension Imagebuilder {
     }
 
     public struct ListImageRecipesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of image pipelines. 
         public let imageRecipeSummaryList: [ImageRecipeSummary]?
@@ -3121,12 +2661,6 @@ extension Imagebuilder {
     }
 
     public struct ListImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .enum)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -3165,11 +2699,6 @@ extension Imagebuilder {
     }
 
     public struct ListImagesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageVersionList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of image semantic versions. 
         public let imageVersionList: [ImageVersion]?
@@ -3192,11 +2721,6 @@ extension Imagebuilder {
     }
 
     public struct ListInfrastructureConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  
         public let filters: [Filter]?
@@ -3231,11 +2755,6 @@ extension Imagebuilder {
     }
 
     public struct ListInfrastructureConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "infrastructureConfigurationSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The list of infrastructure configurations. 
         public let infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]?
@@ -3259,7 +2778,7 @@ extension Imagebuilder {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource whose tags you wish to retrieve. 
@@ -3279,9 +2798,6 @@ extension Imagebuilder {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         ///  The tags for the specified resource. 
         public let tags: [String: String]?
@@ -3296,9 +2812,6 @@ extension Imagebuilder {
     }
 
     public struct Logging: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Logs", required: false, type: .structure)
-        ]
 
         /// The S3 logging configuration.
         public let s3Logs: S3Logs?
@@ -3317,9 +2830,6 @@ extension Imagebuilder {
     }
 
     public struct OutputResources: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "amis", required: false, type: .list)
-        ]
 
         ///  The EC2 AMIs created by this image. 
         public let amis: [Ami]?
@@ -3334,10 +2844,6 @@ extension Imagebuilder {
     }
 
     public struct PutComponentPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentArn", required: true, type: .string), 
-            AWSShapeMember(label: "policy", required: true, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the component that this policy should be applied to. 
         public let componentArn: String
@@ -3362,10 +2868,6 @@ extension Imagebuilder {
     }
 
     public struct PutComponentPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the component that this policy was applied to. 
         public let componentArn: String?
@@ -3384,10 +2886,6 @@ extension Imagebuilder {
     }
 
     public struct PutImagePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageArn", required: true, type: .string), 
-            AWSShapeMember(label: "policy", required: true, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the image that this policy should be applied to. 
         public let imageArn: String
@@ -3412,10 +2910,6 @@ extension Imagebuilder {
     }
 
     public struct PutImagePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the image that this policy was applied to. 
         public let imageArn: String?
@@ -3434,10 +2928,6 @@ extension Imagebuilder {
     }
 
     public struct PutImageRecipePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", required: true, type: .string), 
-            AWSShapeMember(label: "policy", required: true, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. 
         public let imageRecipeArn: String
@@ -3462,10 +2952,6 @@ extension Imagebuilder {
     }
 
     public struct PutImageRecipePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe that this policy was applied to. 
         public let imageRecipeArn: String?
@@ -3484,10 +2970,6 @@ extension Imagebuilder {
     }
 
     public struct S3Logs: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string)
-        ]
 
         /// The S3 bucket in which to store the logs.
         public let s3BucketName: String?
@@ -3513,10 +2995,6 @@ extension Imagebuilder {
     }
 
     public struct Schedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionStartCondition", required: false, type: .enum), 
-            AWSShapeMember(label: "scheduleExpression", required: false, type: .string)
-        ]
 
         ///  The condition configures when the pipeline should trigger a new image build. 
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
@@ -3540,10 +3018,6 @@ extension Imagebuilder {
     }
 
     public struct StartImagePipelineExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "imagePipelineArn", required: true, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -3568,11 +3042,6 @@ extension Imagebuilder {
     }
 
     public struct StartImagePipelineExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "imageBuildVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent.
         public let clientToken: String?
@@ -3596,8 +3065,7 @@ extension Imagebuilder {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource that you wish to tag. 
@@ -3636,8 +3104,8 @@ extension Imagebuilder {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource that you wish to untag. 
@@ -3676,12 +3144,6 @@ extension Imagebuilder {
     }
 
     public struct UpdateDistributionConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "distributionConfigurationArn", required: true, type: .string), 
-            AWSShapeMember(label: "distributions", required: false, type: .list)
-        ]
 
         ///  The idempotency token of the distribution configuration. 
         public let clientToken: String
@@ -3719,11 +3181,6 @@ extension Imagebuilder {
     }
 
     public struct UpdateDistributionConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -3746,17 +3203,6 @@ extension Imagebuilder {
     }
 
     public struct UpdateImagePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "distributionConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "imagePipelineArn", required: true, type: .string), 
-            AWSShapeMember(label: "imageRecipeArn", required: false, type: .string), 
-            AWSShapeMember(label: "imageTestsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -3816,11 +3262,6 @@ extension Imagebuilder {
     }
 
     public struct UpdateImagePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "imagePipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -3843,19 +3284,6 @@ extension Imagebuilder {
     }
 
     public struct UpdateInfrastructureConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: true, type: .string), 
-            AWSShapeMember(label: "instanceProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "instanceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "keyPair", required: false, type: .string), 
-            AWSShapeMember(label: "logging", required: false, type: .structure), 
-            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string), 
-            AWSShapeMember(label: "terminateInstanceOnFailure", required: false, type: .boolean)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -3931,11 +3359,6 @@ extension Imagebuilder {
     }
 
     public struct UpdateInfrastructureConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "infrastructureConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "requestId", required: false, type: .string)
-        ]
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?

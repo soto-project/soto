@@ -9,13 +9,6 @@ extension Outposts {
     //MARK: Shapes
 
     public struct CreateOutpostInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: true, type: .string)
-        ]
 
         public let availabilityZone: String?
         public let availabilityZoneId: String?
@@ -59,9 +52,6 @@ extension Outposts {
     }
 
     public struct CreateOutpostOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Outpost", required: false, type: .structure)
-        ]
 
         public let outpost: Outpost?
 
@@ -76,7 +66,7 @@ extension Outposts {
 
     public struct GetOutpostInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutpostId", location: .uri(locationName: "OutpostId"), required: true, type: .string)
+            AWSShapeMember(label: "OutpostId", location: .uri(locationName: "OutpostId"))
         ]
 
         public let outpostId: String
@@ -98,9 +88,9 @@ extension Outposts {
 
     public struct GetOutpostInstanceTypesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "OutpostId", location: .uri(locationName: "OutpostId"), required: true, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "OutpostId", location: .uri(locationName: "OutpostId"))
         ]
 
         public let maxResults: Int?
@@ -132,12 +122,6 @@ extension Outposts {
     }
 
     public struct GetOutpostInstanceTypesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OutpostArn", required: false, type: .string), 
-            AWSShapeMember(label: "OutpostId", required: false, type: .string)
-        ]
 
         public let instanceTypes: [InstanceTypeItem]?
         public let nextToken: String?
@@ -160,9 +144,6 @@ extension Outposts {
     }
 
     public struct GetOutpostOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Outpost", required: false, type: .structure)
-        ]
 
         public let outpost: Outpost?
 
@@ -176,9 +157,6 @@ extension Outposts {
     }
 
     public struct InstanceTypeItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: false, type: .string)
-        ]
 
         public let instanceType: String?
 
@@ -193,8 +171,8 @@ extension Outposts {
 
     public struct ListOutpostsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         public let maxResults: Int?
@@ -220,10 +198,6 @@ extension Outposts {
     }
 
     public struct ListOutpostsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Outposts", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         public let outposts: [Outpost]?
@@ -241,8 +215,8 @@ extension Outposts {
 
     public struct ListSitesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         public let maxResults: Int?
@@ -268,10 +242,6 @@ extension Outposts {
     }
 
     public struct ListSitesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sites", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         public let sites: [Site]?
@@ -288,17 +258,6 @@ extension Outposts {
     }
 
     public struct Outpost: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LifeCycleStatus", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OutpostArn", required: false, type: .string), 
-            AWSShapeMember(label: "OutpostId", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: false, type: .string)
-        ]
 
         public let availabilityZone: String?
         public let availabilityZoneId: String?
@@ -336,12 +295,6 @@ extension Outposts {
     }
 
     public struct Site: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: false, type: .string)
-        ]
 
         public let accountId: String?
         public let description: String?

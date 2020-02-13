@@ -330,9 +330,6 @@ extension WAFV2 {
     }
 
     public struct AndStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", required: true, type: .list)
-        ]
 
         /// The statements to combine with AND logic. You can use any statements that can be nested. 
         public let statements: [Statement]
@@ -353,10 +350,6 @@ extension WAFV2 {
     }
 
     public struct AssociateWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "WebACLArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For a CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Application Load Balancer: arn:aws:elasticloadbalancing: region:account-id:loadbalancer/app/load-balancer-name /load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region ::/restapis/api-id/stages/stage-name    
         public let resourceArn: String
@@ -408,12 +401,6 @@ extension WAFV2 {
     }
 
     public struct ByteMatchStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeMember(label: "PositionalConstraint", required: true, type: .enum), 
-            AWSShapeMember(label: "SearchString", required: true, type: .blob), 
-            AWSShapeMember(label: "TextTransformations", required: true, type: .list)
-        ]
 
         /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
         public let fieldToMatch: FieldToMatch
@@ -448,10 +435,6 @@ extension WAFV2 {
     }
 
     public struct CheckCapacityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: true, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// An array of Rule that you're configuring to use in a rule group or web ACL. 
         public let rules: [Rule]
@@ -476,9 +459,6 @@ extension WAFV2 {
     }
 
     public struct CheckCapacityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .long)
-        ]
 
         /// The capacity required by the rules and scope.
         public let capacity: Int64?
@@ -501,14 +481,6 @@ extension WAFV2 {
     }
 
     public struct CreateIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Addresses", required: true, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IPAddressVersion", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
@@ -561,9 +533,6 @@ extension WAFV2 {
     }
 
     public struct CreateIPSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summary", required: false, type: .structure)
-        ]
 
         /// High-level information about an IPSet, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage an IPSet, and the ARN, that you provide to the IPSetReferenceStatement to use the address set in a Rule.
         public let summary: IPSetSummary?
@@ -578,13 +547,6 @@ extension WAFV2 {
     }
 
     public struct CreateRegexPatternSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RegularExpressionList", required: true, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A friendly description of the set. You cannot change the description of a set after you create it.
         public let description: String?
@@ -632,9 +594,6 @@ extension WAFV2 {
     }
 
     public struct CreateRegexPatternSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summary", required: false, type: .structure)
-        ]
 
         /// High-level information about a RegexPatternSet, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RegexPatternSet, and the ARN, that you provide to the RegexPatternSetReferenceStatement to use the pattern set in a Rule.
         public let summary: RegexPatternSetSummary?
@@ -649,15 +608,6 @@ extension WAFV2 {
     }
 
     public struct CreateRuleGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: true, type: .long), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VisibilityConfig", required: true, type: .structure)
-        ]
 
         /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, AWS WAF enforces this limit. You can check the capacity for a set of rules using CheckCapacity. AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500. 
         public let capacity: Int64
@@ -714,9 +664,6 @@ extension WAFV2 {
     }
 
     public struct CreateRuleGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summary", required: false, type: .structure)
-        ]
 
         /// High-level information about a RuleGroup, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RuleGroup, and the ARN, that you provide to the RuleGroupReferenceStatement to use the rule group in a Rule.
         public let summary: RuleGroupSummary?
@@ -731,15 +678,6 @@ extension WAFV2 {
     }
 
     public struct CreateWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultAction", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VisibilityConfig", required: true, type: .structure)
-        ]
 
         /// The action to perform if none of the Rules contained in the WebACL match. 
         public let defaultAction: DefaultAction
@@ -795,9 +733,6 @@ extension WAFV2 {
     }
 
     public struct CreateWebACLResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summary", required: false, type: .structure)
-        ]
 
         /// High-level information about a WebACL, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a WebACL, and the ARN, that you provide to operations like AssociateWebACL.
         public let summary: WebACLSummary?
@@ -812,10 +747,6 @@ extension WAFV2 {
     }
 
     public struct DefaultAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Allow", required: false, type: .structure), 
-            AWSShapeMember(label: "Block", required: false, type: .structure)
-        ]
 
         /// Specifies that AWS WAF should allow requests by default.
         public let allow: AllowAction?
@@ -834,12 +765,6 @@ extension WAFV2 {
     }
 
     public struct DeleteIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -886,9 +811,6 @@ extension WAFV2 {
     }
 
     public struct DeleteLoggingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
         public let resourceArn: String
@@ -917,12 +839,6 @@ extension WAFV2 {
     }
 
     public struct DeleteRegexPatternSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -969,12 +885,6 @@ extension WAFV2 {
     }
 
     public struct DeleteRuleGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1021,12 +931,6 @@ extension WAFV2 {
     }
 
     public struct DeleteWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// The unique identifier for the Web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1073,11 +977,6 @@ extension WAFV2 {
     }
 
     public struct DescribeManagedRuleGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "VendorName", required: true, type: .string)
-        ]
 
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
@@ -1109,10 +1008,6 @@ extension WAFV2 {
     }
 
     public struct DescribeManagedRuleGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .long), 
-            AWSShapeMember(label: "Rules", required: false, type: .list)
-        ]
 
         /// The web ACL capacity units (WCUs) required for this rule group. AWS WAF uses web ACL capacity units (WCU) to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect each rule's relative cost. Rule group capacity is fixed at creation, so users can plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500. 
         public let capacity: Int64?
@@ -1130,9 +1025,6 @@ extension WAFV2 {
     }
 
     public struct DisassociateWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For a CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Application Load Balancer: arn:aws:elasticloadbalancing: region:account-id:loadbalancer/app/load-balancer-name /load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region ::/restapis/api-id/stages/stage-name    
         public let resourceArn: String
@@ -1161,9 +1053,6 @@ extension WAFV2 {
     }
 
     public struct ExcludedRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the rule to exclude.
         public let name: String
@@ -1184,15 +1073,6 @@ extension WAFV2 {
     }
 
     public struct FieldToMatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllQueryArguments", required: false, type: .structure), 
-            AWSShapeMember(label: "Body", required: false, type: .structure), 
-            AWSShapeMember(label: "Method", required: false, type: .structure), 
-            AWSShapeMember(label: "QueryString", required: false, type: .structure), 
-            AWSShapeMember(label: "SingleHeader", required: false, type: .structure), 
-            AWSShapeMember(label: "SingleQueryArgument", required: false, type: .structure), 
-            AWSShapeMember(label: "UriPath", required: false, type: .structure)
-        ]
 
         /// Inspect all query arguments. 
         public let allQueryArguments: AllQueryArguments?
@@ -1236,9 +1116,6 @@ extension WAFV2 {
     }
 
     public struct GeoMatchStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountryCodes", required: false, type: .list)
-        ]
 
         /// An array of two-character country codes, for example, [ "US", "CN" ], from the alpha-2 country ISO codes of the ISO 3166 international standard. 
         public let countryCodes: [CountryCode]?
@@ -1257,11 +1134,6 @@ extension WAFV2 {
     }
 
     public struct GetIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1293,10 +1165,6 @@ extension WAFV2 {
     }
 
     public struct GetIPSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IPSet", required: false, type: .structure), 
-            AWSShapeMember(label: "LockToken", required: false, type: .string)
-        ]
 
         public let iPSet: IPSet?
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
@@ -1314,9 +1182,6 @@ extension WAFV2 {
     }
 
     public struct GetLoggingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
         public let resourceArn: String
@@ -1337,9 +1202,6 @@ extension WAFV2 {
     }
 
     public struct GetLoggingConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggingConfiguration", required: false, type: .structure)
-        ]
 
         /// The LoggingConfiguration for the specified web ACL.
         public let loggingConfiguration: LoggingConfiguration?
@@ -1354,12 +1216,6 @@ extension WAFV2 {
     }
 
     public struct GetRateBasedStatementManagedKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "WebACLId", required: true, type: .string), 
-            AWSShapeMember(label: "WebACLName", required: true, type: .string)
-        ]
 
         /// The name of the rate-based rule to get the keys for.
         public let ruleName: String
@@ -1398,10 +1254,6 @@ extension WAFV2 {
     }
 
     public struct GetRateBasedStatementManagedKeysResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManagedKeysIPV4", required: false, type: .structure), 
-            AWSShapeMember(label: "ManagedKeysIPV6", required: false, type: .structure)
-        ]
 
         /// The keys that are of Internet Protocol version 4 (IPv4). 
         public let managedKeysIPV4: RateBasedStatementManagedKeysIPSet?
@@ -1420,11 +1272,6 @@ extension WAFV2 {
     }
 
     public struct GetRegexPatternSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1456,10 +1303,6 @@ extension WAFV2 {
     }
 
     public struct GetRegexPatternSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LockToken", required: false, type: .string), 
-            AWSShapeMember(label: "RegexPatternSet", required: false, type: .structure)
-        ]
 
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
         public let lockToken: String?
@@ -1477,11 +1320,6 @@ extension WAFV2 {
     }
 
     public struct GetRuleGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1513,10 +1351,6 @@ extension WAFV2 {
     }
 
     public struct GetRuleGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LockToken", required: false, type: .string), 
-            AWSShapeMember(label: "RuleGroup", required: false, type: .structure)
-        ]
 
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
         public let lockToken: String?
@@ -1534,13 +1368,6 @@ extension WAFV2 {
     }
 
     public struct GetSampledRequestsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: true, type: .long), 
-            AWSShapeMember(label: "RuleMetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "TimeWindow", required: true, type: .structure), 
-            AWSShapeMember(label: "WebAclArn", required: true, type: .string)
-        ]
 
         /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them. 
         public let maxItems: Int64
@@ -1582,11 +1409,6 @@ extension WAFV2 {
     }
 
     public struct GetSampledRequestsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PopulationSize", required: false, type: .long), 
-            AWSShapeMember(label: "SampledRequests", required: false, type: .list), 
-            AWSShapeMember(label: "TimeWindow", required: false, type: .structure)
-        ]
 
         /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
         public let populationSize: Int64?
@@ -1609,9 +1431,6 @@ extension WAFV2 {
     }
 
     public struct GetWebACLForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The ARN (Amazon Resource Name) of the resource.
         public let resourceArn: String
@@ -1632,9 +1451,6 @@ extension WAFV2 {
     }
 
     public struct GetWebACLForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WebACL", required: false, type: .structure)
-        ]
 
         /// The Web ACL that is associated with the resource. If there is no associated resource, AWS WAF returns a null Web ACL.
         public let webACL: WebACL?
@@ -1649,11 +1465,6 @@ extension WAFV2 {
     }
 
     public struct GetWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// The unique identifier for the Web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1685,10 +1496,6 @@ extension WAFV2 {
     }
 
     public struct GetWebACLResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LockToken", required: false, type: .string), 
-            AWSShapeMember(label: "WebACL", required: false, type: .structure)
-        ]
 
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
         public let lockToken: String?
@@ -1707,10 +1514,6 @@ extension WAFV2 {
     }
 
     public struct HTTPHeader: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The name of the HTTP header.
         public let name: String?
@@ -1729,14 +1532,6 @@ extension WAFV2 {
     }
 
     public struct HTTPRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientIP", required: false, type: .string), 
-            AWSShapeMember(label: "Country", required: false, type: .string), 
-            AWSShapeMember(label: "Headers", required: false, type: .list), 
-            AWSShapeMember(label: "HTTPVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Method", required: false, type: .string), 
-            AWSShapeMember(label: "URI", required: false, type: .string)
-        ]
 
         /// The IP address that the request originated from. If the web ACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
         public let clientIP: String?
@@ -1771,14 +1566,6 @@ extension WAFV2 {
     }
 
     public struct IPSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Addresses", required: true, type: .list), 
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IPAddressVersion", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
@@ -1813,9 +1600,6 @@ extension WAFV2 {
     }
 
     public struct IPSetReferenceStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the IPSet that this statement references.
         public let arn: String
@@ -1836,13 +1620,6 @@ extension WAFV2 {
     }
 
     public struct IPSetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LockToken", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -1873,11 +1650,6 @@ extension WAFV2 {
     }
 
     public struct ListAvailableManagedRuleGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -1908,10 +1680,6 @@ extension WAFV2 {
     }
 
     public struct ListAvailableManagedRuleGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManagedRuleGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
 
         public let managedRuleGroups: [ManagedRuleGroupSummary]?
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -1929,11 +1697,6 @@ extension WAFV2 {
     }
 
     public struct ListIPSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -1964,10 +1727,6 @@ extension WAFV2 {
     }
 
     public struct ListIPSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IPSets", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
 
         /// Array of IPSets. This may not be the full list of IPSets that you have defined. See the Limit specification for this request.
         public let iPSets: [IPSetSummary]?
@@ -1986,11 +1745,6 @@ extension WAFV2 {
     }
 
     public struct ListLoggingConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: false, type: .enum)
-        ]
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2021,10 +1775,6 @@ extension WAFV2 {
     }
 
     public struct ListLoggingConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggingConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
 
         public let loggingConfigurations: [LoggingConfiguration]?
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -2042,11 +1792,6 @@ extension WAFV2 {
     }
 
     public struct ListRegexPatternSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2077,10 +1822,6 @@ extension WAFV2 {
     }
 
     public struct ListRegexPatternSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "RegexPatternSets", required: false, type: .list)
-        ]
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -2098,10 +1839,6 @@ extension WAFV2 {
     }
 
     public struct ListResourcesForWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "WebACLArn", required: true, type: .string)
-        ]
 
         /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage. 
         public let resourceType: ResourceType?
@@ -2126,9 +1863,6 @@ extension WAFV2 {
     }
 
     public struct ListResourcesForWebACLResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: false, type: .list)
-        ]
 
         /// The array of Amazon Resource Names (ARNs) of the associated resources.
         public let resourceArns: [String]?
@@ -2143,11 +1877,6 @@ extension WAFV2 {
     }
 
     public struct ListRuleGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2178,10 +1907,6 @@ extension WAFV2 {
     }
 
     public struct ListRuleGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "RuleGroups", required: false, type: .list)
-        ]
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -2199,11 +1924,6 @@ extension WAFV2 {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2237,10 +1957,6 @@ extension WAFV2 {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "TagInfoForResource", required: false, type: .structure)
-        ]
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -2259,11 +1975,6 @@ extension WAFV2 {
     }
 
     public struct ListWebACLsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2294,10 +2005,6 @@ extension WAFV2 {
     }
 
     public struct ListWebACLsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "WebACLs", required: false, type: .list)
-        ]
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -2315,11 +2022,6 @@ extension WAFV2 {
     }
 
     public struct LoggingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogDestinationConfigs", required: true, type: .list), 
-            AWSShapeMember(label: "RedactedFields", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL.
         public let logDestinationConfigs: [String]
@@ -2359,11 +2061,6 @@ extension WAFV2 {
     }
 
     public struct ManagedRuleGroupStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludedRules", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "VendorName", required: true, type: .string)
-        ]
 
         /// The rules whose actions are set to COUNT by the web ACL, regardless of the action that is set on the rule. This effectively excludes the rule from acting on web requests. 
         public let excludedRules: [ExcludedRule]?
@@ -2398,11 +2095,6 @@ extension WAFV2 {
     }
 
     public struct ManagedRuleGroupSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VendorName", required: false, type: .string)
-        ]
 
         /// The description of the managed rule group, provided by AWS or the AWS Marketplace seller who manages it.
         public let description: String?
@@ -2441,9 +2133,6 @@ extension WAFV2 {
     }
 
     public class NotStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statement", required: true, type: .structure)
-        ]
 
         /// The statement to negate. You can use any statement that can be nested.
         public let statement: Statement
@@ -2462,9 +2151,6 @@ extension WAFV2 {
     }
 
     public struct OrStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", required: true, type: .list)
-        ]
 
         /// The statements to combine with OR logic. You can use any statements that can be nested.
         public let statements: [Statement]
@@ -2485,10 +2171,6 @@ extension WAFV2 {
     }
 
     public struct OverrideAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: false, type: .structure), 
-            AWSShapeMember(label: "None", required: false, type: .structure)
-        ]
 
         /// Override the rule action setting to count.
         public let count: CountAction?
@@ -2507,9 +2189,6 @@ extension WAFV2 {
     }
 
     public struct PutLoggingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggingConfiguration", required: true, type: .structure)
-        ]
 
         public let loggingConfiguration: LoggingConfiguration
 
@@ -2527,9 +2206,6 @@ extension WAFV2 {
     }
 
     public struct PutLoggingConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoggingConfiguration", required: false, type: .structure)
-        ]
 
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -2551,11 +2227,6 @@ extension WAFV2 {
     }
 
     public class RateBasedStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregateKeyType", required: true, type: .enum), 
-            AWSShapeMember(label: "Limit", required: true, type: .long), 
-            AWSShapeMember(label: "ScopeDownStatement", required: false, type: .structure)
-        ]
 
         /// Setting that indicates how to aggregate the request counts. Currently, you must set this to IP. The request counts are aggregated on IP addresses. 
         public let aggregateKeyType: RateBasedStatementAggregateKeyType
@@ -2584,10 +2255,6 @@ extension WAFV2 {
     }
 
     public struct RateBasedStatementManagedKeysIPSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "IPAddressVersion", required: false, type: .enum)
-        ]
 
         /// The IP addresses that are currently blocked.
         public let addresses: [String]?
@@ -2605,9 +2272,6 @@ extension WAFV2 {
     }
 
     public struct Regex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegexString", required: false, type: .string)
-        ]
 
         /// The string representing the regular expression.
         public let regexString: String?
@@ -2628,13 +2292,6 @@ extension WAFV2 {
     }
 
     public struct RegexPatternSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RegularExpressionList", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -2665,11 +2322,6 @@ extension WAFV2 {
     }
 
     public struct RegexPatternSetReferenceStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeMember(label: "TextTransformations", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the RegexPatternSet that this statement references.
         public let arn: String
@@ -2703,13 +2355,6 @@ extension WAFV2 {
     }
 
     public struct RegexPatternSetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LockToken", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -2740,14 +2385,6 @@ extension WAFV2 {
     }
 
     public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "OverrideAction", required: false, type: .structure), 
-            AWSShapeMember(label: "Priority", required: true, type: .integer), 
-            AWSShapeMember(label: "Statement", required: true, type: .structure), 
-            AWSShapeMember(label: "VisibilityConfig", required: true, type: .structure)
-        ]
 
         /// The action that AWS WAF should take on a web request when it matches the rule's statement. Settings at the web ACL level can override the rule action setting. 
         public let action: RuleAction?
@@ -2791,11 +2428,6 @@ extension WAFV2 {
     }
 
     public struct RuleAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Allow", required: false, type: .structure), 
-            AWSShapeMember(label: "Block", required: false, type: .structure), 
-            AWSShapeMember(label: "Count", required: false, type: .structure)
-        ]
 
         /// Instructs AWS WAF to allow the web request.
         public let allow: AllowAction?
@@ -2818,15 +2450,6 @@ extension WAFV2 {
     }
 
     public struct RuleGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "Capacity", required: true, type: .long), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "VisibilityConfig", required: true, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -2865,10 +2488,6 @@ extension WAFV2 {
     }
 
     public struct RuleGroupReferenceStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "ExcludedRules", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -2896,13 +2515,6 @@ extension WAFV2 {
     }
 
     public struct RuleGroupSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LockToken", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -2933,10 +2545,6 @@ extension WAFV2 {
     }
 
     public struct RuleSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         public let action: RuleAction?
         /// The name of the rule. 
@@ -2954,13 +2562,6 @@ extension WAFV2 {
     }
 
     public struct SampledHTTPRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .string), 
-            AWSShapeMember(label: "Request", required: true, type: .structure), 
-            AWSShapeMember(label: "RuleNameWithinRuleGroup", required: false, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Weight", required: true, type: .long)
-        ]
 
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public let action: String?
@@ -2991,9 +2592,6 @@ extension WAFV2 {
     }
 
     public struct SingleHeader: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the query header to inspect.
         public let name: String
@@ -3014,9 +2612,6 @@ extension WAFV2 {
     }
 
     public struct SingleQueryArgument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the query argument to inspect.
         public let name: String
@@ -3037,12 +2632,6 @@ extension WAFV2 {
     }
 
     public struct SizeConstraintStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeMember(label: "Size", required: true, type: .long), 
-            AWSShapeMember(label: "TextTransformations", required: true, type: .list)
-        ]
 
         /// The operator to use to compare the request part to the size setting. 
         public let comparisonOperator: ComparisonOperator
@@ -3079,10 +2668,6 @@ extension WAFV2 {
     }
 
     public struct SqliMatchStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeMember(label: "TextTransformations", required: true, type: .list)
-        ]
 
         /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
         public let fieldToMatch: FieldToMatch
@@ -3109,21 +2694,6 @@ extension WAFV2 {
     }
 
     public class Statement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AndStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "ByteMatchStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "GeoMatchStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "IPSetReferenceStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "ManagedRuleGroupStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "NotStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "OrStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "RateBasedStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "RegexPatternSetReferenceStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "RuleGroupReferenceStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "SizeConstraintStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "SqliMatchStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "XssMatchStatement", required: false, type: .structure)
-        ]
 
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one Statement within the AndStatement. 
         public let andStatement: AndStatement?
@@ -3202,10 +2772,6 @@ extension WAFV2 {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
@@ -3233,10 +2799,6 @@ extension WAFV2 {
     }
 
     public struct TagInfoForResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String?
@@ -3255,10 +2817,6 @@ extension WAFV2 {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String
@@ -3295,10 +2853,6 @@ extension WAFV2 {
     }
 
     public struct TextTransformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Priority", required: true, type: .integer), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// Sets the relative processing order for multiple transformations that are defined for a rule statement. AWS WAF processes all transformations, from lowest priority to highest, before inspecting the transformed content. The priorities don't need to be consecutive, but they must all be different. 
         public let priority: Int
@@ -3321,10 +2875,6 @@ extension WAFV2 {
     }
 
     public struct TimeWindow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
-        ]
 
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let endTime: TimeStamp
@@ -3343,10 +2893,6 @@ extension WAFV2 {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String
@@ -3385,14 +2931,6 @@ extension WAFV2 {
     }
 
     public struct UpdateIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Addresses", required: true, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
@@ -3447,9 +2985,6 @@ extension WAFV2 {
     }
 
     public struct UpdateIPSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextLockToken", required: false, type: .string)
-        ]
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3464,14 +2999,6 @@ extension WAFV2 {
     }
 
     public struct UpdateRegexPatternSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RegularExpressionList", required: true, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum)
-        ]
 
         /// A friendly description of the set. You cannot change the description of a set after you create it.
         public let description: String?
@@ -3524,9 +3051,6 @@ extension WAFV2 {
     }
 
     public struct UpdateRegexPatternSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextLockToken", required: false, type: .string)
-        ]
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3541,15 +3065,6 @@ extension WAFV2 {
     }
 
     public struct UpdateRuleGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "VisibilityConfig", required: true, type: .structure)
-        ]
 
         /// A friendly description of the rule group. You cannot change the description of a rule group after you create it.
         public let description: String?
@@ -3607,9 +3122,6 @@ extension WAFV2 {
     }
 
     public struct UpdateRuleGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextLockToken", required: false, type: .string)
-        ]
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3624,16 +3136,6 @@ extension WAFV2 {
     }
 
     public struct UpdateWebACLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultAction", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LockToken", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "VisibilityConfig", required: true, type: .structure)
-        ]
 
         /// The action to perform if none of the Rules contained in the WebACL match. 
         public let defaultAction: DefaultAction
@@ -3695,9 +3197,6 @@ extension WAFV2 {
     }
 
     public struct UpdateWebACLResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextLockToken", required: false, type: .string)
-        ]
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3720,11 +3219,6 @@ extension WAFV2 {
     }
 
     public struct VisibilityConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchMetricsEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "SampledRequestsEnabled", required: true, type: .boolean)
-        ]
 
         /// A boolean indicating whether the associated resource sends metrics to CloudWatch. For the list of available metrics, see AWS WAF Metrics.
         public let cloudWatchMetricsEnabled: Bool
@@ -3753,16 +3247,6 @@ extension WAFV2 {
     }
 
     public struct WebACL: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "Capacity", required: false, type: .long), 
-            AWSShapeMember(label: "DefaultAction", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "VisibilityConfig", required: true, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate with the resource.
         public let arn: String
@@ -3805,13 +3289,6 @@ extension WAFV2 {
     }
 
     public struct WebACLSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LockToken", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -3842,10 +3319,6 @@ extension WAFV2 {
     }
 
     public struct XssMatchStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeMember(label: "TextTransformations", required: true, type: .list)
-        ]
 
         /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
         public let fieldToMatch: FieldToMatch

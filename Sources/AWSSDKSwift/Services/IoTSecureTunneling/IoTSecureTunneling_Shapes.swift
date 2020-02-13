@@ -21,10 +21,6 @@ extension IoTSecureTunneling {
     //MARK: Shapes
 
     public struct CloseTunnelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "delete", required: false, type: .boolean), 
-            AWSShapeMember(label: "tunnelId", required: true, type: .string)
-        ]
 
         /// When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
         public let delete: Bool?
@@ -55,10 +51,6 @@ extension IoTSecureTunneling {
     }
 
     public struct ConnectionState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The last time the connection status was updated.
         public let lastUpdatedAt: TimeStamp?
@@ -77,9 +69,6 @@ extension IoTSecureTunneling {
     }
 
     public struct DescribeTunnelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tunnelId", required: true, type: .string)
-        ]
 
         /// The tunnel to describe.
         public let tunnelId: String
@@ -98,9 +87,6 @@ extension IoTSecureTunneling {
     }
 
     public struct DescribeTunnelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tunnel", required: false, type: .structure)
-        ]
 
         /// The tunnel being described.
         public let tunnel: Tunnel?
@@ -115,10 +101,6 @@ extension IoTSecureTunneling {
     }
 
     public struct DestinationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "services", required: true, type: .list), 
-            AWSShapeMember(label: "thingName", required: true, type: .string)
-        ]
 
         /// A list of service names that identity the target application. Currently, you can only specify a single name. The AWS IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The AWS IoT client instantiates the local proxy which uses this information to connect to the destination application.
         public let services: [String]
@@ -150,9 +132,6 @@ extension IoTSecureTunneling {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// The resource ARN.
         public let resourceArn: String
@@ -172,9 +151,6 @@ extension IoTSecureTunneling {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The tags for the specified resource.
         public let tags: [Tag]?
@@ -189,11 +165,6 @@ extension IoTSecureTunneling {
     }
 
     public struct ListTunnelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return at once.
         public let maxResults: Int?
@@ -225,10 +196,6 @@ extension IoTSecureTunneling {
     }
 
     public struct ListTunnelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tunnelSummaries", required: false, type: .list)
-        ]
 
         /// A token to used to retrieve the next set of results.
         public let nextToken: String?
@@ -247,12 +214,6 @@ extension IoTSecureTunneling {
     }
 
     public struct OpenTunnelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "destinationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure)
-        ]
 
         /// A short text description of the tunnel. 
         public let description: String?
@@ -290,12 +251,6 @@ extension IoTSecureTunneling {
     }
 
     public struct OpenTunnelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationAccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "sourceAccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "tunnelArn", required: false, type: .string), 
-            AWSShapeMember(label: "tunnelId", required: false, type: .string)
-        ]
 
         /// The access token the destination local proxy uses to connect to AWS IoT Secure Tunneling.
         public let destinationAccessToken: String?
@@ -322,10 +277,6 @@ extension IoTSecureTunneling {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The key of the tag.
         public let key: String
@@ -353,10 +304,6 @@ extension IoTSecureTunneling {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The ARN of the resource.
         public let resourceArn: String
@@ -393,9 +340,6 @@ extension IoTSecureTunneling {
     }
 
     public struct TimeoutConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxLifetimeTimeoutMinutes", required: false, type: .integer)
-        ]
 
         /// The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) 
         public let maxLifetimeTimeoutMinutes: Int?
@@ -415,19 +359,6 @@ extension IoTSecureTunneling {
     }
 
     public struct Tunnel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "destinationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "destinationConnectionState", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "sourceConnectionState", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tunnelArn", required: false, type: .string), 
-            AWSShapeMember(label: "tunnelId", required: false, type: .string)
-        ]
 
         /// The time when the tunnel was created.
         public let createdAt: TimeStamp?
@@ -482,14 +413,6 @@ extension IoTSecureTunneling {
     }
 
     public struct TunnelSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tunnelArn", required: false, type: .string), 
-            AWSShapeMember(label: "tunnelId", required: false, type: .string)
-        ]
 
         /// The time the tunnel was created.
         public let createdAt: TimeStamp?
@@ -524,10 +447,6 @@ extension IoTSecureTunneling {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The resource ARN.
         public let resourceArn: String

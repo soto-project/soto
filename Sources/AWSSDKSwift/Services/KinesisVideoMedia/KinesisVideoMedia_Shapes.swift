@@ -19,11 +19,6 @@ extension KinesisVideoMedia {
     //MARK: Shapes
 
     public struct GetMediaInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartSelector", required: true, type: .structure), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// Identifies the starting chunk to get from the specified stream. 
         public let startSelector: StartSelector
@@ -59,8 +54,8 @@ extension KinesisVideoMedia {
         /// The key for the payload
         public static let payloadPath: String? = "Payload"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Payload", required: false, type: .blob)
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type")), 
+            AWSShapeMember(label: "Payload", encoding: .blob)
         ]
 
         /// The content type of the requested media.
@@ -80,12 +75,6 @@ extension KinesisVideoMedia {
     }
 
     public struct StartSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AfterFragmentNumber", required: false, type: .string), 
-            AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartSelectorType", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTimestamp", required: false, type: .timestamp)
-        ]
 
         /// Specifies the fragment number from where you want the GetMedia API to start returning the fragments. 
         public let afterFragmentNumber: String?

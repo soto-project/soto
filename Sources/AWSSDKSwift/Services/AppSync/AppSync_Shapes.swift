@@ -118,11 +118,6 @@ extension AppSync {
     //MARK: Shapes
 
     public struct AdditionalAuthenticationProvider: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
-        ]
 
         /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
         public let authenticationType: AuthenticationType?
@@ -145,14 +140,6 @@ extension AppSync {
     }
 
     public struct ApiCache: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiCachingBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "atRestEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "transitEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ttl", required: false, type: .long), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
         public let apiCachingBehavior: ApiCachingBehavior?
@@ -187,11 +174,6 @@ extension AppSync {
     }
 
     public struct ApiKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "expires", required: false, type: .long), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
 
         /// A description of the purpose of the API key.
         public let description: String?
@@ -214,10 +196,6 @@ extension AppSync {
     }
 
     public struct AuthorizationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizationType", required: true, type: .enum), 
-            AWSShapeMember(label: "awsIamConfig", required: false, type: .structure)
-        ]
 
         /// The authorization type required by the HTTP endpoint.    AWS_IAM: The authorization type is Sigv4.  
         public let authorizationType: AuthorizationType
@@ -236,10 +214,6 @@ extension AppSync {
     }
 
     public struct AwsIamConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signingRegion", required: false, type: .string), 
-            AWSShapeMember(label: "signingServiceName", required: false, type: .string)
-        ]
 
         /// The signing region for AWS IAM authorization.
         public let signingRegion: String?
@@ -258,10 +232,6 @@ extension AppSync {
     }
 
     public struct CachingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cachingKeys", required: false, type: .list), 
-            AWSShapeMember(label: "ttl", required: false, type: .long)
-        ]
 
         /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.identity and $context.arguments maps.
         public let cachingKeys: [String]?
@@ -280,11 +250,6 @@ extension AppSync {
     }
 
     public struct CognitoUserPoolConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appIdClientRegex", required: false, type: .string), 
-            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "userPoolId", required: true, type: .string)
-        ]
 
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?
@@ -308,12 +273,7 @@ extension AppSync {
 
     public struct CreateApiCacheRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiCachingBehavior", required: true, type: .enum), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "atRestEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "transitEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ttl", required: true, type: .long), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
@@ -349,9 +309,6 @@ extension AppSync {
     }
 
     public struct CreateApiCacheResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiCache", required: false, type: .structure)
-        ]
 
         /// The ApiCache object.
         public let apiCache: ApiCache?
@@ -367,9 +324,7 @@ extension AppSync {
 
     public struct CreateApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "expires", required: false, type: .long)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The ID for your GraphQL API.
@@ -393,9 +348,6 @@ extension AppSync {
     }
 
     public struct CreateApiKeyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", required: false, type: .structure)
-        ]
 
         /// The API key.
         public let apiKey: ApiKey?
@@ -411,16 +363,7 @@ extension AppSync {
 
     public struct CreateDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID for the GraphQL API for the DataSource.
@@ -478,9 +421,6 @@ extension AppSync {
     }
 
     public struct CreateDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSource", required: false, type: .structure)
-        ]
 
         /// The DataSource object.
         public let dataSource: DataSource?
@@ -496,13 +436,7 @@ extension AppSync {
 
     public struct CreateFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "functionVersion", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The GraphQL API ID.
@@ -555,9 +489,6 @@ extension AppSync {
     }
 
     public struct CreateFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
-        ]
 
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
@@ -572,15 +503,6 @@ extension AppSync {
     }
 
     public struct CreateGraphqlApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalAuthenticationProviders", required: false, type: .list), 
-            AWSShapeMember(label: "authenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
-        ]
 
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
@@ -628,9 +550,6 @@ extension AppSync {
     }
 
     public struct CreateGraphqlApiResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
-        ]
 
         /// The GraphqlApi.
         public let graphqlApi: GraphqlApi?
@@ -646,16 +565,8 @@ extension AppSync {
 
     public struct CreateResolverRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "cachingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "fieldName", required: true, type: .string), 
-            AWSShapeMember(label: "kind", required: false, type: .enum), 
-            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The ID for the GraphQL API for which the resolver is being created.
@@ -723,9 +634,6 @@ extension AppSync {
     }
 
     public struct CreateResolverResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolver", required: false, type: .structure)
-        ]
 
         /// The Resolver object.
         public let resolver: Resolver?
@@ -741,9 +649,7 @@ extension AppSync {
 
     public struct CreateTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "format", required: true, type: .enum)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -767,9 +673,6 @@ extension AppSync {
     }
 
     public struct CreateTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .structure)
-        ]
 
         /// The Type object.
         public let `type`: `Type`?
@@ -784,18 +687,6 @@ extension AppSync {
     }
 
     public struct DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The data source ARN.
         public let dataSourceArn: String?
@@ -847,7 +738,7 @@ extension AppSync {
 
     public struct DeleteApiCacheRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -872,8 +763,8 @@ extension AppSync {
 
     public struct DeleteApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "id", location: .uri(locationName: "id"))
         ]
 
         /// The API ID.
@@ -902,8 +793,8 @@ extension AppSync {
 
     public struct DeleteDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The API ID.
@@ -938,8 +829,8 @@ extension AppSync {
 
     public struct DeleteFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -974,7 +865,7 @@ extension AppSync {
 
     public struct DeleteGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -999,9 +890,9 @@ extension AppSync {
 
     public struct DeleteResolverRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1043,8 +934,8 @@ extension AppSync {
 
     public struct DeleteTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1078,11 +969,6 @@ extension AppSync {
     }
 
     public struct DeltaSyncConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseTableTTL", required: false, type: .long), 
-            AWSShapeMember(label: "deltaSyncTableName", required: false, type: .string), 
-            AWSShapeMember(label: "deltaSyncTableTTL", required: false, type: .long)
-        ]
 
         /// The number of minutes an Item is stored in the datasource.
         public let baseTableTTL: Int64?
@@ -1105,13 +991,6 @@ extension AppSync {
     }
 
     public struct DynamodbDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "deltaSyncConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tableName", required: true, type: .string), 
-            AWSShapeMember(label: "useCallerCredentials", required: false, type: .boolean), 
-            AWSShapeMember(label: "versioned", required: false, type: .boolean)
-        ]
 
         /// The AWS Region.
         public let awsRegion: String
@@ -1142,10 +1021,6 @@ extension AppSync {
     }
 
     public struct ElasticsearchDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "endpoint", required: true, type: .string)
-        ]
 
         /// The AWS Region.
         public let awsRegion: String
@@ -1165,7 +1040,7 @@ extension AppSync {
 
     public struct FlushApiCacheRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -1189,16 +1064,6 @@ extension AppSync {
     }
 
     public struct FunctionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "functionArn", required: false, type: .string), 
-            AWSShapeMember(label: "functionId", required: false, type: .string), 
-            AWSShapeMember(label: "functionVersion", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
-        ]
 
         /// The name of the DataSource.
         public let dataSourceName: String?
@@ -1242,7 +1107,7 @@ extension AppSync {
 
     public struct GetApiCacheRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -1258,9 +1123,6 @@ extension AppSync {
     }
 
     public struct GetApiCacheResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiCache", required: false, type: .structure)
-        ]
 
         public let apiCache: ApiCache?
 
@@ -1275,8 +1137,8 @@ extension AppSync {
 
     public struct GetDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The API ID.
@@ -1302,9 +1164,6 @@ extension AppSync {
     }
 
     public struct GetDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSource", required: false, type: .structure)
-        ]
 
         /// The DataSource object.
         public let dataSource: DataSource?
@@ -1320,8 +1179,8 @@ extension AppSync {
 
     public struct GetFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -1347,9 +1206,6 @@ extension AppSync {
     }
 
     public struct GetFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
-        ]
 
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
@@ -1365,7 +1221,7 @@ extension AppSync {
 
     public struct GetGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID for the GraphQL API.
@@ -1381,9 +1237,6 @@ extension AppSync {
     }
 
     public struct GetGraphqlApiResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
-        ]
 
         /// The GraphqlApi object.
         public let graphqlApi: GraphqlApi?
@@ -1399,9 +1252,9 @@ extension AppSync {
 
     public struct GetIntrospectionSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "includeDirectives", location: .querystring(locationName: "includeDirectives"), required: false, type: .boolean)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format")), 
+            AWSShapeMember(label: "includeDirectives", location: .querystring(locationName: "includeDirectives"))
         ]
 
         /// The API ID.
@@ -1428,7 +1281,7 @@ extension AppSync {
         /// The key for the payload
         public static let payloadPath: String? = "schema"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "schema", required: false, type: .blob)
+            AWSShapeMember(label: "schema", encoding: .blob)
         ]
 
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
@@ -1445,9 +1298,9 @@ extension AppSync {
 
     public struct GetResolverRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1480,9 +1333,6 @@ extension AppSync {
     }
 
     public struct GetResolverResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolver", required: false, type: .structure)
-        ]
 
         /// The Resolver object.
         public let resolver: Resolver?
@@ -1498,7 +1348,7 @@ extension AppSync {
 
     public struct GetSchemaCreationStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -1514,10 +1364,6 @@ extension AppSync {
     }
 
     public struct GetSchemaCreationStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// Detailed information about the status of the schema creation operation.
         public let details: String?
@@ -1537,9 +1383,9 @@ extension AppSync {
 
     public struct GetTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1569,9 +1415,6 @@ extension AppSync {
     }
 
     public struct GetTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .structure)
-        ]
 
         /// The Type object.
         public let `type`: `Type`?
@@ -1586,18 +1429,6 @@ extension AppSync {
     }
 
     public struct GraphqlApi: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalAuthenticationProviders", required: false, type: .list), 
-            AWSShapeMember(label: "apiId", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "uris", required: false, type: .map), 
-            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
-        ]
 
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
@@ -1648,10 +1479,6 @@ extension AppSync {
     }
 
     public struct HttpDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "endpoint", required: false, type: .string)
-        ]
 
         /// The authorization config in case the HTTP endpoint requires authorization.
         public let authorizationConfig: AuthorizationConfig?
@@ -1670,9 +1497,6 @@ extension AppSync {
     }
 
     public struct LambdaConflictHandlerConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lambdaConflictHandlerArn", required: false, type: .string)
-        ]
 
         /// The Arn for the Lambda function to use as the Conflict Handler.
         public let lambdaConflictHandlerArn: String?
@@ -1687,9 +1511,6 @@ extension AppSync {
     }
 
     public struct LambdaDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lambdaFunctionArn", required: true, type: .string)
-        ]
 
         /// The ARN for the Lambda function.
         public let lambdaFunctionArn: String
@@ -1705,9 +1526,9 @@ extension AppSync {
 
     public struct ListApiKeysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -1739,10 +1560,6 @@ extension AppSync {
     }
 
     public struct ListApiKeysResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKeys", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The ApiKey objects.
         public let apiKeys: [ApiKey]?
@@ -1762,9 +1579,9 @@ extension AppSync {
 
     public struct ListDataSourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -1796,10 +1613,6 @@ extension AppSync {
     }
 
     public struct ListDataSourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSources", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The DataSource objects.
         public let dataSources: [DataSource]?
@@ -1819,9 +1632,9 @@ extension AppSync {
 
     public struct ListFunctionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The GraphQL API ID.
@@ -1853,10 +1666,6 @@ extension AppSync {
     }
 
     public struct ListFunctionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of Function objects.
         public let functions: [FunctionConfiguration]?
@@ -1876,8 +1685,8 @@ extension AppSync {
 
     public struct ListGraphqlApisRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results you want the request to return.
@@ -1905,10 +1714,6 @@ extension AppSync {
     }
 
     public struct ListGraphqlApisResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "graphqlApis", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The GraphqlApi objects.
         public let graphqlApis: [GraphqlApi]?
@@ -1928,10 +1733,10 @@ extension AppSync {
 
     public struct ListResolversByFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -1967,10 +1772,6 @@ extension AppSync {
     }
 
     public struct ListResolversByFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resolvers", required: false, type: .list)
-        ]
 
         /// An identifier that can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1990,10 +1791,10 @@ extension AppSync {
 
     public struct ListResolversRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -2029,10 +1830,6 @@ extension AppSync {
     }
 
     public struct ListResolversResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resolvers", required: false, type: .list)
-        ]
 
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2052,7 +1849,7 @@ extension AppSync {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The GraphqlApi ARN.
@@ -2074,9 +1871,6 @@ extension AppSync {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// A TagMap object.
         public let tags: [String: String]?
@@ -2092,10 +1886,10 @@ extension AppSync {
 
     public struct ListTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -2131,10 +1925,6 @@ extension AppSync {
     }
 
     public struct ListTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "types", required: false, type: .list)
-        ]
 
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2153,11 +1943,6 @@ extension AppSync {
     }
 
     public struct LogConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudWatchLogsRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "excludeVerboseContent", required: false, type: .boolean), 
-            AWSShapeMember(label: "fieldLogLevel", required: true, type: .enum)
-        ]
 
         /// The service role that AWS AppSync will assume to publish to Amazon CloudWatch logs in your account. 
         public let cloudWatchLogsRoleArn: String
@@ -2180,12 +1965,6 @@ extension AppSync {
     }
 
     public struct OpenIDConnectConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authTTL", required: false, type: .long), 
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "iatTTL", required: false, type: .long), 
-            AWSShapeMember(label: "issuer", required: true, type: .string)
-        ]
 
         /// The number of milliseconds a token is valid after being authenticated.
         public let authTTL: Int64?
@@ -2212,9 +1991,6 @@ extension AppSync {
     }
 
     public struct PipelineConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functions", required: false, type: .list)
-        ]
 
         /// A list of Function objects.
         public let functions: [String]?
@@ -2229,13 +2005,6 @@ extension AppSync {
     }
 
     public struct RdsHttpEndpointConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "awsSecretStoreArn", required: false, type: .string), 
-            AWSShapeMember(label: "databaseName", required: false, type: .string), 
-            AWSShapeMember(label: "dbClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string)
-        ]
 
         /// AWS Region for RDS HTTP endpoint.
         public let awsRegion: String?
@@ -2266,10 +2035,6 @@ extension AppSync {
     }
 
     public struct RelationalDatabaseDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rdsHttpEndpointConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "relationalDatabaseSourceType", required: false, type: .enum)
-        ]
 
         /// Amazon RDS HTTP endpoint settings.
         public let rdsHttpEndpointConfig: RdsHttpEndpointConfig?
@@ -2288,18 +2053,6 @@ extension AppSync {
     }
 
     public struct Resolver: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cachingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "fieldName", required: false, type: .string), 
-            AWSShapeMember(label: "kind", required: false, type: .enum), 
-            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "resolverArn", required: false, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "typeName", required: false, type: .string)
-        ]
 
         /// The caching configuration for the resolver.
         public let cachingConfig: CachingConfig?
@@ -2351,8 +2104,7 @@ extension AppSync {
 
     public struct StartSchemaCreationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "definition", required: true, type: .blob)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -2372,9 +2124,6 @@ extension AppSync {
     }
 
     public struct StartSchemaCreationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
         public let status: SchemaStatus?
@@ -2389,11 +2138,6 @@ extension AppSync {
     }
 
     public struct SyncConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "conflictDetection", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictHandler", required: false, type: .enum), 
-            AWSShapeMember(label: "lambdaConflictHandlerConfig", required: false, type: .structure)
-        ]
 
         /// The Conflict Detection strategy to use.    VERSION: Detect conflicts based on object versions for this resolver.    NONE: Do not detect conflicts when executing this resolver.  
         public let conflictDetection: ConflictDetectionType?
@@ -2417,8 +2161,7 @@ extension AppSync {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The GraphqlApi ARN.
@@ -2458,13 +2201,6 @@ extension AppSync {
     }
 
     public struct `Type`: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "definition", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "format", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The type ARN.
         public let arn: String?
@@ -2496,8 +2232,8 @@ extension AppSync {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The GraphqlApi ARN.
@@ -2539,10 +2275,7 @@ extension AppSync {
 
     public struct UpdateApiCacheRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiCachingBehavior", required: true, type: .enum), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "ttl", required: true, type: .long), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
@@ -2570,9 +2303,6 @@ extension AppSync {
     }
 
     public struct UpdateApiCacheResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiCache", required: false, type: .structure)
-        ]
 
         /// The ApiCache object.
         public let apiCache: ApiCache?
@@ -2588,10 +2318,8 @@ extension AppSync {
 
     public struct UpdateApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "expires", required: false, type: .long), 
-            AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "id", location: .uri(locationName: "id"))
         ]
 
         /// The ID for the GraphQL API.
@@ -2619,9 +2347,6 @@ extension AppSync {
     }
 
     public struct UpdateApiKeyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", required: false, type: .structure)
-        ]
 
         /// The API key.
         public let apiKey: ApiKey?
@@ -2637,16 +2362,8 @@ extension AppSync {
 
     public struct UpdateDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The API ID.
@@ -2704,9 +2421,6 @@ extension AppSync {
     }
 
     public struct UpdateDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSource", required: false, type: .structure)
-        ]
 
         /// The updated DataSource object.
         public let dataSource: DataSource?
@@ -2722,14 +2436,8 @@ extension AppSync {
 
     public struct UpdateFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string), 
-            AWSShapeMember(label: "functionVersion", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -2789,9 +2497,6 @@ extension AppSync {
     }
 
     public struct UpdateFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
-        ]
 
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
@@ -2807,13 +2512,7 @@ extension AppSync {
 
     public struct UpdateGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalAuthenticationProviders", required: false, type: .list), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// A list of additional authentication providers for the GraphqlApi API.
@@ -2853,9 +2552,6 @@ extension AppSync {
     }
 
     public struct UpdateGraphqlApiResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
-        ]
 
         /// The updated GraphqlApi object.
         public let graphqlApi: GraphqlApi?
@@ -2871,16 +2567,9 @@ extension AppSync {
 
     public struct UpdateResolverRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "cachingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
-            AWSShapeMember(label: "kind", required: false, type: .enum), 
-            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "syncConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -2948,9 +2637,6 @@ extension AppSync {
     }
 
     public struct UpdateResolverResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolver", required: false, type: .structure)
-        ]
 
         /// The updated Resolver object.
         public let resolver: Resolver?
@@ -2966,10 +2652,8 @@ extension AppSync {
 
     public struct UpdateTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "definition", required: false, type: .string), 
-            AWSShapeMember(label: "format", required: true, type: .enum), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -3003,9 +2687,6 @@ extension AppSync {
     }
 
     public struct UpdateTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .structure)
-        ]
 
         /// The updated Type object.
         public let `type`: `Type`?
@@ -3020,12 +2701,6 @@ extension AppSync {
     }
 
     public struct UserPoolConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appIdClientRegex", required: false, type: .string), 
-            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "defaultAction", required: true, type: .enum), 
-            AWSShapeMember(label: "userPoolId", required: true, type: .string)
-        ]
 
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?

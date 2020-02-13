@@ -9,12 +9,6 @@ extension PersonalizeEvents {
     //MARK: Shapes
 
     public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventId", required: false, type: .string), 
-            AWSShapeMember(label: "eventType", required: true, type: .string), 
-            AWSShapeMember(label: "properties", required: true, type: .string), 
-            AWSShapeMember(label: "sentAt", required: true, type: .timestamp)
-        ]
 
         /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinquish unique events. Any subsequent events after the first with the same event ID are not used in model training.
         public let eventId: String?
@@ -50,12 +44,6 @@ extension PersonalizeEvents {
     }
 
     public struct PutEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventList", required: true, type: .list), 
-            AWSShapeMember(label: "sessionId", required: true, type: .string), 
-            AWSShapeMember(label: "trackingId", required: true, type: .string), 
-            AWSShapeMember(label: "userId", required: false, type: .string)
-        ]
 
         /// A list of event data from the session.
         public let eventList: [Event]

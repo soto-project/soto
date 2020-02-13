@@ -76,11 +76,6 @@ extension FraudDetector {
     //MARK: Shapes
 
     public struct BatchCreateVariableError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .integer), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The error code. 
         public let code: Int?
@@ -103,9 +98,6 @@ extension FraudDetector {
     }
 
     public struct BatchCreateVariableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "variableEntries", required: true, type: .list)
-        ]
 
         /// The list of variables for the batch create variable request.
         public let variableEntries: [VariableEntry]
@@ -125,9 +117,6 @@ extension FraudDetector {
     }
 
     public struct BatchCreateVariableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errors", required: false, type: .list)
-        ]
 
         /// Provides the errors for the BatchCreateVariable request.
         public let errors: [BatchCreateVariableError]?
@@ -142,11 +131,6 @@ extension FraudDetector {
     }
 
     public struct BatchGetVariableError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .integer), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The error code. 
         public let code: Int?
@@ -169,9 +153,6 @@ extension FraudDetector {
     }
 
     public struct BatchGetVariableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "names", required: true, type: .list)
-        ]
 
         /// The list of variable names to get.
         public let names: [String]
@@ -191,10 +172,6 @@ extension FraudDetector {
     }
 
     public struct BatchGetVariableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errors", required: false, type: .list), 
-            AWSShapeMember(label: "variables", required: false, type: .list)
-        ]
 
         /// The errors from the request.
         public let errors: [BatchGetVariableError]?
@@ -213,13 +190,6 @@ extension FraudDetector {
     }
 
     public struct CreateDetectorVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "externalModelEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "modelVersions", required: false, type: .list), 
-            AWSShapeMember(label: "rules", required: true, type: .list)
-        ]
 
         /// The description of the detector version.
         public let description: String?
@@ -264,11 +234,6 @@ extension FraudDetector {
     }
 
     public struct CreateDetectorVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: false, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The ID for the created version's parent detector.
         public let detectorId: String?
@@ -291,11 +256,6 @@ extension FraudDetector {
     }
 
     public struct CreateModelVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "modelId", required: true, type: .string), 
-            AWSShapeMember(label: "modelType", required: true, type: .enum)
-        ]
 
         /// The model version description.
         public let description: String?
@@ -326,12 +286,6 @@ extension FraudDetector {
     }
 
     public struct CreateModelVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelId", required: false, type: .string), 
-            AWSShapeMember(label: "modelType", required: false, type: .enum), 
-            AWSShapeMember(label: "modelVersionNumber", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string)
-        ]
 
         /// The model ID. 
         public let modelId: String?
@@ -358,14 +312,6 @@ extension FraudDetector {
     }
 
     public struct CreateRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "expression", required: true, type: .string), 
-            AWSShapeMember(label: "language", required: true, type: .enum), 
-            AWSShapeMember(label: "outcomes", required: true, type: .list), 
-            AWSShapeMember(label: "ruleId", required: true, type: .string)
-        ]
 
         /// The rule description.
         public let description: String?
@@ -414,9 +360,6 @@ extension FraudDetector {
     }
 
     public struct CreateRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rule", required: false, type: .structure)
-        ]
 
         /// The created rule.
         public let rule: Rule?
@@ -431,14 +374,6 @@ extension FraudDetector {
     }
 
     public struct CreateVariableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSource", required: true, type: .enum), 
-            AWSShapeMember(label: "dataType", required: true, type: .enum), 
-            AWSShapeMember(label: "defaultValue", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "variableType", required: false, type: .string)
-        ]
 
         /// The source of the data.
         public let dataSource: DataSource
@@ -481,10 +416,6 @@ extension FraudDetector {
     }
 
     public struct DeleteDetectorVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: true, type: .string)
-        ]
 
         /// The ID of the parent detector for the detector version to delete.
         public let detectorId: String
@@ -518,9 +449,6 @@ extension FraudDetector {
     }
 
     public struct DeleteEventRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventId", required: true, type: .string)
-        ]
 
         /// The ID of the event to delete.
         public let eventId: String
@@ -543,11 +471,6 @@ extension FraudDetector {
     }
 
     public struct DescribeDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The detector ID.
         public let detectorId: String
@@ -578,11 +501,6 @@ extension FraudDetector {
     }
 
     public struct DescribeDetectorResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: false, type: .string), 
-            AWSShapeMember(label: "detectorVersionSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The detector ID.
         public let detectorId: String?
@@ -605,13 +523,6 @@ extension FraudDetector {
     }
 
     public struct DescribeModelVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "modelId", required: false, type: .string), 
-            AWSShapeMember(label: "modelType", required: false, type: .enum), 
-            AWSShapeMember(label: "modelVersionNumber", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -651,10 +562,6 @@ extension FraudDetector {
     }
 
     public struct DescribeModelVersionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelVersionDetails", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The model version details.
         public let modelVersionDetails: [ModelVersionDetail]?
@@ -673,12 +580,6 @@ extension FraudDetector {
     }
 
     public struct Detector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string)
-        ]
 
         /// Timestamp of when the detector was created.
         public let createdTime: String?
@@ -705,12 +606,6 @@ extension FraudDetector {
     }
 
     public struct DetectorVersionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The detector version description. 
         public let description: String?
@@ -737,16 +632,6 @@ extension FraudDetector {
     }
 
     public struct ExternalModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "inputConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "modelEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "modelEndpointStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "modelSource", required: false, type: .enum), 
-            AWSShapeMember(label: "outputConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "role", required: false, type: .structure)
-        ]
 
         /// Timestamp of when the model was last created.
         public let createdTime: String?
@@ -789,10 +674,6 @@ extension FraudDetector {
     }
 
     public struct GetDetectorVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: true, type: .string)
-        ]
 
         /// The detector ID.
         public let detectorId: String
@@ -818,17 +699,6 @@ extension FraudDetector {
     }
 
     public struct GetDetectorVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorId", required: false, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "externalModelEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "modelVersions", required: false, type: .list), 
-            AWSShapeMember(label: "rules", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The timestamp when the detector version was created. 
         public let createdTime: String?
@@ -875,11 +745,6 @@ extension FraudDetector {
     }
 
     public struct GetDetectorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The detector ID.
         public let detectorId: String?
@@ -910,10 +775,6 @@ extension FraudDetector {
     }
 
     public struct GetDetectorsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectors", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The detectors.
         public let detectors: [Detector]?
@@ -932,11 +793,6 @@ extension FraudDetector {
     }
 
     public struct GetExternalModelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "modelEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of objects to return for the request.
         public let maxResults: Int?
@@ -964,10 +820,6 @@ extension FraudDetector {
     }
 
     public struct GetExternalModelsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "externalModels", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Gets the Amazon SageMaker models.
         public let externalModels: [ExternalModel]?
@@ -986,11 +838,6 @@ extension FraudDetector {
     }
 
     public struct GetModelVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelId", required: true, type: .string), 
-            AWSShapeMember(label: "modelType", required: true, type: .enum), 
-            AWSShapeMember(label: "modelVersionNumber", required: true, type: .string)
-        ]
 
         /// The model ID. 
         public let modelId: String
@@ -1020,13 +867,6 @@ extension FraudDetector {
     }
 
     public struct GetModelVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "modelId", required: false, type: .string), 
-            AWSShapeMember(label: "modelType", required: false, type: .enum), 
-            AWSShapeMember(label: "modelVersionNumber", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string)
-        ]
 
         /// The model version description.
         public let description: String?
@@ -1057,12 +897,6 @@ extension FraudDetector {
     }
 
     public struct GetModelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "modelId", required: false, type: .string), 
-            AWSShapeMember(label: "modelType", required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum results to return for the request.
         public let maxResults: Int?
@@ -1097,10 +931,6 @@ extension FraudDetector {
     }
 
     public struct GetModelsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "models", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The returned models. 
         public let models: [Model]?
@@ -1119,11 +949,6 @@ extension FraudDetector {
     }
 
     public struct GetOutcomesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of objects to return for the request. 
         public let maxResults: Int?
@@ -1154,10 +979,6 @@ extension FraudDetector {
     }
 
     public struct GetOutcomesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "outcomes", required: false, type: .list)
-        ]
 
         /// The next page token for subsequent requests.
         public let nextToken: String?
@@ -1176,13 +997,6 @@ extension FraudDetector {
     }
 
     public struct GetPredictionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "eventAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "eventId", required: true, type: .string), 
-            AWSShapeMember(label: "externalModelEndpointDataBlobs", required: false, type: .map)
-        ]
 
         /// The detector ID. 
         public let detectorId: String
@@ -1225,10 +1039,6 @@ extension FraudDetector {
     }
 
     public struct GetPredictionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelScores", required: false, type: .list), 
-            AWSShapeMember(label: "outcomes", required: false, type: .list)
-        ]
 
         /// The model scores for models used in the detector version.
         public let modelScores: [ModelScores]?
@@ -1247,13 +1057,6 @@ extension FraudDetector {
     }
 
     public struct GetRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ruleId", required: false, type: .string), 
-            AWSShapeMember(label: "ruleVersion", required: false, type: .string)
-        ]
 
         /// The detector ID.
         public let detectorId: String
@@ -1296,10 +1099,6 @@ extension FraudDetector {
     }
 
     public struct GetRulesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ruleDetails", required: false, type: .list)
-        ]
 
         /// The next page token to be used in subsequent requests.
         public let nextToken: String?
@@ -1318,11 +1117,6 @@ extension FraudDetector {
     }
 
     public struct GetVariablesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The max size per page determined for the get variable request. 
         public let maxResults: Int?
@@ -1350,10 +1144,6 @@ extension FraudDetector {
     }
 
     public struct GetVariablesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "variables", required: false, type: .list)
-        ]
 
         /// The next page token to be used in subsequent requests. 
         public let nextToken: String?
@@ -1372,10 +1162,6 @@ extension FraudDetector {
     }
 
     public struct LabelSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "labelKey", required: true, type: .string), 
-            AWSShapeMember(label: "labelMapper", required: true, type: .map)
-        ]
 
         /// The label key.
         public let labelKey: String
@@ -1394,16 +1180,6 @@ extension FraudDetector {
     }
 
     public struct Model: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "labelSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "modelId", required: false, type: .string), 
-            AWSShapeMember(label: "modelType", required: false, type: .enum), 
-            AWSShapeMember(label: "modelVariables", required: false, type: .list), 
-            AWSShapeMember(label: "trainingDataSource", required: false, type: .structure)
-        ]
 
         /// Timestamp of when the model was created.
         public let createdTime: String?
@@ -1446,10 +1222,6 @@ extension FraudDetector {
     }
 
     public struct ModelEndpointDataBlob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "byteBuffer", required: false, type: .blob), 
-            AWSShapeMember(label: "contentType", required: false, type: .string)
-        ]
 
         /// The byte buffer of the Amazon SageMaker model endpoint input data blob.
         public let byteBuffer: Data?
@@ -1473,12 +1245,6 @@ extension FraudDetector {
     }
 
     public struct ModelInputConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "csvInputTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "format", required: false, type: .enum), 
-            AWSShapeMember(label: "isOpaque", required: true, type: .boolean), 
-            AWSShapeMember(label: "jsonInputTemplate", required: false, type: .string)
-        ]
 
         ///  Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker. 
         public let csvInputTemplate: String?
@@ -1505,11 +1271,6 @@ extension FraudDetector {
     }
 
     public struct ModelOutputConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "csvIndexToVariableMap", required: false, type: .map), 
-            AWSShapeMember(label: "format", required: true, type: .enum), 
-            AWSShapeMember(label: "jsonKeyToVariableMap", required: false, type: .map)
-        ]
 
         /// A map of CSV index values in the SageMaker response to the Amazon Fraud Detector variables. 
         public let csvIndexToVariableMap: [String: String]?
@@ -1532,10 +1293,6 @@ extension FraudDetector {
     }
 
     public struct ModelScores: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "scores", required: false, type: .map)
-        ]
 
         /// The model version.
         public let modelVersion: ModelVersion?
@@ -1554,10 +1311,6 @@ extension FraudDetector {
     }
 
     public struct ModelVariable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "index", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The model variable's index.&gt;
         public let index: Int?
@@ -1576,11 +1329,6 @@ extension FraudDetector {
     }
 
     public struct ModelVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelId", required: true, type: .string), 
-            AWSShapeMember(label: "modelType", required: true, type: .enum), 
-            AWSShapeMember(label: "modelVersionNumber", required: true, type: .string)
-        ]
 
         /// The parent model ID.
         public let modelId: String
@@ -1610,20 +1358,6 @@ extension FraudDetector {
     }
 
     public struct ModelVersionDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "labelSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "modelId", required: false, type: .string), 
-            AWSShapeMember(label: "modelType", required: false, type: .enum), 
-            AWSShapeMember(label: "modelVariables", required: false, type: .list), 
-            AWSShapeMember(label: "modelVersionNumber", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "trainingDataSource", required: false, type: .structure), 
-            AWSShapeMember(label: "trainingMetrics", required: false, type: .map), 
-            AWSShapeMember(label: "validationMetrics", required: false, type: .map)
-        ]
 
         /// The timestamp when the model was created.
         public let createdTime: String?
@@ -1682,12 +1416,6 @@ extension FraudDetector {
     }
 
     public struct Outcome: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The timestamp when the outcome was created.
         public let createdTime: String?
@@ -1714,10 +1442,6 @@ extension FraudDetector {
     }
 
     public struct PutDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorId", required: true, type: .string)
-        ]
 
         /// The description of the detector.
         public let description: String?
@@ -1752,14 +1476,6 @@ extension FraudDetector {
     }
 
     public struct PutExternalModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "modelEndpoint", required: true, type: .string), 
-            AWSShapeMember(label: "modelEndpointStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "modelSource", required: true, type: .enum), 
-            AWSShapeMember(label: "outputConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "role", required: true, type: .structure)
-        ]
 
         /// The model endpoint input configuration.
         public let inputConfiguration: ModelInputConfiguration
@@ -1802,14 +1518,6 @@ extension FraudDetector {
     }
 
     public struct PutModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "labelSchema", required: true, type: .structure), 
-            AWSShapeMember(label: "modelId", required: true, type: .string), 
-            AWSShapeMember(label: "modelType", required: true, type: .enum), 
-            AWSShapeMember(label: "modelVariables", required: true, type: .list), 
-            AWSShapeMember(label: "trainingDataSource", required: true, type: .structure)
-        ]
 
         /// The model description. 
         public let description: String?
@@ -1861,10 +1569,6 @@ extension FraudDetector {
     }
 
     public struct PutOutcomeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The outcome description.
         public let description: String?
@@ -1899,10 +1603,6 @@ extension FraudDetector {
     }
 
     public struct Role: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The role ARN.
         public let arn: String
@@ -1921,11 +1621,6 @@ extension FraudDetector {
     }
 
     public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "ruleId", required: true, type: .string), 
-            AWSShapeMember(label: "ruleVersion", required: true, type: .string)
-        ]
 
         /// The detector for which the rule is associated.
         public let detectorId: String
@@ -1958,17 +1653,6 @@ extension FraudDetector {
     }
 
     public struct RuleDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorId", required: false, type: .string), 
-            AWSShapeMember(label: "expression", required: false, type: .string), 
-            AWSShapeMember(label: "language", required: false, type: .enum), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "outcomes", required: false, type: .list), 
-            AWSShapeMember(label: "ruleId", required: false, type: .string), 
-            AWSShapeMember(label: "ruleVersion", required: false, type: .string)
-        ]
 
         /// The timestamp of when the rule was created.
         public let createdTime: String?
@@ -2015,10 +1699,6 @@ extension FraudDetector {
     }
 
     public struct TrainingDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataAccessRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "dataLocation", required: true, type: .string)
-        ]
 
         /// The data access role ARN for the training data source.
         public let dataAccessRoleArn: String
@@ -2046,11 +1726,6 @@ extension FraudDetector {
     }
 
     public struct UpdateDetectorVersionMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: true, type: .string)
-        ]
 
         /// The description.
         public let description: String
@@ -2090,14 +1765,6 @@ extension FraudDetector {
     }
 
     public struct UpdateDetectorVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: true, type: .string), 
-            AWSShapeMember(label: "externalModelEndpoints", required: true, type: .list), 
-            AWSShapeMember(label: "modelVersions", required: false, type: .list), 
-            AWSShapeMember(label: "rules", required: true, type: .list)
-        ]
 
         /// The detector version description. 
         public let description: String?
@@ -2155,11 +1822,6 @@ extension FraudDetector {
     }
 
     public struct UpdateDetectorVersionStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorId", required: true, type: .string), 
-            AWSShapeMember(label: "detectorVersionId", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         /// The detector ID. 
         public let detectorId: String
@@ -2197,13 +1859,6 @@ extension FraudDetector {
     }
 
     public struct UpdateModelVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "modelId", required: true, type: .string), 
-            AWSShapeMember(label: "modelType", required: true, type: .enum), 
-            AWSShapeMember(label: "modelVersionNumber", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         /// The model description.
         public let description: String
@@ -2251,10 +1906,6 @@ extension FraudDetector {
     }
 
     public struct UpdateRuleMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "rule", required: true, type: .structure)
-        ]
 
         /// The rule description.
         public let description: String
@@ -2287,13 +1938,6 @@ extension FraudDetector {
     }
 
     public struct UpdateRuleVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "expression", required: true, type: .string), 
-            AWSShapeMember(label: "language", required: true, type: .enum), 
-            AWSShapeMember(label: "outcomes", required: true, type: .list), 
-            AWSShapeMember(label: "rule", required: true, type: .structure)
-        ]
 
         /// The description.
         public let description: String?
@@ -2333,9 +1977,6 @@ extension FraudDetector {
     }
 
     public struct UpdateRuleVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rule", required: false, type: .structure)
-        ]
 
         /// The new rule version that was created.
         public let rule: Rule?
@@ -2350,12 +1991,6 @@ extension FraudDetector {
     }
 
     public struct UpdateVariableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "variableType", required: false, type: .string)
-        ]
 
         /// The new default value of the variable.
         public let defaultValue: String?
@@ -2390,16 +2025,6 @@ extension FraudDetector {
     }
 
     public struct Variable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTime", required: false, type: .string), 
-            AWSShapeMember(label: "dataSource", required: false, type: .enum), 
-            AWSShapeMember(label: "dataType", required: false, type: .enum), 
-            AWSShapeMember(label: "defaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "variableType", required: false, type: .string)
-        ]
 
         /// The time when the variable was created.
         public let createdTime: String?
@@ -2442,14 +2067,6 @@ extension FraudDetector {
     }
 
     public struct VariableEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSource", required: false, type: .string), 
-            AWSShapeMember(label: "dataType", required: false, type: .string), 
-            AWSShapeMember(label: "defaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "variableType", required: false, type: .string)
-        ]
 
         /// The data source of the variable entry.
         public let dataSource: String?

@@ -36,10 +36,6 @@ extension Translate {
     //MARK: Shapes
 
     public struct AppliedTerminology: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Terms", required: false, type: .list)
-        ]
 
         /// The name of the custom terminology applied to the input text by Amazon Translate for the translated text response.
         public let name: String?
@@ -58,9 +54,6 @@ extension Translate {
     }
 
     public struct DeleteTerminologyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the custom terminology being deleted. 
         public let name: String
@@ -81,9 +74,6 @@ extension Translate {
     }
 
     public struct DescribeTextTranslationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
 
         /// The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its response.
         public let jobId: String
@@ -104,9 +94,6 @@ extension Translate {
     }
 
     public struct DescribeTextTranslationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TextTranslationJobProperties", required: false, type: .structure)
-        ]
 
         /// An object that contains the properties associated with an asynchronous batch translation job.
         public let textTranslationJobProperties: TextTranslationJobProperties?
@@ -121,10 +108,6 @@ extension Translate {
     }
 
     public struct EncryptionKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt the custom terminology.
         public let id: String
@@ -149,10 +132,6 @@ extension Translate {
     }
 
     public struct GetTerminologyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TerminologyDataFormat", required: true, type: .enum)
-        ]
 
         /// The name of the custom terminology being retrieved.
         public let name: String
@@ -177,10 +156,6 @@ extension Translate {
     }
 
     public struct GetTerminologyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminologyDataLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "TerminologyProperties", required: false, type: .structure)
-        ]
 
         /// The data location of the custom terminology being retrieved. The custom terminology file is returned in a presigned url that has a 30 minute expiration.
         public let terminologyDataLocation: TerminologyDataLocation?
@@ -199,13 +174,6 @@ extension Translate {
     }
 
     public struct ImportTerminologyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionKey", required: false, type: .structure), 
-            AWSShapeMember(label: "MergeStrategy", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TerminologyData", required: true, type: .structure)
-        ]
 
         /// The description of the custom terminology being imported.
         public let description: String?
@@ -246,9 +214,6 @@ extension Translate {
     }
 
     public struct ImportTerminologyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminologyProperties", required: false, type: .structure)
-        ]
 
         /// The properties of the custom terminology being imported.
         public let terminologyProperties: TerminologyProperties?
@@ -263,10 +228,6 @@ extension Translate {
     }
 
     public struct InputDataConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentType", required: true, type: .string), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// The multipurpose internet mail extension (MIME) type of the input files. Valid values are text/plain for plaintext files and text/html for HTML files.
         public let contentType: String
@@ -292,11 +253,6 @@ extension Translate {
     }
 
     public struct JobDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentsWithErrorsCount", required: false, type: .integer), 
-            AWSShapeMember(label: "InputDocumentsCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TranslatedDocumentsCount", required: false, type: .integer)
-        ]
 
         /// The number of documents that could not be processed during a translation job.
         public let documentsWithErrorsCount: Int?
@@ -319,10 +275,6 @@ extension Translate {
     }
 
     public struct ListTerminologiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of custom terminologies returned per list request.
         public let maxResults: Int?
@@ -348,10 +300,6 @@ extension Translate {
     }
 
     public struct ListTerminologiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TerminologyPropertiesList", required: false, type: .list)
-        ]
 
         ///  If the response to the ListTerminologies was truncated, the NextToken fetches the next group of custom terminologies.
         public let nextToken: String?
@@ -370,11 +318,6 @@ extension Translate {
     }
 
     public struct ListTextTranslationJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The parameters that specify which batch translation jobs to retrieve. Filters include job name, job status, and submission time. You can only set one filter at a time.
         public let filter: TextTranslationJobFilter?
@@ -405,10 +348,6 @@ extension Translate {
     }
 
     public struct ListTextTranslationJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TextTranslationJobPropertiesList", required: false, type: .list)
-        ]
 
         /// The token to use to retreive the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -427,9 +366,6 @@ extension Translate {
     }
 
     public struct OutputDataConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// The URI of the S3 folder that contains a translation job's output file. The folder must be in the same Region as the API endpoint that you are calling.
         public let s3Uri: String
@@ -449,16 +385,6 @@ extension Translate {
     }
 
     public struct StartTextTranslationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "SourceLanguageCode", required: true, type: .string), 
-            AWSShapeMember(label: "TargetLanguageCodes", required: true, type: .list), 
-            AWSShapeMember(label: "TerminologyNames", required: false, type: .list)
-        ]
 
         /// The client token of the EC2 instance calling the request. This token is auto-generated when using the Amazon Translate SDK. Otherwise, use the DescribeInstances EC2 operation to retreive an instance's client token. For more information, see Client Tokens in the EC2 User Guide.
         public let clientToken: String
@@ -528,10 +454,6 @@ extension Translate {
     }
 
     public struct StartTextTranslationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
 
         /// The identifier generated for the job. To get the status of a job, use this ID with the DescribeTextTranslationJob operation.
         public let jobId: String?
@@ -550,9 +472,6 @@ extension Translate {
     }
 
     public struct StopTextTranslationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
 
         /// The job ID of the job to be stopped.
         public let jobId: String
@@ -573,10 +492,6 @@ extension Translate {
     }
 
     public struct StopTextTranslationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
 
         /// The job ID of the stopped batch translation job.
         public let jobId: String?
@@ -595,10 +510,6 @@ extension Translate {
     }
 
     public struct Term: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceText", required: false, type: .string), 
-            AWSShapeMember(label: "TargetText", required: false, type: .string)
-        ]
 
         /// The source text of the term being translated by the custom terminology.
         public let sourceText: String?
@@ -617,10 +528,6 @@ extension Translate {
     }
 
     public struct TerminologyData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "File", required: true, type: .blob), 
-            AWSShapeMember(label: "Format", required: true, type: .enum)
-        ]
 
         /// The file containing the custom terminology data. Your version of the AWS SDK performs a Base64-encoding on this field before sending a request to the AWS service. Users of the SDK should not perform Base64-encoding themselves.
         public let file: Data
@@ -643,10 +550,6 @@ extension Translate {
     }
 
     public struct TerminologyDataLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", required: true, type: .string), 
-            AWSShapeMember(label: "RepositoryType", required: true, type: .string)
-        ]
 
         /// The location of the custom terminology data.
         public let location: String
@@ -665,18 +568,6 @@ extension Translate {
     }
 
     public struct TerminologyProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionKey", required: false, type: .structure), 
-            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SizeBytes", required: false, type: .integer), 
-            AWSShapeMember(label: "SourceLanguageCode", required: false, type: .string), 
-            AWSShapeMember(label: "TargetLanguageCodes", required: false, type: .list), 
-            AWSShapeMember(label: "TermCount", required: false, type: .integer)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the custom terminology. 
         public let arn: String?
@@ -727,12 +618,6 @@ extension Translate {
     }
 
     public struct TextTranslationJobFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmittedAfterTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SubmittedBeforeTime", required: false, type: .timestamp)
-        ]
 
         /// Filters the list of jobs by name.
         public let jobName: String?
@@ -765,21 +650,6 @@ extension Translate {
     }
 
     public struct TextTranslationJobProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "JobDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceLanguageCode", required: false, type: .string), 
-            AWSShapeMember(label: "SubmittedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TargetLanguageCodes", required: false, type: .list), 
-            AWSShapeMember(label: "TerminologyNames", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that granted Amazon Translate read access to the job's input data.
         public let dataAccessRoleArn: String?
@@ -842,12 +712,6 @@ extension Translate {
     }
 
     public struct TranslateTextRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceLanguageCode", required: true, type: .string), 
-            AWSShapeMember(label: "TargetLanguageCode", required: true, type: .string), 
-            AWSShapeMember(label: "TerminologyNames", required: false, type: .list), 
-            AWSShapeMember(label: "Text", required: true, type: .string)
-        ]
 
         /// The language code for the language of the source text. The language must be a language supported by Amazon Translate. For a list of language codes, see what-is-languages. To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
         public let sourceLanguageCode: String
@@ -889,12 +753,6 @@ extension Translate {
     }
 
     public struct TranslateTextResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppliedTerminologies", required: false, type: .list), 
-            AWSShapeMember(label: "SourceLanguageCode", required: true, type: .string), 
-            AWSShapeMember(label: "TargetLanguageCode", required: true, type: .string), 
-            AWSShapeMember(label: "TranslatedText", required: true, type: .string)
-        ]
 
         /// The names of the custom terminologies applied to the input text by Amazon Translate for the translated text response.
         public let appliedTerminologies: [AppliedTerminology]?

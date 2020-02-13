@@ -279,14 +279,6 @@ extension Glue {
     //MARK: Shapes
 
     public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "CrawlerName", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer)
-        ]
 
         /// The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -335,12 +327,6 @@ extension Glue {
     }
 
     public struct BatchCreatePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionInputList", required: true, type: .list), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the catalog in which the partition is to be created. Currently, this should be the AWS account ID.
         public let catalogId: String?
@@ -384,9 +370,6 @@ extension Glue {
     }
 
     public struct BatchCreatePartitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
 
         /// The errors encountered when trying to create the requested partitions.
         public let errors: [PartitionError]?
@@ -401,10 +384,6 @@ extension Glue {
     }
 
     public struct BatchDeleteConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionNameList", required: true, type: .list)
-        ]
 
         /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -436,10 +415,6 @@ extension Glue {
     }
 
     public struct BatchDeleteConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .map), 
-            AWSShapeMember(label: "Succeeded", required: false, type: .list)
-        ]
 
         /// A map of the names of connections that were not successfully deleted to error details.
         public let errors: [String: ErrorDetail]?
@@ -458,12 +433,6 @@ extension Glue {
     }
 
     public struct BatchDeletePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionsToDelete", required: true, type: .list), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -507,9 +476,6 @@ extension Glue {
     }
 
     public struct BatchDeletePartitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
 
         /// The errors encountered when trying to delete the requested partitions.
         public let errors: [PartitionError]?
@@ -524,11 +490,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TablesToDelete", required: true, type: .list)
-        ]
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -567,9 +528,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
 
         /// A list of errors encountered in attempting to delete the specified tables.
         public let errors: [TableError]?
@@ -584,12 +542,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "VersionIds", required: true, type: .list)
-        ]
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -635,9 +587,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list)
-        ]
 
         /// A list of errors encountered while trying to delete the specified table versions.
         public let errors: [TableVersionError]?
@@ -652,9 +601,6 @@ extension Glue {
     }
 
     public struct BatchGetCrawlersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerNames", required: true, type: .list)
-        ]
 
         /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
         public let crawlerNames: [String]
@@ -679,10 +625,6 @@ extension Glue {
     }
 
     public struct BatchGetCrawlersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Crawlers", required: false, type: .list), 
-            AWSShapeMember(label: "CrawlersNotFound", required: false, type: .list)
-        ]
 
         /// A list of crawler definitions.
         public let crawlers: [Crawler]?
@@ -701,9 +643,6 @@ extension Glue {
     }
 
     public struct BatchGetDevEndpointsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevEndpointNames", required: true, type: .list)
-        ]
 
         /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
@@ -723,10 +662,6 @@ extension Glue {
     }
 
     public struct BatchGetDevEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "DevEndpointsNotFound", required: false, type: .list)
-        ]
 
         /// A list of DevEndpoint definitions.
         public let devEndpoints: [DevEndpoint]?
@@ -745,9 +680,6 @@ extension Glue {
     }
 
     public struct BatchGetJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobNames", required: true, type: .list)
-        ]
 
         /// A list of job names, which might be the names returned from the ListJobs operation.
         public let jobNames: [String]
@@ -770,10 +702,6 @@ extension Glue {
     }
 
     public struct BatchGetJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jobs", required: false, type: .list), 
-            AWSShapeMember(label: "JobsNotFound", required: false, type: .list)
-        ]
 
         /// A list of job definitions.
         public let jobs: [Job]?
@@ -792,12 +720,6 @@ extension Glue {
     }
 
     public struct BatchGetPartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionsToGet", required: true, type: .list), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
@@ -841,10 +763,6 @@ extension Glue {
     }
 
     public struct BatchGetPartitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Partitions", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedKeys", required: false, type: .list)
-        ]
 
         /// A list of the requested partitions.
         public let partitions: [Partition]?
@@ -863,9 +781,6 @@ extension Glue {
     }
 
     public struct BatchGetTriggersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TriggerNames", required: true, type: .list)
-        ]
 
         /// A list of trigger names, which may be the names returned from the ListTriggers operation.
         public let triggerNames: [String]
@@ -888,10 +803,6 @@ extension Glue {
     }
 
     public struct BatchGetTriggersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Triggers", required: false, type: .list), 
-            AWSShapeMember(label: "TriggersNotFound", required: false, type: .list)
-        ]
 
         /// A list of trigger definitions.
         public let triggers: [Trigger]?
@@ -910,10 +821,6 @@ extension Glue {
     }
 
     public struct BatchGetWorkflowsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
-            AWSShapeMember(label: "Names", required: true, type: .list)
-        ]
 
         /// Specifies whether to include a graph when returning the workflow resource metadata.
         public let includeGraph: Bool?
@@ -942,10 +849,6 @@ extension Glue {
     }
 
     public struct BatchGetWorkflowsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MissingWorkflows", required: false, type: .list), 
-            AWSShapeMember(label: "Workflows", required: false, type: .list)
-        ]
 
         /// A list of names of workflows not found.
         public let missingWorkflows: [String]?
@@ -964,11 +867,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobRunId", required: false, type: .string)
-        ]
 
         /// Specifies details about the error that was encountered.
         public let errorDetail: ErrorDetail?
@@ -991,10 +889,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "JobRunIds", required: true, type: .list)
-        ]
 
         /// The name of the job definition for which to stop job runs.
         public let jobName: String
@@ -1026,10 +920,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: false, type: .list), 
-            AWSShapeMember(label: "SuccessfulSubmissions", required: false, type: .list)
-        ]
 
         /// A list of the errors that were encountered in trying to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
         public let errors: [BatchStopJobRunError]?
@@ -1048,10 +938,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunSuccessfulSubmission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobRunId", required: false, type: .string)
-        ]
 
         /// The name of the job definition used in the job run that was stopped.
         public let jobName: String?
@@ -1070,10 +956,6 @@ extension Glue {
     }
 
     public struct CancelMLTaskRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskRunId", required: true, type: .string), 
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// A unique identifier for the task run.
         public let taskRunId: String
@@ -1101,11 +983,6 @@ extension Glue {
     }
 
     public struct CancelMLTaskRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskRunId", required: false, type: .string), 
-            AWSShapeMember(label: "TransformId", required: false, type: .string)
-        ]
 
         /// The status for this run.
         public let status: TaskStatusType?
@@ -1128,10 +1005,6 @@ extension Glue {
     }
 
     public struct CatalogEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The database in which the table metadata resides.
         public let databaseName: String
@@ -1159,11 +1032,6 @@ extension Glue {
     }
 
     public struct CatalogImportStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportCompleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "ImportedBy", required: false, type: .string), 
-            AWSShapeMember(label: "ImportTime", required: false, type: .timestamp)
-        ]
 
         ///  True if the migration has completed, or False otherwise.
         public let importCompleted: Bool?
@@ -1186,10 +1054,6 @@ extension Glue {
     }
 
     public struct CatalogTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Tables", required: true, type: .list)
-        ]
 
         /// The name of the database to be synchronized.
         public let databaseName: String
@@ -1220,12 +1084,6 @@ extension Glue {
     }
 
     public struct Classifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CsvClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
-        ]
 
         /// A classifier for comma-separated values (CSV).
         public let csvClassifier: CsvClassifier?
@@ -1252,10 +1110,6 @@ extension Glue {
     }
 
     public struct CloudWatchEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchEncryptionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
-        ]
 
         /// The encryption mode to use for CloudWatch data.
         public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
@@ -1278,11 +1132,6 @@ extension Glue {
     }
 
     public struct CodeGenEdge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Source", required: true, type: .string), 
-            AWSShapeMember(label: "Target", required: true, type: .string), 
-            AWSShapeMember(label: "TargetParameter", required: false, type: .string)
-        ]
 
         /// The ID of the node at which the edge starts.
         public let source: String
@@ -1314,12 +1163,6 @@ extension Glue {
     }
 
     public struct CodeGenNode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Args", required: true, type: .list), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LineNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "NodeType", required: true, type: .string)
-        ]
 
         /// Properties of the node, in the form of name-value pairs.
         public let args: [CodeGenNodeArg]
@@ -1354,11 +1197,6 @@ extension Glue {
     }
 
     public struct CodeGenNodeArg: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Param", required: false, type: .boolean), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the argument or property.
         public let name: String
@@ -1381,12 +1219,6 @@ extension Glue {
     }
 
     public struct Column: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
 
         /// A free-form text comment.
         public let comment: String?
@@ -1431,13 +1263,6 @@ extension Glue {
     }
 
     public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerName", required: false, type: .string), 
-            AWSShapeMember(label: "CrawlState", required: false, type: .enum), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "LogicalOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The name of the crawler to which this condition applies.
         public let crawlerName: String?
@@ -1477,12 +1302,6 @@ extension Glue {
     }
 
     public struct ConfusionMatrix: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumFalseNegatives", required: false, type: .long), 
-            AWSShapeMember(label: "NumFalsePositives", required: false, type: .long), 
-            AWSShapeMember(label: "NumTrueNegatives", required: false, type: .long), 
-            AWSShapeMember(label: "NumTruePositives", required: false, type: .long)
-        ]
 
         /// The number of matches in the data that the transform didn't find, in the confusion matrix for your transform.
         public let numFalseNegatives: Int64?
@@ -1509,17 +1328,6 @@ extension Glue {
     }
 
     public struct Connection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionProperties", required: false, type: .map), 
-            AWSShapeMember(label: "ConnectionType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MatchCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
-        ]
 
         /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.  
         public let connectionProperties: [ConnectionPropertyKey: String]?
@@ -1566,14 +1374,6 @@ extension Glue {
     }
 
     public struct ConnectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionProperties", required: true, type: .map), 
-            AWSShapeMember(label: "ConnectionType", required: true, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "MatchCriteria", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
-        ]
 
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
@@ -1628,10 +1428,6 @@ extension Glue {
     }
 
     public struct ConnectionPasswordEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnConnectionPasswordEncrypted", required: true, type: .boolean)
-        ]
 
         /// An AWS KMS key that is used to encrypt the connection password.  If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:Encrypt permission on the specified AWS KMS key, to encrypt passwords before storing them in the Data Catalog.  You can set the decrypt permission to enable or restrict access on the password key according to your security requirements.
         public let awsKmsKeyId: String?
@@ -1656,9 +1452,6 @@ extension Glue {
     }
 
     public struct ConnectionsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connections", required: false, type: .list)
-        ]
 
         /// A list of connections used by the job.
         public let connections: [String]?
@@ -1673,14 +1466,6 @@ extension Glue {
     }
 
     public struct Crawl: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LogGroup", required: false, type: .string), 
-            AWSShapeMember(label: "LogStream", required: false, type: .string), 
-            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The date and time on which the crawl completed.
         public let completedOn: TimeStamp?
@@ -1715,25 +1500,6 @@ extension Glue {
     }
 
     public struct Crawler: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
-            AWSShapeMember(label: "Configuration", required: false, type: .string), 
-            AWSShapeMember(label: "CrawlElapsedTime", required: false, type: .long), 
-            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LastCrawl", required: false, type: .structure), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .structure), 
-            AWSShapeMember(label: "Version", required: false, type: .long)
-        ]
 
         /// A list of UTF-8 strings that specify the custom classifiers that are associated with the crawler.
         public let classifiers: [String]?
@@ -1812,16 +1578,6 @@ extension Glue {
     }
 
     public struct CrawlerMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerName", required: false, type: .string), 
-            AWSShapeMember(label: "LastRuntimeSeconds", required: false, type: .double), 
-            AWSShapeMember(label: "MedianRuntimeSeconds", required: false, type: .double), 
-            AWSShapeMember(label: "StillEstimating", required: false, type: .boolean), 
-            AWSShapeMember(label: "TablesCreated", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesDeleted", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesUpdated", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeLeftSeconds", required: false, type: .double)
-        ]
 
         /// The name of the crawler.
         public let crawlerName: String?
@@ -1864,9 +1620,6 @@ extension Glue {
     }
 
     public struct CrawlerNodeDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Crawls", required: false, type: .list)
-        ]
 
         /// A list of crawls represented by the crawl node.
         public let crawls: [Crawl]?
@@ -1881,12 +1634,6 @@ extension Glue {
     }
 
     public struct CrawlerTargets: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogTargets", required: false, type: .list), 
-            AWSShapeMember(label: "DynamoDBTargets", required: false, type: .list), 
-            AWSShapeMember(label: "JdbcTargets", required: false, type: .list), 
-            AWSShapeMember(label: "S3Targets", required: false, type: .list)
-        ]
 
         /// Specifies AWS Glue Data Catalog targets.
         public let catalogTargets: [CatalogTarget]?
@@ -1919,12 +1666,6 @@ extension Glue {
     }
 
     public struct CreateClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CsvClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
-        ]
 
         /// A CsvClassifier object specifying the classifier to create.
         public let csvClassifier: CreateCsvClassifierRequest?
@@ -1966,10 +1707,6 @@ extension Glue {
     }
 
     public struct CreateConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionInput", required: true, type: .structure)
-        ]
 
         /// The ID of the Data Catalog in which to create the connection. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -2003,20 +1740,6 @@ extension Glue {
     }
 
     public struct CreateCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
-            AWSShapeMember(label: "Configuration", required: false, type: .string), 
-            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Targets", required: true, type: .structure)
-        ]
 
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
@@ -2108,15 +1831,6 @@ extension Glue {
     }
 
     public struct CreateCsvClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowSingleColumn", required: false, type: .boolean), 
-            AWSShapeMember(label: "ContainsHeader", required: false, type: .enum), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "DisableValueTrimming", required: false, type: .boolean), 
-            AWSShapeMember(label: "Header", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "QuoteSymbol", required: false, type: .string)
-        ]
 
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
@@ -2172,10 +1886,6 @@ extension Glue {
     }
 
     public struct CreateDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseInput", required: true, type: .structure)
-        ]
 
         /// The ID of the Data Catalog in which to create the database. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -2209,23 +1919,6 @@ extension Glue {
     }
 
     public struct CreateDevEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "PublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// A map of arguments used to configure the DevEndpoint.
         public let arguments: [String: String]?
@@ -2313,27 +2006,6 @@ extension Glue {
     }
 
     public struct CreateDevEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum), 
-            AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
-        ]
 
         /// The map of arguments used to configure this DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
@@ -2420,12 +2092,6 @@ extension Glue {
     }
 
     public struct CreateGrokClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
-            AWSShapeMember(label: "GrokPattern", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String
@@ -2464,25 +2130,6 @@ extension Glue {
     }
 
     public struct CreateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Command", required: true, type: .structure), 
-            AWSShapeMember(label: "Connections", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// The JobCommand that executes this job.
         public let command: JobCommand
@@ -2585,9 +2232,6 @@ extension Glue {
     }
 
     public struct CreateJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The unique name that was provided for this job definition.
         public let name: String?
@@ -2602,10 +2246,6 @@ extension Glue {
     }
 
     public struct CreateJsonClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JsonPath", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String
@@ -2630,19 +2270,6 @@ extension Glue {
     }
 
     public struct CreateMLTransformRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "InputRecordTables", required: true, type: .list), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "Parameters", required: true, type: .structure), 
-            AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// A description of the machine learning transform that is being defined. The default is an empty string.
         public let description: String?
@@ -2716,9 +2343,6 @@ extension Glue {
     }
 
     public struct CreateMLTransformResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformId", required: false, type: .string)
-        ]
 
         /// A unique identifier that is generated for the transform.
         public let transformId: String?
@@ -2733,12 +2357,6 @@ extension Glue {
     }
 
     public struct CreatePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionInput", required: true, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The AWS account ID of the catalog in which the partition is to be created.
         public let catalogId: String?
@@ -2786,11 +2404,6 @@ extension Glue {
     }
 
     public struct CreateScriptRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DagEdges", required: false, type: .list), 
-            AWSShapeMember(label: "DagNodes", required: false, type: .list), 
-            AWSShapeMember(label: "Language", required: false, type: .enum)
-        ]
 
         /// A list of the edges in the DAG.
         public let dagEdges: [CodeGenEdge]?
@@ -2822,10 +2435,6 @@ extension Glue {
     }
 
     public struct CreateScriptResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PythonScript", required: false, type: .string), 
-            AWSShapeMember(label: "ScalaCode", required: false, type: .string)
-        ]
 
         /// The Python script generated from the DAG.
         public let pythonScript: String?
@@ -2844,10 +2453,6 @@ extension Glue {
     }
 
     public struct CreateSecurityConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The encryption configuration for the new security configuration.
         public let encryptionConfiguration: EncryptionConfiguration
@@ -2873,10 +2478,6 @@ extension Glue {
     }
 
     public struct CreateSecurityConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The time at which the new security configuration was created.
         public let createdTimestamp: TimeStamp?
@@ -2895,11 +2496,6 @@ extension Glue {
     }
 
     public struct CreateTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableInput", required: true, type: .structure)
-        ]
 
         /// The ID of the Data Catalog in which to create the Table. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
@@ -2940,17 +2536,6 @@ extension Glue {
     }
 
     public struct CreateTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Predicate", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "StartOnCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "WorkflowName", required: false, type: .string)
-        ]
 
         /// The actions initiated by this trigger when it fires.
         public let actions: [Action]
@@ -3019,9 +2604,6 @@ extension Glue {
     }
 
     public struct CreateTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the trigger.
         public let name: String?
@@ -3036,11 +2618,6 @@ extension Glue {
     }
 
     public struct CreateUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "FunctionInput", required: true, type: .structure)
-        ]
 
         /// The ID of the Data Catalog in which to create the function. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3081,12 +2658,6 @@ extension Glue {
     }
 
     public struct CreateWorkflowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultRunProperties", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// A collection of properties to be used as part of each execution of the workflow.
         public let defaultRunProperties: [String: String]?
@@ -3130,9 +2701,6 @@ extension Glue {
     }
 
     public struct CreateWorkflowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the workflow which was provided as part of the request.
         public let name: String?
@@ -3147,11 +2715,6 @@ extension Glue {
     }
 
     public struct CreateXMLClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RowTag", required: false, type: .string)
-        ]
 
         /// An identifier of the data format that the classifier matches.
         public let classification: String
@@ -3180,18 +2743,6 @@ extension Glue {
     }
 
     public struct CsvClassifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowSingleColumn", required: false, type: .boolean), 
-            AWSShapeMember(label: "ContainsHeader", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "DisableValueTrimming", required: false, type: .boolean), 
-            AWSShapeMember(label: "Header", required: false, type: .list), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "QuoteSymbol", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .long)
-        ]
 
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
@@ -3242,10 +2793,6 @@ extension Glue {
     }
 
     public struct DataCatalogEncryptionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionPasswordEncryption", required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionAtRest", required: false, type: .structure)
-        ]
 
         /// When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption.
         public let connectionPasswordEncryption: ConnectionPasswordEncryption?
@@ -3269,9 +2816,6 @@ extension Glue {
     }
 
     public struct DataLakePrincipal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataLakePrincipalIdentifier", required: false, type: .string)
-        ]
 
         /// An identifier for the AWS Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
@@ -3291,14 +2835,6 @@ extension Glue {
     }
 
     public struct Database: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateTableDefaultPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map)
-        ]
 
         /// Creates a set of default permissions on the table for principals. 
         public let createTableDefaultPermissions: [PrincipalPermissions]?
@@ -3333,13 +2869,6 @@ extension Glue {
     }
 
     public struct DatabaseInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateTableDefaultPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map)
-        ]
 
         /// Creates a set of default permissions on the table for principals. 
         public let createTableDefaultPermissions: [PrincipalPermissions]?
@@ -3391,9 +2920,6 @@ extension Glue {
     }
 
     public struct DeleteClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Name of the classifier to remove.
         public let name: String
@@ -3422,10 +2948,6 @@ extension Glue {
     }
 
     public struct DeleteConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3461,9 +2983,6 @@ extension Glue {
     }
 
     public struct DeleteCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the crawler to remove.
         public let name: String
@@ -3492,10 +3011,6 @@ extension Glue {
     }
 
     public struct DeleteDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3531,9 +3046,6 @@ extension Glue {
     }
 
     public struct DeleteDevEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
-        ]
 
         /// The name of the DevEndpoint.
         public let endpointName: String
@@ -3556,9 +3068,6 @@ extension Glue {
     }
 
     public struct DeleteJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string)
-        ]
 
         /// The name of the job definition to delete.
         public let jobName: String
@@ -3579,9 +3088,6 @@ extension Glue {
     }
 
     public struct DeleteJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string)
-        ]
 
         /// The name of the job definition that was deleted.
         public let jobName: String?
@@ -3596,9 +3102,6 @@ extension Glue {
     }
 
     public struct DeleteMLTransformRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the transform to delete.
         public let transformId: String
@@ -3619,9 +3122,6 @@ extension Glue {
     }
 
     public struct DeleteMLTransformResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformId", required: false, type: .string)
-        ]
 
         /// The unique identifier of the transform that was deleted.
         public let transformId: String?
@@ -3636,12 +3136,6 @@ extension Glue {
     }
 
     public struct DeletePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionValues", required: true, type: .list), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3691,9 +3185,6 @@ extension Glue {
     }
 
     public struct DeleteResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyHashCondition", required: false, type: .string)
-        ]
 
         /// The hash value returned when this policy was set.
         public let policyHashCondition: String?
@@ -3722,9 +3213,6 @@ extension Glue {
     }
 
     public struct DeleteSecurityConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the security configuration to delete.
         public let name: String
@@ -3753,11 +3241,6 @@ extension Glue {
     }
 
     public struct DeleteTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3800,12 +3283,6 @@ extension Glue {
     }
 
     public struct DeleteTableVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3855,9 +3332,6 @@ extension Glue {
     }
 
     public struct DeleteTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the trigger to delete.
         public let name: String
@@ -3878,9 +3352,6 @@ extension Glue {
     }
 
     public struct DeleteTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the trigger that was deleted.
         public let name: String?
@@ -3895,11 +3366,6 @@ extension Glue {
     }
 
     public struct DeleteUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "FunctionName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the function to be deleted is located. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3942,9 +3408,6 @@ extension Glue {
     }
 
     public struct DeleteWorkflowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Name of the workflow to be deleted.
         public let name: String
@@ -3965,9 +3428,6 @@ extension Glue {
     }
 
     public struct DeleteWorkflowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// Name of the workflow specified in input.
         public let name: String?
@@ -3982,33 +3442,6 @@ extension Glue {
     }
 
     public struct DevEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdateStatus", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "PrivateAddress", required: false, type: .string), 
-            AWSShapeMember(label: "PublicAddress", required: false, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "PublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum), 
-            AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
-        ]
 
         /// A map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
@@ -4119,10 +3552,6 @@ extension Glue {
     }
 
     public struct DevEndpointCustomLibraries: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string)
-        ]
 
         /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint. 
         public let extraJarsS3Path: String?
@@ -4141,9 +3570,6 @@ extension Glue {
     }
 
     public struct DynamoDBTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
 
         /// The name of the DynamoDB table to crawl.
         public let path: String?
@@ -4158,10 +3584,6 @@ extension Glue {
     }
 
     public struct Edge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", required: false, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string)
-        ]
 
         /// The unique of the node within the workflow where the edge ends.
         public let destinationId: String?
@@ -4180,10 +3602,6 @@ extension Glue {
     }
 
     public struct EncryptionAtRest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogEncryptionMode", required: true, type: .enum), 
-            AWSShapeMember(label: "SseAwsKmsKeyId", required: false, type: .string)
-        ]
 
         /// The encryption-at-rest mode for encrypting Data Catalog data.
         public let catalogEncryptionMode: CatalogEncryptionMode
@@ -4208,11 +3626,6 @@ extension Glue {
     }
 
     public struct EncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchEncryption", required: false, type: .structure), 
-            AWSShapeMember(label: "JobBookmarksEncryption", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Encryption", required: false, type: .list)
-        ]
 
         /// The encryption configuration for Amazon CloudWatch.
         public let cloudWatchEncryption: CloudWatchEncryption?
@@ -4243,10 +3656,6 @@ extension Glue {
     }
 
     public struct ErrorDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
 
         /// The code associated with this error.
         public let errorCode: String?
@@ -4265,10 +3674,6 @@ extension Glue {
     }
 
     public struct EvaluationMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindMatchesMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "TransformType", required: true, type: .enum)
-        ]
 
         /// The evaluation metrics for the find matches algorithm.
         public let findMatchesMetrics: FindMatchesMetrics?
@@ -4287,9 +3692,6 @@ extension Glue {
     }
 
     public struct ExecutionProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxConcurrentRuns", required: false, type: .integer)
-        ]
 
         /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
         public let maxConcurrentRuns: Int?
@@ -4304,9 +3706,6 @@ extension Glue {
     }
 
     public struct ExportLabelsTaskRunProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputS3Path", required: false, type: .string)
-        ]
 
         /// The Amazon Simple Storage Service (Amazon S3) path where you will export the labels.
         public let outputS3Path: String?
@@ -4321,13 +3720,6 @@ extension Glue {
     }
 
     public struct FindMatchesMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AreaUnderPRCurve", required: false, type: .double), 
-            AWSShapeMember(label: "ConfusionMatrix", required: false, type: .structure), 
-            AWSShapeMember(label: "F1", required: false, type: .double), 
-            AWSShapeMember(label: "Precision", required: false, type: .double), 
-            AWSShapeMember(label: "Recall", required: false, type: .double)
-        ]
 
         /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff. For more information, see Precision and recall in Wikipedia.
         public let areaUnderPRCurve: Double?
@@ -4358,12 +3750,6 @@ extension Glue {
     }
 
     public struct FindMatchesParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccuracyCostTradeoff", required: false, type: .double), 
-            AWSShapeMember(label: "EnforceProvidedLabels", required: false, type: .boolean), 
-            AWSShapeMember(label: "PrecisionRecallTradeoff", required: false, type: .double), 
-            AWSShapeMember(label: "PrimaryKeyColumnName", required: false, type: .string)
-        ]
 
         /// The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall.  Cost measures how many compute resources, and thus money, are consumed to run the transform.
         public let accuracyCostTradeoff: Double?
@@ -4400,11 +3786,6 @@ extension Glue {
     }
 
     public struct FindMatchesTaskRunProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobRunId", required: false, type: .string)
-        ]
 
         /// The job ID for the Find Matches task run.
         public let jobId: String?
@@ -4427,9 +3808,6 @@ extension Glue {
     }
 
     public struct GetCatalogImportStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
 
         /// The ID of the catalog to migrate. Currently, this should be the AWS account ID.
         public let catalogId: String?
@@ -4450,9 +3828,6 @@ extension Glue {
     }
 
     public struct GetCatalogImportStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportStatus", required: false, type: .structure)
-        ]
 
         /// The status of the specified catalog migration.
         public let importStatus: CatalogImportStatus?
@@ -4467,9 +3842,6 @@ extension Glue {
     }
 
     public struct GetClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Name of the classifier to retrieve.
         public let name: String
@@ -4490,9 +3862,6 @@ extension Glue {
     }
 
     public struct GetClassifierResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classifier", required: false, type: .structure)
-        ]
 
         /// The requested classifier.
         public let classifier: Classifier?
@@ -4507,10 +3876,6 @@ extension Glue {
     }
 
     public struct GetClassifiersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The size of the list to return (optional).
         public let maxResults: Int?
@@ -4534,10 +3899,6 @@ extension Glue {
     }
 
     public struct GetClassifiersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The requested list of classifier objects.
         public let classifiers: [Classifier]?
@@ -4556,11 +3917,6 @@ extension Glue {
     }
 
     public struct GetConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "HidePassword", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4592,9 +3948,6 @@ extension Glue {
     }
 
     public struct GetConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connection", required: false, type: .structure)
-        ]
 
         /// The requested connection definition.
         public let connection: Connection?
@@ -4609,10 +3962,6 @@ extension Glue {
     }
 
     public struct GetConnectionsFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionType", required: false, type: .enum), 
-            AWSShapeMember(label: "MatchCriteria", required: false, type: .list)
-        ]
 
         /// The type of connections to return. Currently, only JDBC is supported; SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -4641,13 +3990,6 @@ extension Glue {
     }
 
     public struct GetConnectionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "HidePassword", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4687,10 +4029,6 @@ extension Glue {
     }
 
     public struct GetConnectionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of requested connection definitions.
         public let connectionList: [Connection]?
@@ -4709,11 +4047,6 @@ extension Glue {
     }
 
     public struct GetCrawlerMetricsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerNameList", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of the names of crawlers about which to retrieve metrics.
         public let crawlerNameList: [String]?
@@ -4748,10 +4081,6 @@ extension Glue {
     }
 
     public struct GetCrawlerMetricsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerMetricsList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of metrics for the specified crawler.
         public let crawlerMetricsList: [CrawlerMetrics]?
@@ -4770,9 +4099,6 @@ extension Glue {
     }
 
     public struct GetCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the crawler to retrieve metadata for.
         public let name: String
@@ -4793,9 +4119,6 @@ extension Glue {
     }
 
     public struct GetCrawlerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Crawler", required: false, type: .structure)
-        ]
 
         /// The metadata for the specified crawler.
         public let crawler: Crawler?
@@ -4810,10 +4133,6 @@ extension Glue {
     }
 
     public struct GetCrawlersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The number of crawlers to return on each call.
         public let maxResults: Int?
@@ -4837,10 +4156,6 @@ extension Glue {
     }
 
     public struct GetCrawlersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Crawlers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of crawler metadata.
         public let crawlers: [Crawler]?
@@ -4859,9 +4174,6 @@ extension Glue {
     }
 
     public struct GetDataCatalogEncryptionSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
 
         /// The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4882,9 +4194,6 @@ extension Glue {
     }
 
     public struct GetDataCatalogEncryptionSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataCatalogEncryptionSettings", required: false, type: .structure)
-        ]
 
         /// The requested security configuration.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings?
@@ -4899,10 +4208,6 @@ extension Glue {
     }
 
     public struct GetDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4930,9 +4235,6 @@ extension Glue {
     }
 
     public struct GetDatabaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: false, type: .structure)
-        ]
 
         /// The definition of the specified database in the Data Catalog.
         public let database: Database?
@@ -4947,11 +4249,6 @@ extension Glue {
     }
 
     public struct GetDatabasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ID of the Data Catalog from which to retrieve Databases. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4982,10 +4279,6 @@ extension Glue {
     }
 
     public struct GetDatabasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of Database objects from the specified catalog.
         public let databaseList: [Database]
@@ -5004,9 +4297,6 @@ extension Glue {
     }
 
     public struct GetDataflowGraphRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PythonScript", required: false, type: .string)
-        ]
 
         /// The Python script to transform.
         public let pythonScript: String?
@@ -5021,10 +4311,6 @@ extension Glue {
     }
 
     public struct GetDataflowGraphResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DagEdges", required: false, type: .list), 
-            AWSShapeMember(label: "DagNodes", required: false, type: .list)
-        ]
 
         /// A list of the edges in the resulting DAG.
         public let dagEdges: [CodeGenEdge]?
@@ -5043,9 +4329,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
-        ]
 
         /// Name of the DevEndpoint to retrieve information for.
         public let endpointName: String
@@ -5060,9 +4343,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevEndpoint", required: false, type: .structure)
-        ]
 
         /// A DevEndpoint definition.
         public let devEndpoint: DevEndpoint?
@@ -5077,10 +4357,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum size of information to return.
         public let maxResults: Int?
@@ -5104,10 +4380,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of DevEndpoint definitions.
         public let devEndpoints: [DevEndpoint]?
@@ -5126,10 +4398,6 @@ extension Glue {
     }
 
     public struct GetJobBookmarkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "RunId", required: false, type: .string)
-        ]
 
         /// The name of the job in question.
         public let jobName: String
@@ -5148,9 +4416,6 @@ extension Glue {
     }
 
     public struct GetJobBookmarkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobBookmarkEntry", required: false, type: .structure)
-        ]
 
         /// A structure that defines a point that a job can resume processing.
         public let jobBookmarkEntry: JobBookmarkEntry?
@@ -5165,9 +4430,6 @@ extension Glue {
     }
 
     public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string)
-        ]
 
         /// The name of the job definition to retrieve.
         public let jobName: String
@@ -5188,9 +4450,6 @@ extension Glue {
     }
 
     public struct GetJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Job", required: false, type: .structure)
-        ]
 
         /// The requested job definition.
         public let job: Job?
@@ -5205,11 +4464,6 @@ extension Glue {
     }
 
     public struct GetJobRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "PredecessorsIncluded", required: false, type: .boolean), 
-            AWSShapeMember(label: "RunId", required: true, type: .string)
-        ]
 
         /// Name of the job definition being run.
         public let jobName: String
@@ -5241,9 +4495,6 @@ extension Glue {
     }
 
     public struct GetJobRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobRun", required: false, type: .structure)
-        ]
 
         /// The requested job-run metadata.
         public let jobRun: JobRun?
@@ -5258,11 +4509,6 @@ extension Glue {
     }
 
     public struct GetJobRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the job definition for which to retrieve all job runs.
         public let jobName: String
@@ -5293,10 +4539,6 @@ extension Glue {
     }
 
     public struct GetJobRunsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobRuns", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of job-run metadata objects.
         public let jobRuns: [JobRun]?
@@ -5315,10 +4557,6 @@ extension Glue {
     }
 
     public struct GetJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum size of the response.
         public let maxResults: Int?
@@ -5342,10 +4580,6 @@ extension Glue {
     }
 
     public struct GetJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jobs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of job definitions.
         public let jobs: [Job]?
@@ -5364,10 +4598,6 @@ extension Glue {
     }
 
     public struct GetMLTaskRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskRunId", required: true, type: .string), 
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the task run.
         public let taskRunId: String
@@ -5395,18 +4625,6 @@ extension Glue {
     }
 
     public struct GetMLTaskRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ErrorString", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Properties", required: false, type: .structure), 
-            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskRunId", required: false, type: .string), 
-            AWSShapeMember(label: "TransformId", required: false, type: .string)
-        ]
 
         /// The date and time when this task run was completed.
         public let completedOn: TimeStamp?
@@ -5457,13 +4675,6 @@ extension Glue {
     }
 
     public struct GetMLTaskRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sort", required: false, type: .structure), 
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The filter criteria, in the TaskRunFilterCriteria structure, for the task run.
         public let filter: TaskRunFilterCriteria?
@@ -5502,10 +4713,6 @@ extension Glue {
     }
 
     public struct GetMLTaskRunsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TaskRuns", required: false, type: .list)
-        ]
 
         /// A pagination token, if more results are available.
         public let nextToken: String?
@@ -5524,9 +4731,6 @@ extension Glue {
     }
 
     public struct GetMLTransformRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the transform, generated at the time that the transform was created.
         public let transformId: String
@@ -5547,26 +4751,6 @@ extension Glue {
     }
 
     public struct GetMLTransformResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "InputRecordTables", required: false, type: .list), 
-            AWSShapeMember(label: "LabelCount", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Schema", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TransformId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// The date and time when the transform was created.
         public let createdOn: TimeStamp?
@@ -5649,12 +4833,6 @@ extension Glue {
     }
 
     public struct GetMLTransformsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sort", required: false, type: .structure)
-        ]
 
         /// The filter transformation criteria.
         public let filter: TransformFilterCriteria?
@@ -5687,10 +4865,6 @@ extension Glue {
     }
 
     public struct GetMLTransformsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Transforms", required: true, type: .list)
-        ]
 
         /// A pagination token, if more results are available.
         public let nextToken: String?
@@ -5709,11 +4883,6 @@ extension Glue {
     }
 
     public struct GetMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Sinks", required: false, type: .list), 
-            AWSShapeMember(label: "Source", required: true, type: .structure)
-        ]
 
         /// Parameters for the mapping.
         public let location: Location?
@@ -5744,9 +4913,6 @@ extension Glue {
     }
 
     public struct GetMappingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Mapping", required: true, type: .list)
-        ]
 
         /// A list of mappings to the specified targets.
         public let mapping: [MappingEntry]
@@ -5761,12 +4927,6 @@ extension Glue {
     }
 
     public struct GetPartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionValues", required: true, type: .list), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the partition in question resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5808,9 +4968,6 @@ extension Glue {
     }
 
     public struct GetPartitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Partition", required: false, type: .structure)
-        ]
 
         /// The requested information, in the form of a Partition object.
         public let partition: Partition?
@@ -5825,15 +4982,6 @@ extension Glue {
     }
 
     public struct GetPartitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Expression", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Segment", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5890,10 +5038,6 @@ extension Glue {
     }
 
     public struct GetPartitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Partitions", required: false, type: .list)
-        ]
 
         /// A continuation token, if the returned list of partitions does not include the last one.
         public let nextToken: String?
@@ -5912,13 +5056,6 @@ extension Glue {
     }
 
     public struct GetPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Language", required: false, type: .enum), 
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Mapping", required: true, type: .list), 
-            AWSShapeMember(label: "Sinks", required: false, type: .list), 
-            AWSShapeMember(label: "Source", required: true, type: .structure)
-        ]
 
         /// The programming language of the code to perform the mapping.
         public let language: Language?
@@ -5957,10 +5094,6 @@ extension Glue {
     }
 
     public struct GetPlanResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PythonScript", required: false, type: .string), 
-            AWSShapeMember(label: "ScalaCode", required: false, type: .string)
-        ]
 
         /// A Python script to perform the mapping.
         public let pythonScript: String?
@@ -5987,12 +5120,6 @@ extension Glue {
     }
 
     public struct GetResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PolicyHash", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyInJson", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateTime", required: false, type: .timestamp)
-        ]
 
         /// The date and time at which the policy was created.
         public let createTime: TimeStamp?
@@ -6019,9 +5146,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the security configuration to retrieve.
         public let name: String
@@ -6042,9 +5166,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .structure)
-        ]
 
         /// The requested security configuration.
         public let securityConfiguration: SecurityConfiguration?
@@ -6059,10 +5180,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -6086,10 +5203,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfigurations", required: false, type: .list)
-        ]
 
         /// A continuation token, if there are more security configurations to return.
         public let nextToken: String?
@@ -6108,11 +5221,6 @@ extension Glue {
     }
 
     public struct GetTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -6147,9 +5255,6 @@ extension Glue {
     }
 
     public struct GetTableResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Table", required: false, type: .structure)
-        ]
 
         /// The Table object that defines the specified table.
         public let table: Table?
@@ -6164,12 +5269,6 @@ extension Glue {
     }
 
     public struct GetTableVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -6211,9 +5310,6 @@ extension Glue {
     }
 
     public struct GetTableVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableVersion", required: false, type: .structure)
-        ]
 
         /// The requested table version.
         public let tableVersion: TableVersion?
@@ -6228,13 +5324,6 @@ extension Glue {
     }
 
     public struct GetTableVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -6279,10 +5368,6 @@ extension Glue {
     }
 
     public struct GetTableVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TableVersions", required: false, type: .list)
-        ]
 
         /// A continuation token, if the list of available versions does not include the last one.
         public let nextToken: String?
@@ -6301,13 +5386,6 @@ extension Glue {
     }
 
     public struct GetTablesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Expression", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -6352,10 +5430,6 @@ extension Glue {
     }
 
     public struct GetTablesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TableList", required: false, type: .list)
-        ]
 
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
@@ -6374,9 +5448,6 @@ extension Glue {
     }
 
     public struct GetTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
         public let resourceArn: String
@@ -6397,9 +5468,6 @@ extension Glue {
     }
 
     public struct GetTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The requested tags.
         public let tags: [String: String]?
@@ -6414,9 +5482,6 @@ extension Glue {
     }
 
     public struct GetTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the trigger to retrieve.
         public let name: String
@@ -6437,9 +5502,6 @@ extension Glue {
     }
 
     public struct GetTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Trigger", required: false, type: .structure)
-        ]
 
         /// The requested trigger definition.
         public let trigger: Trigger?
@@ -6454,11 +5516,6 @@ extension Glue {
     }
 
     public struct GetTriggersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DependentJobName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the job to retrieve triggers for. The trigger that can start this job is returned, and if there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
@@ -6489,10 +5546,6 @@ extension Glue {
     }
 
     public struct GetTriggersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Triggers", required: false, type: .list)
-        ]
 
         /// A continuation token, if not all the requested triggers have yet been returned.
         public let nextToken: String?
@@ -6511,11 +5564,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "FunctionName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the function to be retrieved is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -6550,9 +5598,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserDefinedFunction", required: false, type: .structure)
-        ]
 
         /// The requested function definition.
         public let userDefinedFunction: UserDefinedFunction?
@@ -6567,13 +5612,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Pattern", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -6618,10 +5656,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserDefinedFunctions", required: false, type: .list)
-        ]
 
         /// A continuation token, if the list of functions returned does not include the last requested function.
         public let nextToken: String?
@@ -6640,10 +5674,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Specifies whether to include a graph when returning the workflow resource metadata.
         public let includeGraph: Bool?
@@ -6668,9 +5698,6 @@ extension Glue {
     }
 
     public struct GetWorkflowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workflow", required: false, type: .structure)
-        ]
 
         /// The resource metadata for the workflow.
         public let workflow: Workflow?
@@ -6685,10 +5712,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RunId", required: true, type: .string)
-        ]
 
         /// Name of the workflow which was run.
         public let name: String
@@ -6716,9 +5739,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunPropertiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunProperties", required: false, type: .map)
-        ]
 
         /// The workflow run properties which were set during the specified run.
         public let runProperties: [String: String]?
@@ -6733,11 +5753,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RunId", required: true, type: .string)
-        ]
 
         /// Specifies whether to include the workflow graph in response or not.
         public let includeGraph: Bool?
@@ -6769,9 +5784,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Run", required: false, type: .structure)
-        ]
 
         /// The requested workflow run metadata.
         public let run: WorkflowRun?
@@ -6786,12 +5798,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Specifies whether to include the workflow graph in response or not.
         public let includeGraph: Bool?
@@ -6826,10 +5832,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Runs", required: false, type: .list)
-        ]
 
         /// A continuation token, if not all requested workflow runs have been returned.
         public let nextToken: String?
@@ -6848,12 +5850,6 @@ extension Glue {
     }
 
     public struct GlueTable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// A unique identifier for the AWS Glue Data Catalog.
         public let catalogId: String?
@@ -6895,15 +5891,6 @@ extension Glue {
     }
 
     public struct GrokClassifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
-            AWSShapeMember(label: "GrokPattern", required: true, type: .string), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .long)
-        ]
 
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
         public let classification: String
@@ -6942,9 +5929,6 @@ extension Glue {
     }
 
     public struct ImportCatalogToGlueRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
 
         /// The ID of the catalog to import. Currently, this should be the AWS account ID.
         public let catalogId: String?
@@ -6973,10 +5957,6 @@ extension Glue {
     }
 
     public struct ImportLabelsTaskRunProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputS3Path", required: false, type: .string), 
-            AWSShapeMember(label: "Replace", required: false, type: .boolean)
-        ]
 
         /// The Amazon Simple Storage Service (Amazon S3) path from where you will import the labels.
         public let inputS3Path: String?
@@ -6995,11 +5975,6 @@ extension Glue {
     }
 
     public struct JdbcTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
-            AWSShapeMember(label: "Exclusions", required: false, type: .list), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
 
         /// The name of the connection to use to connect to the JDBC target.
         public let connectionName: String?
@@ -7022,26 +5997,6 @@ extension Glue {
     }
 
     public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Command", required: false, type: .structure), 
-            AWSShapeMember(label: "Connections", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// The JobCommand that executes this job.
         public let command: JobCommand?
@@ -7124,15 +6079,6 @@ extension Glue {
     }
 
     public struct JobBookmarkEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attempt", required: false, type: .integer), 
-            AWSShapeMember(label: "JobBookmark", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "PreviousRunId", required: false, type: .string), 
-            AWSShapeMember(label: "Run", required: false, type: .integer), 
-            AWSShapeMember(label: "RunId", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .integer)
-        ]
 
         /// The attempt ID number.
         public let attempt: Int?
@@ -7171,10 +6117,6 @@ extension Glue {
     }
 
     public struct JobBookmarksEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobBookmarksEncryptionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
-        ]
 
         /// The encryption mode to use for job bookmarks data.
         public let jobBookmarksEncryptionMode: JobBookmarksEncryptionMode?
@@ -7197,11 +6139,6 @@ extension Glue {
     }
 
     public struct JobCommand: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "PythonVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ScriptLocation", required: false, type: .string)
-        ]
 
         /// The name of the job command. For an Apache Spark ETL job, this must be glueetl. For a Python shell job, it must be pythonshell.
         public let name: String?
@@ -7228,9 +6165,6 @@ extension Glue {
     }
 
     public struct JobNodeDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobRuns", required: false, type: .list)
-        ]
 
         /// The information for the job runs represented by the job node.
         public let jobRuns: [JobRun]?
@@ -7245,29 +6179,6 @@ extension Glue {
     }
 
     public struct JobRun: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "Attempt", required: false, type: .integer), 
-            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "JobRunState", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "PredecessorRuns", required: false, type: .list), 
-            AWSShapeMember(label: "PreviousRunId", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TriggerName", required: false, type: .string), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -7362,23 +6273,6 @@ extension Glue {
     }
 
     public struct JobUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Command", required: false, type: .structure), 
-            AWSShapeMember(label: "Connections", required: false, type: .structure), 
-            AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// The JobCommand that executes this job (required).
         public let command: JobCommand?
@@ -7464,13 +6358,6 @@ extension Glue {
     }
 
     public struct JsonClassifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JsonPath", required: true, type: .string), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .long)
-        ]
 
         /// The time that this classifier was registered.
         public let creationTime: TimeStamp?
@@ -7501,9 +6388,6 @@ extension Glue {
     }
 
     public struct LabelingSetGenerationTaskRunProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputS3Path", required: false, type: .string)
-        ]
 
         /// The Amazon Simple Storage Service (Amazon S3) path where you will generate the labeling set.
         public let outputS3Path: String?
@@ -7518,14 +6402,6 @@ extension Glue {
     }
 
     public struct LastCrawlInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LogGroup", required: false, type: .string), 
-            AWSShapeMember(label: "LogStream", required: false, type: .string), 
-            AWSShapeMember(label: "MessagePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// If an error occurred, the error information about the last crawl.
         public let errorMessage: String?
@@ -7560,11 +6436,6 @@ extension Glue {
     }
 
     public struct ListCrawlersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -7598,10 +6469,6 @@ extension Glue {
     }
 
     public struct ListCrawlersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of all crawlers in the account, or the crawlers with the specified tags.
         public let crawlerNames: [String]?
@@ -7620,11 +6487,6 @@ extension Glue {
     }
 
     public struct ListDevEndpointsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -7658,10 +6520,6 @@ extension Glue {
     }
 
     public struct ListDevEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevEndpointNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of all the DevEndpoints in the account, or the DevEndpoints with the specified tags.
         public let devEndpointNames: [String]?
@@ -7680,11 +6538,6 @@ extension Glue {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -7718,10 +6571,6 @@ extension Glue {
     }
 
     public struct ListJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of all jobs in the account, or the jobs with the specified tags.
         public let jobNames: [String]?
@@ -7740,12 +6589,6 @@ extension Glue {
     }
 
     public struct ListTriggersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DependentJobName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         ///  The name of the job for which to retrieve triggers. The trigger that can start this job is returned. If there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
@@ -7786,10 +6629,6 @@ extension Glue {
     }
 
     public struct ListTriggersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TriggerNames", required: false, type: .list)
-        ]
 
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
@@ -7808,10 +6647,6 @@ extension Glue {
     }
 
     public struct ListWorkflowsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -7835,10 +6670,6 @@ extension Glue {
     }
 
     public struct ListWorkflowsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Workflows", required: false, type: .list)
-        ]
 
         /// A continuation token, if not all workflow names have been returned.
         public let nextToken: String?
@@ -7857,11 +6688,6 @@ extension Glue {
     }
 
     public struct Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DynamoDB", required: false, type: .list), 
-            AWSShapeMember(label: "Jdbc", required: false, type: .list), 
-            AWSShapeMember(label: "S3", required: false, type: .list)
-        ]
 
         /// An Amazon DynamoDB table location.
         public let dynamoDB: [CodeGenNodeArg]?
@@ -7893,26 +6719,6 @@ extension Glue {
     }
 
     public struct MLTransform: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "InputRecordTables", required: false, type: .list), 
-            AWSShapeMember(label: "LabelCount", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Schema", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TransformId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// A timestamp. The time and date that this machine learning transform was created.
         public let createdOn: TimeStamp?
@@ -7995,14 +6801,6 @@ extension Glue {
     }
 
     public struct MappingEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourcePath", required: false, type: .string), 
-            AWSShapeMember(label: "SourceTable", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "TargetPath", required: false, type: .string), 
-            AWSShapeMember(label: "TargetTable", required: false, type: .string), 
-            AWSShapeMember(label: "TargetType", required: false, type: .string)
-        ]
 
         /// The source path.
         public let sourcePath: String?
@@ -8037,14 +6835,6 @@ extension Glue {
     }
 
     public struct Node: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "JobDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TriggerDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "UniqueId", required: false, type: .string)
-        ]
 
         /// Details of the crawler when the node represents a crawler.
         public let crawlerDetails: CrawlerNodeDetails?
@@ -8079,9 +6869,6 @@ extension Glue {
     }
 
     public struct NotificationProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotifyDelayAfter", required: false, type: .integer)
-        ]
 
         /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
         public let notifyDelayAfter: Int?
@@ -8100,10 +6887,6 @@ extension Glue {
     }
 
     public struct Order: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Column", required: true, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: true, type: .integer)
-        ]
 
         /// The name of the column.
         public let column: String
@@ -8130,16 +6913,6 @@ extension Glue {
     }
 
     public struct Partition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// The time at which the partition was created.
         public let creationTime: TimeStamp?
@@ -8182,10 +6955,6 @@ extension Glue {
     }
 
     public struct PartitionError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "PartitionValues", required: false, type: .list)
-        ]
 
         /// The details about the partition error.
         public let errorDetail: ErrorDetail?
@@ -8204,13 +6973,6 @@ extension Glue {
     }
 
     public struct PartitionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// The last time at which the partition was accessed.
         public let lastAccessTime: TimeStamp?
@@ -8254,9 +7016,6 @@ extension Glue {
     }
 
     public struct PartitionValueList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The list of values.
         public let values: [String]
@@ -8277,11 +7036,6 @@ extension Glue {
     }
 
     public struct PhysicalConnectionRequirements: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIdList", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string)
-        ]
 
         /// The connection's Availability Zone. This field is redundant because the specified subnet implies the Availability Zone to be used. Currently the field must be populated, but it will be deprecated in the future.
         public let availabilityZone: String?
@@ -8320,10 +7074,6 @@ extension Glue {
     }
 
     public struct Predecessor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "RunId", required: false, type: .string)
-        ]
 
         /// The name of the job definition used by the predecessor job run.
         public let jobName: String?
@@ -8342,10 +7092,6 @@ extension Glue {
     }
 
     public struct Predicate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
-            AWSShapeMember(label: "Logical", required: false, type: .enum)
-        ]
 
         /// A list of the conditions that determine when the trigger will fire.
         public let conditions: [Condition]?
@@ -8370,10 +7116,6 @@ extension Glue {
     }
 
     public struct PrincipalPermissions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "Principal", required: false, type: .structure)
-        ]
 
         /// The permissions that are granted to the principal.
         public let permissions: [Permission]?
@@ -8396,11 +7138,6 @@ extension Glue {
     }
 
     public struct PropertyPredicate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comparator", required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The comparator used to compare this property to others.
         public let comparator: Comparator?
@@ -8428,10 +7165,6 @@ extension Glue {
     }
 
     public struct PutDataCatalogEncryptionSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DataCatalogEncryptionSettings", required: true, type: .structure)
-        ]
 
         /// The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -8465,11 +7198,6 @@ extension Glue {
     }
 
     public struct PutResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyExistsCondition", required: false, type: .enum), 
-            AWSShapeMember(label: "PolicyHashCondition", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyInJson", required: true, type: .string)
-        ]
 
         /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
         public let policyExistsCondition: ExistCondition?
@@ -8500,9 +7228,6 @@ extension Glue {
     }
 
     public struct PutResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyHash", required: false, type: .string)
-        ]
 
         /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
         public let policyHash: String?
@@ -8517,11 +7242,6 @@ extension Glue {
     }
 
     public struct PutWorkflowRunPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RunId", required: true, type: .string), 
-            AWSShapeMember(label: "RunProperties", required: true, type: .map)
-        ]
 
         /// Name of the workflow which was run.
         public let name: String
@@ -8566,10 +7286,6 @@ extension Glue {
     }
 
     public struct ResetJobBookmarkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "RunId", required: false, type: .string)
-        ]
 
         /// The name of the job in question.
         public let jobName: String
@@ -8588,9 +7304,6 @@ extension Glue {
     }
 
     public struct ResetJobBookmarkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobBookmarkEntry", required: false, type: .structure)
-        ]
 
         /// The reset bookmark entry.
         public let jobBookmarkEntry: JobBookmarkEntry?
@@ -8605,10 +7318,6 @@ extension Glue {
     }
 
     public struct ResourceUri: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Uri", required: false, type: .string)
-        ]
 
         /// The type of the resource.
         public let resourceType: ResourceType?
@@ -8633,10 +7342,6 @@ extension Glue {
     }
 
     public struct S3Encryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "S3EncryptionMode", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
@@ -8659,10 +7364,6 @@ extension Glue {
     }
 
     public struct S3Target: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Exclusions", required: false, type: .list), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
 
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
         public let exclusions: [String]?
@@ -8681,10 +7382,6 @@ extension Glue {
     }
 
     public struct Schedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
         public let scheduleExpression: String?
@@ -8703,10 +7400,6 @@ extension Glue {
     }
 
     public struct SchemaChangePolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdateBehavior", required: false, type: .enum)
-        ]
 
         /// The deletion behavior when the crawler finds a deleted object.
         public let deleteBehavior: DeleteBehavior?
@@ -8725,10 +7418,6 @@ extension Glue {
     }
 
     public struct SchemaColumn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataType", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The type of data in the column.
         public let dataType: String?
@@ -8756,14 +7445,6 @@ extension Glue {
     }
 
     public struct SearchTablesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SearchText", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// A unique identifier, consisting of  account_id/datalake.
         public let catalogId: String?
@@ -8815,10 +7496,6 @@ extension Glue {
     }
 
     public struct SearchTablesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TableList", required: false, type: .list)
-        ]
 
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
@@ -8837,11 +7514,6 @@ extension Glue {
     }
 
     public struct SecurityConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimeStamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The time at which this security configuration was created.
         public let createdTimeStamp: TimeStamp?
@@ -8864,10 +7536,6 @@ extension Glue {
     }
 
     public struct Segment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SegmentNumber", required: true, type: .integer), 
-            AWSShapeMember(label: "TotalSegments", required: true, type: .integer)
-        ]
 
         /// The zero-based index number of the segment. For example, if the total number of segments is 4, SegmentNumber values range from 0 through 3.
         public let segmentNumber: Int
@@ -8892,11 +7560,6 @@ extension Glue {
     }
 
     public struct SerDeInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "SerializationLibrary", required: false, type: .string)
-        ]
 
         /// Name of the SerDe.
         public let name: String?
@@ -8934,11 +7597,6 @@ extension Glue {
     }
 
     public struct SkewedInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkewedColumnNames", required: false, type: .list), 
-            AWSShapeMember(label: "SkewedColumnValueLocationMaps", required: false, type: .map), 
-            AWSShapeMember(label: "SkewedColumnValues", required: false, type: .list)
-        ]
 
         /// A list of names of columns that contain skewed values.
         public let skewedColumnNames: [String]?
@@ -8969,10 +7627,6 @@ extension Glue {
     }
 
     public struct SortCriterion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldName", required: false, type: .string), 
-            AWSShapeMember(label: "Sort", required: false, type: .enum)
-        ]
 
         /// The name of the field on which to sort.
         public let fieldName: String?
@@ -8995,9 +7649,6 @@ extension Glue {
     }
 
     public struct StartCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Name of the crawler to start.
         public let name: String
@@ -9026,9 +7677,6 @@ extension Glue {
     }
 
     public struct StartCrawlerScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerName", required: true, type: .string)
-        ]
 
         /// Name of the crawler to schedule.
         public let crawlerName: String
@@ -9057,10 +7705,6 @@ extension Glue {
     }
 
     public struct StartExportLabelsTaskRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputS3Path", required: true, type: .string), 
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The Amazon S3 path where you export the labels.
         public let outputS3Path: String
@@ -9085,9 +7729,6 @@ extension Glue {
     }
 
     public struct StartExportLabelsTaskRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
-        ]
 
         /// The unique identifier for the task run.
         public let taskRunId: String?
@@ -9102,11 +7743,6 @@ extension Glue {
     }
 
     public struct StartImportLabelsTaskRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputS3Path", required: true, type: .string), 
-            AWSShapeMember(label: "ReplaceAllLabels", required: false, type: .boolean), 
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The Amazon Simple Storage Service (Amazon S3) path from where you import the labels.
         public let inputS3Path: String
@@ -9135,9 +7771,6 @@ extension Glue {
     }
 
     public struct StartImportLabelsTaskRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
-        ]
 
         /// The unique identifier for the task run.
         public let taskRunId: String?
@@ -9152,17 +7785,6 @@ extension Glue {
     }
 
     public struct StartJobRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arguments", required: false, type: .map), 
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "JobRunId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -9223,9 +7845,6 @@ extension Glue {
     }
 
     public struct StartJobRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobRunId", required: false, type: .string)
-        ]
 
         /// The ID assigned to this job run.
         public let jobRunId: String?
@@ -9240,9 +7859,6 @@ extension Glue {
     }
 
     public struct StartMLEvaluationTaskRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the machine learning transform.
         public let transformId: String
@@ -9263,9 +7879,6 @@ extension Glue {
     }
 
     public struct StartMLEvaluationTaskRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
-        ]
 
         /// The unique identifier associated with this run.
         public let taskRunId: String?
@@ -9280,10 +7893,6 @@ extension Glue {
     }
 
     public struct StartMLLabelingSetGenerationTaskRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputS3Path", required: true, type: .string), 
-            AWSShapeMember(label: "TransformId", required: true, type: .string)
-        ]
 
         /// The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.
         public let outputS3Path: String
@@ -9308,9 +7917,6 @@ extension Glue {
     }
 
     public struct StartMLLabelingSetGenerationTaskRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
-        ]
 
         /// The unique run identifier that is associated with this task run.
         public let taskRunId: String?
@@ -9325,9 +7931,6 @@ extension Glue {
     }
 
     public struct StartTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the trigger to start.
         public let name: String
@@ -9348,9 +7951,6 @@ extension Glue {
     }
 
     public struct StartTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the trigger that was started.
         public let name: String?
@@ -9365,9 +7965,6 @@ extension Glue {
     }
 
     public struct StartWorkflowRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the workflow to start.
         public let name: String
@@ -9388,9 +7985,6 @@ extension Glue {
     }
 
     public struct StartWorkflowRunResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunId", required: false, type: .string)
-        ]
 
         /// An Id for the new run.
         public let runId: String?
@@ -9405,9 +7999,6 @@ extension Glue {
     }
 
     public struct StopCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Name of the crawler to stop.
         public let name: String
@@ -9436,9 +8027,6 @@ extension Glue {
     }
 
     public struct StopCrawlerScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerName", required: true, type: .string)
-        ]
 
         /// Name of the crawler whose schedule state to set.
         public let crawlerName: String
@@ -9467,9 +8055,6 @@ extension Glue {
     }
 
     public struct StopTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the trigger to stop.
         public let name: String
@@ -9490,9 +8075,6 @@ extension Glue {
     }
 
     public struct StopTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the trigger that was stopped.
         public let name: String?
@@ -9507,20 +8089,6 @@ extension Glue {
     }
 
     public struct StorageDescriptor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketColumns", required: false, type: .list), 
-            AWSShapeMember(label: "Columns", required: false, type: .list), 
-            AWSShapeMember(label: "Compressed", required: false, type: .boolean), 
-            AWSShapeMember(label: "InputFormat", required: false, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfBuckets", required: false, type: .integer), 
-            AWSShapeMember(label: "OutputFormat", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "SerdeInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "SkewedInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "SortColumns", required: false, type: .list), 
-            AWSShapeMember(label: "StoredAsSubDirectories", required: false, type: .boolean)
-        ]
 
         /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
         public let bucketColumns: [String]?
@@ -9607,25 +8175,6 @@ extension Glue {
     }
 
     public struct Table: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsRegisteredWithLakeFormation", required: false, type: .boolean), 
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "PartitionKeys", required: false, type: .list), 
-            AWSShapeMember(label: "Retention", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "TableType", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ViewExpandedText", required: false, type: .string), 
-            AWSShapeMember(label: "ViewOriginalText", required: false, type: .string)
-        ]
 
         /// The person or entity who created the table.
         public let createdBy: String?
@@ -9704,10 +8253,6 @@ extension Glue {
     }
 
     public struct TableError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
 
         /// The details about the error.
         public let errorDetail: ErrorDetail?
@@ -9726,20 +8271,6 @@ extension Glue {
     }
 
     public struct TableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "PartitionKeys", required: false, type: .list), 
-            AWSShapeMember(label: "Retention", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageDescriptor", required: false, type: .structure), 
-            AWSShapeMember(label: "TableType", required: false, type: .string), 
-            AWSShapeMember(label: "ViewExpandedText", required: false, type: .string), 
-            AWSShapeMember(label: "ViewOriginalText", required: false, type: .string)
-        ]
 
         /// A description of the table.
         public let description: String?
@@ -9824,10 +8355,6 @@ extension Glue {
     }
 
     public struct TableVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Table", required: false, type: .structure), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The table in question.
         public let table: Table?
@@ -9846,11 +8373,6 @@ extension Glue {
     }
 
     public struct TableVersionError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The details about the error.
         public let errorDetail: ErrorDetail?
@@ -9873,10 +8395,6 @@ extension Glue {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagsToAdd", required: true, type: .map)
-        ]
 
         /// The ARN of the AWS Glue resource to which to add the tags. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern.
         public let resourceArn: String
@@ -9915,18 +8433,6 @@ extension Glue {
     }
 
     public struct TaskRun: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ErrorString", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Properties", required: false, type: .structure), 
-            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskRunId", required: false, type: .string), 
-            AWSShapeMember(label: "TransformId", required: false, type: .string)
-        ]
 
         /// The last point in time that the requested task run was completed.
         public let completedOn: TimeStamp?
@@ -9977,12 +8483,6 @@ extension Glue {
     }
 
     public struct TaskRunFilterCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskRunType", required: false, type: .enum)
-        ]
 
         /// Filter on task runs started after this date.
         public let startedAfter: TimeStamp?
@@ -10009,13 +8509,6 @@ extension Glue {
     }
 
     public struct TaskRunProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportLabelsTaskRunProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "FindMatchesTaskRunProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "ImportLabelsTaskRunProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "LabelingSetGenerationTaskRunProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "TaskType", required: false, type: .enum)
-        ]
 
         /// The configuration properties for an exporting labels task run.
         public let exportLabelsTaskRunProperties: ExportLabelsTaskRunProperties?
@@ -10046,10 +8539,6 @@ extension Glue {
     }
 
     public struct TaskRunSortCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Column", required: true, type: .enum), 
-            AWSShapeMember(label: "SortDirection", required: true, type: .enum)
-        ]
 
         /// The column to be used to sort the list of task runs for the machine learning transform.
         public let column: TaskRunSortColumnType
@@ -10068,17 +8557,6 @@ extension Glue {
     }
 
     public struct TransformFilterCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Schema", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TransformType", required: false, type: .enum)
-        ]
 
         /// The time and date after which the transforms were created.
         public let createdAfter: TimeStamp?
@@ -10138,10 +8616,6 @@ extension Glue {
     }
 
     public struct TransformParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindMatchesParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "TransformType", required: true, type: .enum)
-        ]
 
         /// The parameters for the find matches algorithm.
         public let findMatchesParameters: FindMatchesParameters?
@@ -10164,10 +8638,6 @@ extension Glue {
     }
 
     public struct TransformSortCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Column", required: true, type: .enum), 
-            AWSShapeMember(label: "SortDirection", required: true, type: .enum)
-        ]
 
         /// The column to be used in the sorting criteria that are associated with the machine learning transform.
         public let column: TransformSortColumnType
@@ -10186,17 +8656,6 @@ extension Glue {
     }
 
     public struct Trigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Predicate", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "WorkflowName", required: false, type: .string)
-        ]
 
         /// The actions initiated by this trigger.
         public let actions: [Action]?
@@ -10243,9 +8702,6 @@ extension Glue {
     }
 
     public struct TriggerNodeDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Trigger", required: false, type: .structure)
-        ]
 
         /// The information of the trigger represented by the trigger node.
         public let trigger: Trigger?
@@ -10260,13 +8716,6 @@ extension Glue {
     }
 
     public struct TriggerUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Predicate", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string)
-        ]
 
         /// The actions initiated by this trigger.
         public let actions: [Action]?
@@ -10310,10 +8759,6 @@ extension Glue {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagsToRemove", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource from which to remove the tags.
         public let resourceArn: String
@@ -10352,12 +8797,6 @@ extension Glue {
     }
 
     public struct UpdateClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CsvClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
-            AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
-        ]
 
         /// A CsvClassifier object with updated fields.
         public let csvClassifier: UpdateCsvClassifierRequest?
@@ -10399,11 +8838,6 @@ extension Glue {
     }
 
     public struct UpdateConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionInput", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -10444,19 +8878,6 @@ extension Glue {
     }
 
     public struct UpdateCrawlerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classifiers", required: false, type: .list), 
-            AWSShapeMember(label: "Configuration", required: false, type: .string), 
-            AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .structure)
-        ]
 
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
@@ -10538,10 +8959,6 @@ extension Glue {
     }
 
     public struct UpdateCrawlerScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlerName", required: true, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string)
-        ]
 
         /// The name of the crawler whose schedule to update.
         public let crawlerName: String
@@ -10574,15 +8991,6 @@ extension Glue {
     }
 
     public struct UpdateCsvClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowSingleColumn", required: false, type: .boolean), 
-            AWSShapeMember(label: "ContainsHeader", required: false, type: .enum), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "DisableValueTrimming", required: false, type: .boolean), 
-            AWSShapeMember(label: "Header", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "QuoteSymbol", required: false, type: .string)
-        ]
 
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
@@ -10638,11 +9046,6 @@ extension Glue {
     }
 
     public struct UpdateDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseInput", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog in which the metadata database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -10683,16 +9086,6 @@ extension Glue {
     }
 
     public struct UpdateDevEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddArguments", required: false, type: .map), 
-            AWSShapeMember(label: "AddPublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "CustomLibraries", required: false, type: .structure), 
-            AWSShapeMember(label: "DeleteArguments", required: false, type: .list), 
-            AWSShapeMember(label: "DeletePublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateEtlLibraries", required: false, type: .boolean)
-        ]
 
         /// The map of arguments to add the map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let addArguments: [String: String]?
@@ -10748,12 +9141,6 @@ extension Glue {
     }
 
     public struct UpdateGrokClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classification", required: false, type: .string), 
-            AWSShapeMember(label: "CustomPatterns", required: false, type: .string), 
-            AWSShapeMember(label: "GrokPattern", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String?
@@ -10792,10 +9179,6 @@ extension Glue {
     }
 
     public struct UpdateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "JobUpdate", required: true, type: .structure)
-        ]
 
         /// The name of the job definition to update.
         public let jobName: String
@@ -10821,9 +9204,6 @@ extension Glue {
     }
 
     public struct UpdateJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string)
-        ]
 
         /// Returns the name of the updated job definition.
         public let jobName: String?
@@ -10838,10 +9218,6 @@ extension Glue {
     }
 
     public struct UpdateJsonClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JsonPath", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String?
@@ -10866,19 +9242,6 @@ extension Glue {
     }
 
     public struct UpdateMLTransformRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
-            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TransformId", required: true, type: .string), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
-        ]
 
         /// A description of the transform. The default is an empty string.
         public let description: String?
@@ -10950,9 +9313,6 @@ extension Glue {
     }
 
     public struct UpdateMLTransformResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformId", required: false, type: .string)
-        ]
 
         /// The unique identifier for the transform that was updated.
         public let transformId: String?
@@ -10967,13 +9327,6 @@ extension Glue {
     }
 
     public struct UpdatePartitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "PartitionInput", required: true, type: .structure), 
-            AWSShapeMember(label: "PartitionValueList", required: true, type: .list), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the partition to be updated resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -11030,12 +9383,6 @@ extension Glue {
     }
 
     public struct UpdateTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "SkipArchive", required: false, type: .boolean), 
-            AWSShapeMember(label: "TableInput", required: true, type: .structure)
-        ]
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -11080,10 +9427,6 @@ extension Glue {
     }
 
     public struct UpdateTriggerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TriggerUpdate", required: true, type: .structure)
-        ]
 
         /// The name of the trigger to update.
         public let name: String
@@ -11109,9 +9452,6 @@ extension Glue {
     }
 
     public struct UpdateTriggerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Trigger", required: false, type: .structure)
-        ]
 
         /// The resulting trigger definition.
         public let trigger: Trigger?
@@ -11126,12 +9466,6 @@ extension Glue {
     }
 
     public struct UpdateUserDefinedFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "FunctionInput", required: true, type: .structure), 
-            AWSShapeMember(label: "FunctionName", required: true, type: .string)
-        ]
 
         /// The ID of the Data Catalog where the function to be updated is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -11179,11 +9513,6 @@ extension Glue {
     }
 
     public struct UpdateWorkflowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultRunProperties", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// A collection of properties to be used as part of each execution of the workflow.
         public let defaultRunProperties: [String: String]?
@@ -11217,9 +9546,6 @@ extension Glue {
     }
 
     public struct UpdateWorkflowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the workflow which was specified in input.
         public let name: String?
@@ -11234,11 +9560,6 @@ extension Glue {
     }
 
     public struct UpdateXMLClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classification", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RowTag", required: false, type: .string)
-        ]
 
         /// An identifier of the data format that the classifier matches.
         public let classification: String?
@@ -11267,14 +9588,6 @@ extension Glue {
     }
 
     public struct UserDefinedFunction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassName", required: false, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FunctionName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceUris", required: false, type: .list)
-        ]
 
         /// The Java class that contains the function code.
         public let className: String?
@@ -11309,13 +9622,6 @@ extension Glue {
     }
 
     public struct UserDefinedFunctionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassName", required: false, type: .string), 
-            AWSShapeMember(label: "FunctionName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceUris", required: false, type: .list)
-        ]
 
         /// The Java class that contains the function code.
         public let className: String?
@@ -11363,15 +9669,6 @@ extension Glue {
     }
 
     public struct Workflow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultRunProperties", required: false, type: .map), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Graph", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastRun", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The date and time when the workflow was created.
         public let createdOn: TimeStamp?
@@ -11410,10 +9707,6 @@ extension Glue {
     }
 
     public struct WorkflowGraph: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Edges", required: false, type: .list), 
-            AWSShapeMember(label: "Nodes", required: false, type: .list)
-        ]
 
         /// A list of all the directed connections between the nodes belonging to the workflow.
         public let edges: [Edge]?
@@ -11432,16 +9725,6 @@ extension Glue {
     }
 
     public struct WorkflowRun: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Graph", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Statistics", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "WorkflowRunId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkflowRunProperties", required: false, type: .map)
-        ]
 
         /// The date and time when the workflow run completed.
         public let completedOn: TimeStamp?
@@ -11484,14 +9767,6 @@ extension Glue {
     }
 
     public struct WorkflowRunStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedActions", required: false, type: .integer), 
-            AWSShapeMember(label: "RunningActions", required: false, type: .integer), 
-            AWSShapeMember(label: "StoppedActions", required: false, type: .integer), 
-            AWSShapeMember(label: "SucceededActions", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutActions", required: false, type: .integer), 
-            AWSShapeMember(label: "TotalActions", required: false, type: .integer)
-        ]
 
         /// Total number of Actions which have failed.
         public let failedActions: Int?
@@ -11526,14 +9801,6 @@ extension Glue {
     }
 
     public struct XMLClassifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Classification", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RowTag", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .long)
-        ]
 
         /// An identifier of the data format that the classifier matches.
         public let classification: String

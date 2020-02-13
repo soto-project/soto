@@ -29,11 +29,6 @@ extension ResourceGroupsTaggingAPI {
     //MARK: Shapes
 
     public struct ComplianceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceStatus", required: false, type: .boolean), 
-            AWSShapeMember(label: "KeysWithNoncompliantValues", required: false, type: .list), 
-            AWSShapeMember(label: "NoncompliantKeys", required: false, type: .list)
-        ]
 
         /// Whether a resource is compliant with the effective tag policy.
         public let complianceStatus: Bool?
@@ -64,11 +59,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct DescribeReportCreationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "S3Location", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// Details of the common errors that all operations return.
         public let errorMessage: String?
@@ -91,11 +81,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct FailureInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: false, type: .integer)
-        ]
 
         /// The code of the common error. Valid values include InternalServiceException, InvalidParameterException, and any valid error code returned by the AWS service that hosts the resource that you want to tag.
         public let errorCode: ErrorCode?
@@ -118,15 +103,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetComplianceSummaryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "RegionFilters", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypeFilters", required: false, type: .list), 
-            AWSShapeMember(label: "TagKeyFilters", required: false, type: .list), 
-            AWSShapeMember(label: "TargetIdFilters", required: false, type: .list)
-        ]
 
         /// A list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attributes.
         public let groupBy: [GroupByAttribute]?
@@ -199,10 +175,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetComplianceSummaryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "SummaryList", required: false, type: .list)
-        ]
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -221,15 +193,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetResourcesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludeCompliantResources", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeComplianceDetails", required: false, type: .boolean), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourcesPerPage", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceTypeFilters", required: false, type: .list), 
-            AWSShapeMember(label: "TagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "TagsPerPage", required: false, type: .integer)
-        ]
 
         /// Specifies whether to exclude resources that are compliant with the tag policy. Set this to true if you are interested in retrieving information on noncompliant resources only. You can use this parameter only if the IncludeComplianceDetails parameter is also set to true.
         public let excludeCompliantResources: Bool?
@@ -284,10 +247,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceTagMappingList", required: false, type: .list)
-        ]
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -306,9 +265,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagKeysInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
-        ]
 
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
         public let paginationToken: String?
@@ -329,10 +285,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagKeysOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: false, type: .list)
-        ]
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -351,10 +303,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagValuesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
-        ]
 
         /// The key for which you want to list all existing values in the specified Region for the AWS account.
         public let key: String
@@ -382,10 +330,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagValuesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "TagValues", required: false, type: .list)
-        ]
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -404,11 +348,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct ResourceTagMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// Information that shows whether a resource is compliant with the effective tag policy, including details on any noncompliant tag keys.
         public let complianceDetails: ComplianceDetails?
@@ -431,9 +370,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct StartReportCreationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", required: true, type: .string)
-        ]
 
         /// The name of the Amazon S3 bucket where the report will be stored; for example:  awsexamplebucket  For more information on S3 bucket requirements, including an example bucket policy, see the example S3 bucket policy on this page.
         public let s3Bucket: String
@@ -462,14 +398,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct Summary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "NonCompliantResources", required: false, type: .long), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "TargetId", required: false, type: .string), 
-            AWSShapeMember(label: "TargetIdType", required: false, type: .enum)
-        ]
 
         /// The timestamp that shows when this summary was generated in this Region. 
         public let lastUpdated: String?
@@ -504,10 +432,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
@@ -526,10 +450,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
@@ -561,10 +481,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagResourcesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNList", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
-        ]
 
         /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. You can specify a minimum of 1 and a maximum of 20 ARNs (resources) to tag. An ARN can be set to a maximum of 1600 characters. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
@@ -601,9 +517,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedResourcesMap", required: false, type: .map)
-        ]
 
         /// Details of resources that could not be tagged. An error code, status code, and error message are returned for each failed item.
         public let failedResourcesMap: [String: FailureInfo]?
@@ -618,10 +531,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct UntagResourcesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNList", required: true, type: .list), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. You can specify a minimum of 1 and a maximum of 20 ARNs (resources) to untag. An ARN can be set to a maximum of 1600 characters. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
@@ -657,9 +566,6 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct UntagResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedResourcesMap", required: false, type: .map)
-        ]
 
         /// Details of resources that could not be untagged. An error code, status code, and error message are returned for each failed item. 
         public let failedResourcesMap: [String: FailureInfo]?

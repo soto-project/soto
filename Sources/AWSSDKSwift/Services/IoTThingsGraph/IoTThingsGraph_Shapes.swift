@@ -119,11 +119,6 @@ extension IoTThingsGraph {
     //MARK: Shapes
 
     public struct AssociateEntityToThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entityId", required: true, type: .string), 
-            AWSShapeMember(label: "namespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "thingName", required: true, type: .string)
-        ]
 
         /// The ID of the device to be associated with the thing. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME 
         public let entityId: String
@@ -162,10 +157,6 @@ extension IoTThingsGraph {
     }
 
     public struct CreateFlowTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "compatibleNamespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "definition", required: true, type: .structure)
-        ]
 
         /// The namespace version in which the workflow is to be created. If no value is specified, the latest version is used by default.
         public let compatibleNamespaceVersion: Int64?
@@ -188,9 +179,6 @@ extension IoTThingsGraph {
     }
 
     public struct CreateFlowTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .structure)
-        ]
 
         /// The summary object that describes the created workflow.
         public let summary: FlowTemplateSummary?
@@ -205,15 +193,6 @@ extension IoTThingsGraph {
     }
 
     public struct CreateSystemInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: true, type: .structure), 
-            AWSShapeMember(label: "flowActionsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "greengrassGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "metricsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "s3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "target", required: true, type: .enum)
-        ]
 
         public let definition: DefinitionDocument
         /// The ARN of the IAM role that AWS IoT Things Graph will assume when it executes the flow. This role must have read and write access to AWS Lambda and AWS IoT and any other AWS services that the flow uses when it executes. This value is required if the value of the target parameter is CLOUD.
@@ -262,9 +241,6 @@ extension IoTThingsGraph {
     }
 
     public struct CreateSystemInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .structure)
-        ]
 
         /// The summary object that describes the new system instance.
         public let summary: SystemInstanceSummary?
@@ -279,10 +255,6 @@ extension IoTThingsGraph {
     }
 
     public struct CreateSystemTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "compatibleNamespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "definition", required: true, type: .structure)
-        ]
 
         /// The namespace version in which the system is to be created. If no value is specified, the latest version is used by default.
         public let compatibleNamespaceVersion: Int64?
@@ -305,9 +277,6 @@ extension IoTThingsGraph {
     }
 
     public struct CreateSystemTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .structure)
-        ]
 
         /// The summary object that describes the created system.
         public let summary: SystemTemplateSummary?
@@ -322,10 +291,6 @@ extension IoTThingsGraph {
     }
 
     public struct DefinitionDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "language", required: true, type: .enum), 
-            AWSShapeMember(label: "text", required: true, type: .string)
-        ]
 
         /// The language used to define the entity. GRAPHQL is the only valid value.
         public let language: DefinitionLanguage
@@ -348,9 +313,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeleteFlowTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The ID of the workflow to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME 
         public let id: String
@@ -386,10 +348,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeleteNamespaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "namespaceArn", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceName", required: false, type: .string)
-        ]
 
         /// The ARN of the namespace to be deleted.
         public let namespaceArn: String?
@@ -408,9 +366,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeleteSystemInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
 
         /// The ID of the system instance to be deleted.
         public let id: String?
@@ -438,9 +393,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeleteSystemTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The ID of the system to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME 
         public let id: String
@@ -468,10 +420,6 @@ extension IoTThingsGraph {
     }
 
     public struct DependencyRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "revisionNumber", required: false, type: .long)
-        ]
 
         /// The ID of the workflow or system.
         public let id: String?
@@ -490,9 +438,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeploySystemInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
 
         /// The ID of the system instance. This value is returned by the CreateSystemInstance action. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME 
         public let id: String?
@@ -512,10 +457,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeploySystemInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "greengrassDeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "summary", required: true, type: .structure)
-        ]
 
         /// The ID of the Greengrass deployment used to deploy the system instance.
         public let greengrassDeploymentId: String?
@@ -534,9 +475,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeprecateFlowTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The ID of the workflow to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME 
         public let id: String
@@ -564,9 +502,6 @@ extension IoTThingsGraph {
     }
 
     public struct DeprecateSystemTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The ID of the system to delete. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME 
         public let id: String
@@ -594,9 +529,6 @@ extension IoTThingsGraph {
     }
 
     public struct DescribeNamespaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "namespaceName", required: false, type: .string)
-        ]
 
         /// The name of the user's namespace. Set this to aws to get the public namespace.
         public let namespaceName: String?
@@ -615,13 +547,6 @@ extension IoTThingsGraph {
     }
 
     public struct DescribeNamespaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "namespaceArn", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceName", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "trackingNamespaceName", required: false, type: .string), 
-            AWSShapeMember(label: "trackingNamespaceVersion", required: false, type: .long)
-        ]
 
         /// The ARN of the namespace.
         public let namespaceArn: String?
@@ -652,10 +577,6 @@ extension IoTThingsGraph {
     }
 
     public struct DissociateEntityFromThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entityType", required: true, type: .enum), 
-            AWSShapeMember(label: "thingName", required: true, type: .string)
-        ]
 
         /// The entity type from which to disassociate the thing.
         public let entityType: EntityType
@@ -688,13 +609,6 @@ extension IoTThingsGraph {
     }
 
     public struct EntityDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "definition", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The entity ARN.
         public let arn: String?
@@ -725,10 +639,6 @@ extension IoTThingsGraph {
     }
 
     public struct EntityFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .list)
-        ]
 
         /// The name of the entity search filter field. REFERENCED_ENTITY_ID filters on entities that are used by the entity in the result set. For example, you can filter on the ID of a property that is used in a state.
         public let name: EntityFilterName?
@@ -747,12 +657,6 @@ extension IoTThingsGraph {
     }
 
     public struct FlowExecutionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventType", required: false, type: .enum), 
-            AWSShapeMember(label: "messageId", required: false, type: .string), 
-            AWSShapeMember(label: "payload", required: false, type: .string), 
-            AWSShapeMember(label: "timestamp", required: false, type: .timestamp)
-        ]
 
         /// The type of flow event .
         public let eventType: FlowExecutionEventType?
@@ -779,14 +683,6 @@ extension IoTThingsGraph {
     }
 
     public struct FlowExecutionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "flowExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "flowTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "systemInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
-        ]
 
         /// The date and time when the flow execution summary was created.
         public let createdAt: TimeStamp?
@@ -821,11 +717,6 @@ extension IoTThingsGraph {
     }
 
     public struct FlowTemplateDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: false, type: .structure), 
-            AWSShapeMember(label: "summary", required: false, type: .structure), 
-            AWSShapeMember(label: "validatedNamespaceVersion", required: false, type: .long)
-        ]
 
         /// A workflow's definition document.
         public let definition: DefinitionDocument?
@@ -848,10 +739,6 @@ extension IoTThingsGraph {
     }
 
     public struct FlowTemplateFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .enum), 
-            AWSShapeMember(label: "value", required: true, type: .list)
-        ]
 
         /// The name of the search filter field.
         public let name: FlowTemplateFilterName
@@ -876,12 +763,6 @@ extension IoTThingsGraph {
     }
 
     public struct FlowTemplateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "revisionNumber", required: false, type: .long)
-        ]
 
         /// The ARN of the workflow.
         public let arn: String?
@@ -908,10 +789,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetEntitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: true, type: .list), 
-            AWSShapeMember(label: "namespaceVersion", required: false, type: .long)
-        ]
 
         /// An array of entity IDs. The IDs should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME 
         public let ids: [String]
@@ -939,9 +816,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetEntitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "descriptions", required: false, type: .list)
-        ]
 
         /// An array of descriptions for the specified entities.
         public let descriptions: [EntityDescription]?
@@ -956,10 +830,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetFlowTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "revisionNumber", required: false, type: .long)
-        ]
 
         /// The ID of the workflow. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME 
         public let id: String
@@ -983,9 +853,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetFlowTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .structure)
-        ]
 
         /// The object that describes the specified workflow.
         public let description: FlowTemplateDescription?
@@ -1000,11 +867,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetFlowTemplateRevisionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The ID of the workflow. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME 
         public let id: String
@@ -1034,10 +896,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetFlowTemplateRevisionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "summaries", required: false, type: .list)
-        ]
 
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
@@ -1064,13 +922,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetNamespaceDeletionStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceArn", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// An error code returned by the namespace deletion task.
         public let errorCode: NamespaceDeletionStatusErrorCodes?
@@ -1101,9 +952,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetSystemInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The ID of the system deployment instance. This value is returned by CreateSystemInstance. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME 
         public let id: String
@@ -1123,9 +971,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetSystemInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .structure)
-        ]
 
         /// An object that describes the system instance.
         public let description: SystemInstanceDescription?
@@ -1140,10 +985,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetSystemTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "revisionNumber", required: false, type: .long)
-        ]
 
         /// The ID of the system to get. This ID must be in the user's namespace. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME 
         public let id: String
@@ -1167,9 +1008,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetSystemTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .structure)
-        ]
 
         /// An object that contains summary data about the system.
         public let description: SystemTemplateDescription?
@@ -1184,11 +1022,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetSystemTemplateRevisionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The ID of the system template. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME 
         public let id: String
@@ -1218,10 +1051,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetSystemTemplateRevisionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "summaries", required: false, type: .list)
-        ]
 
         /// The string to specify as nextToken when you request the next page of results. 
         public let nextToken: String?
@@ -1240,9 +1069,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetUploadStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "uploadId", required: true, type: .string)
-        ]
 
         /// The ID of the upload. This value is returned by the UploadEntityDefinitions action.
         public let uploadId: String
@@ -1262,15 +1088,6 @@ extension IoTThingsGraph {
     }
 
     public struct GetUploadStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "failureReason", required: false, type: .list), 
-            AWSShapeMember(label: "namespaceArn", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceName", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "uploadId", required: true, type: .string), 
-            AWSShapeMember(label: "uploadStatus", required: true, type: .enum)
-        ]
 
         /// The date at which the upload was created.
         public let createdDate: TimeStamp
@@ -1309,11 +1126,6 @@ extension IoTThingsGraph {
     }
 
     public struct ListFlowExecutionMessagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "flowExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The ID of the flow execution.
         public let flowExecutionId: String
@@ -1341,10 +1153,6 @@ extension IoTThingsGraph {
     }
 
     public struct ListFlowExecutionMessagesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messages", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of objects that contain information about events in the specified flow execution.
         public let messages: [FlowExecutionMessage]?
@@ -1363,11 +1171,6 @@ extension IoTThingsGraph {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// The maximum number of tags to return.
         public let maxResults: Int?
@@ -1397,10 +1200,6 @@ extension IoTThingsGraph {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The token that specifies the next page of results to return.
         public let nextToken: String?
@@ -1419,10 +1218,6 @@ extension IoTThingsGraph {
     }
 
     public struct MetricsConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudMetricEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "metricRuleRoleArn", required: false, type: .string)
-        ]
 
         /// A Boolean that specifies whether cloud metrics are collected.
         public let cloudMetricEnabled: Bool?
@@ -1446,13 +1241,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchEntitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entityTypes", required: true, type: .list), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "namespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The entity types for which to search.
         public let entityTypes: [EntityType]
@@ -1488,10 +1276,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchEntitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "descriptions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of descriptions for each entity returned in the search result.
         public let descriptions: [EntityDescription]?
@@ -1510,14 +1294,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchFlowExecutionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "flowExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "systemInstanceId", required: true, type: .string)
-        ]
 
         /// The date and time of the latest flow execution to return.
         public let endTime: TimeStamp?
@@ -1559,10 +1335,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchFlowExecutionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "summaries", required: false, type: .list)
-        ]
 
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
@@ -1581,11 +1353,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchFlowTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that limit the result set. The only valid filter is DEVICE_MODEL_ID.
         public let filters: [FlowTemplateFilter]?
@@ -1616,10 +1383,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchFlowTemplatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "summaries", required: false, type: .list)
-        ]
 
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
@@ -1638,11 +1401,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchSystemInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Optional filter to apply to the search. Valid filters are SYSTEM_TEMPLATE_ID, STATUS, and GREENGRASS_GROUP_NAME. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
         public let filters: [SystemInstanceFilter]?
@@ -1670,10 +1428,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchSystemInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "summaries", required: false, type: .list)
-        ]
 
         /// The string to specify as nextToken when you request the next page of results. 
         public let nextToken: String?
@@ -1692,11 +1446,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchSystemTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of filters that limit the result set. The only valid filter is FLOW_TEMPLATE_ID.
         public let filters: [SystemTemplateFilter]?
@@ -1727,10 +1476,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchSystemTemplatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "summaries", required: false, type: .list)
-        ]
 
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
@@ -1749,12 +1494,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchThingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entityId", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "namespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The ID of the entity to which the things are associated. The IDs should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME 
         public let entityId: String
@@ -1788,10 +1527,6 @@ extension IoTThingsGraph {
     }
 
     public struct SearchThingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
 
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
@@ -1810,15 +1545,6 @@ extension IoTThingsGraph {
     }
 
     public struct SystemInstanceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: false, type: .structure), 
-            AWSShapeMember(label: "flowActionsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "metricsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "s3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "summary", required: false, type: .structure), 
-            AWSShapeMember(label: "validatedDependencyRevisions", required: false, type: .list), 
-            AWSShapeMember(label: "validatedNamespaceVersion", required: false, type: .long)
-        ]
 
         public let definition: DefinitionDocument?
         /// The AWS Identity and Access Management (IAM) role that AWS IoT Things Graph assumes during flow execution in a cloud deployment. This role must have read and write permissionss to AWS Lambda and AWS IoT and to any other AWS services that the flow uses.
@@ -1855,10 +1581,6 @@ extension IoTThingsGraph {
     }
 
     public struct SystemInstanceFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .list)
-        ]
 
         /// The name of the search filter field.
         public let name: SystemInstanceFilterName?
@@ -1877,17 +1599,6 @@ extension IoTThingsGraph {
     }
 
     public struct SystemInstanceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "greengrassGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "greengrassGroupVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "target", required: false, type: .enum), 
-            AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
-        ]
 
         /// The ARN of the system instance.
         public let arn: String?
@@ -1934,11 +1645,6 @@ extension IoTThingsGraph {
     }
 
     public struct SystemTemplateDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: false, type: .structure), 
-            AWSShapeMember(label: "summary", required: false, type: .structure), 
-            AWSShapeMember(label: "validatedNamespaceVersion", required: false, type: .long)
-        ]
 
         /// The definition document of a system.
         public let definition: DefinitionDocument?
@@ -1961,10 +1667,6 @@ extension IoTThingsGraph {
     }
 
     public struct SystemTemplateFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .enum), 
-            AWSShapeMember(label: "value", required: true, type: .list)
-        ]
 
         /// The name of the system search filter field.
         public let name: SystemTemplateFilterName
@@ -1989,12 +1691,6 @@ extension IoTThingsGraph {
     }
 
     public struct SystemTemplateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "revisionNumber", required: false, type: .long)
-        ]
 
         /// The ARN of the system.
         public let arn: String?
@@ -2021,10 +1717,6 @@ extension IoTThingsGraph {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The required name of the tag. The string value can be from 1 to 128 Unicode characters in length.
         public let key: String
@@ -2051,10 +1743,6 @@ extension IoTThingsGraph {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource whose tags are returned.
         public let resourceArn: String
@@ -2091,10 +1779,6 @@ extension IoTThingsGraph {
     }
 
     public struct Thing: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// The ARN of the thing.
         public let thingArn: String?
@@ -2113,9 +1797,6 @@ extension IoTThingsGraph {
     }
 
     public struct UndeploySystemInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
 
         /// The ID of the system instance to remove from its target.
         public let id: String?
@@ -2135,9 +1816,6 @@ extension IoTThingsGraph {
     }
 
     public struct UndeploySystemInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .structure)
-        ]
 
         /// An object that contains summary information about the system instance that was removed from its target.
         public let summary: SystemInstanceSummary?
@@ -2152,10 +1830,6 @@ extension IoTThingsGraph {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource whose tags are to be removed.
         public let resourceArn: String
@@ -2194,11 +1868,6 @@ extension IoTThingsGraph {
     }
 
     public struct UpdateFlowTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "compatibleNamespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "definition", required: true, type: .structure), 
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The version of the user's namespace. If no value is specified, the latest version is used by default. Use the GetFlowTemplateRevisions if you want to find earlier revisions of the flow to update.
         public let compatibleNamespaceVersion: Int64?
@@ -2227,9 +1896,6 @@ extension IoTThingsGraph {
     }
 
     public struct UpdateFlowTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .structure)
-        ]
 
         /// An object containing summary information about the updated workflow.
         public let summary: FlowTemplateSummary?
@@ -2244,11 +1910,6 @@ extension IoTThingsGraph {
     }
 
     public struct UpdateSystemTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "compatibleNamespaceVersion", required: false, type: .long), 
-            AWSShapeMember(label: "definition", required: true, type: .structure), 
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The version of the user's namespace. Defaults to the latest version of the user's namespace. If no value is specified, the latest version is used by default.
         public let compatibleNamespaceVersion: Int64?
@@ -2277,9 +1938,6 @@ extension IoTThingsGraph {
     }
 
     public struct UpdateSystemTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .structure)
-        ]
 
         /// An object containing summary information about the updated system.
         public let summary: SystemTemplateSummary?
@@ -2294,11 +1952,6 @@ extension IoTThingsGraph {
     }
 
     public struct UploadEntityDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deprecateExistingEntities", required: false, type: .boolean), 
-            AWSShapeMember(label: "document", required: false, type: .structure), 
-            AWSShapeMember(label: "syncWithPublicNamespace", required: false, type: .boolean)
-        ]
 
         /// A Boolean that specifies whether to deprecate all entities in the latest version before uploading the new DefinitionDocument. If set to true, the upload will create a new namespace version.
         public let deprecateExistingEntities: Bool?
@@ -2325,9 +1978,6 @@ extension IoTThingsGraph {
     }
 
     public struct UploadEntityDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "uploadId", required: true, type: .string)
-        ]
 
         /// The ID that specifies the upload action. You can use this to track the status of the upload.
         public let uploadId: String

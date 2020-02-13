@@ -9,11 +9,6 @@ extension SSO {
     //MARK: Shapes
 
     public struct AccountInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "accountName", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string)
-        ]
 
         /// The identifier of the AWS account that is assigned to the user.
         public let accountId: String?
@@ -37,9 +32,9 @@ extension SSO {
 
     public struct GetRoleCredentialsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .querystring(locationName: "account_id"), required: true, type: .string), 
-            AWSShapeMember(label: "roleName", location: .querystring(locationName: "role_name"), required: true, type: .string)
+            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
+            AWSShapeMember(label: "accountId", location: .querystring(locationName: "account_id")), 
+            AWSShapeMember(label: "roleName", location: .querystring(locationName: "role_name"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -63,9 +58,6 @@ extension SSO {
     }
 
     public struct GetRoleCredentialsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleCredentials", required: false, type: .structure)
-        ]
 
         /// The credentials for the role that is assigned to the user.
         public let roleCredentials: RoleCredentials?
@@ -81,10 +73,10 @@ extension SSO {
 
     public struct ListAccountRolesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .querystring(locationName: "account_id"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "max_result"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
+            AWSShapeMember(label: "accountId", location: .querystring(locationName: "account_id")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "max_result")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -117,10 +109,6 @@ extension SSO {
     }
 
     public struct ListAccountRolesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "roleList", required: false, type: .list)
-        ]
 
         /// The page token client that is used to retrieve the list of accounts.
         public let nextToken: String?
@@ -140,9 +128,9 @@ extension SSO {
 
     public struct ListAccountsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "max_result"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "next_token"), required: false, type: .string)
+            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "max_result")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -171,10 +159,6 @@ extension SSO {
     }
 
     public struct ListAccountsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A paginated response with the list of account information and the next token if more results are available.
         public let accountList: [AccountInfo]?
@@ -194,7 +178,7 @@ extension SSO {
 
     public struct LogoutRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"), required: true, type: .string)
+            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -210,12 +194,6 @@ extension SSO {
     }
 
     public struct RoleCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "expiration", required: false, type: .long), 
-            AWSShapeMember(label: "secretAccessKey", required: false, type: .string), 
-            AWSShapeMember(label: "sessionToken", required: false, type: .string)
-        ]
 
         /// The identifier used for the temporary security credentials. For more information, see Using Temporary Security Credentials to Request Access to AWS Resources in the AWS IAM User Guide.
         public let accessKeyId: String?
@@ -242,10 +220,6 @@ extension SSO {
     }
 
     public struct RoleInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "roleName", required: false, type: .string)
-        ]
 
         /// The identifier of the AWS account assigned to the user.
         public let accountId: String?

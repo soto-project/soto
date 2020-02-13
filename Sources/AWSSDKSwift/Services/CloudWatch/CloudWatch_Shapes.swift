@@ -94,13 +94,6 @@ extension CloudWatch {
     //MARK: Shapes
 
     public struct AlarmHistoryItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
-            AWSShapeMember(label: "HistoryData", required: false, type: .string), 
-            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
-            AWSShapeMember(label: "HistorySummary", required: false, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
-        ]
 
         /// The descriptive name for the alarm.
         public let alarmName: String?
@@ -132,12 +125,7 @@ extension CloudWatch {
 
     public struct AnomalyDetector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "Stat", required: false, type: .string), 
-            AWSShapeMember(label: "StateValue", required: false, type: .enum)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member"))
         ]
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
@@ -174,8 +162,7 @@ extension CloudWatch {
 
     public struct AnomalyDetectorConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludedTimeRanges", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricTimezone", required: false, type: .string)
+            AWSShapeMember(label: "ExcludedTimeRanges", encoding: .list(member:"member"))
         ]
 
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
@@ -195,12 +182,6 @@ extension CloudWatch {
     }
 
     public struct DashboardEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Size", required: false, type: .long)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -227,10 +208,6 @@ extension CloudWatch {
     }
 
     public struct DashboardValidationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataPath", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// The data path related to the message.
         public let dataPath: String?
@@ -250,14 +227,7 @@ extension CloudWatch {
 
     public struct Datapoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Average", required: false, type: .double), 
-            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
-            AWSShapeMember(label: "Maximum", required: false, type: .double), 
-            AWSShapeMember(label: "Minimum", required: false, type: .double), 
-            AWSShapeMember(label: "SampleCount", required: false, type: .double), 
-            AWSShapeMember(label: "Sum", required: false, type: .double), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
+            AWSShapeMember(label: "ExtendedStatistics", encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// The average of the metric values that correspond to the data point.
@@ -302,7 +272,7 @@ extension CloudWatch {
 
     public struct DeleteAlarmsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmNames", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "AlarmNames", encoding: .list(member:"member"))
         ]
 
         /// The alarms to be deleted.
@@ -327,10 +297,7 @@ extension CloudWatch {
 
     public struct DeleteAnomalyDetectorInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Stat", required: true, type: .string)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member"))
         ]
 
         /// The metric dimensions associated with the anomaly detection model to delete.
@@ -379,7 +346,7 @@ extension CloudWatch {
 
     public struct DeleteDashboardsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardNames", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "DashboardNames", encoding: .list(member:"member"))
         ]
 
         /// The dashboards to be deleted. This parameter is required.
@@ -404,7 +371,7 @@ extension CloudWatch {
 
     public struct DeleteInsightRulesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleNames", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "RuleNames", encoding: .list(member:"member"))
         ]
 
         /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules.
@@ -429,7 +396,7 @@ extension CloudWatch {
 
     public struct DeleteInsightRulesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failures", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Failures", encoding: .list(member:"member"))
         ]
 
         /// An array listing the rules that could not be deleted. You cannot delete built-in rules.
@@ -445,14 +412,6 @@ extension CloudWatch {
     }
 
     public struct DescribeAlarmHistoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
-            AWSShapeMember(label: "EndDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartDate", required: false, type: .timestamp)
-        ]
 
         /// The name of the alarm.
         public let alarmName: String?
@@ -495,8 +454,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmHistoryOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmHistoryItems", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "AlarmHistoryItems", encoding: .list(member:"member"))
         ]
 
         /// The alarm histories, in JSON format.
@@ -517,13 +475,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsForMetricInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Period", required: false, type: .integer), 
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member"))
         ]
 
         /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
@@ -578,7 +530,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsForMetricOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricAlarms", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "MetricAlarms", encoding: .list(member:"member"))
         ]
 
         /// The information for each alarm with the specified metric.
@@ -595,12 +547,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmNames", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StateValue", required: false, type: .enum)
+            AWSShapeMember(label: "AlarmNames", encoding: .list(member:"member"))
         ]
 
         /// The action name prefix.
@@ -651,8 +598,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricAlarms", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "MetricAlarms", encoding: .list(member:"member"))
         ]
 
         /// The information for the specified alarms.
@@ -673,11 +619,7 @@ extension CloudWatch {
 
     public struct DescribeAnomalyDetectorsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member"))
         ]
 
         /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
@@ -723,8 +665,7 @@ extension CloudWatch {
 
     public struct DescribeAnomalyDetectorsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnomalyDetectors", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "AnomalyDetectors", encoding: .list(member:"member"))
         ]
 
         /// The list of anomaly detection models returned by the operation.
@@ -744,10 +685,6 @@ extension CloudWatch {
     }
 
     public struct DescribeInsightRulesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// This parameter is not currently used. Reserved for future use. If it is used in the future, the maximum value may be different.
         public let maxResults: Int?
@@ -772,8 +709,7 @@ extension CloudWatch {
 
     public struct DescribeInsightRulesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightRules", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "InsightRules", encoding: .list(member:"member"))
         ]
 
         /// The rules returned by the operation.
@@ -793,10 +729,6 @@ extension CloudWatch {
     }
 
     public struct Dimension: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the dimension.
         public let name: String
@@ -822,10 +754,6 @@ extension CloudWatch {
     }
 
     public struct DimensionFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The dimension name to be matched.
         public let name: String
@@ -852,7 +780,7 @@ extension CloudWatch {
 
     public struct DisableAlarmActionsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmNames", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "AlarmNames", encoding: .list(member:"member"))
         ]
 
         /// The names of the alarms.
@@ -877,7 +805,7 @@ extension CloudWatch {
 
     public struct DisableInsightRulesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleNames", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "RuleNames", encoding: .list(member:"member"))
         ]
 
         /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules.
@@ -902,7 +830,7 @@ extension CloudWatch {
 
     public struct DisableInsightRulesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failures", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Failures", encoding: .list(member:"member"))
         ]
 
         /// An array listing the rules that could not be disabled. You cannot disable built-in rules.
@@ -919,7 +847,7 @@ extension CloudWatch {
 
     public struct EnableAlarmActionsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmNames", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "AlarmNames", encoding: .list(member:"member"))
         ]
 
         /// The names of the alarms.
@@ -944,7 +872,7 @@ extension CloudWatch {
 
     public struct EnableInsightRulesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleNames", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "RuleNames", encoding: .list(member:"member"))
         ]
 
         /// An array of the rule names to enable. If you need to find out the names of your rules, use DescribeInsightRules.
@@ -969,7 +897,7 @@ extension CloudWatch {
 
     public struct EnableInsightRulesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failures", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Failures", encoding: .list(member:"member"))
         ]
 
         /// An array listing the rules that could not be enabled. You cannot disable or enable built-in rules.
@@ -985,9 +913,6 @@ extension CloudWatch {
     }
 
     public struct GetDashboardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardName", required: true, type: .string)
-        ]
 
         /// The name of the dashboard to be described.
         public let dashboardName: String
@@ -1002,11 +927,6 @@ extension CloudWatch {
     }
 
     public struct GetDashboardOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardBody", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -1030,13 +950,7 @@ extension CloudWatch {
 
     public struct GetInsightRuleReportInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "MaxContributorCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "OrderBy", required: false, type: .string), 
-            AWSShapeMember(label: "Period", required: true, type: .integer), 
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+            AWSShapeMember(label: "Metrics", encoding: .list(member:"member"))
         ]
 
         /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
@@ -1092,12 +1006,9 @@ extension CloudWatch {
 
     public struct GetInsightRuleReportOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregateValue", required: false, type: .double), 
-            AWSShapeMember(label: "AggregationStatistic", required: false, type: .string), 
-            AWSShapeMember(label: "ApproximateUniqueCount", required: false, type: .long), 
-            AWSShapeMember(label: "Contributors", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "KeyLabels", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricDatapoints", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Contributors", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "KeyLabels", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MetricDatapoints", encoding: .list(member:"member"))
         ]
 
         /// The sum of the values from all individual contributors that match the rule.
@@ -1134,12 +1045,7 @@ extension CloudWatch {
 
     public struct GetMetricDataInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "MaxDatapoints", required: false, type: .integer), 
-            AWSShapeMember(label: "MetricDataQueries", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScanBy", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+            AWSShapeMember(label: "MetricDataQueries", encoding: .list(member:"member"))
         ]
 
         /// The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
@@ -1182,9 +1088,8 @@ extension CloudWatch {
 
     public struct GetMetricDataOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Messages", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricDataResults", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Messages", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "MetricDataResults", encoding: .list(member:"member"))
         ]
 
         /// Contains a message about this GetMetricData operation, if the operation results in such a message. An example of a message that may be returned is Maximum number of allowed metrics exceeded. If there is a message, as much of the operation as possible is still executed. A message appears here only if it is related to the global GetMetricData operation. Any message about a specific metric returned by the operation appears in the MetricDataResult object returned for that metric.
@@ -1209,15 +1114,9 @@ extension CloudWatch {
 
     public struct GetMetricStatisticsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Period", required: true, type: .integer), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Statistics", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ExtendedStatistics", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Statistics", encoding: .list(member:"member"))
         ]
 
         /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
@@ -1286,8 +1185,7 @@ extension CloudWatch {
 
     public struct GetMetricStatisticsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Datapoints", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Label", required: false, type: .string)
+            AWSShapeMember(label: "Datapoints", encoding: .list(member:"member"))
         ]
 
         /// The data points for the specified metric.
@@ -1307,10 +1205,6 @@ extension CloudWatch {
     }
 
     public struct GetMetricWidgetImageInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricWidget", required: true, type: .string), 
-            AWSShapeMember(label: "OutputFormat", required: false, type: .string)
-        ]
 
         /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see CloudWatch-Metric-Widget-Structure. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
         public let metricWidget: String
@@ -1329,9 +1223,6 @@ extension CloudWatch {
     }
 
     public struct GetMetricWidgetImageOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricWidgetImage", required: false, type: .blob)
-        ]
 
         /// The image of the graph, in the output format specified.
         public let metricWidgetImage: Data?
@@ -1346,12 +1237,6 @@ extension CloudWatch {
     }
 
     public struct InsightRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Definition", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Schema", required: true, type: .string), 
-            AWSShapeMember(label: "State", required: true, type: .string)
-        ]
 
         /// The definition of the rule, as a JSON object. The definition contains the keywords used to define contributors, the value to aggregate on if this rule returns a sum instead of a count, and the filters. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let definition: String
@@ -1379,9 +1264,8 @@ extension CloudWatch {
 
     public struct InsightRuleContributor: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApproximateAggregateValue", required: true, type: .double), 
-            AWSShapeMember(label: "Datapoints", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Keys", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Datapoints", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Keys", encoding: .list(member:"member"))
         ]
 
         /// An approximation of the aggregate value that comes from this contributor.
@@ -1405,10 +1289,6 @@ extension CloudWatch {
     }
 
     public struct InsightRuleContributorDatapoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApproximateValue", required: true, type: .double), 
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
-        ]
 
         /// The approximate value that this contributor added during this timestamp.
         public let approximateValue: Double
@@ -1427,16 +1307,6 @@ extension CloudWatch {
     }
 
     public struct InsightRuleMetricDatapoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Average", required: false, type: .double), 
-            AWSShapeMember(label: "MaxContributorValue", required: false, type: .double), 
-            AWSShapeMember(label: "Maximum", required: false, type: .double), 
-            AWSShapeMember(label: "Minimum", required: false, type: .double), 
-            AWSShapeMember(label: "SampleCount", required: false, type: .double), 
-            AWSShapeMember(label: "Sum", required: false, type: .double), 
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "UniqueContributors", required: false, type: .double)
-        ]
 
         /// The average value from all contributors during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
         public let average: Double?
@@ -1479,10 +1349,6 @@ extension CloudWatch {
     }
 
     public struct ListDashboardsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_". 
         public let dashboardNamePrefix: String?
@@ -1502,8 +1368,7 @@ extension CloudWatch {
 
     public struct ListDashboardsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardEntries", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "DashboardEntries", encoding: .list(member:"member"))
         ]
 
         /// The list of matching dashboards.
@@ -1524,10 +1389,7 @@ extension CloudWatch {
 
     public struct ListMetricsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member"))
         ]
 
         /// The dimensions to filter against.
@@ -1568,8 +1430,7 @@ extension CloudWatch {
 
     public struct ListMetricsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Metrics", encoding: .list(member:"member"))
         ]
 
         /// The metrics.
@@ -1589,9 +1450,6 @@ extension CloudWatch {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// The ARN of the CloudWatch resource that you want to view tags for. For more information on ARN format, see Example ARNs in the Amazon Web Services General Reference.
         public let resourceARN: String
@@ -1612,7 +1470,7 @@ extension CloudWatch {
 
     public struct ListTagsForResourceOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The list of tag keys and values associated with the resource you specified.
@@ -1628,10 +1486,6 @@ extension CloudWatch {
     }
 
     public struct MessageData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The error code or status code associated with the message.
         public let code: String?
@@ -1651,9 +1505,7 @@ extension CloudWatch {
 
     public struct Metric: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member"))
         ]
 
         /// The dimensions for the metric.
@@ -1690,33 +1542,11 @@ extension CloudWatch {
 
     public struct MetricAlarm: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AlarmActions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "AlarmArn", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "DatapointsToAlarm", required: false, type: .integer), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
-            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "OKActions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Period", required: false, type: .integer), 
-            AWSShapeMember(label: "StateReason", required: false, type: .string), 
-            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
-            AWSShapeMember(label: "StateUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StateValue", required: false, type: .enum), 
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "Threshold", required: false, type: .double), 
-            AWSShapeMember(label: "ThresholdMetricId", required: false, type: .string), 
-            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
+            AWSShapeMember(label: "AlarmActions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "InsufficientDataActions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Metrics", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "OKActions", encoding: .list(member:"member"))
         ]
 
         /// Indicates whether actions should be executed during any changes to the alarm state.
@@ -1836,14 +1666,6 @@ extension CloudWatch {
     }
 
     public struct MetricDataQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expression", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "MetricStat", required: false, type: .structure), 
-            AWSShapeMember(label: "Period", required: false, type: .integer), 
-            AWSShapeMember(label: "ReturnData", required: false, type: .boolean)
-        ]
 
         /// The math expression to be performed on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let expression: String?
@@ -1888,12 +1710,9 @@ extension CloudWatch {
 
     public struct MetricDataResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "Messages", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "StatusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "Timestamps", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Messages", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Timestamps", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Values", encoding: .list(member:"member"))
         ]
 
         /// The short name you specified to represent this metric.
@@ -1930,15 +1749,9 @@ extension CloudWatch {
 
     public struct MetricDatum: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Counts", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "StatisticValues", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageResolution", required: false, type: .integer), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .double), 
-            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Counts", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Values", encoding: .list(member:"member"))
         ]
 
         /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period.  If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
@@ -1996,12 +1809,6 @@ extension CloudWatch {
     }
 
     public struct MetricStat: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metric", required: true, type: .structure), 
-            AWSShapeMember(label: "Period", required: true, type: .integer), 
-            AWSShapeMember(label: "Stat", required: true, type: .string), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
-        ]
 
         /// The metric to return, including the metric name, namespace, and dimensions.
         public let metric: Metric
@@ -2033,12 +1840,6 @@ extension CloudWatch {
     }
 
     public struct PartialFailure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExceptionType", required: false, type: .string), 
-            AWSShapeMember(label: "FailureCode", required: false, type: .string), 
-            AWSShapeMember(label: "FailureDescription", required: false, type: .string), 
-            AWSShapeMember(label: "FailureResource", required: false, type: .string)
-        ]
 
         /// The type of error.
         public let exceptionType: String?
@@ -2066,11 +1867,7 @@ extension CloudWatch {
 
     public struct PutAnomalyDetectorInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Stat", required: true, type: .string)
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member"))
         ]
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric. You can in
@@ -2122,10 +1919,6 @@ extension CloudWatch {
     }
 
     public struct PutDashboardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardBody", required: true, type: .string), 
-            AWSShapeMember(label: "DashboardName", required: true, type: .string)
-        ]
 
         /// The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see CloudWatch-Dashboard-Body-Structure.
         public let dashboardBody: String
@@ -2145,7 +1938,7 @@ extension CloudWatch {
 
     public struct PutDashboardOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardValidationMessages", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "DashboardValidationMessages", encoding: .list(member:"member"))
         ]
 
         /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard may not render. If this result includes error messages, the input was not valid and the operation failed.
@@ -2161,11 +1954,6 @@ extension CloudWatch {
     }
 
     public struct PutInsightRuleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleDefinition", required: true, type: .string), 
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "RuleState", required: false, type: .string)
-        ]
 
         /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let ruleDefinition: String
@@ -2209,28 +1997,12 @@ extension CloudWatch {
 
     public struct PutMetricAlarmInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AlarmActions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "DatapointsToAlarm", required: false, type: .integer), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
-            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
-            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "OKActions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Period", required: false, type: .integer), 
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Threshold", required: false, type: .double), 
-            AWSShapeMember(label: "ThresholdMetricId", required: false, type: .string), 
-            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
+            AWSShapeMember(label: "AlarmActions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Dimensions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "InsufficientDataActions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Metrics", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "OKActions", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
@@ -2378,8 +2150,7 @@ extension CloudWatch {
 
     public struct PutMetricDataInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricData", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string)
+            AWSShapeMember(label: "MetricData", encoding: .list(member:"member"))
         ]
 
         /// The data for the metric. The array can include no more than 20 metrics per call.
@@ -2408,10 +2179,6 @@ extension CloudWatch {
     }
 
     public struct Range: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
-        ]
 
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         public let endTime: TimeStamp
@@ -2430,12 +2197,6 @@ extension CloudWatch {
     }
 
     public struct SetAlarmStateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
-            AWSShapeMember(label: "StateReason", required: true, type: .string), 
-            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
-            AWSShapeMember(label: "StateValue", required: true, type: .enum)
-        ]
 
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
         public let alarmName: String
@@ -2471,12 +2232,6 @@ extension CloudWatch {
     }
 
     public struct StatisticSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Maximum", required: true, type: .double), 
-            AWSShapeMember(label: "Minimum", required: true, type: .double), 
-            AWSShapeMember(label: "SampleCount", required: true, type: .double), 
-            AWSShapeMember(label: "Sum", required: true, type: .double)
-        ]
 
         /// The maximum value of the sample set.
         public let maximum: Double
@@ -2503,10 +2258,6 @@ extension CloudWatch {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
@@ -2533,8 +2284,7 @@ extension CloudWatch {
 
     public struct TagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The ARN of the CloudWatch alarm that you're adding tags to. The ARN format is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  
@@ -2571,8 +2321,7 @@ extension CloudWatch {
 
     public struct UntagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "TagKeys", encoding: .list(member:"member"))
         ]
 
         /// The ARN of the CloudWatch resource that you're removing tags from. For more information on ARN format, see Example ARNs in the Amazon Web Services General Reference.

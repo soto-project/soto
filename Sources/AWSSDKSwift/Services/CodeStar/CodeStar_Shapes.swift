@@ -9,13 +9,6 @@ extension CodeStar {
     //MARK: Shapes
 
     public struct AssociateTeamMemberRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "projectId", required: true, type: .string), 
-            AWSShapeMember(label: "projectRole", required: true, type: .string), 
-            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// A user- or system-generated token that identifies the entity that requested the team member association to the project. This token can be used to repeat the request.
         public let clientRequestToken: String?
@@ -59,9 +52,6 @@ extension CodeStar {
     }
 
     public struct AssociateTeamMemberResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
-        ]
 
         /// The user- or system-generated token from the initial request that can be used to repeat the request.
         public let clientRequestToken: String?
@@ -76,10 +66,6 @@ extension CodeStar {
     }
 
     public struct Code: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: true, type: .structure), 
-            AWSShapeMember(label: "source", required: true, type: .structure)
-        ]
 
         /// The repository to be created in AWS CodeStar. Valid values are AWS CodeCommit or GitHub. After AWS CodeStar provisions the new repository, the source code files provided with the project request are placed in the repository.
         public let destination: CodeDestination
@@ -103,9 +89,6 @@ extension CodeStar {
     }
 
     public struct CodeCommitCodeDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the AWS CodeCommit repository to be created in AWS CodeStar.
         public let name: String
@@ -126,10 +109,6 @@ extension CodeStar {
     }
 
     public struct CodeDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "codeCommit", required: false, type: .structure), 
-            AWSShapeMember(label: "gitHub", required: false, type: .structure)
-        ]
 
         /// Information about the AWS CodeCommit repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
         public let codeCommit: CodeCommitCodeDestination?
@@ -153,9 +132,6 @@ extension CodeStar {
     }
 
     public struct CodeSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3", required: true, type: .structure)
-        ]
 
         /// Information about the Amazon S3 location where the source code files provided with the project request are stored. 
         public let s3: S3Location
@@ -174,15 +150,6 @@ extension CodeStar {
     }
 
     public struct CreateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCode", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "toolchain", required: false, type: .structure)
-        ]
 
         /// A user- or system-generated token that identifies the entity that requested project creation. This token can be used to repeat the request.
         public let clientRequestToken: String?
@@ -246,12 +213,6 @@ extension CodeStar {
     }
 
     public struct CreateProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "projectTemplateId", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the created project.
         public let arn: String
@@ -278,12 +239,6 @@ extension CodeStar {
     }
 
     public struct CreateUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "displayName", required: true, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The name that will be displayed as the friendly name for the user in AWS CodeStar. 
         public let displayName: String
@@ -324,14 +279,6 @@ extension CodeStar {
     }
 
     public struct CreateUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The date the user profile was created, in timestamp format.
         public let createdTimestamp: TimeStamp?
@@ -366,11 +313,6 @@ extension CodeStar {
     }
 
     public struct DeleteProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "deleteStack", required: false, type: .boolean), 
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request. 
         public let clientRequestToken: String?
@@ -402,10 +344,6 @@ extension CodeStar {
     }
 
     public struct DeleteProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectArn", required: false, type: .string), 
-            AWSShapeMember(label: "stackId", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the deleted project.
         public let projectArn: String?
@@ -424,9 +362,6 @@ extension CodeStar {
     }
 
     public struct DeleteUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
         public let userArn: String
@@ -447,9 +382,6 @@ extension CodeStar {
     }
 
     public struct DeleteUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user deleted from AWS CodeStar.
         public let userArn: String
@@ -464,9 +396,6 @@ extension CodeStar {
     }
 
     public struct DescribeProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The ID of the project.
         public let id: String
@@ -487,17 +416,6 @@ extension CodeStar {
     }
 
     public struct DescribeProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "createdTimeStamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "projectTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "stackId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) for the project.
         public let arn: String?
@@ -544,9 +462,6 @@ extension CodeStar {
     }
 
     public struct DescribeUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String
@@ -567,14 +482,6 @@ extension CodeStar {
     }
 
     public struct DescribeUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The date and time when the user profile was created in AWS CodeStar, in timestamp format.
         public let createdTimestamp: TimeStamp
@@ -609,10 +516,6 @@ extension CodeStar {
     }
 
     public struct DisassociateTeamMemberRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", required: true, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The ID of the AWS CodeStar project from which you want to remove a team member.
         public let projectId: String
@@ -648,15 +551,6 @@ extension CodeStar {
     }
 
     public struct GitHubCodeDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "issuesEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "owner", required: true, type: .string), 
-            AWSShapeMember(label: "privateRepository", required: true, type: .boolean), 
-            AWSShapeMember(label: "token", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .string)
-        ]
 
         /// Description for the GitHub repository to be created in AWS CodeStar. This description displays in GitHub after the repository is created.
         public let description: String?
@@ -709,10 +603,6 @@ extension CodeStar {
     }
 
     public struct ListProjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum amount of data that can be contained in a single set of results.
         public let maxResults: Int?
@@ -739,10 +629,6 @@ extension CodeStar {
     }
 
     public struct ListProjectsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projects", required: true, type: .list)
-        ]
 
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
@@ -761,11 +647,6 @@ extension CodeStar {
     }
 
     public struct ListResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projectId", required: true, type: .string)
-        ]
 
         /// The maximum amount of data that can be contained in a single set of results.
         public let maxResults: Int?
@@ -799,10 +680,6 @@ extension CodeStar {
     }
 
     public struct ListResourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resources", required: false, type: .list)
-        ]
 
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
@@ -821,11 +698,6 @@ extension CodeStar {
     }
 
     public struct ListTagsForProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The ID of the project to get tags for.
         public let id: String
@@ -859,10 +731,6 @@ extension CodeStar {
     }
 
     public struct ListTagsForProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// Reserved for future use.
         public let nextToken: String?
@@ -881,11 +749,6 @@ extension CodeStar {
     }
 
     public struct ListTeamMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projectId", required: true, type: .string)
-        ]
 
         /// The maximum number of team members you want returned in a response.
         public let maxResults: Int?
@@ -919,10 +782,6 @@ extension CodeStar {
     }
 
     public struct ListTeamMembersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "teamMembers", required: true, type: .list)
-        ]
 
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
@@ -941,10 +800,6 @@ extension CodeStar {
     }
 
     public struct ListUserProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return in a response.
         public let maxResults: Int?
@@ -971,10 +826,6 @@ extension CodeStar {
     }
 
     public struct ListUserProfilesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "userProfiles", required: true, type: .list)
-        ]
 
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
@@ -993,10 +844,6 @@ extension CodeStar {
     }
 
     public struct ProjectStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: true, type: .string)
-        ]
 
         /// In the case of a project creation or deletion failure, a reason for the failure.
         public let reason: String?
@@ -1015,10 +862,6 @@ extension CodeStar {
     }
 
     public struct ProjectSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectArn", required: false, type: .string), 
-            AWSShapeMember(label: "projectId", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project.
         public let projectArn: String?
@@ -1037,9 +880,6 @@ extension CodeStar {
     }
 
     public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let id: String
@@ -1054,10 +894,6 @@ extension CodeStar {
     }
 
     public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketKey", required: false, type: .string), 
-            AWSShapeMember(label: "bucketName", required: false, type: .string)
-        ]
 
         /// The Amazon S3 object key where the source code files provided with the project request are stored.
         public let bucketKey: String?
@@ -1081,10 +917,6 @@ extension CodeStar {
     }
 
     public struct TagProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
-        ]
 
         /// The ID of the project you want to add a tag to.
         public let id: String
@@ -1116,9 +948,6 @@ extension CodeStar {
     }
 
     public struct TagProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The tags for the project.
         public let tags: [String: String]?
@@ -1133,11 +962,6 @@ extension CodeStar {
     }
 
     public struct TeamMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectRole", required: true, type: .string), 
-            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide. 
         public let projectRole: String
@@ -1160,11 +984,6 @@ extension CodeStar {
     }
 
     public struct Toolchain: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "source", required: true, type: .structure), 
-            AWSShapeMember(label: "stackParameters", required: false, type: .map)
-        ]
 
         /// The service role ARN for AWS CodeStar to use for the toolchain template during stack provisioning.
         public let roleArn: String?
@@ -1201,9 +1020,6 @@ extension CodeStar {
     }
 
     public struct ToolchainSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3", required: true, type: .structure)
-        ]
 
         /// The Amazon S3 bucket where the toolchain template file provided with the project request is stored.
         public let s3: S3Location
@@ -1222,10 +1038,6 @@ extension CodeStar {
     }
 
     public struct UntagProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The ID of the project to remove tags from.
         public let id: String
@@ -1263,11 +1075,6 @@ extension CodeStar {
     }
 
     public struct UpdateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The description of the project, if any.
         public let description: String?
@@ -1309,12 +1116,6 @@ extension CodeStar {
     }
 
     public struct UpdateTeamMemberRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", required: true, type: .string), 
-            AWSShapeMember(label: "projectRole", required: false, type: .string), 
-            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The ID of the project.
         public let projectId: String
@@ -1351,11 +1152,6 @@ extension CodeStar {
     }
 
     public struct UpdateTeamMemberResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectRole", required: false, type: .string), 
-            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeMember(label: "userArn", required: false, type: .string)
-        ]
 
         /// The project role granted to the user.
         public let projectRole: String?
@@ -1378,12 +1174,6 @@ extension CodeStar {
     }
 
     public struct UpdateUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
         public let displayName: String?
@@ -1424,14 +1214,6 @@ extension CodeStar {
     }
 
     public struct UpdateUserProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The date the user profile was created, in timestamp format.
         public let createdTimestamp: TimeStamp?
@@ -1466,12 +1248,6 @@ extension CodeStar {
     }
 
     public struct UserProfileSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: false, type: .string)
-        ]
 
         /// The display name of a user in AWS CodeStar. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
         public let displayName: String?

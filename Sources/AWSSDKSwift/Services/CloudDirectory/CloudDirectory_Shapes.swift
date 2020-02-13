@@ -93,10 +93,7 @@ extension CloudDirectory {
 
     public struct AddFacetToObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -140,8 +137,7 @@ extension CloudDirectory {
 
     public struct ApplySchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns.
@@ -161,10 +157,6 @@ extension CloudDirectory {
     }
 
     public struct ApplySchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", required: false, type: .string)
-        ]
 
         /// The applied schema ARN that is associated with the copied schema in the Directory. You can use this ARN to describe the schema information applied on this directory. For more information, see arns.
         public let appliedSchemaArn: String?
@@ -184,10 +176,7 @@ extension CloudDirectory {
 
     public struct AttachObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The child object reference to be attached to the object.
@@ -221,9 +210,6 @@ extension CloudDirectory {
     }
 
     public struct AttachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The attached ObjectIdentifier, which is the child ObjectIdentifier.
         public let attachedObjectIdentifier: String?
@@ -239,9 +225,7 @@ extension CloudDirectory {
 
     public struct AttachPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
@@ -274,9 +258,7 @@ extension CloudDirectory {
 
     public struct AttachToIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the directory where the object and index exist.
@@ -300,9 +282,6 @@ extension CloudDirectory {
     }
 
     public struct AttachToIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the object that was attached to the index.
         public let attachedObjectIdentifier: String?
@@ -318,11 +297,7 @@ extension CloudDirectory {
 
     public struct AttachTypedLinkRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// A set of attributes that are associated with the typed link.
@@ -361,9 +336,6 @@ extension CloudDirectory {
     }
 
     public struct AttachTypedLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
-        ]
 
         /// Returns a typed link specifier as output.
         public let typedLinkSpecifier: TypedLinkSpecifier?
@@ -378,11 +350,6 @@ extension CloudDirectory {
     }
 
     public struct AttributeKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: true, type: .string)
-        ]
 
         /// The name of the facet that the attribute exists within.
         public let facetName: String
@@ -414,10 +381,6 @@ extension CloudDirectory {
     }
 
     public struct AttributeKeyAndValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .structure), 
-            AWSShapeMember(label: "Value", required: true, type: .structure)
-        ]
 
         /// The key of the attribute.
         public let key: AttributeKey
@@ -440,10 +403,6 @@ extension CloudDirectory {
     }
 
     public struct AttributeNameAndValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .structure)
-        ]
 
         /// The attribute name of the typed link.
         public let attributeName: String
@@ -468,11 +427,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAddFacetToObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectAttributeList", required: true, type: .list), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
-        ]
 
         /// The attributes to set on the object.
         public let objectAttributeList: [AttributeKeyAndValue]
@@ -510,11 +464,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure)
-        ]
 
         /// The child object reference that is to be attached to the object.
         public let childReference: ObjectReference
@@ -543,9 +492,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the object that has been attached.
         public let attachedObjectIdentifier: String?
@@ -560,10 +506,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
-        ]
 
         /// The reference that identifies the object to which the policy will be attached.
         public let objectReference: ObjectReference
@@ -590,10 +532,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachToIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
-        ]
 
         /// A reference to the index that you are attaching the object to.
         public let indexReference: ObjectReference
@@ -612,9 +550,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachToIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the object that was attached to the index.
         public let attachedObjectIdentifier: String?
@@ -629,12 +564,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachTypedLink: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
-            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure)
-        ]
 
         /// A set of attributes that are associated with the typed link.
         public let attributes: [AttributeNameAndValue]
@@ -668,9 +597,6 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachTypedLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
-        ]
 
         /// Returns a typed link specifier as output.
         public let typedLinkSpecifier: TypedLinkSpecifier?
@@ -685,13 +611,6 @@ extension CloudDirectory {
     }
 
     public struct BatchCreateIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
-            AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure)
-        ]
 
         /// The batch reference name. See Transaction Support for more information.
         public let batchReferenceName: String?
@@ -731,9 +650,6 @@ extension CloudDirectory {
     }
 
     public struct BatchCreateIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the index created by this operation.
         public let objectIdentifier: String?
@@ -748,13 +664,6 @@ extension CloudDirectory {
     }
 
     public struct BatchCreateObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectAttributeList", required: true, type: .list), 
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .list)
-        ]
 
         /// The batch reference name. See Transaction Support for more information.
         public let batchReferenceName: String?
@@ -797,9 +706,6 @@ extension CloudDirectory {
     }
 
     public struct BatchCreateObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ID that is associated with the object.
         public let objectIdentifier: String?
@@ -814,9 +720,6 @@ extension CloudDirectory {
     }
 
     public struct BatchDeleteObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// The reference that identifies the object.
         public let objectReference: ObjectReference
@@ -839,10 +742,6 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachFromIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
-        ]
 
         /// A reference to the index object.
         public let indexReference: ObjectReference
@@ -861,9 +760,6 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachFromIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the object that was detached from the index.
         public let detachedObjectIdentifier: String?
@@ -878,11 +774,6 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure)
-        ]
 
         /// The batch reference name. See Transaction Support for more information.
         public let batchReferenceName: String?
@@ -911,9 +802,6 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the detached object.
         public let detachedObjectIdentifier: String?
@@ -928,10 +816,6 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
-        ]
 
         /// Reference that identifies the object whose policy object will be detached.
         public let objectReference: ObjectReference
@@ -958,9 +842,6 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachTypedLink: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
-        ]
 
         /// Used to accept a typed link specifier as input.
         public let typedLinkSpecifier: TypedLinkSpecifier
@@ -987,10 +868,6 @@ extension CloudDirectory {
     }
 
     public struct BatchGetLinkAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
-        ]
 
         /// A list of attribute names whose values will be retrieved.
         public let attributeNames: [String]
@@ -1018,9 +895,6 @@ extension CloudDirectory {
     }
 
     public struct BatchGetLinkAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
 
         /// The attributes that are associated with the typed link.
         public let attributes: [AttributeKeyAndValue]?
@@ -1035,11 +909,6 @@ extension CloudDirectory {
     }
 
     public struct BatchGetObjectAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
-        ]
 
         /// List of attribute names whose values will be retrieved.
         public let attributeNames: [String]
@@ -1071,9 +940,6 @@ extension CloudDirectory {
     }
 
     public struct BatchGetObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
 
         /// The attribute values that are associated with an object.
         public let attributes: [AttributeKeyAndValue]?
@@ -1088,9 +954,6 @@ extension CloudDirectory {
     }
 
     public struct BatchGetObjectInformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// A reference to the object.
         public let objectReference: ObjectReference
@@ -1105,10 +968,6 @@ extension CloudDirectory {
     }
 
     public struct BatchGetObjectInformationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaFacets", required: false, type: .list)
-        ]
 
         /// The ObjectIdentifier of the specified object.
         public let objectIdentifier: String?
@@ -1127,11 +986,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListAttachedIndices: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -1158,10 +1012,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListAttachedIndicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The indices attached to the specified object.
         public let indexAttachments: [IndexAttachment]?
@@ -1180,13 +1030,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListIncomingTypedLinks: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
         public let filterAttributeRanges: [TypedLinkAttributeRange]?
@@ -1225,10 +1068,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListIncomingTypedLinksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LinkSpecifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns one or more typed link specifiers as output.
         public let linkSpecifiers: [TypedLinkSpecifier]?
@@ -1247,12 +1086,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list)
-        ]
 
         /// The reference to the index to list.
         public let indexReference: ObjectReference
@@ -1286,10 +1119,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The objects and indexed values attached to the index.
         public let indexAttachments: [IndexAttachment]?
@@ -1308,12 +1137,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// Used to filter the list of object attributes that are associated with a certain facet.
         public let facetFilter: SchemaFacet?
@@ -1345,10 +1168,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The attributes map that is associated with the object. AttributeArn is the key; attribute value is the value.
         public let attributes: [AttributeKeyAndValue]?
@@ -1367,11 +1186,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectChildren: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int?
@@ -1398,10 +1212,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectChildrenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Children", required: false, type: .map), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The children structure, which is a map with the key as the LinkName and ObjectIdentifier as the value.
         public let children: [String: String]?
@@ -1420,11 +1230,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectParentPaths: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -1451,10 +1256,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectParentPathsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -1473,11 +1274,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectParents: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         public let maxResults: Int?
         public let nextToken: String?
@@ -1501,10 +1297,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectParentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ParentLinks", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
@@ -1521,11 +1313,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectPolicies: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -1552,10 +1339,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListObjectPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedPolicyIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of policy ObjectIdentifiers, that are attached to the object.
         public let attachedPolicyIds: [String]?
@@ -1574,13 +1357,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListOutgoingTypedLinks: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
         public let filterAttributeRanges: [TypedLinkAttributeRange]?
@@ -1619,10 +1395,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListOutgoingTypedLinksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -1641,11 +1413,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListPolicyAttachments: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -1672,10 +1439,6 @@ extension CloudDirectory {
     }
 
     public struct BatchListPolicyAttachmentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -1694,11 +1457,6 @@ extension CloudDirectory {
     }
 
     public struct BatchLookupPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -1725,10 +1483,6 @@ extension CloudDirectory {
     }
 
     public struct BatchLookupPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -1747,10 +1501,6 @@ extension CloudDirectory {
     }
 
     public struct BatchReadException: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// An exception message that is associated with the failure.
         public let message: String?
@@ -1769,22 +1519,6 @@ extension CloudDirectory {
     }
 
     public struct BatchReadOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GetLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "GetObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParents", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
-            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
-            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure)
-        ]
 
         /// Retrieves attributes that are associated with a typed link.
         public let getLinkAttributes: BatchGetLinkAttributes?
@@ -1866,10 +1600,6 @@ extension CloudDirectory {
     }
 
     public struct BatchReadOperationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExceptionResponse", required: false, type: .structure), 
-            AWSShapeMember(label: "SuccessfulResponse", required: false, type: .structure)
-        ]
 
         /// Identifies which operation in a batch has failed.
         public let exceptionResponse: BatchReadException?
@@ -1889,9 +1619,8 @@ extension CloudDirectory {
 
     public struct BatchReadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Operations", required: true, type: .list)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -1921,9 +1650,6 @@ extension CloudDirectory {
     }
 
     public struct BatchReadResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Responses", required: false, type: .list)
-        ]
 
         /// A list of all the responses for each batch read.
         public let responses: [BatchReadOperationResponse]?
@@ -1938,22 +1664,6 @@ extension CloudDirectory {
     }
 
     public struct BatchReadSuccessfulResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GetLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "GetObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParents", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
-            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
-            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure)
-        ]
 
         /// The list of attributes to retrieve from the typed link.
         public let getLinkAttributes: BatchGetLinkAttributesResponse?
@@ -2019,10 +1729,6 @@ extension CloudDirectory {
     }
 
     public struct BatchRemoveFacetFromObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
-        ]
 
         /// A reference to the object whose facet will be removed.
         public let objectReference: ObjectReference
@@ -2053,10 +1759,6 @@ extension CloudDirectory {
     }
 
     public struct BatchUpdateLinkAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
-        ]
 
         /// The attributes update structure.
         public let attributeUpdates: [LinkAttributeUpdate]
@@ -2090,10 +1792,6 @@ extension CloudDirectory {
     }
 
     public struct BatchUpdateObjectAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
 
         /// Attributes update structure.
         public let attributeUpdates: [ObjectAttributeUpdate]
@@ -2118,9 +1816,6 @@ extension CloudDirectory {
     }
 
     public struct BatchUpdateObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// ID that is associated with the object.
         public let objectIdentifier: String?
@@ -2135,23 +1830,6 @@ extension CloudDirectory {
     }
 
     public struct BatchWriteOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure)
-        ]
 
         /// A batch operation that adds a facet to an object.
         public let addFacetToObject: BatchAddFacetToObject?
@@ -2235,23 +1913,6 @@ extension CloudDirectory {
     }
 
     public struct BatchWriteOperationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure)
-        ]
 
         /// The result of an add facet to object batch operation.
         public let addFacetToObject: BatchAddFacetToObjectResponse?
@@ -2323,8 +1984,7 @@ extension CloudDirectory {
 
     public struct BatchWriteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Operations", required: true, type: .list)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
@@ -2350,9 +2010,6 @@ extension CloudDirectory {
     }
 
     public struct BatchWriteResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Responses", required: false, type: .list)
-        ]
 
         /// A list of all the responses for each batch write.
         public let responses: [BatchWriteOperationResponse]?
@@ -2368,8 +2025,7 @@ extension CloudDirectory {
 
     public struct CreateDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the Directory. Should be unique per account, per region.
@@ -2395,12 +2051,6 @@ extension CloudDirectory {
     }
 
     public struct CreateDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppliedSchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectIdentifier", required: true, type: .string)
-        ]
 
         /// The ARN of the published schema in the Directory. Once a published schema is copied into the directory, it has its own ARN, which is referred to applied schema ARN. For more information, see arns.
         public let appliedSchemaArn: String
@@ -2428,11 +2078,7 @@ extension CloudDirectory {
 
     public struct CreateFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "FacetStyle", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The attributes that are associated with the Facet.
@@ -2482,11 +2128,7 @@ extension CloudDirectory {
 
     public struct CreateIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory where the index should be created.
@@ -2527,9 +2169,6 @@ extension CloudDirectory {
     }
 
     public struct CreateIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the index created by this operation.
         public let objectIdentifier: String?
@@ -2545,11 +2184,7 @@ extension CloudDirectory {
 
     public struct CreateObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeMember(label: "SchemaFacets", required: true, type: .list)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns.
@@ -2593,9 +2228,6 @@ extension CloudDirectory {
     }
 
     public struct CreateObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The identifier that is associated with the object.
         public let objectIdentifier: String?
@@ -2610,9 +2242,6 @@ extension CloudDirectory {
     }
 
     public struct CreateSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name that is associated with the schema. This is unique to each account and in each region.
         public let name: String
@@ -2633,9 +2262,6 @@ extension CloudDirectory {
     }
 
     public struct CreateSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String?
@@ -2651,8 +2277,7 @@ extension CloudDirectory {
 
     public struct CreateTypedLinkFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Facet", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         ///  Facet structure that is associated with the typed link facet.
@@ -2685,7 +2310,7 @@ extension CloudDirectory {
 
     public struct DeleteDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to delete.
@@ -2701,9 +2326,6 @@ extension CloudDirectory {
     }
 
     public struct DeleteDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
-        ]
 
         /// The ARN of the deleted directory.
         public let directoryArn: String
@@ -2719,8 +2341,7 @@ extension CloudDirectory {
 
     public struct DeleteFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the facet to delete.
@@ -2755,8 +2376,7 @@ extension CloudDirectory {
 
     public struct DeleteObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -2785,7 +2405,7 @@ extension CloudDirectory {
 
     public struct DeleteSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
@@ -2801,9 +2421,6 @@ extension CloudDirectory {
     }
 
     public struct DeleteSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
 
         /// The input ARN that is returned as part of the response. For more information, see arns.
         public let schemaArn: String?
@@ -2819,8 +2436,7 @@ extension CloudDirectory {
 
     public struct DeleteTypedLinkFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The unique name of the typed link facet.
@@ -2853,9 +2469,7 @@ extension CloudDirectory {
 
     public struct DetachFromIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the directory the index and object exist in.
@@ -2879,9 +2493,6 @@ extension CloudDirectory {
     }
 
     public struct DetachFromIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the object that was detached from the index.
         public let detachedObjectIdentifier: String?
@@ -2897,9 +2508,7 @@ extension CloudDirectory {
 
     public struct DetachObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
@@ -2929,9 +2538,6 @@ extension CloudDirectory {
     }
 
     public struct DetachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier that was detached from the object.
         public let detachedObjectIdentifier: String?
@@ -2947,9 +2553,7 @@ extension CloudDirectory {
 
     public struct DetachPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
@@ -2982,8 +2586,7 @@ extension CloudDirectory {
 
     public struct DetachTypedLinkRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
@@ -3007,12 +2610,6 @@ extension CloudDirectory {
     }
 
     public struct Directory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The date and time when the directory was created.
         public let creationDateTime: TimeStamp?
@@ -3040,7 +2637,7 @@ extension CloudDirectory {
 
     public struct DisableDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to disable.
@@ -3056,9 +2653,6 @@ extension CloudDirectory {
     }
 
     public struct DisableDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
-        ]
 
         /// The ARN of the directory that has been disabled.
         public let directoryArn: String
@@ -3074,7 +2668,7 @@ extension CloudDirectory {
 
     public struct EnableDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to enable.
@@ -3090,9 +2684,6 @@ extension CloudDirectory {
     }
 
     public struct EnableDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
-        ]
 
         /// The ARN of the enabled directory.
         public let directoryArn: String
@@ -3107,11 +2698,6 @@ extension CloudDirectory {
     }
 
     public struct Facet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetStyle", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectType", required: false, type: .enum)
-        ]
 
         /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
         public let facetStyle: FacetStyle?
@@ -3134,12 +2720,6 @@ extension CloudDirectory {
     }
 
     public struct FacetAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeDefinition", required: false, type: .structure), 
-            AWSShapeMember(label: "AttributeReference", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RequiredBehavior", required: false, type: .enum)
-        ]
 
         /// A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See Attribute References for more information.
         public let attributeDefinition: FacetAttributeDefinition?
@@ -3174,12 +2754,6 @@ extension CloudDirectory {
     }
 
     public struct FacetAttributeDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultValue", required: false, type: .structure), 
-            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Rules", required: false, type: .map), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The default value of the attribute (if configured).
         public let defaultValue: TypedAttributeValue?
@@ -3214,10 +2788,6 @@ extension CloudDirectory {
     }
 
     public struct FacetAttributeReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetAttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetFacetName", required: true, type: .string)
-        ]
 
         /// The target attribute name that is associated with the facet reference. See Attribute References for more information.
         public let targetAttributeName: String
@@ -3245,10 +2815,6 @@ extension CloudDirectory {
     }
 
     public struct FacetAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "Attribute", required: false, type: .structure)
-        ]
 
         /// The action to perform when updating the attribute.
         public let action: UpdateActionType?
@@ -3271,9 +2837,6 @@ extension CloudDirectory {
     }
 
     public struct GetAppliedSchemaVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: true, type: .string)
-        ]
 
         /// The ARN of the applied schema.
         public let schemaArn: String
@@ -3288,9 +2851,6 @@ extension CloudDirectory {
     }
 
     public struct GetAppliedSchemaVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string)
-        ]
 
         /// Current applied schema ARN, including the minor version in use if one was provided.
         public let appliedSchemaArn: String?
@@ -3306,7 +2866,7 @@ extension CloudDirectory {
 
     public struct GetDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory.
@@ -3322,9 +2882,6 @@ extension CloudDirectory {
     }
 
     public struct GetDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Directory", required: true, type: .structure)
-        ]
 
         /// Metadata about the directory.
         public let directory: Directory
@@ -3340,8 +2897,7 @@ extension CloudDirectory {
 
     public struct GetFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the facet to retrieve.
@@ -3367,9 +2923,6 @@ extension CloudDirectory {
     }
 
     public struct GetFacetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Facet", required: false, type: .structure)
-        ]
 
         /// The Facet structure that is associated with the facet.
         public let facet: Facet?
@@ -3385,10 +2938,7 @@ extension CloudDirectory {
 
     public struct GetLinkAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// A list of attribute names whose values will be retrieved.
@@ -3425,9 +2975,6 @@ extension CloudDirectory {
     }
 
     public struct GetLinkAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
 
         /// The attributes that are associated with the typed link.
         public let attributes: [AttributeKeyAndValue]?
@@ -3443,11 +2990,8 @@ extension CloudDirectory {
 
     public struct GetObjectAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// List of attribute names whose values will be retrieved.
@@ -3488,9 +3032,6 @@ extension CloudDirectory {
     }
 
     public struct GetObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
 
         /// The attributes that are associated with the object.
         public let attributes: [AttributeKeyAndValue]?
@@ -3506,9 +3047,8 @@ extension CloudDirectory {
 
     public struct GetObjectInformationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level at which to retrieve the object information.
@@ -3532,10 +3072,6 @@ extension CloudDirectory {
     }
 
     public struct GetObjectInformationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaFacets", required: false, type: .list)
-        ]
 
         /// The ObjectIdentifier of the specified object.
         public let objectIdentifier: String?
@@ -3555,7 +3091,7 @@ extension CloudDirectory {
 
     public struct GetSchemaAsJsonRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the schema to retrieve.
@@ -3571,10 +3107,6 @@ extension CloudDirectory {
     }
 
     public struct GetSchemaAsJsonResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Document", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The JSON representation of the schema document.
         public let document: String?
@@ -3594,8 +3126,7 @@ extension CloudDirectory {
 
     public struct GetTypedLinkFacetInformationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The unique name of the typed link facet.
@@ -3619,9 +3150,6 @@ extension CloudDirectory {
     }
 
     public struct GetTypedLinkFacetInformationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityAttributeOrder", required: false, type: .list)
-        ]
 
         /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links.
         public let identityAttributeOrder: [String]?
@@ -3636,10 +3164,6 @@ extension CloudDirectory {
     }
 
     public struct IndexAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The indexed attribute values.
         public let indexedAttributes: [AttributeKeyAndValue]?
@@ -3658,10 +3182,6 @@ extension CloudDirectory {
     }
 
     public struct LinkAttributeAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeActionType", required: false, type: .enum), 
-            AWSShapeMember(label: "AttributeUpdateValue", required: false, type: .structure)
-        ]
 
         /// A type that can be either UPDATE_OR_CREATE or DELETE.
         public let attributeActionType: UpdateActionType?
@@ -3680,10 +3200,6 @@ extension CloudDirectory {
     }
 
     public struct LinkAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeAction", required: false, type: .structure), 
-            AWSShapeMember(label: "AttributeKey", required: false, type: .structure)
-        ]
 
         /// The action to perform as part of the attribute update.
         public let attributeAction: LinkAttributeAction?
@@ -3706,12 +3222,6 @@ extension CloudDirectory {
     }
 
     public struct ListAppliedSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
 
         /// The ARN of the directory you are listing.
         public let directoryArn: String
@@ -3742,10 +3252,6 @@ extension CloudDirectory {
     }
 
     public struct ListAppliedSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -3765,11 +3271,8 @@ extension CloudDirectory {
 
     public struct ListAttachedIndicesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to use for this operation.
@@ -3805,10 +3308,6 @@ extension CloudDirectory {
     }
 
     public struct ListAttachedIndicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The indices attached to the specified object.
         public let indexAttachments: [IndexAttachment]?
@@ -3827,10 +3326,6 @@ extension CloudDirectory {
     }
 
     public struct ListDevelopmentSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -3853,10 +3348,6 @@ extension CloudDirectory {
     }
 
     public struct ListDevelopmentSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -3875,11 +3366,6 @@ extension CloudDirectory {
     }
 
     public struct ListDirectoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -3906,10 +3392,6 @@ extension CloudDirectory {
     }
 
     public struct ListDirectoriesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Directories", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Lists all directories that are associated with your account in pagination fashion.
         public let directories: [Directory]
@@ -3929,10 +3411,7 @@ extension CloudDirectory {
 
     public struct ListFacetAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -3967,10 +3446,6 @@ extension CloudDirectory {
     }
 
     public struct ListFacetAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The attributes attached to the facet.
         public let attributes: [FacetAttribute]?
@@ -3990,9 +3465,7 @@ extension CloudDirectory {
 
     public struct ListFacetNamesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -4020,10 +3493,6 @@ extension CloudDirectory {
     }
 
     public struct ListFacetNamesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of facets that exist within the schema.
         public let facetNames: [String]?
@@ -4043,13 +3512,7 @@ extension CloudDirectory {
 
     public struct ListIncomingTypedLinksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to execute the request at.
@@ -4097,10 +3560,6 @@ extension CloudDirectory {
     }
 
     public struct ListIncomingTypedLinksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LinkSpecifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns one or more typed link specifiers as output.
         public let linkSpecifiers: [TypedLinkSpecifier]?
@@ -4120,12 +3579,8 @@ extension CloudDirectory {
 
     public struct ListIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to execute the request at.
@@ -4168,10 +3623,6 @@ extension CloudDirectory {
     }
 
     public struct ListIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The objects and indexed values attached to the index.
         public let indexAttachments: [IndexAttachment]?
@@ -4190,11 +3641,6 @@ extension CloudDirectory {
     }
 
     public struct ListManagedSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -4221,10 +3667,6 @@ extension CloudDirectory {
     }
 
     public struct ListManagedSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -4244,12 +3686,8 @@ extension CloudDirectory {
 
     public struct ListObjectAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -4290,10 +3728,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Attributes map that is associated with the object. AttributeArn is the key, and attribute value is the value.
         public let attributes: [AttributeKeyAndValue]?
@@ -4313,11 +3747,8 @@ extension CloudDirectory {
 
     public struct ListObjectChildrenRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -4353,10 +3784,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectChildrenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Children", required: false, type: .map), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
         public let children: [String: String]?
@@ -4376,10 +3803,7 @@ extension CloudDirectory {
 
     public struct ListObjectParentPathsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to which the parent path applies.
@@ -4411,10 +3835,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectParentPathsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -4434,12 +3854,8 @@ extension CloudDirectory {
 
     public struct ListObjectParentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "IncludeAllLinksToEachParent", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -4479,11 +3895,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectParentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ParentLinks", required: false, type: .list), 
-            AWSShapeMember(label: "Parents", required: false, type: .map)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -4507,11 +3918,8 @@ extension CloudDirectory {
 
     public struct ListObjectPoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -4547,10 +3955,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedPolicyIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of policy ObjectIdentifiers, that are attached to the object.
         public let attachedPolicyIds: [String]?
@@ -4570,13 +3974,7 @@ extension CloudDirectory {
 
     public struct ListOutgoingTypedLinksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to execute the request at.
@@ -4624,10 +4022,6 @@ extension CloudDirectory {
     }
 
     public struct ListOutgoingTypedLinksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -4647,11 +4041,8 @@ extension CloudDirectory {
 
     public struct ListPolicyAttachmentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -4687,10 +4078,6 @@ extension CloudDirectory {
     }
 
     public struct ListPolicyAttachmentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -4709,11 +4096,6 @@ extension CloudDirectory {
     }
 
     public struct ListPublishedSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
 
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
@@ -4740,10 +4122,6 @@ extension CloudDirectory {
     }
 
     public struct ListPublishedSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -4762,11 +4140,6 @@ extension CloudDirectory {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
         public let maxResults: Int?
@@ -4793,10 +4166,6 @@ extension CloudDirectory {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -4816,10 +4185,7 @@ extension CloudDirectory {
 
     public struct ListTypedLinkFacetAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -4852,10 +4218,6 @@ extension CloudDirectory {
     }
 
     public struct ListTypedLinkFacetAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An ordered set of attributes associate with the typed link.
         public let attributes: [TypedLinkAttributeDefinition]?
@@ -4875,9 +4237,7 @@ extension CloudDirectory {
 
     public struct ListTypedLinkFacetNamesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -4905,10 +4265,6 @@ extension CloudDirectory {
     }
 
     public struct ListTypedLinkFacetNamesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of typed link facets that exist within the schema.
         public let facetNames: [String]?
@@ -4928,10 +4284,7 @@ extension CloudDirectory {
 
     public struct LookupPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
@@ -4963,10 +4316,6 @@ extension CloudDirectory {
     }
 
     public struct LookupPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list)
-        ]
 
         /// The pagination token.
         public let nextToken: String?
@@ -4985,10 +4334,6 @@ extension CloudDirectory {
     }
 
     public struct ObjectAttributeAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectAttributeActionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectAttributeUpdateValue", required: false, type: .structure)
-        ]
 
         /// A type that can be either Update or Delete.
         public let objectAttributeActionType: UpdateActionType?
@@ -5007,10 +4352,6 @@ extension CloudDirectory {
     }
 
     public struct ObjectAttributeRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeKey", required: false, type: .structure), 
-            AWSShapeMember(label: "Range", required: false, type: .structure)
-        ]
 
         /// The key of the attribute that the attribute range covers.
         public let attributeKey: AttributeKey?
@@ -5033,10 +4374,6 @@ extension CloudDirectory {
     }
 
     public struct ObjectAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectAttributeAction", required: false, type: .structure), 
-            AWSShapeMember(label: "ObjectAttributeKey", required: false, type: .structure)
-        ]
 
         /// The action to perform as part of the attribute update.
         public let objectAttributeAction: ObjectAttributeAction?
@@ -5059,10 +4396,6 @@ extension CloudDirectory {
     }
 
     public struct ObjectIdentifierAndLinkNameTuple: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The name of the link between the parent and the child object.
         public let linkName: String?
@@ -5081,9 +4414,6 @@ extension CloudDirectory {
     }
 
     public struct ObjectReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Selector", required: false, type: .string)
-        ]
 
         /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier    /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
         public let selector: String?
@@ -5098,10 +4428,6 @@ extension CloudDirectory {
     }
 
     public struct PathToObjectIdentifiers: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
 
         /// Lists ObjectIdentifiers starting from directory root to the object in the request.
         public let objectIdentifiers: [String]?
@@ -5120,11 +4446,6 @@ extension CloudDirectory {
     }
 
     public struct PolicyAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier that is associated with PolicyAttachment.
         public let objectIdentifier: String?
@@ -5147,10 +4468,6 @@ extension CloudDirectory {
     }
 
     public struct PolicyToPath: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "Policies", required: false, type: .list)
-        ]
 
         /// The path that is referenced from the root.
         public let path: String?
@@ -5170,10 +4487,7 @@ extension CloudDirectory {
 
     public struct PublishSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MinorVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: true, type: .string)
+            AWSShapeMember(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns.
@@ -5213,9 +4527,6 @@ extension CloudDirectory {
     }
 
     public struct PublishSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublishedSchemaArn", required: false, type: .string)
-        ]
 
         /// The ARN that is associated with the published schema. For more information, see arns.
         public let publishedSchemaArn: String?
@@ -5231,8 +4542,7 @@ extension CloudDirectory {
 
     public struct PutSchemaFromJsonRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Document", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The replacement JSON schema.
@@ -5252,9 +4562,6 @@ extension CloudDirectory {
     }
 
     public struct PutSchemaFromJsonResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string)
-        ]
 
         /// The ARN of the schema to update.
         public let arn: String?
@@ -5270,9 +4577,7 @@ extension CloudDirectory {
 
     public struct RemoveFacetFromObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory in which the object resides.
@@ -5308,10 +4613,6 @@ extension CloudDirectory {
     }
 
     public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The minimum and maximum parameters that are associated with the rule.
         public let parameters: [String: String]?
@@ -5330,10 +4631,6 @@ extension CloudDirectory {
     }
 
     public struct SchemaFacet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetName", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
 
         /// The name of the facet.
         public let facetName: String?
@@ -5358,10 +4655,6 @@ extension CloudDirectory {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The key that is associated with the tag.
         public let key: String?
@@ -5380,10 +4673,6 @@ extension CloudDirectory {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
         public let resourceArn: String
@@ -5410,13 +4699,6 @@ extension CloudDirectory {
     }
 
     public struct TypedAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
-            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "DatetimeValue", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NumberValue", required: false, type: .string), 
-            AWSShapeMember(label: "StringValue", required: false, type: .string)
-        ]
 
         /// A binary data value.
         public let binaryValue: Data?
@@ -5447,12 +4729,6 @@ extension CloudDirectory {
     }
 
     public struct TypedAttributeValueRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndMode", required: true, type: .enum), 
-            AWSShapeMember(label: "EndValue", required: false, type: .structure), 
-            AWSShapeMember(label: "StartMode", required: true, type: .enum), 
-            AWSShapeMember(label: "StartValue", required: false, type: .structure)
-        ]
 
         /// The inclusive or exclusive range end.
         public let endMode: RangeMode
@@ -5479,14 +4755,6 @@ extension CloudDirectory {
     }
 
     public struct TypedLinkAttributeDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultValue", required: false, type: .structure), 
-            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RequiredBehavior", required: true, type: .enum), 
-            AWSShapeMember(label: "Rules", required: false, type: .map), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The default value of the attribute (if configured).
         public let defaultValue: TypedAttributeValue?
@@ -5532,10 +4800,6 @@ extension CloudDirectory {
     }
 
     public struct TypedLinkAttributeRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "Range", required: true, type: .structure)
-        ]
 
         /// The unique name of the typed link attribute.
         public let attributeName: String?
@@ -5560,11 +4824,6 @@ extension CloudDirectory {
     }
 
     public struct TypedLinkFacet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
-            AWSShapeMember(label: "IdentityAttributeOrder", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// A set of key-value pairs associated with the typed link. Typed link attributes are used when you have data values that are related to the link itself, and not to one of the two objects being linked. Identity attributes also serve to distinguish the link from others of the same type between the same objects.
         public let attributes: [TypedLinkAttributeDefinition]
@@ -5599,10 +4858,6 @@ extension CloudDirectory {
     }
 
     public struct TypedLinkFacetAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: true, type: .enum), 
-            AWSShapeMember(label: "Attribute", required: true, type: .structure)
-        ]
 
         /// The action to perform when updating the attribute.
         public let action: UpdateActionType
@@ -5625,10 +4880,6 @@ extension CloudDirectory {
     }
 
     public struct TypedLinkSchemaAndFacetName: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkName", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
@@ -5651,12 +4902,6 @@ extension CloudDirectory {
     }
 
     public struct TypedLinkSpecifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityAttributeValues", required: true, type: .list), 
-            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure)
-        ]
 
         /// Identifies the attribute value to update.
         public let identityAttributeValues: [AttributeNameAndValue]
@@ -5690,10 +4935,6 @@ extension CloudDirectory {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
         public let resourceArn: String
@@ -5721,10 +4962,7 @@ extension CloudDirectory {
 
     public struct UpdateFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
@@ -5770,9 +5008,7 @@ extension CloudDirectory {
 
     public struct UpdateLinkAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The attributes update structure.
@@ -5812,9 +5048,7 @@ extension CloudDirectory {
 
     public struct UpdateObjectAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The attributes update structure.
@@ -5844,9 +5078,6 @@ extension CloudDirectory {
     }
 
     public struct UpdateObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
 
         /// The ObjectIdentifier of the updated object.
         public let objectIdentifier: String?
@@ -5862,8 +5093,7 @@ extension CloudDirectory {
 
     public struct UpdateSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the schema.
@@ -5889,9 +5119,6 @@ extension CloudDirectory {
     }
 
     public struct UpdateSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
 
         /// The ARN that is associated with the updated schema. For more information, see arns.
         public let schemaArn: String?
@@ -5907,10 +5134,7 @@ extension CloudDirectory {
 
     public struct UpdateTypedLinkFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeMember(label: "IdentityAttributeOrder", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Attributes update structure.
@@ -5958,11 +5182,6 @@ extension CloudDirectory {
     }
 
     public struct UpgradeAppliedSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string)
-        ]
 
         /// The ARN for the directory to which the upgraded schema will be applied.
         public let directoryArn: String
@@ -5985,10 +5204,6 @@ extension CloudDirectory {
     }
 
     public struct UpgradeAppliedSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "UpgradedSchemaArn", required: false, type: .string)
-        ]
 
         /// The ARN of the directory that is returned as part of the response.
         public let directoryArn: String?
@@ -6007,12 +5222,6 @@ extension CloudDirectory {
     }
 
     public struct UpgradePublishedSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevelopmentSchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MinorVersion", required: true, type: .string), 
-            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string)
-        ]
 
         /// The ARN of the development schema with the changes used for the upgrade.
         public let developmentSchemaArn: String
@@ -6045,9 +5254,6 @@ extension CloudDirectory {
     }
 
     public struct UpgradePublishedSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpgradedSchemaArn", required: false, type: .string)
-        ]
 
         /// The ARN of the upgraded schema that is returned as part of the response.
         public let upgradedSchemaArn: String?

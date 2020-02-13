@@ -117,10 +117,6 @@ extension CodeCommit {
     //MARK: Shapes
 
     public struct Approval: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalState", required: false, type: .enum), 
-            AWSShapeMember(label: "userArn", required: false, type: .string)
-        ]
 
         /// The state of the approval, APPROVE or REVOKE. REVOKE states are not stored.
         public let approvalState: ApprovalState?
@@ -139,16 +135,6 @@ extension CodeCommit {
     }
 
     public struct ApprovalRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleContent", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleName", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedUser", required: false, type: .string), 
-            AWSShapeMember(label: "originApprovalRuleTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "ruleContentSha256", required: false, type: .string)
-        ]
 
         /// The content of the approval rule.
         public let approvalRuleContent: String?
@@ -191,11 +177,6 @@ extension CodeCommit {
     }
 
     public struct ApprovalRuleEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleContent", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleName", required: false, type: .string)
-        ]
 
         /// The content of the approval rule.
         public let approvalRuleContent: String?
@@ -218,10 +199,6 @@ extension CodeCommit {
     }
 
     public struct ApprovalRuleOverriddenEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overrideStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string)
-        ]
 
         /// The status of the override event.
         public let overrideStatus: OverrideStatus?
@@ -240,16 +217,6 @@ extension CodeCommit {
     }
 
     public struct ApprovalRuleTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateContent", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleTemplateDescription", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleTemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedUser", required: false, type: .string), 
-            AWSShapeMember(label: "ruleContentSha256", required: false, type: .string)
-        ]
 
         /// The content of the approval rule template.
         public let approvalRuleTemplateContent: String?
@@ -292,10 +259,6 @@ extension CodeCommit {
     }
 
     public struct ApprovalStateChangedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string)
-        ]
 
         /// The approval status for the pull request.
         public let approvalStatus: ApprovalState?
@@ -314,10 +277,6 @@ extension CodeCommit {
     }
 
     public struct AssociateApprovalRuleTemplateWithRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name for the approval rule template. 
         public let approvalRuleTemplateName: String
@@ -344,11 +303,6 @@ extension CodeCommit {
     }
 
     public struct BatchAssociateApprovalRuleTemplateWithRepositoriesError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// An error code that specifies whether the repository name was not valid or not found.
         public let errorCode: String?
@@ -371,10 +325,6 @@ extension CodeCommit {
     }
 
     public struct BatchAssociateApprovalRuleTemplateWithRepositoriesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryNames", required: true, type: .list)
-        ]
 
         /// The name of the template you want to associate with one or more repositories.
         public let approvalRuleTemplateName: String
@@ -403,10 +353,6 @@ extension CodeCommit {
     }
 
     public struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "associatedRepositoryNames", required: true, type: .list), 
-            AWSShapeMember(label: "errors", required: true, type: .list)
-        ]
 
         /// A list of names of the repositories that have been associated with the template.
         public let associatedRepositoryNames: [String]
@@ -425,11 +371,6 @@ extension CodeCommit {
     }
 
     public struct BatchDescribeMergeConflictsError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exceptionName", required: true, type: .string), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "message", required: true, type: .string)
-        ]
 
         /// The name of the exception.
         public let exceptionName: String
@@ -452,18 +393,6 @@ extension CodeCommit {
     }
 
     public struct BatchDescribeMergeConflictsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "filePaths", required: false, type: .list), 
-            AWSShapeMember(label: "maxConflictFiles", required: false, type: .integer), 
-            AWSShapeMember(label: "maxMergeHunks", required: false, type: .integer), 
-            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
-        ]
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -520,14 +449,6 @@ extension CodeCommit {
     }
 
     public struct BatchDescribeMergeConflictsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "conflicts", required: true, type: .list), 
-            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "errors", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
-        ]
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -562,11 +483,6 @@ extension CodeCommit {
     }
 
     public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// An error code that specifies whether the repository name was not valid or not found.
         public let errorCode: String?
@@ -589,10 +505,6 @@ extension CodeCommit {
     }
 
     public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryNames", required: true, type: .list)
-        ]
 
         /// The name of the template that you want to disassociate from one or more repositories.
         public let approvalRuleTemplateName: String
@@ -621,10 +533,6 @@ extension CodeCommit {
     }
 
     public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "disassociatedRepositoryNames", required: true, type: .list), 
-            AWSShapeMember(label: "errors", required: true, type: .list)
-        ]
 
         /// A list of repository names that have had their association with the template removed.
         public let disassociatedRepositoryNames: [String]
@@ -643,11 +551,6 @@ extension CodeCommit {
     }
 
     public struct BatchGetCommitsError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
 
         /// A commit ID that either could not be found or was not in a valid format.
         public let commitId: String?
@@ -670,10 +573,6 @@ extension CodeCommit {
     }
 
     public struct BatchGetCommitsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitIds", required: true, type: .list), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The full commit IDs of the commits to get information about.  You must supply the full SHA IDs of each commit. You cannot use shortened SHA IDs. 
         public let commitIds: [String]
@@ -698,10 +597,6 @@ extension CodeCommit {
     }
 
     public struct BatchGetCommitsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commits", required: false, type: .list), 
-            AWSShapeMember(label: "errors", required: false, type: .list)
-        ]
 
         /// An array of commit data type objects, each of which contains information about a specified commit.
         public let commits: [Commit]?
@@ -720,9 +615,6 @@ extension CodeCommit {
     }
 
     public struct BatchGetRepositoriesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryNames", required: true, type: .list)
-        ]
 
         /// The names of the repositories to get information about.  The length constraint limit is for each string in the array. The array itself can be empty. 
         public let repositoryNames: [String]
@@ -745,10 +637,6 @@ extension CodeCommit {
     }
 
     public struct BatchGetRepositoriesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositories", required: false, type: .list), 
-            AWSShapeMember(label: "repositoriesNotFound", required: false, type: .list)
-        ]
 
         /// A list of repositories returned by the batch get repositories operation.
         public let repositories: [RepositoryMetadata]?
@@ -767,11 +655,6 @@ extension CodeCommit {
     }
 
     public struct BlobMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blobId", required: false, type: .string), 
-            AWSShapeMember(label: "mode", required: false, type: .string), 
-            AWSShapeMember(label: "path", required: false, type: .string)
-        ]
 
         /// The full ID of the blob.
         public let blobId: String?
@@ -794,10 +677,6 @@ extension CodeCommit {
     }
 
     public struct BranchInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: false, type: .string), 
-            AWSShapeMember(label: "commitId", required: false, type: .string)
-        ]
 
         /// The name of the branch.
         public let branchName: String?
@@ -816,16 +695,6 @@ extension CodeCommit {
     }
 
     public struct Comment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorArn", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "commentId", required: false, type: .string), 
-            AWSShapeMember(label: "content", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "inReplyTo", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) of the person who posted the comment.
         public let authorArn: String?
@@ -868,15 +737,6 @@ extension CodeCommit {
     }
 
     public struct CommentsForComparedCommit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "comments", required: false, type: .list), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The full blob ID of the commit used to establish the after of the comparison.
         public let afterBlobId: String?
@@ -915,16 +775,6 @@ extension CodeCommit {
     }
 
     public struct CommentsForPullRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "comments", required: false, type: .list), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The full blob ID of the file on which you want to comment on the source commit.
         public let afterBlobId: String?
@@ -967,15 +817,6 @@ extension CodeCommit {
     }
 
     public struct Commit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalData", required: false, type: .string), 
-            AWSShapeMember(label: "author", required: false, type: .structure), 
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "committer", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "parents", required: false, type: .list), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// Any other data associated with the specified commit.
         public let additionalData: String?
@@ -1014,10 +855,6 @@ extension CodeCommit {
     }
 
     public struct Conflict: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "conflictMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "mergeHunks", required: false, type: .list)
-        ]
 
         /// Metadata about a conflict in a merge operation.
         public let conflictMetadata: ConflictMetadata?
@@ -1036,18 +873,6 @@ extension CodeCommit {
     }
 
     public struct ConflictMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contentConflict", required: false, type: .boolean), 
-            AWSShapeMember(label: "fileModeConflict", required: false, type: .boolean), 
-            AWSShapeMember(label: "fileModes", required: false, type: .structure), 
-            AWSShapeMember(label: "filePath", required: false, type: .string), 
-            AWSShapeMember(label: "fileSizes", required: false, type: .structure), 
-            AWSShapeMember(label: "isBinaryFile", required: false, type: .structure), 
-            AWSShapeMember(label: "mergeOperations", required: false, type: .structure), 
-            AWSShapeMember(label: "numberOfConflicts", required: false, type: .integer), 
-            AWSShapeMember(label: "objectTypeConflict", required: false, type: .boolean), 
-            AWSShapeMember(label: "objectTypes", required: false, type: .structure)
-        ]
 
         /// A boolean value indicating whether there are conflicts in the content of a file.
         public let contentConflict: Bool?
@@ -1098,11 +923,6 @@ extension CodeCommit {
     }
 
     public struct ConflictResolution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deleteFiles", required: false, type: .list), 
-            AWSShapeMember(label: "replaceContents", required: false, type: .list), 
-            AWSShapeMember(label: "setFileModes", required: false, type: .list)
-        ]
 
         /// Files to be deleted as part of the merge conflict resolution.
         public let deleteFiles: [DeleteFileEntry]?
@@ -1131,11 +951,6 @@ extension CodeCommit {
     }
 
     public struct CreateApprovalRuleTemplateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateContent", required: true, type: .string), 
-            AWSShapeMember(label: "approvalRuleTemplateDescription", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string)
-        ]
 
         /// The content of the approval rule that is created on pull requests in associated repositories. If you specify one or more destination references (branches), approval rules are created in an associated repository only if their destination references (branches) match those specified in the template.  When you create the content of the approval rule template, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide. 
         public let approvalRuleTemplateContent: String
@@ -1167,9 +982,6 @@ extension CodeCommit {
     }
 
     public struct CreateApprovalRuleTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplate", required: true, type: .structure)
-        ]
 
         /// The content and structure of the created approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -1184,11 +996,6 @@ extension CodeCommit {
     }
 
     public struct CreateBranchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the new branch to create.
         public let branchName: String
@@ -1219,18 +1026,6 @@ extension CodeCommit {
     }
 
     public struct CreateCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorName", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "deleteFiles", required: false, type: .list), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "parentCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "putFiles", required: false, type: .list), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "setFileModes", required: false, type: .list)
-        ]
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -1292,13 +1087,6 @@ extension CodeCommit {
     }
 
     public struct CreateCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "filesAdded", required: false, type: .list), 
-            AWSShapeMember(label: "filesDeleted", required: false, type: .list), 
-            AWSShapeMember(label: "filesUpdated", required: false, type: .list), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// The full commit ID of the commit that contains your committed file changes.
         public let commitId: String?
@@ -1329,11 +1117,6 @@ extension CodeCommit {
     }
 
     public struct CreatePullRequestApprovalRuleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleContent", required: true, type: .string), 
-            AWSShapeMember(label: "approvalRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
 
         /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the AWS CodeCommit User Guide.  When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following would be counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide. 
         public let approvalRuleContent: String
@@ -1363,9 +1146,6 @@ extension CodeCommit {
     }
 
     public struct CreatePullRequestApprovalRuleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRule", required: true, type: .structure)
-        ]
 
         /// Information about the created approval rule.
         public let approvalRule: ApprovalRule
@@ -1380,12 +1160,6 @@ extension CodeCommit {
     }
 
     public struct CreatePullRequestInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "targets", required: true, type: .list), 
-            AWSShapeMember(label: "title", required: true, type: .string)
-        ]
 
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency token is created for you. 
         public let clientRequestToken: String?
@@ -1420,9 +1194,6 @@ extension CodeCommit {
     }
 
     public struct CreatePullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
 
         /// Information about the newly created pull request.
         public let pullRequest: PullRequest
@@ -1437,11 +1208,6 @@ extension CodeCommit {
     }
 
     public struct CreateRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. 
         public let repositoryDescription: String?
@@ -1477,9 +1243,6 @@ extension CodeCommit {
     }
 
     public struct CreateRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
-        ]
 
         /// Information about the newly created repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -1494,19 +1257,6 @@ extension CodeCommit {
     }
 
     public struct CreateUnreferencedMergeCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorName", required: false, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
-        ]
 
         /// The name of the author who created the unreferenced commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -1568,10 +1318,6 @@ extension CodeCommit {
     }
 
     public struct CreateUnreferencedMergeCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// The full commit ID of the commit that contains your merge results.
         public let commitId: String?
@@ -1590,9 +1336,6 @@ extension CodeCommit {
     }
 
     public struct DeleteApprovalRuleTemplateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string)
-        ]
 
         /// The name of the approval rule template to delete.
         public let approvalRuleTemplateName: String
@@ -1612,9 +1355,6 @@ extension CodeCommit {
     }
 
     public struct DeleteApprovalRuleTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateId", required: true, type: .string)
-        ]
 
         /// The system-generated ID of the deleted approval rule template. If the template has been previously deleted, the only response is a 200 OK.
         public let approvalRuleTemplateId: String
@@ -1629,10 +1369,6 @@ extension CodeCommit {
     }
 
     public struct DeleteBranchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the branch to delete.
         public let branchName: String
@@ -1659,9 +1395,6 @@ extension CodeCommit {
     }
 
     public struct DeleteBranchOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deletedBranch", required: false, type: .structure)
-        ]
 
         /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
         public let deletedBranch: BranchInfo?
@@ -1676,9 +1409,6 @@ extension CodeCommit {
     }
 
     public struct DeleteCommentContentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentId", required: true, type: .string)
-        ]
 
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
@@ -1693,9 +1423,6 @@ extension CodeCommit {
     }
 
     public struct DeleteCommentContentOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure)
-        ]
 
         /// Information about the comment you just deleted.
         public let comment: Comment?
@@ -1710,9 +1437,6 @@ extension CodeCommit {
     }
 
     public struct DeleteFileEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filePath", required: true, type: .string)
-        ]
 
         /// The full path of the file to be deleted, including the name of the file.
         public let filePath: String
@@ -1727,16 +1451,6 @@ extension CodeCommit {
     }
 
     public struct DeleteFileInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the branch where the commit that deletes the file is made.
         public let branchName: String
@@ -1787,12 +1501,6 @@ extension CodeCommit {
     }
 
     public struct DeleteFileOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blobId", required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "treeId", required: true, type: .string)
-        ]
 
         /// The blob ID removed from the tree as part of deleting the file.
         public let blobId: String
@@ -1819,10 +1527,6 @@ extension CodeCommit {
     }
 
     public struct DeletePullRequestApprovalRuleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
 
         /// The name of the approval rule you want to delete.
         public let approvalRuleName: String
@@ -1846,9 +1550,6 @@ extension CodeCommit {
     }
 
     public struct DeletePullRequestApprovalRuleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleId", required: true, type: .string)
-        ]
 
         /// The ID of the deleted approval rule.   If the approval rule was deleted in an earlier API call, the response is 200 OK without content. 
         public let approvalRuleId: String
@@ -1863,9 +1564,6 @@ extension CodeCommit {
     }
 
     public struct DeleteRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the repository to delete.
         public let repositoryName: String
@@ -1886,9 +1584,6 @@ extension CodeCommit {
     }
 
     public struct DeleteRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryId", required: false, type: .string)
-        ]
 
         /// The ID of the repository that was deleted.
         public let repositoryId: String?
@@ -1903,17 +1598,6 @@ extension CodeCommit {
     }
 
     public struct DescribeMergeConflictsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "maxMergeHunks", required: false, type: .integer), 
-            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
-        ]
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -1966,14 +1650,6 @@ extension CodeCommit {
     }
 
     public struct DescribeMergeConflictsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "conflictMetadata", required: true, type: .structure), 
-            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "mergeHunks", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
-        ]
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -2008,13 +1684,6 @@ extension CodeCommit {
     }
 
     public struct DescribePullRequestEventsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actorArn", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestEventType", required: false, type: .enum), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with more commits or changing the status of a pull request.
         public let actorArn: String?
@@ -2045,10 +1714,6 @@ extension CodeCommit {
     }
 
     public struct DescribePullRequestEventsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestEvents", required: true, type: .list)
-        ]
 
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
@@ -2067,11 +1732,6 @@ extension CodeCommit {
     }
 
     public struct Difference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterBlob", required: false, type: .structure), 
-            AWSShapeMember(label: "beforeBlob", required: false, type: .structure), 
-            AWSShapeMember(label: "changeType", required: false, type: .enum)
-        ]
 
         /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
         public let afterBlob: BlobMetadata?
@@ -2094,10 +1754,6 @@ extension CodeCommit {
     }
 
     public struct DisassociateApprovalRuleTemplateFromRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the approval rule template to disassociate from a specified repository.
         public let approvalRuleTemplateName: String
@@ -2124,10 +1780,6 @@ extension CodeCommit {
     }
 
     public struct EvaluatePullRequestApprovalRulesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: true, type: .string)
-        ]
 
         /// The system-generated ID of the pull request you want to evaluate.
         public let pullRequestId: String
@@ -2146,9 +1798,6 @@ extension CodeCommit {
     }
 
     public struct EvaluatePullRequestApprovalRulesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "evaluation", required: true, type: .structure)
-        ]
 
         /// The result of the evaluation, including the names of the rules whose conditions have been met (if any), the names of the rules whose conditions have not been met (if any), whether the pull request is in the approved state, and whether the pull request approval rule has been set aside by an override. 
         public let evaluation: Evaluation
@@ -2163,12 +1812,6 @@ extension CodeCommit {
     }
 
     public struct Evaluation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRulesNotSatisfied", required: false, type: .list), 
-            AWSShapeMember(label: "approvalRulesSatisfied", required: false, type: .list), 
-            AWSShapeMember(label: "approved", required: false, type: .boolean), 
-            AWSShapeMember(label: "overridden", required: false, type: .boolean)
-        ]
 
         /// The names of the approval rules that have not had their conditions met.
         public let approvalRulesNotSatisfied: [String]?
@@ -2195,12 +1838,6 @@ extension CodeCommit {
     }
 
     public struct File: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "blobId", required: false, type: .string), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
-            AWSShapeMember(label: "relativePath", required: false, type: .string)
-        ]
 
         /// The fully qualified path to the file in the repository.
         public let absolutePath: String?
@@ -2227,11 +1864,6 @@ extension CodeCommit {
     }
 
     public struct FileMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "blobId", required: false, type: .string), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum)
-        ]
 
         /// The full path to the file to be added or updated, including the name of the file.
         public let absolutePath: String?
@@ -2254,11 +1886,6 @@ extension CodeCommit {
     }
 
     public struct FileModes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "base", required: false, type: .enum), 
-            AWSShapeMember(label: "destination", required: false, type: .enum), 
-            AWSShapeMember(label: "source", required: false, type: .enum)
-        ]
 
         /// The file mode of a file in the base of a merge or pull request.
         public let base: FileModeTypeEnum?
@@ -2281,11 +1908,6 @@ extension CodeCommit {
     }
 
     public struct FileSizes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "base", required: false, type: .long), 
-            AWSShapeMember(label: "destination", required: false, type: .long), 
-            AWSShapeMember(label: "source", required: false, type: .long)
-        ]
 
         /// The size of a file in the base of a merge or pull request.
         public let base: Int64?
@@ -2308,11 +1930,6 @@ extension CodeCommit {
     }
 
     public struct Folder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "relativePath", required: false, type: .string), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// The fully qualified path of the folder in the repository.
         public let absolutePath: String?
@@ -2335,9 +1952,6 @@ extension CodeCommit {
     }
 
     public struct GetApprovalRuleTemplateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string)
-        ]
 
         /// The name of the approval rule template for which you want to get information.
         public let approvalRuleTemplateName: String
@@ -2357,9 +1971,6 @@ extension CodeCommit {
     }
 
     public struct GetApprovalRuleTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplate", required: true, type: .structure)
-        ]
 
         /// The content and structure of the approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -2374,10 +1985,6 @@ extension CodeCommit {
     }
 
     public struct GetBlobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blobId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
@@ -2402,9 +2009,6 @@ extension CodeCommit {
     }
 
     public struct GetBlobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: true, type: .blob)
-        ]
 
         /// The content of the blob, usually a file.
         public let content: Data
@@ -2419,10 +2023,6 @@ extension CodeCommit {
     }
 
     public struct GetBranchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The name of the branch for which you want to retrieve information.
         public let branchName: String?
@@ -2449,9 +2049,6 @@ extension CodeCommit {
     }
 
     public struct GetBranchOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: false, type: .structure)
-        ]
 
         /// The name of the branch.
         public let branch: BranchInfo?
@@ -2466,9 +2063,6 @@ extension CodeCommit {
     }
 
     public struct GetCommentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentId", required: true, type: .string)
-        ]
 
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
@@ -2483,9 +2077,6 @@ extension CodeCommit {
     }
 
     public struct GetCommentOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure)
-        ]
 
         /// The contents of the comment.
         public let comment: Comment?
@@ -2500,13 +2091,6 @@ extension CodeCommit {
     }
 
     public struct GetCommentsForComparedCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// To establish the directionality of the comparison, the full commit ID of the after commit.
         public let afterCommitId: String
@@ -2543,10 +2127,6 @@ extension CodeCommit {
     }
 
     public struct GetCommentsForComparedCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentsForComparedCommitData", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of comment objects on the compared commit.
         public let commentsForComparedCommitData: [CommentsForComparedCommit]?
@@ -2565,14 +2145,6 @@ extension CodeCommit {
     }
 
     public struct GetCommentsForPullRequestInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made.
         public let afterCommitId: String?
@@ -2613,10 +2185,6 @@ extension CodeCommit {
     }
 
     public struct GetCommentsForPullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentsForPullRequestData", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of comment objects on the pull request.
         public let commentsForPullRequestData: [CommentsForPullRequest]?
@@ -2635,10 +2203,6 @@ extension CodeCommit {
     }
 
     public struct GetCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The commit ID. Commit IDs are the full SHA ID of the commit.
         public let commitId: String
@@ -2663,9 +2227,6 @@ extension CodeCommit {
     }
 
     public struct GetCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commit", required: true, type: .structure)
-        ]
 
         /// A commit data type object that contains information about the specified commit.
         public let commit: Commit
@@ -2680,15 +2241,6 @@ extension CodeCommit {
     }
 
     public struct GetDifferencesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "afterPath", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitSpecifier", required: false, type: .string), 
-            AWSShapeMember(label: "beforePath", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
         public let afterCommitSpecifier: String
@@ -2733,10 +2285,6 @@ extension CodeCommit {
     }
 
     public struct GetDifferencesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "differences", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
         public let differences: [Difference]?
@@ -2755,11 +2303,6 @@ extension CodeCommit {
     }
 
     public struct GetFileInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitSpecifier", required: false, type: .string), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/master. If none is provided, the head commit is used.
         public let commitSpecifier: String?
@@ -2788,14 +2331,6 @@ extension CodeCommit {
     }
 
     public struct GetFileOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blobId", required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "fileContent", required: true, type: .blob), 
-            AWSShapeMember(label: "fileMode", required: true, type: .enum), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "fileSize", required: true, type: .long)
-        ]
 
         /// The blob ID of the object that represents the file content.
         public let blobId: String
@@ -2830,11 +2365,6 @@ extension CodeCommit {
     }
 
     public struct GetFolderInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitSpecifier", required: false, type: .string), 
-            AWSShapeMember(label: "folderPath", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// A fully qualified reference used to identify a commit that contains the version of the folder's content to return. A fully qualified reference can be a commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder content is returned as it exists in the HEAD commit.
         public let commitSpecifier: String?
@@ -2863,15 +2393,6 @@ extension CodeCommit {
     }
 
     public struct GetFolderOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "files", required: false, type: .list), 
-            AWSShapeMember(label: "folderPath", required: true, type: .string), 
-            AWSShapeMember(label: "subFolders", required: false, type: .list), 
-            AWSShapeMember(label: "subModules", required: false, type: .list), 
-            AWSShapeMember(label: "symbolicLinks", required: false, type: .list), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// The full commit ID used as a reference for the returned version of the folder content.
         public let commitId: String
@@ -2910,13 +2431,6 @@ extension CodeCommit {
     }
 
     public struct GetMergeCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
-        ]
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -2953,12 +2467,6 @@ extension CodeCommit {
     }
 
     public struct GetMergeCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "destinationCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "mergedCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
-        ]
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -2985,16 +2493,6 @@ extension CodeCommit {
     }
 
     public struct GetMergeConflictsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "maxConflictFiles", required: false, type: .integer), 
-            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
-        ]
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -3043,14 +2541,6 @@ extension CodeCommit {
     }
 
     public struct GetMergeConflictsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "conflictMetadataList", required: true, type: .list), 
-            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "mergeable", required: true, type: .boolean), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
-        ]
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -3085,13 +2575,6 @@ extension CodeCommit {
     }
 
     public struct GetMergeOptionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
-        ]
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -3128,12 +2611,6 @@ extension CodeCommit {
     }
 
     public struct GetMergeOptionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "mergeOptions", required: true, type: .list), 
-            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
-        ]
 
         /// The commit ID of the merge base.
         public let baseCommitId: String
@@ -3160,10 +2637,6 @@ extension CodeCommit {
     }
 
     public struct GetPullRequestApprovalStatesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: true, type: .string)
-        ]
 
         /// The system-generated ID for the pull request.
         public let pullRequestId: String
@@ -3182,9 +2655,6 @@ extension CodeCommit {
     }
 
     public struct GetPullRequestApprovalStatesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvals", required: false, type: .list)
-        ]
 
         /// Information about users who have approved the pull request.
         public let approvals: [Approval]?
@@ -3199,9 +2669,6 @@ extension CodeCommit {
     }
 
     public struct GetPullRequestInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -3216,9 +2683,6 @@ extension CodeCommit {
     }
 
     public struct GetPullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
 
         /// Information about the specified pull request.
         public let pullRequest: PullRequest
@@ -3233,10 +2697,6 @@ extension CodeCommit {
     }
 
     public struct GetPullRequestOverrideStateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: true, type: .string)
-        ]
 
         /// The ID of the pull request for which you want to get information about whether approval rules have been set aside (overridden).
         public let pullRequestId: String
@@ -3255,10 +2715,6 @@ extension CodeCommit {
     }
 
     public struct GetPullRequestOverrideStateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overridden", required: false, type: .boolean), 
-            AWSShapeMember(label: "overrider", required: false, type: .string)
-        ]
 
         /// A Boolean value that indicates whether a pull request has had its rules set aside (TRUE) or whether all approval rules still apply (FALSE).
         public let overridden: Bool?
@@ -3277,9 +2733,6 @@ extension CodeCommit {
     }
 
     public struct GetRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the repository to get information about.
         public let repositoryName: String
@@ -3300,9 +2753,6 @@ extension CodeCommit {
     }
 
     public struct GetRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
-        ]
 
         /// Information about the repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -3317,9 +2767,6 @@ extension CodeCommit {
     }
 
     public struct GetRepositoryTriggersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the repository for which the trigger is configured.
         public let repositoryName: String
@@ -3340,10 +2787,6 @@ extension CodeCommit {
     }
 
     public struct GetRepositoryTriggersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationId", required: false, type: .string), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
-        ]
 
         /// The system-generated unique ID for the trigger.
         public let configurationId: String?
@@ -3362,11 +2805,6 @@ extension CodeCommit {
     }
 
     public struct IsBinaryFile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "base", required: false, type: .boolean), 
-            AWSShapeMember(label: "destination", required: false, type: .boolean), 
-            AWSShapeMember(label: "source", required: false, type: .boolean)
-        ]
 
         /// The binary or non-binary status of a file in the base of a merge or pull request.
         public let base: Bool?
@@ -3389,10 +2827,6 @@ extension CodeCommit {
     }
 
     public struct ListApprovalRuleTemplatesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A non-zero, non-negative integer used to limit the number of returned results.
         public let maxResults: Int?
@@ -3411,10 +2845,6 @@ extension CodeCommit {
     }
 
     public struct ListApprovalRuleTemplatesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateNames", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The names of all the approval rule templates found in the AWS Region for your AWS account.
         public let approvalRuleTemplateNames: [String]?
@@ -3433,11 +2863,6 @@ extension CodeCommit {
     }
 
     public struct ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// A non-zero, non-negative integer used to limit the number of returned results.
         public let maxResults: Int?
@@ -3466,10 +2891,6 @@ extension CodeCommit {
     }
 
     public struct ListAssociatedApprovalRuleTemplatesForRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateNames", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The names of all approval rule templates associated with the repository.
         public let approvalRuleTemplateNames: [String]?
@@ -3488,10 +2909,6 @@ extension CodeCommit {
     }
 
     public struct ListBranchesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// An enumeration token that allows the operation to batch the results.
         public let nextToken: String?
@@ -3516,10 +2933,6 @@ extension CodeCommit {
     }
 
     public struct ListBranchesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branches", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of branch names.
         public let branches: [String]?
@@ -3538,13 +2951,6 @@ extension CodeCommit {
     }
 
     public struct ListPullRequestsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorArn", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// Optional. The Amazon Resource Name (ARN) of the user who created the pull request. If used, this filters the results to pull requests created by that user.
         public let authorArn: String?
@@ -3581,10 +2987,6 @@ extension CodeCommit {
     }
 
     public struct ListPullRequestsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestIds", required: true, type: .list)
-        ]
 
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
@@ -3603,11 +3005,6 @@ extension CodeCommit {
     }
 
     public struct ListRepositoriesForApprovalRuleTemplateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The name of the approval rule template for which you want to list repositories that are associated with that template.
         public let approvalRuleTemplateName: String
@@ -3635,10 +3032,6 @@ extension CodeCommit {
     }
 
     public struct ListRepositoriesForApprovalRuleTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryNames", required: false, type: .list)
-        ]
 
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
@@ -3657,11 +3050,6 @@ extension CodeCommit {
     }
 
     public struct ListRepositoriesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "order", required: false, type: .enum), 
-            AWSShapeMember(label: "sortBy", required: false, type: .enum)
-        ]
 
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
@@ -3684,10 +3072,6 @@ extension CodeCommit {
     }
 
     public struct ListRepositoriesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositories", required: false, type: .list)
-        ]
 
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
@@ -3706,10 +3090,6 @@ extension CodeCommit {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
@@ -3728,10 +3108,6 @@ extension CodeCommit {
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
@@ -3750,11 +3126,6 @@ extension CodeCommit {
     }
 
     public struct Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filePath", required: false, type: .string), 
-            AWSShapeMember(label: "filePosition", required: false, type: .long), 
-            AWSShapeMember(label: "relativeFileVersion", required: false, type: .enum)
-        ]
 
         /// The name of the file being compared, including its extension and subdirectory, if any.
         public let filePath: String?
@@ -3777,12 +3148,6 @@ extension CodeCommit {
     }
 
     public struct MergeBranchesByFastForwardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "targetBranch", required: false, type: .string)
-        ]
 
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let destinationCommitSpecifier: String
@@ -3817,10 +3182,6 @@ extension CodeCommit {
     }
 
     public struct MergeBranchesByFastForwardOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
@@ -3839,19 +3200,6 @@ extension CodeCommit {
     }
 
     public struct MergeBranchesBySquashInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorName", required: false, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "targetBranch", required: false, type: .string)
-        ]
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -3915,10 +3263,6 @@ extension CodeCommit {
     }
 
     public struct MergeBranchesBySquashOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
@@ -3937,19 +3281,6 @@ extension CodeCommit {
     }
 
     public struct MergeBranchesByThreeWayInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorName", required: false, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "targetBranch", required: false, type: .string)
-        ]
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -4013,10 +3344,6 @@ extension CodeCommit {
     }
 
     public struct MergeBranchesByThreeWayOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "treeId", required: false, type: .string)
-        ]
 
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
@@ -4035,12 +3362,6 @@ extension CodeCommit {
     }
 
     public struct MergeHunk: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "base", required: false, type: .structure), 
-            AWSShapeMember(label: "destination", required: false, type: .structure), 
-            AWSShapeMember(label: "isConflict", required: false, type: .boolean), 
-            AWSShapeMember(label: "source", required: false, type: .structure)
-        ]
 
         /// Information about the merge hunk in the base of a merge or pull request.
         public let base: MergeHunkDetail?
@@ -4067,11 +3388,6 @@ extension CodeCommit {
     }
 
     public struct MergeHunkDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endLine", required: false, type: .integer), 
-            AWSShapeMember(label: "hunkContent", required: false, type: .string), 
-            AWSShapeMember(label: "startLine", required: false, type: .integer)
-        ]
 
         /// The end position of the hunk in the merge result.
         public let endLine: Int?
@@ -4094,12 +3410,6 @@ extension CodeCommit {
     }
 
     public struct MergeMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isMerged", required: false, type: .boolean), 
-            AWSShapeMember(label: "mergeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "mergedBy", required: false, type: .string), 
-            AWSShapeMember(label: "mergeOption", required: false, type: .enum)
-        ]
 
         /// A Boolean value indicating whether the merge has been made.
         public let isMerged: Bool?
@@ -4126,10 +3436,6 @@ extension CodeCommit {
     }
 
     public struct MergeOperations: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: false, type: .enum), 
-            AWSShapeMember(label: "source", required: false, type: .enum)
-        ]
 
         /// The operation on a file in the destination of a merge or pull request.
         public let destination: ChangeTypeEnum?
@@ -4148,11 +3454,6 @@ extension CodeCommit {
     }
 
     public struct MergePullRequestByFastForwardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
-        ]
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -4181,9 +3482,6 @@ extension CodeCommit {
     }
 
     public struct MergePullRequestByFastForwardOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: false, type: .structure)
-        ]
 
         /// Information about the specified pull request, including the merge.
         public let pullRequest: PullRequest?
@@ -4198,18 +3496,6 @@ extension CodeCommit {
     }
 
     public struct MergePullRequestBySquashInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorName", required: false, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
-        ]
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -4267,9 +3553,6 @@ extension CodeCommit {
     }
 
     public struct MergePullRequestBySquashOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: false, type: .structure)
-        ]
 
         public let pullRequest: PullRequest?
 
@@ -4283,18 +3566,6 @@ extension CodeCommit {
     }
 
     public struct MergePullRequestByThreeWayInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorName", required: false, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
-            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
-        ]
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -4352,9 +3623,6 @@ extension CodeCommit {
     }
 
     public struct MergePullRequestByThreeWayOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: false, type: .structure)
-        ]
 
         public let pullRequest: PullRequest?
 
@@ -4368,11 +3636,6 @@ extension CodeCommit {
     }
 
     public struct ObjectTypes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "base", required: false, type: .enum), 
-            AWSShapeMember(label: "destination", required: false, type: .enum), 
-            AWSShapeMember(label: "source", required: false, type: .enum)
-        ]
 
         /// The type of the object in the base commit of the merge.
         public let base: ObjectTypeEnum?
@@ -4395,10 +3658,6 @@ extension CodeCommit {
     }
 
     public struct OriginApprovalRuleTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleTemplateName", required: false, type: .string)
-        ]
 
         /// The ID of the template that created the approval rule.
         public let approvalRuleTemplateId: String?
@@ -4417,11 +3676,6 @@ extension CodeCommit {
     }
 
     public struct OverridePullRequestApprovalRulesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overrideStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: true, type: .string)
-        ]
 
         /// Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply approval rule requirements (REVOKE). REVOKE status is not stored.
         public let overrideStatus: OverrideStatus
@@ -4444,14 +3698,6 @@ extension CodeCommit {
     }
 
     public struct PostCommentForComparedCommitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// To establish the directionality of the comparison, the full commit ID of the after commit.
         public let afterCommitId: String
@@ -4492,15 +3738,6 @@ extension CodeCommit {
     }
 
     public struct PostCommentForComparedCommitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "comment", required: false, type: .structure), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// In the directionality you established, the blob ID of the after blob.
         public let afterBlobId: String?
@@ -4539,15 +3776,6 @@ extension CodeCommit {
     }
 
     public struct PostCommentForPullRequestInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.
         public let afterCommitId: String
@@ -4592,16 +3820,6 @@ extension CodeCommit {
     }
 
     public struct PostCommentForPullRequestOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeBlobId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "comment", required: false, type: .structure), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// In the directionality of the pull request, the blob ID of the after blob.
         public let afterBlobId: String?
@@ -4644,11 +3862,6 @@ extension CodeCommit {
     }
 
     public struct PostCommentReplyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string), 
-            AWSShapeMember(label: "inReplyTo", required: true, type: .string)
-        ]
 
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
         public let clientRequestToken: String?
@@ -4671,9 +3884,6 @@ extension CodeCommit {
     }
 
     public struct PostCommentReplyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure)
-        ]
 
         /// Information about the reply to a comment.
         public let comment: Comment?
@@ -4688,19 +3898,6 @@ extension CodeCommit {
     }
 
     public struct PullRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRules", required: false, type: .list), 
-            AWSShapeMember(label: "authorArn", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastActivityDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "pullRequestTargets", required: false, type: .list), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "title", required: false, type: .string)
-        ]
 
         /// The approval rules applied to the pull request.
         public let approvalRules: [ApprovalRule]?
@@ -4755,12 +3952,6 @@ extension CodeCommit {
     }
 
     public struct PullRequestCreatedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
-        ]
 
         /// The commit ID of the tip of the branch specified as the destination branch when the pull request was created.
         public let destinationCommitId: String?
@@ -4787,19 +3978,6 @@ extension CodeCommit {
     }
 
     public struct PullRequestEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actorArn", required: false, type: .string), 
-            AWSShapeMember(label: "approvalRuleEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "approvalRuleOverriddenEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "approvalStateChangedEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "eventDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pullRequestCreatedEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestEventType", required: false, type: .enum), 
-            AWSShapeMember(label: "pullRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestMergedStateChangedEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestSourceReferenceUpdatedEventMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "pullRequestStatusChangedEventMetadata", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with more commits or changing the status of a pull request.
         public let actorArn: String?
@@ -4854,11 +4032,6 @@ extension CodeCommit {
     }
 
     public struct PullRequestMergedStateChangedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationReference", required: false, type: .string), 
-            AWSShapeMember(label: "mergeMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The name of the branch that the pull request is merged into.
         public let destinationReference: String?
@@ -4881,12 +4054,6 @@ extension CodeCommit {
     }
 
     public struct PullRequestSourceReferenceUpdatedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "beforeCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the pull request was updated.
         public let afterCommitId: String?
@@ -4913,9 +4080,6 @@ extension CodeCommit {
     }
 
     public struct PullRequestStatusChangedEventMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestStatus", required: false, type: .enum)
-        ]
 
         /// The changed status of the pull request.
         public let pullRequestStatus: PullRequestStatusEnum?
@@ -4930,15 +4094,6 @@ extension CodeCommit {
     }
 
     public struct PullRequestTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationCommit", required: false, type: .string), 
-            AWSShapeMember(label: "destinationReference", required: false, type: .string), 
-            AWSShapeMember(label: "mergeBase", required: false, type: .string), 
-            AWSShapeMember(label: "mergeMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "sourceCommit", required: false, type: .string), 
-            AWSShapeMember(label: "sourceReference", required: false, type: .string)
-        ]
 
         /// The full commit ID that is the tip of the destination branch. This is the commit where the pull request was or will be merged.
         public let destinationCommit: String?
@@ -4977,12 +4132,6 @@ extension CodeCommit {
     }
 
     public struct PutFileEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileContent", required: false, type: .blob), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "sourceFile", required: false, type: .structure)
-        ]
 
         /// The content of the file, if a source file is not specified.
         public let fileContent: Data?
@@ -5013,17 +4162,6 @@ extension CodeCommit {
     }
 
     public struct PutFileInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "fileContent", required: true, type: .blob), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentCommitId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created.
         public let branchName: String
@@ -5079,11 +4217,6 @@ extension CodeCommit {
     }
 
     public struct PutFileOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blobId", required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "treeId", required: true, type: .string)
-        ]
 
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
@@ -5106,10 +4239,6 @@ extension CodeCommit {
     }
 
     public struct PutRepositoryTriggersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "triggers", required: true, type: .list)
-        ]
 
         /// The name of the repository where you want to create or update the trigger.
         public let repositoryName: String
@@ -5137,9 +4266,6 @@ extension CodeCommit {
     }
 
     public struct PutRepositoryTriggersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationId", required: false, type: .string)
-        ]
 
         /// The system-generated unique ID for the create or update operation.
         public let configurationId: String?
@@ -5154,12 +4280,6 @@ extension CodeCommit {
     }
 
     public struct ReplaceContentEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: false, type: .blob), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "replacementType", required: true, type: .enum)
-        ]
 
         /// The base-64 encoded content to use when the replacement type is USE_NEW_CONTENT.
         public let content: Data?
@@ -5190,18 +4310,6 @@ extension CodeCommit {
     }
 
     public struct RepositoryMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "cloneUrlHttp", required: false, type: .string), 
-            AWSShapeMember(label: "cloneUrlSsh", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "defaultBranch", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The ID of the AWS account associated with the repository.
         public let accountId: String?
@@ -5252,10 +4360,6 @@ extension CodeCommit {
     }
 
     public struct RepositoryNameIdPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The ID associated with the repository.
         public let repositoryId: String?
@@ -5274,13 +4378,6 @@ extension CodeCommit {
     }
 
     public struct RepositoryTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branches", required: false, type: .list), 
-            AWSShapeMember(label: "customData", required: false, type: .string), 
-            AWSShapeMember(label: "destinationArn", required: true, type: .string), 
-            AWSShapeMember(label: "events", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The branches to be included in the trigger configuration. If you specify an empty array, the trigger applies to all branches.  Although no content is required in the array, you must include the array itself. 
         public let branches: [String]?
@@ -5318,10 +4415,6 @@ extension CodeCommit {
     }
 
     public struct RepositoryTriggerExecutionFailure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "trigger", required: false, type: .string)
-        ]
 
         /// Message information about the trigger that did not run.
         public let failureMessage: String?
@@ -5340,10 +4433,6 @@ extension CodeCommit {
     }
 
     public struct SetFileModeEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileMode", required: true, type: .enum), 
-            AWSShapeMember(label: "filePath", required: true, type: .string)
-        ]
 
         /// The file mode for the file.
         public let fileMode: FileModeTypeEnum
@@ -5362,10 +4451,6 @@ extension CodeCommit {
     }
 
     public struct SourceFileSpecifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filePath", required: true, type: .string), 
-            AWSShapeMember(label: "isMove", required: false, type: .boolean)
-        ]
 
         /// The full path to the file, including the name of the file.
         public let filePath: String
@@ -5384,11 +4469,6 @@ extension CodeCommit {
     }
 
     public struct SubModule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "relativePath", required: false, type: .string)
-        ]
 
         /// The fully qualified path to the folder that contains the reference to the submodule.
         public let absolutePath: String?
@@ -5411,12 +4491,6 @@ extension CodeCommit {
     }
 
     public struct SymbolicLink: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
-            AWSShapeMember(label: "blobId", required: false, type: .string), 
-            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
-            AWSShapeMember(label: "relativePath", required: false, type: .string)
-        ]
 
         /// The fully qualified path to the folder that contains the symbolic link.
         public let absolutePath: String?
@@ -5443,10 +4517,6 @@ extension CodeCommit {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
         public let resourceArn: String
@@ -5474,11 +4544,6 @@ extension CodeCommit {
     }
 
     public struct Target: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationReference", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceReference", required: true, type: .string)
-        ]
 
         /// The branch of the repository where the pull request changes are merged. Also known as the destination branch.
         public let destinationReference: String?
@@ -5507,10 +4572,6 @@ extension CodeCommit {
     }
 
     public struct TestRepositoryTriggersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "triggers", required: true, type: .list)
-        ]
 
         /// The name of the repository in which to test the triggers.
         public let repositoryName: String
@@ -5538,10 +4599,6 @@ extension CodeCommit {
     }
 
     public struct TestRepositoryTriggersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedExecutions", required: false, type: .list), 
-            AWSShapeMember(label: "successfulExecutions", required: false, type: .list)
-        ]
 
         /// The list of triggers that were not tested. This list provides the names of the triggers that could not be tested, separated by commas.
         public let failedExecutions: [RepositoryTriggerExecutionFailure]?
@@ -5560,10 +4617,6 @@ extension CodeCommit {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to which you want to remove tags.
         public let resourceArn: String
@@ -5589,11 +4642,6 @@ extension CodeCommit {
     }
 
     public struct UpdateApprovalRuleTemplateContentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "existingRuleContentSha256", required: false, type: .string), 
-            AWSShapeMember(label: "newRuleContent", required: true, type: .string)
-        ]
 
         /// The name of the approval rule template where you want to update the content of the rule. 
         public let approvalRuleTemplateName: String
@@ -5623,9 +4671,6 @@ extension CodeCommit {
     }
 
     public struct UpdateApprovalRuleTemplateContentOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplate", required: true, type: .structure)
-        ]
 
         public let approvalRuleTemplate: ApprovalRuleTemplate
 
@@ -5639,10 +4684,6 @@ extension CodeCommit {
     }
 
     public struct UpdateApprovalRuleTemplateDescriptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplateDescription", required: true, type: .string), 
-            AWSShapeMember(label: "approvalRuleTemplateName", required: true, type: .string)
-        ]
 
         /// The updated description of the approval rule template.
         public let approvalRuleTemplateDescription: String
@@ -5668,9 +4709,6 @@ extension CodeCommit {
     }
 
     public struct UpdateApprovalRuleTemplateDescriptionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplate", required: true, type: .structure)
-        ]
 
         /// The structure and content of the updated approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -5685,10 +4723,6 @@ extension CodeCommit {
     }
 
     public struct UpdateApprovalRuleTemplateNameInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newApprovalRuleTemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "oldApprovalRuleTemplateName", required: true, type: .string)
-        ]
 
         /// The new name you want to apply to the approval rule template.
         public let newApprovalRuleTemplateName: String
@@ -5714,9 +4748,6 @@ extension CodeCommit {
     }
 
     public struct UpdateApprovalRuleTemplateNameOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleTemplate", required: true, type: .structure)
-        ]
 
         /// The structure and content of the updated approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -5731,10 +4762,6 @@ extension CodeCommit {
     }
 
     public struct UpdateCommentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commentId", required: true, type: .string), 
-            AWSShapeMember(label: "content", required: true, type: .string)
-        ]
 
         /// The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
@@ -5753,9 +4780,6 @@ extension CodeCommit {
     }
 
     public struct UpdateCommentOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .structure)
-        ]
 
         /// Information about the updated comment.
         public let comment: Comment?
@@ -5770,10 +4794,6 @@ extension CodeCommit {
     }
 
     public struct UpdateDefaultBranchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultBranchName", required: true, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The name of the branch to set as the default.
         public let defaultBranchName: String
@@ -5800,12 +4820,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestApprovalRuleContentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "existingRuleContentSha256", required: false, type: .string), 
-            AWSShapeMember(label: "newRuleContent", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
 
         /// The name of the approval rule you want to update.
         public let approvalRuleName: String
@@ -5839,9 +4853,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestApprovalRuleContentOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalRule", required: true, type: .structure)
-        ]
 
         /// Information about the updated approval rule.
         public let approvalRule: ApprovalRule
@@ -5856,11 +4867,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestApprovalStateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvalState", required: true, type: .enum), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: true, type: .string)
-        ]
 
         /// The approval state to associate with the user on the pull request.
         public let approvalState: ApprovalState
@@ -5883,10 +4889,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestDescriptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string)
-        ]
 
         /// The updated content of the description for the pull request. This content replaces the existing description.
         public let description: String
@@ -5909,9 +4911,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestDescriptionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
 
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
@@ -5926,10 +4925,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestStatusInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestStatus", required: true, type: .enum)
-        ]
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -5948,9 +4943,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestStatusOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
 
         /// Information about the pull request.
         public let pullRequest: PullRequest
@@ -5965,10 +4957,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestTitleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "title", required: true, type: .string)
-        ]
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -5991,9 +4979,6 @@ extension CodeCommit {
     }
 
     public struct UpdatePullRequestTitleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pullRequest", required: true, type: .structure)
-        ]
 
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
@@ -6008,10 +4993,6 @@ extension CodeCommit {
     }
 
     public struct UpdateRepositoryDescriptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
         public let repositoryDescription: String?
@@ -6037,10 +5018,6 @@ extension CodeCommit {
     }
 
     public struct UpdateRepositoryNameInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newName", required: true, type: .string), 
-            AWSShapeMember(label: "oldName", required: true, type: .string)
-        ]
 
         /// The new name for the repository.
         public let newName: String
@@ -6068,11 +5045,6 @@ extension CodeCommit {
     }
 
     public struct UserInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "date", required: false, type: .string), 
-            AWSShapeMember(label: "email", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The date when the specified commit was commited, in timestamp format with GMT offset.
         public let date: String?

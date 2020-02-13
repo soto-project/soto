@@ -128,16 +128,6 @@ extension LexModelBuildingService {
     //MARK: Shapes
 
     public struct BotAliasMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "botVersion", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The name of the bot to which the alias points.
         public let botName: String?
@@ -180,17 +170,6 @@ extension LexModelBuildingService {
     }
 
     public struct BotChannelAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", required: false, type: .string), 
-            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made. 
         public let botAlias: String?
@@ -237,14 +216,6 @@ extension LexModelBuildingService {
     }
 
     public struct BotMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The date that the bot was created.
         public let createdDate: TimeStamp?
@@ -279,10 +250,6 @@ extension LexModelBuildingService {
     }
 
     public struct BuiltinIntentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", required: false, type: .string), 
-            AWSShapeMember(label: "supportedLocales", required: false, type: .list)
-        ]
 
         /// A unique identifier for the built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signature: String?
@@ -301,9 +268,6 @@ extension LexModelBuildingService {
     }
 
     public struct BuiltinIntentSlot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// A list of the slots defined for the intent.
         public let name: String?
@@ -318,10 +282,6 @@ extension LexModelBuildingService {
     }
 
     public struct BuiltinSlotTypeMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", required: false, type: .string), 
-            AWSShapeMember(label: "supportedLocales", required: false, type: .list)
-        ]
 
         /// A unique identifier for the built-in slot type. To find the signature for a slot type, see Slot Type Reference in the Alexa Skills Kit.
         public let signature: String?
@@ -340,10 +300,6 @@ extension LexModelBuildingService {
     }
 
     public struct CodeHook: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageVersion", required: true, type: .string), 
-            AWSShapeMember(label: "uri", required: true, type: .string)
-        ]
 
         /// The version of the request-response that you want Amazon Lex to use to invoke your Lambda function. For more information, see using-lambda.
         public let messageVersion: String
@@ -370,10 +326,6 @@ extension LexModelBuildingService {
     }
 
     public struct ConversationLogsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "iamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "logSettings", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of an IAM role with permission to write to your CloudWatch Logs for text logs and your S3 bucket for audio logs. If audio encryption is enabled, this role also provides access permission for the AWS KMS key used for encrypting audio logs. For more information, see Creating an IAM Role and Policy for Conversation Logs.
         public let iamRoleArn: String
@@ -401,10 +353,6 @@ extension LexModelBuildingService {
     }
 
     public struct ConversationLogsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "iamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "logSettings", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the IAM role used to write your logs to CloudWatch Logs or an S3 bucket.
         public let iamRoleArn: String?
@@ -424,8 +372,7 @@ extension LexModelBuildingService {
 
     public struct CreateBotVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
@@ -451,24 +398,6 @@ extension LexModelBuildingService {
     }
 
     public struct CreateBotVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "voiceId", required: false, type: .string)
-        ]
 
         /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
         public let abortStatement: Statement?
@@ -544,8 +473,7 @@ extension LexModelBuildingService {
 
     public struct CreateIntentVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
@@ -571,23 +499,6 @@ extension LexModelBuildingService {
     }
 
     public struct CreateIntentVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// Checksum of the intent version created.
         public let checksum: String?
@@ -659,8 +570,7 @@ extension LexModelBuildingService {
 
     public struct CreateSlotTypeVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
@@ -686,16 +596,6 @@ extension LexModelBuildingService {
     }
 
     public struct CreateSlotTypeVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
@@ -739,8 +639,8 @@ extension LexModelBuildingService {
 
     public struct DeleteBotAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the bot that the alias points to.
@@ -770,9 +670,9 @@ extension LexModelBuildingService {
 
     public struct DeleteBotChannelAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
@@ -809,7 +709,7 @@ extension LexModelBuildingService {
 
     public struct DeleteBotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the bot. The name is case sensitive. 
@@ -832,8 +732,8 @@ extension LexModelBuildingService {
 
     public struct DeleteBotVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"))
         ]
 
         /// The name of the bot.
@@ -863,7 +763,7 @@ extension LexModelBuildingService {
 
     public struct DeleteIntentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the intent. The name is case sensitive. 
@@ -886,8 +786,8 @@ extension LexModelBuildingService {
 
     public struct DeleteIntentVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"))
         ]
 
         /// The name of the intent.
@@ -917,7 +817,7 @@ extension LexModelBuildingService {
 
     public struct DeleteSlotTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the slot type. The name is case sensitive. 
@@ -940,8 +840,8 @@ extension LexModelBuildingService {
 
     public struct DeleteSlotTypeVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"))
         ]
 
         /// The name of the slot type.
@@ -971,8 +871,8 @@ extension LexModelBuildingService {
 
     public struct DeleteUtterancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The name of the bot that stored the utterances.
@@ -1000,10 +900,6 @@ extension LexModelBuildingService {
     }
 
     public struct EnumerationValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "synonyms", required: false, type: .list), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// Additional values related to the slot type value.
         public let synonyms: [String]?
@@ -1031,10 +927,6 @@ extension LexModelBuildingService {
     }
 
     public struct FollowUpPrompt: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "prompt", required: true, type: .structure), 
-            AWSShapeMember(label: "rejectionStatement", required: true, type: .structure)
-        ]
 
         /// Prompts for information from the user. 
         public let prompt: Prompt
@@ -1058,10 +950,6 @@ extension LexModelBuildingService {
     }
 
     public struct FulfillmentActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "codeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         ///  A description of the Lambda function that is run to fulfill the intent. 
         public let codeHook: CodeHook?
@@ -1085,8 +973,8 @@ extension LexModelBuildingService {
 
     public struct GetBotAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the bot.
@@ -1115,16 +1003,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "botVersion", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The name of the bot that the alias points to.
         public let botName: String?
@@ -1168,10 +1046,10 @@ extension LexModelBuildingService {
 
     public struct GetBotAliasesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of the bot.
@@ -1210,10 +1088,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotAliasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BotAliases", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of BotAliasMetadata objects, each describing a bot alias.
         public let botAliases: [BotAliasMetadata]?
@@ -1233,9 +1107,9 @@ extension LexModelBuildingService {
 
     public struct GetBotChannelAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
@@ -1271,17 +1145,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotChannelAssociationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", required: false, type: .string), 
-            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String?
@@ -1329,11 +1192,11 @@ extension LexModelBuildingService {
 
     public struct GetBotChannelAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
@@ -1379,10 +1242,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotChannelAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botChannelAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel. 
         public let botChannelAssociations: [BotChannelAssociation]?
@@ -1402,8 +1261,8 @@ extension LexModelBuildingService {
 
     public struct GetBotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "versionOrAlias", location: .uri(locationName: "versionoralias"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "versionOrAlias", location: .uri(locationName: "versionoralias"))
         ]
 
         /// The name of the bot. The name is case sensitive. 
@@ -1429,24 +1288,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "voiceId", required: false, type: .string)
-        ]
 
         /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see PutBot.
         public let abortStatement: Statement?
@@ -1522,9 +1363,9 @@ extension LexModelBuildingService {
 
     public struct GetBotVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of bot versions to return in the response. The default is 10.
@@ -1556,10 +1397,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bots", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
         public let bots: [BotMetadata]?
@@ -1579,9 +1416,9 @@ extension LexModelBuildingService {
 
     public struct GetBotsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of bots to return in the response that the request will return. The default is 10.
@@ -1613,10 +1450,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bots", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of botMetadata objects, with one entry for each bot. 
         public let bots: [BotMetadata]?
@@ -1636,7 +1469,7 @@ extension LexModelBuildingService {
 
     public struct GetBuiltinIntentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", location: .uri(locationName: "signature"), required: true, type: .string)
+            AWSShapeMember(label: "signature", location: .uri(locationName: "signature"))
         ]
 
         /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
@@ -1652,11 +1485,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBuiltinIntentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", required: false, type: .string), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "supportedLocales", required: false, type: .list)
-        ]
 
         /// The unique identifier for a built-in intent.
         public let signature: String?
@@ -1680,10 +1508,10 @@ extension LexModelBuildingService {
 
     public struct GetBuiltinIntentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string)
+            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"))
         ]
 
         /// A list of locales that the intent supports.
@@ -1716,10 +1544,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBuiltinIntentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of builtinIntentMetadata objects, one for each intent in the response.
         public let intents: [BuiltinIntentMetadata]?
@@ -1739,10 +1563,10 @@ extension LexModelBuildingService {
 
     public struct GetBuiltinSlotTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string)
+            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"))
         ]
 
         /// A list of locales that the slot type supports.
@@ -1775,10 +1599,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBuiltinSlotTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "slotTypes", required: false, type: .list)
-        ]
 
         /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
         public let nextToken: String?
@@ -1798,10 +1618,10 @@ extension LexModelBuildingService {
 
     public struct GetExportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportType", location: .querystring(locationName: "exportType"), required: true, type: .enum), 
-            AWSShapeMember(label: "name", location: .querystring(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", location: .querystring(locationName: "resourceType"), required: true, type: .enum), 
-            AWSShapeMember(label: "version", location: .querystring(locationName: "version"), required: true, type: .string)
+            AWSShapeMember(label: "exportType", location: .querystring(locationName: "exportType")), 
+            AWSShapeMember(label: "name", location: .querystring(locationName: "name")), 
+            AWSShapeMember(label: "resourceType", location: .querystring(locationName: "resourceType")), 
+            AWSShapeMember(label: "version", location: .querystring(locationName: "version"))
         ]
 
         /// The format of the exported data.
@@ -1838,15 +1658,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetExportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "exportType", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "url", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The status of the export.     IN_PROGRESS - The export is in progress.    READY - The export is complete.    FAILED - The export could not be completed.  
         public let exportStatus: ExportStatus?
@@ -1886,7 +1697,7 @@ extension LexModelBuildingService {
 
     public struct GetImportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "importId", location: .uri(locationName: "importId"), required: true, type: .string)
+            AWSShapeMember(label: "importId", location: .uri(locationName: "importId"))
         ]
 
         /// The identifier of the import job information to return.
@@ -1902,15 +1713,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetImportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "failureReason", required: false, type: .list), 
-            AWSShapeMember(label: "importId", required: false, type: .string), 
-            AWSShapeMember(label: "importStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "mergeStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// A timestamp for the date and time that the import job was created.
         public let createdDate: TimeStamp?
@@ -1950,8 +1752,8 @@ extension LexModelBuildingService {
 
     public struct GetIntentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"))
         ]
 
         /// The name of the intent. The name is case sensitive. 
@@ -1980,23 +1782,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetIntentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// Checksum of the intent.
         public let checksum: String?
@@ -2068,9 +1853,9 @@ extension LexModelBuildingService {
 
     public struct GetIntentVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of intent versions to return in the response. The default is 10.
@@ -2102,10 +1887,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetIntentVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
         public let intents: [IntentMetadata]?
@@ -2125,9 +1906,9 @@ extension LexModelBuildingService {
 
     public struct GetIntentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of intents to return in the response. The default is 10.
@@ -2159,10 +1940,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetIntentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [IntentMetadata]?
@@ -2182,8 +1959,8 @@ extension LexModelBuildingService {
 
     public struct GetSlotTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"))
         ]
 
         /// The name of the slot type. The name is case sensitive. 
@@ -2212,16 +1989,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetSlotTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
@@ -2265,9 +2032,9 @@ extension LexModelBuildingService {
 
     public struct GetSlotTypeVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of slot type versions to return in the response. The default is 10.
@@ -2299,10 +2066,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetSlotTypeVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "slotTypes", required: false, type: .list)
-        ]
 
         /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
@@ -2322,9 +2085,9 @@ extension LexModelBuildingService {
 
     public struct GetSlotTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of slot types to return in the response. The default is 10.
@@ -2356,10 +2119,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetSlotTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "slotTypes", required: false, type: .list)
-        ]
 
         /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
         public let nextToken: String?
@@ -2379,9 +2138,9 @@ extension LexModelBuildingService {
 
     public struct GetUtterancesViewRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botname"), required: true, type: .string), 
-            AWSShapeMember(label: "botVersions", location: .querystring(locationName: "bot_versions"), required: true, type: .list), 
-            AWSShapeMember(label: "statusType", location: .querystring(locationName: "status_type"), required: true, type: .enum)
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botname")), 
+            AWSShapeMember(label: "botVersions", location: .querystring(locationName: "bot_versions")), 
+            AWSShapeMember(label: "statusType", location: .querystring(locationName: "status_type"))
         ]
 
         /// The name of the bot for which utterance information should be returned.
@@ -2418,10 +2177,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetUtterancesViewResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "utterances", required: false, type: .list)
-        ]
 
         /// The name of the bot for which utterance information was returned.
         public let botName: String?
@@ -2440,10 +2195,6 @@ extension LexModelBuildingService {
     }
 
     public struct Intent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "intentName", required: true, type: .string), 
-            AWSShapeMember(label: "intentVersion", required: true, type: .string)
-        ]
 
         /// The name of the intent.
         public let intentName: String
@@ -2471,13 +2222,6 @@ extension LexModelBuildingService {
     }
 
     public struct IntentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The date that the intent was created.
         public let createdDate: TimeStamp?
@@ -2508,12 +2252,6 @@ extension LexModelBuildingService {
     }
 
     public struct LogSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: true, type: .enum), 
-            AWSShapeMember(label: "kmsKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "logType", required: true, type: .enum), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// Where the logs will be delivered. Text logs are delivered to a CloudWatch Logs log group. Audio logs are delivered to an S3 bucket.
         public let destination: Destination
@@ -2549,13 +2287,6 @@ extension LexModelBuildingService {
     }
 
     public struct LogSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: false, type: .enum), 
-            AWSShapeMember(label: "kmsKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "logType", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourcePrefix", required: false, type: .string)
-        ]
 
         /// The destination where logs are delivered.
         public let destination: Destination?
@@ -2586,11 +2317,6 @@ extension LexModelBuildingService {
     }
 
     public struct Message: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: true, type: .string), 
-            AWSShapeMember(label: "contentType", required: true, type: .enum), 
-            AWSShapeMember(label: "groupNumber", required: false, type: .integer)
-        ]
 
         /// The text of the message.
         public let content: String
@@ -2620,11 +2346,6 @@ extension LexModelBuildingService {
     }
 
     public struct Prompt: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxAttempts", required: true, type: .integer), 
-            AWSShapeMember(label: "messages", required: true, type: .list), 
-            AWSShapeMember(label: "responseCard", required: false, type: .string)
-        ]
 
         /// The number of times to prompt the user for information.
         public let maxAttempts: Int
@@ -2660,12 +2381,8 @@ extension LexModelBuildingService {
 
     public struct PutBotAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "botVersion", required: true, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the bot.
@@ -2716,16 +2433,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutBotAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "botVersion", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The name of the bot that the alias points to.
         public let botName: String?
@@ -2769,19 +2476,7 @@ extension LexModelBuildingService {
 
     public struct PutBotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "childDirected", required: true, type: .boolean), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "locale", required: true, type: .enum), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "processBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "voiceId", required: false, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then aborts the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the abort statement will not be sent to the user, the fallback intent is used instead. For more information, see  AMAZON.FallbackIntent.
@@ -2860,25 +2555,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutBotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "voiceId", required: false, type: .string)
-        ]
 
         /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
         public let abortStatement: Statement?
@@ -2958,19 +2634,7 @@ extension LexModelBuildingService {
 
     public struct PutIntentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "slots", required: false, type: .list)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
@@ -3059,24 +2723,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutIntentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// Checksum of the $LATESTversion of the intent created or updated.
         public let checksum: String?
@@ -3152,12 +2798,7 @@ extension LexModelBuildingService {
 
     public struct PutSlotTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
@@ -3206,17 +2847,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutSlotTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
@@ -3263,18 +2893,6 @@ extension LexModelBuildingService {
     }
 
     public struct Slot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "obfuscationSetting", required: false, type: .enum), 
-            AWSShapeMember(label: "priority", required: false, type: .integer), 
-            AWSShapeMember(label: "responseCard", required: false, type: .string), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "slotConstraint", required: true, type: .enum), 
-            AWSShapeMember(label: "slotType", required: false, type: .string), 
-            AWSShapeMember(label: "slotTypeVersion", required: false, type: .string), 
-            AWSShapeMember(label: "valueElicitationPrompt", required: false, type: .structure)
-        ]
 
         /// A description of the slot.
         public let description: String?
@@ -3350,13 +2968,6 @@ extension LexModelBuildingService {
     }
 
     public struct SlotTypeMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The date that the slot type was created.
         public let createdDate: TimeStamp?
@@ -3387,11 +2998,6 @@ extension LexModelBuildingService {
     }
 
     public struct StartImportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mergeStrategy", required: true, type: .enum), 
-            AWSShapeMember(label: "payload", required: true, type: .blob), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum)
-        ]
 
         /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.  
         public let mergeStrategy: MergeStrategy
@@ -3414,14 +3020,6 @@ extension LexModelBuildingService {
     }
 
     public struct StartImportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "importId", required: false, type: .string), 
-            AWSShapeMember(label: "importStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "mergeStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// A timestamp for the date and time that the import job was requested.
         public let createdDate: TimeStamp?
@@ -3456,10 +3054,6 @@ extension LexModelBuildingService {
     }
 
     public struct Statement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messages", required: true, type: .list), 
-            AWSShapeMember(label: "responseCard", required: false, type: .string)
-        ]
 
         /// A collection of message objects.
         public let messages: [Message]
@@ -3488,13 +3082,6 @@ extension LexModelBuildingService {
     }
 
     public struct UtteranceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "count", required: false, type: .integer), 
-            AWSShapeMember(label: "distinctUsers", required: false, type: .integer), 
-            AWSShapeMember(label: "firstUtteredDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUtteredDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "utteranceString", required: false, type: .string)
-        ]
 
         /// The number of times that the utterance was processed.
         public let count: Int?
@@ -3525,10 +3112,6 @@ extension LexModelBuildingService {
     }
 
     public struct UtteranceList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botVersion", required: false, type: .string), 
-            AWSShapeMember(label: "utterances", required: false, type: .list)
-        ]
 
         /// The version of the bot that processed the list.
         public let botVersion: String?

@@ -73,7 +73,7 @@ extension RDS {
 
     public struct AccountAttributesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotas", required: false, type: .list, encoding: .list(member:"AccountQuota"))
+            AWSShapeMember(label: "AccountQuotas", encoding: .list(member:"AccountQuota"))
         ]
 
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
@@ -89,11 +89,6 @@ extension RDS {
     }
 
     public struct AccountQuota: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotaName", required: false, type: .string), 
-            AWSShapeMember(label: "Max", required: false, type: .long), 
-            AWSShapeMember(label: "Used", required: false, type: .long)
-        ]
 
         /// The name of the Amazon RDS quota for this AWS account.
         public let accountQuotaName: String?
@@ -116,11 +111,6 @@ extension RDS {
     }
 
     public struct AddRoleToDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The name of the DB cluster to associate the IAM role with.
         public let dBClusterIdentifier: String
@@ -143,11 +133,6 @@ extension RDS {
     }
 
     public struct AddRoleToDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FeatureName", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The name of the DB instance to associate the IAM role with.
         public let dBInstanceIdentifier: String
@@ -170,10 +155,6 @@ extension RDS {
     }
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
         public let sourceIdentifier: String
@@ -192,9 +173,6 @@ extension RDS {
     }
 
     public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -209,8 +187,7 @@ extension RDS {
 
     public struct AddTagsToResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The Amazon RDS resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
@@ -230,11 +207,6 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyAction", required: true, type: .string), 
-            AWSShapeMember(label: "OptInType", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceIdentifier", required: true, type: .string)
-        ]
 
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation 
         public let applyAction: String
@@ -257,9 +229,6 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
-        ]
 
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
@@ -273,13 +242,6 @@ extension RDS {
     }
 
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string)
-        ]
 
         /// The IP range to authorize.
         public let cidrip: String?
@@ -310,9 +272,6 @@ extension RDS {
     }
 
     public struct AuthorizeDBSecurityGroupIngressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
-        ]
 
         public let dBSecurityGroup: DBSecurityGroup?
 
@@ -326,9 +285,6 @@ extension RDS {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the Availability Zone.
         public let name: String?
@@ -343,11 +299,6 @@ extension RDS {
     }
 
     public struct AvailableProcessorFeature: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The allowed values for the processor feature of the DB instance class.
         public let allowedValues: String?
@@ -370,12 +321,6 @@ extension RDS {
     }
 
     public struct BacktrackDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BacktrackTo", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Force", required: false, type: .boolean), 
-            AWSShapeMember(label: "UseEarliestTimeOnPointInTimeUnavailable", required: false, type: .boolean)
-        ]
 
         /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page.   If the specified time isn't a consistent time for the DB cluster, Aurora automatically chooses the nearest possible consistent time for the DB cluster.  Constraints:   Must contain a valid ISO 8601 timestamp.   Can't contain a timestamp set in the future.   Example: 2017-07-08T18:00Z 
         public let backtrackTo: TimeStamp
@@ -402,9 +347,6 @@ extension RDS {
     }
 
     public struct CancelExportTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportTaskIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier of the snapshot export task to cancel.
         public let exportTaskIdentifier: String
@@ -419,16 +361,6 @@ extension RDS {
     }
 
     public struct Certificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateType", required: false, type: .string), 
-            AWSShapeMember(label: "CustomerOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "CustomerOverrideValidTill", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Thumbprint", required: false, type: .string), 
-            AWSShapeMember(label: "ValidFrom", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ValidTill", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
@@ -472,8 +404,7 @@ extension RDS {
 
     public struct CertificateMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"Certificate")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "Certificates", encoding: .list(member:"Certificate"))
         ]
 
         /// The list of Certificate objects for the AWS account.
@@ -493,10 +424,6 @@ extension RDS {
     }
 
     public struct CharacterSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CharacterSetDescription", required: false, type: .string), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string)
-        ]
 
         /// The description of the character set.
         public let characterSetDescription: String?
@@ -516,8 +443,8 @@ extension RDS {
 
     public struct CloudwatchLogsExportConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisableLogTypes", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableLogTypes", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "DisableLogTypes", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "EnableLogTypes", encoding: .list(member:"member"))
         ]
 
         /// The list of log types to disable.
@@ -538,11 +465,7 @@ extension RDS {
 
     public struct ConnectionPoolConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionBorrowTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "InitQuery", required: false, type: .string), 
-            AWSShapeMember(label: "MaxConnectionsPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxIdleConnectionsPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "SessionPinningFilters", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "SessionPinningFilters", encoding: .list(member:"member"))
         ]
 
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
@@ -575,11 +498,7 @@ extension RDS {
 
     public struct ConnectionPoolConfigurationInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionBorrowTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "InitQuery", required: false, type: .string), 
-            AWSShapeMember(label: "MaxConnectionsPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxIdleConnectionsPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "SessionPinningFilters", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "SessionPinningFilters", encoding: .list(member:"member"))
         ]
 
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
@@ -612,10 +531,7 @@ extension RDS {
 
     public struct CopyDBClusterParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceDBClusterParameterGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBClusterParameterGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "TargetDBClusterParameterGroupIdentifier", required: true, type: .string)
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide.  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
@@ -642,9 +558,6 @@ extension RDS {
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -659,12 +572,7 @@ extension RDS {
 
     public struct CopyDBClusterSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBClusterSnapshotIdentifier", required: true, type: .string)
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// A value that indicates whether to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot. By default, tags are not copied.
@@ -699,9 +607,6 @@ extension RDS {
     }
 
     public struct CopyDBClusterSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -716,10 +621,7 @@ extension RDS {
 
     public struct CopyDBParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceDBParameterGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBParameterGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "TargetDBParameterGroupIdentifier", required: true, type: .string)
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
@@ -746,9 +648,6 @@ extension RDS {
     }
 
     public struct CopyDBParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBParameterGroup: DBParameterGroup?
 
@@ -763,13 +662,7 @@ extension RDS {
 
     public struct CopyDBSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBSnapshotIdentifier", required: true, type: .string)
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// A value that indicates whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags are not copied.
@@ -808,9 +701,6 @@ extension RDS {
     }
 
     public struct CopyDBSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
 
         public let dBSnapshot: DBSnapshot?
 
@@ -825,10 +715,7 @@ extension RDS {
 
     public struct CopyOptionGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceOptionGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetOptionGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "TargetOptionGroupIdentifier", required: true, type: .string)
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid option group.   If the source option group is in the same AWS Region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different AWS Region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
@@ -855,9 +742,6 @@ extension RDS {
     }
 
     public struct CopyOptionGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroup", required: false, type: .structure)
-        ]
 
         public let optionGroup: OptionGroup?
 
@@ -871,12 +755,6 @@ extension RDS {
     }
 
     public struct CreateCustomAvailabilityZoneMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZoneName", required: true, type: .string), 
-            AWSShapeMember(label: "ExistingVpnId", required: false, type: .string), 
-            AWSShapeMember(label: "NewVpnTunnelName", required: false, type: .string), 
-            AWSShapeMember(label: "VpnTunnelOriginatorIP", required: false, type: .string)
-        ]
 
         /// The name of the custom Availability Zone (AZ).
         public let customAvailabilityZoneName: String
@@ -903,9 +781,6 @@ extension RDS {
     }
 
     public struct CreateCustomAvailabilityZoneResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZone", required: false, type: .structure)
-        ]
 
         public let customAvailabilityZone: CustomAvailabilityZone?
 
@@ -920,12 +795,9 @@ extension RDS {
 
     public struct CreateDBClusterEndpointMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: true, type: .string), 
-            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "ExcludedMembers", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
@@ -962,36 +834,10 @@ extension RDS {
 
     public struct CreateDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "BacktrackWindow", required: false, type: .long), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableHttpEndpoint", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineMode", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A list of Availability Zones (AZs) where instances in the DB cluster can be created. For information on AWS Regions and Availability Zones, see Choosing the Regions and Availability Zones in the Amazon Aurora User Guide. 
@@ -1124,10 +970,7 @@ extension RDS {
 
     public struct CreateDBClusterParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DB cluster parameter group.    This value is stored as a lowercase string. 
@@ -1155,9 +998,6 @@ extension RDS {
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -1171,9 +1011,6 @@ extension RDS {
     }
 
     public struct CreateDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -1188,9 +1025,7 @@ extension RDS {
 
     public struct CreateDBClusterSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The identifier of the DB cluster to create a snapshot for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1 
@@ -1214,9 +1049,6 @@ extension RDS {
     }
 
     public struct CreateDBClusterSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -1231,52 +1063,11 @@ extension RDS {
 
     public struct CreateDBInstanceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: true, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroupName")), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroupName")), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    Oracle  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 200 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.    
@@ -1473,36 +1264,10 @@ extension RDS {
 
     public struct CreateDBInstanceReadReplicaMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceDBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "UseDefaultProcessorFeatures", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether minor engine upgrades are applied automatically to the Read Replica during the maintenance window. Default: Inherits from the source DB instance
@@ -1633,9 +1398,6 @@ extension RDS {
     }
 
     public struct CreateDBInstanceReadReplicaResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -1649,9 +1411,6 @@ extension RDS {
     }
 
     public struct CreateDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -1666,10 +1425,7 @@ extension RDS {
 
     public struct CreateDBParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families, use the following command:  aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily"   The output contains duplicates. 
@@ -1697,9 +1453,6 @@ extension RDS {
     }
 
     public struct CreateDBParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBParameterGroup: DBParameterGroup?
 
@@ -1714,16 +1467,10 @@ extension RDS {
 
     public struct CreateDBProxyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Auth", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
-            AWSShapeMember(label: "DebugLogging", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineFamily", required: true, type: .enum), 
-            AWSShapeMember(label: "IdleClientTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "RequireTLS", required: false, type: .boolean), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "VpcSubnetIds", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Auth", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "VpcSubnetIds", encoding: .list(member:"member"))
         ]
 
         /// The authorization mechanism that the proxy uses.
@@ -1775,9 +1522,6 @@ extension RDS {
     }
 
     public struct CreateDBProxyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxy", required: false, type: .structure)
-        ]
 
         /// The DBProxy structure corresponding to the new proxy.
         public let dBProxy: DBProxy?
@@ -1793,9 +1537,7 @@ extension RDS {
 
     public struct CreateDBSecurityGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The description for the DB security group.
@@ -1819,9 +1561,6 @@ extension RDS {
     }
 
     public struct CreateDBSecurityGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
-        ]
 
         public let dBSecurityGroup: DBSecurityGroup?
 
@@ -1836,9 +1575,7 @@ extension RDS {
 
     public struct CreateDBSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The identifier of the DB instance that you want to create the snapshot of. Constraints:   Must match the identifier of an existing DBInstance.  
@@ -1861,9 +1598,6 @@ extension RDS {
     }
 
     public struct CreateDBSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
 
         public let dBSnapshot: DBSnapshot?
 
@@ -1878,10 +1612,8 @@ extension RDS {
 
     public struct CreateDBSubnetGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier")), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The description for the DB subnet group.
@@ -1909,9 +1641,6 @@ extension RDS {
     }
 
     public struct CreateDBSubnetGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
-        ]
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -1926,13 +1655,9 @@ extension RDS {
 
     public struct CreateEventSubscriptionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceIds", required: false, type: .list, encoding: .list(member:"SourceId")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "EventCategories", encoding: .list(member:"EventCategory")), 
+            AWSShapeMember(label: "SourceIds", encoding: .list(member:"SourceId")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         ///  A value that indicates whether to activate the subscription. If the event notification subscription isn't activated, the subscription is created but not active. 
@@ -1971,9 +1696,6 @@ extension RDS {
     }
 
     public struct CreateEventSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -1987,15 +1709,6 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean)
-        ]
 
         ///  The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Aurora will not create a database in the global database cluster you are creating. 
         public let databaseName: String?
@@ -2034,9 +1747,6 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalCluster", required: false, type: .structure)
-        ]
 
         public let globalCluster: GlobalCluster?
 
@@ -2051,11 +1761,7 @@ extension RDS {
 
     public struct CreateOptionGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineName", required: true, type: .string), 
-            AWSShapeMember(label: "MajorEngineVersion", required: true, type: .string), 
-            AWSShapeMember(label: "OptionGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// Specifies the name of the engine that this option group should be associated with.
@@ -2087,9 +1793,6 @@ extension RDS {
     }
 
     public struct CreateOptionGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroup", required: false, type: .structure)
-        ]
 
         public let optionGroup: OptionGroup?
 
@@ -2103,12 +1806,6 @@ extension RDS {
     }
 
     public struct CustomAvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "CustomAvailabilityZoneName", required: false, type: .string), 
-            AWSShapeMember(label: "CustomAvailabilityZoneStatus", required: false, type: .string), 
-            AWSShapeMember(label: "VpnDetails", required: false, type: .structure)
-        ]
 
         /// The identifier of the custom AZ. Amazon RDS generates a unique identifier when a custom AZ is created.
         public let customAvailabilityZoneId: String?
@@ -2136,8 +1833,7 @@ extension RDS {
 
     public struct CustomAvailabilityZoneMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZones", required: false, type: .list, encoding: .list(member:"CustomAvailabilityZone")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "CustomAvailabilityZones", encoding: .list(member:"CustomAvailabilityZone"))
         ]
 
         /// The list of CustomAvailabilityZone objects for the AWS account.
@@ -2158,57 +1854,14 @@ extension RDS {
 
     public struct DBCluster: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivityStreamKinesisStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "ActivityStreamKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ActivityStreamMode", required: false, type: .enum), 
-            AWSShapeMember(label: "ActivityStreamStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AssociatedRoles", required: false, type: .list, encoding: .list(member:"DBClusterRole")), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "BacktrackConsumedChangeRecords", required: false, type: .long), 
-            AWSShapeMember(label: "BacktrackWindow", required: false, type: .long), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "Capacity", required: false, type: .integer), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CloneGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "CrossAccountClone", required: false, type: .boolean), 
-            AWSShapeMember(label: "CustomEndpoints", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterMembers", required: false, type: .list, encoding: .list(member:"DBClusterMember")), 
-            AWSShapeMember(label: "DBClusterOptionGroupMemberships", required: false, type: .list, encoding: .list(member:"DBClusterOptionGroup")), 
-            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .string), 
-            AWSShapeMember(label: "DbClusterResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EarliestBacktrackTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EarliestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EnabledCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineMode", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "HttpEndpointEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LatestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PercentProgress", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ReaderEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "ReadReplicaIdentifiers", required: false, type: .list, encoding: .list(member:"ReadReplicaIdentifier")), 
-            AWSShapeMember(label: "ReplicationSourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingConfigurationInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
+            AWSShapeMember(label: "AssociatedRoles", encoding: .list(member:"DBClusterRole")), 
+            AWSShapeMember(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
+            AWSShapeMember(label: "CustomEndpoints", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBClusterMembers", encoding: .list(member:"DBClusterMember")), 
+            AWSShapeMember(label: "DBClusterOptionGroupMemberships", encoding: .list(member:"DBClusterOptionGroup")), 
+            AWSShapeMember(label: "EnabledCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ReadReplicaIdentifiers", encoding: .list(member:"ReadReplicaIdentifier")), 
+            AWSShapeMember(label: "VpcSecurityGroups", encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
@@ -2423,14 +2076,6 @@ extension RDS {
     }
 
     public struct DBClusterBacktrack: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BacktrackedFrom", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BacktrackIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "BacktrackRequestCreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BacktrackTo", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The timestamp of the time from which the DB cluster was backtracked.
         public let backtrackedFrom: TimeStamp?
@@ -2466,8 +2111,7 @@ extension RDS {
 
     public struct DBClusterBacktrackMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterBacktracks", required: false, type: .list, encoding: .list(member:"DBClusterBacktrack")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBClusterBacktracks", encoding: .list(member:"DBClusterBacktrack"))
         ]
 
         /// Contains a list of backtracks for the user.
@@ -2487,13 +2131,6 @@ extension RDS {
     }
 
     public struct DBClusterCapacityInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "PendingCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "SecondsBeforeTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutAction", required: false, type: .string)
-        ]
 
         /// The current capacity of the DB cluster.
         public let currentCapacity: Int?
@@ -2525,16 +2162,8 @@ extension RDS {
 
     public struct DBClusterEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomEndpointType", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterEndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterEndpointResourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .string), 
-            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
+            AWSShapeMember(label: "ExcludedMembers", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", encoding: .list(member:"member"))
         ]
 
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
@@ -2587,8 +2216,7 @@ extension RDS {
 
     public struct DBClusterEndpointMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterEndpoints", required: false, type: .list, encoding: .list(member:"DBClusterEndpointList")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBClusterEndpoints", encoding: .list(member:"DBClusterEndpointList"))
         ]
 
         /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
@@ -2608,12 +2236,6 @@ extension RDS {
     }
 
     public struct DBClusterMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "IsClusterWriter", required: false, type: .boolean), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer)
-        ]
 
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
@@ -2641,8 +2263,7 @@ extension RDS {
 
     public struct DBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusters", required: false, type: .list, encoding: .list(member:"DBCluster")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBClusters", encoding: .list(member:"DBCluster"))
         ]
 
         /// Contains a list of DB clusters for the user.
@@ -2662,10 +2283,6 @@ extension RDS {
     }
 
     public struct DBClusterOptionGroupStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterOptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// Specifies the name of the DB cluster option group.
         public let dBClusterOptionGroupName: String?
@@ -2684,12 +2301,6 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
@@ -2717,8 +2328,7 @@ extension RDS {
 
     public struct DBClusterParameterGroupDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
+            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
@@ -2738,9 +2348,6 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroupNameMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string)
-        ]
 
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
@@ -2756,8 +2363,7 @@ extension RDS {
 
     public struct DBClusterParameterGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroups", required: false, type: .list, encoding: .list(member:"DBClusterParameterGroup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBClusterParameterGroups", encoding: .list(member:"DBClusterParameterGroup"))
         ]
 
         /// A list of DB cluster parameter groups.
@@ -2777,11 +2383,6 @@ extension RDS {
     }
 
     public struct DBClusterRole: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion. 
         public let featureName: String?
@@ -2805,26 +2406,7 @@ extension RDS {
 
     public struct DBClusterSnapshot: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "PercentProgress", required: false, type: .integer), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SnapshotType", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterSnapshotArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+            AWSShapeMember(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone"))
         ]
 
         /// Specifies the allocated storage size in gibibytes (GiB).
@@ -2917,8 +2499,7 @@ extension RDS {
 
     public struct DBClusterSnapshotAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeValues", required: false, type: .list, encoding: .list(member:"AttributeValue"))
+            AWSShapeMember(label: "AttributeValues", encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
@@ -2939,8 +2520,7 @@ extension RDS {
 
     public struct DBClusterSnapshotAttributesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotAttributes", required: false, type: .list, encoding: .list(member:"DBClusterSnapshotAttribute")), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "DBClusterSnapshotAttributes", encoding: .list(member:"DBClusterSnapshotAttribute"))
         ]
 
         /// The list of attributes and values for the manual DB cluster snapshot.
@@ -2961,8 +2541,7 @@ extension RDS {
 
     public struct DBClusterSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshots", required: false, type: .list, encoding: .list(member:"DBClusterSnapshot")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBClusterSnapshots", encoding: .list(member:"DBClusterSnapshot"))
         ]
 
         /// Provides a list of DB cluster snapshots for the user.
@@ -2983,21 +2562,12 @@ extension RDS {
 
     public struct DBEngineVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBEngineDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBEngineVersionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultCharacterSet", required: false, type: .structure), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ExportableLogTypes", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SupportedCharacterSets", required: false, type: .list, encoding: .list(member:"CharacterSet")), 
-            AWSShapeMember(label: "SupportedEngineModes", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "SupportedFeatureNames", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "SupportedTimezones", required: false, type: .list, encoding: .list(member:"Timezone")), 
-            AWSShapeMember(label: "SupportsLogExportsToCloudwatchLogs", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsReadReplica", required: false, type: .boolean), 
-            AWSShapeMember(label: "ValidUpgradeTarget", required: false, type: .list, encoding: .list(member:"UpgradeTarget"))
+            AWSShapeMember(label: "ExportableLogTypes", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SupportedCharacterSets", encoding: .list(member:"CharacterSet")), 
+            AWSShapeMember(label: "SupportedEngineModes", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SupportedFeatureNames", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SupportedTimezones", encoding: .list(member:"Timezone")), 
+            AWSShapeMember(label: "ValidUpgradeTarget", encoding: .list(member:"UpgradeTarget"))
         ]
 
         /// The description of the database engine.
@@ -3070,8 +2640,7 @@ extension RDS {
 
     public struct DBEngineVersionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBEngineVersions", required: false, type: .list, encoding: .list(member:"DBEngineVersion")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBEngineVersions", encoding: .list(member:"DBEngineVersion"))
         ]
 
         ///  A list of DBEngineVersion elements. 
@@ -3092,64 +2661,17 @@ extension RDS {
 
     public struct DBInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AssociatedRoles", required: false, type: .list, encoding: .list(member:"DBInstanceRole")), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DbInstancePort", required: false, type: .integer), 
-            AWSShapeMember(label: "DBInstanceStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroups", required: false, type: .list, encoding: .list(member:"DBParameterGroup")), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroup")), 
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainMemberships", required: false, type: .list, encoding: .list(member:"DomainMembership")), 
-            AWSShapeMember(label: "EnabledCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "EnhancedMonitoringResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LatestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "ListenerEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupMemberships", required: false, type: .list, encoding: .list(member:"OptionGroupMembership")), 
-            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "PerformanceInsightsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReadReplicaDBClusterIdentifiers", required: false, type: .list, encoding: .list(member:"ReadReplicaDBClusterIdentifier")), 
-            AWSShapeMember(label: "ReadReplicaDBInstanceIdentifiers", required: false, type: .list, encoding: .list(member:"ReadReplicaDBInstanceIdentifier")), 
-            AWSShapeMember(label: "ReadReplicaSourceDBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "StatusInfos", required: false, type: .list, encoding: .list(member:"DBInstanceStatusInfo")), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
+            AWSShapeMember(label: "AssociatedRoles", encoding: .list(member:"DBInstanceRole")), 
+            AWSShapeMember(label: "DBParameterGroups", encoding: .list(member:"DBParameterGroup")), 
+            AWSShapeMember(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroup")), 
+            AWSShapeMember(label: "DomainMemberships", encoding: .list(member:"DomainMembership")), 
+            AWSShapeMember(label: "EnabledCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "OptionGroupMemberships", encoding: .list(member:"OptionGroupMembership")), 
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
+            AWSShapeMember(label: "ReadReplicaDBClusterIdentifiers", encoding: .list(member:"ReadReplicaDBClusterIdentifier")), 
+            AWSShapeMember(label: "ReadReplicaDBInstanceIdentifiers", encoding: .list(member:"ReadReplicaDBInstanceIdentifier")), 
+            AWSShapeMember(label: "StatusInfos", encoding: .list(member:"DBInstanceStatusInfo")), 
+            AWSShapeMember(label: "VpcSecurityGroups", encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         /// Specifies the allocated storage size specified in gibibytes.
@@ -3393,31 +2915,6 @@ extension RDS {
     }
 
     public struct DBInstanceAutomatedBackup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "RestoreWindow", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -3521,8 +3018,7 @@ extension RDS {
 
     public struct DBInstanceAutomatedBackupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceAutomatedBackups", required: false, type: .list, encoding: .list(member:"DBInstanceAutomatedBackup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBInstanceAutomatedBackups", encoding: .list(member:"DBInstanceAutomatedBackup"))
         ]
 
         ///  A list of DBInstanceAutomatedBackup instances. 
@@ -3543,8 +3039,7 @@ extension RDS {
 
     public struct DBInstanceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstances", required: false, type: .list, encoding: .list(member:"DBInstance")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBInstances", encoding: .list(member:"DBInstance"))
         ]
 
         ///  A list of DBInstance instances. 
@@ -3564,11 +3059,6 @@ extension RDS {
     }
 
     public struct DBInstanceRole: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion. 
         public let featureName: String?
@@ -3591,12 +3081,6 @@ extension RDS {
     }
 
     public struct DBInstanceStatusInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Normal", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StatusType", required: false, type: .string)
-        ]
 
         /// Details of the error if there is an error for the instance. If the instance isn't in an error state, this value is blank.
         public let message: String?
@@ -3623,12 +3107,6 @@ extension RDS {
     }
 
     public struct DBParameterGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public let dBParameterGroupArn: String?
@@ -3656,8 +3134,7 @@ extension RDS {
 
     public struct DBParameterGroupDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
+            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -3677,9 +3154,6 @@ extension RDS {
     }
 
     public struct DBParameterGroupNameMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string)
-        ]
 
         /// Provides the name of the DB parameter group.
         public let dBParameterGroupName: String?
@@ -3694,10 +3168,6 @@ extension RDS {
     }
 
     public struct DBParameterGroupStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
-        ]
 
         /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
@@ -3717,8 +3187,7 @@ extension RDS {
 
     public struct DBParameterGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroups", required: false, type: .list, encoding: .list(member:"DBParameterGroup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBParameterGroups", encoding: .list(member:"DBParameterGroup"))
         ]
 
         ///  A list of DBParameterGroup instances. 
@@ -3739,20 +3208,9 @@ extension RDS {
 
     public struct DBProxy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Auth", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DBProxyArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBProxyName", required: false, type: .string), 
-            AWSShapeMember(label: "DebugLogging", required: false, type: .boolean), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "EngineFamily", required: false, type: .string), 
-            AWSShapeMember(label: "IdleClientTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "RequireTLS", required: false, type: .boolean), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "VpcSubnetIds", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Auth", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "VpcSubnetIds", encoding: .list(member:"member"))
         ]
 
         /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
@@ -3820,14 +3278,6 @@ extension RDS {
     }
 
     public struct DBProxyTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "RdsResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "TargetArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrackedClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The writer endpoint for the RDS DB instance or Aurora DB cluster.
         public let endpoint: String?
@@ -3862,16 +3312,6 @@ extension RDS {
     }
 
     public struct DBProxyTargetGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionPoolConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DBProxyName", required: false, type: .string), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "TargetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedDate", required: false, type: .timestamp)
-        ]
 
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public let connectionPoolConfig: ConnectionPoolConfigurationInfo?
@@ -3915,13 +3355,8 @@ extension RDS {
 
     public struct DBSecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroups", required: false, type: .list, encoding: .list(member:"EC2SecurityGroup")), 
-            AWSShapeMember(label: "IPRanges", required: false, type: .list, encoding: .list(member:"IPRange")), 
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+            AWSShapeMember(label: "EC2SecurityGroups", encoding: .list(member:"EC2SecurityGroup")), 
+            AWSShapeMember(label: "IPRanges", encoding: .list(member:"IPRange"))
         ]
 
         /// The Amazon Resource Name (ARN) for the DB security group.
@@ -3961,10 +3396,6 @@ extension RDS {
     }
 
     public struct DBSecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The name of the DB security group.
         public let dBSecurityGroupName: String?
@@ -3984,8 +3415,7 @@ extension RDS {
 
     public struct DBSecurityGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroup"))
         ]
 
         ///  A list of DBSecurityGroup instances. 
@@ -4006,34 +3436,7 @@ extension RDS {
 
     public struct DBSnapshot: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "DBSnapshotArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PercentProgress", required: false, type: .integer), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "SnapshotCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SnapshotType", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceRegion", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature"))
         ]
 
         /// Specifies the allocated storage size in gibibytes (GiB).
@@ -4158,8 +3561,7 @@ extension RDS {
 
     public struct DBSnapshotAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeValues", required: false, type: .list, encoding: .list(member:"AttributeValue"))
+            AWSShapeMember(label: "AttributeValues", encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
@@ -4180,8 +3582,7 @@ extension RDS {
 
     public struct DBSnapshotAttributesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotAttributes", required: false, type: .list, encoding: .list(member:"DBSnapshotAttribute")), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "DBSnapshotAttributes", encoding: .list(member:"DBSnapshotAttribute"))
         ]
 
         /// The list of attributes and values for the manual DB snapshot.
@@ -4202,8 +3603,7 @@ extension RDS {
 
     public struct DBSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshots", required: false, type: .list, encoding: .list(member:"DBSnapshot")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBSnapshots", encoding: .list(member:"DBSnapshot"))
         ]
 
         ///  A list of DBSnapshot instances. 
@@ -4224,12 +3624,7 @@ extension RDS {
 
     public struct DBSubnetGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"Subnet")), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+            AWSShapeMember(label: "Subnets", encoding: .list(member:"Subnet"))
         ]
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
@@ -4266,8 +3661,7 @@ extension RDS {
 
     public struct DBSubnetGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroups", required: false, type: .list, encoding: .list(member:"DBSubnetGroup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBSubnetGroups", encoding: .list(member:"DBSubnetGroup"))
         ]
 
         ///  A list of DBSubnetGroup instances. 
@@ -4287,9 +3681,6 @@ extension RDS {
     }
 
     public struct DeleteCustomAvailabilityZoneMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZoneId", required: true, type: .string)
-        ]
 
         /// The custom AZ identifier.
         public let customAvailabilityZoneId: String
@@ -4304,9 +3695,6 @@ extension RDS {
     }
 
     public struct DeleteCustomAvailabilityZoneResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZone", required: false, type: .structure)
-        ]
 
         public let customAvailabilityZone: CustomAvailabilityZone?
 
@@ -4320,9 +3708,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterEndpointMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
@@ -4337,11 +3722,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
-        ]
 
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String
@@ -4364,9 +3744,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
-        ]
 
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Can't be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
@@ -4381,9 +3758,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -4397,9 +3771,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
@@ -4414,9 +3785,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -4430,9 +3798,6 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceAutomatedBackupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DbiResourceId", required: true, type: .string)
-        ]
 
         /// The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.
         public let dbiResourceId: String
@@ -4447,9 +3812,6 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceAutomatedBackupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceAutomatedBackup", required: false, type: .structure)
-        ]
 
         public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
 
@@ -4463,12 +3825,6 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DeleteAutomatedBackups", required: false, type: .boolean), 
-            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
-        ]
 
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.  
         public let dBInstanceIdentifier: String
@@ -4495,9 +3851,6 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -4511,9 +3864,6 @@ extension RDS {
     }
 
     public struct DeleteDBParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string)
-        ]
 
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Can't be associated with any DB instances  
         public let dBParameterGroupName: String
@@ -4528,9 +3878,6 @@ extension RDS {
     }
 
     public struct DeleteDBProxyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string)
-        ]
 
         /// The name of the DB proxy to delete.
         public let dBProxyName: String
@@ -4545,9 +3892,6 @@ extension RDS {
     }
 
     public struct DeleteDBProxyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxy", required: false, type: .structure)
-        ]
 
         /// The data structure representing the details of the DB proxy that you delete.
         public let dBProxy: DBProxy?
@@ -4562,9 +3906,6 @@ extension RDS {
     }
 
     public struct DeleteDBSecurityGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string)
-        ]
 
         /// The name of the DB security group to delete.  You can't delete the default DB security group.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
         public let dBSecurityGroupName: String
@@ -4579,9 +3920,6 @@ extension RDS {
     }
 
     public struct DeleteDBSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string)
-        ]
 
         /// The DB snapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
         public let dBSnapshotIdentifier: String
@@ -4596,9 +3934,6 @@ extension RDS {
     }
 
     public struct DeleteDBSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
 
         public let dBSnapshot: DBSnapshot?
 
@@ -4612,9 +3947,6 @@ extension RDS {
     }
 
     public struct DeleteDBSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
-        ]
 
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
@@ -4629,9 +3961,6 @@ extension RDS {
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         /// The name of the RDS event notification subscription you want to delete.
         public let subscriptionName: String
@@ -4646,9 +3975,6 @@ extension RDS {
     }
 
     public struct DeleteEventSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -4662,9 +3988,6 @@ extension RDS {
     }
 
     public struct DeleteGlobalClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalClusterIdentifier", required: true, type: .string)
-        ]
 
         ///  The cluster identifier of the global database cluster being deleted. 
         public let globalClusterIdentifier: String
@@ -4679,9 +4002,6 @@ extension RDS {
     }
 
     public struct DeleteGlobalClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalCluster", required: false, type: .structure)
-        ]
 
         public let globalCluster: GlobalCluster?
 
@@ -4695,9 +4015,6 @@ extension RDS {
     }
 
     public struct DeleteInstallationMediaMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstallationMediaId", required: true, type: .string)
-        ]
 
         /// The installation medium ID.
         public let installationMediaId: String
@@ -4712,9 +4029,6 @@ extension RDS {
     }
 
     public struct DeleteOptionGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroupName", required: true, type: .string)
-        ]
 
         /// The name of the option group to be deleted.  You can't delete default option groups. 
         public let optionGroupName: String
@@ -4730,10 +4044,8 @@ extension RDS {
 
     public struct DeregisterDBProxyTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DBInstanceIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+            AWSShapeMember(label: "DBClusterIdentifiers", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBInstanceIdentifiers", encoding: .list(member:"member"))
         ]
 
         /// One or more DB cluster identifiers.
@@ -4778,10 +4090,7 @@ extension RDS {
 
     public struct DescribeCertificatesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must match an existing CertificateIdentifier.  
@@ -4810,10 +4119,7 @@ extension RDS {
 
     public struct DescribeCustomAvailabilityZonesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The custom AZ identifier. If this parameter is specified, information from only the specific custom AZ is returned.
@@ -4842,11 +4148,7 @@ extension RDS {
 
     public struct DescribeDBClusterBacktracksMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BacktrackIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// If specified, this value is the backtrack identifier of the backtrack to be described. Constraints:   Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see A Universally Unique Identifier (UUID) URN Namespace.   Example: 123e4567-e89b-12d3-a456-426655440000 
@@ -4879,11 +4181,7 @@ extension RDS {
 
     public struct DescribeDBClusterEndpointsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
@@ -4916,10 +4214,7 @@ extension RDS {
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -4948,11 +4243,7 @@ extension RDS {
 
     public struct DescribeDBClusterParametersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -4984,9 +4275,6 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
@@ -5001,9 +4289,6 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -5018,14 +4303,7 @@ extension RDS {
 
     public struct DescribeDBClusterSnapshotsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "IncludePublic", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeShared", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotType", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBCluster.  
@@ -5070,11 +4348,7 @@ extension RDS {
 
     public struct DescribeDBClustersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "IncludeShared", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
@@ -5107,16 +4381,7 @@ extension RDS {
 
     public struct DescribeDBEngineVersionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "IncludeAll", required: false, type: .boolean), 
-            AWSShapeMember(label: "ListSupportedCharacterSets", required: false, type: .boolean), 
-            AWSShapeMember(label: "ListSupportedTimezones", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.  
@@ -5169,11 +4434,7 @@ extension RDS {
 
     public struct DescribeDBInstanceAutomatedBackupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance' automated backup. This parameter isn't case-sensitive. 
@@ -5206,10 +4467,7 @@ extension RDS {
 
     public struct DescribeDBInstancesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
@@ -5237,11 +4495,6 @@ extension RDS {
     }
 
     public struct DescribeDBLogFilesDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastWritten", required: false, type: .long), 
-            AWSShapeMember(label: "LogFileName", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .long)
-        ]
 
         /// A POSIX timestamp when the last log entry was written.
         public let lastWritten: Int64?
@@ -5265,13 +4518,7 @@ extension RDS {
 
     public struct DescribeDBLogFilesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FileLastWritten", required: false, type: .long), 
-            AWSShapeMember(label: "FilenameContains", required: false, type: .string), 
-            AWSShapeMember(label: "FileSize", required: false, type: .long), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.  
@@ -5312,8 +4559,7 @@ extension RDS {
 
     public struct DescribeDBLogFilesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DescribeDBLogFiles", required: false, type: .list, encoding: .list(member:"DescribeDBLogFilesDetails")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DescribeDBLogFiles", encoding: .list(member:"DescribeDBLogFilesDetails"))
         ]
 
         /// The DB log files returned.
@@ -5334,10 +4580,7 @@ extension RDS {
 
     public struct DescribeDBParameterGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -5366,11 +4609,7 @@ extension RDS {
 
     public struct DescribeDBParametersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
@@ -5403,10 +4642,7 @@ extension RDS {
 
     public struct DescribeDBProxiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxyName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB proxy.
@@ -5440,8 +4676,7 @@ extension RDS {
 
     public struct DescribeDBProxiesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxies", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "DBProxies", encoding: .list(member:"member"))
         ]
 
         /// A return value representing an arbitrary number of DBProxy data structures.
@@ -5462,11 +4697,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the DBProxy associated with the target group.
@@ -5504,8 +4735,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetGroupsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "TargetGroups", encoding: .list(member:"member"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -5526,11 +4756,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the DBProxyTarget to describe.
@@ -5568,8 +4794,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Targets", encoding: .list(member:"member"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -5590,10 +4815,7 @@ extension RDS {
 
     public struct DescribeDBSecurityGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB security group to return details for.
@@ -5621,9 +4843,6 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotAttributesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier for the DB snapshot to describe the attributes for.
         public let dBSnapshotIdentifier: String
@@ -5638,9 +4857,6 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotAttributesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotAttributesResult", required: false, type: .structure)
-        ]
 
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
@@ -5655,15 +4871,7 @@ extension RDS {
 
     public struct DescribeDBSnapshotsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "IncludePublic", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeShared", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotType", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter can't be used in conjunction with DBSnapshotIdentifier. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBInstance.  
@@ -5712,10 +4920,7 @@ extension RDS {
 
     public struct DescribeDBSubnetGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB subnet group to return details for.
@@ -5744,10 +4949,7 @@ extension RDS {
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB cluster parameter group family to return engine parameter information for.
@@ -5775,9 +4977,6 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
-        ]
 
         public let engineDefaults: EngineDefaults?
 
@@ -5792,10 +4991,7 @@ extension RDS {
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB parameter group family.
@@ -5823,9 +5019,6 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
-        ]
 
         public let engineDefaults: EngineDefaults?
 
@@ -5840,8 +5033,7 @@ extension RDS {
 
     public struct DescribeEventCategoriesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -5862,10 +5054,7 @@ extension RDS {
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SubscriptionName", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -5894,15 +5083,8 @@ extension RDS {
 
     public struct DescribeEventsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "EventCategories", encoding: .list(member:"EventCategory")), 
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The number of minutes to retrieve events for. Default: 60
@@ -5951,11 +5133,7 @@ extension RDS {
 
     public struct DescribeExportTasksMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportTaskIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the snapshot export task to be described.
@@ -5988,10 +5166,7 @@ extension RDS {
 
     public struct DescribeGlobalClustersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "GlobalClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// A filter that specifies one or more global DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
@@ -6020,10 +5195,7 @@ extension RDS {
 
     public struct DescribeInstallationMediaMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "InstallationMediaId", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// A filter that specifies one or more installation media to describe. Supported filters include the following:    custom-availability-zone-id - Accepts custom Availability Zone (AZ) identifiers. The results list includes information about only the custom AZs identified by these identifiers.    engine - Accepts database engines. The results list includes information about only the database engines identified by these identifiers. For more information about the valid engines for installation media, see ImportInstallationMedia.  
@@ -6052,11 +5224,7 @@ extension RDS {
 
     public struct DescribeOptionGroupOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// A required parameter. Options available for the given engine name are described.
@@ -6089,12 +5257,7 @@ extension RDS {
 
     public struct DescribeOptionGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// Filters the list of option groups to only include groups associated with a specific database engine.
@@ -6131,14 +5294,7 @@ extension RDS {
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Vpc", required: false, type: .boolean)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
@@ -6183,10 +5339,7 @@ extension RDS {
 
     public struct DescribePendingMaintenanceActionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
@@ -6215,17 +5368,7 @@ extension RDS {
 
     public struct DescribeReservedDBInstancesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "LeaseId", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The DB instance class filter value. Specify this parameter to show only those reservations matching the specified DB instances class.
@@ -6282,15 +5425,7 @@ extension RDS {
 
     public struct DescribeReservedDBInstancesOfferingsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
@@ -6339,10 +5474,7 @@ extension RDS {
 
     public struct DescribeSourceRegionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "RegionName", required: false, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -6370,9 +5502,6 @@ extension RDS {
     }
 
     public struct DescribeValidDBInstanceModificationsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
 
         /// The customer identifier or the ARN of your DB instance. 
         public let dBInstanceIdentifier: String
@@ -6387,9 +5516,6 @@ extension RDS {
     }
 
     public struct DescribeValidDBInstanceModificationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ValidDBInstanceModificationsMessage", required: false, type: .structure)
-        ]
 
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
 
@@ -6403,12 +5529,6 @@ extension RDS {
     }
 
     public struct DomainMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "FQDN", required: false, type: .string), 
-            AWSShapeMember(label: "IAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The identifier of the Active Directory Domain.
         public let domain: String?
@@ -6435,10 +5555,6 @@ extension RDS {
     }
 
     public struct DoubleRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "From", required: false, type: .double), 
-            AWSShapeMember(label: "To", required: false, type: .double)
-        ]
 
         /// The minimum value in the range.
         public let from: Double?
@@ -6457,11 +5573,6 @@ extension RDS {
     }
 
     public struct DownloadDBLogFilePortionDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalDataPending", required: false, type: .boolean), 
-            AWSShapeMember(label: "LogFileData", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// Boolean value that if true, indicates there is more data to be downloaded.
         public let additionalDataPending: Bool?
@@ -6484,12 +5595,6 @@ extension RDS {
     }
 
     public struct DownloadDBLogFilePortionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "LogFileName", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfLines", required: false, type: .integer)
-        ]
 
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
@@ -6516,12 +5621,6 @@ extension RDS {
     }
 
     public struct EC2SecurityGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// Specifies the id of the EC2 security group.
         public let eC2SecurityGroupId: String?
@@ -6548,11 +5647,6 @@ extension RDS {
     }
 
     public struct Endpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
 
         /// Specifies the DNS address of the DB instance.
         public let address: String?
@@ -6576,9 +5670,7 @@ extension RDS {
 
     public struct EngineDefaults: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
+            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
@@ -6603,12 +5695,7 @@ extension RDS {
 
     public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum)
+            AWSShapeMember(label: "EventCategories", encoding: .list(member:"EventCategory"))
         ]
 
         /// Specifies the date and time of the event.
@@ -6645,8 +5732,7 @@ extension RDS {
 
     public struct EventCategoriesMap: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
+            AWSShapeMember(label: "EventCategories", encoding: .list(member:"EventCategory"))
         ]
 
         /// The event categories for the specified source type
@@ -6667,7 +5753,7 @@ extension RDS {
 
     public struct EventCategoriesMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategoriesMapList", required: false, type: .list, encoding: .list(member:"EventCategoriesMap"))
+            AWSShapeMember(label: "EventCategoriesMapList", encoding: .list(member:"EventCategoriesMap"))
         ]
 
         /// A list of EventCategoriesMap data types.
@@ -6684,16 +5770,8 @@ extension RDS {
 
     public struct EventSubscription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategoriesList", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "EventSubscriptionArn", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdsList", required: false, type: .list, encoding: .list(member:"SourceId")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
+            AWSShapeMember(label: "EventCategoriesList", encoding: .list(member:"EventCategory")), 
+            AWSShapeMember(label: "SourceIdsList", encoding: .list(member:"SourceId"))
         ]
 
         /// The AWS customer account associated with the RDS event notification subscription.
@@ -6746,8 +5824,7 @@ extension RDS {
 
     public struct EventSubscriptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list, encoding: .list(member:"EventSubscription")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "EventSubscriptionsList", encoding: .list(member:"EventSubscription"))
         ]
 
         /// A list of EventSubscriptions data types.
@@ -6768,8 +5845,7 @@ extension RDS {
 
     public struct EventsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", required: false, type: .list, encoding: .list(member:"Event")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "Events", encoding: .list(member:"Event"))
         ]
 
         ///  A list of Event instances. 
@@ -6790,21 +5866,7 @@ extension RDS {
 
     public struct ExportTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportOnly", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ExportTaskIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "FailureCause", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PercentProgress", required: false, type: .integer), 
-            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TaskEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TaskStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TotalExtractedDataInGB", required: false, type: .integer), 
-            AWSShapeMember(label: "WarningMessage", required: false, type: .string)
+            AWSShapeMember(label: "ExportOnly", encoding: .list(member:"member"))
         ]
 
         /// The data exported from the snapshot. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
@@ -6877,8 +5939,7 @@ extension RDS {
 
     public struct ExportTasksMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportTasks", required: false, type: .list, encoding: .list(member:"ExportTask")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "ExportTasks", encoding: .list(member:"ExportTask"))
         ]
 
         /// Information about an export of a snapshot to Amazon S3.
@@ -6898,10 +5959,6 @@ extension RDS {
     }
 
     public struct FailoverDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "TargetDBInstanceIdentifier", required: false, type: .string)
-        ]
 
         /// A DB cluster identifier to force a failover for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String
@@ -6920,9 +5977,6 @@ extension RDS {
     }
 
     public struct FailoverDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -6937,8 +5991,7 @@ extension RDS {
 
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list, encoding: .list(member:"Value"))
+            AWSShapeMember(label: "Values", encoding: .list(member:"Value"))
         ]
 
         /// The name of the filter. Filter names are case-sensitive.
@@ -6959,16 +6012,7 @@ extension RDS {
 
     public struct GlobalCluster: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalClusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalClusterMembers", required: false, type: .list, encoding: .list(member:"GlobalClusterMember")), 
-            AWSShapeMember(label: "GlobalClusterResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean)
+            AWSShapeMember(label: "GlobalClusterMembers", encoding: .list(member:"GlobalClusterMember"))
         ]
 
         ///  The default database name within the new global database cluster. 
@@ -7021,9 +6065,7 @@ extension RDS {
 
     public struct GlobalClusterMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "IsWriter", required: false, type: .boolean), 
-            AWSShapeMember(label: "Readers", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Readers", encoding: .list(member:"member"))
         ]
 
         ///  The Amazon Resource Name (ARN) for each Aurora cluster. 
@@ -7048,8 +6090,7 @@ extension RDS {
 
     public struct GlobalClustersMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalClusters", required: false, type: .list, encoding: .list(member:"GlobalClusterMember")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "GlobalClusters", encoding: .list(member:"GlobalClusterMember"))
         ]
 
         ///  The list of global clusters returned by this request. 
@@ -7069,10 +6110,6 @@ extension RDS {
     }
 
     public struct IPRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// Specifies the IP range.
         public let cidrip: String?
@@ -7091,13 +6128,6 @@ extension RDS {
     }
 
     public struct ImportInstallationMediaMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZoneId", required: true, type: .string), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineInstallationMediaPath", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: true, type: .string), 
-            AWSShapeMember(label: "OSInstallationMediaPath", required: true, type: .string)
-        ]
 
         /// The identifier of the custom Availability Zone (AZ) to import the installation media to.
         public let customAvailabilityZoneId: String
@@ -7128,16 +6158,6 @@ extension RDS {
     }
 
     public struct InstallationMedia: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomAvailabilityZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineInstallationMediaPath", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "FailureCause", required: false, type: .structure), 
-            AWSShapeMember(label: "InstallationMediaId", required: false, type: .string), 
-            AWSShapeMember(label: "OSInstallationMediaPath", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The custom Availability Zone (AZ) that contains the installation media.
         public let customAvailabilityZoneId: String?
@@ -7180,9 +6200,6 @@ extension RDS {
     }
 
     public struct InstallationMediaFailureCause: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// The reason that an installation media import failed.
         public let message: String?
@@ -7198,8 +6215,7 @@ extension RDS {
 
     public struct InstallationMediaMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstallationMedia", required: false, type: .list, encoding: .list(member:"InstallationMedia")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+            AWSShapeMember(label: "InstallationMedia", encoding: .list(member:"InstallationMedia"))
         ]
 
         /// The list of InstallationMedia objects for the AWS account.
@@ -7220,8 +6236,7 @@ extension RDS {
 
     public struct ListTagsForResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "ResourceName", required: true, type: .string)
+            AWSShapeMember(label: "Filters", encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -7241,10 +6256,6 @@ extension RDS {
     }
 
     public struct MinimumEngineVersionPerAllowedValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValue", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string)
-        ]
 
         /// The allowed value for an option setting.
         public let allowedValue: String?
@@ -7263,10 +6274,6 @@ extension RDS {
     }
 
     public struct ModifyCertificatesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "RemoveCustomerOverride", required: false, type: .boolean)
-        ]
 
         /// The new default certificate identifier to override the current one with. To determine the valid values, use the describe-certificates AWS CLI command or the DescribeCertificates API operation.
         public let certificateIdentifier: String?
@@ -7285,9 +6292,6 @@ extension RDS {
     }
 
     public struct ModifyCertificatesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .structure)
-        ]
 
         public let certificate: Certificate?
 
@@ -7301,12 +6305,6 @@ extension RDS {
     }
 
     public struct ModifyCurrentDBClusterCapacityMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .integer), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SecondsBeforeTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutAction", required: false, type: .string)
-        ]
 
         /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless DB cluster, it automatically resumes. Constraints:   For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256.   For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384.  
         public let capacity: Int?
@@ -7334,10 +6332,8 @@ extension RDS {
 
     public struct ModifyDBClusterEndpointMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .string), 
-            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "ExcludedMembers", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", encoding: .list(member:"member"))
         ]
 
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
@@ -7366,27 +6362,7 @@ extension RDS {
 
     public struct ModifyDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "BacktrackWindow", required: false, type: .long), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudwatchLogsExportConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableHttpEndpoint", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "NewDBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
@@ -7483,8 +6459,7 @@ extension RDS {
 
     public struct ModifyDBClusterParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
+            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB cluster parameter group to modify.
@@ -7504,9 +6479,6 @@ extension RDS {
     }
 
     public struct ModifyDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -7521,10 +6493,8 @@ extension RDS {
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ValuesToAdd", required: false, type: .list, encoding: .list(member:"AttributeValue")), 
-            AWSShapeMember(label: "ValuesToRemove", required: false, type: .list, encoding: .list(member:"AttributeValue"))
+            AWSShapeMember(label: "ValuesToAdd", encoding: .list(member:"AttributeValue")), 
+            AWSShapeMember(label: "ValuesToRemove", encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
@@ -7552,9 +6522,6 @@ extension RDS {
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -7569,48 +6536,9 @@ extension RDS {
 
     public struct ModifyDBInstanceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateRotationRestart", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudwatchLogsExportConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBPortNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroupName")), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "NewDBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "UseDefaultProcessorFeatures", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroupName")), 
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The new amount of storage (in gibibytes) to allocate for the DB instance.  For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  For the valid values for allocated storage for each engine, see CreateDBInstance. 
@@ -7790,9 +6718,6 @@ extension RDS {
     }
 
     public struct ModifyDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -7807,8 +6732,7 @@ extension RDS {
 
     public struct ModifyDBParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
+            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
@@ -7829,14 +6753,8 @@ extension RDS {
 
     public struct ModifyDBProxyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Auth", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
-            AWSShapeMember(label: "DebugLogging", required: false, type: .boolean), 
-            AWSShapeMember(label: "IdleClientTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "NewDBProxyName", required: false, type: .string), 
-            AWSShapeMember(label: "RequireTLS", required: false, type: .boolean), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "Auth", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SecurityGroups", encoding: .list(member:"member"))
         ]
 
         /// The new authentication settings for the DBProxy.
@@ -7880,9 +6798,6 @@ extension RDS {
     }
 
     public struct ModifyDBProxyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxy", required: false, type: .structure)
-        ]
 
         /// The DBProxy object representing the new settings for the proxy.
         public let dBProxy: DBProxy?
@@ -7897,12 +6812,6 @@ extension RDS {
     }
 
     public struct ModifyDBProxyTargetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionPoolConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
-            AWSShapeMember(label: "NewName", required: false, type: .string), 
-            AWSShapeMember(label: "TargetGroupName", required: true, type: .string)
-        ]
 
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public let connectionPoolConfig: ConnectionPoolConfiguration?
@@ -7929,9 +6838,6 @@ extension RDS {
     }
 
     public struct ModifyDBProxyTargetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxyTargetGroup", required: false, type: .structure)
-        ]
 
         /// The settings of the modified DBProxyTarget.
         public let dBProxyTargetGroup: DBProxyTargetGroup?
@@ -7947,10 +6853,8 @@ extension RDS {
 
     public struct ModifyDBSnapshotAttributeMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ValuesToAdd", required: false, type: .list, encoding: .list(member:"AttributeValue")), 
-            AWSShapeMember(label: "ValuesToRemove", required: false, type: .list, encoding: .list(member:"AttributeValue"))
+            AWSShapeMember(label: "ValuesToAdd", encoding: .list(member:"AttributeValue")), 
+            AWSShapeMember(label: "ValuesToRemove", encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the DB snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB snapshot, set this value to restore.
@@ -7978,9 +6882,6 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotAttributesResult", required: false, type: .structure)
-        ]
 
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
@@ -7994,11 +6895,6 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string)
-        ]
 
         /// The identifier of the DB snapshot to modify.
         public let dBSnapshotIdentifier: String
@@ -8021,9 +6917,6 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
 
         public let dBSnapshot: DBSnapshot?
 
@@ -8038,9 +6931,7 @@ extension RDS {
 
     public struct ModifyDBSubnetGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier"))
+            AWSShapeMember(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier"))
         ]
 
         /// The description for the DB subnet group.
@@ -8064,9 +6955,6 @@ extension RDS {
     }
 
     public struct ModifyDBSubnetGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
-        ]
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -8081,11 +6969,7 @@ extension RDS {
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
+            AWSShapeMember(label: "EventCategories", encoding: .list(member:"EventCategory"))
         ]
 
         ///  A value that indicates whether to activate the subscription. 
@@ -8117,9 +7001,6 @@ extension RDS {
     }
 
     public struct ModifyEventSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -8133,11 +7014,6 @@ extension RDS {
     }
 
     public struct ModifyGlobalClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "GlobalClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "NewGlobalClusterIdentifier", required: false, type: .string)
-        ]
 
         ///  Indicates if the global database cluster has deletion protection enabled. The global database cluster can't be deleted when deletion protection is enabled. 
         public let deletionProtection: Bool?
@@ -8160,9 +7036,6 @@ extension RDS {
     }
 
     public struct ModifyGlobalClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalCluster", required: false, type: .structure)
-        ]
 
         public let globalCluster: GlobalCluster?
 
@@ -8177,10 +7050,8 @@ extension RDS {
 
     public struct ModifyOptionGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "OptionsToInclude", required: false, type: .list, encoding: .list(member:"OptionConfiguration")), 
-            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "OptionsToInclude", encoding: .list(member:"OptionConfiguration")), 
+            AWSShapeMember(label: "OptionsToRemove", encoding: .list(member:"member"))
         ]
 
         /// A value that indicates whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
@@ -8208,9 +7079,6 @@ extension RDS {
     }
 
     public struct ModifyOptionGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroup", required: false, type: .structure)
-        ]
 
         public let optionGroup: OptionGroup?
 
@@ -8225,15 +7093,9 @@ extension RDS {
 
     public struct Option: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupMemberships", required: false, type: .list, encoding: .list(member:"DBSecurityGroup")), 
-            AWSShapeMember(label: "OptionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "OptionName", required: false, type: .string), 
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list, encoding: .list(member:"OptionSetting")), 
-            AWSShapeMember(label: "OptionVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Permanent", required: false, type: .boolean), 
-            AWSShapeMember(label: "Persistent", required: false, type: .boolean), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcSecurityGroupMemberships", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
+            AWSShapeMember(label: "DBSecurityGroupMemberships", encoding: .list(member:"DBSecurityGroup")), 
+            AWSShapeMember(label: "OptionSettings", encoding: .list(member:"OptionSetting")), 
+            AWSShapeMember(label: "VpcSecurityGroupMemberships", encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         /// If the option requires access to a port, then this DB security group allows access to the port.
@@ -8282,12 +7144,9 @@ extension RDS {
 
     public struct OptionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupMemberships", required: false, type: .list, encoding: .list(member:"DBSecurityGroupName")), 
-            AWSShapeMember(label: "OptionName", required: true, type: .string), 
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list, encoding: .list(member:"OptionSetting")), 
-            AWSShapeMember(label: "OptionVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcSecurityGroupMemberships", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "DBSecurityGroupMemberships", encoding: .list(member:"DBSecurityGroupName")), 
+            AWSShapeMember(label: "OptionSettings", encoding: .list(member:"OptionSetting")), 
+            AWSShapeMember(label: "VpcSecurityGroupMemberships", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A list of DBSecurityGroupMembership name strings used for this option.
@@ -8324,14 +7183,7 @@ extension RDS {
 
     public struct OptionGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowsVpcAndNonVpcInstanceMemberships", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .list, encoding: .list(member:"Option")), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+            AWSShapeMember(label: "Options", encoding: .list(member:"Option"))
         ]
 
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances. 
@@ -8375,10 +7227,6 @@ extension RDS {
     }
 
     public struct OptionGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The name of the option group that the instance belongs to.
         public let optionGroupName: String?
@@ -8398,22 +7246,10 @@ extension RDS {
 
     public struct OptionGroupOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultPort", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumRequiredMinorEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupOptionSettings", required: false, type: .list, encoding: .list(member:"OptionGroupOptionSetting")), 
-            AWSShapeMember(label: "OptionGroupOptionVersions", required: false, type: .list, encoding: .list(member:"OptionVersion")), 
-            AWSShapeMember(label: "OptionsConflictsWith", required: false, type: .list, encoding: .list(member:"OptionConflictName")), 
-            AWSShapeMember(label: "OptionsDependedOn", required: false, type: .list, encoding: .list(member:"OptionName")), 
-            AWSShapeMember(label: "Permanent", required: false, type: .boolean), 
-            AWSShapeMember(label: "Persistent", required: false, type: .boolean), 
-            AWSShapeMember(label: "PortRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequiresAutoMinorEngineVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsOptionVersionDowngrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcOnly", required: false, type: .boolean)
+            AWSShapeMember(label: "OptionGroupOptionSettings", encoding: .list(member:"OptionGroupOptionSetting")), 
+            AWSShapeMember(label: "OptionGroupOptionVersions", encoding: .list(member:"OptionVersion")), 
+            AWSShapeMember(label: "OptionsConflictsWith", encoding: .list(member:"OptionConflictName")), 
+            AWSShapeMember(label: "OptionsDependedOn", encoding: .list(member:"OptionName"))
         ]
 
         /// If the option requires a port, specifies the default port for the option.
@@ -8490,14 +7326,7 @@ extension RDS {
 
     public struct OptionGroupOptionSetting: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "ApplyType", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "IsRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "MinimumEngineVersionPerAllowedValue", required: false, type: .list, encoding: .list(member:"MinimumEngineVersionPerAllowedValue")), 
-            AWSShapeMember(label: "SettingDescription", required: false, type: .string), 
-            AWSShapeMember(label: "SettingName", required: false, type: .string)
+            AWSShapeMember(label: "MinimumEngineVersionPerAllowedValue", encoding: .list(member:"MinimumEngineVersionPerAllowedValue"))
         ]
 
         /// Indicates the acceptable values for the option group option.
@@ -8542,8 +7371,7 @@ extension RDS {
 
     public struct OptionGroupOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupOptions", required: false, type: .list, encoding: .list(member:"OptionGroupOption"))
+            AWSShapeMember(label: "OptionGroupOptions", encoding: .list(member:"OptionGroupOption"))
         ]
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8563,8 +7391,7 @@ extension RDS {
 
     public struct OptionGroups: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupsList", required: false, type: .list, encoding: .list(member:"OptionGroup"))
+            AWSShapeMember(label: "OptionGroupsList", encoding: .list(member:"OptionGroup"))
         ]
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -8584,17 +7411,6 @@ extension RDS {
     }
 
     public struct OptionSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "ApplyType", required: false, type: .string), 
-            AWSShapeMember(label: "DataType", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsCollection", required: false, type: .boolean), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The allowed values of the option setting.
         public let allowedValues: String?
@@ -8641,10 +7457,6 @@ extension RDS {
     }
 
     public struct OptionVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
 
         /// True if the version is the default version of the option, and otherwise false.
         public let isDefault: Bool?
@@ -8664,30 +7476,9 @@ extension RDS {
 
     public struct OrderableDBInstanceOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "AvailableProcessorFeatures", required: false, type: .list, encoding: .list(member:"AvailableProcessorFeature")), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MaxIopsPerDbInstance", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxIopsPerGib", required: false, type: .double), 
-            AWSShapeMember(label: "MaxStorageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MinIopsPerDbInstance", required: false, type: .integer), 
-            AWSShapeMember(label: "MinIopsPerGib", required: false, type: .double), 
-            AWSShapeMember(label: "MinStorageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MultiAZCapable", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReadReplicaCapable", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "SupportedEngineModes", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "SupportsEnhancedMonitoring", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsIops", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsKerberosAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsPerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsStorageAutoscaling", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsStorageEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "Vpc", required: false, type: .boolean)
+            AWSShapeMember(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
+            AWSShapeMember(label: "AvailableProcessorFeatures", encoding: .list(member:"AvailableProcessorFeature")), 
+            AWSShapeMember(label: "SupportedEngineModes", encoding: .list(member:"member"))
         ]
 
         /// A list of Availability Zones for a DB instance.
@@ -8796,8 +7587,7 @@ extension RDS {
 
     public struct OrderableDBInstanceOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "OrderableDBInstanceOptions", required: false, type: .list, encoding: .list(member:"OrderableDBInstanceOption"))
+            AWSShapeMember(label: "OrderableDBInstanceOptions", encoding: .list(member:"OrderableDBInstanceOption"))
         ]
 
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
@@ -8818,17 +7608,7 @@ extension RDS {
 
     public struct Parameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "ApplyMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "ApplyType", required: false, type: .string), 
-            AWSShapeMember(label: "DataType", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "SupportedEngineModes", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "SupportedEngineModes", encoding: .list(member:"member"))
         ]
 
         /// Specifies the valid range of values for the parameter.
@@ -8885,8 +7665,8 @@ extension RDS {
 
     public struct PendingCloudwatchLogsExports: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogTypesToDisable", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "LogTypesToEnable", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "LogTypesToDisable", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "LogTypesToEnable", encoding: .list(member:"member"))
         ]
 
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
@@ -8906,14 +7686,6 @@ extension RDS {
     }
 
     public struct PendingMaintenanceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .string), 
-            AWSShapeMember(label: "AutoAppliedAfterDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CurrentApplyDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ForcedApplyDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OptInStatus", required: false, type: .string)
-        ]
 
         /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, hardware-maintenance, and ca-certificate-rotation.
         public let action: String?
@@ -8949,8 +7721,7 @@ extension RDS {
 
     public struct PendingMaintenanceActionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .list, encoding: .list(member:"ResourcePendingMaintenanceActions"))
+            AWSShapeMember(label: "PendingMaintenanceActions", encoding: .list(member:"ResourcePendingMaintenanceActions"))
         ]
 
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
@@ -8971,21 +7742,7 @@ extension RDS {
 
     public struct PendingModifiedValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PendingCloudwatchLogsExports", required: false, type: .structure), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string)
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature"))
         ]
 
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied. 
@@ -9056,10 +7813,6 @@ extension RDS {
     }
 
     public struct ProcessorFeature: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The name of the processor feature. Valid names are coreCount and threadsPerCore.
         public let name: String?
@@ -9078,9 +7831,6 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier of the DB cluster Read Replica to promote. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of an existing DBCluster Read Replica.   Example: my-cluster-replica1 
         public let dBClusterIdentifier: String
@@ -9095,9 +7845,6 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -9111,11 +7858,6 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string)
-        ]
 
         /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35.   Can't be set to 0 if the DB instance is a source to Read Replicas.  
         public let backupRetentionPeriod: Int?
@@ -9138,9 +7880,6 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -9155,10 +7894,7 @@ extension RDS {
 
     public struct PurchaseReservedDBInstancesOfferingMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The number of instances to reserve. Default: 1 
@@ -9185,9 +7921,6 @@ extension RDS {
     }
 
     public struct PurchaseReservedDBInstancesOfferingResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedDBInstance", required: false, type: .structure)
-        ]
 
         public let reservedDBInstance: ReservedDBInstance?
 
@@ -9201,11 +7934,6 @@ extension RDS {
     }
 
     public struct Range: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "From", required: false, type: .integer), 
-            AWSShapeMember(label: "Step", required: false, type: .integer), 
-            AWSShapeMember(label: "To", required: false, type: .integer)
-        ]
 
         /// The minimum value in the range.
         public let from: Int?
@@ -9228,10 +7956,6 @@ extension RDS {
     }
 
     public struct RebootDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
-        ]
 
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
@@ -9250,9 +7974,6 @@ extension RDS {
     }
 
     public struct RebootDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -9266,10 +7987,6 @@ extension RDS {
     }
 
     public struct RecurringCharge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
-            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
-        ]
 
         /// The amount of the recurring charge.
         public let recurringChargeAmount: Double?
@@ -9289,10 +8006,8 @@ extension RDS {
 
     public struct RegisterDBProxyTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DBInstanceIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+            AWSShapeMember(label: "DBClusterIdentifiers", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBInstanceIdentifiers", encoding: .list(member:"member"))
         ]
 
         /// One or more DB cluster identifiers.
@@ -9321,7 +8036,7 @@ extension RDS {
 
     public struct RegisterDBProxyTargetsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBProxyTargets", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "DBProxyTargets", encoding: .list(member:"member"))
         ]
 
         /// One or more DBProxyTarget objects that are created when you register targets with a target group.
@@ -9337,10 +8052,6 @@ extension RDS {
     }
 
     public struct RemoveFromGlobalClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DbClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalClusterIdentifier", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) identifying the cluster that was detached from the Aurora global database cluster. 
         public let dbClusterIdentifier: String?
@@ -9359,9 +8070,6 @@ extension RDS {
     }
 
     public struct RemoveFromGlobalClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalCluster", required: false, type: .structure)
-        ]
 
         public let globalCluster: GlobalCluster?
 
@@ -9375,11 +8083,6 @@ extension RDS {
     }
 
     public struct RemoveRoleFromDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The name of the DB cluster to disassociate the IAM role from.
         public let dBClusterIdentifier: String
@@ -9402,11 +8105,6 @@ extension RDS {
     }
 
     public struct RemoveRoleFromDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FeatureName", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The name of the DB instance to disassociate the IAM role from.
         public let dBInstanceIdentifier: String
@@ -9429,10 +8127,6 @@ extension RDS {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group. 
         public let sourceIdentifier: String
@@ -9451,9 +8145,6 @@ extension RDS {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -9468,8 +8159,7 @@ extension RDS {
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "TagKeys", encoding: .list(member:"member"))
         ]
 
         /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide. 
@@ -9490,22 +8180,7 @@ extension RDS {
 
     public struct ReservedDBInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeMember(label: "LeaseId", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .list, encoding: .list(member:"RecurringCharge")), 
-            AWSShapeMember(label: "ReservedDBInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double)
+            AWSShapeMember(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
         ]
 
         /// The currency code for the reserved DB instance.
@@ -9582,8 +8257,7 @@ extension RDS {
 
     public struct ReservedDBInstanceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstances", required: false, type: .list, encoding: .list(member:"ReservedDBInstance"))
+            AWSShapeMember(label: "ReservedDBInstances", encoding: .list(member:"ReservedDBInstance"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -9604,16 +8278,7 @@ extension RDS {
 
     public struct ReservedDBInstancesOffering: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .list, encoding: .list(member:"RecurringCharge")), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double)
+            AWSShapeMember(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
         ]
 
         /// The currency code for the reserved DB instance offering.
@@ -9666,8 +8331,7 @@ extension RDS {
 
     public struct ReservedDBInstancesOfferingMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferings", required: false, type: .list, encoding: .list(member:"ReservedDBInstancesOffering"))
+            AWSShapeMember(label: "ReservedDBInstancesOfferings", encoding: .list(member:"ReservedDBInstancesOffering"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -9688,9 +8352,7 @@ extension RDS {
 
     public struct ResetDBClusterParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
-            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
+            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB cluster parameter group to reset.
@@ -9715,9 +8377,7 @@ extension RDS {
 
     public struct ResetDBParameterGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
-            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
+            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
@@ -9742,8 +8402,7 @@ extension RDS {
 
     public struct ResourcePendingMaintenanceActions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .list, encoding: .list(member:"PendingMaintenanceAction")), 
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "PendingMaintenanceActionDetails", encoding: .list(member:"PendingMaintenanceAction"))
         ]
 
         /// A list that provides details about the pending maintenance actions for the resource.
@@ -9764,35 +8423,10 @@ extension RDS {
 
     public struct RestoreDBClusterFromS3Message: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "BacktrackWindow", required: false, type: .long), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: true, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: true, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "S3IngestionRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEngine", required: true, type: .string), 
-            AWSShapeMember(label: "SourceEngineVersion", required: true, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
@@ -9919,9 +8553,6 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromS3Result: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -9936,26 +8567,10 @@ extension RDS {
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "BacktrackWindow", required: false, type: .long), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineMode", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ScalingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// Provides the list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
@@ -10047,9 +8662,6 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -10064,23 +8676,9 @@ extension RDS {
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BacktrackWindow", required: false, type: .long), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "RestoreToTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RestoreType", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
@@ -10159,9 +8757,6 @@ extension RDS {
     }
 
     public struct RestoreDBClusterToPointInTimeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -10176,34 +8771,10 @@ extension RDS {
 
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "UseDefaultProcessorFeatures", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
@@ -10326,9 +8897,6 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromDBSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -10343,49 +8911,11 @@ extension RDS {
 
     public struct RestoreDBInstanceFromS3Message: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceClass", required: true, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroupName")), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "S3IngestionRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEngine", required: true, type: .string), 
-            AWSShapeMember(label: "SourceEngineVersion", required: true, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "UseDefaultProcessorFeatures", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroupName")), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.   Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.  
@@ -10569,9 +9099,6 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromS3Result: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -10586,37 +9113,10 @@ extension RDS {
 
     public struct RestoreDBInstanceToPointInTimeMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ProcessorFeatures", required: false, type: .list, encoding: .list(member:"ProcessorFeature")), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "RestoreTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceDBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "UseDefaultProcessorFeatures", required: false, type: .boolean), 
-            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
+            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
@@ -10751,9 +9251,6 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceToPointInTimeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -10767,10 +9264,6 @@ extension RDS {
     }
 
     public struct RestoreWindow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EarliestTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestTime", required: false, type: .timestamp)
-        ]
 
         /// The earliest time you can restore an instance to.
         public let earliestTime: TimeStamp?
@@ -10789,13 +9282,6 @@ extension RDS {
     }
 
     public struct RevokeDBSecurityGroupIngressMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string)
-        ]
 
         ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId can't be provided. 
         public let cidrip: String?
@@ -10826,9 +9312,6 @@ extension RDS {
     }
 
     public struct RevokeDBSecurityGroupIngressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
-        ]
 
         public let dBSecurityGroup: DBSecurityGroup?
 
@@ -10842,13 +9325,6 @@ extension RDS {
     }
 
     public struct ScalingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoPause", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "MinCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "SecondsUntilAutoPause", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutAction", required: false, type: .string)
-        ]
 
         /// A value that indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections).  If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it.  
         public let autoPause: Bool?
@@ -10879,13 +9355,6 @@ extension RDS {
     }
 
     public struct ScalingConfigurationInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoPause", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "MinCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "SecondsUntilAutoPause", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutAction", required: false, type: .string)
-        ]
 
         /// A value that indicates whether automatic pause is allowed for the Aurora DB cluster in serverless DB engine mode. When the value is set to false for an Aurora Serverless DB cluster, the DB cluster automatically resumes.
         public let autoPause: Bool?
@@ -10916,11 +9385,6 @@ extension RDS {
     }
 
     public struct SourceRegion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "RegionName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The endpoint for the source AWS Region endpoint.
         public let endpoint: String?
@@ -10944,8 +9408,7 @@ extension RDS {
 
     public struct SourceRegionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "SourceRegions", required: false, type: .list, encoding: .list(member:"SourceRegion"))
+            AWSShapeMember(label: "SourceRegions", encoding: .list(member:"SourceRegion"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -10965,12 +9428,6 @@ extension RDS {
     }
 
     public struct StartActivityStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "Mode", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
@@ -10997,13 +9454,6 @@ extension RDS {
     }
 
     public struct StartActivityStreamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "KinesisStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Mode", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// Indicates whether or not the database activity stream will start as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
@@ -11034,9 +9484,6 @@ extension RDS {
     }
 
     public struct StartDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
-        ]
 
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be started. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
@@ -11051,9 +9498,6 @@ extension RDS {
     }
 
     public struct StartDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -11067,9 +9511,6 @@ extension RDS {
     }
 
     public struct StartDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
 
         ///  The user-supplied instance identifier. 
         public let dBInstanceIdentifier: String
@@ -11084,9 +9525,6 @@ extension RDS {
     }
 
     public struct StartDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -11101,13 +9539,7 @@ extension RDS {
 
     public struct StartExportTaskMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportOnly", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ExportTaskIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: true, type: .string)
+            AWSShapeMember(label: "ExportOnly", encoding: .list(member:"member"))
         ]
 
         /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
@@ -11147,10 +9579,6 @@ extension RDS {
     }
 
     public struct StopActivityStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// Specifies whether or not the database activity stream is to stop as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
@@ -11169,11 +9597,6 @@ extension RDS {
     }
 
     public struct StopActivityStreamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KinesisStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
         public let kinesisStreamName: String?
@@ -11196,9 +9619,6 @@ extension RDS {
     }
 
     public struct StopDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
-        ]
 
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be stopped. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
@@ -11213,9 +9633,6 @@ extension RDS {
     }
 
     public struct StopDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -11229,10 +9646,6 @@ extension RDS {
     }
 
     public struct StopDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: false, type: .string)
-        ]
 
         ///  The user-supplied instance identifier. 
         public let dBInstanceIdentifier: String
@@ -11251,9 +9664,6 @@ extension RDS {
     }
 
     public struct StopDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -11267,11 +9677,6 @@ extension RDS {
     }
 
     public struct Subnet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
-        ]
 
         public let subnetAvailabilityZone: AvailabilityZone?
         /// Specifies the identifier of the subnet.
@@ -11293,10 +9698,6 @@ extension RDS {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
@@ -11316,7 +9717,7 @@ extension RDS {
 
     public struct TagListMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag"))
+            AWSShapeMember(label: "TagList", encoding: .list(member:"Tag"))
         ]
 
         /// List of tags returned by the ListTagsForResource operation.
@@ -11332,9 +9733,6 @@ extension RDS {
     }
 
     public struct Timezone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimezoneName", required: false, type: .string)
-        ]
 
         /// The name of the time zone.
         public let timezoneName: String?
@@ -11349,13 +9747,6 @@ extension RDS {
     }
 
     public struct UpgradeTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "IsMajorVersionUpgrade", required: false, type: .boolean)
-        ]
 
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
@@ -11386,13 +9777,6 @@ extension RDS {
     }
 
     public struct UserAuthConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthScheme", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IAMAuth", required: false, type: .enum), 
-            AWSShapeMember(label: "SecretArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
@@ -11423,13 +9807,6 @@ extension RDS {
     }
 
     public struct UserAuthConfigInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthScheme", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IAMAuth", required: false, type: .enum), 
-            AWSShapeMember(label: "SecretArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
@@ -11461,8 +9838,8 @@ extension RDS {
 
     public struct ValidDBInstanceModificationsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Storage", required: false, type: .list, encoding: .list(member:"ValidStorageOptions")), 
-            AWSShapeMember(label: "ValidProcessorFeatures", required: false, type: .list, encoding: .list(member:"AvailableProcessorFeature"))
+            AWSShapeMember(label: "Storage", encoding: .list(member:"ValidStorageOptions")), 
+            AWSShapeMember(label: "ValidProcessorFeatures", encoding: .list(member:"AvailableProcessorFeature"))
         ]
 
         /// Valid storage options for your DB instance. 
@@ -11483,11 +9860,9 @@ extension RDS {
 
     public struct ValidStorageOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IopsToStorageRatio", required: false, type: .list, encoding: .list(member:"DoubleRange")), 
-            AWSShapeMember(label: "ProvisionedIops", required: false, type: .list, encoding: .list(member:"Range")), 
-            AWSShapeMember(label: "StorageSize", required: false, type: .list, encoding: .list(member:"Range")), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "SupportsStorageAutoscaling", required: false, type: .boolean)
+            AWSShapeMember(label: "IopsToStorageRatio", encoding: .list(member:"DoubleRange")), 
+            AWSShapeMember(label: "ProvisionedIops", encoding: .list(member:"Range")), 
+            AWSShapeMember(label: "StorageSize", encoding: .list(member:"Range"))
         ]
 
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage. 
@@ -11519,10 +9894,6 @@ extension RDS {
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
-        ]
 
         /// The status of the VPC security group.
         public let status: String?
@@ -11541,14 +9912,6 @@ extension RDS {
     }
 
     public struct VpnDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpnGatewayIp", required: false, type: .string), 
-            AWSShapeMember(label: "VpnId", required: false, type: .string), 
-            AWSShapeMember(label: "VpnName", required: false, type: .string), 
-            AWSShapeMember(label: "VpnPSK", required: false, type: .string), 
-            AWSShapeMember(label: "VpnState", required: false, type: .string), 
-            AWSShapeMember(label: "VpnTunnelOriginatorIP", required: false, type: .string)
-        ]
 
         /// The IP address of network traffic from AWS to your on-premises data center.
         public let vpnGatewayIp: String?

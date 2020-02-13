@@ -141,9 +141,6 @@ extension RoboMaker {
     //MARK: Shapes
 
     public struct BatchDescribeSimulationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: true, type: .list)
-        ]
 
         /// A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
         public let jobs: [String]
@@ -168,10 +165,6 @@ extension RoboMaker {
     }
 
     public struct BatchDescribeSimulationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list), 
-            AWSShapeMember(label: "unprocessedJobs", required: false, type: .list)
-        ]
 
         /// A list of simulation jobs.
         public let jobs: [SimulationJob]?
@@ -190,9 +183,6 @@ extension RoboMaker {
     }
 
     public struct CancelDeploymentJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .string)
-        ]
 
         /// The deployment job ARN to cancel.
         public let job: String
@@ -221,9 +211,6 @@ extension RoboMaker {
     }
 
     public struct CancelSimulationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .string)
-        ]
 
         /// The simulation job ARN to cancel.
         public let job: String
@@ -252,13 +239,6 @@ extension RoboMaker {
     }
 
     public struct CreateDeploymentJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: true, type: .list), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "fleet", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
@@ -312,17 +292,6 @@ extension RoboMaker {
     }
 
     public struct CreateDeploymentJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -369,10 +338,6 @@ extension RoboMaker {
     }
 
     public struct CreateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The name of the fleet.
         public let name: String
@@ -405,12 +370,6 @@ extension RoboMaker {
     }
 
     public struct CreateFleetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -437,12 +396,6 @@ extension RoboMaker {
     }
 
     public struct CreateRobotApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "sources", required: true, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The name of the robot application.
         public let name: String
@@ -486,16 +439,6 @@ extension RoboMaker {
     }
 
     public struct CreateRobotApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
@@ -538,10 +481,6 @@ extension RoboMaker {
     }
 
     public struct CreateRobotApplicationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "currentRevisionId", required: false, type: .string)
-        ]
 
         /// The application information for the robot application.
         public let application: String
@@ -569,15 +508,6 @@ extension RoboMaker {
     }
 
     public struct CreateRobotApplicationVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
@@ -616,12 +546,6 @@ extension RoboMaker {
     }
 
     public struct CreateRobotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: true, type: .enum), 
-            AWSShapeMember(label: "greengrassGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The target architecture of the robot.
         public let architecture: Architecture
@@ -665,14 +589,6 @@ extension RoboMaker {
     }
 
     public struct CreateRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The target architecture of the robot.
         public let architecture: Architecture?
@@ -707,14 +623,6 @@ extension RoboMaker {
     }
 
     public struct CreateSimulationApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "sources", required: true, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The name of the simulation application.
         public let name: String
@@ -768,18 +676,6 @@ extension RoboMaker {
     }
 
     public struct CreateSimulationApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
@@ -830,10 +726,6 @@ extension RoboMaker {
     }
 
     public struct CreateSimulationApplicationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "currentRevisionId", required: false, type: .string)
-        ]
 
         /// The application information for the simulation application.
         public let application: String
@@ -861,17 +753,6 @@ extension RoboMaker {
     }
 
     public struct CreateSimulationApplicationVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
@@ -918,19 +799,6 @@ extension RoboMaker {
     }
 
     public struct CreateSimulationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "dataSources", required: false, type: .list), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "iamRole", required: true, type: .string), 
-            AWSShapeMember(label: "loggingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "maxJobDurationInSeconds", required: true, type: .long), 
-            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
@@ -1019,25 +887,6 @@ extension RoboMaker {
     }
 
     public struct CreateSimulationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "dataSources", required: false, type: .list), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "iamRole", required: false, type: .string), 
-            AWSShapeMember(label: "lastStartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "loggingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
-            AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -1116,11 +965,6 @@ extension RoboMaker {
     }
 
     public struct DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "s3Keys", required: false, type: .list)
-        ]
 
         /// The name of the data source.
         public let name: String?
@@ -1143,11 +987,6 @@ extension RoboMaker {
     }
 
     public struct DataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "s3Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "s3Keys", required: true, type: .list)
-        ]
 
         /// The name of the data source.
         public let name: String
@@ -1186,9 +1025,6 @@ extension RoboMaker {
     }
 
     public struct DeleteFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -1217,10 +1053,6 @@ extension RoboMaker {
     }
 
     public struct DeleteRobotApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the the robot application.
         public let application: String
@@ -1256,9 +1088,6 @@ extension RoboMaker {
     }
 
     public struct DeleteRobotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robot", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String
@@ -1287,10 +1116,6 @@ extension RoboMaker {
     }
 
     public struct DeleteSimulationApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
-        ]
 
         /// The application information for the simulation application to delete.
         public let application: String
@@ -1326,11 +1151,6 @@ extension RoboMaker {
     }
 
     public struct DeploymentApplicationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: true, type: .string), 
-            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
@@ -1363,12 +1183,6 @@ extension RoboMaker {
     }
 
     public struct DeploymentConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "concurrentDeploymentPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "downloadConditionFile", required: false, type: .structure), 
-            AWSShapeMember(label: "failureThresholdPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "robotDeploymentTimeoutInSeconds", required: false, type: .long)
-        ]
 
         /// The percentage of robots receiving the deployment at the same time.
         public let concurrentDeploymentPercentage: Int?
@@ -1403,16 +1217,6 @@ extension RoboMaker {
     }
 
     public struct DeploymentJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -1455,13 +1259,6 @@ extension RoboMaker {
     }
 
     public struct DeploymentLaunchConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "launchFile", required: true, type: .string), 
-            AWSShapeMember(label: "packageName", required: true, type: .string), 
-            AWSShapeMember(label: "postLaunchFile", required: false, type: .string), 
-            AWSShapeMember(label: "preLaunchFile", required: false, type: .string)
-        ]
 
         /// An array of key/value pairs specifying environment variables for the robot application
         public let environmentVariables: [String: String]?
@@ -1515,10 +1312,6 @@ extension RoboMaker {
     }
 
     public struct DeregisterRobotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: true, type: .string), 
-            AWSShapeMember(label: "robot", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -1546,10 +1339,6 @@ extension RoboMaker {
     }
 
     public struct DeregisterRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "robot", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String?
@@ -1568,9 +1357,6 @@ extension RoboMaker {
     }
 
     public struct DescribeDeploymentJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let job: String
@@ -1591,18 +1377,6 @@ extension RoboMaker {
     }
 
     public struct DescribeDeploymentJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "robotDeploymentSummary", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -1653,9 +1427,6 @@ extension RoboMaker {
     }
 
     public struct DescribeFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -1676,16 +1447,6 @@ extension RoboMaker {
     }
 
     public struct DescribeFleetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "robots", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -1728,10 +1489,6 @@ extension RoboMaker {
     }
 
     public struct DescribeRobotApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
@@ -1759,16 +1516,6 @@ extension RoboMaker {
     }
 
     public struct DescribeRobotApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
@@ -1811,9 +1558,6 @@ extension RoboMaker {
     }
 
     public struct DescribeRobotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "robot", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot to be described.
         public let robot: String
@@ -1834,18 +1578,6 @@ extension RoboMaker {
     }
 
     public struct DescribeRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fleetArn", required: false, type: .string), 
-            AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The target architecture of the robot application.
         public let architecture: Architecture?
@@ -1896,10 +1628,6 @@ extension RoboMaker {
     }
 
     public struct DescribeSimulationApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string)
-        ]
 
         /// The application information for the simulation application.
         public let application: String
@@ -1927,18 +1655,6 @@ extension RoboMaker {
     }
 
     public struct DescribeSimulationApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot simulation application.
         public let arn: String?
@@ -1989,9 +1705,6 @@ extension RoboMaker {
     }
 
     public struct DescribeSimulationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation job to be described.
         public let job: String
@@ -2012,28 +1725,6 @@ extension RoboMaker {
     }
 
     public struct DescribeSimulationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "dataSources", required: false, type: .list), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "iamRole", required: false, type: .string), 
-            AWSShapeMember(label: "lastStartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "loggingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "networkInterface", required: false, type: .structure), 
-            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
-            AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -2124,10 +1815,6 @@ extension RoboMaker {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The name of the filter.
         public let name: String?
@@ -2159,14 +1846,6 @@ extension RoboMaker {
     }
 
     public struct Fleet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -2201,12 +1880,6 @@ extension RoboMaker {
     }
 
     public struct LaunchConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "launchFile", required: true, type: .string), 
-            AWSShapeMember(label: "packageName", required: true, type: .string), 
-            AWSShapeMember(label: "portForwardingConfig", required: false, type: .structure)
-        ]
 
         /// The environment variables for the application launch.
         public let environmentVariables: [String: String]?
@@ -2251,11 +1924,6 @@ extension RoboMaker {
     }
 
     public struct ListDeploymentJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
         public let filters: [Filter]?
@@ -2289,10 +1957,6 @@ extension RoboMaker {
     }
 
     public struct ListDeploymentJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentJobs", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of deployment jobs that meet the criteria of the request.
         public let deploymentJobs: [DeploymentJob]?
@@ -2311,11 +1975,6 @@ extension RoboMaker {
     }
 
     public struct ListFleetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
@@ -2349,10 +2008,6 @@ extension RoboMaker {
     }
 
     public struct ListFleetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleetDetails", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of fleet details meeting the request criteria.
         public let fleetDetails: [Fleet]?
@@ -2371,12 +2026,6 @@ extension RoboMaker {
     }
 
     public struct ListRobotApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "versionQualifier", required: false, type: .string)
-        ]
 
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
@@ -2415,10 +2064,6 @@ extension RoboMaker {
     }
 
     public struct ListRobotApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "robotApplicationSummaries", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListRobotApplications request. When the results of a ListRobotApplications request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2437,11 +2082,6 @@ extension RoboMaker {
     }
 
     public struct ListRobotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
         public let filters: [Filter]?
@@ -2475,10 +2115,6 @@ extension RoboMaker {
     }
 
     public struct ListRobotsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "robots", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListRobots request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2497,12 +2133,6 @@ extension RoboMaker {
     }
 
     public struct ListSimulationApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "versionQualifier", required: false, type: .string)
-        ]
 
         /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
@@ -2541,10 +2171,6 @@ extension RoboMaker {
     }
 
     public struct ListSimulationApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "simulationApplicationSummaries", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListSimulationApplications request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2563,11 +2189,6 @@ extension RoboMaker {
     }
 
     public struct ListSimulationJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
         public let filters: [Filter]?
@@ -2601,10 +2222,6 @@ extension RoboMaker {
     }
 
     public struct ListSimulationJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "simulationJobSummaries", required: true, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListSimulationJobs request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2624,7 +2241,7 @@ extension RoboMaker {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
@@ -2646,9 +2263,6 @@ extension RoboMaker {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The list of all tags added to the specified resource.
         public let tags: [String: String]?
@@ -2663,9 +2277,6 @@ extension RoboMaker {
     }
 
     public struct LoggingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "recordAllRosTopics", required: true, type: .boolean)
-        ]
 
         /// A boolean indicating whether to record all ROS topics.
         public let recordAllRosTopics: Bool
@@ -2680,11 +2291,6 @@ extension RoboMaker {
     }
 
     public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "privateIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "publicIpAddress", required: false, type: .string)
-        ]
 
         /// The ID of the network interface.
         public let networkInterfaceId: String?
@@ -2707,10 +2313,6 @@ extension RoboMaker {
     }
 
     public struct OutputLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "s3Prefix", required: false, type: .string)
-        ]
 
         /// The S3 bucket for output.
         public let s3Bucket: String?
@@ -2738,9 +2340,6 @@ extension RoboMaker {
     }
 
     public struct PortForwardingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "portMappings", required: false, type: .list)
-        ]
 
         /// The port mappings for the configuration.
         public let portMappings: [PortMapping]?
@@ -2763,11 +2362,6 @@ extension RoboMaker {
     }
 
     public struct PortMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationPort", required: true, type: .integer), 
-            AWSShapeMember(label: "enableOnPublicIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "jobPort", required: true, type: .integer)
-        ]
 
         /// The port number on the application.
         public let applicationPort: Int
@@ -2797,12 +2391,6 @@ extension RoboMaker {
     }
 
     public struct ProgressDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currentProgress", required: false, type: .enum), 
-            AWSShapeMember(label: "estimatedTimeRemainingSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "percentDone", required: false, type: .float), 
-            AWSShapeMember(label: "targetResource", required: false, type: .string)
-        ]
 
         /// The current progress status.  Validating  Validating the deployment.  DownloadingExtracting  Downloading and extracting the bundle on the robot.  ExecutingPreLaunch  Executing pre-launch script(s) if provided.  Launching  Launching the robot application.  ExecutingPostLaunch  Executing post-launch script(s) if provided.  Finished  Deployment is complete.  
         public let currentProgress: RobotDeploymentStep?
@@ -2829,10 +2417,6 @@ extension RoboMaker {
     }
 
     public struct RegisterRobotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: true, type: .string), 
-            AWSShapeMember(label: "robot", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -2860,10 +2444,6 @@ extension RoboMaker {
     }
 
     public struct RegisterRobotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "robot", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
         public let fleet: String?
@@ -2882,10 +2462,6 @@ extension RoboMaker {
     }
 
     public struct RenderingEngine: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The name of the rendering engine.
         public let name: RenderingEngineType?
@@ -2908,9 +2484,6 @@ extension RoboMaker {
     }
 
     public struct RestartSimulationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let job: String
@@ -2939,17 +2512,6 @@ extension RoboMaker {
     }
 
     public struct Robot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fleetArn", required: false, type: .string), 
-            AWSShapeMember(label: "greenGrassGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The architecture of the robot.
         public let architecture: Architecture?
@@ -2996,11 +2558,6 @@ extension RoboMaker {
     }
 
     public struct RobotApplicationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
-        ]
 
         /// The application information for the robot application.
         public let application: String
@@ -3033,13 +2590,6 @@ extension RoboMaker {
     }
 
     public struct RobotApplicationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
@@ -3070,15 +2620,6 @@ extension RoboMaker {
     }
 
     public struct RobotDeployment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentFinishTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deploymentStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "progressDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The robot deployment Amazon Resource Name (ARN).
         public let arn: String?
@@ -3117,10 +2658,6 @@ extension RoboMaker {
     }
 
     public struct RobotSoftwareSuite: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .enum)
-        ]
 
         /// The name of the robot software suite.
         public let name: RobotSoftwareSuiteType?
@@ -3139,10 +2676,6 @@ extension RoboMaker {
     }
 
     public struct S3KeyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "etag", required: false, type: .string), 
-            AWSShapeMember(label: "s3Key", required: false, type: .string)
-        ]
 
         /// The etag for the object.
         public let etag: String?
@@ -3161,11 +2694,6 @@ extension RoboMaker {
     }
 
     public struct S3Object: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: true, type: .string), 
-            AWSShapeMember(label: "etag", required: false, type: .string), 
-            AWSShapeMember(label: "key", required: true, type: .string)
-        ]
 
         /// The bucket containing the object.
         public let bucket: String
@@ -3197,11 +2725,6 @@ extension RoboMaker {
     }
 
     public struct SimulationApplicationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "applicationVersion", required: false, type: .string), 
-            AWSShapeMember(label: "launchConfig", required: true, type: .structure)
-        ]
 
         /// The application information for the simulation application.
         public let application: String
@@ -3234,14 +2757,6 @@ extension RoboMaker {
     }
 
     public struct SimulationApplicationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
@@ -3276,28 +2791,6 @@ extension RoboMaker {
     }
 
     public struct SimulationJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "dataSources", required: false, type: .list), 
-            AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "iamRole", required: false, type: .string), 
-            AWSShapeMember(label: "lastStartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "loggingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "networkInterface", required: false, type: .structure), 
-            AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "robotApplications", required: false, type: .list), 
-            AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
-            AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -3388,15 +2881,6 @@ extension RoboMaker {
     }
 
     public struct SimulationJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "dataSourceNames", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "robotApplicationNames", required: false, type: .list), 
-            AWSShapeMember(label: "simulationApplicationNames", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -3435,10 +2919,6 @@ extension RoboMaker {
     }
 
     public struct SimulationSoftwareSuite: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The name of the simulation software suite.
         public let name: SimulationSoftwareSuiteType?
@@ -3461,12 +2941,6 @@ extension RoboMaker {
     }
 
     public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "etag", required: false, type: .string), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "s3Key", required: false, type: .string)
-        ]
 
         /// The taget processor architecture for the application.
         public let architecture: Architecture?
@@ -3493,11 +2967,6 @@ extension RoboMaker {
     }
 
     public struct SourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .enum), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "s3Key", required: false, type: .string)
-        ]
 
         /// The target processor architecture for the application.
         public let architecture: Architecture?
@@ -3529,10 +2998,6 @@ extension RoboMaker {
     }
 
     public struct SyncDeploymentJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "fleet", required: true, type: .string)
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
@@ -3560,16 +3025,6 @@ extension RoboMaker {
     }
 
     public struct SyncDeploymentJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deploymentApplicationConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the synchronization request.
         public let arn: String?
@@ -3613,8 +3068,7 @@ extension RoboMaker {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are tagging.
@@ -3657,8 +3111,8 @@ extension RoboMaker {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are removing tags.
@@ -3697,12 +3151,6 @@ extension RoboMaker {
     }
 
     public struct UpdateRobotApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "currentRevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "sources", required: true, type: .list)
-        ]
 
         /// The application information for the robot application.
         public let application: String
@@ -3741,15 +3189,6 @@ extension RoboMaker {
     }
 
     public struct UpdateRobotApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the updated robot application.
         public let arn: String?
@@ -3788,14 +3227,6 @@ extension RoboMaker {
     }
 
     public struct UpdateSimulationApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "application", required: true, type: .string), 
-            AWSShapeMember(label: "currentRevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "sources", required: true, type: .list)
-        ]
 
         /// The application information for the simulation application.
         public let application: String
@@ -3844,17 +3275,6 @@ extension RoboMaker {
     }
 
     public struct UpdateSimulationApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "renderingEngine", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
-            AWSShapeMember(label: "sources", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the updated simulation application.
         public let arn: String?
@@ -3901,11 +3321,6 @@ extension RoboMaker {
     }
 
     public struct VPCConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assignPublicIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "subnets", required: true, type: .list)
-        ]
 
         /// A boolean indicating whether to assign a public IP address.
         public let assignPublicIp: Bool?
@@ -3941,12 +3356,6 @@ extension RoboMaker {
     }
 
     public struct VPCConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assignPublicIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "subnets", required: false, type: .list), 
-            AWSShapeMember(label: "vpcId", required: false, type: .string)
-        ]
 
         /// A boolean indicating if a public IP was assigned.
         public let assignPublicIp: Bool?

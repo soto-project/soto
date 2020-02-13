@@ -25,10 +25,6 @@ extension QLDBSession {
     }
 
     public struct CommitTransactionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommitDigest", required: true, type: .blob), 
-            AWSShapeMember(label: "TransactionId", required: true, type: .string)
-        ]
 
         /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB.
         public let commitDigest: Data
@@ -53,10 +49,6 @@ extension QLDBSession {
     }
 
     public struct CommitTransactionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommitDigest", required: false, type: .blob), 
-            AWSShapeMember(label: "TransactionId", required: false, type: .string)
-        ]
 
         /// The commit digest of the committed transaction.
         public let commitDigest: Data?
@@ -91,11 +83,6 @@ extension QLDBSession {
     }
 
     public struct ExecuteStatementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "Statement", required: true, type: .string), 
-            AWSShapeMember(label: "TransactionId", required: true, type: .string)
-        ]
 
         /// Specifies the parameters for the parameterized statement in the request.
         public let parameters: [ValueHolder]?
@@ -129,9 +116,6 @@ extension QLDBSession {
     }
 
     public struct ExecuteStatementResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FirstPage", required: false, type: .structure)
-        ]
 
         /// Contains the details of the first fetched page.
         public let firstPage: Page?
@@ -146,10 +130,6 @@ extension QLDBSession {
     }
 
     public struct FetchPageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: true, type: .string), 
-            AWSShapeMember(label: "TransactionId", required: true, type: .string)
-        ]
 
         /// Specifies the next page token of the page to be fetched.
         public let nextPageToken: String
@@ -177,9 +157,6 @@ extension QLDBSession {
     }
 
     public struct FetchPageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Page", required: false, type: .structure)
-        ]
 
         /// Contains details of the fetched page.
         public let page: Page?
@@ -194,10 +171,6 @@ extension QLDBSession {
     }
 
     public struct Page: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// The token of the next page.
         public let nextPageToken: String?
@@ -216,16 +189,6 @@ extension QLDBSession {
     }
 
     public struct SendCommandRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AbortTransaction", required: false, type: .structure), 
-            AWSShapeMember(label: "CommitTransaction", required: false, type: .structure), 
-            AWSShapeMember(label: "EndSession", required: false, type: .structure), 
-            AWSShapeMember(label: "ExecuteStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "FetchPage", required: false, type: .structure), 
-            AWSShapeMember(label: "SessionToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartSession", required: false, type: .structure), 
-            AWSShapeMember(label: "StartTransaction", required: false, type: .structure)
-        ]
 
         /// Command to abort the current transaction.
         public let abortTransaction: AbortTransactionRequest?
@@ -278,15 +241,6 @@ extension QLDBSession {
     }
 
     public struct SendCommandResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AbortTransaction", required: false, type: .structure), 
-            AWSShapeMember(label: "CommitTransaction", required: false, type: .structure), 
-            AWSShapeMember(label: "EndSession", required: false, type: .structure), 
-            AWSShapeMember(label: "ExecuteStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "FetchPage", required: false, type: .structure), 
-            AWSShapeMember(label: "StartSession", required: false, type: .structure), 
-            AWSShapeMember(label: "StartTransaction", required: false, type: .structure)
-        ]
 
         /// Contains the details of the aborted transaction.
         public let abortTransaction: AbortTransactionResult?
@@ -325,9 +279,6 @@ extension QLDBSession {
     }
 
     public struct StartSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LedgerName", required: true, type: .string)
-        ]
 
         /// The name of the ledger to start a new session against.
         public let ledgerName: String
@@ -348,9 +299,6 @@ extension QLDBSession {
     }
 
     public struct StartSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SessionToken", required: false, type: .string)
-        ]
 
         /// Session token of the started session. This SessionToken is required for every subsequent command that is issued during the current session.
         public let sessionToken: String?
@@ -373,9 +321,6 @@ extension QLDBSession {
     }
 
     public struct StartTransactionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransactionId", required: false, type: .string)
-        ]
 
         /// The transaction id of the started transaction.
         public let transactionId: String?
@@ -390,10 +335,6 @@ extension QLDBSession {
     }
 
     public struct ValueHolder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IonBinary", required: false, type: .blob), 
-            AWSShapeMember(label: "IonText", required: false, type: .string)
-        ]
 
         /// An Amazon Ion binary value contained in a ValueHolder structure. 
         public let ionBinary: Data?

@@ -115,10 +115,6 @@ extension AutoScalingPlans {
     //MARK: Shapes
 
     public struct ApplicationSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFormationStackARN", required: false, type: .string), 
-            AWSShapeMember(label: "TagFilters", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
         public let cloudFormationStackARN: String?
@@ -144,11 +140,6 @@ extension AutoScalingPlans {
     }
 
     public struct CreateScalingPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSource", required: true, type: .structure), 
-            AWSShapeMember(label: "ScalingInstructions", required: true, type: .list), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string)
-        ]
 
         /// A CloudFormation stack or set of tags. You can create one scaling plan per application source.
         public let applicationSource: ApplicationSource
@@ -181,9 +172,6 @@ extension AutoScalingPlans {
     }
 
     public struct CreateScalingPlanResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
-        ]
 
         /// The version number of the scaling plan. This value is always 1. Currently, you cannot specify multiple scaling plan versions.
         public let scalingPlanVersion: Int64
@@ -198,13 +186,6 @@ extension AutoScalingPlans {
     }
 
     public struct CustomizedLoadMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Unit", required: false, type: .string)
-        ]
 
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized load metric specification.
         public let dimensions: [MetricDimension]?
@@ -235,13 +216,6 @@ extension AutoScalingPlans {
     }
 
     public struct CustomizedScalingMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Unit", required: false, type: .string)
-        ]
 
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized scaling metric specification.
         public let dimensions: [MetricDimension]?
@@ -272,10 +246,6 @@ extension AutoScalingPlans {
     }
 
     public struct Datapoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Value", required: false, type: .double)
-        ]
 
         /// The time stamp for the data point in UTC format.
         public let timestamp: TimeStamp?
@@ -294,10 +264,6 @@ extension AutoScalingPlans {
     }
 
     public struct DeleteScalingPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
-        ]
 
         /// The name of the scaling plan.
         public let scalingPlanName: String
@@ -330,12 +296,6 @@ extension AutoScalingPlans {
     }
 
     public struct DescribeScalingPlanResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
-        ]
 
         /// The maximum number of scalable resources to return. The value must be between 1 and 50. The default value is 50.
         public let maxResults: Int?
@@ -368,10 +328,6 @@ extension AutoScalingPlans {
     }
 
     public struct DescribeScalingPlanResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPlanResources", required: false, type: .list)
-        ]
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -390,13 +346,6 @@ extension AutoScalingPlans {
     }
 
     public struct DescribeScalingPlansRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSources", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPlanNames", required: false, type: .list), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: false, type: .long)
-        ]
 
         /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources.
         public let applicationSources: [ApplicationSource]?
@@ -438,10 +387,6 @@ extension AutoScalingPlans {
     }
 
     public struct DescribeScalingPlansResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPlans", required: false, type: .list)
-        ]
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -460,16 +405,6 @@ extension AutoScalingPlans {
     }
 
     public struct GetScalingPlanResourceForecastDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ForecastDataType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
-        ]
 
         /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
         public let endTime: TimeStamp
@@ -519,9 +454,6 @@ extension AutoScalingPlans {
     }
 
     public struct GetScalingPlanResourceForecastDataResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Datapoints", required: true, type: .list)
-        ]
 
         /// The data points to return.
         public let datapoints: [Datapoint]
@@ -536,10 +468,6 @@ extension AutoScalingPlans {
     }
 
     public struct MetricDimension: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the dimension.
         public let name: String
@@ -558,10 +486,6 @@ extension AutoScalingPlans {
     }
 
     public struct PredefinedLoadMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredefinedLoadMetricType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
-        ]
 
         /// The metric type.
         public let predefinedLoadMetricType: LoadMetricType
@@ -585,10 +509,6 @@ extension AutoScalingPlans {
     }
 
     public struct PredefinedScalingMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredefinedScalingMetricType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
-        ]
 
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
         public let predefinedScalingMetricType: ScalingMetricType
@@ -612,22 +532,6 @@ extension AutoScalingPlans {
     }
 
     public struct ScalingInstruction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomizedLoadMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "DisableDynamicScaling", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "MinCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "PredefinedLoadMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "PredictiveScalingMaxCapacityBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "PredictiveScalingMaxCapacityBuffer", required: false, type: .integer), 
-            AWSShapeMember(label: "PredictiveScalingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingPolicyUpdateBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "ScheduledActionBufferTime", required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "TargetTrackingConfigurations", required: true, type: .list)
-        ]
 
         /// The customized load metric to use for predictive scaling. This parameter or a PredefinedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise. 
         public let customizedLoadMetricSpecification: CustomizedLoadMetricSpecification?
@@ -705,16 +609,6 @@ extension AutoScalingPlans {
     }
 
     public struct ScalingPlan: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSource", required: true, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScalingInstructions", required: true, type: .list), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "StatusStartTime", required: false, type: .timestamp)
-        ]
 
         /// The application source.
         public let applicationSource: ApplicationSource
@@ -757,16 +651,6 @@ extension AutoScalingPlans {
     }
 
     public struct ScalingPlanResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long), 
-            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "ScalingStatusCode", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalingStatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The ID of the resource. This string consists of the resource type and unique identifier.   Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
         public let resourceId: String
@@ -809,11 +693,6 @@ extension AutoScalingPlans {
     }
 
     public struct ScalingPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure)
-        ]
 
         /// The name of the scaling policy.
         public let policyName: String
@@ -836,10 +715,6 @@ extension AutoScalingPlans {
     }
 
     public struct TagFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// The tag key.
         public let key: String?
@@ -869,15 +744,6 @@ extension AutoScalingPlans {
     }
 
     public struct TargetTrackingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomizedScalingMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
-            AWSShapeMember(label: "PredefinedScalingMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetValue", required: true, type: .double)
-        ]
 
         /// A customized metric. You can specify either a predefined metric or a customized metric. 
         public let customizedScalingMetricSpecification: CustomizedScalingMetricSpecification?
@@ -920,12 +786,6 @@ extension AutoScalingPlans {
     }
 
     public struct UpdateScalingPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSource", required: false, type: .structure), 
-            AWSShapeMember(label: "ScalingInstructions", required: false, type: .list), 
-            AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
-        ]
 
         /// A CloudFormation stack or set of tags.
         public let applicationSource: ApplicationSource?

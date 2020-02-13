@@ -124,14 +124,6 @@ extension CostExplorer {
     //MARK: Shapes
 
     public struct CostCategory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "EffectiveEnd", required: false, type: .string), 
-            AWSShapeMember(label: "EffectiveStart", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: true, type: .list), 
-            AWSShapeMember(label: "RuleVersion", required: true, type: .enum)
-        ]
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String
@@ -164,12 +156,6 @@ extension CostExplorer {
     }
 
     public struct CostCategoryReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "EffectiveEnd", required: false, type: .string), 
-            AWSShapeMember(label: "EffectiveStart", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         ///  The unique identifier for your Cost Category Reference. 
         public let costCategoryArn: String?
@@ -195,10 +181,6 @@ extension CostExplorer {
     }
 
     public struct CostCategoryRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rule", required: true, type: .structure), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// An Expression object used to categorize costs. This supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead.
         public let rule: Expression
@@ -223,10 +205,6 @@ extension CostExplorer {
     }
 
     public struct CostCategoryValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         public let key: String?
         /// The specific value of the Cost Category.
@@ -250,11 +228,6 @@ extension CostExplorer {
     }
 
     public struct Coverage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoverageCost", required: false, type: .structure), 
-            AWSShapeMember(label: "CoverageHours", required: false, type: .structure), 
-            AWSShapeMember(label: "CoverageNormalizedUnits", required: false, type: .structure)
-        ]
 
         /// The amount of cost that the reservation covered.
         public let coverageCost: CoverageCost?
@@ -277,11 +250,6 @@ extension CostExplorer {
     }
 
     public struct CoverageByTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
 
         /// The groups of instances that the reservation covered.
         public let groups: [ReservationCoverageGroup]?
@@ -304,9 +272,6 @@ extension CostExplorer {
     }
 
     public struct CoverageCost: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OnDemandCost", required: false, type: .string)
-        ]
 
         /// How much an On-Demand instance cost.
         public let onDemandCost: String?
@@ -321,12 +286,6 @@ extension CostExplorer {
     }
 
     public struct CoverageHours: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoverageHoursPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandHours", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedHours", required: false, type: .string), 
-            AWSShapeMember(label: "TotalRunningHours", required: false, type: .string)
-        ]
 
         /// The percentage of instance hours that a reservation covered.
         public let coverageHoursPercentage: String?
@@ -353,12 +312,6 @@ extension CostExplorer {
     }
 
     public struct CoverageNormalizedUnits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoverageNormalizedUnitsPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandNormalizedUnits", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedNormalizedUnits", required: false, type: .string), 
-            AWSShapeMember(label: "TotalRunningNormalizedUnits", required: false, type: .string)
-        ]
 
         /// The percentage of your used instance normalized units that a reservation covers.
         public let coverageNormalizedUnitsPercentage: String?
@@ -385,11 +338,6 @@ extension CostExplorer {
     }
 
     public struct CreateCostCategoryDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: true, type: .list), 
-            AWSShapeMember(label: "RuleVersion", required: true, type: .enum)
-        ]
 
         public let name: String
         ///  CreateCostCategoryDefinition supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead. Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
@@ -421,10 +369,6 @@ extension CostExplorer {
     }
 
     public struct CreateCostCategoryDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "EffectiveStart", required: false, type: .string)
-        ]
 
         ///  The unique identifier for your newly created Cost Category. 
         public let costCategoryArn: String?
@@ -443,18 +387,6 @@ extension CostExplorer {
     }
 
     public struct CurrentInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "MonthlyCost", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandHoursInLookbackPeriod", required: false, type: .string), 
-            AWSShapeMember(label: "ReservationCoveredHoursInLookbackPeriod", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceUtilization", required: false, type: .structure), 
-            AWSShapeMember(label: "SavingsPlansCoveredHoursInLookbackPeriod", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TotalRunningHoursInLookbackPeriod", required: false, type: .string)
-        ]
 
         ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
@@ -505,10 +437,6 @@ extension CostExplorer {
     }
 
     public struct DateInterval: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "End", required: true, type: .string), 
-            AWSShapeMember(label: "Start", required: true, type: .string)
-        ]
 
         /// The end of the time period that you want the usage and costs for. The end date is exclusive. For example, if end is 2017-05-01, AWS retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
         public let end: String
@@ -532,9 +460,6 @@ extension CostExplorer {
     }
 
     public struct DeleteCostCategoryDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string)
-        ]
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String
@@ -555,10 +480,6 @@ extension CostExplorer {
     }
 
     public struct DeleteCostCategoryDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "EffectiveEnd", required: false, type: .string)
-        ]
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String?
@@ -577,10 +498,6 @@ extension CostExplorer {
     }
 
     public struct DescribeCostCategoryDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "EffectiveOn", required: false, type: .string)
-        ]
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String
@@ -608,9 +525,6 @@ extension CostExplorer {
     }
 
     public struct DescribeCostCategoryDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategory", required: false, type: .structure)
-        ]
 
         public let costCategory: CostCategory?
 
@@ -624,10 +538,6 @@ extension CostExplorer {
     }
 
     public struct DimensionValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .enum), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones.
         public let key: Dimension?
@@ -646,10 +556,6 @@ extension CostExplorer {
     }
 
     public struct DimensionValuesWithAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The attribute that applies to a specific Dimension.
         public let attributes: [String: String]?
@@ -668,16 +574,6 @@ extension CostExplorer {
     }
 
     public struct EC2InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Platform", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tenancy", required: false, type: .string)
-        ]
 
         /// The Availability Zone of the recommended reservation.
         public let availabilityZone: String?
@@ -720,17 +616,6 @@ extension CostExplorer {
     }
 
     public struct EC2ResourceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HourlyOnDemandRate", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Memory", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkPerformance", required: false, type: .string), 
-            AWSShapeMember(label: "Platform", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "Sku", required: false, type: .string), 
-            AWSShapeMember(label: "Storage", required: false, type: .string), 
-            AWSShapeMember(label: "Vcpu", required: false, type: .string)
-        ]
 
         ///  Hourly public On Demand rate for the instance type.
         public let hourlyOnDemandRate: String?
@@ -777,11 +662,6 @@ extension CostExplorer {
     }
 
     public struct EC2ResourceUtilization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxCpuUtilizationPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "MaxMemoryUtilizationPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "MaxStorageUtilizationPercentage", required: false, type: .string)
-        ]
 
         ///  Maximum observed or expected CPU utilization of the instance.
         public let maxCpuUtilizationPercentage: String?
@@ -804,9 +684,6 @@ extension CostExplorer {
     }
 
     public struct EC2Specification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OfferingClass", required: false, type: .enum)
-        ]
 
         /// Whether you want a recommendation for standard or convertible reservations.
         public let offeringClass: OfferingClass?
@@ -821,13 +698,6 @@ extension CostExplorer {
     }
 
     public struct ESInstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceSize", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
-        ]
 
         /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
@@ -858,14 +728,6 @@ extension CostExplorer {
     }
 
     public struct ElastiCacheInstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "NodeType", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
-        ]
 
         /// Whether the recommendation is for a current generation instance.
         public let currentGeneration: Bool?
@@ -900,14 +762,6 @@ extension CostExplorer {
     }
 
     public class Expression: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "And", required: false, type: .list), 
-            AWSShapeMember(label: "CostCategories", required: false, type: .structure), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
-            AWSShapeMember(label: "Not", required: false, type: .structure), 
-            AWSShapeMember(label: "Or", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure)
-        ]
 
         /// Return results that match both Dimension objects.
         public let and: [Expression]?
@@ -953,12 +807,6 @@ extension CostExplorer {
     }
 
     public struct ForecastResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MeanValue", required: false, type: .string), 
-            AWSShapeMember(label: "PredictionIntervalLowerBound", required: false, type: .string), 
-            AWSShapeMember(label: "PredictionIntervalUpperBound", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
-        ]
 
         /// The mean value of the forecast.
         public let meanValue: String?
@@ -985,14 +833,6 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
         public let filter: Expression?
@@ -1032,11 +872,6 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResultsByTime", required: false, type: .list)
-        ]
 
         /// The groups that are specified by the Filter or GroupBy parameters in the request.
         public let groupDefinitions: [GroupDefinition]?
@@ -1059,14 +894,6 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageWithResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId.
         public let filter: Expression?
@@ -1106,11 +933,6 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageWithResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResultsByTime", required: false, type: .list)
-        ]
 
         /// The groups that are specified by the Filter or GroupBy parameters in the request.
         public let groupDefinitions: [GroupDefinition]?
@@ -1133,13 +955,6 @@ extension CostExplorer {
     }
 
     public struct GetCostForecastRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: true, type: .enum), 
-            AWSShapeMember(label: "Metric", required: true, type: .enum), 
-            AWSShapeMember(label: "PredictionIntervalLevel", required: false, type: .integer), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
         public let filter: Expression?
@@ -1177,10 +992,6 @@ extension CostExplorer {
     }
 
     public struct GetCostForecastResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastResultsByTime", required: false, type: .list), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
 
         /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
@@ -1199,13 +1010,6 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Context", required: false, type: .enum), 
-            AWSShapeMember(label: "Dimension", required: true, type: .enum), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "SearchString", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
         public let context: Context?
@@ -1240,12 +1044,6 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DimensionValues", required: true, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
-            AWSShapeMember(label: "TotalSize", required: true, type: .integer)
-        ]
 
         /// The filters that you used to filter your request. Some dimensions are available only for a specific context. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
         public let dimensionValues: [DimensionValuesWithAttributes]
@@ -1272,14 +1070,6 @@ extension CostExplorer {
     }
 
     public struct GetReservationCoverageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
         public let filter: Expression?
@@ -1319,11 +1109,6 @@ extension CostExplorer {
     }
 
     public struct GetReservationCoverageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoveragesByTime", required: true, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
 
         /// The amount of time that your reservations covered.
         public let coveragesByTime: [CoverageByTime]
@@ -1346,17 +1131,6 @@ extension CostExplorer {
     }
 
     public struct GetReservationPurchaseRecommendationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "AccountScope", required: false, type: .enum), 
-            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "Service", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "TermInYears", required: false, type: .enum)
-        ]
 
         /// The account ID that is associated with the recommendation. 
         public let accountId: String?
@@ -1407,11 +1181,6 @@ extension CostExplorer {
     }
 
     public struct GetReservationPurchaseRecommendationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Recommendations", required: false, type: .list)
-        ]
 
         /// Information about this specific recommendation call, such as the time stamp for when Cost Explorer generated this recommendation.
         public let metadata: ReservationPurchaseRecommendationMetadata?
@@ -1434,13 +1203,6 @@ extension CostExplorer {
     }
 
     public struct GetReservationUtilizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
@@ -1476,11 +1238,6 @@ extension CostExplorer {
     }
 
     public struct GetReservationUtilizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "Total", required: false, type: .structure), 
-            AWSShapeMember(label: "UtilizationsByTime", required: true, type: .list)
-        ]
 
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1503,12 +1260,6 @@ extension CostExplorer {
     }
 
     public struct GetRightsizingRecommendationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "Service", required: true, type: .string)
-        ]
 
         public let filter: Expression?
         /// The pagination token that indicates the next set of results that you want to retrieve.
@@ -1539,12 +1290,6 @@ extension CostExplorer {
     }
 
     public struct GetRightsizingRecommendationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "RightsizingRecommendations", required: false, type: .list), 
-            AWSShapeMember(label: "Summary", required: false, type: .structure)
-        ]
 
         /// Information regarding this specific recommendation set.
         public let metadata: RightsizingRecommendationMetadata?
@@ -1571,15 +1316,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansCoverageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
@@ -1624,10 +1360,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansCoverageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SavingsPlansCoverages", required: true, type: .list)
-        ]
 
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
@@ -1646,14 +1378,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansPurchaseRecommendationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LookbackPeriodInDays", required: true, type: .enum), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PaymentOption", required: true, type: .enum), 
-            AWSShapeMember(label: "SavingsPlansType", required: true, type: .enum), 
-            AWSShapeMember(label: "TermInYears", required: true, type: .enum)
-        ]
 
         /// The lookback period used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays
@@ -1692,11 +1416,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansPurchaseRecommendationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "SavingsPlansPurchaseRecommendation", required: false, type: .structure)
-        ]
 
         /// Information regarding this specific recommendation set.
         public let metadata: SavingsPlansPurchaseRecommendationMetadata?
@@ -1719,12 +1438,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansUtilizationDetailsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilizationDetails uses the same Expression object as the other operations, but only AND is supported among each dimension.
         public let filter: Expression?
@@ -1757,12 +1470,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansUtilizationDetailsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SavingsPlansUtilizationDetails", required: true, type: .list), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
 
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
@@ -1788,11 +1495,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansUtilizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     SAVINGS_PLANS_TYPE     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension.
         public let filter: Expression?
@@ -1820,10 +1522,6 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansUtilizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SavingsPlansUtilizationsByTime", required: false, type: .list), 
-            AWSShapeMember(label: "Total", required: true, type: .structure)
-        ]
 
         /// The amount of cost/commitment you used your Savings Plans. This allows you to specify date ranges.
         public let savingsPlansUtilizationsByTime: [SavingsPlansUtilizationByTime]?
@@ -1842,12 +1540,6 @@ extension CostExplorer {
     }
 
     public struct GetTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "SearchString", required: false, type: .string), 
-            AWSShapeMember(label: "TagKey", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1878,12 +1570,6 @@ extension CostExplorer {
     }
 
     public struct GetTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "TotalSize", required: true, type: .integer)
-        ]
 
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1910,13 +1596,6 @@ extension CostExplorer {
     }
 
     public struct GetUsageForecastRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "Granularity", required: true, type: .enum), 
-            AWSShapeMember(label: "Metric", required: true, type: .enum), 
-            AWSShapeMember(label: "PredictionIntervalLevel", required: false, type: .integer), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
-        ]
 
         /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
         public let filter: Expression?
@@ -1954,10 +1633,6 @@ extension CostExplorer {
     }
 
     public struct GetUsageForecastResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForecastResultsByTime", required: false, type: .list), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
 
         /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
@@ -1976,10 +1651,6 @@ extension CostExplorer {
     }
 
     public struct Group: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Keys", required: false, type: .list), 
-            AWSShapeMember(label: "Metrics", required: false, type: .map)
-        ]
 
         /// The keys that are included in this group.
         public let keys: [String]?
@@ -1998,10 +1669,6 @@ extension CostExplorer {
     }
 
     public struct GroupDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The string that represents a key for a specified group.
         public let key: String?
@@ -2020,13 +1687,6 @@ extension CostExplorer {
     }
 
     public struct InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2InstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ElastiCacheInstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ESInstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "RDSInstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "RedshiftInstanceDetails", required: false, type: .structure)
-        ]
 
         /// The Amazon EC2 instances that AWS recommends that you purchase.
         public let eC2InstanceDetails: EC2InstanceDetails?
@@ -2057,10 +1717,6 @@ extension CostExplorer {
     }
 
     public struct ListCostCategoryDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EffectiveOn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         ///  The date when the Cost Category was effective. 
         public let effectiveOn: String?
@@ -2085,10 +1741,6 @@ extension CostExplorer {
     }
 
     public struct ListCostCategoryDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryReferences", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         ///  A reference to a Cost Category containing enough information to identify the Cost Category. 
         public let costCategoryReferences: [CostCategoryReference]?
@@ -2107,10 +1759,6 @@ extension CostExplorer {
     }
 
     public struct MetricValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Amount", required: false, type: .string), 
-            AWSShapeMember(label: "Unit", required: false, type: .string)
-        ]
 
         /// The actual number that represents the metric.
         public let amount: String?
@@ -2129,9 +1777,6 @@ extension CostExplorer {
     }
 
     public struct ModifyRecommendationDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetInstances", required: false, type: .list)
-        ]
 
         /// Identifies whether this instance type is the Amazon Web Services default recommendation.
         public let targetInstances: [TargetInstance]?
@@ -2146,17 +1791,6 @@ extension CostExplorer {
     }
 
     public struct RDSInstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "DatabaseEdition", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseEngine", required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentOption", required: false, type: .string), 
-            AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
-        ]
 
         /// Whether the recommendation is for a current-generation instance. 
         public let currentGeneration: Bool?
@@ -2203,13 +1837,6 @@ extension CostExplorer {
     }
 
     public struct RedshiftInstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentGeneration", required: false, type: .boolean), 
-            AWSShapeMember(label: "Family", required: false, type: .string), 
-            AWSShapeMember(label: "NodeType", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
-        ]
 
         /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
@@ -2240,22 +1867,6 @@ extension CostExplorer {
     }
 
     public struct ReservationAggregates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmortizedRecurringFee", required: false, type: .string), 
-            AWSShapeMember(label: "AmortizedUpfrontFee", required: false, type: .string), 
-            AWSShapeMember(label: "NetRISavings", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandCostOfRIHoursUsed", required: false, type: .string), 
-            AWSShapeMember(label: "PurchasedHours", required: false, type: .string), 
-            AWSShapeMember(label: "PurchasedUnits", required: false, type: .string), 
-            AWSShapeMember(label: "TotalActualHours", required: false, type: .string), 
-            AWSShapeMember(label: "TotalActualUnits", required: false, type: .string), 
-            AWSShapeMember(label: "TotalAmortizedFee", required: false, type: .string), 
-            AWSShapeMember(label: "TotalPotentialRISavings", required: false, type: .string), 
-            AWSShapeMember(label: "UnusedHours", required: false, type: .string), 
-            AWSShapeMember(label: "UnusedUnits", required: false, type: .string), 
-            AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "UtilizationPercentageInUnits", required: false, type: .string)
-        ]
 
         /// The monthly cost of your reservation, amortized over the reservation period.
         public let amortizedRecurringFee: String?
@@ -2322,10 +1933,6 @@ extension CostExplorer {
     }
 
     public struct ReservationCoverageGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Coverage", required: false, type: .structure)
-        ]
 
         /// The attributes for this group of reservations.
         public let attributes: [String: String]?
@@ -2344,15 +1951,6 @@ extension CostExplorer {
     }
 
     public struct ReservationPurchaseRecommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountScope", required: false, type: .enum), 
-            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
-            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "RecommendationDetails", required: false, type: .list), 
-            AWSShapeMember(label: "RecommendationSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "TermInYears", required: false, type: .enum)
-        ]
 
         /// The account scope that AWS recommends that you purchase this instance for. For example, you can purchase this reservation for an entire organization in AWS Organizations.
         public let accountScope: AccountScope?
@@ -2391,27 +1989,6 @@ extension CostExplorer {
     }
 
     public struct ReservationPurchaseRecommendationDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "AverageNormalizedUnitsUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "AverageNumberOfInstancesUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "AverageUtilization", required: false, type: .string), 
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedBreakEvenInMonths", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlyOnDemandCost", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavingsPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedReservationCostForLookbackPeriod", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "MaximumNormalizedUnitsUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumNumberOfInstancesUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumNormalizedUnitsUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumNumberOfInstancesUsedPerHour", required: false, type: .string), 
-            AWSShapeMember(label: "RecommendedNormalizedUnitsToPurchase", required: false, type: .string), 
-            AWSShapeMember(label: "RecommendedNumberOfInstancesToPurchase", required: false, type: .string), 
-            AWSShapeMember(label: "RecurringStandardMonthlyCost", required: false, type: .string), 
-            AWSShapeMember(label: "UpfrontCost", required: false, type: .string)
-        ]
 
         /// The account that this RI recommendation is for.
         public let accountId: String?
@@ -2498,10 +2075,6 @@ extension CostExplorer {
     }
 
     public struct ReservationPurchaseRecommendationMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "RecommendationId", required: false, type: .string)
-        ]
 
         /// The time stamp for when AWS made this recommendation.
         public let generationTimestamp: String?
@@ -2520,11 +2093,6 @@ extension CostExplorer {
     }
 
     public struct ReservationPurchaseRecommendationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "TotalEstimatedMonthlySavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "TotalEstimatedMonthlySavingsPercentage", required: false, type: .string)
-        ]
 
         /// The currency code used for this recommendation.
         public let currencyCode: String?
@@ -2547,12 +2115,6 @@ extension CostExplorer {
     }
 
     public struct ReservationUtilizationGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Utilization", required: false, type: .structure), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The attributes for this group of reservations.
         public let attributes: [String: String]?
@@ -2579,9 +2141,6 @@ extension CostExplorer {
     }
 
     public struct ResourceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2ResourceDetails", required: false, type: .structure)
-        ]
 
         /// Details on the Amazon EC2 resource.
         public let eC2ResourceDetails: EC2ResourceDetails?
@@ -2596,9 +2155,6 @@ extension CostExplorer {
     }
 
     public struct ResourceUtilization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2ResourceUtilization", required: false, type: .structure)
-        ]
 
         /// Utilization of current Amazon EC2 Instance 
         public let eC2ResourceUtilization: EC2ResourceUtilization?
@@ -2613,12 +2169,6 @@ extension CostExplorer {
     }
 
     public struct ResultByTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Estimated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "Total", required: false, type: .map)
-        ]
 
         /// Whether the result is estimated.
         public let estimated: Bool?
@@ -2645,13 +2195,6 @@ extension CostExplorer {
     }
 
     public struct RightsizingRecommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentInstance", required: false, type: .structure), 
-            AWSShapeMember(label: "ModifyRecommendationDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "RightsizingType", required: false, type: .enum), 
-            AWSShapeMember(label: "TerminateRecommendationDetail", required: false, type: .structure)
-        ]
 
         /// The account that this recommendation is for.
         public let accountId: String?
@@ -2682,11 +2225,6 @@ extension CostExplorer {
     }
 
     public struct RightsizingRecommendationMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
-            AWSShapeMember(label: "RecommendationId", required: false, type: .string)
-        ]
 
         ///  The time stamp for when Amazon Web Services made this recommendation.
         public let generationTimestamp: String?
@@ -2709,12 +2247,6 @@ extension CostExplorer {
     }
 
     public struct RightsizingRecommendationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EstimatedTotalMonthlySavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "SavingsCurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "SavingsPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "TotalRecommendationCount", required: false, type: .string)
-        ]
 
         ///  Estimated total savings resulting from modifications, on a monthly basis.
         public let estimatedTotalMonthlySavingsAmount: String?
@@ -2741,11 +2273,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansAmortizedCommitment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmortizedRecurringCommitment", required: false, type: .string), 
-            AWSShapeMember(label: "AmortizedUpfrontCommitment", required: false, type: .string), 
-            AWSShapeMember(label: "TotalAmortizedCommitment", required: false, type: .string)
-        ]
 
         /// The amortized amount of your Savings Plans commitment that was purchased with either a Partial or a NoUpfront.
         public let amortizedRecurringCommitment: String?
@@ -2768,11 +2295,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansCoverage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Coverage", required: false, type: .structure), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
-        ]
 
         /// The attribute that applies to a specific Dimension.
         public let attributes: [String: String]?
@@ -2794,12 +2316,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansCoverageData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoveragePercentage", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandCost", required: false, type: .string), 
-            AWSShapeMember(label: "SpendCoveredBySavingsPlans", required: false, type: .string), 
-            AWSShapeMember(label: "TotalCost", required: false, type: .string)
-        ]
 
         /// The percentage of your existing Savings Planscovered usage, divided by all of your eligible Savings Plans usage in an account(or set of accounts).
         public let coveragePercentage: String?
@@ -2826,11 +2342,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceFamily", required: false, type: .string), 
-            AWSShapeMember(label: "OfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string)
-        ]
 
         /// A group of instance types that Savings Plans applies to.
         public let instanceFamily: String?
@@ -2853,14 +2364,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
-            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "SavingsPlansPurchaseRecommendationDetails", required: false, type: .list), 
-            AWSShapeMember(label: "SavingsPlansPurchaseRecommendationSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "SavingsPlansType", required: false, type: .enum), 
-            AWSShapeMember(label: "TermInYears", required: false, type: .enum)
-        ]
 
         /// The lookback period in days, used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -2895,24 +2398,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendationDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentAverageHourlyOnDemandSpend", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentMaximumHourlyOnDemandSpend", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentMinimumHourlyOnDemandSpend", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedAverageUtilization", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedOnDemandCost", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedOnDemandCostWithCurrentCommitment", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedROI", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedSavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedSavingsPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedSPCost", required: false, type: .string), 
-            AWSShapeMember(label: "HourlyCommitmentToPurchase", required: false, type: .string), 
-            AWSShapeMember(label: "SavingsPlansDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "UpfrontCost", required: false, type: .string)
-        ]
 
         /// The AccountID the recommendation is generated for.
         public let accountId: String?
@@ -2987,10 +2472,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendationMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "RecommendationId", required: false, type: .string)
-        ]
 
         /// The timestamp showing when the recommendations were generated.
         public let generationTimestamp: String?
@@ -3009,19 +2490,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentOnDemandSpend", required: false, type: .string), 
-            AWSShapeMember(label: "DailyCommitmentToPurchase", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedOnDemandCostWithCurrentCommitment", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedROI", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedSavingsAmount", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedSavingsPercentage", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedTotalCost", required: false, type: .string), 
-            AWSShapeMember(label: "HourlyCommitmentToPurchase", required: false, type: .string), 
-            AWSShapeMember(label: "TotalRecommendationCount", required: false, type: .string)
-        ]
 
         /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
         public let currencyCode: String?
@@ -3076,10 +2544,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansSavings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetSavings", required: false, type: .string), 
-            AWSShapeMember(label: "OnDemandCostEquivalent", required: false, type: .string)
-        ]
 
         /// The savings amount that you are accumulating for the usage that is covered by a Savings Plans, when compared to the On-Demand equivalent of the same usage.
         public let netSavings: String?
@@ -3098,12 +2562,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansUtilization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalCommitment", required: false, type: .string), 
-            AWSShapeMember(label: "UnusedCommitment", required: false, type: .string), 
-            AWSShapeMember(label: "UsedCommitment", required: false, type: .string), 
-            AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string)
-        ]
 
         /// The total amount of Savings Plans commitment that's been purchased in an account (or set of accounts).
         public let totalCommitment: String?
@@ -3130,11 +2588,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansUtilizationAggregates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmortizedCommitment", required: false, type: .structure), 
-            AWSShapeMember(label: "Savings", required: false, type: .structure), 
-            AWSShapeMember(label: "Utilization", required: true, type: .structure)
-        ]
 
         /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
@@ -3157,12 +2610,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansUtilizationByTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmortizedCommitment", required: false, type: .structure), 
-            AWSShapeMember(label: "Savings", required: false, type: .structure), 
-            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
-            AWSShapeMember(label: "Utilization", required: true, type: .structure)
-        ]
 
         /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
@@ -3188,13 +2635,6 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansUtilizationDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmortizedCommitment", required: false, type: .structure), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "Savings", required: false, type: .structure), 
-            AWSShapeMember(label: "SavingsPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "Utilization", required: false, type: .structure)
-        ]
 
         /// The total amortized commitment for a Savings Plans. Includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
@@ -3225,9 +2665,6 @@ extension CostExplorer {
     }
 
     public struct ServiceSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2Specification", required: false, type: .structure)
-        ]
 
         /// The Amazon EC2 hardware specifications that you want AWS to provide recommendations for.
         public let eC2Specification: EC2Specification?
@@ -3242,10 +2679,6 @@ extension CostExplorer {
     }
 
     public struct TagValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// The key for the tag.
         public let key: String?
@@ -3264,14 +2697,6 @@ extension CostExplorer {
     }
 
     public struct TargetInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultTargetInstance", required: false, type: .boolean), 
-            AWSShapeMember(label: "EstimatedMonthlyCost", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavings", required: false, type: .string), 
-            AWSShapeMember(label: "ExpectedResourceUtilization", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceDetails", required: false, type: .structure)
-        ]
 
         ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
@@ -3306,10 +2731,6 @@ extension CostExplorer {
     }
 
     public struct TerminateRecommendationDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "EstimatedMonthlySavings", required: false, type: .string)
-        ]
 
         ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
@@ -3328,11 +2749,6 @@ extension CostExplorer {
     }
 
     public struct UpdateCostCategoryDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: true, type: .list), 
-            AWSShapeMember(label: "RuleVersion", required: true, type: .enum)
-        ]
 
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
@@ -3365,10 +2781,6 @@ extension CostExplorer {
     }
 
     public struct UpdateCostCategoryDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CostCategoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "EffectiveStart", required: false, type: .string)
-        ]
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String?
@@ -3387,11 +2799,6 @@ extension CostExplorer {
     }
 
     public struct UtilizationByTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "Total", required: false, type: .structure)
-        ]
 
         /// The groups that this utilization result uses.
         public let groups: [ReservationUtilizationGroup]?

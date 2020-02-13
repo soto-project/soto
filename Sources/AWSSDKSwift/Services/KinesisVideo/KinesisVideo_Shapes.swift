@@ -55,15 +55,6 @@ extension KinesisVideo {
     //MARK: Shapes
 
     public struct ChannelInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: false, type: .string), 
-            AWSShapeMember(label: "ChannelName", required: false, type: .string), 
-            AWSShapeMember(label: "ChannelStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SingleMasterConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
 
         /// The ARN of the signaling channel.
         public let channelARN: String?
@@ -102,10 +93,6 @@ extension KinesisVideo {
     }
 
     public struct ChannelNameCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ComparisonValue", required: false, type: .string)
-        ]
 
         /// A comparison operator. Currently, you can only specify the BEGINS_WITH operator, which finds signaling channels whose names begin with a given prefix.
         public let comparisonOperator: ComparisonOperator?
@@ -130,12 +117,6 @@ extension KinesisVideo {
     }
 
     public struct CreateSignalingChannelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelName", required: true, type: .string), 
-            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
-            AWSShapeMember(label: "SingleMasterConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A name for the signaling channel that you are creating. It must be unique for each account and region.
         public let channelName: String
@@ -174,9 +155,6 @@ extension KinesisVideo {
     }
 
     public struct CreateSignalingChannelOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: false, type: .string)
-        ]
 
         /// The ARN of the created channel.
         public let channelARN: String?
@@ -191,14 +169,6 @@ extension KinesisVideo {
     }
 
     public struct CreateStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataRetentionInHours", required: false, type: .integer), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
         public let dataRetentionInHours: Int?
@@ -256,9 +226,6 @@ extension KinesisVideo {
     }
 
     public struct CreateStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamARN", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the stream.
         public let streamARN: String?
@@ -273,10 +240,6 @@ extension KinesisVideo {
     }
 
     public struct DeleteSignalingChannelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentVersion", required: false, type: .string)
-        ]
 
         /// The ARN of the signaling channel that you want to delete.
         public let channelARN: String
@@ -312,10 +275,6 @@ extension KinesisVideo {
     }
 
     public struct DeleteStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: true, type: .string)
-        ]
 
         /// Optional: The version of the stream that you want to delete.  Specify the version as a safeguard to ensure that your are deleting the correct stream. To get the stream version, use the DescribeStream API. If not specified, only the CreationTime is checked before deleting the stream.
         public let currentVersion: String?
@@ -351,10 +310,6 @@ extension KinesisVideo {
     }
 
     public struct DescribeSignalingChannelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: false, type: .string), 
-            AWSShapeMember(label: "ChannelName", required: false, type: .string)
-        ]
 
         /// The ARN of the signaling channel that you want to describe.
         public let channelARN: String?
@@ -382,9 +337,6 @@ extension KinesisVideo {
     }
 
     public struct DescribeSignalingChannelOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelInfo", required: false, type: .structure)
-        ]
 
         /// A structure that encapsulates the specified signaling channel's metadata and properties.
         public let channelInfo: ChannelInfo?
@@ -399,10 +351,6 @@ extension KinesisVideo {
     }
 
     public struct DescribeStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the stream.
         public let streamARN: String?
@@ -430,9 +378,6 @@ extension KinesisVideo {
     }
 
     public struct DescribeStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamInfo", required: false, type: .structure)
-        ]
 
         /// An object that describes the stream.
         public let streamInfo: StreamInfo?
@@ -447,11 +392,6 @@ extension KinesisVideo {
     }
 
     public struct GetDataEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "APIName", required: true, type: .enum), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// The name of the API action for which to get an endpoint.
         public let aPIName: APIName
@@ -483,9 +423,6 @@ extension KinesisVideo {
     }
 
     public struct GetDataEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataEndpoint", required: false, type: .string)
-        ]
 
         /// The endpoint value. To read data from the stream or to write data to it, specify this endpoint in your application.
         public let dataEndpoint: String?
@@ -500,10 +437,6 @@ extension KinesisVideo {
     }
 
     public struct GetSignalingChannelEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
-            AWSShapeMember(label: "SingleMasterChannelEndpointConfiguration", required: false, type: .structure)
-        ]
 
         /// The ARN of the signalling channel for which you want to get an endpoint.
         public let channelARN: String
@@ -529,9 +462,6 @@ extension KinesisVideo {
     }
 
     public struct GetSignalingChannelEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceEndpointList", required: false, type: .list)
-        ]
 
         /// A list of endpoints for the specified signaling channel.
         public let resourceEndpointList: [ResourceEndpointListItem]?
@@ -546,11 +476,6 @@ extension KinesisVideo {
     }
 
     public struct ListSignalingChannelsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelNameCondition", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Optional: Returns only the channels that satisfy a specific condition.
         public let channelNameCondition: ChannelNameCondition?
@@ -582,10 +507,6 @@ extension KinesisVideo {
     }
 
     public struct ListSignalingChannelsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelInfoList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of ChannelInfo objects.
         public let channelInfoList: [ChannelInfo]?
@@ -604,11 +525,6 @@ extension KinesisVideo {
     }
 
     public struct ListStreamsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StreamNameCondition", required: false, type: .structure)
-        ]
 
         /// The maximum number of streams to return in the response. The default is 10,000.
         public let maxResults: Int?
@@ -640,10 +556,6 @@ extension KinesisVideo {
     }
 
     public struct ListStreamsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StreamInfoList", required: false, type: .list)
-        ]
 
         /// If the response is truncated, the call returns this element with a token. To get the next batch of streams, use this token in your next request. 
         public let nextToken: String?
@@ -662,10 +574,6 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags. 
         public let nextToken: String?
@@ -693,10 +601,6 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next set of tags. 
         public let nextToken: String?
@@ -715,11 +619,6 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// If you specify this parameter and the result of a ListTagsForStream call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags.
         public let nextToken: String?
@@ -754,10 +653,6 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// If you specify this parameter and the result of a ListTags call is truncated, the response includes a token that you can use in the next request to fetch the next set of tags.
         public let nextToken: String?
@@ -776,10 +671,6 @@ extension KinesisVideo {
     }
 
     public struct ResourceEndpointListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceEndpoint", required: false, type: .string)
-        ]
 
         /// The protocol of the signaling channel returned by the GetSignalingChannelEndpoint API.
         public let `protocol`: ChannelProtocol?
@@ -798,10 +689,6 @@ extension KinesisVideo {
     }
 
     public struct SingleMasterChannelEndpointConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protocols", required: false, type: .list), 
-            AWSShapeMember(label: "Role", required: false, type: .enum)
-        ]
 
         /// This property is used to determine the nature of communication over this SINGLE_MASTER signaling channel. If WSS is specified, this API returns a websocket endpoint. If HTTPS is specified, this API returns an HTTPS endpoint.
         public let protocols: [ChannelProtocol]?
@@ -825,9 +712,6 @@ extension KinesisVideo {
     }
 
     public struct SingleMasterConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageTtlSeconds", required: false, type: .integer)
-        ]
 
         /// The period of time a signaling channel retains underlivered messages before they are discarded.
         public let messageTtlSeconds: Int?
@@ -847,17 +731,6 @@ extension KinesisVideo {
     }
 
     public struct StreamInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataRetentionInHours", required: false, type: .integer), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
 
         /// A time stamp that indicates when the stream was created.
         public let creationTime: TimeStamp?
@@ -904,10 +777,6 @@ extension KinesisVideo {
     }
 
     public struct StreamNameCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ComparisonValue", required: false, type: .string)
-        ]
 
         /// A comparison operator. Currently, you can specify only the BEGINS_WITH operator, which finds streams whose names start with a given prefix.
         public let comparisonOperator: ComparisonOperator?
@@ -932,10 +801,6 @@ extension KinesisVideo {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The key of the tag that is associated with the specified signaling channel.
         public let key: String
@@ -963,10 +828,6 @@ extension KinesisVideo {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The ARN of the signaling channel to which you want to add tags.
         public let resourceARN: String
@@ -1004,11 +865,6 @@ extension KinesisVideo {
     }
 
     public struct TagStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to add the tag or tags to.
         public let streamARN: String?
@@ -1056,10 +912,6 @@ extension KinesisVideo {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list)
-        ]
 
         /// The ARN of the signaling channel from which you want to remove tags.
         public let resourceARN: String
@@ -1099,11 +951,6 @@ extension KinesisVideo {
     }
 
     public struct UntagStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the stream that you want to remove tags from.
         public let streamARN: String?
@@ -1150,13 +997,6 @@ extension KinesisVideo {
     }
 
     public struct UpdateDataRetentionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentVersion", required: true, type: .string), 
-            AWSShapeMember(label: "DataRetentionChangeInHours", required: true, type: .integer), 
-            AWSShapeMember(label: "Operation", required: true, type: .enum), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API.
         public let currentVersion: String
@@ -1208,11 +1048,6 @@ extension KinesisVideo {
     }
 
     public struct UpdateSignalingChannelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentVersion", required: true, type: .string), 
-            AWSShapeMember(label: "SingleMasterConfiguration", required: false, type: .structure)
-        ]
 
         /// The ARN of the signaling channel that you want to update.
         public let channelARN: String
@@ -1253,13 +1088,6 @@ extension KinesisVideo {
     }
 
     public struct UpdateStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentVersion", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// The version of the stream whose metadata you want to update.
         public let currentVersion: String

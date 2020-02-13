@@ -14,11 +14,6 @@ extension MigrationHubConfig {
     //MARK: Shapes
 
     public struct CreateHomeRegionControlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "HomeRegion", required: true, type: .string), 
-            AWSShapeMember(label: "Target", required: true, type: .structure)
-        ]
 
         /// Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
         public let dryRun: Bool?
@@ -48,9 +43,6 @@ extension MigrationHubConfig {
     }
 
     public struct CreateHomeRegionControlResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeRegionControl", required: false, type: .structure)
-        ]
 
         /// This object is the HomeRegionControl object that's returned by a successful call to CreateHomeRegionControl.
         public let homeRegionControl: HomeRegionControl?
@@ -65,13 +57,6 @@ extension MigrationHubConfig {
     }
 
     public struct DescribeHomeRegionControlsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ControlId", required: false, type: .string), 
-            AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Target", required: false, type: .structure)
-        ]
 
         /// The ControlID is a unique identifier string of your HomeRegionControl object.
         public let controlId: String?
@@ -117,10 +102,6 @@ extension MigrationHubConfig {
     }
 
     public struct DescribeHomeRegionControlsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeRegionControls", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array that contains your HomeRegionControl objects.
         public let homeRegionControls: [HomeRegionControl]?
@@ -147,9 +128,6 @@ extension MigrationHubConfig {
     }
 
     public struct GetHomeRegionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeRegion", required: false, type: .string)
-        ]
 
         /// The name of the home region of the calling account.
         public let homeRegion: String?
@@ -164,12 +142,6 @@ extension MigrationHubConfig {
     }
 
     public struct HomeRegionControl: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ControlId", required: false, type: .string), 
-            AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
-            AWSShapeMember(label: "RequestedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Target", required: false, type: .structure)
-        ]
 
         /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
         public let controlId: String?
@@ -196,10 +168,6 @@ extension MigrationHubConfig {
     }
 
     public struct Target: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current account.) 
         public let id: String?

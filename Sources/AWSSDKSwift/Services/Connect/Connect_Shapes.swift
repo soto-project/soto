@@ -358,10 +358,6 @@ extension Connect {
     //MARK: Shapes
 
     public struct ChatMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", required: true, type: .string)
-        ]
 
         /// The content of the chat message.
         public let content: String
@@ -387,12 +383,6 @@ extension Connect {
     }
 
     public struct ContactFlowSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "ContactFlowType", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let arn: String?
@@ -420,16 +410,7 @@ extension Connect {
 
     public struct CreateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryUserId", required: false, type: .string), 
-            AWSShapeMember(label: "HierarchyGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoutingProfileId", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityProfileIds", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
@@ -499,10 +480,6 @@ extension Connect {
     }
 
     public struct CreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserId", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user account.
         public let userArn: String?
@@ -521,12 +498,6 @@ extension Connect {
     }
 
     public struct Credentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccessTokenExpiration", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RefreshToken", required: false, type: .string), 
-            AWSShapeMember(label: "RefreshTokenExpiration", required: false, type: .timestamp)
-        ]
 
         /// An access token generated for a federated user to access Amazon Connect.
         public let accessToken: String?
@@ -553,10 +524,6 @@ extension Connect {
     }
 
     public struct CurrentMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
-        ]
 
         /// The name of the metric.
         public let name: CurrentMetricName?
@@ -575,10 +542,6 @@ extension Connect {
     }
 
     public struct CurrentMetricData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metric", required: false, type: .structure), 
-            AWSShapeMember(label: "Value", required: false, type: .double)
-        ]
 
         /// Information about the metric.
         public let metric: CurrentMetric?
@@ -597,10 +560,6 @@ extension Connect {
     }
 
     public struct CurrentMetricResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Collections", required: false, type: .list), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .structure)
-        ]
 
         /// The set of metrics.
         public let collections: [CurrentMetricData]?
@@ -620,8 +579,8 @@ extension Connect {
 
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -647,8 +606,8 @@ extension Connect {
 
     public struct DescribeUserHierarchyGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HierarchyGroupId", location: .uri(locationName: "HierarchyGroupId"), required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
+            AWSShapeMember(label: "HierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")), 
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -673,9 +632,6 @@ extension Connect {
     }
 
     public struct DescribeUserHierarchyGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HierarchyGroup", required: false, type: .structure)
-        ]
 
         /// Information about the hierarchy group.
         public let hierarchyGroup: HierarchyGroup?
@@ -691,7 +647,7 @@ extension Connect {
 
     public struct DescribeUserHierarchyStructureRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -712,9 +668,6 @@ extension Connect {
     }
 
     public struct DescribeUserHierarchyStructureResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HierarchyStructure", required: false, type: .structure)
-        ]
 
         /// Information about the hierarchy structure.
         public let hierarchyStructure: HierarchyStructure?
@@ -730,8 +683,8 @@ extension Connect {
 
     public struct DescribeUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -756,9 +709,6 @@ extension Connect {
     }
 
     public struct DescribeUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// Information about the user account and configuration settings.
         public let user: User?
@@ -773,10 +723,6 @@ extension Connect {
     }
 
     public struct Dimensions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", required: false, type: .enum), 
-            AWSShapeMember(label: "Queue", required: false, type: .structure)
-        ]
 
         /// The channel used for grouping and filters.
         public let channel: Channel?
@@ -795,10 +741,6 @@ extension Connect {
     }
 
     public struct Filters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channels", required: false, type: .list), 
-            AWSShapeMember(label: "Queues", required: false, type: .list)
-        ]
 
         /// The channel to use to filter the metrics.
         public let channels: [Channel]?
@@ -824,8 +766,8 @@ extension Connect {
 
     public struct GetContactAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialContactId", location: .uri(locationName: "InitialContactId"), required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
+            AWSShapeMember(label: "InitialContactId", location: .uri(locationName: "InitialContactId")), 
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the initial contact.
@@ -852,9 +794,6 @@ extension Connect {
     }
 
     public struct GetContactAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
-        ]
 
         /// Information about the attributes.
         public let attributes: [String: String]?
@@ -870,12 +809,7 @@ extension Connect {
 
     public struct GetCurrentMetricDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentMetrics", required: true, type: .list), 
-            AWSShapeMember(label: "Filters", required: true, type: .structure), 
-            AWSShapeMember(label: "Groupings", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available:  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ON_CONTACT  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  SLOTS_ACTIVE  Unit: COUNT  SLOTS_AVAILABLE  Unit: COUNT  
@@ -920,11 +854,6 @@ extension Connect {
     }
 
     public struct GetCurrentMetricDataResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSnapshotTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MetricResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The time at which the metrics were retrieved and cached for pagination.
         public let dataSnapshotTime: TimeStamp?
@@ -948,7 +877,7 @@ extension Connect {
 
     public struct GetFederationTokenRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -969,9 +898,6 @@ extension Connect {
     }
 
     public struct GetFederationTokenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Credentials", required: false, type: .structure)
-        ]
 
         /// The credentials to use for federation.
         public let credentials: Credentials?
@@ -987,14 +913,7 @@ extension Connect {
 
     public struct GetMetricDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Filters", required: true, type: .structure), 
-            AWSShapeMember(label: "Groupings", required: false, type: .list), 
-            AWSShapeMember(label: "HistoricalMetrics", required: true, type: .list), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
@@ -1047,10 +966,6 @@ extension Connect {
     }
 
     public struct GetMetricDataResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the historical metrics. If no grouping is specified, a summary of metric data is returned.
         public let metricResults: [HistoricalMetricResult]?
@@ -1069,13 +984,6 @@ extension Connect {
     }
 
     public struct HierarchyGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "HierarchyPath", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LevelId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
@@ -1106,11 +1014,6 @@ extension Connect {
     }
 
     public struct HierarchyGroupSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
@@ -1133,11 +1036,6 @@ extension Connect {
     }
 
     public struct HierarchyLevel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the hierarchy level.
         public let arn: String?
@@ -1160,13 +1058,6 @@ extension Connect {
     }
 
     public struct HierarchyPath: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LevelFive", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelFour", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelOne", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelThree", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelTwo", required: false, type: .structure)
-        ]
 
         /// Information about level five.
         public let levelFive: HierarchyGroupSummary?
@@ -1197,13 +1088,6 @@ extension Connect {
     }
 
     public struct HierarchyStructure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LevelFive", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelFour", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelOne", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelThree", required: false, type: .structure), 
-            AWSShapeMember(label: "LevelTwo", required: false, type: .structure)
-        ]
 
         /// Information about level five.
         public let levelFive: HierarchyLevel?
@@ -1234,12 +1118,6 @@ extension Connect {
     }
 
     public struct HistoricalMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum), 
-            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "Threshold", required: false, type: .structure), 
-            AWSShapeMember(label: "Unit", required: false, type: .enum)
-        ]
 
         /// The name of the metric.
         public let name: HistoricalMetricName?
@@ -1266,10 +1144,6 @@ extension Connect {
     }
 
     public struct HistoricalMetricData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metric", required: false, type: .structure), 
-            AWSShapeMember(label: "Value", required: false, type: .double)
-        ]
 
         /// Information about the metric.
         public let metric: HistoricalMetric?
@@ -1288,10 +1162,6 @@ extension Connect {
     }
 
     public struct HistoricalMetricResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Collections", required: false, type: .list), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .structure)
-        ]
 
         /// The set of metrics.
         public let collections: [HistoricalMetricData]?
@@ -1310,11 +1180,6 @@ extension Connect {
     }
 
     public struct HoursOfOperationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the hours of operation.
         public let arn: String?
@@ -1338,10 +1203,10 @@ extension Connect {
 
     public struct ListContactFlowsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactFlowTypes", location: .querystring(locationName: "contactFlowTypes"), required: false, type: .list), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ContactFlowTypes", location: .querystring(locationName: "contactFlowTypes")), 
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The type of contact flow.
@@ -1377,10 +1242,6 @@ extension Connect {
     }
 
     public struct ListContactFlowsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactFlowSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the contact flows.
         public let contactFlowSummaryList: [ContactFlowSummary]?
@@ -1400,9 +1261,9 @@ extension Connect {
 
     public struct ListHoursOfOperationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1433,10 +1294,6 @@ extension Connect {
     }
 
     public struct ListHoursOfOperationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HoursOfOperationSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the hours of operation.
         public let hoursOfOperationSummaryList: [HoursOfOperationSummary]?
@@ -1456,11 +1313,11 @@ extension Connect {
 
     public struct ListPhoneNumbersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes"), required: false, type: .list), 
-            AWSShapeMember(label: "PhoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"), required: false, type: .list)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "PhoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes")), 
+            AWSShapeMember(label: "PhoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1501,10 +1358,6 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumberSummaryList", required: false, type: .list)
-        ]
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1524,10 +1377,10 @@ extension Connect {
 
     public struct ListQueuesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "QueueTypes", location: .querystring(locationName: "queueTypes"), required: false, type: .list)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "QueueTypes", location: .querystring(locationName: "queueTypes"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1563,10 +1416,6 @@ extension Connect {
     }
 
     public struct ListQueuesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "QueueSummaryList", required: false, type: .list)
-        ]
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1586,9 +1435,9 @@ extension Connect {
 
     public struct ListRoutingProfilesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1619,10 +1468,6 @@ extension Connect {
     }
 
     public struct ListRoutingProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RoutingProfileSummaryList", required: false, type: .list)
-        ]
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1642,9 +1487,9 @@ extension Connect {
 
     public struct ListSecurityProfilesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1675,10 +1520,6 @@ extension Connect {
     }
 
     public struct ListSecurityProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityProfileSummaryList", required: false, type: .list)
-        ]
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1698,7 +1539,7 @@ extension Connect {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1714,9 +1555,6 @@ extension Connect {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// Information about the tags.
         public let tags: [String: String]?
@@ -1732,9 +1570,9 @@ extension Connect {
 
     public struct ListUserHierarchyGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1765,10 +1603,6 @@ extension Connect {
     }
 
     public struct ListUserHierarchyGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserHierarchyGroupSummaryList", required: false, type: .list)
-        ]
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1788,9 +1622,9 @@ extension Connect {
 
     public struct ListUsersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1821,10 +1655,6 @@ extension Connect {
     }
 
     public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserSummaryList", required: false, type: .list)
-        ]
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1843,9 +1673,6 @@ extension Connect {
     }
 
     public struct ParticipantDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: true, type: .string)
-        ]
 
         /// Display name of the participant.
         public let displayName: String
@@ -1865,13 +1692,6 @@ extension Connect {
     }
 
     public struct PhoneNumberSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumberCountryCode", required: false, type: .enum), 
-            AWSShapeMember(label: "PhoneNumberType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the phone number.
         public let arn: String?
@@ -1902,10 +1722,6 @@ extension Connect {
     }
 
     public struct QueueReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
@@ -1924,12 +1740,6 @@ extension Connect {
     }
 
     public struct QueueSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "QueueType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
@@ -1956,11 +1766,6 @@ extension Connect {
     }
 
     public struct RoutingProfileSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the routing profile.
         public let arn: String?
@@ -1983,11 +1788,6 @@ extension Connect {
     }
 
     public struct SecurityProfileSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the security profile.
         public let arn: String?
@@ -2010,14 +1810,6 @@ extension Connect {
     }
 
     public struct StartChatContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
-            AWSShapeMember(label: "ContactFlowId", required: true, type: .string), 
-            AWSShapeMember(label: "InitialMessage", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "ParticipantDetails", required: true, type: .structure)
-        ]
 
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
@@ -2067,11 +1859,6 @@ extension Connect {
     }
 
     public struct StartChatContactResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactId", required: false, type: .string), 
-            AWSShapeMember(label: "ParticipantId", required: false, type: .string), 
-            AWSShapeMember(label: "ParticipantToken", required: false, type: .string)
-        ]
 
         /// The identifier of this contact within the Amazon Connect instance. 
         public let contactId: String?
@@ -2094,15 +1881,6 @@ extension Connect {
     }
 
     public struct StartOutboundVoiceContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
-            AWSShapeMember(label: "ContactFlowId", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationPhoneNumber", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "QueueId", required: false, type: .string), 
-            AWSShapeMember(label: "SourcePhoneNumber", required: false, type: .string)
-        ]
 
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
@@ -2154,9 +1932,6 @@ extension Connect {
     }
 
     public struct StartOutboundVoiceContactResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactId", required: false, type: .string)
-        ]
 
         /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
@@ -2171,10 +1946,6 @@ extension Connect {
     }
 
     public struct StopContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
 
         /// The ID of the contact.
         public let contactId: String
@@ -2209,8 +1980,7 @@ extension Connect {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -2239,10 +2009,6 @@ extension Connect {
     }
 
     public struct Threshold: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comparison", required: false, type: .enum), 
-            AWSShapeMember(label: "ThresholdValue", required: false, type: .double)
-        ]
 
         /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public let comparison: Comparison?
@@ -2262,8 +2028,8 @@ extension Connect {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -2293,11 +2059,6 @@ extension Connect {
     }
 
     public struct UpdateContactAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .map), 
-            AWSShapeMember(label: "InitialContactId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
 
         /// The Amazon Connect attributes. These attributes can be accessed in contact flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]
@@ -2342,9 +2103,8 @@ extension Connect {
 
     public struct UpdateUserHierarchyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HierarchyGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -2374,9 +2134,8 @@ extension Connect {
 
     public struct UpdateUserIdentityInfoRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityInfo", required: true, type: .structure), 
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identity information for the user.
@@ -2407,9 +2166,8 @@ extension Connect {
 
     public struct UpdateUserPhoneConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "PhoneConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -2440,9 +2198,8 @@ extension Connect {
 
     public struct UpdateUserRoutingProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "RoutingProfileId", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -2472,9 +2229,8 @@ extension Connect {
 
     public struct UpdateUserSecurityProfilesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
-            AWSShapeMember(label: "SecurityProfileIds", required: true, type: .list), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -2505,18 +2261,6 @@ extension Connect {
     }
 
     public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryUserId", required: false, type: .string), 
-            AWSShapeMember(label: "HierarchyGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "PhoneConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "RoutingProfileId", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityProfileIds", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?
@@ -2567,11 +2311,6 @@ extension Connect {
     }
 
     public struct UserIdentityInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string)
-        ]
 
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
@@ -2601,12 +2340,6 @@ extension Connect {
     }
 
     public struct UserPhoneConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AfterContactWorkTimeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoAccept", required: false, type: .boolean), 
-            AWSShapeMember(label: "DeskPhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneType", required: true, type: .enum)
-        ]
 
         /// The After Call Work (ACW) timeout setting, in seconds.
         public let afterContactWorkTimeLimit: Int?
@@ -2637,11 +2370,6 @@ extension Connect {
     }
 
     public struct UserSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?

@@ -15,13 +15,6 @@ extension MarketplaceEntitlementService {
     //MARK: Shapes
 
     public struct Entitlement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Dimension", required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProductCode", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .structure)
-        ]
 
         /// The customer identifier is a handle to each unique customer in an application. Customer identifiers are obtained through the ResolveCustomer operation in AWS Marketplace Metering Service.
         public let customerIdentifier: String?
@@ -52,12 +45,6 @@ extension MarketplaceEntitlementService {
     }
 
     public struct EntitlementValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "DoubleValue", required: false, type: .double), 
-            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeMember(label: "StringValue", required: false, type: .string)
-        ]
 
         /// The BooleanValue field will be populated with a boolean value when the entitlement is a boolean type. Otherwise, the field will not be set.
         public let booleanValue: Bool?
@@ -84,12 +71,6 @@ extension MarketplaceEntitlementService {
     }
 
     public struct GetEntitlementsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .map), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProductCode", required: true, type: .string)
-        ]
 
         /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.
         public let filter: [GetEntitlementFilterName: [String]]?
@@ -125,10 +106,6 @@ extension MarketplaceEntitlementService {
     }
 
     public struct GetEntitlementsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entitlements", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The set of entitlements found through the GetEntitlements operation. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
         public let entitlements: [Entitlement]?

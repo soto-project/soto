@@ -17,9 +17,6 @@ extension Detective {
     //MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GraphArn", required: true, type: .string)
-        ]
 
         /// The ARN of the behavior graph that the member account is accepting the invitation for. The member account status in the behavior graph must be INVITED.
         public let graphArn: String
@@ -38,10 +35,6 @@ extension Detective {
     }
 
     public struct Account: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
-        ]
 
         /// The account identifier of the AWS account.
         public let accountId: String
@@ -69,9 +62,6 @@ extension Detective {
     }
 
     public struct CreateGraphResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GraphArn", required: false, type: .string)
-        ]
 
         /// The ARN of the new behavior graph.
         public let graphArn: String?
@@ -86,11 +76,6 @@ extension Detective {
     }
 
     public struct CreateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", required: true, type: .list), 
-            AWSShapeMember(label: "GraphArn", required: true, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// The list of AWS accounts to invite to become member accounts in the behavior graph. For each invited account, the account list contains the account identifier and the AWS account root user email address.
         public let accounts: [Account]
@@ -124,10 +109,6 @@ extension Detective {
     }
 
     public struct CreateMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// The set of member account invitation requests that Detective was able to process. This includes accounts that are being verified, that failed verification, and that passed verification and are being sent an invitation.
         public let members: [MemberDetail]?
@@ -146,9 +127,6 @@ extension Detective {
     }
 
     public struct DeleteGraphRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GraphArn", required: true, type: .string)
-        ]
 
         /// The ARN of the behavior graph to disable.
         public let graphArn: String
@@ -167,10 +145,6 @@ extension Detective {
     }
 
     public struct DeleteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: true, type: .list), 
-            AWSShapeMember(label: "GraphArn", required: true, type: .string)
-        ]
 
         /// The list of AWS account identifiers for the member accounts to delete from the behavior graph.
         public let accountIds: [String]
@@ -200,10 +174,6 @@ extension Detective {
     }
 
     public struct DeleteMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// The list of AWS account identifiers for the member accounts that Detective successfully deleted from the behavior graph.
         public let accountIds: [String]?
@@ -222,9 +192,6 @@ extension Detective {
     }
 
     public struct DisassociateMembershipRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GraphArn", required: true, type: .string)
-        ]
 
         /// The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be ENABLED.
         public let graphArn: String
@@ -243,10 +210,6 @@ extension Detective {
     }
 
     public struct GetMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: true, type: .list), 
-            AWSShapeMember(label: "GraphArn", required: true, type: .string)
-        ]
 
         /// The list of AWS account identifiers for the member account for which to return member details. You cannot use GetMembers to retrieve information about member accounts that were removed from the behavior graph.
         public let accountIds: [String]
@@ -276,10 +239,6 @@ extension Detective {
     }
 
     public struct GetMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberDetails", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// The member account details that Detective is returning in response to the request.
         public let memberDetails: [MemberDetail]?
@@ -298,10 +257,6 @@ extension Detective {
     }
 
     public struct Graph: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
-        ]
 
         /// The ARN of the behavior graph.
         public let arn: String?
@@ -320,10 +275,6 @@ extension Detective {
     }
 
     public struct ListGraphsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of graphs to return at a time. The total must be less than the overall limit on the number of results to return, which is currently 200.
         public let maxResults: Int?
@@ -349,10 +300,6 @@ extension Detective {
     }
 
     public struct ListGraphsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GraphList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of behavior graphs that the account is a master for.
         public let graphList: [Graph]?
@@ -371,10 +318,6 @@ extension Detective {
     }
 
     public struct ListInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of behavior graph invitations to return in the response. The total must be less than the overall limit on the number of results to return, which is currently 200.
         public let maxResults: Int?
@@ -400,10 +343,6 @@ extension Detective {
     }
 
     public struct ListInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invitations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of behavior graphs for which the member account has open or accepted invitations.
         public let invitations: [MemberDetail]?
@@ -422,11 +361,6 @@ extension Detective {
     }
 
     public struct ListMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GraphArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARN of the behavior graph for which to retrieve the list of member accounts.
         public let graphArn: String
@@ -457,10 +391,6 @@ extension Detective {
     }
 
     public struct ListMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of member accounts in the behavior graph. The results include member accounts that did not pass verification and member accounts that have not yet accepted the invitation to the behavior graph. The results do not include member accounts that were removed from the behavior graph.
         public let memberDetails: [MemberDetail]?
@@ -479,15 +409,6 @@ extension Detective {
     }
 
     public struct MemberDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "GraphArn", required: false, type: .string), 
-            AWSShapeMember(label: "InvitedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MasterId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp)
-        ]
 
         /// The AWS account identifier for the member account.
         public let accountId: String?
@@ -526,9 +447,6 @@ extension Detective {
     }
 
     public struct RejectInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GraphArn", required: true, type: .string)
-        ]
 
         /// The ARN of the behavior graph to reject the invitation to. The member account's current member status in the behavior graph must be INVITED.
         public let graphArn: String
@@ -547,10 +465,6 @@ extension Detective {
     }
 
     public struct UnprocessedAccount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Reason", required: false, type: .string)
-        ]
 
         /// The AWS account identifier of the member account that was not processed.
         public let accountId: String?

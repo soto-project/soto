@@ -51,16 +51,6 @@ extension CodeStarNotifications {
     //MARK: Shapes
 
     public struct CreateNotificationRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DetailType", required: true, type: .enum), 
-            AWSShapeMember(label: "EventTypeIds", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Resource", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
-        ]
 
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request with the same parameters is received and a token is included, the request returns information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency token is created for you. 
         public let clientRequestToken: String?
@@ -128,9 +118,6 @@ extension CodeStarNotifications {
     }
 
     public struct CreateNotificationRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String?
@@ -145,9 +132,6 @@ extension CodeStarNotifications {
     }
 
     public struct DeleteNotificationRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule you want to delete.
         public let arn: String
@@ -166,9 +150,6 @@ extension CodeStarNotifications {
     }
 
     public struct DeleteNotificationRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the deleted notification rule.
         public let arn: String?
@@ -183,10 +164,6 @@ extension CodeStarNotifications {
     }
 
     public struct DeleteTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForceUnsubscribeAll", required: false, type: .boolean), 
-            AWSShapeMember(label: "TargetAddress", required: true, type: .string)
-        ]
 
         /// A Boolean value that can be used to delete all associations with this SNS topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your AWS account are deleted.
         public let forceUnsubscribeAll: Bool?
@@ -218,9 +195,6 @@ extension CodeStarNotifications {
     }
 
     public struct DescribeNotificationRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
@@ -239,19 +213,6 @@ extension CodeStarNotifications {
     }
 
     public struct DescribeNotificationRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DetailType", required: false, type: .enum), 
-            AWSShapeMember(label: "EventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Resource", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
@@ -306,12 +267,6 @@ extension CodeStarNotifications {
     }
 
     public struct EventTypeSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "EventTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceName", required: false, type: .string)
-        ]
 
         /// The system-generated ID of the event.
         public let eventTypeId: String?
@@ -338,10 +293,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListEventTypesFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The system-generated name of the filter type you want to filter by.
         public let name: ListEventTypesFilterName
@@ -360,11 +311,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListEventTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The filters to use to return information by service or resource type.
         public let filters: [ListEventTypesFilter]?
@@ -393,10 +339,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListEventTypesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about each event, including service name, resource type, event ID, and event name.
         public let eventTypes: [EventTypeSummary]?
@@ -415,10 +357,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListNotificationRulesFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the attribute you want to use to filter the returned notification rules.
         public let name: ListNotificationRulesFilterName
@@ -437,11 +375,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListNotificationRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The filters to use to return information by service or resource type. For valid values, see ListNotificationRulesFilter.  A filter with the same name can appear more than once when used with OR statements. Filters with different names should be applied with AND statements. 
         public let filters: [ListNotificationRulesFilter]?
@@ -470,10 +403,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListNotificationRulesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationRules", required: false, type: .list)
-        ]
 
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
@@ -492,9 +421,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the notification rule.
         public let arn: String
@@ -513,9 +439,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListTagsForResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The tags associated with the notification rule.
         public let tags: [String: String]?
@@ -530,10 +453,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListTargetsFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the attribute you want to use to filter the returned targets.
         public let name: ListTargetsFilterName
@@ -552,11 +471,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The filters to use to return information by service or resource type. Valid filters include target type, target address, and target status.  A filter with the same name can appear more than once when used with OR statements. Filters with different names should be applied with AND statements. 
         public let filters: [ListTargetsFilter]?
@@ -585,10 +499,6 @@ extension CodeStarNotifications {
     }
 
     public struct ListTargetsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
-        ]
 
         /// An enumeration token that can be used in a request to return the next batch of results.
         public let nextToken: String?
@@ -607,10 +517,6 @@ extension CodeStarNotifications {
     }
 
     public struct NotificationRuleSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String?
@@ -629,11 +535,6 @@ extension CodeStarNotifications {
     }
 
     public struct SubscribeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Target", required: true, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule for which you want to create the association.
         public let arn: String
@@ -663,9 +564,6 @@ extension CodeStarNotifications {
     }
 
     public struct SubscribeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule for which you have created assocations.
         public let arn: String?
@@ -680,10 +578,6 @@ extension CodeStarNotifications {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule to tag.
         public let arn: String
@@ -713,9 +607,6 @@ extension CodeStarNotifications {
     }
 
     public struct TagResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The list of tags associated with the resource.
         public let tags: [String: String]?
@@ -730,10 +621,6 @@ extension CodeStarNotifications {
     }
 
     public struct Target: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetAddress", required: false, type: .string), 
-            AWSShapeMember(label: "TargetType", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the SNS topic.
         public let targetAddress: String?
@@ -758,11 +645,6 @@ extension CodeStarNotifications {
     }
 
     public struct TargetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetAddress", required: false, type: .string), 
-            AWSShapeMember(label: "TargetStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "TargetType", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the SNS topic.
         public let targetAddress: String?
@@ -785,10 +667,6 @@ extension CodeStarNotifications {
     }
 
     public struct UnsubscribeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "TargetAddress", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
@@ -813,9 +691,6 @@ extension CodeStarNotifications {
     }
 
     public struct UnsubscribeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the the notification rule from which you have removed a subscription.
         public let arn: String
@@ -830,10 +705,6 @@ extension CodeStarNotifications {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule from which to remove the tags.
         public let arn: String
@@ -869,14 +740,6 @@ extension CodeStarNotifications {
     }
 
     public struct UpdateNotificationRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "DetailType", required: false, type: .enum), 
-            AWSShapeMember(label: "EventTypeIds", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String

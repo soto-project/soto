@@ -52,10 +52,6 @@ extension LakeFormation {
     //MARK: Shapes
 
     public struct BatchGrantPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Entries", required: true, type: .list)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -83,9 +79,6 @@ extension LakeFormation {
     }
 
     public struct BatchGrantPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failures", required: false, type: .list)
-        ]
 
         /// A list of failures to grant permissions to the resources.
         public let failures: [BatchPermissionsFailureEntry]?
@@ -100,10 +93,6 @@ extension LakeFormation {
     }
 
     public struct BatchPermissionsFailureEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestEntry", required: false, type: .structure)
-        ]
 
         /// An error message that applies to the failure of the entry.
         public let error: ErrorDetail?
@@ -122,13 +111,6 @@ extension LakeFormation {
     }
 
     public struct BatchPermissionsRequestEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "PermissionsWithGrantOption", required: false, type: .list), 
-            AWSShapeMember(label: "Principal", required: false, type: .structure), 
-            AWSShapeMember(label: "Resource", required: false, type: .structure)
-        ]
 
         /// A unique identifier for the batch permissions request entry.
         public let id: String
@@ -166,10 +148,6 @@ extension LakeFormation {
     }
 
     public struct BatchRevokePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Entries", required: true, type: .list)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -197,9 +175,6 @@ extension LakeFormation {
     }
 
     public struct BatchRevokePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failures", required: false, type: .list)
-        ]
 
         /// A list of failures to revoke permissions to the resources.
         public let failures: [BatchPermissionsFailureEntry]?
@@ -222,9 +197,6 @@ extension LakeFormation {
     }
 
     public struct ColumnWildcard: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludedColumnNames", required: false, type: .list)
-        ]
 
         /// Excludes column names. Any column with this name will be excluded.
         public let excludedColumnNames: [String]?
@@ -247,9 +219,6 @@ extension LakeFormation {
     }
 
     public struct DataLakePrincipal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataLakePrincipalIdentifier", required: false, type: .string)
-        ]
 
         /// An identifier for the AWS Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
@@ -269,11 +238,6 @@ extension LakeFormation {
     }
 
     public struct DataLakeSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDatabaseDefaultPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "CreateTableDefaultPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "DataLakeAdmins", required: false, type: .list)
-        ]
 
         /// A list of up to three principal permissions entries for default create database permissions.
         public let createDatabaseDefaultPermissions: [PrincipalPermissions]?
@@ -310,9 +274,6 @@ extension LakeFormation {
     }
 
     public struct DataLocationResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the data location resource.
         public let resourceArn: String
@@ -327,9 +288,6 @@ extension LakeFormation {
     }
 
     public struct DatabaseResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the database resource. Unique to the Data Catalog.
         public let name: String
@@ -350,9 +308,6 @@ extension LakeFormation {
     }
 
     public struct DeregisterResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to deregister.
         public let resourceArn: String
@@ -375,9 +330,6 @@ extension LakeFormation {
     }
 
     public struct DescribeResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The resource ARN.
         public let resourceArn: String
@@ -392,9 +344,6 @@ extension LakeFormation {
     }
 
     public struct DescribeResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceInfo", required: false, type: .structure)
-        ]
 
         /// A structure containing information about an AWS Lake Formation resource.
         public let resourceInfo: ResourceInfo?
@@ -409,10 +358,6 @@ extension LakeFormation {
     }
 
     public struct ErrorDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
 
         /// The code associated with this error.
         public let errorCode: String?
@@ -431,11 +376,6 @@ extension LakeFormation {
     }
 
     public struct FilterCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "Field", required: false, type: .enum), 
-            AWSShapeMember(label: "StringValueList", required: false, type: .list)
-        ]
 
         /// The comparison operator used in the filter condition.
         public let comparisonOperator: ComparisonOperator?
@@ -458,9 +398,6 @@ extension LakeFormation {
     }
 
     public struct GetDataLakeSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -481,9 +418,6 @@ extension LakeFormation {
     }
 
     public struct GetDataLakeSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataLakeSettings", required: false, type: .structure)
-        ]
 
         /// A list of AWS Lake Formation principals. 
         public let dataLakeSettings: DataLakeSettings?
@@ -498,12 +432,6 @@ extension LakeFormation {
     }
 
     public struct GetEffectivePermissionsForPathRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -538,10 +466,6 @@ extension LakeFormation {
     }
 
     public struct GetEffectivePermissionsForPathResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list)
-        ]
 
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
@@ -560,13 +484,6 @@ extension LakeFormation {
     }
 
     public struct GrantPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: true, type: .list), 
-            AWSShapeMember(label: "PermissionsWithGrantOption", required: false, type: .list), 
-            AWSShapeMember(label: "Principal", required: true, type: .structure), 
-            AWSShapeMember(label: "Resource", required: true, type: .structure)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -613,14 +530,6 @@ extension LakeFormation {
     }
 
     public struct ListPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Principal", required: false, type: .structure), 
-            AWSShapeMember(label: "Resource", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -665,10 +574,6 @@ extension LakeFormation {
     }
 
     public struct ListPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalResourcePermissions", required: false, type: .list)
-        ]
 
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
@@ -687,11 +592,6 @@ extension LakeFormation {
     }
 
     public struct ListResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterConditionList", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Any applicable row-level and/or column-level filtering conditions for the resources.
         public let filterConditionList: [FilterCondition]?
@@ -721,10 +621,6 @@ extension LakeFormation {
     }
 
     public struct ListResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceInfoList", required: false, type: .list)
-        ]
 
         /// A continuation token, if this is not the first call to retrieve these resources.
         public let nextToken: String?
@@ -743,10 +639,6 @@ extension LakeFormation {
     }
 
     public struct PrincipalPermissions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "Principal", required: false, type: .structure)
-        ]
 
         /// The permissions that are granted to the principal.
         public let permissions: [Permission]?
@@ -769,12 +661,6 @@ extension LakeFormation {
     }
 
     public struct PrincipalResourcePermissions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "PermissionsWithGrantOption", required: false, type: .list), 
-            AWSShapeMember(label: "Principal", required: false, type: .structure), 
-            AWSShapeMember(label: "Resource", required: false, type: .structure)
-        ]
 
         /// The permissions to be granted or revoked on the resource.
         public let permissions: [Permission]?
@@ -801,10 +687,6 @@ extension LakeFormation {
     }
 
     public struct PutDataLakeSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DataLakeSettings", required: true, type: .structure)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -838,11 +720,6 @@ extension LakeFormation {
     }
 
     public struct RegisterResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "UseServiceLinkedRole", required: false, type: .boolean)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to register.
         public let resourceArn: String
@@ -877,13 +754,6 @@ extension LakeFormation {
     }
 
     public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", required: false, type: .structure), 
-            AWSShapeMember(label: "Database", required: false, type: .structure), 
-            AWSShapeMember(label: "DataLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "Table", required: false, type: .structure), 
-            AWSShapeMember(label: "TableWithColumns", required: false, type: .structure)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalog: CatalogResource?
@@ -920,11 +790,6 @@ extension LakeFormation {
     }
 
     public struct ResourceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string)
-        ]
 
         /// The date and time the resource was last modified.
         public let lastModified: TimeStamp?
@@ -947,13 +812,6 @@ extension LakeFormation {
     }
 
     public struct RevokePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: true, type: .list), 
-            AWSShapeMember(label: "PermissionsWithGrantOption", required: false, type: .list), 
-            AWSShapeMember(label: "Principal", required: true, type: .structure), 
-            AWSShapeMember(label: "Resource", required: true, type: .structure)
-        ]
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -1000,10 +858,6 @@ extension LakeFormation {
     }
 
     public struct TableResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the database for the table. Unique to a Data Catalog. A database is a set of associated table definitions organized into a logical group. You can Grant and Revoke database privileges to a principal. 
         public let databaseName: String
@@ -1031,12 +885,6 @@ extension LakeFormation {
     }
 
     public struct TableWithColumnsResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnNames", required: false, type: .list), 
-            AWSShapeMember(label: "ColumnWildcard", required: false, type: .structure), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The list of column names for the table. At least one of ColumnNames or ColumnWildcard is required.
         public let columnNames: [String]?
@@ -1078,10 +926,6 @@ extension LakeFormation {
     }
 
     public struct UpdateResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The resource ARN.
         public let resourceArn: String

@@ -2039,15 +2039,15 @@ extension MediaConvert {
 
     public struct AacSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioDescriptionBroadcasterMix", location: .body(locationName: "audioDescriptionBroadcasterMix"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "RawFormat", location: .body(locationName: "rawFormat"), required: false, type: .enum), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer), 
-            AWSShapeMember(label: "Specification", location: .body(locationName: "specification"), required: false, type: .enum), 
-            AWSShapeMember(label: "VbrQuality", location: .body(locationName: "vbrQuality"), required: false, type: .enum)
+            AWSShapeMember(label: "AudioDescriptionBroadcasterMix", location: .body(locationName: "audioDescriptionBroadcasterMix")), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile")), 
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
+            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
+            AWSShapeMember(label: "RawFormat", location: .body(locationName: "rawFormat")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate")), 
+            AWSShapeMember(label: "Specification", location: .body(locationName: "specification")), 
+            AWSShapeMember(label: "VbrQuality", location: .body(locationName: "vbrQuality"))
         ]
 
         /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and  FollowInputAudioType. Choose NORMAL when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
@@ -2103,14 +2103,14 @@ extension MediaConvert {
 
     public struct Ac3Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm"), required: false, type: .integer), 
-            AWSShapeMember(label: "DynamicRangeCompressionProfile", location: .body(locationName: "dynamicRangeCompressionProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer)
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode")), 
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
+            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm")), 
+            AWSShapeMember(label: "DynamicRangeCompressionProfile", location: .body(locationName: "dynamicRangeCompressionProfile")), 
+            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter")), 
+            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"))
         ]
 
         /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
@@ -2164,7 +2164,7 @@ extension MediaConvert {
 
     public struct AccelerationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Mode", location: .body(locationName: "mode"), required: true, type: .enum)
+            AWSShapeMember(label: "Mode", location: .body(locationName: "mode"))
         ]
 
         /// Specify the conditions when the service will run your job with accelerated transcoding.
@@ -2181,9 +2181,9 @@ extension MediaConvert {
 
     public struct AiffSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BitDepth", location: .body(locationName: "bitDepth"), required: false, type: .integer), 
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .integer), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer)
+            AWSShapeMember(label: "BitDepth", location: .body(locationName: "bitDepth")), 
+            AWSShapeMember(label: "Channels", location: .body(locationName: "channels")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"))
         ]
 
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
@@ -2217,9 +2217,9 @@ extension MediaConvert {
 
     public struct AncillarySourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
-            AWSShapeMember(label: "SourceAncillaryChannelNumber", location: .body(locationName: "sourceAncillaryChannelNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "TerminateCaptions", location: .body(locationName: "terminateCaptions"), required: false, type: .enum)
+            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708")), 
+            AWSShapeMember(label: "SourceAncillaryChannelNumber", location: .body(locationName: "sourceAncillaryChannelNumber")), 
+            AWSShapeMember(label: "TerminateCaptions", location: .body(locationName: "terminateCaptions"))
         ]
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
@@ -2249,7 +2249,7 @@ extension MediaConvert {
 
     public struct AssociateCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string)
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"))
         ]
 
         /// The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
@@ -2274,15 +2274,15 @@ extension MediaConvert {
 
     public struct AudioCodecSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AacSettings", location: .body(locationName: "aacSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Ac3Settings", location: .body(locationName: "ac3Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "AiffSettings", location: .body(locationName: "aiffSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Codec", location: .body(locationName: "codec"), required: false, type: .enum), 
-            AWSShapeMember(label: "Eac3AtmosSettings", location: .body(locationName: "eac3AtmosSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Eac3Settings", location: .body(locationName: "eac3Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Mp3Settings", location: .body(locationName: "mp3Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "WavSettings", location: .body(locationName: "wavSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "AacSettings", location: .body(locationName: "aacSettings")), 
+            AWSShapeMember(label: "Ac3Settings", location: .body(locationName: "ac3Settings")), 
+            AWSShapeMember(label: "AiffSettings", location: .body(locationName: "aiffSettings")), 
+            AWSShapeMember(label: "Codec", location: .body(locationName: "codec")), 
+            AWSShapeMember(label: "Eac3AtmosSettings", location: .body(locationName: "eac3AtmosSettings")), 
+            AWSShapeMember(label: "Eac3Settings", location: .body(locationName: "eac3Settings")), 
+            AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings")), 
+            AWSShapeMember(label: "Mp3Settings", location: .body(locationName: "mp3Settings")), 
+            AWSShapeMember(label: "WavSettings", location: .body(locationName: "wavSettings"))
         ]
 
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value AAC. The service accepts one of two mutually exclusive groups of AAC settings--VBR and CBR. To select one of these modes, set the value of Bitrate control mode (rateControlMode) to "VBR" or "CBR".  In VBR mode, you control the audio quality with the setting VBR quality (vbrQuality). In CBR mode, you use the setting Bitrate (bitrate). Defaults and valid values depend on the rate control mode.
@@ -2342,16 +2342,16 @@ extension MediaConvert {
 
     public struct AudioDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioNormalizationSettings", location: .body(locationName: "audioNormalizationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "AudioSourceName", location: .body(locationName: "audioSourceName"), required: false, type: .string), 
-            AWSShapeMember(label: "AudioType", location: .body(locationName: "audioType"), required: false, type: .integer), 
-            AWSShapeMember(label: "AudioTypeControl", location: .body(locationName: "audioTypeControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCodeControl", location: .body(locationName: "languageCodeControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "RemixSettings", location: .body(locationName: "remixSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"), required: false, type: .string)
+            AWSShapeMember(label: "AudioNormalizationSettings", location: .body(locationName: "audioNormalizationSettings")), 
+            AWSShapeMember(label: "AudioSourceName", location: .body(locationName: "audioSourceName")), 
+            AWSShapeMember(label: "AudioType", location: .body(locationName: "audioType")), 
+            AWSShapeMember(label: "AudioTypeControl", location: .body(locationName: "audioTypeControl")), 
+            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings")), 
+            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode")), 
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
+            AWSShapeMember(label: "LanguageCodeControl", location: .body(locationName: "languageCodeControl")), 
+            AWSShapeMember(label: "RemixSettings", location: .body(locationName: "remixSettings")), 
+            AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"))
         ]
 
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
@@ -2414,12 +2414,12 @@ extension MediaConvert {
 
     public struct AudioNormalizationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "AlgorithmControl", location: .body(locationName: "algorithmControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "CorrectionGateLevel", location: .body(locationName: "correctionGateLevel"), required: false, type: .integer), 
-            AWSShapeMember(label: "LoudnessLogging", location: .body(locationName: "loudnessLogging"), required: false, type: .enum), 
-            AWSShapeMember(label: "PeakCalculation", location: .body(locationName: "peakCalculation"), required: false, type: .enum), 
-            AWSShapeMember(label: "TargetLkfs", location: .body(locationName: "targetLkfs"), required: false, type: .double)
+            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm")), 
+            AWSShapeMember(label: "AlgorithmControl", location: .body(locationName: "algorithmControl")), 
+            AWSShapeMember(label: "CorrectionGateLevel", location: .body(locationName: "correctionGateLevel")), 
+            AWSShapeMember(label: "LoudnessLogging", location: .body(locationName: "loudnessLogging")), 
+            AWSShapeMember(label: "PeakCalculation", location: .body(locationName: "peakCalculation")), 
+            AWSShapeMember(label: "TargetLkfs", location: .body(locationName: "targetLkfs"))
         ]
 
         /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content, suitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels. ITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of EBU-R128. Supports up to 5.1 audio channels. ITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak measurement. ITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including configurations such as 7.1.
@@ -2461,16 +2461,16 @@ extension MediaConvert {
 
     public struct AudioSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "DefaultSelection", location: .body(locationName: "defaultSelection"), required: false, type: .enum), 
-            AWSShapeMember(label: "ExternalAudioFileInput", location: .body(locationName: "externalAudioFileInput"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Offset", location: .body(locationName: "offset"), required: false, type: .integer), 
-            AWSShapeMember(label: "Pids", location: .body(locationName: "pids"), required: false, type: .list), 
-            AWSShapeMember(label: "ProgramSelection", location: .body(locationName: "programSelection"), required: false, type: .integer), 
-            AWSShapeMember(label: "RemixSettings", location: .body(locationName: "remixSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "SelectorType", location: .body(locationName: "selectorType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tracks", location: .body(locationName: "tracks"), required: false, type: .list)
+            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode")), 
+            AWSShapeMember(label: "DefaultSelection", location: .body(locationName: "defaultSelection")), 
+            AWSShapeMember(label: "ExternalAudioFileInput", location: .body(locationName: "externalAudioFileInput")), 
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
+            AWSShapeMember(label: "Offset", location: .body(locationName: "offset")), 
+            AWSShapeMember(label: "Pids", location: .body(locationName: "pids")), 
+            AWSShapeMember(label: "ProgramSelection", location: .body(locationName: "programSelection")), 
+            AWSShapeMember(label: "RemixSettings", location: .body(locationName: "remixSettings")), 
+            AWSShapeMember(label: "SelectorType", location: .body(locationName: "selectorType")), 
+            AWSShapeMember(label: "Tracks", location: .body(locationName: "tracks"))
         ]
 
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
@@ -2543,7 +2543,7 @@ extension MediaConvert {
 
     public struct AudioSelectorGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioSelectorNames", location: .body(locationName: "audioSelectorNames"), required: false, type: .list)
+            AWSShapeMember(label: "AudioSelectorNames", location: .body(locationName: "audioSelectorNames"))
         ]
 
         /// Name of an Audio Selector within the same input to include in the group.  Audio selector names are standardized, based on their order within the input (e.g., "Audio Selector 1"). The audio selector name parameter can be repeated to add any number of audio selectors to the group.
@@ -2566,7 +2566,7 @@ extension MediaConvert {
 
     public struct AvailBlanking: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailBlankingImage", location: .body(locationName: "availBlankingImage"), required: false, type: .string)
+            AWSShapeMember(label: "AvailBlankingImage", location: .body(locationName: "availBlankingImage"))
         ]
 
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
@@ -2588,23 +2588,23 @@ extension MediaConvert {
 
     public struct BurninDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment"), required: false, type: .enum), 
-            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontScript", location: .body(locationName: "fontScript"), required: false, type: .enum), 
-            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "TeletextSpacing", location: .body(locationName: "teletextSpacing"), required: false, type: .enum), 
-            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition"), required: false, type: .integer), 
-            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"), required: false, type: .integer)
+            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment")), 
+            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor")), 
+            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity")), 
+            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor")), 
+            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity")), 
+            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution")), 
+            AWSShapeMember(label: "FontScript", location: .body(locationName: "fontScript")), 
+            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize")), 
+            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor")), 
+            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize")), 
+            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor")), 
+            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity")), 
+            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset")), 
+            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset")), 
+            AWSShapeMember(label: "TeletextSpacing", location: .body(locationName: "teletextSpacing")), 
+            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition")), 
+            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"))
         ]
 
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -2712,7 +2712,7 @@ extension MediaConvert {
 
     public struct CancelJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
         ]
 
         /// The Job ID of the job to be cancelled.
@@ -2737,11 +2737,11 @@ extension MediaConvert {
 
     public struct CaptionDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptionSelectorName", location: .body(locationName: "captionSelectorName"), required: false, type: .string), 
-            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string)
+            AWSShapeMember(label: "CaptionSelectorName", location: .body(locationName: "captionSelectorName")), 
+            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode")), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings")), 
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
+            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"))
         ]
 
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
@@ -2780,10 +2780,10 @@ extension MediaConvert {
 
     public struct CaptionDescriptionPreset: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string)
+            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode")), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings")), 
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
+            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"))
         ]
 
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
@@ -2817,14 +2817,14 @@ extension MediaConvert {
 
     public struct CaptionDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BurninDestinationSettings", location: .body(locationName: "burninDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType"), required: false, type: .enum), 
-            AWSShapeMember(label: "DvbSubDestinationSettings", location: .body(locationName: "dvbSubDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "EmbeddedDestinationSettings", location: .body(locationName: "embeddedDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ImscDestinationSettings", location: .body(locationName: "imscDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "SccDestinationSettings", location: .body(locationName: "sccDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "TeletextDestinationSettings", location: .body(locationName: "teletextDestinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "TtmlDestinationSettings", location: .body(locationName: "ttmlDestinationSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "BurninDestinationSettings", location: .body(locationName: "burninDestinationSettings")), 
+            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType")), 
+            AWSShapeMember(label: "DvbSubDestinationSettings", location: .body(locationName: "dvbSubDestinationSettings")), 
+            AWSShapeMember(label: "EmbeddedDestinationSettings", location: .body(locationName: "embeddedDestinationSettings")), 
+            AWSShapeMember(label: "ImscDestinationSettings", location: .body(locationName: "imscDestinationSettings")), 
+            AWSShapeMember(label: "SccDestinationSettings", location: .body(locationName: "sccDestinationSettings")), 
+            AWSShapeMember(label: "TeletextDestinationSettings", location: .body(locationName: "teletextDestinationSettings")), 
+            AWSShapeMember(label: "TtmlDestinationSettings", location: .body(locationName: "ttmlDestinationSettings"))
         ]
 
         /// Burn-In Destination Settings.
@@ -2876,9 +2876,9 @@ extension MediaConvert {
 
     public struct CaptionSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "SourceSettings", location: .body(locationName: "sourceSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode")), 
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
+            AWSShapeMember(label: "SourceSettings", location: .body(locationName: "sourceSettings"))
         ]
 
         /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
@@ -2910,13 +2910,13 @@ extension MediaConvert {
 
     public struct CaptionSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AncillarySourceSettings", location: .body(locationName: "ancillarySourceSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DvbSubSourceSettings", location: .body(locationName: "dvbSubSourceSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "EmbeddedSourceSettings", location: .body(locationName: "embeddedSourceSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "FileSourceSettings", location: .body(locationName: "fileSourceSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "SourceType", location: .body(locationName: "sourceType"), required: false, type: .enum), 
-            AWSShapeMember(label: "TeletextSourceSettings", location: .body(locationName: "teletextSourceSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "TrackSourceSettings", location: .body(locationName: "trackSourceSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "AncillarySourceSettings", location: .body(locationName: "ancillarySourceSettings")), 
+            AWSShapeMember(label: "DvbSubSourceSettings", location: .body(locationName: "dvbSubSourceSettings")), 
+            AWSShapeMember(label: "EmbeddedSourceSettings", location: .body(locationName: "embeddedSourceSettings")), 
+            AWSShapeMember(label: "FileSourceSettings", location: .body(locationName: "fileSourceSettings")), 
+            AWSShapeMember(label: "SourceType", location: .body(locationName: "sourceType")), 
+            AWSShapeMember(label: "TeletextSourceSettings", location: .body(locationName: "teletextSourceSettings")), 
+            AWSShapeMember(label: "TrackSourceSettings", location: .body(locationName: "trackSourceSettings"))
         ]
 
         /// Settings for ancillary captions source.
@@ -2966,7 +2966,7 @@ extension MediaConvert {
 
     public struct ChannelMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputChannels", location: .body(locationName: "outputChannels"), required: false, type: .list)
+            AWSShapeMember(label: "OutputChannels", location: .body(locationName: "outputChannels"))
         ]
 
         /// List of output channels
@@ -2989,8 +2989,8 @@ extension MediaConvert {
 
     public struct CmafAdditionalManifest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
-            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier")), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"))
         ]
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
@@ -3018,12 +3018,12 @@ extension MediaConvert {
 
     public struct CmafEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod"), required: false, type: .enum), 
-            AWSShapeMember(label: "InitializationVectorInManifest", location: .body(locationName: "initializationVectorInManifest"), required: false, type: .enum), 
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: false, type: .structure), 
-            AWSShapeMember(label: "StaticKeyProvider", location: .body(locationName: "staticKeyProvider"), required: false, type: .structure), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
+            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector")), 
+            AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod")), 
+            AWSShapeMember(label: "InitializationVectorInManifest", location: .body(locationName: "initializationVectorInManifest")), 
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider")), 
+            AWSShapeMember(label: "StaticKeyProvider", location: .body(locationName: "staticKeyProvider")), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
@@ -3068,25 +3068,25 @@ extension MediaConvert {
 
     public struct CmafGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
-            AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "ClientCache", location: .body(locationName: "clientCache"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodecSpecification", location: .body(locationName: "codecSpecification"), required: false, type: .enum), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "ManifestCompression", location: .body(locationName: "manifestCompression"), required: false, type: .enum), 
-            AWSShapeMember(label: "ManifestDurationFormat", location: .body(locationName: "manifestDurationFormat"), required: false, type: .enum), 
-            AWSShapeMember(label: "MinBufferTime", location: .body(locationName: "minBufferTime"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinFinalSegmentLength", location: .body(locationName: "minFinalSegmentLength"), required: false, type: .double), 
-            AWSShapeMember(label: "MpdProfile", location: .body(locationName: "mpdProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamInfResolution", location: .body(locationName: "streamInfResolution"), required: false, type: .enum), 
-            AWSShapeMember(label: "WriteDashManifest", location: .body(locationName: "writeDashManifest"), required: false, type: .enum), 
-            AWSShapeMember(label: "WriteHlsManifest", location: .body(locationName: "writeHlsManifest"), required: false, type: .enum), 
-            AWSShapeMember(label: "WriteSegmentTimelineInRepresentation", location: .body(locationName: "writeSegmentTimelineInRepresentation"), required: false, type: .enum)
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests")), 
+            AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl")), 
+            AWSShapeMember(label: "ClientCache", location: .body(locationName: "clientCache")), 
+            AWSShapeMember(label: "CodecSpecification", location: .body(locationName: "codecSpecification")), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings")), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
+            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength")), 
+            AWSShapeMember(label: "ManifestCompression", location: .body(locationName: "manifestCompression")), 
+            AWSShapeMember(label: "ManifestDurationFormat", location: .body(locationName: "manifestDurationFormat")), 
+            AWSShapeMember(label: "MinBufferTime", location: .body(locationName: "minBufferTime")), 
+            AWSShapeMember(label: "MinFinalSegmentLength", location: .body(locationName: "minFinalSegmentLength")), 
+            AWSShapeMember(label: "MpdProfile", location: .body(locationName: "mpdProfile")), 
+            AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl")), 
+            AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength")), 
+            AWSShapeMember(label: "StreamInfResolution", location: .body(locationName: "streamInfResolution")), 
+            AWSShapeMember(label: "WriteDashManifest", location: .body(locationName: "writeDashManifest")), 
+            AWSShapeMember(label: "WriteHlsManifest", location: .body(locationName: "writeHlsManifest")), 
+            AWSShapeMember(label: "WriteSegmentTimelineInRepresentation", location: .body(locationName: "writeSegmentTimelineInRepresentation"))
         ]
 
         /// By default, the service creates one top-level .m3u8 HLS manifest and one top -level .mpd DASH manifest for each CMAF output group in your job. These default manifests reference every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here. For each additional manifest that you specify, the service creates one HLS manifest and one DASH manifest.
@@ -3190,8 +3190,8 @@ extension MediaConvert {
 
     public struct CmfcSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam"), required: false, type: .enum), 
-            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"), required: false, type: .enum)
+            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam")), 
+            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"))
         ]
 
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
@@ -3212,12 +3212,12 @@ extension MediaConvert {
 
     public struct ColorCorrector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Brightness", location: .body(locationName: "brightness"), required: false, type: .integer), 
-            AWSShapeMember(label: "ColorSpaceConversion", location: .body(locationName: "colorSpaceConversion"), required: false, type: .enum), 
-            AWSShapeMember(label: "Contrast", location: .body(locationName: "contrast"), required: false, type: .integer), 
-            AWSShapeMember(label: "Hdr10Metadata", location: .body(locationName: "hdr10Metadata"), required: false, type: .structure), 
-            AWSShapeMember(label: "Hue", location: .body(locationName: "hue"), required: false, type: .integer), 
-            AWSShapeMember(label: "Saturation", location: .body(locationName: "saturation"), required: false, type: .integer)
+            AWSShapeMember(label: "Brightness", location: .body(locationName: "brightness")), 
+            AWSShapeMember(label: "ColorSpaceConversion", location: .body(locationName: "colorSpaceConversion")), 
+            AWSShapeMember(label: "Contrast", location: .body(locationName: "contrast")), 
+            AWSShapeMember(label: "Hdr10Metadata", location: .body(locationName: "hdr10Metadata")), 
+            AWSShapeMember(label: "Hue", location: .body(locationName: "hue")), 
+            AWSShapeMember(label: "Saturation", location: .body(locationName: "saturation"))
         ]
 
         /// Brightness level.
@@ -3266,14 +3266,14 @@ extension MediaConvert {
 
     public struct ContainerSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CmfcSettings", location: .body(locationName: "cmfcSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Container", location: .body(locationName: "container"), required: false, type: .enum), 
-            AWSShapeMember(label: "F4vSettings", location: .body(locationName: "f4vSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "MovSettings", location: .body(locationName: "movSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Mp4Settings", location: .body(locationName: "mp4Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "MpdSettings", location: .body(locationName: "mpdSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "CmfcSettings", location: .body(locationName: "cmfcSettings")), 
+            AWSShapeMember(label: "Container", location: .body(locationName: "container")), 
+            AWSShapeMember(label: "F4vSettings", location: .body(locationName: "f4vSettings")), 
+            AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings")), 
+            AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings")), 
+            AWSShapeMember(label: "MovSettings", location: .body(locationName: "movSettings")), 
+            AWSShapeMember(label: "Mp4Settings", location: .body(locationName: "mp4Settings")), 
+            AWSShapeMember(label: "MpdSettings", location: .body(locationName: "mpdSettings"))
         ]
 
         /// Settings for MP4 segments in CMAF
@@ -3324,18 +3324,18 @@ extension MediaConvert {
 
     public struct CreateJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "BillingTagsSource", location: .body(locationName: "billingTagsSource"), required: false, type: .enum), 
-            AWSShapeMember(label: "ClientRequestToken", location: .body(locationName: "clientRequestToken"), required: false, type: .string), 
-            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .string), 
-            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
-            AWSShapeMember(label: "Role", location: .body(locationName: "role"), required: true, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
-            AWSShapeMember(label: "SimulateReservedQueue", location: .body(locationName: "simulateReservedQueue"), required: false, type: .enum), 
-            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "UserMetadata", location: .body(locationName: "userMetadata"), required: false, type: .map)
+            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings")), 
+            AWSShapeMember(label: "BillingTagsSource", location: .body(locationName: "billingTagsSource")), 
+            AWSShapeMember(label: "ClientRequestToken", location: .body(locationName: "clientRequestToken")), 
+            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate")), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority")), 
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue")), 
+            AWSShapeMember(label: "Role", location: .body(locationName: "role")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings")), 
+            AWSShapeMember(label: "SimulateReservedQueue", location: .body(locationName: "simulateReservedQueue")), 
+            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
+            AWSShapeMember(label: "UserMetadata", location: .body(locationName: "userMetadata"))
         ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
@@ -3402,7 +3402,7 @@ extension MediaConvert {
 
     public struct CreateJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Job", location: .body(locationName: "job"), required: false, type: .structure)
+            AWSShapeMember(label: "Job", location: .body(locationName: "job"))
         ]
 
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
@@ -3419,15 +3419,15 @@ extension MediaConvert {
 
     public struct CreateJobTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
-            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings")), 
+            AWSShapeMember(label: "Category", location: .body(locationName: "category")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority")), 
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings")), 
+            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
@@ -3482,7 +3482,7 @@ extension MediaConvert {
 
     public struct CreateJobTemplateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .structure)
+            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"))
         ]
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
@@ -3499,11 +3499,11 @@ extension MediaConvert {
 
     public struct CreatePresetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "Category", location: .body(locationName: "category")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         /// Optional. A category for the preset you are creating.
@@ -3540,7 +3540,7 @@ extension MediaConvert {
 
     public struct CreatePresetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Preset", location: .body(locationName: "preset"), required: false, type: .structure)
+            AWSShapeMember(label: "Preset", location: .body(locationName: "preset"))
         ]
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
@@ -3557,12 +3557,12 @@ extension MediaConvert {
 
     public struct CreateQueueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "PricingPlan", location: .body(locationName: "pricingPlan"), required: false, type: .enum), 
-            AWSShapeMember(label: "ReservationPlanSettings", location: .body(locationName: "reservationPlanSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "PricingPlan", location: .body(locationName: "pricingPlan")), 
+            AWSShapeMember(label: "ReservationPlanSettings", location: .body(locationName: "reservationPlanSettings")), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         /// Optional. A description of the queue that you are creating.
@@ -3599,7 +3599,7 @@ extension MediaConvert {
 
     public struct CreateQueueResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .structure)
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"))
         ]
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
@@ -3616,8 +3616,8 @@ extension MediaConvert {
 
     public struct DashAdditionalManifest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
-            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier")), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"))
         ]
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your DASH group is film-name.mpd. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.mpd.
@@ -3645,8 +3645,8 @@ extension MediaConvert {
 
     public struct DashIsoEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlaybackDeviceCompatibility", location: .body(locationName: "playbackDeviceCompatibility"), required: false, type: .enum), 
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: false, type: .structure)
+            AWSShapeMember(label: "PlaybackDeviceCompatibility", location: .body(locationName: "playbackDeviceCompatibility")), 
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"))
         ]
 
         /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI (UNENCRYPTED_SEI) only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1 (CENC_V1). If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
@@ -3671,18 +3671,18 @@ extension MediaConvert {
 
     public struct DashIsoGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
-            AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "HbbtvCompliance", location: .body(locationName: "hbbtvCompliance"), required: false, type: .enum), 
-            AWSShapeMember(label: "MinBufferTime", location: .body(locationName: "minBufferTime"), required: false, type: .integer), 
-            AWSShapeMember(label: "MpdProfile", location: .body(locationName: "mpdProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "WriteSegmentTimelineInRepresentation", location: .body(locationName: "writeSegmentTimelineInRepresentation"), required: false, type: .enum)
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests")), 
+            AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl")), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings")), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
+            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength")), 
+            AWSShapeMember(label: "HbbtvCompliance", location: .body(locationName: "hbbtvCompliance")), 
+            AWSShapeMember(label: "MinBufferTime", location: .body(locationName: "minBufferTime")), 
+            AWSShapeMember(label: "MpdProfile", location: .body(locationName: "mpdProfile")), 
+            AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl")), 
+            AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength")), 
+            AWSShapeMember(label: "WriteSegmentTimelineInRepresentation", location: .body(locationName: "writeSegmentTimelineInRepresentation"))
         ]
 
         /// By default, the service creates one .mpd DASH manifest for each DASH ISO output group in your job. This default manifest references every output in the output group. To create additional DASH manifests that reference a subset of the outputs in the output group, specify a list of them here.
@@ -3758,9 +3758,9 @@ extension MediaConvert {
 
     public struct Deinterlacer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "Control", location: .body(locationName: "control"), required: false, type: .enum), 
-            AWSShapeMember(label: "Mode", location: .body(locationName: "mode"), required: false, type: .enum)
+            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm")), 
+            AWSShapeMember(label: "Control", location: .body(locationName: "control")), 
+            AWSShapeMember(label: "Mode", location: .body(locationName: "mode"))
         ]
 
         /// Only applies when you set Deinterlacer (DeinterlaceMode) to Deinterlace (DEINTERLACE) or Adaptive (ADAPTIVE). Motion adaptive interpolate (INTERPOLATE) produces sharper pictures, while blend (BLEND) produces smoother motion. Use (INTERPOLATE_TICKER) OR (BLEND_TICKER) if your source file includes a ticker, such as a scrolling headline at the bottom of the frame.
@@ -3785,7 +3785,7 @@ extension MediaConvert {
 
     public struct DeleteJobTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the job template to be deleted.
@@ -3810,7 +3810,7 @@ extension MediaConvert {
 
     public struct DeletePresetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the preset to be deleted.
@@ -3835,7 +3835,7 @@ extension MediaConvert {
 
     public struct DeleteQueueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the queue that you want to delete.
@@ -3860,9 +3860,9 @@ extension MediaConvert {
 
     public struct DescribeEndpointsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "Mode", location: .body(locationName: "mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
+            AWSShapeMember(label: "Mode", location: .body(locationName: "mode")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
@@ -3887,8 +3887,8 @@ extension MediaConvert {
 
     public struct DescribeEndpointsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         /// List of endpoints
@@ -3909,7 +3909,7 @@ extension MediaConvert {
 
     public struct DestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Settings", location: .body(locationName: "s3Settings"), required: false, type: .structure)
+            AWSShapeMember(label: "S3Settings", location: .body(locationName: "s3Settings"))
         ]
 
         /// Settings associated with S3 destination
@@ -3930,7 +3930,7 @@ extension MediaConvert {
 
     public struct DisassociateCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string)
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"))
         ]
 
         /// The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource.
@@ -3955,9 +3955,9 @@ extension MediaConvert {
 
     public struct DolbyVision: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "L6Metadata", location: .body(locationName: "l6Metadata"), required: false, type: .structure), 
-            AWSShapeMember(label: "L6Mode", location: .body(locationName: "l6Mode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum)
+            AWSShapeMember(label: "L6Metadata", location: .body(locationName: "l6Metadata")), 
+            AWSShapeMember(label: "L6Mode", location: .body(locationName: "l6Mode")), 
+            AWSShapeMember(label: "Profile", location: .body(locationName: "profile"))
         ]
 
         /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
@@ -3986,8 +3986,8 @@ extension MediaConvert {
 
     public struct DolbyVisionLevel6Metadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxCll", location: .body(locationName: "maxCll"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxFall", location: .body(locationName: "maxFall"), required: false, type: .integer)
+            AWSShapeMember(label: "MaxCll", location: .body(locationName: "maxCll")), 
+            AWSShapeMember(label: "MaxFall", location: .body(locationName: "maxFall"))
         ]
 
         /// Maximum Content Light Level. Static HDR metadata that corresponds to the brightest pixel in the entire stream. Measured in nits.
@@ -4015,9 +4015,9 @@ extension MediaConvert {
 
     public struct DvbNitSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId"), required: false, type: .integer), 
-            AWSShapeMember(label: "NetworkName", location: .body(locationName: "networkName"), required: false, type: .string), 
-            AWSShapeMember(label: "NitInterval", location: .body(locationName: "nitInterval"), required: false, type: .integer)
+            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId")), 
+            AWSShapeMember(label: "NetworkName", location: .body(locationName: "networkName")), 
+            AWSShapeMember(label: "NitInterval", location: .body(locationName: "nitInterval"))
         ]
 
         /// The numeric value placed in the Network Information Table (NIT).
@@ -4051,10 +4051,10 @@ extension MediaConvert {
 
     public struct DvbSdtSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputSdt", location: .body(locationName: "outputSdt"), required: false, type: .enum), 
-            AWSShapeMember(label: "SdtInterval", location: .body(locationName: "sdtInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string), 
-            AWSShapeMember(label: "ServiceProviderName", location: .body(locationName: "serviceProviderName"), required: false, type: .string)
+            AWSShapeMember(label: "OutputSdt", location: .body(locationName: "outputSdt")), 
+            AWSShapeMember(label: "SdtInterval", location: .body(locationName: "sdtInterval")), 
+            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName")), 
+            AWSShapeMember(label: "ServiceProviderName", location: .body(locationName: "serviceProviderName"))
         ]
 
         /// Selects method of inserting SDT information into output stream.  "Follow input SDT" copies SDT information from input stream to  output stream. "Follow input SDT if present" copies SDT information from  input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. Enter "SDT  Manually" means user will enter the SDT information. "No SDT" means output  stream will not contain SDT information.
@@ -4092,24 +4092,24 @@ extension MediaConvert {
 
     public struct DvbSubDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment"), required: false, type: .enum), 
-            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution"), required: false, type: .integer), 
-            AWSShapeMember(label: "FontScript", location: .body(locationName: "fontScript"), required: false, type: .enum), 
-            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor"), required: false, type: .enum), 
-            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "SubtitlingType", location: .body(locationName: "subtitlingType"), required: false, type: .enum), 
-            AWSShapeMember(label: "TeletextSpacing", location: .body(locationName: "teletextSpacing"), required: false, type: .enum), 
-            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition"), required: false, type: .integer), 
-            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"), required: false, type: .integer)
+            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment")), 
+            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor")), 
+            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity")), 
+            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor")), 
+            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity")), 
+            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution")), 
+            AWSShapeMember(label: "FontScript", location: .body(locationName: "fontScript")), 
+            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize")), 
+            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor")), 
+            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize")), 
+            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor")), 
+            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity")), 
+            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset")), 
+            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset")), 
+            AWSShapeMember(label: "SubtitlingType", location: .body(locationName: "subtitlingType")), 
+            AWSShapeMember(label: "TeletextSpacing", location: .body(locationName: "teletextSpacing")), 
+            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition")), 
+            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"))
         ]
 
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -4221,7 +4221,7 @@ extension MediaConvert {
 
     public struct DvbSubSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer)
+            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"))
         ]
 
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
@@ -4243,7 +4243,7 @@ extension MediaConvert {
 
     public struct DvbTdtSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TdtInterval", location: .body(locationName: "tdtInterval"), required: false, type: .integer)
+            AWSShapeMember(label: "TdtInterval", location: .body(locationName: "tdtInterval"))
         ]
 
         /// The number of milliseconds between instances of this table in the output transport stream.
@@ -4265,21 +4265,21 @@ extension MediaConvert {
 
     public struct Eac3AtmosSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "DialogueIntelligence", location: .body(locationName: "dialogueIntelligence"), required: false, type: .enum), 
-            AWSShapeMember(label: "DynamicRangeCompressionLine", location: .body(locationName: "dynamicRangeCompressionLine"), required: false, type: .enum), 
-            AWSShapeMember(label: "DynamicRangeCompressionRf", location: .body(locationName: "dynamicRangeCompressionRf"), required: false, type: .enum), 
-            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "MeteringMode", location: .body(locationName: "meteringMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer), 
-            AWSShapeMember(label: "SpeechThreshold", location: .body(locationName: "speechThreshold"), required: false, type: .integer), 
-            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix"), required: false, type: .enum), 
-            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode"), required: false, type: .enum)
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode")), 
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
+            AWSShapeMember(label: "DialogueIntelligence", location: .body(locationName: "dialogueIntelligence")), 
+            AWSShapeMember(label: "DynamicRangeCompressionLine", location: .body(locationName: "dynamicRangeCompressionLine")), 
+            AWSShapeMember(label: "DynamicRangeCompressionRf", location: .body(locationName: "dynamicRangeCompressionRf")), 
+            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel")), 
+            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel")), 
+            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel")), 
+            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel")), 
+            AWSShapeMember(label: "MeteringMode", location: .body(locationName: "meteringMode")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate")), 
+            AWSShapeMember(label: "SpeechThreshold", location: .body(locationName: "speechThreshold")), 
+            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix")), 
+            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode"))
         ]
 
         /// Specify the average bitrate in bits per second.
@@ -4365,27 +4365,27 @@ extension MediaConvert {
 
     public struct Eac3Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttenuationControl", location: .body(locationName: "attenuationControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "DcFilter", location: .body(locationName: "dcFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm"), required: false, type: .integer), 
-            AWSShapeMember(label: "DynamicRangeCompressionLine", location: .body(locationName: "dynamicRangeCompressionLine"), required: false, type: .enum), 
-            AWSShapeMember(label: "DynamicRangeCompressionRf", location: .body(locationName: "dynamicRangeCompressionRf"), required: false, type: .enum), 
-            AWSShapeMember(label: "LfeControl", location: .body(locationName: "lfeControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel"), required: false, type: .double), 
-            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "PassthroughControl", location: .body(locationName: "passthroughControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "PhaseControl", location: .body(locationName: "phaseControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer), 
-            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix"), required: false, type: .enum), 
-            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "SurroundMode", location: .body(locationName: "surroundMode"), required: false, type: .enum)
+            AWSShapeMember(label: "AttenuationControl", location: .body(locationName: "attenuationControl")), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode")), 
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
+            AWSShapeMember(label: "DcFilter", location: .body(locationName: "dcFilter")), 
+            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm")), 
+            AWSShapeMember(label: "DynamicRangeCompressionLine", location: .body(locationName: "dynamicRangeCompressionLine")), 
+            AWSShapeMember(label: "DynamicRangeCompressionRf", location: .body(locationName: "dynamicRangeCompressionRf")), 
+            AWSShapeMember(label: "LfeControl", location: .body(locationName: "lfeControl")), 
+            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter")), 
+            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel")), 
+            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel")), 
+            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel")), 
+            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel")), 
+            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl")), 
+            AWSShapeMember(label: "PassthroughControl", location: .body(locationName: "passthroughControl")), 
+            AWSShapeMember(label: "PhaseControl", location: .body(locationName: "phaseControl")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate")), 
+            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix")), 
+            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode")), 
+            AWSShapeMember(label: "SurroundMode", location: .body(locationName: "surroundMode"))
         ]
 
         /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
@@ -4491,8 +4491,8 @@ extension MediaConvert {
 
     public struct EmbeddedDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination608ChannelNumber", location: .body(locationName: "destination608ChannelNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "Destination708ServiceNumber", location: .body(locationName: "destination708ServiceNumber"), required: false, type: .integer)
+            AWSShapeMember(label: "Destination608ChannelNumber", location: .body(locationName: "destination608ChannelNumber")), 
+            AWSShapeMember(label: "Destination708ServiceNumber", location: .body(locationName: "destination708ServiceNumber"))
         ]
 
         /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, choose CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
@@ -4520,10 +4520,10 @@ extension MediaConvert {
 
     public struct EmbeddedSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
-            AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "Source608TrackNumber", location: .body(locationName: "source608TrackNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "TerminateCaptions", location: .body(locationName: "terminateCaptions"), required: false, type: .enum)
+            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708")), 
+            AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber")), 
+            AWSShapeMember(label: "Source608TrackNumber", location: .body(locationName: "source608TrackNumber")), 
+            AWSShapeMember(label: "TerminateCaptions", location: .body(locationName: "terminateCaptions"))
         ]
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
@@ -4559,7 +4559,7 @@ extension MediaConvert {
 
     public struct Endpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
         ]
 
         /// URL of endpoint
@@ -4576,7 +4576,7 @@ extension MediaConvert {
 
     public struct EsamManifestConfirmConditionNotification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MccXml", location: .body(locationName: "mccXml"), required: false, type: .string)
+            AWSShapeMember(label: "MccXml", location: .body(locationName: "mccXml"))
         ]
 
         /// Provide your ESAM ManifestConfirmConditionNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the Manifest Conditioning instructions in the message that you supply.
@@ -4597,9 +4597,9 @@ extension MediaConvert {
 
     public struct EsamSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestConfirmConditionNotification", location: .body(locationName: "manifestConfirmConditionNotification"), required: false, type: .structure), 
-            AWSShapeMember(label: "ResponseSignalPreroll", location: .body(locationName: "responseSignalPreroll"), required: false, type: .integer), 
-            AWSShapeMember(label: "SignalProcessingNotification", location: .body(locationName: "signalProcessingNotification"), required: false, type: .structure)
+            AWSShapeMember(label: "ManifestConfirmConditionNotification", location: .body(locationName: "manifestConfirmConditionNotification")), 
+            AWSShapeMember(label: "ResponseSignalPreroll", location: .body(locationName: "responseSignalPreroll")), 
+            AWSShapeMember(label: "SignalProcessingNotification", location: .body(locationName: "signalProcessingNotification"))
         ]
 
         /// Specifies an ESAM ManifestConfirmConditionNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest conditioning instructions that you provide in the setting MCC XML (mccXml).
@@ -4631,7 +4631,7 @@ extension MediaConvert {
 
     public struct EsamSignalProcessingNotification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SccXml", location: .body(locationName: "sccXml"), required: false, type: .string)
+            AWSShapeMember(label: "SccXml", location: .body(locationName: "sccXml"))
         ]
 
         /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. For your MPEG2-TS file outputs, if you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM (scte35Esam). Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
@@ -4652,7 +4652,7 @@ extension MediaConvert {
 
     public struct F4vSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MoovPlacement", location: .body(locationName: "moovPlacement"), required: false, type: .enum)
+            AWSShapeMember(label: "MoovPlacement", location: .body(locationName: "moovPlacement"))
         ]
 
         /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
@@ -4669,8 +4669,8 @@ extension MediaConvert {
 
     public struct FileGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"))
         ]
 
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -4696,9 +4696,9 @@ extension MediaConvert {
 
     public struct FileSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
-            AWSShapeMember(label: "SourceFile", location: .body(locationName: "sourceFile"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeDelta", location: .body(locationName: "timeDelta"), required: false, type: .integer)
+            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708")), 
+            AWSShapeMember(label: "SourceFile", location: .body(locationName: "sourceFile")), 
+            AWSShapeMember(label: "TimeDelta", location: .body(locationName: "timeDelta"))
         ]
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
@@ -4730,10 +4730,10 @@ extension MediaConvert {
 
     public struct FrameCaptureSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxCaptures", location: .body(locationName: "maxCaptures"), required: false, type: .integer), 
-            AWSShapeMember(label: "Quality", location: .body(locationName: "quality"), required: false, type: .integer)
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator")), 
+            AWSShapeMember(label: "MaxCaptures", location: .body(locationName: "maxCaptures")), 
+            AWSShapeMember(label: "Quality", location: .body(locationName: "quality"))
         ]
 
         /// Frame capture will encode the first frame of the output stream, then one frame every framerateDenominator/framerateNumerator seconds. For example, settings of framerateNumerator = 1 and framerateDenominator = 3 (a rate of 1/3 frame per second) will capture the first frame, then 1 frame every 3s. Files will be named as filename.n.jpg where n is the 0-based sequence number of each Capture.
@@ -4773,7 +4773,7 @@ extension MediaConvert {
 
     public struct GetJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
         ]
 
         /// the job ID of the job.
@@ -4790,7 +4790,7 @@ extension MediaConvert {
 
     public struct GetJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Job", location: .body(locationName: "job"), required: false, type: .structure)
+            AWSShapeMember(label: "Job", location: .body(locationName: "job"))
         ]
 
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
@@ -4807,7 +4807,7 @@ extension MediaConvert {
 
     public struct GetJobTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the job template.
@@ -4824,7 +4824,7 @@ extension MediaConvert {
 
     public struct GetJobTemplateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .structure)
+            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"))
         ]
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
@@ -4841,7 +4841,7 @@ extension MediaConvert {
 
     public struct GetPresetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the preset.
@@ -4858,7 +4858,7 @@ extension MediaConvert {
 
     public struct GetPresetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Preset", location: .body(locationName: "preset"), required: false, type: .structure)
+            AWSShapeMember(label: "Preset", location: .body(locationName: "preset"))
         ]
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
@@ -4875,7 +4875,7 @@ extension MediaConvert {
 
     public struct GetQueueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the queue that you want information about.
@@ -4892,7 +4892,7 @@ extension MediaConvert {
 
     public struct GetQueueResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .structure)
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"))
         ]
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
@@ -4909,8 +4909,8 @@ extension MediaConvert {
 
     public struct H264QvbrSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAverageBitrate", location: .body(locationName: "maxAverageBitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"), required: false, type: .integer)
+            AWSShapeMember(label: "MaxAverageBitrate", location: .body(locationName: "maxAverageBitrate")), 
+            AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"))
         ]
 
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
@@ -4938,45 +4938,45 @@ extension MediaConvert {
 
     public struct H264Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "CodecLevel", location: .body(locationName: "codecLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "DynamicSubGop", location: .body(locationName: "dynamicSubGop"), required: false, type: .enum), 
-            AWSShapeMember(label: "EntropyEncoding", location: .body(locationName: "entropyEncoding"), required: false, type: .enum), 
-            AWSShapeMember(label: "FieldEncoding", location: .body(locationName: "fieldEncoding"), required: false, type: .enum), 
-            AWSShapeMember(label: "FlickerAdaptiveQuantization", location: .body(locationName: "flickerAdaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "GopBReference", location: .body(locationName: "gopBReference"), required: false, type: .enum), 
-            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence"), required: false, type: .integer), 
-            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize"), required: false, type: .double), 
-            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits"), required: false, type: .enum), 
-            AWSShapeMember(label: "HrdBufferInitialFillPercentage", location: .body(locationName: "hrdBufferInitialFillPercentage"), required: false, type: .integer), 
-            AWSShapeMember(label: "HrdBufferSize", location: .body(locationName: "hrdBufferSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "NumberBFramesBetweenReferenceFrames", location: .body(locationName: "numberBFramesBetweenReferenceFrames"), required: false, type: .integer), 
-            AWSShapeMember(label: "NumberReferenceFrames", location: .body(locationName: "numberReferenceFrames"), required: false, type: .integer), 
-            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "QualityTuningLevel", location: .body(locationName: "qualityTuningLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "QvbrSettings", location: .body(locationName: "qvbrSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "RepeatPps", location: .body(locationName: "repeatPps"), required: false, type: .enum), 
-            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect"), required: false, type: .enum), 
-            AWSShapeMember(label: "Slices", location: .body(locationName: "slices"), required: false, type: .integer), 
-            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal"), required: false, type: .enum), 
-            AWSShapeMember(label: "Softness", location: .body(locationName: "softness"), required: false, type: .integer), 
-            AWSShapeMember(label: "SpatialAdaptiveQuantization", location: .body(locationName: "spatialAdaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "Syntax", location: .body(locationName: "syntax"), required: false, type: .enum), 
-            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine"), required: false, type: .enum), 
-            AWSShapeMember(label: "TemporalAdaptiveQuantization", location: .body(locationName: "temporalAdaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "UnregisteredSeiTimecode", location: .body(locationName: "unregisteredSeiTimecode"), required: false, type: .enum)
+            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization")), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "CodecLevel", location: .body(locationName: "codecLevel")), 
+            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile")), 
+            AWSShapeMember(label: "DynamicSubGop", location: .body(locationName: "dynamicSubGop")), 
+            AWSShapeMember(label: "EntropyEncoding", location: .body(locationName: "entropyEncoding")), 
+            AWSShapeMember(label: "FieldEncoding", location: .body(locationName: "fieldEncoding")), 
+            AWSShapeMember(label: "FlickerAdaptiveQuantization", location: .body(locationName: "flickerAdaptiveQuantization")), 
+            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl")), 
+            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm")), 
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator")), 
+            AWSShapeMember(label: "GopBReference", location: .body(locationName: "gopBReference")), 
+            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence")), 
+            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize")), 
+            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits")), 
+            AWSShapeMember(label: "HrdBufferInitialFillPercentage", location: .body(locationName: "hrdBufferInitialFillPercentage")), 
+            AWSShapeMember(label: "HrdBufferSize", location: .body(locationName: "hrdBufferSize")), 
+            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode")), 
+            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
+            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval")), 
+            AWSShapeMember(label: "NumberBFramesBetweenReferenceFrames", location: .body(locationName: "numberBFramesBetweenReferenceFrames")), 
+            AWSShapeMember(label: "NumberReferenceFrames", location: .body(locationName: "numberReferenceFrames")), 
+            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl")), 
+            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator")), 
+            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator")), 
+            AWSShapeMember(label: "QualityTuningLevel", location: .body(locationName: "qualityTuningLevel")), 
+            AWSShapeMember(label: "QvbrSettings", location: .body(locationName: "qvbrSettings")), 
+            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
+            AWSShapeMember(label: "RepeatPps", location: .body(locationName: "repeatPps")), 
+            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect")), 
+            AWSShapeMember(label: "Slices", location: .body(locationName: "slices")), 
+            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal")), 
+            AWSShapeMember(label: "Softness", location: .body(locationName: "softness")), 
+            AWSShapeMember(label: "SpatialAdaptiveQuantization", location: .body(locationName: "spatialAdaptiveQuantization")), 
+            AWSShapeMember(label: "Syntax", location: .body(locationName: "syntax")), 
+            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine")), 
+            AWSShapeMember(label: "TemporalAdaptiveQuantization", location: .body(locationName: "temporalAdaptiveQuantization")), 
+            AWSShapeMember(label: "UnregisteredSeiTimecode", location: .body(locationName: "unregisteredSeiTimecode"))
         ]
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
@@ -5179,8 +5179,8 @@ extension MediaConvert {
 
     public struct H265QvbrSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAverageBitrate", location: .body(locationName: "maxAverageBitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"), required: false, type: .integer)
+            AWSShapeMember(label: "MaxAverageBitrate", location: .body(locationName: "maxAverageBitrate")), 
+            AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"))
         ]
 
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
@@ -5208,45 +5208,45 @@ extension MediaConvert {
 
     public struct H265Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "AlternateTransferFunctionSei", location: .body(locationName: "alternateTransferFunctionSei"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "CodecLevel", location: .body(locationName: "codecLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "DynamicSubGop", location: .body(locationName: "dynamicSubGop"), required: false, type: .enum), 
-            AWSShapeMember(label: "FlickerAdaptiveQuantization", location: .body(locationName: "flickerAdaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "GopBReference", location: .body(locationName: "gopBReference"), required: false, type: .enum), 
-            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence"), required: false, type: .integer), 
-            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize"), required: false, type: .double), 
-            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits"), required: false, type: .enum), 
-            AWSShapeMember(label: "HrdBufferInitialFillPercentage", location: .body(locationName: "hrdBufferInitialFillPercentage"), required: false, type: .integer), 
-            AWSShapeMember(label: "HrdBufferSize", location: .body(locationName: "hrdBufferSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "NumberBFramesBetweenReferenceFrames", location: .body(locationName: "numberBFramesBetweenReferenceFrames"), required: false, type: .integer), 
-            AWSShapeMember(label: "NumberReferenceFrames", location: .body(locationName: "numberReferenceFrames"), required: false, type: .integer), 
-            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "QualityTuningLevel", location: .body(locationName: "qualityTuningLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "QvbrSettings", location: .body(locationName: "qvbrSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "SampleAdaptiveOffsetFilterMode", location: .body(locationName: "sampleAdaptiveOffsetFilterMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect"), required: false, type: .enum), 
-            AWSShapeMember(label: "Slices", location: .body(locationName: "slices"), required: false, type: .integer), 
-            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal"), required: false, type: .enum), 
-            AWSShapeMember(label: "SpatialAdaptiveQuantization", location: .body(locationName: "spatialAdaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine"), required: false, type: .enum), 
-            AWSShapeMember(label: "TemporalAdaptiveQuantization", location: .body(locationName: "temporalAdaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "TemporalIds", location: .body(locationName: "temporalIds"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tiles", location: .body(locationName: "tiles"), required: false, type: .enum), 
-            AWSShapeMember(label: "UnregisteredSeiTimecode", location: .body(locationName: "unregisteredSeiTimecode"), required: false, type: .enum), 
-            AWSShapeMember(label: "WriteMp4PackagingType", location: .body(locationName: "writeMp4PackagingType"), required: false, type: .enum)
+            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization")), 
+            AWSShapeMember(label: "AlternateTransferFunctionSei", location: .body(locationName: "alternateTransferFunctionSei")), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "CodecLevel", location: .body(locationName: "codecLevel")), 
+            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile")), 
+            AWSShapeMember(label: "DynamicSubGop", location: .body(locationName: "dynamicSubGop")), 
+            AWSShapeMember(label: "FlickerAdaptiveQuantization", location: .body(locationName: "flickerAdaptiveQuantization")), 
+            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl")), 
+            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm")), 
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator")), 
+            AWSShapeMember(label: "GopBReference", location: .body(locationName: "gopBReference")), 
+            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence")), 
+            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize")), 
+            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits")), 
+            AWSShapeMember(label: "HrdBufferInitialFillPercentage", location: .body(locationName: "hrdBufferInitialFillPercentage")), 
+            AWSShapeMember(label: "HrdBufferSize", location: .body(locationName: "hrdBufferSize")), 
+            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode")), 
+            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
+            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval")), 
+            AWSShapeMember(label: "NumberBFramesBetweenReferenceFrames", location: .body(locationName: "numberBFramesBetweenReferenceFrames")), 
+            AWSShapeMember(label: "NumberReferenceFrames", location: .body(locationName: "numberReferenceFrames")), 
+            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl")), 
+            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator")), 
+            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator")), 
+            AWSShapeMember(label: "QualityTuningLevel", location: .body(locationName: "qualityTuningLevel")), 
+            AWSShapeMember(label: "QvbrSettings", location: .body(locationName: "qvbrSettings")), 
+            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
+            AWSShapeMember(label: "SampleAdaptiveOffsetFilterMode", location: .body(locationName: "sampleAdaptiveOffsetFilterMode")), 
+            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect")), 
+            AWSShapeMember(label: "Slices", location: .body(locationName: "slices")), 
+            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal")), 
+            AWSShapeMember(label: "SpatialAdaptiveQuantization", location: .body(locationName: "spatialAdaptiveQuantization")), 
+            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine")), 
+            AWSShapeMember(label: "TemporalAdaptiveQuantization", location: .body(locationName: "temporalAdaptiveQuantization")), 
+            AWSShapeMember(label: "TemporalIds", location: .body(locationName: "temporalIds")), 
+            AWSShapeMember(label: "Tiles", location: .body(locationName: "tiles")), 
+            AWSShapeMember(label: "UnregisteredSeiTimecode", location: .body(locationName: "unregisteredSeiTimecode")), 
+            AWSShapeMember(label: "WriteMp4PackagingType", location: .body(locationName: "writeMp4PackagingType"))
         ]
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
@@ -5445,18 +5445,18 @@ extension MediaConvert {
 
     public struct Hdr10Metadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BluePrimaryX", location: .body(locationName: "bluePrimaryX"), required: false, type: .integer), 
-            AWSShapeMember(label: "BluePrimaryY", location: .body(locationName: "bluePrimaryY"), required: false, type: .integer), 
-            AWSShapeMember(label: "GreenPrimaryX", location: .body(locationName: "greenPrimaryX"), required: false, type: .integer), 
-            AWSShapeMember(label: "GreenPrimaryY", location: .body(locationName: "greenPrimaryY"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxContentLightLevel", location: .body(locationName: "maxContentLightLevel"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxFrameAverageLightLevel", location: .body(locationName: "maxFrameAverageLightLevel"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxLuminance", location: .body(locationName: "maxLuminance"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinLuminance", location: .body(locationName: "minLuminance"), required: false, type: .integer), 
-            AWSShapeMember(label: "RedPrimaryX", location: .body(locationName: "redPrimaryX"), required: false, type: .integer), 
-            AWSShapeMember(label: "RedPrimaryY", location: .body(locationName: "redPrimaryY"), required: false, type: .integer), 
-            AWSShapeMember(label: "WhitePointX", location: .body(locationName: "whitePointX"), required: false, type: .integer), 
-            AWSShapeMember(label: "WhitePointY", location: .body(locationName: "whitePointY"), required: false, type: .integer)
+            AWSShapeMember(label: "BluePrimaryX", location: .body(locationName: "bluePrimaryX")), 
+            AWSShapeMember(label: "BluePrimaryY", location: .body(locationName: "bluePrimaryY")), 
+            AWSShapeMember(label: "GreenPrimaryX", location: .body(locationName: "greenPrimaryX")), 
+            AWSShapeMember(label: "GreenPrimaryY", location: .body(locationName: "greenPrimaryY")), 
+            AWSShapeMember(label: "MaxContentLightLevel", location: .body(locationName: "maxContentLightLevel")), 
+            AWSShapeMember(label: "MaxFrameAverageLightLevel", location: .body(locationName: "maxFrameAverageLightLevel")), 
+            AWSShapeMember(label: "MaxLuminance", location: .body(locationName: "maxLuminance")), 
+            AWSShapeMember(label: "MinLuminance", location: .body(locationName: "minLuminance")), 
+            AWSShapeMember(label: "RedPrimaryX", location: .body(locationName: "redPrimaryX")), 
+            AWSShapeMember(label: "RedPrimaryY", location: .body(locationName: "redPrimaryY")), 
+            AWSShapeMember(label: "WhitePointX", location: .body(locationName: "whitePointX")), 
+            AWSShapeMember(label: "WhitePointY", location: .body(locationName: "whitePointY"))
         ]
 
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
@@ -5544,8 +5544,8 @@ extension MediaConvert {
 
     public struct HlsAdditionalManifest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
-            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier")), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"))
         ]
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
@@ -5573,10 +5573,10 @@ extension MediaConvert {
 
     public struct HlsCaptionLanguageMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptionChannel", location: .body(locationName: "captionChannel"), required: false, type: .integer), 
-            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode"), required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"), required: false, type: .string)
+            AWSShapeMember(label: "CaptionChannel", location: .body(locationName: "captionChannel")), 
+            AWSShapeMember(label: "CustomLanguageCode", location: .body(locationName: "customLanguageCode")), 
+            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
+            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"))
         ]
 
         /// Caption channel.
@@ -5613,13 +5613,13 @@ extension MediaConvert {
 
     public struct HlsEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod"), required: false, type: .enum), 
-            AWSShapeMember(label: "InitializationVectorInManifest", location: .body(locationName: "initializationVectorInManifest"), required: false, type: .enum), 
-            AWSShapeMember(label: "OfflineEncrypted", location: .body(locationName: "offlineEncrypted"), required: false, type: .enum), 
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: false, type: .structure), 
-            AWSShapeMember(label: "StaticKeyProvider", location: .body(locationName: "staticKeyProvider"), required: false, type: .structure), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
+            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector")), 
+            AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod")), 
+            AWSShapeMember(label: "InitializationVectorInManifest", location: .body(locationName: "initializationVectorInManifest")), 
+            AWSShapeMember(label: "OfflineEncrypted", location: .body(locationName: "offlineEncrypted")), 
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider")), 
+            AWSShapeMember(label: "StaticKeyProvider", location: .body(locationName: "staticKeyProvider")), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
@@ -5668,31 +5668,31 @@ extension MediaConvert {
 
     public struct HlsGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
-            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .list), 
-            AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "CaptionLanguageMappings", location: .body(locationName: "captionLanguageMappings"), required: false, type: .list), 
-            AWSShapeMember(label: "CaptionLanguageSetting", location: .body(locationName: "captionLanguageSetting"), required: false, type: .enum), 
-            AWSShapeMember(label: "ClientCache", location: .body(locationName: "clientCache"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodecSpecification", location: .body(locationName: "codecSpecification"), required: false, type: .enum), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DirectoryStructure", location: .body(locationName: "directoryStructure"), required: false, type: .enum), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "ManifestCompression", location: .body(locationName: "manifestCompression"), required: false, type: .enum), 
-            AWSShapeMember(label: "ManifestDurationFormat", location: .body(locationName: "manifestDurationFormat"), required: false, type: .enum), 
-            AWSShapeMember(label: "MinFinalSegmentLength", location: .body(locationName: "minFinalSegmentLength"), required: false, type: .double), 
-            AWSShapeMember(label: "MinSegmentLength", location: .body(locationName: "minSegmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "OutputSelection", location: .body(locationName: "outputSelection"), required: false, type: .enum), 
-            AWSShapeMember(label: "ProgramDateTime", location: .body(locationName: "programDateTime"), required: false, type: .enum), 
-            AWSShapeMember(label: "ProgramDateTimePeriod", location: .body(locationName: "programDateTimePeriod"), required: false, type: .integer), 
-            AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "SegmentsPerSubdirectory", location: .body(locationName: "segmentsPerSubdirectory"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamInfResolution", location: .body(locationName: "streamInfResolution"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimedMetadataId3Frame", location: .body(locationName: "timedMetadataId3Frame"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimedMetadataId3Period", location: .body(locationName: "timedMetadataId3Period"), required: false, type: .integer), 
-            AWSShapeMember(label: "TimestampDeltaMilliseconds", location: .body(locationName: "timestampDeltaMilliseconds"), required: false, type: .integer)
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests")), 
+            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers")), 
+            AWSShapeMember(label: "BaseUrl", location: .body(locationName: "baseUrl")), 
+            AWSShapeMember(label: "CaptionLanguageMappings", location: .body(locationName: "captionLanguageMappings")), 
+            AWSShapeMember(label: "CaptionLanguageSetting", location: .body(locationName: "captionLanguageSetting")), 
+            AWSShapeMember(label: "ClientCache", location: .body(locationName: "clientCache")), 
+            AWSShapeMember(label: "CodecSpecification", location: .body(locationName: "codecSpecification")), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings")), 
+            AWSShapeMember(label: "DirectoryStructure", location: .body(locationName: "directoryStructure")), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
+            AWSShapeMember(label: "ManifestCompression", location: .body(locationName: "manifestCompression")), 
+            AWSShapeMember(label: "ManifestDurationFormat", location: .body(locationName: "manifestDurationFormat")), 
+            AWSShapeMember(label: "MinFinalSegmentLength", location: .body(locationName: "minFinalSegmentLength")), 
+            AWSShapeMember(label: "MinSegmentLength", location: .body(locationName: "minSegmentLength")), 
+            AWSShapeMember(label: "OutputSelection", location: .body(locationName: "outputSelection")), 
+            AWSShapeMember(label: "ProgramDateTime", location: .body(locationName: "programDateTime")), 
+            AWSShapeMember(label: "ProgramDateTimePeriod", location: .body(locationName: "programDateTimePeriod")), 
+            AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl")), 
+            AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength")), 
+            AWSShapeMember(label: "SegmentsPerSubdirectory", location: .body(locationName: "segmentsPerSubdirectory")), 
+            AWSShapeMember(label: "StreamInfResolution", location: .body(locationName: "streamInfResolution")), 
+            AWSShapeMember(label: "TimedMetadataId3Frame", location: .body(locationName: "timedMetadataId3Frame")), 
+            AWSShapeMember(label: "TimedMetadataId3Period", location: .body(locationName: "timedMetadataId3Period")), 
+            AWSShapeMember(label: "TimestampDeltaMilliseconds", location: .body(locationName: "timestampDeltaMilliseconds"))
         ]
 
         /// By default, the service creates one top-level .m3u8 HLS manifest for each HLS output group in your job. This default manifest references every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here.
@@ -5829,12 +5829,12 @@ extension MediaConvert {
 
     public struct HlsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId"), required: false, type: .string), 
-            AWSShapeMember(label: "AudioOnlyContainer", location: .body(locationName: "audioOnlyContainer"), required: false, type: .enum), 
-            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string), 
-            AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType"), required: false, type: .enum), 
-            AWSShapeMember(label: "IFrameOnlyManifest", location: .body(locationName: "iFrameOnlyManifest"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentModifier", location: .body(locationName: "segmentModifier"), required: false, type: .string)
+            AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId")), 
+            AWSShapeMember(label: "AudioOnlyContainer", location: .body(locationName: "audioOnlyContainer")), 
+            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets")), 
+            AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType")), 
+            AWSShapeMember(label: "IFrameOnlyManifest", location: .body(locationName: "iFrameOnlyManifest")), 
+            AWSShapeMember(label: "SegmentModifier", location: .body(locationName: "segmentModifier"))
         ]
 
         /// Specifies the group to which the audio Rendition belongs.
@@ -5871,8 +5871,8 @@ extension MediaConvert {
 
     public struct Id3Insertion: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id3", location: .body(locationName: "id3"), required: false, type: .string), 
-            AWSShapeMember(label: "Timecode", location: .body(locationName: "timecode"), required: false, type: .string)
+            AWSShapeMember(label: "Id3", location: .body(locationName: "id3")), 
+            AWSShapeMember(label: "Timecode", location: .body(locationName: "timecode"))
         ]
 
         /// Use ID3 tag (Id3) to provide a tag value in base64-encode format.
@@ -5898,7 +5898,7 @@ extension MediaConvert {
 
     public struct ImageInserter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsertableImages", location: .body(locationName: "insertableImages"), required: false, type: .list)
+            AWSShapeMember(label: "InsertableImages", location: .body(locationName: "insertableImages"))
         ]
 
         /// Specify the images that you want to overlay on your video. The images must be PNG or TGA files.
@@ -5921,7 +5921,7 @@ extension MediaConvert {
 
     public struct ImscDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StylePassthrough", location: .body(locationName: "stylePassthrough"), required: false, type: .enum)
+            AWSShapeMember(label: "StylePassthrough", location: .body(locationName: "stylePassthrough"))
         ]
 
         /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are CFF-TT, IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
@@ -5938,25 +5938,25 @@ extension MediaConvert {
 
     public struct Input: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioSelectorGroups", location: .body(locationName: "audioSelectorGroups"), required: false, type: .map), 
-            AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors"), required: false, type: .map), 
-            AWSShapeMember(label: "CaptionSelectors", location: .body(locationName: "captionSelectors"), required: false, type: .map), 
-            AWSShapeMember(label: "Crop", location: .body(locationName: "crop"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeblockFilter", location: .body(locationName: "deblockFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "DecryptionSettings", location: .body(locationName: "decryptionSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DenoiseFilter", location: .body(locationName: "denoiseFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "FileInput", location: .body(locationName: "fileInput"), required: false, type: .string), 
-            AWSShapeMember(label: "FilterEnable", location: .body(locationName: "filterEnable"), required: false, type: .enum), 
-            AWSShapeMember(label: "FilterStrength", location: .body(locationName: "filterStrength"), required: false, type: .integer), 
-            AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter"), required: false, type: .structure), 
-            AWSShapeMember(label: "InputClippings", location: .body(locationName: "inputClippings"), required: false, type: .list), 
-            AWSShapeMember(label: "Position", location: .body(locationName: "position"), required: false, type: .structure), 
-            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "SupplementalImps", location: .body(locationName: "supplementalImps"), required: false, type: .list), 
-            AWSShapeMember(label: "TimecodeSource", location: .body(locationName: "timecodeSource"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimecodeStart", location: .body(locationName: "timecodeStart"), required: false, type: .string), 
-            AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"), required: false, type: .structure)
+            AWSShapeMember(label: "AudioSelectorGroups", location: .body(locationName: "audioSelectorGroups")), 
+            AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors")), 
+            AWSShapeMember(label: "CaptionSelectors", location: .body(locationName: "captionSelectors")), 
+            AWSShapeMember(label: "Crop", location: .body(locationName: "crop")), 
+            AWSShapeMember(label: "DeblockFilter", location: .body(locationName: "deblockFilter")), 
+            AWSShapeMember(label: "DecryptionSettings", location: .body(locationName: "decryptionSettings")), 
+            AWSShapeMember(label: "DenoiseFilter", location: .body(locationName: "denoiseFilter")), 
+            AWSShapeMember(label: "FileInput", location: .body(locationName: "fileInput")), 
+            AWSShapeMember(label: "FilterEnable", location: .body(locationName: "filterEnable")), 
+            AWSShapeMember(label: "FilterStrength", location: .body(locationName: "filterStrength")), 
+            AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter")), 
+            AWSShapeMember(label: "InputClippings", location: .body(locationName: "inputClippings")), 
+            AWSShapeMember(label: "Position", location: .body(locationName: "position")), 
+            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber")), 
+            AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl")), 
+            AWSShapeMember(label: "SupplementalImps", location: .body(locationName: "supplementalImps")), 
+            AWSShapeMember(label: "TimecodeSource", location: .body(locationName: "timecodeSource")), 
+            AWSShapeMember(label: "TimecodeStart", location: .body(locationName: "timecodeStart")), 
+            AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"))
         ]
 
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
@@ -6076,8 +6076,8 @@ extension MediaConvert {
 
     public struct InputClipping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTimecode", location: .body(locationName: "endTimecode"), required: false, type: .string), 
-            AWSShapeMember(label: "StartTimecode", location: .body(locationName: "startTimecode"), required: false, type: .string)
+            AWSShapeMember(label: "EndTimecode", location: .body(locationName: "endTimecode")), 
+            AWSShapeMember(label: "StartTimecode", location: .body(locationName: "startTimecode"))
         ]
 
         /// Set End timecode (EndTimecode) to the end of the portion of the input you are clipping. The frame corresponding to the End timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for timecode source under input settings (InputTimecodeSource). For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to end six minutes into the video, use 01:06:00:00.
@@ -6103,10 +6103,10 @@ extension MediaConvert {
 
     public struct InputDecryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DecryptionMode", location: .body(locationName: "decryptionMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptedDecryptionKey", location: .body(locationName: "encryptedDecryptionKey"), required: false, type: .string), 
-            AWSShapeMember(label: "InitializationVector", location: .body(locationName: "initializationVector"), required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyRegion", location: .body(locationName: "kmsKeyRegion"), required: false, type: .string)
+            AWSShapeMember(label: "DecryptionMode", location: .body(locationName: "decryptionMode")), 
+            AWSShapeMember(label: "EncryptedDecryptionKey", location: .body(locationName: "encryptedDecryptionKey")), 
+            AWSShapeMember(label: "InitializationVector", location: .body(locationName: "initializationVector")), 
+            AWSShapeMember(label: "KmsKeyRegion", location: .body(locationName: "kmsKeyRegion"))
         ]
 
         /// Specify the encryption mode that you used to encrypt your input files.
@@ -6147,22 +6147,22 @@ extension MediaConvert {
 
     public struct InputTemplate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioSelectorGroups", location: .body(locationName: "audioSelectorGroups"), required: false, type: .map), 
-            AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors"), required: false, type: .map), 
-            AWSShapeMember(label: "CaptionSelectors", location: .body(locationName: "captionSelectors"), required: false, type: .map), 
-            AWSShapeMember(label: "Crop", location: .body(locationName: "crop"), required: false, type: .structure), 
-            AWSShapeMember(label: "DeblockFilter", location: .body(locationName: "deblockFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "DenoiseFilter", location: .body(locationName: "denoiseFilter"), required: false, type: .enum), 
-            AWSShapeMember(label: "FilterEnable", location: .body(locationName: "filterEnable"), required: false, type: .enum), 
-            AWSShapeMember(label: "FilterStrength", location: .body(locationName: "filterStrength"), required: false, type: .integer), 
-            AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter"), required: false, type: .structure), 
-            AWSShapeMember(label: "InputClippings", location: .body(locationName: "inputClippings"), required: false, type: .list), 
-            AWSShapeMember(label: "Position", location: .body(locationName: "position"), required: false, type: .structure), 
-            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimecodeSource", location: .body(locationName: "timecodeSource"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimecodeStart", location: .body(locationName: "timecodeStart"), required: false, type: .string), 
-            AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"), required: false, type: .structure)
+            AWSShapeMember(label: "AudioSelectorGroups", location: .body(locationName: "audioSelectorGroups")), 
+            AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors")), 
+            AWSShapeMember(label: "CaptionSelectors", location: .body(locationName: "captionSelectors")), 
+            AWSShapeMember(label: "Crop", location: .body(locationName: "crop")), 
+            AWSShapeMember(label: "DeblockFilter", location: .body(locationName: "deblockFilter")), 
+            AWSShapeMember(label: "DenoiseFilter", location: .body(locationName: "denoiseFilter")), 
+            AWSShapeMember(label: "FilterEnable", location: .body(locationName: "filterEnable")), 
+            AWSShapeMember(label: "FilterStrength", location: .body(locationName: "filterStrength")), 
+            AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter")), 
+            AWSShapeMember(label: "InputClippings", location: .body(locationName: "inputClippings")), 
+            AWSShapeMember(label: "Position", location: .body(locationName: "position")), 
+            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber")), 
+            AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl")), 
+            AWSShapeMember(label: "TimecodeSource", location: .body(locationName: "timecodeSource")), 
+            AWSShapeMember(label: "TimecodeStart", location: .body(locationName: "timecodeStart")), 
+            AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"))
         ]
 
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
@@ -6265,17 +6265,17 @@ extension MediaConvert {
 
     public struct InsertableImage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
-            AWSShapeMember(label: "FadeIn", location: .body(locationName: "fadeIn"), required: false, type: .integer), 
-            AWSShapeMember(label: "FadeOut", location: .body(locationName: "fadeOut"), required: false, type: .integer), 
-            AWSShapeMember(label: "Height", location: .body(locationName: "height"), required: false, type: .integer), 
-            AWSShapeMember(label: "ImageInserterInput", location: .body(locationName: "imageInserterInput"), required: false, type: .string), 
-            AWSShapeMember(label: "ImageX", location: .body(locationName: "imageX"), required: false, type: .integer), 
-            AWSShapeMember(label: "ImageY", location: .body(locationName: "imageY"), required: false, type: .integer), 
-            AWSShapeMember(label: "Layer", location: .body(locationName: "layer"), required: false, type: .integer), 
-            AWSShapeMember(label: "Opacity", location: .body(locationName: "opacity"), required: false, type: .integer), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .string), 
-            AWSShapeMember(label: "Width", location: .body(locationName: "width"), required: false, type: .integer)
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
+            AWSShapeMember(label: "FadeIn", location: .body(locationName: "fadeIn")), 
+            AWSShapeMember(label: "FadeOut", location: .body(locationName: "fadeOut")), 
+            AWSShapeMember(label: "Height", location: .body(locationName: "height")), 
+            AWSShapeMember(label: "ImageInserterInput", location: .body(locationName: "imageInserterInput")), 
+            AWSShapeMember(label: "ImageX", location: .body(locationName: "imageX")), 
+            AWSShapeMember(label: "ImageY", location: .body(locationName: "imageY")), 
+            AWSShapeMember(label: "Layer", location: .body(locationName: "layer")), 
+            AWSShapeMember(label: "Opacity", location: .body(locationName: "opacity")), 
+            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
+            AWSShapeMember(label: "Width", location: .body(locationName: "width"))
         ]
 
         /// Specify the time, in milliseconds, for the image to remain on the output video. This duration includes fade-in time but not fade-out time.
@@ -6356,29 +6356,29 @@ extension MediaConvert {
 
     public struct Job: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "AccelerationStatus", location: .body(locationName: "accelerationStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "BillingTagsSource", location: .body(locationName: "billingTagsSource"), required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CurrentPhase", location: .body(locationName: "currentPhase"), required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode"), required: false, type: .integer), 
-            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "JobPercentComplete", location: .body(locationName: "jobPercentComplete"), required: false, type: .integer), 
-            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .string), 
-            AWSShapeMember(label: "Messages", location: .body(locationName: "messages"), required: false, type: .structure), 
-            AWSShapeMember(label: "OutputGroupDetails", location: .body(locationName: "outputGroupDetails"), required: false, type: .list), 
-            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
-            AWSShapeMember(label: "RetryCount", location: .body(locationName: "retryCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Role", location: .body(locationName: "role"), required: true, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
-            AWSShapeMember(label: "SimulateReservedQueue", location: .body(locationName: "simulateReservedQueue"), required: false, type: .enum), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
-            AWSShapeMember(label: "Timing", location: .body(locationName: "timing"), required: false, type: .structure), 
-            AWSShapeMember(label: "UserMetadata", location: .body(locationName: "userMetadata"), required: false, type: .map)
+            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings")), 
+            AWSShapeMember(label: "AccelerationStatus", location: .body(locationName: "accelerationStatus")), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
+            AWSShapeMember(label: "BillingTagsSource", location: .body(locationName: "billingTagsSource")), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
+            AWSShapeMember(label: "CurrentPhase", location: .body(locationName: "currentPhase")), 
+            AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode")), 
+            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage")), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
+            AWSShapeMember(label: "JobPercentComplete", location: .body(locationName: "jobPercentComplete")), 
+            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate")), 
+            AWSShapeMember(label: "Messages", location: .body(locationName: "messages")), 
+            AWSShapeMember(label: "OutputGroupDetails", location: .body(locationName: "outputGroupDetails")), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority")), 
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue")), 
+            AWSShapeMember(label: "RetryCount", location: .body(locationName: "retryCount")), 
+            AWSShapeMember(label: "Role", location: .body(locationName: "role")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings")), 
+            AWSShapeMember(label: "SimulateReservedQueue", location: .body(locationName: "simulateReservedQueue")), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
+            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval")), 
+            AWSShapeMember(label: "Timing", location: .body(locationName: "timing")), 
+            AWSShapeMember(label: "UserMetadata", location: .body(locationName: "userMetadata"))
         ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
@@ -6483,8 +6483,8 @@ extension MediaConvert {
 
     public struct JobMessages: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Info", location: .body(locationName: "info"), required: false, type: .list), 
-            AWSShapeMember(label: "Warning", location: .body(locationName: "warning"), required: false, type: .list)
+            AWSShapeMember(label: "Info", location: .body(locationName: "info")), 
+            AWSShapeMember(label: "Warning", location: .body(locationName: "warning"))
         ]
 
         /// List of messages that are informational only and don't indicate a problem with your job.
@@ -6505,15 +6505,15 @@ extension MediaConvert {
 
     public struct JobSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "AvailBlanking", location: .body(locationName: "availBlanking"), required: false, type: .structure), 
-            AWSShapeMember(label: "Esam", location: .body(locationName: "esam"), required: false, type: .structure), 
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
-            AWSShapeMember(label: "MotionImageInserter", location: .body(locationName: "motionImageInserter"), required: false, type: .structure), 
-            AWSShapeMember(label: "NielsenConfiguration", location: .body(locationName: "nielsenConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimedMetadataInsertion", location: .body(locationName: "timedMetadataInsertion"), required: false, type: .structure)
+            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset")), 
+            AWSShapeMember(label: "AvailBlanking", location: .body(locationName: "availBlanking")), 
+            AWSShapeMember(label: "Esam", location: .body(locationName: "esam")), 
+            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs")), 
+            AWSShapeMember(label: "MotionImageInserter", location: .body(locationName: "motionImageInserter")), 
+            AWSShapeMember(label: "NielsenConfiguration", location: .body(locationName: "nielsenConfiguration")), 
+            AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups")), 
+            AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig")), 
+            AWSShapeMember(label: "TimedMetadataInsertion", location: .body(locationName: "timedMetadataInsertion"))
         ]
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
@@ -6579,18 +6579,18 @@ extension MediaConvert {
 
     public struct JobTemplate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdated", location: .body(locationName: "lastUpdated"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
-            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
+            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings")), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
+            AWSShapeMember(label: "Category", location: .body(locationName: "category")), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "LastUpdated", location: .body(locationName: "lastUpdated")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority")), 
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings")), 
+            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval")), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
@@ -6651,15 +6651,15 @@ extension MediaConvert {
 
     public struct JobTemplateSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset"), required: false, type: .integer), 
-            AWSShapeMember(label: "AvailBlanking", location: .body(locationName: "availBlanking"), required: false, type: .structure), 
-            AWSShapeMember(label: "Esam", location: .body(locationName: "esam"), required: false, type: .structure), 
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs"), required: false, type: .list), 
-            AWSShapeMember(label: "MotionImageInserter", location: .body(locationName: "motionImageInserter"), required: false, type: .structure), 
-            AWSShapeMember(label: "NielsenConfiguration", location: .body(locationName: "nielsenConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimedMetadataInsertion", location: .body(locationName: "timedMetadataInsertion"), required: false, type: .structure)
+            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset")), 
+            AWSShapeMember(label: "AvailBlanking", location: .body(locationName: "availBlanking")), 
+            AWSShapeMember(label: "Esam", location: .body(locationName: "esam")), 
+            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs")), 
+            AWSShapeMember(label: "MotionImageInserter", location: .body(locationName: "motionImageInserter")), 
+            AWSShapeMember(label: "NielsenConfiguration", location: .body(locationName: "nielsenConfiguration")), 
+            AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups")), 
+            AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig")), 
+            AWSShapeMember(label: "TimedMetadataInsertion", location: .body(locationName: "timedMetadataInsertion"))
         ]
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
@@ -6725,11 +6725,11 @@ extension MediaConvert {
 
     public struct ListJobTemplatesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Category", location: .querystring(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "ListBy", location: .querystring(locationName: "listBy"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum)
+            AWSShapeMember(label: "Category", location: .querystring(locationName: "category")), 
+            AWSShapeMember(label: "ListBy", location: .querystring(locationName: "listBy")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"))
         ]
 
         /// Optionally, specify a job template category to limit responses to only job templates from that category.
@@ -6767,8 +6767,8 @@ extension MediaConvert {
 
     public struct ListJobTemplatesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobTemplates", location: .body(locationName: "jobTemplates"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "JobTemplates", location: .body(locationName: "jobTemplates")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         /// List of Job templates.
@@ -6789,11 +6789,11 @@ extension MediaConvert {
 
     public struct ListJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
-            AWSShapeMember(label: "Queue", location: .querystring(locationName: "queue"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"), required: false, type: .enum)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order")), 
+            AWSShapeMember(label: "Queue", location: .querystring(locationName: "queue")), 
+            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"))
         ]
 
         /// Optional. Number of jobs, up to twenty, that will be returned at one time.
@@ -6831,8 +6831,8 @@ extension MediaConvert {
 
     public struct ListJobsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jobs", location: .body(locationName: "jobs"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "Jobs", location: .body(locationName: "jobs")), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
         ]
 
         /// List of jobs
@@ -6853,11 +6853,11 @@ extension MediaConvert {
 
     public struct ListPresetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Category", location: .querystring(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "ListBy", location: .querystring(locationName: "listBy"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum)
+            AWSShapeMember(label: "Category", location: .querystring(locationName: "category")), 
+            AWSShapeMember(label: "ListBy", location: .querystring(locationName: "listBy")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"))
         ]
 
         /// Optionally, specify a preset category to limit responses to only presets from that category.
@@ -6895,8 +6895,8 @@ extension MediaConvert {
 
     public struct ListPresetsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Presets", location: .body(locationName: "presets"), required: false, type: .list)
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
+            AWSShapeMember(label: "Presets", location: .body(locationName: "presets"))
         ]
 
         /// Use this string to request the next batch of presets.
@@ -6917,10 +6917,10 @@ extension MediaConvert {
 
     public struct ListQueuesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListBy", location: .querystring(locationName: "listBy"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum)
+            AWSShapeMember(label: "ListBy", location: .querystring(locationName: "listBy")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"))
         ]
 
         /// Optional. When you request a list of queues, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by creation date.
@@ -6954,8 +6954,8 @@ extension MediaConvert {
 
     public struct ListQueuesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Queues", location: .body(locationName: "queues"), required: false, type: .list)
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
+            AWSShapeMember(label: "Queues", location: .body(locationName: "queues"))
         ]
 
         /// Use this string to request the next batch of queues.
@@ -6976,7 +6976,7 @@ extension MediaConvert {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string)
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name.
@@ -6993,7 +6993,7 @@ extension MediaConvert {
 
     public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTags", location: .body(locationName: "resourceTags"), required: false, type: .structure)
+            AWSShapeMember(label: "ResourceTags", location: .body(locationName: "resourceTags"))
         ]
 
         /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert resource.
@@ -7010,7 +7010,7 @@ extension MediaConvert {
 
     public struct M2tsScte35Esam: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scte35EsamPid", location: .body(locationName: "scte35EsamPid"), required: false, type: .integer)
+            AWSShapeMember(label: "Scte35EsamPid", location: .body(locationName: "scte35EsamPid"))
         ]
 
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream generated by ESAM.
@@ -7032,42 +7032,42 @@ extension MediaConvert {
 
     public struct M2tsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioBufferModel", location: .body(locationName: "audioBufferModel"), required: false, type: .enum), 
-            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes"), required: false, type: .integer), 
-            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids"), required: false, type: .list), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "BufferModel", location: .body(locationName: "bufferModel"), required: false, type: .enum), 
-            AWSShapeMember(label: "DvbNitSettings", location: .body(locationName: "dvbNitSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DvbSdtSettings", location: .body(locationName: "dvbSdtSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DvbSubPids", location: .body(locationName: "dvbSubPids"), required: false, type: .list), 
-            AWSShapeMember(label: "DvbTdtSettings", location: .body(locationName: "dvbTdtSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DvbTeletextPid", location: .body(locationName: "dvbTeletextPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "EbpAudioInterval", location: .body(locationName: "ebpAudioInterval"), required: false, type: .enum), 
-            AWSShapeMember(label: "EbpPlacement", location: .body(locationName: "ebpPlacement"), required: false, type: .enum), 
-            AWSShapeMember(label: "EsRateInPes", location: .body(locationName: "esRateInPes"), required: false, type: .enum), 
-            AWSShapeMember(label: "ForceTsVideoEbpOrder", location: .body(locationName: "forceTsVideoEbpOrder"), required: false, type: .enum), 
-            AWSShapeMember(label: "FragmentTime", location: .body(locationName: "fragmentTime"), required: false, type: .double), 
-            AWSShapeMember(label: "MaxPcrInterval", location: .body(locationName: "maxPcrInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinEbpInterval", location: .body(locationName: "minEbpInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "NielsenId3", location: .body(locationName: "nielsenId3"), required: false, type: .enum), 
-            AWSShapeMember(label: "NullPacketBitrate", location: .body(locationName: "nullPacketBitrate"), required: false, type: .double), 
-            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "PrivateMetadataPid", location: .body(locationName: "privateMetadataPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "RateMode", location: .body(locationName: "rateMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam"), required: false, type: .structure), 
-            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid"), required: false, type: .integer), 
-            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentationMarkers", location: .body(locationName: "segmentationMarkers"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentationStyle", location: .body(locationName: "segmentationStyle"), required: false, type: .enum), 
-            AWSShapeMember(label: "SegmentationTime", location: .body(locationName: "segmentationTime"), required: false, type: .double), 
-            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: false, type: .integer), 
-            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .integer)
+            AWSShapeMember(label: "AudioBufferModel", location: .body(locationName: "audioBufferModel")), 
+            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes")), 
+            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids")), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "BufferModel", location: .body(locationName: "bufferModel")), 
+            AWSShapeMember(label: "DvbNitSettings", location: .body(locationName: "dvbNitSettings")), 
+            AWSShapeMember(label: "DvbSdtSettings", location: .body(locationName: "dvbSdtSettings")), 
+            AWSShapeMember(label: "DvbSubPids", location: .body(locationName: "dvbSubPids")), 
+            AWSShapeMember(label: "DvbTdtSettings", location: .body(locationName: "dvbTdtSettings")), 
+            AWSShapeMember(label: "DvbTeletextPid", location: .body(locationName: "dvbTeletextPid")), 
+            AWSShapeMember(label: "EbpAudioInterval", location: .body(locationName: "ebpAudioInterval")), 
+            AWSShapeMember(label: "EbpPlacement", location: .body(locationName: "ebpPlacement")), 
+            AWSShapeMember(label: "EsRateInPes", location: .body(locationName: "esRateInPes")), 
+            AWSShapeMember(label: "ForceTsVideoEbpOrder", location: .body(locationName: "forceTsVideoEbpOrder")), 
+            AWSShapeMember(label: "FragmentTime", location: .body(locationName: "fragmentTime")), 
+            AWSShapeMember(label: "MaxPcrInterval", location: .body(locationName: "maxPcrInterval")), 
+            AWSShapeMember(label: "MinEbpInterval", location: .body(locationName: "minEbpInterval")), 
+            AWSShapeMember(label: "NielsenId3", location: .body(locationName: "nielsenId3")), 
+            AWSShapeMember(label: "NullPacketBitrate", location: .body(locationName: "nullPacketBitrate")), 
+            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval")), 
+            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl")), 
+            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid")), 
+            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval")), 
+            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid")), 
+            AWSShapeMember(label: "PrivateMetadataPid", location: .body(locationName: "privateMetadataPid")), 
+            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber")), 
+            AWSShapeMember(label: "RateMode", location: .body(locationName: "rateMode")), 
+            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam")), 
+            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid")), 
+            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source")), 
+            AWSShapeMember(label: "SegmentationMarkers", location: .body(locationName: "segmentationMarkers")), 
+            AWSShapeMember(label: "SegmentationStyle", location: .body(locationName: "segmentationStyle")), 
+            AWSShapeMember(label: "SegmentationTime", location: .body(locationName: "segmentationTime")), 
+            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid")), 
+            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId")), 
+            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"))
         ]
 
         /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
@@ -7269,22 +7269,22 @@ extension MediaConvert {
 
     public struct M3u8Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes"), required: false, type: .integer), 
-            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids"), required: false, type: .list), 
-            AWSShapeMember(label: "NielsenId3", location: .body(locationName: "nielsenId3"), required: false, type: .enum), 
-            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "PrivateMetadataPid", location: .body(locationName: "privateMetadataPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid"), required: false, type: .integer), 
-            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimedMetadata", location: .body(locationName: "timedMetadata"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid"), required: false, type: .integer), 
-            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: false, type: .integer), 
-            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .integer)
+            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes")), 
+            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids")), 
+            AWSShapeMember(label: "NielsenId3", location: .body(locationName: "nielsenId3")), 
+            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval")), 
+            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl")), 
+            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid")), 
+            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval")), 
+            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid")), 
+            AWSShapeMember(label: "PrivateMetadataPid", location: .body(locationName: "privateMetadataPid")), 
+            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber")), 
+            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid")), 
+            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source")), 
+            AWSShapeMember(label: "TimedMetadata", location: .body(locationName: "timedMetadata")), 
+            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid")), 
+            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId")), 
+            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"))
         ]
 
         /// The number of audio frames to insert for each PES packet.
@@ -7390,12 +7390,12 @@ extension MediaConvert {
 
     public struct MotionImageInserter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Framerate", location: .body(locationName: "framerate"), required: false, type: .structure), 
-            AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .string), 
-            AWSShapeMember(label: "InsertionMode", location: .body(locationName: "insertionMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "Offset", location: .body(locationName: "offset"), required: false, type: .structure), 
-            AWSShapeMember(label: "Playback", location: .body(locationName: "playback"), required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .string)
+            AWSShapeMember(label: "Framerate", location: .body(locationName: "framerate")), 
+            AWSShapeMember(label: "Input", location: .body(locationName: "input")), 
+            AWSShapeMember(label: "InsertionMode", location: .body(locationName: "insertionMode")), 
+            AWSShapeMember(label: "Offset", location: .body(locationName: "offset")), 
+            AWSShapeMember(label: "Playback", location: .body(locationName: "playback")), 
+            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"))
         ]
 
         /// If your motion graphic asset is a .mov file, keep this setting unspecified. If your motion graphic asset is a series of .png files, specify the frame rate of the overlay in frames per second, as a fraction. For example, specify 24 fps as 24/1. Make sure that the number of images in your series matches the frame rate and your intended overlay duration. For example, if you want a 30-second overlay at 30 fps, you should have 900 .png images. This overlay frame rate doesn't need to match the frame rate of the underlying video.
@@ -7443,8 +7443,8 @@ extension MediaConvert {
 
     public struct MotionImageInsertionFramerate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer)
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"))
         ]
 
         /// The bottom of the fraction that expresses your overlay frame rate. For example, if your frame rate is 24 fps, set this value to 1.
@@ -7472,8 +7472,8 @@ extension MediaConvert {
 
     public struct MotionImageInsertionOffset: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageX", location: .body(locationName: "imageX"), required: false, type: .integer), 
-            AWSShapeMember(label: "ImageY", location: .body(locationName: "imageY"), required: false, type: .integer)
+            AWSShapeMember(label: "ImageX", location: .body(locationName: "imageX")), 
+            AWSShapeMember(label: "ImageY", location: .body(locationName: "imageY"))
         ]
 
         /// Set the distance, in pixels, between the overlay and the left edge of the video frame.
@@ -7501,11 +7501,11 @@ extension MediaConvert {
 
     public struct MovSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClapAtom", location: .body(locationName: "clapAtom"), required: false, type: .enum), 
-            AWSShapeMember(label: "CslgAtom", location: .body(locationName: "cslgAtom"), required: false, type: .enum), 
-            AWSShapeMember(label: "Mpeg2FourCCControl", location: .body(locationName: "mpeg2FourCCControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "PaddingControl", location: .body(locationName: "paddingControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "Reference", location: .body(locationName: "reference"), required: false, type: .enum)
+            AWSShapeMember(label: "ClapAtom", location: .body(locationName: "clapAtom")), 
+            AWSShapeMember(label: "CslgAtom", location: .body(locationName: "cslgAtom")), 
+            AWSShapeMember(label: "Mpeg2FourCCControl", location: .body(locationName: "mpeg2FourCCControl")), 
+            AWSShapeMember(label: "PaddingControl", location: .body(locationName: "paddingControl")), 
+            AWSShapeMember(label: "Reference", location: .body(locationName: "reference"))
         ]
 
         /// When enabled, include 'clap' atom if appropriate for the video output settings.
@@ -7538,9 +7538,9 @@ extension MediaConvert {
 
     public struct Mp2Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .integer), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer)
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "Channels", location: .body(locationName: "channels")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"))
         ]
 
         /// Specify the average bitrate in bits per second.
@@ -7574,11 +7574,11 @@ extension MediaConvert {
 
     public struct Mp3Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .integer), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer), 
-            AWSShapeMember(label: "VbrQuality", location: .body(locationName: "vbrQuality"), required: false, type: .integer)
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "Channels", location: .body(locationName: "channels")), 
+            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate")), 
+            AWSShapeMember(label: "VbrQuality", location: .body(locationName: "vbrQuality"))
         ]
 
         /// Specify the average bitrate in bits per second.
@@ -7622,11 +7622,11 @@ extension MediaConvert {
 
     public struct Mp4Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CslgAtom", location: .body(locationName: "cslgAtom"), required: false, type: .enum), 
-            AWSShapeMember(label: "CttsVersion", location: .body(locationName: "cttsVersion"), required: false, type: .integer), 
-            AWSShapeMember(label: "FreeSpaceBox", location: .body(locationName: "freeSpaceBox"), required: false, type: .enum), 
-            AWSShapeMember(label: "MoovPlacement", location: .body(locationName: "moovPlacement"), required: false, type: .enum), 
-            AWSShapeMember(label: "Mp4MajorBrand", location: .body(locationName: "mp4MajorBrand"), required: false, type: .string)
+            AWSShapeMember(label: "CslgAtom", location: .body(locationName: "cslgAtom")), 
+            AWSShapeMember(label: "CttsVersion", location: .body(locationName: "cttsVersion")), 
+            AWSShapeMember(label: "FreeSpaceBox", location: .body(locationName: "freeSpaceBox")), 
+            AWSShapeMember(label: "MoovPlacement", location: .body(locationName: "moovPlacement")), 
+            AWSShapeMember(label: "Mp4MajorBrand", location: .body(locationName: "mp4MajorBrand"))
         ]
 
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
@@ -7664,9 +7664,9 @@ extension MediaConvert {
 
     public struct MpdSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptionContainerType", location: .body(locationName: "captionContainerType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam"), required: false, type: .enum), 
-            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"), required: false, type: .enum)
+            AWSShapeMember(label: "CaptionContainerType", location: .body(locationName: "captionContainerType")), 
+            AWSShapeMember(label: "Scte35Esam", location: .body(locationName: "scte35Esam")), 
+            AWSShapeMember(label: "Scte35Source", location: .body(locationName: "scte35Source"))
         ]
 
         /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions.  You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
@@ -7691,37 +7691,37 @@ extension MediaConvert {
 
     public struct Mpeg2Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "CodecLevel", location: .body(locationName: "codecLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "DynamicSubGop", location: .body(locationName: "dynamicSubGop"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence"), required: false, type: .integer), 
-            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize"), required: false, type: .double), 
-            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits"), required: false, type: .enum), 
-            AWSShapeMember(label: "HrdBufferInitialFillPercentage", location: .body(locationName: "hrdBufferInitialFillPercentage"), required: false, type: .integer), 
-            AWSShapeMember(label: "HrdBufferSize", location: .body(locationName: "hrdBufferSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "IntraDcPrecision", location: .body(locationName: "intraDcPrecision"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval"), required: false, type: .integer), 
-            AWSShapeMember(label: "NumberBFramesBetweenReferenceFrames", location: .body(locationName: "numberBFramesBetweenReferenceFrames"), required: false, type: .integer), 
-            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "QualityTuningLevel", location: .body(locationName: "qualityTuningLevel"), required: false, type: .enum), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect"), required: false, type: .enum), 
-            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal"), required: false, type: .enum), 
-            AWSShapeMember(label: "Softness", location: .body(locationName: "softness"), required: false, type: .integer), 
-            AWSShapeMember(label: "SpatialAdaptiveQuantization", location: .body(locationName: "spatialAdaptiveQuantization"), required: false, type: .enum), 
-            AWSShapeMember(label: "Syntax", location: .body(locationName: "syntax"), required: false, type: .enum), 
-            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine"), required: false, type: .enum), 
-            AWSShapeMember(label: "TemporalAdaptiveQuantization", location: .body(locationName: "temporalAdaptiveQuantization"), required: false, type: .enum)
+            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization")), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
+            AWSShapeMember(label: "CodecLevel", location: .body(locationName: "codecLevel")), 
+            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile")), 
+            AWSShapeMember(label: "DynamicSubGop", location: .body(locationName: "dynamicSubGop")), 
+            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl")), 
+            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm")), 
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator")), 
+            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence")), 
+            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize")), 
+            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits")), 
+            AWSShapeMember(label: "HrdBufferInitialFillPercentage", location: .body(locationName: "hrdBufferInitialFillPercentage")), 
+            AWSShapeMember(label: "HrdBufferSize", location: .body(locationName: "hrdBufferSize")), 
+            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode")), 
+            AWSShapeMember(label: "IntraDcPrecision", location: .body(locationName: "intraDcPrecision")), 
+            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
+            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval")), 
+            AWSShapeMember(label: "NumberBFramesBetweenReferenceFrames", location: .body(locationName: "numberBFramesBetweenReferenceFrames")), 
+            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl")), 
+            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator")), 
+            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator")), 
+            AWSShapeMember(label: "QualityTuningLevel", location: .body(locationName: "qualityTuningLevel")), 
+            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
+            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect")), 
+            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal")), 
+            AWSShapeMember(label: "Softness", location: .body(locationName: "softness")), 
+            AWSShapeMember(label: "SpatialAdaptiveQuantization", location: .body(locationName: "spatialAdaptiveQuantization")), 
+            AWSShapeMember(label: "Syntax", location: .body(locationName: "syntax")), 
+            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine")), 
+            AWSShapeMember(label: "TemporalAdaptiveQuantization", location: .body(locationName: "temporalAdaptiveQuantization"))
         ]
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
@@ -7887,8 +7887,8 @@ extension MediaConvert {
 
     public struct MsSmoothAdditionalManifest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier"), required: false, type: .string), 
-            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"), required: false, type: .list)
+            AWSShapeMember(label: "ManifestNameModifier", location: .body(locationName: "manifestNameModifier")), 
+            AWSShapeMember(label: "SelectedOutputs", location: .body(locationName: "selectedOutputs"))
         ]
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your Microsoft Smooth group is film-name.ismv. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.ismv.
@@ -7916,7 +7916,7 @@ extension MediaConvert {
 
     public struct MsSmoothEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: false, type: .structure)
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"))
         ]
 
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider.  If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
@@ -7937,13 +7937,13 @@ extension MediaConvert {
 
     public struct MsSmoothGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests"), required: false, type: .list), 
-            AWSShapeMember(label: "AudioDeduplication", location: .body(locationName: "audioDeduplication"), required: false, type: .enum), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "ManifestEncoding", location: .body(locationName: "manifestEncoding"), required: false, type: .enum)
+            AWSShapeMember(label: "AdditionalManifests", location: .body(locationName: "additionalManifests")), 
+            AWSShapeMember(label: "AudioDeduplication", location: .body(locationName: "audioDeduplication")), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
+            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings")), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
+            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength")), 
+            AWSShapeMember(label: "ManifestEncoding", location: .body(locationName: "manifestEncoding"))
         ]
 
         /// By default, the service creates one .ism Microsoft Smooth Streaming manifest for each Microsoft Smooth Streaming output group in your job. This default manifest references every output in the output group. To create additional manifests that reference a subset of the outputs in the output group, specify a list of them here.
@@ -7995,8 +7995,8 @@ extension MediaConvert {
 
     public struct NielsenConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BreakoutCode", location: .body(locationName: "breakoutCode"), required: false, type: .integer), 
-            AWSShapeMember(label: "DistributorId", location: .body(locationName: "distributorId"), required: false, type: .string)
+            AWSShapeMember(label: "BreakoutCode", location: .body(locationName: "breakoutCode")), 
+            AWSShapeMember(label: "DistributorId", location: .body(locationName: "distributorId"))
         ]
 
         /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
@@ -8022,10 +8022,10 @@ extension MediaConvert {
 
     public struct NoiseReducer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", location: .body(locationName: "filter"), required: false, type: .enum), 
-            AWSShapeMember(label: "FilterSettings", location: .body(locationName: "filterSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "SpatialFilterSettings", location: .body(locationName: "spatialFilterSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "TemporalFilterSettings", location: .body(locationName: "temporalFilterSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "Filter", location: .body(locationName: "filter")), 
+            AWSShapeMember(label: "FilterSettings", location: .body(locationName: "filterSettings")), 
+            AWSShapeMember(label: "SpatialFilterSettings", location: .body(locationName: "spatialFilterSettings")), 
+            AWSShapeMember(label: "TemporalFilterSettings", location: .body(locationName: "temporalFilterSettings"))
         ]
 
         /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer (NoiseReducer). * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
@@ -8060,7 +8060,7 @@ extension MediaConvert {
 
     public struct NoiseReducerFilterSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"), required: false, type: .integer)
+            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"))
         ]
 
         /// Relative strength of noise reducing filter. Higher values produce stronger filtering.
@@ -8082,9 +8082,9 @@ extension MediaConvert {
 
     public struct NoiseReducerSpatialFilterSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PostFilterSharpenStrength", location: .body(locationName: "postFilterSharpenStrength"), required: false, type: .integer), 
-            AWSShapeMember(label: "Speed", location: .body(locationName: "speed"), required: false, type: .integer), 
-            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"), required: false, type: .integer)
+            AWSShapeMember(label: "PostFilterSharpenStrength", location: .body(locationName: "postFilterSharpenStrength")), 
+            AWSShapeMember(label: "Speed", location: .body(locationName: "speed")), 
+            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"))
         ]
 
         /// Specify strength of post noise reduction sharpening filter, with 0 disabling the filter and 3 enabling it at maximum strength.
@@ -8118,9 +8118,9 @@ extension MediaConvert {
 
     public struct NoiseReducerTemporalFilterSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggressiveMode", location: .body(locationName: "aggressiveMode"), required: false, type: .integer), 
-            AWSShapeMember(label: "Speed", location: .body(locationName: "speed"), required: false, type: .integer), 
-            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"), required: false, type: .integer)
+            AWSShapeMember(label: "AggressiveMode", location: .body(locationName: "aggressiveMode")), 
+            AWSShapeMember(label: "Speed", location: .body(locationName: "speed")), 
+            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"))
         ]
 
         /// Use Aggressive mode for content that has complex motion. Higher values produce stronger temporal filtering. This filters highly complex scenes more aggressively and creates better VQ for low bitrate outputs.
@@ -8154,14 +8154,14 @@ extension MediaConvert {
 
     public struct Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions"), required: false, type: .list), 
-            AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions"), required: false, type: .list), 
-            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Extension", location: .body(locationName: "extension"), required: false, type: .string), 
-            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string), 
-            AWSShapeMember(label: "OutputSettings", location: .body(locationName: "outputSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Preset", location: .body(locationName: "preset"), required: false, type: .string), 
-            AWSShapeMember(label: "VideoDescription", location: .body(locationName: "videoDescription"), required: false, type: .structure)
+            AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions")), 
+            AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions")), 
+            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings")), 
+            AWSShapeMember(label: "Extension", location: .body(locationName: "extension")), 
+            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier")), 
+            AWSShapeMember(label: "OutputSettings", location: .body(locationName: "outputSettings")), 
+            AWSShapeMember(label: "Preset", location: .body(locationName: "preset")), 
+            AWSShapeMember(label: "VideoDescription", location: .body(locationName: "videoDescription"))
         ]
 
         /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
@@ -8219,7 +8219,7 @@ extension MediaConvert {
 
     public struct OutputChannelMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputChannels", location: .body(locationName: "inputChannels"), required: false, type: .list)
+            AWSShapeMember(label: "InputChannels", location: .body(locationName: "inputChannels"))
         ]
 
         /// List of input channels
@@ -8243,8 +8243,8 @@ extension MediaConvert {
 
     public struct OutputDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInMs", location: .body(locationName: "durationInMs"), required: false, type: .integer), 
-            AWSShapeMember(label: "VideoDetails", location: .body(locationName: "videoDetails"), required: false, type: .structure)
+            AWSShapeMember(label: "DurationInMs", location: .body(locationName: "durationInMs")), 
+            AWSShapeMember(label: "VideoDetails", location: .body(locationName: "videoDetails"))
         ]
 
         /// Duration in milliseconds
@@ -8265,10 +8265,10 @@ extension MediaConvert {
 
     public struct OutputGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomName", location: .body(locationName: "customName"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "OutputGroupSettings", location: .body(locationName: "outputGroupSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list)
+            AWSShapeMember(label: "CustomName", location: .body(locationName: "customName")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "OutputGroupSettings", location: .body(locationName: "outputGroupSettings")), 
+            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"))
         ]
 
         /// Use Custom Group Name (CustomName) to specify a name for the output group. This value is displayed on the console and can make your job settings JSON more human-readable. It does not affect your outputs. Use up to twelve characters that are either letters, numbers, spaces, or underscores.
@@ -8304,7 +8304,7 @@ extension MediaConvert {
 
     public struct OutputGroupDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputDetails", location: .body(locationName: "outputDetails"), required: false, type: .list)
+            AWSShapeMember(label: "OutputDetails", location: .body(locationName: "outputDetails"))
         ]
 
         /// Details about the output
@@ -8321,12 +8321,12 @@ extension MediaConvert {
 
     public struct OutputGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CmafGroupSettings", location: .body(locationName: "cmafGroupSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "DashIsoGroupSettings", location: .body(locationName: "dashIsoGroupSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "FileGroupSettings", location: .body(locationName: "fileGroupSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "HlsGroupSettings", location: .body(locationName: "hlsGroupSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "MsSmoothGroupSettings", location: .body(locationName: "msSmoothGroupSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
+            AWSShapeMember(label: "CmafGroupSettings", location: .body(locationName: "cmafGroupSettings")), 
+            AWSShapeMember(label: "DashIsoGroupSettings", location: .body(locationName: "dashIsoGroupSettings")), 
+            AWSShapeMember(label: "FileGroupSettings", location: .body(locationName: "fileGroupSettings")), 
+            AWSShapeMember(label: "HlsGroupSettings", location: .body(locationName: "hlsGroupSettings")), 
+            AWSShapeMember(label: "MsSmoothGroupSettings", location: .body(locationName: "msSmoothGroupSettings")), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to CMAF_GROUP_SETTINGS. Each output in a CMAF Output Group may only contain a single video, audio, or caption output.
@@ -8371,7 +8371,7 @@ extension MediaConvert {
 
     public struct OutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HlsSettings", location: .body(locationName: "hlsSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "HlsSettings", location: .body(locationName: "hlsSettings"))
         ]
 
         /// Settings for HLS output groups
@@ -8388,14 +8388,14 @@ extension MediaConvert {
 
     public struct Preset: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdated", location: .body(locationName: "lastUpdated"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
+            AWSShapeMember(label: "Category", location: .body(locationName: "category")), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "LastUpdated", location: .body(locationName: "lastUpdated")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings")), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// An identifier for this resource that is unique within all of AWS.
@@ -8440,10 +8440,10 @@ extension MediaConvert {
 
     public struct PresetSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions"), required: false, type: .list), 
-            AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions"), required: false, type: .list), 
-            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "VideoDescription", location: .body(locationName: "videoDescription"), required: false, type: .structure)
+            AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions")), 
+            AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions")), 
+            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings")), 
+            AWSShapeMember(label: "VideoDescription", location: .body(locationName: "videoDescription"))
         ]
 
         /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
@@ -8483,17 +8483,17 @@ extension MediaConvert {
 
     public struct ProresSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl"), required: false, type: .enum), 
-            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator"), required: false, type: .integer), 
-            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator"), required: false, type: .integer), 
-            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal"), required: false, type: .enum), 
-            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine"), required: false, type: .enum)
+            AWSShapeMember(label: "CodecProfile", location: .body(locationName: "codecProfile")), 
+            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl")), 
+            AWSShapeMember(label: "FramerateConversionAlgorithm", location: .body(locationName: "framerateConversionAlgorithm")), 
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator")), 
+            AWSShapeMember(label: "InterlaceMode", location: .body(locationName: "interlaceMode")), 
+            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl")), 
+            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator")), 
+            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator")), 
+            AWSShapeMember(label: "SlowPal", location: .body(locationName: "slowPal")), 
+            AWSShapeMember(label: "Telecine", location: .body(locationName: "telecine"))
         ]
 
         /// Use Profile (ProResCodecProfile) to specifiy the type of Apple ProRes codec to use for this output.
@@ -8563,17 +8563,17 @@ extension MediaConvert {
 
     public struct Queue: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdated", location: .body(locationName: "lastUpdated"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "PricingPlan", location: .body(locationName: "pricingPlan"), required: false, type: .enum), 
-            AWSShapeMember(label: "ProgressingJobsCount", location: .body(locationName: "progressingJobsCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "ReservationPlan", location: .body(locationName: "reservationPlan"), required: false, type: .structure), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "SubmittedJobsCount", location: .body(locationName: "submittedJobsCount"), required: false, type: .integer), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "LastUpdated", location: .body(locationName: "lastUpdated")), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
+            AWSShapeMember(label: "PricingPlan", location: .body(locationName: "pricingPlan")), 
+            AWSShapeMember(label: "ProgressingJobsCount", location: .body(locationName: "progressingJobsCount")), 
+            AWSShapeMember(label: "ReservationPlan", location: .body(locationName: "reservationPlan")), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
+            AWSShapeMember(label: "SubmittedJobsCount", location: .body(locationName: "submittedJobsCount")), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// An identifier for this resource that is unique within all of AWS.
@@ -8630,10 +8630,10 @@ extension MediaConvert {
 
     public struct Rectangle: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Height", location: .body(locationName: "height"), required: false, type: .integer), 
-            AWSShapeMember(label: "Width", location: .body(locationName: "width"), required: false, type: .integer), 
-            AWSShapeMember(label: "X", location: .body(locationName: "x"), required: false, type: .integer), 
-            AWSShapeMember(label: "Y", location: .body(locationName: "y"), required: false, type: .integer)
+            AWSShapeMember(label: "Height", location: .body(locationName: "height")), 
+            AWSShapeMember(label: "Width", location: .body(locationName: "width")), 
+            AWSShapeMember(label: "X", location: .body(locationName: "x")), 
+            AWSShapeMember(label: "Y", location: .body(locationName: "y"))
         ]
 
         /// Height of rectangle in pixels. Specify only even numbers.
@@ -8673,9 +8673,9 @@ extension MediaConvert {
 
     public struct RemixSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelMapping", location: .body(locationName: "channelMapping"), required: false, type: .structure), 
-            AWSShapeMember(label: "ChannelsIn", location: .body(locationName: "channelsIn"), required: false, type: .integer), 
-            AWSShapeMember(label: "ChannelsOut", location: .body(locationName: "channelsOut"), required: false, type: .integer)
+            AWSShapeMember(label: "ChannelMapping", location: .body(locationName: "channelMapping")), 
+            AWSShapeMember(label: "ChannelsIn", location: .body(locationName: "channelsIn")), 
+            AWSShapeMember(label: "ChannelsOut", location: .body(locationName: "channelsOut"))
         ]
 
         /// Channel mapping (ChannelMapping) contains the group of fields that hold the remixing value for each channel. Units are in dB. Acceptable values are within the range from -60 (mute) through 6. A setting of 0 passes the input channel unchanged to the output channel (no attenuation or amplification).
@@ -8708,12 +8708,12 @@ extension MediaConvert {
 
     public struct ReservationPlan: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Commitment", location: .body(locationName: "commitment"), required: false, type: .enum), 
-            AWSShapeMember(label: "ExpiresAt", location: .body(locationName: "expiresAt"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "PurchasedAt", location: .body(locationName: "purchasedAt"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "RenewalType", location: .body(locationName: "renewalType"), required: false, type: .enum), 
-            AWSShapeMember(label: "ReservedSlots", location: .body(locationName: "reservedSlots"), required: false, type: .integer), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+            AWSShapeMember(label: "Commitment", location: .body(locationName: "commitment")), 
+            AWSShapeMember(label: "ExpiresAt", location: .body(locationName: "expiresAt")), 
+            AWSShapeMember(label: "PurchasedAt", location: .body(locationName: "purchasedAt")), 
+            AWSShapeMember(label: "RenewalType", location: .body(locationName: "renewalType")), 
+            AWSShapeMember(label: "ReservedSlots", location: .body(locationName: "reservedSlots")), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
         ]
 
         /// The length of the term of your reserved queue pricing plan commitment.
@@ -8750,9 +8750,9 @@ extension MediaConvert {
 
     public struct ReservationPlanSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Commitment", location: .body(locationName: "commitment"), required: true, type: .enum), 
-            AWSShapeMember(label: "RenewalType", location: .body(locationName: "renewalType"), required: true, type: .enum), 
-            AWSShapeMember(label: "ReservedSlots", location: .body(locationName: "reservedSlots"), required: true, type: .integer)
+            AWSShapeMember(label: "Commitment", location: .body(locationName: "commitment")), 
+            AWSShapeMember(label: "RenewalType", location: .body(locationName: "renewalType")), 
+            AWSShapeMember(label: "ReservedSlots", location: .body(locationName: "reservedSlots"))
         ]
 
         /// The length of the term of your reserved queue pricing plan commitment.
@@ -8777,8 +8777,8 @@ extension MediaConvert {
 
     public struct ResourceTags: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -8799,7 +8799,7 @@ extension MediaConvert {
 
     public struct S3DestinationAccessControl: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CannedAcl", location: .body(locationName: "cannedAcl"), required: false, type: .enum)
+            AWSShapeMember(label: "CannedAcl", location: .body(locationName: "cannedAcl"))
         ]
 
         /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
@@ -8816,8 +8816,8 @@ extension MediaConvert {
 
     public struct S3DestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessControl", location: .body(locationName: "accessControl"), required: false, type: .structure), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure)
+            AWSShapeMember(label: "AccessControl", location: .body(locationName: "accessControl")), 
+            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"))
         ]
 
         /// Optional. Have MediaConvert automatically apply Amazon S3 access control for the outputs in this output group. When you don't use this setting, S3 automatically applies the default access control list PRIVATE.
@@ -8842,8 +8842,8 @@ extension MediaConvert {
 
     public struct S3EncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", location: .body(locationName: "encryptionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyArn", location: .body(locationName: "kmsKeyArn"), required: false, type: .string)
+            AWSShapeMember(label: "EncryptionType", location: .body(locationName: "encryptionType")), 
+            AWSShapeMember(label: "KmsKeyArn", location: .body(locationName: "kmsKeyArn"))
         ]
 
         /// Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3 (SERVER_SIDE_ENCRYPTION_S3). If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).
@@ -8868,7 +8868,7 @@ extension MediaConvert {
 
     public struct SccDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Framerate", location: .body(locationName: "framerate"), required: false, type: .enum)
+            AWSShapeMember(label: "Framerate", location: .body(locationName: "framerate"))
         ]
 
         /// Set Framerate (SccDestinationFramerate) to make sure that the captions and the video are synchronized in the output. Specify a frame rate that matches the frame rate of the associated video. If the video frame rate is 29.97, choose 29.97 dropframe (FRAMERATE_29_97_DROPFRAME) only if the video has video_insertion=true and drop_frame_timecode=true; otherwise, choose 29.97 non-dropframe (FRAMERATE_29_97_NON_DROPFRAME).
@@ -8885,10 +8885,10 @@ extension MediaConvert {
 
     public struct SpekeKeyProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
-            AWSShapeMember(label: "SystemIds", location: .body(locationName: "systemIds"), required: false, type: .list), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn")), 
+            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
+            AWSShapeMember(label: "SystemIds", location: .body(locationName: "systemIds")), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
         ]
 
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
@@ -8926,11 +8926,11 @@ extension MediaConvert {
 
     public struct SpekeKeyProviderCmaf: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
-            AWSShapeMember(label: "DashSignaledSystemIds", location: .body(locationName: "dashSignaledSystemIds"), required: false, type: .list), 
-            AWSShapeMember(label: "HlsSignaledSystemIds", location: .body(locationName: "hlsSignaledSystemIds"), required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn")), 
+            AWSShapeMember(label: "DashSignaledSystemIds", location: .body(locationName: "dashSignaledSystemIds")), 
+            AWSShapeMember(label: "HlsSignaledSystemIds", location: .body(locationName: "hlsSignaledSystemIds")), 
+            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
         ]
 
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
@@ -8979,10 +8979,10 @@ extension MediaConvert {
 
     public struct StaticKeyProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyFormat", location: .body(locationName: "keyFormat"), required: false, type: .string), 
-            AWSShapeMember(label: "KeyFormatVersions", location: .body(locationName: "keyFormatVersions"), required: false, type: .string), 
-            AWSShapeMember(label: "StaticKeyValue", location: .body(locationName: "staticKeyValue"), required: false, type: .string), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+            AWSShapeMember(label: "KeyFormat", location: .body(locationName: "keyFormat")), 
+            AWSShapeMember(label: "KeyFormatVersions", location: .body(locationName: "keyFormatVersions")), 
+            AWSShapeMember(label: "StaticKeyValue", location: .body(locationName: "staticKeyValue")), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
         ]
 
         /// Relates to DRM implementation. Sets the value of the KEYFORMAT attribute. Must be 'identity' or a reverse DNS string. May be omitted to indicate an implicit value of 'identity'.
@@ -9017,8 +9017,8 @@ extension MediaConvert {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
@@ -9047,8 +9047,8 @@ extension MediaConvert {
 
     public struct TeletextDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"), required: false, type: .string), 
-            AWSShapeMember(label: "PageTypes", location: .body(locationName: "pageTypes"), required: false, type: .list)
+            AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber")), 
+            AWSShapeMember(label: "PageTypes", location: .body(locationName: "pageTypes"))
         ]
 
         /// Set pageNumber to the Teletext page number for the destination captions for this output. This value must be a three-digit hexadecimal string; strings ending in -FF are invalid. If you are passing through the entire set of Teletext data, do not use this field.
@@ -9075,7 +9075,7 @@ extension MediaConvert {
 
     public struct TeletextSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"), required: false, type: .string)
+            AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"))
         ]
 
         /// Use Page Number (PageNumber) to specify the three-digit hexadecimal page number that will be used for Teletext captions. Do not use this setting if you are passing through teletext from the input source to output.
@@ -9098,9 +9098,9 @@ extension MediaConvert {
 
     public struct TimecodeBurnin: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "Position", location: .body(locationName: "position"), required: false, type: .enum), 
-            AWSShapeMember(label: "Prefix", location: .body(locationName: "prefix"), required: false, type: .string)
+            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize")), 
+            AWSShapeMember(label: "Position", location: .body(locationName: "position")), 
+            AWSShapeMember(label: "Prefix", location: .body(locationName: "prefix"))
         ]
 
         /// Use Font Size (FontSize) to set the font size of any burned-in timecode. Valid values are 10, 16, 32, 48.
@@ -9131,10 +9131,10 @@ extension MediaConvert {
 
     public struct TimecodeConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Anchor", location: .body(locationName: "anchor"), required: false, type: .string), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: false, type: .enum), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: false, type: .string), 
-            AWSShapeMember(label: "TimestampOffset", location: .body(locationName: "timestampOffset"), required: false, type: .string)
+            AWSShapeMember(label: "Anchor", location: .body(locationName: "anchor")), 
+            AWSShapeMember(label: "Source", location: .body(locationName: "source")), 
+            AWSShapeMember(label: "Start", location: .body(locationName: "start")), 
+            AWSShapeMember(label: "TimestampOffset", location: .body(locationName: "timestampOffset"))
         ]
 
         /// If you use an editing platform that relies on an anchor timecode, use Anchor Timecode (Anchor) to specify a timecode that will match the input video frame to the output video frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting ignores frame rate conversion. System behavior for Anchor Timecode varies depending on your setting for Source (TimecodeSource). * If Source (TimecodeSource) is set to Specified Start (SPECIFIEDSTART), the first input frame is the specified value in Start Timecode (Start). Anchor Timecode (Anchor) and Start Timecode (Start) are used calculate output timecode. * If Source (TimecodeSource) is set to Start at 0 (ZEROBASED)  the  first frame is 00:00:00:00. * If Source (TimecodeSource) is set to Embedded (EMBEDDED), the  first frame is the timecode value on the first input frame of the input.
@@ -9169,7 +9169,7 @@ extension MediaConvert {
 
     public struct TimedMetadataInsertion: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id3Insertions", location: .body(locationName: "id3Insertions"), required: false, type: .list)
+            AWSShapeMember(label: "Id3Insertions", location: .body(locationName: "id3Insertions"))
         ]
 
         /// Id3Insertions contains the array of Id3Insertion instances.
@@ -9192,9 +9192,9 @@ extension MediaConvert {
 
     public struct Timing: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinishTime", location: .body(locationName: "finishTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "SubmitTime", location: .body(locationName: "submitTime"), required: false, type: .timestamp)
+            AWSShapeMember(label: "FinishTime", location: .body(locationName: "finishTime")), 
+            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
+            AWSShapeMember(label: "SubmitTime", location: .body(locationName: "submitTime"))
         ]
 
         /// The time, in Unix epoch format, that the transcoding job finished
@@ -9219,7 +9219,7 @@ extension MediaConvert {
 
     public struct TrackSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrackNumber", location: .body(locationName: "trackNumber"), required: false, type: .integer)
+            AWSShapeMember(label: "TrackNumber", location: .body(locationName: "trackNumber"))
         ]
 
         /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
@@ -9241,7 +9241,7 @@ extension MediaConvert {
 
     public struct TtmlDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StylePassthrough", location: .body(locationName: "stylePassthrough"), required: false, type: .enum)
+            AWSShapeMember(label: "StylePassthrough", location: .body(locationName: "stylePassthrough"))
         ]
 
         /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
@@ -9258,8 +9258,8 @@ extension MediaConvert {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .body(locationName: "tagKeys"), required: false, type: .list)
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn")), 
+            AWSShapeMember(label: "TagKeys", location: .body(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. To get the ARN, send a GET request with the resource name.
@@ -9288,14 +9288,14 @@ extension MediaConvert {
 
     public struct UpdateJobTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum)
+            AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings")), 
+            AWSShapeMember(label: "Category", location: .body(locationName: "category")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority")), 
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings")), 
+            AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"))
         ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
@@ -9346,7 +9346,7 @@ extension MediaConvert {
 
     public struct UpdateJobTemplateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .structure)
+            AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"))
         ]
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
@@ -9363,10 +9363,10 @@ extension MediaConvert {
 
     public struct UpdatePresetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: false, type: .structure)
+            AWSShapeMember(label: "Category", location: .body(locationName: "category")), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"))
         ]
 
         /// The new category for the preset, if you are changing it.
@@ -9399,7 +9399,7 @@ extension MediaConvert {
 
     public struct UpdatePresetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Preset", location: .body(locationName: "preset"), required: false, type: .structure)
+            AWSShapeMember(label: "Preset", location: .body(locationName: "preset"))
         ]
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
@@ -9416,10 +9416,10 @@ extension MediaConvert {
 
     public struct UpdateQueueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "ReservationPlanSettings", location: .body(locationName: "reservationPlanSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "name")), 
+            AWSShapeMember(label: "ReservationPlanSettings", location: .body(locationName: "reservationPlanSettings")), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
         ]
 
         /// The new description for the queue, if you are changing it.
@@ -9448,7 +9448,7 @@ extension MediaConvert {
 
     public struct UpdateQueueResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .structure)
+            AWSShapeMember(label: "Queue", location: .body(locationName: "queue"))
         ]
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
@@ -9465,12 +9465,12 @@ extension MediaConvert {
 
     public struct VideoCodecSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Codec", location: .body(locationName: "codec"), required: false, type: .enum), 
-            AWSShapeMember(label: "FrameCaptureSettings", location: .body(locationName: "frameCaptureSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "H265Settings", location: .body(locationName: "h265Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "Mpeg2Settings", location: .body(locationName: "mpeg2Settings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ProresSettings", location: .body(locationName: "proresSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "Codec", location: .body(locationName: "codec")), 
+            AWSShapeMember(label: "FrameCaptureSettings", location: .body(locationName: "frameCaptureSettings")), 
+            AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings")), 
+            AWSShapeMember(label: "H265Settings", location: .body(locationName: "h265Settings")), 
+            AWSShapeMember(label: "Mpeg2Settings", location: .body(locationName: "mpeg2Settings")), 
+            AWSShapeMember(label: "ProresSettings", location: .body(locationName: "proresSettings"))
         ]
 
         /// Specifies the video codec. This must be equal to one of the enum values defined by the object  VideoCodec.
@@ -9515,21 +9515,21 @@ extension MediaConvert {
 
     public struct VideoDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AfdSignaling", location: .body(locationName: "afdSignaling"), required: false, type: .enum), 
-            AWSShapeMember(label: "AntiAlias", location: .body(locationName: "antiAlias"), required: false, type: .enum), 
-            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "ColorMetadata", location: .body(locationName: "colorMetadata"), required: false, type: .enum), 
-            AWSShapeMember(label: "Crop", location: .body(locationName: "crop"), required: false, type: .structure), 
-            AWSShapeMember(label: "DropFrameTimecode", location: .body(locationName: "dropFrameTimecode"), required: false, type: .enum), 
-            AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd"), required: false, type: .integer), 
-            AWSShapeMember(label: "Height", location: .body(locationName: "height"), required: false, type: .integer), 
-            AWSShapeMember(label: "Position", location: .body(locationName: "position"), required: false, type: .structure), 
-            AWSShapeMember(label: "RespondToAfd", location: .body(locationName: "respondToAfd"), required: false, type: .enum), 
-            AWSShapeMember(label: "ScalingBehavior", location: .body(locationName: "scalingBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "Sharpness", location: .body(locationName: "sharpness"), required: false, type: .integer), 
-            AWSShapeMember(label: "TimecodeInsertion", location: .body(locationName: "timecodeInsertion"), required: false, type: .enum), 
-            AWSShapeMember(label: "VideoPreprocessors", location: .body(locationName: "videoPreprocessors"), required: false, type: .structure), 
-            AWSShapeMember(label: "Width", location: .body(locationName: "width"), required: false, type: .integer)
+            AWSShapeMember(label: "AfdSignaling", location: .body(locationName: "afdSignaling")), 
+            AWSShapeMember(label: "AntiAlias", location: .body(locationName: "antiAlias")), 
+            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings")), 
+            AWSShapeMember(label: "ColorMetadata", location: .body(locationName: "colorMetadata")), 
+            AWSShapeMember(label: "Crop", location: .body(locationName: "crop")), 
+            AWSShapeMember(label: "DropFrameTimecode", location: .body(locationName: "dropFrameTimecode")), 
+            AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd")), 
+            AWSShapeMember(label: "Height", location: .body(locationName: "height")), 
+            AWSShapeMember(label: "Position", location: .body(locationName: "position")), 
+            AWSShapeMember(label: "RespondToAfd", location: .body(locationName: "respondToAfd")), 
+            AWSShapeMember(label: "ScalingBehavior", location: .body(locationName: "scalingBehavior")), 
+            AWSShapeMember(label: "Sharpness", location: .body(locationName: "sharpness")), 
+            AWSShapeMember(label: "TimecodeInsertion", location: .body(locationName: "timecodeInsertion")), 
+            AWSShapeMember(label: "VideoPreprocessors", location: .body(locationName: "videoPreprocessors")), 
+            AWSShapeMember(label: "Width", location: .body(locationName: "width"))
         ]
 
         /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD signaling (AfdSignaling) to specify whether the service includes AFD values in the output video data and what those values are. * Choose None to remove all AFD values from this output. * Choose Fixed to ignore input AFD values and instead encode the value specified in the job. * Choose Auto to calculate output AFD values based on the input AFD scaler data.
@@ -9617,8 +9617,8 @@ extension MediaConvert {
 
     public struct VideoDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HeightInPx", location: .body(locationName: "heightInPx"), required: false, type: .integer), 
-            AWSShapeMember(label: "WidthInPx", location: .body(locationName: "widthInPx"), required: false, type: .integer)
+            AWSShapeMember(label: "HeightInPx", location: .body(locationName: "heightInPx")), 
+            AWSShapeMember(label: "WidthInPx", location: .body(locationName: "widthInPx"))
         ]
 
         /// Height in pixels for the output
@@ -9639,12 +9639,12 @@ extension MediaConvert {
 
     public struct VideoPreprocessor: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColorCorrector", location: .body(locationName: "colorCorrector"), required: false, type: .structure), 
-            AWSShapeMember(label: "Deinterlacer", location: .body(locationName: "deinterlacer"), required: false, type: .structure), 
-            AWSShapeMember(label: "DolbyVision", location: .body(locationName: "dolbyVision"), required: false, type: .structure), 
-            AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter"), required: false, type: .structure), 
-            AWSShapeMember(label: "NoiseReducer", location: .body(locationName: "noiseReducer"), required: false, type: .structure), 
-            AWSShapeMember(label: "TimecodeBurnin", location: .body(locationName: "timecodeBurnin"), required: false, type: .structure)
+            AWSShapeMember(label: "ColorCorrector", location: .body(locationName: "colorCorrector")), 
+            AWSShapeMember(label: "Deinterlacer", location: .body(locationName: "deinterlacer")), 
+            AWSShapeMember(label: "DolbyVision", location: .body(locationName: "dolbyVision")), 
+            AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter")), 
+            AWSShapeMember(label: "NoiseReducer", location: .body(locationName: "noiseReducer")), 
+            AWSShapeMember(label: "TimecodeBurnin", location: .body(locationName: "timecodeBurnin"))
         ]
 
         /// Enable the Color corrector (ColorCorrector) feature if necessary. Enable or disable this feature for each output individually. This setting is disabled by default.
@@ -9689,13 +9689,13 @@ extension MediaConvert {
 
     public struct VideoSelector: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlphaBehavior", location: .body(locationName: "alphaBehavior"), required: false, type: .enum), 
-            AWSShapeMember(label: "ColorSpace", location: .body(locationName: "colorSpace"), required: false, type: .enum), 
-            AWSShapeMember(label: "ColorSpaceUsage", location: .body(locationName: "colorSpaceUsage"), required: false, type: .enum), 
-            AWSShapeMember(label: "Hdr10Metadata", location: .body(locationName: "hdr10Metadata"), required: false, type: .structure), 
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"), required: false, type: .integer), 
-            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "Rotate", location: .body(locationName: "rotate"), required: false, type: .enum)
+            AWSShapeMember(label: "AlphaBehavior", location: .body(locationName: "alphaBehavior")), 
+            AWSShapeMember(label: "ColorSpace", location: .body(locationName: "colorSpace")), 
+            AWSShapeMember(label: "ColorSpaceUsage", location: .body(locationName: "colorSpaceUsage")), 
+            AWSShapeMember(label: "Hdr10Metadata", location: .body(locationName: "hdr10Metadata")), 
+            AWSShapeMember(label: "Pid", location: .body(locationName: "pid")), 
+            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber")), 
+            AWSShapeMember(label: "Rotate", location: .body(locationName: "rotate"))
         ]
 
         /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
@@ -9744,10 +9744,10 @@ extension MediaConvert {
 
     public struct WavSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BitDepth", location: .body(locationName: "bitDepth"), required: false, type: .integer), 
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels"), required: false, type: .integer), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: false, type: .enum), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer)
+            AWSShapeMember(label: "BitDepth", location: .body(locationName: "bitDepth")), 
+            AWSShapeMember(label: "Channels", location: .body(locationName: "channels")), 
+            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"))
         ]
 
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.

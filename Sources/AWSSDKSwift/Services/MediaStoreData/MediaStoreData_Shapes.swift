@@ -27,7 +27,7 @@ extension MediaStoreData {
 
     public struct DeleteObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
+            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"))
         ]
 
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
@@ -58,7 +58,7 @@ extension MediaStoreData {
 
     public struct DescribeObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
+            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"))
         ]
 
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
@@ -81,11 +81,11 @@ extension MediaStoreData {
 
     public struct DescribeObjectResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp)
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length")), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type")), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag")), 
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"))
         ]
 
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
@@ -118,8 +118,8 @@ extension MediaStoreData {
 
     public struct GetObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string), 
-            AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string)
+            AWSShapeMember(label: "Path", location: .uri(locationName: "Path")), 
+            AWSShapeMember(label: "Range", location: .header(locationName: "Range"))
         ]
 
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
@@ -149,14 +149,13 @@ extension MediaStoreData {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Body", required: false, type: .blob), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length"), required: false, type: .long), 
-            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .integer)
+            AWSShapeMember(label: "Body", encoding: .blob), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSShapeMember(label: "ContentLength", location: .header(locationName: "Content-Length")), 
+            AWSShapeMember(label: "ContentRange", location: .header(locationName: "Content-Range")), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type")), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag")), 
+            AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"))
         ]
 
         /// The bytes of the object. 
@@ -200,14 +199,6 @@ extension MediaStoreData {
     }
 
     public struct Item: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentLength", required: false, type: .long), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The length of the item in bytes.
         public let contentLength: Int64?
@@ -243,9 +234,9 @@ extension MediaStoreData {
 
     public struct ListItemsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Path", location: .querystring(locationName: "Path"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "Path", location: .querystring(locationName: "Path"))
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListItems request with MaxResults set at 500. Although 2,000 items match your request, the service returns no more than the first 500 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 1,000 results per page.
@@ -277,10 +268,6 @@ extension MediaStoreData {
     }
 
     public struct ListItemsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The metadata entries for the folders and objects at the requested path.
         public let items: [Item]?
@@ -302,12 +289,12 @@ extension MediaStoreData {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Body", required: true, type: .blob), 
-            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
-            AWSShapeMember(label: "UploadAvailability", location: .header(locationName: "x-amz-upload-availability"), required: false, type: .enum)
+            AWSShapeMember(label: "Body", encoding: .blob), 
+            AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type")), 
+            AWSShapeMember(label: "Path", location: .uri(locationName: "Path")), 
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSShapeMember(label: "UploadAvailability", location: .header(locationName: "x-amz-upload-availability"))
         ]
 
         /// The bytes to be stored. 
@@ -350,11 +337,6 @@ extension MediaStoreData {
     }
 
     public struct PutObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentSHA256", required: false, type: .string), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
-        ]
 
         /// The SHA256 digest of the object that is persisted.
         public let contentSHA256: String?

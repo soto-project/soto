@@ -135,10 +135,6 @@ extension ElasticsearchService {
     //MARK: Shapes
 
     public struct AccessPoliciesStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         /// The access policy configured for the Elasticsearch domain. Access policies may be resource-based, IP-based, or IAM-based. See  Configuring Access Policiesfor more information.
         public let options: String
@@ -157,10 +153,6 @@ extension ElasticsearchService {
     }
 
     public struct AddTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
 
         ///  Specify the ARN for which you want to add the tags.
         public let arn: String
@@ -185,10 +177,6 @@ extension ElasticsearchService {
     }
 
     public struct AdditionalLimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LimitName", required: false, type: .string), 
-            AWSShapeMember(label: "LimitValues", required: false, type: .list)
-        ]
 
         ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.  
         public let limitName: String?
@@ -207,10 +195,6 @@ extension ElasticsearchService {
     }
 
     public struct AdvancedOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .map), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         ///  Specifies the status of advanced options for the specified Elasticsearch domain.
         public let options: [String: String]
@@ -229,9 +213,6 @@ extension ElasticsearchService {
     }
 
     public struct CancelElasticsearchServiceSoftwareUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
 
         /// The name of the domain that you want to stop the latest service software update on.
         public let domainName: String
@@ -252,9 +233,6 @@ extension ElasticsearchService {
     }
 
     public struct CancelElasticsearchServiceSoftwareUpdateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceSoftwareOptions", required: false, type: .structure)
-        ]
 
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
@@ -269,12 +247,6 @@ extension ElasticsearchService {
     }
 
     public struct CognitoOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
-        ]
 
         /// Specifies the option to enable Cognito for Kibana authentication.
         public let enabled: Bool?
@@ -312,10 +284,6 @@ extension ElasticsearchService {
     }
 
     public struct CognitoOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         /// Specifies the Cognito options for the specified Elasticsearch domain.
         public let options: CognitoOptions
@@ -334,10 +302,6 @@ extension ElasticsearchService {
     }
 
     public struct CompatibleVersionsMap: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "TargetVersions", required: false, type: .list)
-        ]
 
         /// The current version of Elasticsearch on which a domain is.
         public let sourceVersion: String?
@@ -355,21 +319,6 @@ extension ElasticsearchService {
     }
 
     public struct CreateElasticsearchDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
-            AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
-            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionAtRestOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "LogPublishingOptions", required: false, type: .map), 
-            AWSShapeMember(label: "NodeToNodeEncryptionOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
-        ]
 
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
@@ -440,9 +389,6 @@ extension ElasticsearchService {
     }
 
     public struct CreateElasticsearchDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
-        ]
 
         /// The status of the newly created Elasticsearch domain. 
         public let domainStatus: ElasticsearchDomainStatus?
@@ -458,7 +404,7 @@ extension ElasticsearchService {
 
     public struct DeleteElasticsearchDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// The name of the Elasticsearch domain that you want to permanently delete.
@@ -480,9 +426,6 @@ extension ElasticsearchService {
     }
 
     public struct DeleteElasticsearchDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
-        ]
 
         /// The status of the Elasticsearch domain being deleted.
         public let domainStatus: ElasticsearchDomainStatus?
@@ -498,7 +441,7 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchDomainConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// The Elasticsearch domain that you want to get information about.
@@ -520,9 +463,6 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainConfig", required: true, type: .structure)
-        ]
 
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
         public let domainConfig: ElasticsearchDomainConfig
@@ -538,7 +478,7 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// The name of the Elasticsearch domain for which you want information.
@@ -560,9 +500,6 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatus", required: true, type: .structure)
-        ]
 
         /// The current status of the Elasticsearch domain.
         public let domainStatus: ElasticsearchDomainStatus
@@ -577,9 +514,6 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: true, type: .list)
-        ]
 
         /// The Elasticsearch domains for which you want information.
         public let domainNames: [String]
@@ -602,9 +536,6 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
-        ]
 
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
         public let domainStatusList: [ElasticsearchDomainStatus]
@@ -620,9 +551,9 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", location: .uri(locationName: "InstanceType"), required: true, type: .enum)
+            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName")), 
+            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
+            AWSShapeMember(label: "InstanceType", location: .uri(locationName: "InstanceType"))
         ]
 
         ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. 
@@ -652,9 +583,6 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LimitsByRole", required: false, type: .map)
-        ]
 
         public let limitsByRole: [String: Limits]?
 
@@ -669,9 +597,9 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -700,10 +628,6 @@ extension ElasticsearchService {
     }
 
     public struct DescribeReservedElasticsearchInstanceOfferingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferings", required: false, type: .list)
-        ]
 
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -723,9 +647,9 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "ReservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -754,10 +678,6 @@ extension ElasticsearchService {
     }
 
     public struct DescribeReservedElasticsearchInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstances", required: false, type: .list)
-        ]
 
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -776,10 +696,6 @@ extension ElasticsearchService {
     }
 
     public struct DomainEndpointOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnforceHTTPS", required: false, type: .boolean), 
-            AWSShapeMember(label: "TLSSecurityPolicy", required: false, type: .enum)
-        ]
 
         /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch domain.
         public let enforceHTTPS: Bool?
@@ -798,10 +714,6 @@ extension ElasticsearchService {
     }
 
     public struct DomainEndpointOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         /// Options to configure endpoint for the Elasticsearch domain.
         public let options: DomainEndpointOptions
@@ -820,9 +732,6 @@ extension ElasticsearchService {
     }
 
     public struct DomainInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: false, type: .string)
-        ]
 
         ///  Specifies the DomainName.
         public let domainName: String?
@@ -837,12 +746,6 @@ extension ElasticsearchService {
     }
 
     public struct EBSOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EBSEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .enum)
-        ]
 
         /// Specifies whether EBS-based storage is enabled.
         public let eBSEnabled: Bool?
@@ -869,10 +772,6 @@ extension ElasticsearchService {
     }
 
     public struct EBSOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         ///  Specifies the EBS options for the specified Elasticsearch domain.
         public let options: EBSOptions
@@ -891,18 +790,6 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchClusterConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedMasterCount", required: false, type: .integer), 
-            AWSShapeMember(label: "DedicatedMasterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DedicatedMasterType", required: false, type: .enum), 
-            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "WarmCount", required: false, type: .integer), 
-            AWSShapeMember(label: "WarmEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "WarmType", required: false, type: .enum), 
-            AWSShapeMember(label: "ZoneAwarenessConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ZoneAwarenessEnabled", required: false, type: .boolean)
-        ]
 
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
         public let dedicatedMasterCount: Int?
@@ -953,10 +840,6 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchClusterConfigStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         ///  Specifies the cluster configuration for the specified Elasticsearch domain.
         public let options: ElasticsearchClusterConfig
@@ -975,20 +858,6 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchDomainConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPolicies", required: false, type: .structure), 
-            AWSShapeMember(label: "AdvancedOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionAtRestOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "LogPublishingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "NodeToNodeEncryptionOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
-        ]
 
         /// IAM access policy as a JSON-formatted string.
         public let accessPolicies: AccessPoliciesStatus?
@@ -1047,30 +916,6 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchDomainStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
-            AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Created", required: false, type: .boolean), 
-            AWSShapeMember(label: "Deleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchClusterConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionAtRestOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoints", required: false, type: .map), 
-            AWSShapeMember(label: "LogPublishingOptions", required: false, type: .map), 
-            AWSShapeMember(label: "NodeToNodeEncryptionOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Processing", required: false, type: .boolean), 
-            AWSShapeMember(label: "ServiceSoftwareOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "UpgradeProcessing", required: false, type: .boolean), 
-            AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
-        ]
 
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
@@ -1168,10 +1013,6 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchVersionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         ///  Specifies the Elasticsearch version for the specified Elasticsearch domain.
         public let options: String
@@ -1190,10 +1031,6 @@ extension ElasticsearchService {
     }
 
     public struct EncryptionAtRestOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
-        ]
 
         /// Specifies the option to enable Encryption At Rest.
         public let enabled: Bool?
@@ -1217,10 +1054,6 @@ extension ElasticsearchService {
     }
 
     public struct EncryptionAtRestOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         ///  Specifies the Encryption At Rest options for the specified Elasticsearch domain.
         public let options: EncryptionAtRestOptions
@@ -1240,7 +1073,7 @@ extension ElasticsearchService {
 
     public struct GetCompatibleElasticsearchVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string)
+            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"))
         ]
 
         public let domainName: String?
@@ -1261,9 +1094,6 @@ extension ElasticsearchService {
     }
 
     public struct GetCompatibleElasticsearchVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompatibleElasticsearchVersions", required: false, type: .list)
-        ]
 
         ///  A map of compatible Elasticsearch versions returned as part of the  GetCompatibleElasticsearchVersions  operation. 
         public let compatibleElasticsearchVersions: [CompatibleVersionsMap]?
@@ -1279,9 +1109,9 @@ extension ElasticsearchService {
 
     public struct GetUpgradeHistoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let domainName: String
@@ -1309,10 +1139,6 @@ extension ElasticsearchService {
     }
 
     public struct GetUpgradeHistoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UpgradeHistories", required: false, type: .list)
-        ]
 
         /// Pagination token that needs to be supplied to the next call to get the next page of results
         public let nextToken: String?
@@ -1332,7 +1158,7 @@ extension ElasticsearchService {
 
     public struct GetUpgradeStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"))
         ]
 
         public let domainName: String
@@ -1353,11 +1179,6 @@ extension ElasticsearchService {
     }
 
     public struct GetUpgradeStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StepStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "UpgradeName", required: false, type: .string), 
-            AWSShapeMember(label: "UpgradeStep", required: false, type: .enum)
-        ]
 
         ///  One of 4 statuses that a step can go through returned as part of the  GetUpgradeStatusResponse  object. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed  
         public let stepStatus: UpgradeStatus?
@@ -1380,10 +1201,6 @@ extension ElasticsearchService {
     }
 
     public struct InstanceCountLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaximumInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "MinimumInstanceCount", required: false, type: .integer)
-        ]
 
         public let maximumInstanceCount: Int?
         public let minimumInstanceCount: Int?
@@ -1400,9 +1217,6 @@ extension ElasticsearchService {
     }
 
     public struct InstanceLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCountLimits", required: false, type: .structure)
-        ]
 
         public let instanceCountLimits: InstanceCountLimits?
 
@@ -1416,11 +1230,6 @@ extension ElasticsearchService {
     }
 
     public struct Limits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalLimits", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceLimits", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageTypes", required: false, type: .list)
-        ]
 
         ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  . 
         public let additionalLimits: [AdditionalLimit]?
@@ -1442,9 +1251,6 @@ extension ElasticsearchService {
     }
 
     public struct ListDomainNamesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: false, type: .list)
-        ]
 
         /// List of Elasticsearch domain names.
         public let domainNames: [DomainInfo]?
@@ -1460,10 +1266,10 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchInstanceTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName")), 
+            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain. 
@@ -1498,10 +1304,6 @@ extension ElasticsearchService {
     }
 
     public struct ListElasticsearchInstanceTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticsearchInstanceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
         public let elasticsearchInstanceTypes: [ESPartitionInstanceType]?
@@ -1521,8 +1323,8 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
@@ -1545,10 +1347,6 @@ extension ElasticsearchService {
     }
 
     public struct ListElasticsearchVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticsearchVersions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         public let elasticsearchVersions: [String]?
         public let nextToken: String?
@@ -1566,7 +1364,7 @@ extension ElasticsearchService {
 
     public struct ListTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", location: .querystring(locationName: "arn"), required: true, type: .string)
+            AWSShapeMember(label: "ARN", location: .querystring(locationName: "arn"))
         ]
 
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
@@ -1582,9 +1380,6 @@ extension ElasticsearchService {
     }
 
     public struct ListTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         ///  List of Tag for the requested Elasticsearch domain.
         public let tagList: [Tag]?
@@ -1599,10 +1394,6 @@ extension ElasticsearchService {
     }
 
     public struct LogPublishingOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         public let cloudWatchLogsLogGroupArn: String?
         ///  Specifies whether given log publishing option is enabled or not.
@@ -1620,10 +1411,6 @@ extension ElasticsearchService {
     }
 
     public struct LogPublishingOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: false, type: .map), 
-            AWSShapeMember(label: "Status", required: false, type: .structure)
-        ]
 
         /// The log publishing options configured for the Elasticsearch domain.
         public let options: [LogType: LogPublishingOption]?
@@ -1642,9 +1429,6 @@ extension ElasticsearchService {
     }
 
     public struct NodeToNodeEncryptionOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         /// Specify true to enable node-to-node encryption.
         public let enabled: Bool?
@@ -1659,10 +1443,6 @@ extension ElasticsearchService {
     }
 
     public struct NodeToNodeEncryptionOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         /// Specifies the node-to-node encryption options for the specified Elasticsearch domain.
         public let options: NodeToNodeEncryptionOptions
@@ -1681,13 +1461,6 @@ extension ElasticsearchService {
     }
 
     public struct OptionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "PendingDeletion", required: false, type: .boolean), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "UpdateDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "UpdateVersion", required: false, type: .integer)
-        ]
 
         /// Timestamp which tells the creation date for the entity.
         public let creationDate: TimeStamp
@@ -1718,11 +1491,6 @@ extension ElasticsearchService {
     }
 
     public struct PurchaseReservedElasticsearchInstanceOfferingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ReservationName", required: true, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: true, type: .string)
-        ]
 
         /// The number of Elasticsearch instances to reserve.
         public let instanceCount: Int?
@@ -1752,10 +1520,6 @@ extension ElasticsearchService {
     }
 
     public struct PurchaseReservedElasticsearchInstanceOfferingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservationName", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceId", required: false, type: .string)
-        ]
 
         /// The customer-specified identifier used to track this reservation.
         public let reservationName: String?
@@ -1774,10 +1538,6 @@ extension ElasticsearchService {
     }
 
     public struct RecurringCharge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
-            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
-        ]
 
         /// The monetary amount of the recurring charge.
         public let recurringChargeAmount: Double?
@@ -1796,10 +1556,6 @@ extension ElasticsearchService {
     }
 
     public struct RemoveTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
         public let arn: String
@@ -1818,21 +1574,6 @@ extension ElasticsearchService {
     }
 
     public struct ReservedElasticsearchInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "ElasticsearchInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ElasticsearchInstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .list), 
-            AWSShapeMember(label: "ReservationName", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double)
-        ]
 
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
@@ -1895,16 +1636,6 @@ extension ElasticsearchService {
     }
 
     public struct ReservedElasticsearchInstanceOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "ElasticsearchInstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .list), 
-            AWSShapeMember(label: "ReservedElasticsearchInstanceOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double)
-        ]
 
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
@@ -1947,15 +1678,6 @@ extension ElasticsearchService {
     }
 
     public struct ServiceSoftwareOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutomatedUpdateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Cancellable", required: false, type: .boolean), 
-            AWSShapeMember(label: "CurrentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "NewVersion", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateAvailable", required: false, type: .boolean), 
-            AWSShapeMember(label: "UpdateStatus", required: false, type: .enum)
-        ]
 
         /// Timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public let automatedUpdateDate: TimeStamp?
@@ -1994,9 +1716,6 @@ extension ElasticsearchService {
     }
 
     public struct SnapshotOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutomatedSnapshotStartHour", required: false, type: .integer)
-        ]
 
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
         public let automatedSnapshotStartHour: Int?
@@ -2011,10 +1730,6 @@ extension ElasticsearchService {
     }
 
     public struct SnapshotOptionsStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         /// Specifies the daily snapshot options specified for the Elasticsearch domain.
         public let options: SnapshotOptions
@@ -2033,9 +1748,6 @@ extension ElasticsearchService {
     }
 
     public struct StartElasticsearchServiceSoftwareUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
 
         /// The name of the domain that you want to update to the latest service software.
         public let domainName: String
@@ -2056,9 +1768,6 @@ extension ElasticsearchService {
     }
 
     public struct StartElasticsearchServiceSoftwareUpdateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceSoftwareOptions", required: false, type: .structure)
-        ]
 
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
@@ -2073,11 +1782,6 @@ extension ElasticsearchService {
     }
 
     public struct StorageType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageSubTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "StorageTypeLimits", required: false, type: .list), 
-            AWSShapeMember(label: "StorageTypeName", required: false, type: .string)
-        ]
 
         public let storageSubTypeName: String?
         /// List of limits that are applicable for given storage type. 
@@ -2098,10 +1802,6 @@ extension ElasticsearchService {
     }
 
     public struct StorageTypeLimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LimitName", required: false, type: .string), 
-            AWSShapeMember(label: "LimitValues", required: false, type: .list)
-        ]
 
         ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.  
         public let limitName: String?
@@ -2120,10 +1820,6 @@ extension ElasticsearchService {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// Specifies the TagKey, the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached.
         public let key: String
@@ -2150,16 +1846,7 @@ extension ElasticsearchService {
 
     public struct UpdateElasticsearchDomainConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
-            AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
-            AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string), 
-            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LogPublishingOptions", required: false, type: .map), 
-            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// IAM access policy as a JSON-formatted string.
@@ -2218,9 +1905,6 @@ extension ElasticsearchService {
     }
 
     public struct UpdateElasticsearchDomainConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainConfig", required: true, type: .structure)
-        ]
 
         /// The status of the updated Elasticsearch domain. 
         public let domainConfig: ElasticsearchDomainConfig
@@ -2235,11 +1919,6 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeElasticsearchDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "PerformCheckOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "TargetVersion", required: true, type: .string)
-        ]
 
         public let domainName: String
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
@@ -2267,11 +1946,6 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeElasticsearchDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "PerformCheckOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "TargetVersion", required: false, type: .string)
-        ]
 
         public let domainName: String?
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
@@ -2293,12 +1967,6 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeHistory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StepsList", required: false, type: .list), 
-            AWSShapeMember(label: "UpgradeName", required: false, type: .string), 
-            AWSShapeMember(label: "UpgradeStatus", required: false, type: .enum)
-        ]
 
         /// UTC Timestamp at which the Upgrade API call was made in "yyyy-MM-ddTHH:mm:ssZ" format.
         public let startTimestamp: TimeStamp?
@@ -2325,12 +1993,6 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeStepItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Issues", required: false, type: .list), 
-            AWSShapeMember(label: "ProgressPercent", required: false, type: .double), 
-            AWSShapeMember(label: "UpgradeStep", required: false, type: .enum), 
-            AWSShapeMember(label: "UpgradeStepStatus", required: false, type: .enum)
-        ]
 
         /// A list of strings containing detailed information about the errors encountered in a particular step.
         public let issues: [String]?
@@ -2357,12 +2019,6 @@ extension ElasticsearchService {
     }
 
     public struct VPCDerivedInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "VPCId", required: false, type: .string)
-        ]
 
         /// The availability zones for the Elasticsearch domain. Exists only if the domain was created with VPCOptions.
         public let availabilityZones: [String]?
@@ -2389,10 +2045,6 @@ extension ElasticsearchService {
     }
 
     public struct VPCDerivedInfoStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .structure)
-        ]
 
         ///  Specifies the VPC options for the specified Elasticsearch domain.
         public let options: VPCDerivedInfo
@@ -2411,10 +2063,6 @@ extension ElasticsearchService {
     }
 
     public struct VPCOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list)
-        ]
 
         /// Specifies the security groups for VPC endpoint.
         public let securityGroupIds: [String]?
@@ -2433,9 +2081,6 @@ extension ElasticsearchService {
     }
 
     public struct ZoneAwarenessConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZoneCount", required: false, type: .integer)
-        ]
 
         /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled
         public let availabilityZoneCount: Int?

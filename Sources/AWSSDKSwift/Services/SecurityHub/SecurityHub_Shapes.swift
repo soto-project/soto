@@ -155,10 +155,6 @@ extension SecurityHub {
     //MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitationId", required: true, type: .string), 
-            AWSShapeMember(label: "MasterId", required: true, type: .string)
-        ]
 
         /// The ID of the invitation sent from the Security Hub master account.
         public let invitationId: String
@@ -190,10 +186,6 @@ extension SecurityHub {
     }
 
     public struct AccountDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string)
-        ]
 
         /// The ID of an AWS account.
         public let accountId: String?
@@ -216,11 +208,6 @@ extension SecurityHub {
     }
 
     public struct ActionTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionTargetArn", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The ARN for the target action.
         public let actionTargetArn: String
@@ -243,10 +230,6 @@ extension SecurityHub {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "ZoneName", required: false, type: .string)
-        ]
 
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public let subnetId: String?
@@ -270,15 +253,6 @@ extension SecurityHub {
     }
 
     public struct AwsCloudFrontDistributionDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "ETag", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .string), 
-            AWSShapeMember(label: "Logging", required: false, type: .structure), 
-            AWSShapeMember(label: "Origins", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "WebAclId", required: false, type: .string)
-        ]
 
         /// The domain name corresponding to the distribution.
         public let domainName: String?
@@ -327,12 +301,6 @@ extension SecurityHub {
     }
 
     public struct AwsCloudFrontDistributionLogging: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeCookies", required: false, type: .boolean), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string)
-        ]
 
         /// The Amazon S3 bucket to store the access logs in.
         public let bucket: String?
@@ -364,11 +332,6 @@ extension SecurityHub {
     }
 
     public struct AwsCloudFrontDistributionOriginItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "OriginPath", required: false, type: .string)
-        ]
 
         /// Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin.
         public let domainName: String?
@@ -397,9 +360,6 @@ extension SecurityHub {
     }
 
     public struct AwsCloudFrontDistributionOrigins: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .list)
-        ]
 
         /// A complex type that contains origins or origin groups for this distribution.
         public let items: [AwsCloudFrontDistributionOriginItem]?
@@ -420,17 +380,6 @@ extension SecurityHub {
     }
 
     public struct AwsEc2InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamInstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "IpV4Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "IpV6Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The IAM profile ARN of the instance.
         public let iamInstanceProfileArn: String?
@@ -493,18 +442,6 @@ extension SecurityHub {
     }
 
     public struct AwsElbv2LoadBalancerDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "CanonicalHostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .string), 
-            AWSShapeMember(label: "DNSName", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .string), 
-            AWSShapeMember(label: "Scheme", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "State", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The Availability Zones for the load balancer.
         public let availabilityZones: [AvailabilityZone]?
@@ -572,13 +509,6 @@ extension SecurityHub {
     }
 
     public struct AwsIamAccessKeyDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalName", required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The creation date/time of the IAM access key related to a finding.
         public let createdAt: String?
@@ -616,14 +546,6 @@ extension SecurityHub {
     }
 
     public struct AwsIamRoleDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "CreateDate", required: false, type: .string), 
-            AWSShapeMember(label: "MaxSessionDuration", required: false, type: .integer), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "RoleId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleName", required: false, type: .string)
-        ]
 
         /// The trust policy that grants permission to assume the role.
         public let assumeRolePolicyDocument: String?
@@ -668,14 +590,6 @@ extension SecurityHub {
     }
 
     public struct AwsKmsKeyDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AWSAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .double), 
-            AWSShapeMember(label: "KeyId", required: false, type: .string), 
-            AWSShapeMember(label: "KeyManager", required: false, type: .string), 
-            AWSShapeMember(label: "KeyState", required: false, type: .string), 
-            AWSShapeMember(label: "Origin", required: false, type: .string)
-        ]
 
         /// The twelve-digit account ID of the AWS account that owns the CMK.
         public let aWSAccountId: String?
@@ -718,12 +632,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionCode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "S3Key", required: false, type: .string), 
-            AWSShapeMember(label: "S3ObjectVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ZipFile", required: false, type: .string)
-        ]
 
         /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
         public let s3Bucket: String?
@@ -757,9 +665,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionDeadLetterConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public let targetArn: String?
@@ -778,26 +683,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .structure), 
-            AWSShapeMember(label: "CodeSha256", required: false, type: .string), 
-            AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Environment", required: false, type: .structure), 
-            AWSShapeMember(label: "FunctionName", required: false, type: .string), 
-            AWSShapeMember(label: "Handler", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastModified", required: false, type: .string), 
-            AWSShapeMember(label: "Layers", required: false, type: .list), 
-            AWSShapeMember(label: "MasterArn", required: false, type: .string), 
-            AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
-            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "Runtime", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TracingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// An AwsLambdaFunctionCode object.
         public let code: AwsLambdaFunctionCode?
@@ -901,10 +786,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionEnvironment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", required: false, type: .structure), 
-            AWSShapeMember(label: "Variables", required: false, type: .map)
-        ]
 
         /// An AwsLambdaFunctionEnvironmentError object.
         public let error: AwsLambdaFunctionEnvironmentError?
@@ -931,10 +812,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionEnvironmentError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// The error code.
         public let errorCode: String?
@@ -958,10 +835,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionLayer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CodeSize", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the function layer.
         public let arn: String?
@@ -984,9 +857,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionTracingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Mode", required: false, type: .string)
-        ]
 
         /// The tracing mode.
         public let mode: String?
@@ -1005,11 +875,6 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionVpcConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// A list of VPC security groups IDs.
         public let securityGroupIds: [String]?
@@ -1042,10 +907,6 @@ extension SecurityHub {
     }
 
     public struct AwsS3BucketDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerName", required: false, type: .string)
-        ]
 
         /// The canonical user ID of the owner of the S3 bucket.
         public let ownerId: String?
@@ -1069,38 +930,6 @@ extension SecurityHub {
     }
 
     public struct AwsSecurityFinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
-            AWSShapeMember(label: "Confidence", required: false, type: .integer), 
-            AWSShapeMember(label: "CreatedAt", required: true, type: .string), 
-            AWSShapeMember(label: "Criticality", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "FirstObservedAt", required: false, type: .string), 
-            AWSShapeMember(label: "GeneratorId", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LastObservedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Malware", required: false, type: .list), 
-            AWSShapeMember(label: "Network", required: false, type: .structure), 
-            AWSShapeMember(label: "Note", required: false, type: .structure), 
-            AWSShapeMember(label: "Process", required: false, type: .structure), 
-            AWSShapeMember(label: "ProductArn", required: true, type: .string), 
-            AWSShapeMember(label: "ProductFields", required: false, type: .map), 
-            AWSShapeMember(label: "RecordState", required: false, type: .enum), 
-            AWSShapeMember(label: "RelatedFindings", required: false, type: .list), 
-            AWSShapeMember(label: "Remediation", required: false, type: .structure), 
-            AWSShapeMember(label: "Resources", required: true, type: .list), 
-            AWSShapeMember(label: "SchemaVersion", required: true, type: .string), 
-            AWSShapeMember(label: "Severity", required: true, type: .structure), 
-            AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ThreatIntelIndicators", required: false, type: .list), 
-            AWSShapeMember(label: "Title", required: true, type: .string), 
-            AWSShapeMember(label: "Types", required: true, type: .list), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
-            AWSShapeMember(label: "UserDefinedFields", required: false, type: .map), 
-            AWSShapeMember(label: "VerificationState", required: false, type: .enum), 
-            AWSShapeMember(label: "WorkflowState", required: false, type: .enum)
-        ]
 
         /// The AWS account ID that a finding is generated in.
         public let awsAccountId: String
@@ -1273,91 +1102,6 @@ extension SecurityHub {
     }
 
     public struct AwsSecurityFindingFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", required: false, type: .list), 
-            AWSShapeMember(label: "CompanyName", required: false, type: .list), 
-            AWSShapeMember(label: "ComplianceStatus", required: false, type: .list), 
-            AWSShapeMember(label: "Confidence", required: false, type: .list), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "Criticality", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .list), 
-            AWSShapeMember(label: "FirstObservedAt", required: false, type: .list), 
-            AWSShapeMember(label: "GeneratorId", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .list), 
-            AWSShapeMember(label: "Keyword", required: false, type: .list), 
-            AWSShapeMember(label: "LastObservedAt", required: false, type: .list), 
-            AWSShapeMember(label: "MalwareName", required: false, type: .list), 
-            AWSShapeMember(label: "MalwarePath", required: false, type: .list), 
-            AWSShapeMember(label: "MalwareState", required: false, type: .list), 
-            AWSShapeMember(label: "MalwareType", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationDomain", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationIpV4", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationIpV6", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDestinationPort", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkDirection", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkProtocol", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceDomain", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceIpV4", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceIpV6", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourceMac", required: false, type: .list), 
-            AWSShapeMember(label: "NetworkSourcePort", required: false, type: .list), 
-            AWSShapeMember(label: "NoteText", required: false, type: .list), 
-            AWSShapeMember(label: "NoteUpdatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "NoteUpdatedBy", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessLaunchedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessName", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessParentPid", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessPath", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessPid", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessTerminatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ProductArn", required: false, type: .list), 
-            AWSShapeMember(label: "ProductFields", required: false, type: .list), 
-            AWSShapeMember(label: "ProductName", required: false, type: .list), 
-            AWSShapeMember(label: "RecommendationText", required: false, type: .list), 
-            AWSShapeMember(label: "RecordState", required: false, type: .list), 
-            AWSShapeMember(label: "RelatedFindingsId", required: false, type: .list), 
-            AWSShapeMember(label: "RelatedFindingsProductArn", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceIamInstanceProfileArn", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceImageId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceIpV4Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceIpV6Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceKeyName", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceLaunchedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceSubnetId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceType", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsEc2InstanceVpcId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsIamAccessKeyCreatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsIamAccessKeyStatus", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsIamAccessKeyUserName", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsS3BucketOwnerId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceAwsS3BucketOwnerName", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerImageId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerImageName", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerLaunchedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceContainerName", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceDetailsOther", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .list), 
-            AWSShapeMember(label: "ResourcePartition", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceRegion", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .list), 
-            AWSShapeMember(label: "SeverityLabel", required: false, type: .list), 
-            AWSShapeMember(label: "SeverityNormalized", required: false, type: .list), 
-            AWSShapeMember(label: "SeverityProduct", required: false, type: .list), 
-            AWSShapeMember(label: "SourceUrl", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorCategory", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorLastObservedAt", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorSource", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorSourceUrl", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorType", required: false, type: .list), 
-            AWSShapeMember(label: "ThreatIntelIndicatorValue", required: false, type: .list), 
-            AWSShapeMember(label: "Title", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .list), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .list), 
-            AWSShapeMember(label: "UserDefinedFields", required: false, type: .list), 
-            AWSShapeMember(label: "VerificationState", required: false, type: .list), 
-            AWSShapeMember(label: "WorkflowState", required: false, type: .list)
-        ]
 
         /// The AWS account ID that a finding is generated in.
         public let awsAccountId: [StringFilter]?
@@ -1928,12 +1672,6 @@ extension SecurityHub {
     }
 
     public struct AwsSnsTopicDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsMasterKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "Subscription", required: false, type: .list), 
-            AWSShapeMember(label: "TopicName", required: false, type: .string)
-        ]
 
         /// The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK.
         public let kmsMasterKeyId: String?
@@ -1969,10 +1707,6 @@ extension SecurityHub {
     }
 
     public struct AwsSnsTopicSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .string)
-        ]
 
         /// The subscription's endpoint (format depends on the protocol).
         public let endpoint: String?
@@ -1996,12 +1730,6 @@ extension SecurityHub {
     }
 
     public struct AwsSqsQueueDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeadLetterTargetArn", required: false, type: .string), 
-            AWSShapeMember(label: "KmsDataKeyReusePeriodSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsMasterKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "QueueName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded. 
         public let deadLetterTargetArn: String?
@@ -2034,9 +1762,6 @@ extension SecurityHub {
     }
 
     public struct BatchDisableStandardsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptionArns", required: true, type: .list)
-        ]
 
         /// The ARNs of the standards subscriptions to disable.
         public let standardsSubscriptionArns: [String]
@@ -2059,9 +1784,6 @@ extension SecurityHub {
     }
 
     public struct BatchDisableStandardsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
-        ]
 
         /// The details of the standards subscriptions that were disabled.
         public let standardsSubscriptions: [StandardsSubscription]?
@@ -2076,9 +1798,6 @@ extension SecurityHub {
     }
 
     public struct BatchEnableStandardsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptionRequests", required: true, type: .list)
-        ]
 
         /// The list of standards compliance checks to enable.  In this release, Security Hub supports only the CIS AWS Foundations standard. The ARN for the standard is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]
@@ -2101,9 +1820,6 @@ extension SecurityHub {
     }
 
     public struct BatchEnableStandardsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
-        ]
 
         /// The details of the standards subscriptions that were enabled.
         public let standardsSubscriptions: [StandardsSubscription]?
@@ -2118,9 +1834,6 @@ extension SecurityHub {
     }
 
     public struct BatchImportFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Findings", required: true, type: .list)
-        ]
 
         /// A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format. Maximum of 100 findings per request.
         public let findings: [AwsSecurityFinding]
@@ -2141,11 +1854,6 @@ extension SecurityHub {
     }
 
     public struct BatchImportFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedCount", required: true, type: .integer), 
-            AWSShapeMember(label: "FailedFindings", required: false, type: .list), 
-            AWSShapeMember(label: "SuccessCount", required: true, type: .integer)
-        ]
 
         /// The number of findings that failed to import.
         public let failedCount: Int
@@ -2168,9 +1876,6 @@ extension SecurityHub {
     }
 
     public struct Compliance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The result of a compliance check.
         public let status: ComplianceStatus?
@@ -2185,12 +1890,6 @@ extension SecurityHub {
     }
 
     public struct ContainerDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The identifier of the image related to a finding.
         public let imageId: String?
@@ -2224,11 +1923,6 @@ extension SecurityHub {
     }
 
     public struct CreateActionTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The description for the custom action target.
         public let description: String
@@ -2257,9 +1951,6 @@ extension SecurityHub {
     }
 
     public struct CreateActionTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionTargetArn", required: true, type: .string)
-        ]
 
         /// The ARN for the custom action target.
         public let actionTargetArn: String
@@ -2274,11 +1965,6 @@ extension SecurityHub {
     }
 
     public struct CreateInsightRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: true, type: .structure), 
-            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
         public let filters: AwsSecurityFindingFilters
@@ -2307,9 +1993,6 @@ extension SecurityHub {
     }
 
     public struct CreateInsightResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", required: true, type: .string)
-        ]
 
         /// The ARN of the insight created.
         public let insightArn: String
@@ -2324,9 +2007,6 @@ extension SecurityHub {
     }
 
     public struct CreateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountDetails", required: false, type: .list)
-        ]
 
         /// A list of account ID and email address pairs of the accounts to associate with the Security Hub master account.
         public let accountDetails: [AccountDetails]?
@@ -2347,9 +2027,6 @@ extension SecurityHub {
     }
 
     public struct CreateMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
@@ -2364,11 +2041,6 @@ extension SecurityHub {
     }
 
     public struct DateFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateRange", required: false, type: .structure), 
-            AWSShapeMember(label: "End", required: false, type: .string), 
-            AWSShapeMember(label: "Start", required: false, type: .string)
-        ]
 
         /// A date range for the date filter.
         public let dateRange: DateRange?
@@ -2396,10 +2068,6 @@ extension SecurityHub {
     }
 
     public struct DateRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unit", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .integer)
-        ]
 
         /// A date range unit for the date filter.
         public let unit: DateRangeUnit?
@@ -2418,9 +2086,6 @@ extension SecurityHub {
     }
 
     public struct DeclineInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: true, type: .list)
-        ]
 
         /// A list of account IDs that specify the accounts that invitations to Security Hub are declined from.
         public let accountIds: [String]
@@ -2441,9 +2106,6 @@ extension SecurityHub {
     }
 
     public struct DeclineInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
@@ -2459,7 +2121,7 @@ extension SecurityHub {
 
     public struct DeleteActionTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"), required: true, type: .string)
+            AWSShapeMember(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"))
         ]
 
         /// The ARN of the custom action target to delete.
@@ -2479,9 +2141,6 @@ extension SecurityHub {
     }
 
     public struct DeleteActionTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionTargetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the custom action target that was deleted.
         public let actionTargetArn: String
@@ -2497,7 +2156,7 @@ extension SecurityHub {
 
     public struct DeleteInsightRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
+            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"))
         ]
 
         /// The ARN of the insight to delete.
@@ -2517,9 +2176,6 @@ extension SecurityHub {
     }
 
     public struct DeleteInsightResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", required: true, type: .string)
-        ]
 
         /// The ARN of the insight that was deleted.
         public let insightArn: String
@@ -2534,9 +2190,6 @@ extension SecurityHub {
     }
 
     public struct DeleteInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: true, type: .list)
-        ]
 
         /// A list of the account IDs that sent the invitations to delete.
         public let accountIds: [String]
@@ -2557,9 +2210,6 @@ extension SecurityHub {
     }
 
     public struct DeleteInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// A list of account ID and email address pairs of the AWS accounts that invitations weren't deleted for.
         public let unprocessedAccounts: [Result]?
@@ -2574,9 +2224,6 @@ extension SecurityHub {
     }
 
     public struct DeleteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
 
         /// A list of account IDs of the member accounts to delete.
         public let accountIds: [String]?
@@ -2597,9 +2244,6 @@ extension SecurityHub {
     }
 
     public struct DeleteMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// A list of account ID and email address pairs of the AWS accounts that weren't deleted.
         public let unprocessedAccounts: [Result]?
@@ -2614,11 +2258,6 @@ extension SecurityHub {
     }
 
     public struct DescribeActionTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionTargetArns", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of custom action target ARNs for the custom action targets to retrieve.
         public let actionTargetArns: [String]?
@@ -2649,10 +2288,6 @@ extension SecurityHub {
     }
 
     public struct DescribeActionTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionTargets", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of ActionTarget objects. Each object includes the ActionTargetArn, Description, and Name of a custom action target available in Security Hub.
         public let actionTargets: [ActionTarget]
@@ -2672,7 +2307,7 @@ extension SecurityHub {
 
     public struct DescribeHubRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HubArn", location: .querystring(locationName: "HubArn"), required: false, type: .string)
+            AWSShapeMember(label: "HubArn", location: .querystring(locationName: "HubArn"))
         ]
 
         /// The ARN of the Hub resource to retrieve.
@@ -2692,10 +2327,6 @@ extension SecurityHub {
     }
 
     public struct DescribeHubResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HubArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubscribedAt", required: false, type: .string)
-        ]
 
         /// The ARN of the Hub resource retrieved.
         public let hubArn: String?
@@ -2715,8 +2346,8 @@ extension SecurityHub {
 
     public struct DescribeProductsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// The maximum number of results to return.
@@ -2741,10 +2372,6 @@ extension SecurityHub {
     }
 
     public struct DescribeProductsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Products", required: true, type: .list)
-        ]
 
         /// The token that is required for pagination.
         public let nextToken: String?
@@ -2764,9 +2391,9 @@ extension SecurityHub {
 
     public struct DescribeStandardsControlsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "StandardsSubscriptionArn", location: .uri(locationName: "StandardsSubscriptionArn"), required: true, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "StandardsSubscriptionArn", location: .uri(locationName: "StandardsSubscriptionArn"))
         ]
 
         /// The maximum number of compliance standard controls to return.
@@ -2796,10 +2423,6 @@ extension SecurityHub {
     }
 
     public struct DescribeStandardsControlsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Controls", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of compliance standards controls.
         public let controls: [StandardsControl]?
@@ -2819,7 +2442,7 @@ extension SecurityHub {
 
     public struct DisableImportFindingsForProductRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"), required: true, type: .string)
+            AWSShapeMember(label: "ProductSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"))
         ]
 
         /// The ARN of the integrated product to disable the integration for.
@@ -2879,9 +2502,6 @@ extension SecurityHub {
     }
 
     public struct DisassociateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
 
         /// The account IDs of the member accounts to disassociate from the master account.
         public let accountIds: [String]?
@@ -2910,9 +2530,6 @@ extension SecurityHub {
     }
 
     public struct EnableImportFindingsForProductRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductArn", required: true, type: .string)
-        ]
 
         /// The ARN of the product to enable the integration for.
         public let productArn: String
@@ -2931,9 +2548,6 @@ extension SecurityHub {
     }
 
     public struct EnableImportFindingsForProductResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductSubscriptionArn", required: false, type: .string)
-        ]
 
         /// The ARN of your subscription to the product to enable integrations for.
         public let productSubscriptionArn: String?
@@ -2948,9 +2562,6 @@ extension SecurityHub {
     }
 
     public struct EnableSecurityHubRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The tags to add to the Hub resource when you enable Security Hub.
         public let tags: [String: String]?
@@ -2982,11 +2593,6 @@ extension SecurityHub {
     }
 
     public struct GetEnabledStandardsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StandardsSubscriptionArns", required: false, type: .list)
-        ]
 
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -3019,10 +2625,6 @@ extension SecurityHub {
     }
 
     public struct GetEnabledStandardsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
-        ]
 
         /// The token that is required for pagination.
         public let nextToken: String?
@@ -3041,12 +2643,6 @@ extension SecurityHub {
     }
 
     public struct GetFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The findings attributes used to define a condition to filter the findings returned.
         public let filters: AwsSecurityFindingFilters?
@@ -3082,10 +2678,6 @@ extension SecurityHub {
     }
 
     public struct GetFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Findings", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The findings that matched the filters specified in the request.
         public let findings: [AwsSecurityFinding]
@@ -3105,7 +2697,7 @@ extension SecurityHub {
 
     public struct GetInsightResultsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
+            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"))
         ]
 
         /// The ARN of the insight whose results you want to see.
@@ -3125,9 +2717,6 @@ extension SecurityHub {
     }
 
     public struct GetInsightResultsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightResults", required: true, type: .structure)
-        ]
 
         /// The insight results returned by the operation.
         public let insightResults: InsightResults
@@ -3142,11 +2731,6 @@ extension SecurityHub {
     }
 
     public struct GetInsightsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightArns", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARNs of the insights that you want to describe.
         public let insightArns: [String]?
@@ -3177,10 +2761,6 @@ extension SecurityHub {
     }
 
     public struct GetInsightsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Insights", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The insights returned by the operation.
         public let insights: [Insight]
@@ -3207,9 +2787,6 @@ extension SecurityHub {
     }
 
     public struct GetInvitationsCountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitationsCount", required: false, type: .integer)
-        ]
 
         /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation. 
         public let invitationsCount: Int?
@@ -3232,9 +2809,6 @@ extension SecurityHub {
     }
 
     public struct GetMasterAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Master", required: false, type: .structure)
-        ]
 
         /// A list of details about the Security Hub master account for the current member account. 
         public let master: Invitation?
@@ -3249,9 +2823,6 @@ extension SecurityHub {
     }
 
     public struct GetMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: true, type: .list)
-        ]
 
         /// A list of account IDs for the Security Hub member accounts that you want to return the details for. 
         public let accountIds: [String]
@@ -3272,10 +2843,6 @@ extension SecurityHub {
     }
 
     public struct GetMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// A list of details about the Security Hub member accounts.
         public let members: [Member]?
@@ -3294,11 +2861,6 @@ extension SecurityHub {
     }
 
     public struct ImportFindingsError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: true, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
 
         /// The code of the error made during the BatchImportFindings operation.
         public let errorCode: String
@@ -3321,12 +2883,6 @@ extension SecurityHub {
     }
 
     public struct Insight: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: true, type: .structure), 
-            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
-            AWSShapeMember(label: "InsightArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
         public let filters: AwsSecurityFindingFilters
@@ -3353,10 +2909,6 @@ extension SecurityHub {
     }
 
     public struct InsightResultValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: true, type: .integer), 
-            AWSShapeMember(label: "GroupByAttributeValue", required: true, type: .string)
-        ]
 
         /// The number of findings returned for each GroupByAttributeValue.
         public let count: Int
@@ -3375,11 +2927,6 @@ extension SecurityHub {
     }
 
     public struct InsightResults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
-            AWSShapeMember(label: "InsightArn", required: true, type: .string), 
-            AWSShapeMember(label: "ResultValues", required: true, type: .list)
-        ]
 
         /// The attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
         public let groupByAttribute: String
@@ -3402,12 +2949,6 @@ extension SecurityHub {
     }
 
     public struct Invitation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "InvitationId", required: false, type: .string), 
-            AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MemberStatus", required: false, type: .string)
-        ]
 
         /// The account ID of the Security Hub master account that the invitation was sent from.
         public let accountId: String?
@@ -3434,9 +2975,6 @@ extension SecurityHub {
     }
 
     public struct InviteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
-        ]
 
         /// A list of IDs of the AWS accounts that you want to invite to Security Hub as members. 
         public let accountIds: [String]?
@@ -3457,9 +2995,6 @@ extension SecurityHub {
     }
 
     public struct InviteMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
-        ]
 
         /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed. 
         public let unprocessedAccounts: [Result]?
@@ -3474,9 +3009,6 @@ extension SecurityHub {
     }
 
     public struct IpFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", required: false, type: .string)
-        ]
 
         /// A finding's CIDR value.
         public let cidr: String?
@@ -3495,9 +3027,6 @@ extension SecurityHub {
     }
 
     public struct KeywordFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A value for the keyword.
         public let value: String?
@@ -3517,8 +3046,8 @@ extension SecurityHub {
 
     public struct ListEnabledProductsForImportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// The maximum number of items that you want in the response.
@@ -3543,10 +3072,6 @@ extension SecurityHub {
     }
 
     public struct ListEnabledProductsForImportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProductSubscriptions", required: false, type: .list)
-        ]
 
         /// The token that is required for pagination.
         public let nextToken: String?
@@ -3566,8 +3091,8 @@ extension SecurityHub {
 
     public struct ListInvitationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// The maximum number of items that you want in the response. 
@@ -3592,10 +3117,6 @@ extension SecurityHub {
     }
 
     public struct ListInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invitations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The details of the invitations returned by the operation.
         public let invitations: [Invitation]?
@@ -3615,9 +3136,9 @@ extension SecurityHub {
 
     public struct ListMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "OnlyAssociated"), required: false, type: .boolean)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "OnlyAssociated"))
         ]
 
         /// The maximum number of items that you want in the response. 
@@ -3646,10 +3167,6 @@ extension SecurityHub {
     }
 
     public struct ListMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Member details returned by the operation.
         public let members: [Member]?
@@ -3669,7 +3186,7 @@ extension SecurityHub {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The ARN of the resource to retrieve tags for.
@@ -3689,9 +3206,6 @@ extension SecurityHub {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The tags associated with a resource.
         public let tags: [String: String]?
@@ -3706,10 +3220,6 @@ extension SecurityHub {
     }
 
     public struct LoadBalancerState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .string), 
-            AWSShapeMember(label: "Reason", required: false, type: .string)
-        ]
 
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed. 
         public let code: String?
@@ -3733,12 +3243,6 @@ extension SecurityHub {
     }
 
     public struct Malware: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The name of the malware that was observed.
         public let name: String
@@ -3770,11 +3274,6 @@ extension SecurityHub {
     }
 
     public struct MapFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comparison", required: false, type: .enum), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The condition to apply to a key value when querying for findings with a map filter.
         public let comparison: MapFilterComparison?
@@ -3802,14 +3301,6 @@ extension SecurityHub {
     }
 
     public struct Member: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MasterId", required: false, type: .string), 
-            AWSShapeMember(label: "MemberStatus", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// The AWS account ID of the member account.
         public let accountId: String?
@@ -3844,19 +3335,6 @@ extension SecurityHub {
     }
 
     public struct Network: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationDomain", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationIpV4", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationIpV6", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationPort", required: false, type: .integer), 
-            AWSShapeMember(label: "Direction", required: false, type: .enum), 
-            AWSShapeMember(label: "Protocol", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDomain", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIpV4", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIpV6", required: false, type: .string), 
-            AWSShapeMember(label: "SourceMac", required: false, type: .string), 
-            AWSShapeMember(label: "SourcePort", required: false, type: .integer)
-        ]
 
         /// The destination domain of network-related information about a finding.
         public let destinationDomain: String?
@@ -3922,11 +3400,6 @@ extension SecurityHub {
     }
 
     public struct Note: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Text", required: true, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
-            AWSShapeMember(label: "UpdatedBy", required: true, type: .string)
-        ]
 
         /// The text of a note.
         public let text: String
@@ -3955,10 +3428,6 @@ extension SecurityHub {
     }
 
     public struct NoteUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Text", required: true, type: .string), 
-            AWSShapeMember(label: "UpdatedBy", required: true, type: .string)
-        ]
 
         /// The updated note text.
         public let text: String
@@ -3982,11 +3451,6 @@ extension SecurityHub {
     }
 
     public struct NumberFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Eq", required: false, type: .double), 
-            AWSShapeMember(label: "Gte", required: false, type: .double), 
-            AWSShapeMember(label: "Lte", required: false, type: .double)
-        ]
 
         /// The equal-to condition to be applied to a single field when querying for findings.
         public let eq: Double?
@@ -4009,14 +3473,6 @@ extension SecurityHub {
     }
 
     public struct ProcessDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentPid", required: false, type: .integer), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "Pid", required: false, type: .integer), 
-            AWSShapeMember(label: "TerminatedAt", required: false, type: .string)
-        ]
 
         /// The date/time that the process was launched.
         public let launchedAt: String?
@@ -4058,16 +3514,6 @@ extension SecurityHub {
     }
 
     public struct Product: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivationUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Categories", required: false, type: .list), 
-            AWSShapeMember(label: "CompanyName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "MarketplaceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ProductArn", required: true, type: .string), 
-            AWSShapeMember(label: "ProductName", required: false, type: .string), 
-            AWSShapeMember(label: "ProductSubscriptionResourcePolicy", required: false, type: .string)
-        ]
 
         /// The URL used to activate the product.
         public let activationUrl: String?
@@ -4110,10 +3556,6 @@ extension SecurityHub {
     }
 
     public struct Recommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// Describes the recommended steps to take to remediate an issue identified in a finding.
         public let text: String?
@@ -4137,10 +3579,6 @@ extension SecurityHub {
     }
 
     public struct RelatedFinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "ProductArn", required: true, type: .string)
-        ]
 
         /// The product-generated identifier for a related finding.
         public let id: String
@@ -4164,9 +3602,6 @@ extension SecurityHub {
     }
 
     public struct Remediation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Recommendation", required: false, type: .structure)
-        ]
 
         /// A recommendation on the steps to take to remediate the issue identified by a finding.
         public let recommendation: Recommendation?
@@ -4185,14 +3620,6 @@ extension SecurityHub {
     }
 
     public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Partition", required: false, type: .enum), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Type", required: true, type: .string)
-        ]
 
         /// Additional details about the resource related to a finding.
         public let details: ResourceDetails?
@@ -4238,20 +3665,6 @@ extension SecurityHub {
     }
 
     public struct ResourceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsCloudFrontDistribution", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsEc2Instance", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsElbv2LoadBalancer", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsIamAccessKey", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsIamRole", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsKmsKey", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsLambdaFunction", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsS3Bucket", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsSnsTopic", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsSqsQueue", required: false, type: .structure), 
-            AWSShapeMember(label: "Container", required: false, type: .structure), 
-            AWSShapeMember(label: "Other", required: false, type: .map)
-        ]
 
         /// Details about a CloudFront distribution.
         public let awsCloudFrontDistribution: AwsCloudFrontDistributionDetails?
@@ -4328,10 +3741,6 @@ extension SecurityHub {
     }
 
     public struct Result: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingResult", required: false, type: .string)
-        ]
 
         /// An AWS account ID of the account that wasn't be processed.
         public let accountId: String?
@@ -4350,10 +3759,6 @@ extension SecurityHub {
     }
 
     public struct Severity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Normalized", required: true, type: .integer), 
-            AWSShapeMember(label: "Product", required: false, type: .double)
-        ]
 
         /// The normalized severity of a finding.
         public let normalized: Int
@@ -4372,10 +3777,6 @@ extension SecurityHub {
     }
 
     public struct SortCriterion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Field", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// The finding attribute used to sort findings.
         public let field: String?
@@ -4398,17 +3799,6 @@ extension SecurityHub {
     }
 
     public struct StandardsControl: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ControlId", required: false, type: .string), 
-            AWSShapeMember(label: "ControlStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ControlStatusUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisabledReason", required: false, type: .string), 
-            AWSShapeMember(label: "RemediationUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SeverityRating", required: false, type: .enum), 
-            AWSShapeMember(label: "StandardsControlArn", required: false, type: .string), 
-            AWSShapeMember(label: "Title", required: false, type: .string)
-        ]
 
         /// The identifier of the compliance standard control.
         public let controlId: String?
@@ -4455,12 +3845,6 @@ extension SecurityHub {
     }
 
     public struct StandardsSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsArn", required: true, type: .string), 
-            AWSShapeMember(label: "StandardsInput", required: true, type: .map), 
-            AWSShapeMember(label: "StandardsStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "StandardsSubscriptionArn", required: true, type: .string)
-        ]
 
         /// The ARN of a standard. In this release, Security Hub supports only the CIS AWS Foundations standard, which uses the following ARN: arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsArn: String
@@ -4487,10 +3871,6 @@ extension SecurityHub {
     }
 
     public struct StandardsSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StandardsArn", required: true, type: .string), 
-            AWSShapeMember(label: "StandardsInput", required: false, type: .map)
-        ]
 
         /// The ARN of the standard that you want to enable.  In this release, Security Hub only supports the CIS AWS Foundations standard.  Its ARN is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsArn: String
@@ -4517,10 +3897,6 @@ extension SecurityHub {
     }
 
     public struct StringFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comparison", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The condition to be applied to a string value when querying for findings. 
         public let comparison: StringFilterComparison?
@@ -4544,8 +3920,7 @@ extension SecurityHub {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The ARN of the resource to apply the tags to.
@@ -4583,14 +3958,6 @@ extension SecurityHub {
     }
 
     public struct ThreatIntelIndicator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Category", required: false, type: .enum), 
-            AWSShapeMember(label: "LastObservedAt", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The category of a threat intel indicator.
         public let category: ThreatIntelIndicatorCategory?
@@ -4633,8 +4000,8 @@ extension SecurityHub {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn")), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource to remove the tags from.
@@ -4674,9 +4041,7 @@ extension SecurityHub {
 
     public struct UpdateActionTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"))
         ]
 
         /// The ARN of the custom action target to update.
@@ -4714,11 +4079,6 @@ extension SecurityHub {
     }
 
     public struct UpdateFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: true, type: .structure), 
-            AWSShapeMember(label: "Note", required: false, type: .structure), 
-            AWSShapeMember(label: "RecordState", required: false, type: .enum)
-        ]
 
         /// A collection of attributes that specify which findings you want to update.
         public let filters: AwsSecurityFindingFilters
@@ -4755,10 +4115,7 @@ extension SecurityHub {
 
     public struct UpdateInsightRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "GroupByAttribute", required: false, type: .string), 
-            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"))
         ]
 
         /// The updated filters that define this insight.
@@ -4802,9 +4159,7 @@ extension SecurityHub {
 
     public struct UpdateStandardsControlRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ControlStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DisabledReason", required: false, type: .string), 
-            AWSShapeMember(label: "StandardsControlArn", location: .uri(locationName: "StandardsControlArn"), required: true, type: .string)
+            AWSShapeMember(label: "StandardsControlArn", location: .uri(locationName: "StandardsControlArn"))
         ]
 
         /// The updated status of the compliance standard control.

@@ -140,10 +140,6 @@ extension ACM {
     //MARK: Shapes
 
     public struct AddTagsToCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String
@@ -173,34 +169,6 @@ extension ACM {
     }
 
     public struct CertificateDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "ExtendedKeyUsages", required: false, type: .list), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
-            AWSShapeMember(label: "ImportedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InUseBy", required: false, type: .list), 
-            AWSShapeMember(label: "IssuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Issuer", required: false, type: .string), 
-            AWSShapeMember(label: "KeyAlgorithm", required: false, type: .enum), 
-            AWSShapeMember(label: "KeyUsages", required: false, type: .list), 
-            AWSShapeMember(label: "NotAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "RenewalEligibility", required: false, type: .enum), 
-            AWSShapeMember(label: "RenewalSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "RevocationReason", required: false, type: .enum), 
-            AWSShapeMember(label: "RevokedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Serial", required: false, type: .string), 
-            AWSShapeMember(label: "SignatureAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Subject", required: false, type: .string), 
-            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let certificateArn: String?
@@ -315,9 +283,6 @@ extension ACM {
     }
 
     public struct CertificateOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateTransparencyLoggingPreference", required: false, type: .enum)
-        ]
 
         /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED. 
         public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
@@ -332,10 +297,6 @@ extension ACM {
     }
 
     public struct CertificateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String?
@@ -354,9 +315,6 @@ extension ACM {
     }
 
     public struct DeleteCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
 
         /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -377,9 +335,6 @@ extension ACM {
     }
 
     public struct DescribeCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -400,9 +355,6 @@ extension ACM {
     }
 
     public struct DescribeCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .structure)
-        ]
 
         /// Metadata about an ACM certificate.
         public let certificate: CertificateDetail?
@@ -417,14 +369,6 @@ extension ACM {
     }
 
     public struct DomainValidation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceRecord", required: false, type: .structure), 
-            AWSShapeMember(label: "ValidationDomain", required: false, type: .string), 
-            AWSShapeMember(label: "ValidationEmails", required: false, type: .list), 
-            AWSShapeMember(label: "ValidationMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "ValidationStatus", required: false, type: .enum)
-        ]
 
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com. 
         public let domainName: String
@@ -459,10 +403,6 @@ extension ACM {
     }
 
     public struct DomainValidationOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ValidationDomain", required: true, type: .string)
-        ]
 
         /// A fully qualified domain name (FQDN) in the certificate request.
         public let domainName: String
@@ -490,10 +430,6 @@ extension ACM {
     }
 
     public struct ExportCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "Passphrase", required: true, type: .blob)
-        ]
 
         /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String
@@ -520,11 +456,6 @@ extension ACM {
     }
 
     public struct ExportCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateKey", required: false, type: .string)
-        ]
 
         /// The base64 PEM-encoded certificate.
         public let certificate: String?
@@ -547,10 +478,6 @@ extension ACM {
     }
 
     public struct ExtendedKeyUsage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum), 
-            AWSShapeMember(label: "OID", required: false, type: .string)
-        ]
 
         /// The name of an Extended Key Usage value.
         public let name: ExtendedKeyUsageName?
@@ -569,11 +496,6 @@ extension ACM {
     }
 
     public struct Filters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "extendedKeyUsage", required: false, type: .list), 
-            AWSShapeMember(label: "keyTypes", required: false, type: .list), 
-            AWSShapeMember(label: "keyUsage", required: false, type: .list)
-        ]
 
         /// Specify one or more ExtendedKeyUsage extension values.
         public let extendedKeyUsage: [ExtendedKeyUsageName]?
@@ -596,9 +518,6 @@ extension ACM {
     }
 
     public struct GetCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
 
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -619,10 +538,6 @@ extension ACM {
     }
 
     public struct GetCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: false, type: .string)
-        ]
 
         /// String that contains the ACM certificate represented by the ARN specified at input.
         public let certificate: String?
@@ -641,13 +556,6 @@ extension ACM {
     }
 
     public struct ImportCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: true, type: .blob), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: false, type: .blob), 
-            AWSShapeMember(label: "PrivateKey", required: true, type: .blob), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The certificate to import.
         public let certificate: Data
@@ -695,9 +603,6 @@ extension ACM {
     }
 
     public struct ImportCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the imported certificate.
         public let certificateArn: String?
@@ -712,9 +617,6 @@ extension ACM {
     }
 
     public struct KeyUsage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum)
-        ]
 
         /// A string value that contains a Key Usage extension name.
         public let name: KeyUsageName?
@@ -729,12 +631,6 @@ extension ACM {
     }
 
     public struct ListCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateStatuses", required: false, type: .list), 
-            AWSShapeMember(label: "Includes", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Filter the certificate list by status value.
         public let certificateStatuses: [CertificateStatus]?
@@ -769,10 +665,6 @@ extension ACM {
     }
 
     public struct ListCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of ACM certificates.
         public let certificateSummaryList: [CertificateSummary]?
@@ -791,9 +683,6 @@ extension ACM {
     }
 
     public struct ListTagsForCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
 
         /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String
@@ -814,9 +703,6 @@ extension ACM {
     }
 
     public struct ListTagsForCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The key-value pairs that define the applied tags.
         public let tags: [Tag]?
@@ -831,10 +717,6 @@ extension ACM {
     }
 
     public struct RemoveTagsFromCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String
@@ -864,9 +746,6 @@ extension ACM {
     }
 
     public struct RenewCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
 
         /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -887,12 +766,6 @@ extension ACM {
     }
 
     public struct RenewalSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainValidationOptions", required: true, type: .list), 
-            AWSShapeMember(label: "RenewalStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "RenewalStatusReason", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
-        ]
 
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]
@@ -919,16 +792,6 @@ extension ACM {
     }
 
     public struct RequestCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ValidationMethod", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the AWS Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
         public let certificateAuthorityArn: String?
@@ -1000,9 +863,6 @@ extension ACM {
     }
 
     public struct RequestCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
-        ]
 
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String?
@@ -1017,11 +877,6 @@ extension ACM {
     }
 
     public struct ResendValidationEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "Domain", required: true, type: .string), 
-            AWSShapeMember(label: "ValidationDomain", required: true, type: .string)
-        ]
 
         /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:   arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String
@@ -1056,11 +911,6 @@ extension ACM {
     }
 
     public struct ResourceRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the DNS record to create in your domain. This is supplied by ACM.
         public let name: String
@@ -1083,10 +933,6 @@ extension ACM {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The key of the tag.
         public let key: String
@@ -1114,10 +960,6 @@ extension ACM {
     }
 
     public struct UpdateCertificateOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "Options", required: true, type: .structure)
-        ]
 
         /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012  
         public let certificateArn: String

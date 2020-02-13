@@ -9,6 +9,13 @@
 import Foundation
 import SwiftyJSON
 
+/*
+ CHANGES/ASSUMPTIONS from shape member cleanup
+ 
+ AWSShapeMember label is the name coming from the model file. The member variable lowercases the first letter
+ Payload data blob has encoding: .blob. They need the AWSShapeMember label to identify them
+ 
+ */
 extension Location {
     func enumStyleDescription() -> String {
         switch self {
@@ -62,6 +69,8 @@ extension ShapeEncoding {
             return ".map(entry:\"\(entry)\", key: \"\(key)\", value: \"\(value)\")"
         case .flatMap(let key, let value):
             return ".flatMap(key: \"\(key)\", value: \"\(value)\")"
+        case .blob:
+            return ".blob"
         }
     }
 
@@ -191,18 +200,21 @@ extension AWSService {
     }
 
     struct MemberContext {
-        let name : String
         let variable : String
         let locationPath : String
-        let location : String?
         let parameter : String
         let required : Bool
         let `default` : String?
         let type : String
         let typeEnum : String
-        let encoding : String?
         let comment : [String.SubSequence]
         var duplicate : Bool
+    }
+
+    struct AWSShapeMemberContext {
+        let name : String
+        let location : String?
+        let encoding : String?
     }
 
     class ValidationContext {
@@ -231,6 +243,7 @@ extension AWSService {
         let payload : String?
         let namespace : String?
         let members : [MemberContext]
+        let awsShapeMembers : [AWSShapeMemberContext]
         let validation : [ValidationContext]
     }
 
@@ -359,18 +372,27 @@ extension AWSService {
             defaultValue = nil
         }
         return MemberContext(
-            name: member.name,
             variable: member.name.toSwiftVariableCase(),
             locationPath: member.location?.name ?? member.name,
-            location: member.location?.enumStyleDescription(),
             parameter: member.name.toSwiftLabelCase(),
             required: member.required,
             default: defaultValue,
             type: member.shape.swiftTypeName + (member.required ? "" : "?"),
             typeEnum: "\(member.shape.type.description)",
-            encoding: member.shapeEncoding?.enumStyleDescription(),
             comment: shapeDoc[shape.name]?[member.name]?.split(separator: "\n") ?? [],
             duplicate: false
+        )
+    }
+
+    /// Generate the context information for outputting a member variable
+    func generateAWSShapeMemberContext(_ member: Member, shape: Shape) -> AWSShapeMemberContext? {
+        let location = member.location?.enumStyleDescription()
+        let encoding = member.shapeEncoding?.enumStyleDescription()
+        guard location != nil || encoding != nil else { return nil }
+        return AWSShapeMemberContext(
+            name: member.name,
+            location: location,
+            encoding: encoding
         )
     }
 
@@ -431,6 +453,7 @@ extension AWSService {
     /// Generate the context for outputting a single AWSShape
     func generateStructureContext(_ shape: Shape, type: StructureShape) -> StructureContext {
         var memberContexts : [MemberContext] = []
+        var awsShapeMemberContexts : [AWSShapeMemberContext] = []
         var validationContexts : [ValidationContext] = []
         var usedLocationPath : [String] = []
         for member in type.members {
@@ -446,6 +469,10 @@ extension AWSService {
 
             memberContexts.append(memberContext)
 
+            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape) {
+                awsShapeMemberContexts.append(awsShapeMemberContext)
+            }
+
             // only output validation for shapes used in inputs to service apis
             if shape.usedInInput {
                 if let validationContext = generateValidationContext(name:member.name, shape: member.shape, required: member.required) {
@@ -460,6 +487,7 @@ extension AWSService {
             payload: type.payload,
             namespace: type.xmlNamespace,
             members: memberContexts,
+            awsShapeMembers: awsShapeMemberContexts,
             validation: validationContexts)
     }
 

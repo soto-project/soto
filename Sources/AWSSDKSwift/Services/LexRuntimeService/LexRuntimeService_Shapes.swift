@@ -55,10 +55,6 @@ extension LexRuntimeService {
     //MARK: Shapes
 
     public struct Button: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "text", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// Text that is visible to the user on the button.
         public let text: String
@@ -78,9 +74,9 @@ extension LexRuntimeService {
 
     public struct DeleteSessionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The alias in use for the bot that contains the session data.
@@ -110,12 +106,6 @@ extension LexRuntimeService {
     }
 
     public struct DeleteSessionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", required: false, type: .string), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "sessionId", required: false, type: .string), 
-            AWSShapeMember(label: "userId", required: false, type: .string)
-        ]
 
         /// The alias in use for the bot associated with the session data.
         public let botAlias: String?
@@ -142,15 +132,6 @@ extension LexRuntimeService {
     }
 
     public struct DialogAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fulfillmentState", required: false, type: .enum), 
-            AWSShapeMember(label: "intentName", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "slots", required: false, type: .map), 
-            AWSShapeMember(label: "slotToElicit", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The fulfillment state of the intent. The possible values are:    Failed - The Lambda function associated with the intent failed to fulfill the intent.    Fulfilled - The intent has fulfilled by the Lambda function associated with the intent.     ReadyForFulfillment - All of the information necessary for the intent is present and the intent ready to be fulfilled by the client application.  
         public let fulfillmentState: FulfillmentState?
@@ -194,13 +175,6 @@ extension LexRuntimeService {
     }
 
     public struct GenericAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentLinkUrl", required: false, type: .string), 
-            AWSShapeMember(label: "buttons", required: false, type: .list), 
-            AWSShapeMember(label: "imageUrl", required: false, type: .string), 
-            AWSShapeMember(label: "subTitle", required: false, type: .string), 
-            AWSShapeMember(label: "title", required: false, type: .string)
-        ]
 
         /// The URL of an attachment to the response card.
         public let attachmentLinkUrl: String?
@@ -232,10 +206,10 @@ extension LexRuntimeService {
 
     public struct GetSessionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "checkpointLabelFilter", location: .querystring(locationName: "checkpointLabelFilter"), required: false, type: .string), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "checkpointLabelFilter", location: .querystring(locationName: "checkpointLabelFilter")), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The alias in use for the bot that contains the session data.
@@ -272,12 +246,6 @@ extension LexRuntimeService {
     }
 
     public struct GetSessionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dialogAction", required: false, type: .structure), 
-            AWSShapeMember(label: "recentIntentSummaryView", required: false, type: .list), 
-            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "sessionId", required: false, type: .string)
-        ]
 
         /// Describes the current state of the bot.
         public let dialogAction: DialogAction?
@@ -304,15 +272,6 @@ extension LexRuntimeService {
     }
 
     public struct IntentSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkpointLabel", required: false, type: .string), 
-            AWSShapeMember(label: "confirmationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "dialogActionType", required: true, type: .enum), 
-            AWSShapeMember(label: "fulfillmentState", required: false, type: .enum), 
-            AWSShapeMember(label: "intentName", required: false, type: .string), 
-            AWSShapeMember(label: "slots", required: false, type: .map), 
-            AWSShapeMember(label: "slotToElicit", required: false, type: .string)
-        ]
 
         /// A user-defined label that identifies a particular intent. You can use this label to return to a previous intent.  Use the checkpointLabelFilter parameter of the GetSessionRequest operation to filter the intents returned by the operation to those with only the specified label.
         public let checkpointLabel: String?
@@ -360,14 +319,14 @@ extension LexRuntimeService {
         /// The key for the payload
         public static let payloadPath: String? = "inputStream"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accept", location: .header(locationName: "Accept"), required: false, type: .string), 
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .string), 
-            AWSShapeMember(label: "inputStream", required: true, type: .blob), 
-            AWSShapeMember(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes"), required: false, type: .string), 
-            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+            AWSShapeMember(label: "accept", location: .header(locationName: "Accept")), 
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSShapeMember(label: "inputStream", encoding: .blob), 
+            AWSShapeMember(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")), 
+            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         ///  You pass this value as the Accept HTTP header.   The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.     If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little endian format.    The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)    
@@ -420,18 +379,18 @@ extension LexRuntimeService {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "audioStream", required: false, type: .blob), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state"), required: false, type: .enum), 
-            AWSShapeMember(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript"), required: false, type: .string), 
-            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string), 
-            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
-            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format"), required: false, type: .enum), 
-            AWSShapeMember(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment"), required: false, type: .string), 
-            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
-            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id"), required: false, type: .string), 
-            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
-            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string)
+            AWSShapeMember(label: "audioStream", encoding: .blob), 
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 
+            AWSShapeMember(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")), 
+            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")), 
+            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message")), 
+            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")), 
+            AWSShapeMember(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment")), 
+            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
+            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
+            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots")), 
+            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
         ]
 
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response. 
@@ -492,12 +451,9 @@ extension LexRuntimeService {
 
     public struct PostTextRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "inputText", required: true, type: .string), 
-            AWSShapeMember(label: "requestAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The alias of the Amazon Lex bot.
@@ -541,18 +497,6 @@ extension LexRuntimeService {
     }
 
     public struct PostTextResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dialogState", required: false, type: .enum), 
-            AWSShapeMember(label: "intentName", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "responseCard", required: false, type: .structure), 
-            AWSShapeMember(label: "sentimentResponse", required: false, type: .structure), 
-            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "sessionId", required: false, type: .string), 
-            AWSShapeMember(label: "slots", required: false, type: .map), 
-            AWSShapeMember(label: "slotToElicit", required: false, type: .string)
-        ]
 
         ///  Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit user intent.  For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialogState.    ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.   For example, Amazon Lex wants user confirmation before fulfilling an intent.  Instead of a simple "yes" or "no," a user might respond with additional information. For example, "yes, but make it thick crust pizza" or "no, I want to order a drink". Amazon Lex can process such additional information (in these examples, update the crust type slot value, or change intent from OrderPizza to OrderDrink).    ElicitSlot - Amazon Lex is expecting a slot value for the current intent.  For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function configured for the intent has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the intent.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons including that the user did not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or the Lambda function failed to fulfill the intent.   
         public let dialogState: DialogState?
@@ -604,13 +548,10 @@ extension LexRuntimeService {
 
     public struct PutSessionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accept", location: .header(locationName: "Accept"), required: false, type: .string), 
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "dialogAction", required: false, type: .structure), 
-            AWSShapeMember(label: "recentIntentSummaryView", required: false, type: .list), 
-            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+            AWSShapeMember(label: "accept", location: .header(locationName: "Accept")), 
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The message that Amazon Lex returns in the response can be either text or speech based depending on the value of this field.   If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech in the configuration that you specify. For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech is returned as audio/pcm in 16-bit, little endian format.   The following are the accepted values:    audio/mpeg     audio/ogg     audio/pcm     audio/* (defaults to mpeg)    text/plain; charset=utf-8     
@@ -665,16 +606,16 @@ extension LexRuntimeService {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "audioStream", required: false, type: .blob), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state"), required: false, type: .enum), 
-            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string), 
-            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
-            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format"), required: false, type: .enum), 
-            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
-            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id"), required: false, type: .string), 
-            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
-            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string)
+            AWSShapeMember(label: "audioStream", encoding: .blob), 
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 
+            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")), 
+            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message")), 
+            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")), 
+            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
+            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
+            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots")), 
+            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
         ]
 
         /// The audio version of the message to convey to the user.
@@ -726,11 +667,6 @@ extension LexRuntimeService {
     }
 
     public struct ResponseCard: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contentType", required: false, type: .enum), 
-            AWSShapeMember(label: "genericAttachments", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The content type of the response.
         public let contentType: ContentType?
@@ -753,10 +689,6 @@ extension LexRuntimeService {
     }
 
     public struct SentimentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sentimentLabel", required: false, type: .string), 
-            AWSShapeMember(label: "sentimentScore", required: false, type: .string)
-        ]
 
         /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
         public let sentimentLabel: String?

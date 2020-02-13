@@ -109,13 +109,6 @@ extension SavingsPlans {
     //MARK: Shapes
 
     public struct CreateSavingsPlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "commitment", required: true, type: .string), 
-            AWSShapeMember(label: "savingsPlanOfferingId", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "upfrontPaymentAmount", required: false, type: .string)
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -146,9 +139,6 @@ extension SavingsPlans {
     }
 
     public struct CreateSavingsPlanResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "savingsPlanId", required: false, type: .string)
-        ]
 
         /// The ID of the Savings Plan.
         public let savingsPlanId: String?
@@ -163,12 +153,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlanRatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlanId", required: true, type: .string)
-        ]
 
         /// The filters.
         public let filters: [SavingsPlanRateFilter]?
@@ -202,11 +186,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlanRatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "searchResults", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -229,18 +208,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlansOfferingRatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "operations", required: false, type: .list), 
-            AWSShapeMember(label: "products", required: false, type: .list), 
-            AWSShapeMember(label: "savingsPlanOfferingIds", required: false, type: .list), 
-            AWSShapeMember(label: "savingsPlanPaymentOptions", required: false, type: .list), 
-            AWSShapeMember(label: "savingsPlanTypes", required: false, type: .list), 
-            AWSShapeMember(label: "serviceCodes", required: false, type: .list), 
-            AWSShapeMember(label: "usageTypes", required: false, type: .list)
-        ]
 
         /// The filters.
         public let filters: [SavingsPlanOfferingRateFilterElement]?
@@ -312,10 +279,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlansOfferingRatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "searchResults", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -334,21 +297,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlansOfferingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currencies", required: false, type: .list), 
-            AWSShapeMember(label: "descriptions", required: false, type: .list), 
-            AWSShapeMember(label: "durations", required: false, type: .list), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "offeringIds", required: false, type: .list), 
-            AWSShapeMember(label: "operations", required: false, type: .list), 
-            AWSShapeMember(label: "paymentOptions", required: false, type: .list), 
-            AWSShapeMember(label: "planTypes", required: false, type: .list), 
-            AWSShapeMember(label: "productType", required: false, type: .enum), 
-            AWSShapeMember(label: "serviceCodes", required: false, type: .list), 
-            AWSShapeMember(label: "usageTypes", required: false, type: .list)
-        ]
 
         /// The currencies.
         public let currencies: [CurrencyCode]?
@@ -442,10 +390,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlansOfferingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "searchResults", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -464,14 +408,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlansRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlanArns", required: false, type: .list), 
-            AWSShapeMember(label: "savingsPlanIds", required: false, type: .list), 
-            AWSShapeMember(label: "states", required: false, type: .list)
-        ]
 
         /// The filters.
         public let filters: [SavingsPlanFilter]?
@@ -517,10 +453,6 @@ extension SavingsPlans {
     }
 
     public struct DescribeSavingsPlansResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlans", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -539,9 +471,6 @@ extension SavingsPlans {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -560,9 +489,6 @@ extension SavingsPlans {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// Information about the tags.
         public let tags: [String: String]?
@@ -577,14 +503,6 @@ extension SavingsPlans {
     }
 
     public struct ParentSavingsPlanOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currency", required: false, type: .enum), 
-            AWSShapeMember(label: "durationSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "offeringId", required: false, type: .string), 
-            AWSShapeMember(label: "paymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "planDescription", required: false, type: .string), 
-            AWSShapeMember(label: "planType", required: false, type: .enum)
-        ]
 
         /// The currency.
         public let currency: CurrencyCode?
@@ -619,26 +537,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlan: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitment", required: false, type: .string), 
-            AWSShapeMember(label: "currency", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "ec2InstanceFamily", required: false, type: .string), 
-            AWSShapeMember(label: "end", required: false, type: .string), 
-            AWSShapeMember(label: "offeringId", required: false, type: .string), 
-            AWSShapeMember(label: "paymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "productTypes", required: false, type: .list), 
-            AWSShapeMember(label: "recurringPaymentAmount", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlanType", required: false, type: .enum), 
-            AWSShapeMember(label: "start", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "termDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "upfrontPaymentAmount", required: false, type: .string)
-        ]
 
         /// The hourly commitment, in USD.
         public let commitment: String?
@@ -721,10 +619,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The filter name.
         public let name: SavingsPlansFilterName?
@@ -743,19 +637,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currency", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "durationSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "offeringId", required: false, type: .string), 
-            AWSShapeMember(label: "operation", required: false, type: .string), 
-            AWSShapeMember(label: "paymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "planType", required: false, type: .enum), 
-            AWSShapeMember(label: "productTypes", required: false, type: .list), 
-            AWSShapeMember(label: "properties", required: false, type: .list), 
-            AWSShapeMember(label: "serviceCode", required: false, type: .string), 
-            AWSShapeMember(label: "usageType", required: false, type: .string)
-        ]
 
         /// The currency.
         public let currency: CurrencyCode?
@@ -810,10 +691,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanOfferingFilterElement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The filter name.
         public let name: SavingsPlanOfferingFilterAttribute?
@@ -838,10 +715,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanOfferingProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The property name.
         public let name: SavingsPlanOfferingPropertyKey?
@@ -860,16 +733,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanOfferingRate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .string), 
-            AWSShapeMember(label: "productType", required: false, type: .enum), 
-            AWSShapeMember(label: "properties", required: false, type: .list), 
-            AWSShapeMember(label: "rate", required: false, type: .string), 
-            AWSShapeMember(label: "savingsPlanOffering", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceCode", required: false, type: .enum), 
-            AWSShapeMember(label: "unit", required: false, type: .enum), 
-            AWSShapeMember(label: "usageType", required: false, type: .string)
-        ]
 
         /// The specific AWS operation for the line item in the billing report.
         public let operation: String?
@@ -912,10 +775,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanOfferingRateFilterElement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The filter name.
         public let name: SavingsPlanRateFilterAttribute?
@@ -940,10 +799,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanOfferingRateProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The property name.
         public let name: String?
@@ -962,16 +817,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanRate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currency", required: false, type: .enum), 
-            AWSShapeMember(label: "operation", required: false, type: .string), 
-            AWSShapeMember(label: "productType", required: false, type: .enum), 
-            AWSShapeMember(label: "properties", required: false, type: .list), 
-            AWSShapeMember(label: "rate", required: false, type: .string), 
-            AWSShapeMember(label: "serviceCode", required: false, type: .enum), 
-            AWSShapeMember(label: "unit", required: false, type: .enum), 
-            AWSShapeMember(label: "usageType", required: false, type: .string)
-        ]
 
         /// The currency.
         public let currency: CurrencyCode?
@@ -1014,10 +859,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanRateFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The filter name.
         public let name: SavingsPlanRateFilterName?
@@ -1036,10 +877,6 @@ extension SavingsPlans {
     }
 
     public struct SavingsPlanRateProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The property name.
         public let name: SavingsPlanRatePropertyKey?
@@ -1058,10 +895,6 @@ extension SavingsPlans {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -1092,10 +925,6 @@ extension SavingsPlans {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String

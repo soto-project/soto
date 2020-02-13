@@ -41,18 +41,6 @@ extension IoTEvents {
     //MARK: Shapes
 
     public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clearTimer", required: false, type: .structure), 
-            AWSShapeMember(label: "firehose", required: false, type: .structure), 
-            AWSShapeMember(label: "iotEvents", required: false, type: .structure), 
-            AWSShapeMember(label: "iotTopicPublish", required: false, type: .structure), 
-            AWSShapeMember(label: "lambda", required: false, type: .structure), 
-            AWSShapeMember(label: "resetTimer", required: false, type: .structure), 
-            AWSShapeMember(label: "setTimer", required: false, type: .structure), 
-            AWSShapeMember(label: "setVariable", required: false, type: .structure), 
-            AWSShapeMember(label: "sns", required: false, type: .structure), 
-            AWSShapeMember(label: "sqs", required: false, type: .structure)
-        ]
 
         /// Information needed to clear the timer.
         public let clearTimer: ClearTimerAction?
@@ -115,9 +103,6 @@ extension IoTEvents {
     }
 
     public struct Attribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jsonPath", required: true, type: .string)
-        ]
 
         /// An expression that specifies an attribute-value pair in a JSON structure. Use this to specify an attribute from the JSON payload that is made available by the input. Inputs are derived from messages sent to the AWS IoT Events system (BatchPutMessage). Each such message contains a JSON payload, and the attribute (and its paired value) specified here are available for use in the "condition" expressions used by detectors.  Syntax: &lt;field-name&gt;.&lt;field-name&gt;... 
         public let jsonPath: String
@@ -138,9 +123,6 @@ extension IoTEvents {
     }
 
     public struct ClearTimerAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timerName", required: true, type: .string)
-        ]
 
         /// The name of the timer to clear.
         public let timerName: String
@@ -160,15 +142,6 @@ extension IoTEvents {
     }
 
     public struct CreateDetectorModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelDefinition", required: true, type: .structure), 
-            AWSShapeMember(label: "detectorModelDescription", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelName", required: true, type: .string), 
-            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// Information that defines how the detectors operate.
         public let detectorModelDefinition: DetectorModelDefinition
@@ -223,9 +196,6 @@ extension IoTEvents {
     }
 
     public struct CreateDetectorModelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelConfiguration", required: false, type: .structure)
-        ]
 
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
@@ -240,12 +210,6 @@ extension IoTEvents {
     }
 
     public struct CreateInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputDefinition", required: true, type: .structure), 
-            AWSShapeMember(label: "inputDescription", required: false, type: .string), 
-            AWSShapeMember(label: "inputName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The definition of the input.
         public let inputDefinition: InputDefinition
@@ -283,9 +247,6 @@ extension IoTEvents {
     }
 
     public struct CreateInputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputConfiguration", required: false, type: .structure)
-        ]
 
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?
@@ -301,7 +262,7 @@ extension IoTEvents {
 
     public struct DeleteDetectorModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"), required: true, type: .string)
+            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
         ]
 
         /// The name of the detector model to be deleted.
@@ -332,7 +293,7 @@ extension IoTEvents {
 
     public struct DeleteInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"), required: true, type: .string)
+            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"))
         ]
 
         /// The name of the input to delete.
@@ -363,8 +324,8 @@ extension IoTEvents {
 
     public struct DescribeDetectorModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"), required: true, type: .string), 
-            AWSShapeMember(label: "detectorModelVersion", location: .querystring(locationName: "version"), required: false, type: .string)
+            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
+            AWSShapeMember(label: "detectorModelVersion", location: .querystring(locationName: "version"))
         ]
 
         /// The name of the detector model.
@@ -392,9 +353,6 @@ extension IoTEvents {
     }
 
     public struct DescribeDetectorModelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModel", required: false, type: .structure)
-        ]
 
         /// Information about the detector model.
         public let detectorModel: DetectorModel?
@@ -410,7 +368,7 @@ extension IoTEvents {
 
     public struct DescribeInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"), required: true, type: .string)
+            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"))
         ]
 
         /// The name of the input.
@@ -432,9 +390,6 @@ extension IoTEvents {
     }
 
     public struct DescribeInputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .structure)
-        ]
 
         /// Information about the input.
         public let input: Input?
@@ -457,9 +412,6 @@ extension IoTEvents {
     }
 
     public struct DescribeLoggingOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptions", required: false, type: .structure)
-        ]
 
         /// The current settings of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions?
@@ -474,10 +426,6 @@ extension IoTEvents {
     }
 
     public struct DetectorDebugOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", required: true, type: .string), 
-            AWSShapeMember(label: "keyValue", required: false, type: .string)
-        ]
 
         /// The name of the detector model.
         public let detectorModelName: String
@@ -505,10 +453,6 @@ extension IoTEvents {
     }
 
     public struct DetectorModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "detectorModelDefinition", required: false, type: .structure)
-        ]
 
         /// Information about how the detector is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
@@ -527,18 +471,6 @@ extension IoTEvents {
     }
 
     public struct DetectorModelConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "detectorModelArn", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelDescription", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelName", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelVersion", required: false, type: .string), 
-            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The time the detector model was created.
         public let creationTime: TimeStamp?
@@ -589,10 +521,6 @@ extension IoTEvents {
     }
 
     public struct DetectorModelDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "initialStateName", required: true, type: .string), 
-            AWSShapeMember(label: "states", required: true, type: .list)
-        ]
 
         /// The state that is entered at the creation of each detector (instance).
         public let initialStateName: String
@@ -620,11 +548,6 @@ extension IoTEvents {
     }
 
     public struct DetectorModelSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "detectorModelDescription", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelName", required: false, type: .string)
-        ]
 
         /// The time the detector model was created.
         public let creationTime: TimeStamp?
@@ -647,16 +570,6 @@ extension IoTEvents {
     }
 
     public struct DetectorModelVersionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "detectorModelArn", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelName", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelVersion", required: false, type: .string), 
-            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The time the detector model version was created.
         public let creationTime: TimeStamp?
@@ -699,11 +612,6 @@ extension IoTEvents {
     }
 
     public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "condition", required: false, type: .string), 
-            AWSShapeMember(label: "eventName", required: true, type: .string)
-        ]
 
         /// The actions to be performed.
         public let actions: [Action]?
@@ -734,10 +642,6 @@ extension IoTEvents {
     }
 
     public struct FirehoseAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "separator", required: false, type: .string)
-        ]
 
         /// The name of the Kinesis Data Firehose delivery stream where the data is written.
         public let deliveryStreamName: String
@@ -760,10 +664,6 @@ extension IoTEvents {
     }
 
     public struct Input: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "inputDefinition", required: false, type: .structure)
-        ]
 
         /// Information about the configuration of an input.
         public let inputConfiguration: InputConfiguration?
@@ -782,14 +682,6 @@ extension IoTEvents {
     }
 
     public struct InputConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "inputArn", required: true, type: .string), 
-            AWSShapeMember(label: "inputDescription", required: false, type: .string), 
-            AWSShapeMember(label: "inputName", required: true, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         /// The time the input was created.
         public let creationTime: TimeStamp
@@ -824,9 +716,6 @@ extension IoTEvents {
     }
 
     public struct InputDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .list)
-        ]
 
         /// The attributes from the JSON payload that are made available by the input. Inputs are derived from messages sent to the AWS IoT Events system using BatchPutMessage. Each such message contains a JSON payload, and those attributes (and their paired values) specified here are available for use in the "condition" expressions used by detectors that monitor this input. 
         public let attributes: [Attribute]
@@ -849,14 +738,6 @@ extension IoTEvents {
     }
 
     public struct InputSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "inputArn", required: false, type: .string), 
-            AWSShapeMember(label: "inputDescription", required: false, type: .string), 
-            AWSShapeMember(label: "inputName", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The time the input was created.
         public let creationTime: TimeStamp?
@@ -891,9 +772,6 @@ extension IoTEvents {
     }
 
     public struct IotEventsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", required: true, type: .string)
-        ]
 
         /// The name of the AWS IoT Events input where the data is sent.
         public let inputName: String
@@ -914,9 +792,6 @@ extension IoTEvents {
     }
 
     public struct IotTopicPublishAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mqttTopic", required: true, type: .string)
-        ]
 
         /// The MQTT topic of the message.
         public let mqttTopic: String
@@ -936,9 +811,6 @@ extension IoTEvents {
     }
 
     public struct LambdaAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionArn", required: true, type: .string)
-        ]
 
         /// The ARN of the Lambda function that is executed.
         public let functionArn: String
@@ -959,9 +831,9 @@ extension IoTEvents {
 
     public struct ListDetectorModelVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of the detector model whose versions are returned.
@@ -993,10 +865,6 @@ extension IoTEvents {
     }
 
     public struct ListDetectorModelVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelVersionSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Summary information about the detector model versions.
         public let detectorModelVersionSummaries: [DetectorModelVersionSummary]?
@@ -1016,8 +884,8 @@ extension IoTEvents {
 
     public struct ListDetectorModelsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -1042,10 +910,6 @@ extension IoTEvents {
     }
 
     public struct ListDetectorModelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Summary information about the detector models.
         public let detectorModelSummaries: [DetectorModelSummary]?
@@ -1065,8 +929,8 @@ extension IoTEvents {
 
     public struct ListInputsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -1091,10 +955,6 @@ extension IoTEvents {
     }
 
     public struct ListInputsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Summary information about the inputs.
         public let inputSummaries: [InputSummary]?
@@ -1114,7 +974,7 @@ extension IoTEvents {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -1135,9 +995,6 @@ extension IoTEvents {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The list of tags assigned to the resource.
         public let tags: [Tag]?
@@ -1152,12 +1009,6 @@ extension IoTEvents {
     }
 
     public struct LoggingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorDebugOptions", required: false, type: .list), 
-            AWSShapeMember(label: "enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "level", required: true, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// Information that identifies those detector models and their detectors (instances) for which the logging level is given.
         public let detectorDebugOptions: [DetectorDebugOption]?
@@ -1193,9 +1044,6 @@ extension IoTEvents {
     }
 
     public struct OnEnterLifecycle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "events", required: false, type: .list)
-        ]
 
         /// Specifies the actions that are performed when the state is entered and the "condition" is TRUE.
         public let events: [Event]?
@@ -1216,9 +1064,6 @@ extension IoTEvents {
     }
 
     public struct OnExitLifecycle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "events", required: false, type: .list)
-        ]
 
         /// Specifies the "actions" that are performed when the state is exited and the "condition" is TRUE.
         public let events: [Event]?
@@ -1239,10 +1084,6 @@ extension IoTEvents {
     }
 
     public struct OnInputLifecycle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "events", required: false, type: .list), 
-            AWSShapeMember(label: "transitionEvents", required: false, type: .list)
-        ]
 
         /// Specifies the actions performed when the "condition" evaluates to TRUE.
         public let events: [Event]?
@@ -1270,9 +1111,6 @@ extension IoTEvents {
     }
 
     public struct PutLoggingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptions", required: true, type: .structure)
-        ]
 
         /// The new values of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions
@@ -1291,9 +1129,6 @@ extension IoTEvents {
     }
 
     public struct ResetTimerAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timerName", required: true, type: .string)
-        ]
 
         /// The name of the timer to reset.
         public let timerName: String
@@ -1313,9 +1148,6 @@ extension IoTEvents {
     }
 
     public struct SNSTopicPublishAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the Amazon SNS target where the message is sent.
         public let targetArn: String
@@ -1335,10 +1167,6 @@ extension IoTEvents {
     }
 
     public struct SetTimerAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "seconds", required: true, type: .integer), 
-            AWSShapeMember(label: "timerName", required: true, type: .string)
-        ]
 
         /// The number of seconds until the timer expires. The minimum value is 60 seconds to ensure accuracy.
         public let seconds: Int
@@ -1362,10 +1190,6 @@ extension IoTEvents {
     }
 
     public struct SetVariableAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "value", required: true, type: .string), 
-            AWSShapeMember(label: "variableName", required: true, type: .string)
-        ]
 
         /// The new value of the variable.
         public let value: String
@@ -1392,10 +1216,6 @@ extension IoTEvents {
     }
 
     public struct SqsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queueUrl", required: true, type: .string), 
-            AWSShapeMember(label: "useBase64", required: false, type: .boolean)
-        ]
 
         /// The URL of the SQS queue where the data is written.
         public let queueUrl: String
@@ -1414,12 +1234,6 @@ extension IoTEvents {
     }
 
     public struct State: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "onEnter", required: false, type: .structure), 
-            AWSShapeMember(label: "onExit", required: false, type: .structure), 
-            AWSShapeMember(label: "onInput", required: false, type: .structure), 
-            AWSShapeMember(label: "stateName", required: true, type: .string)
-        ]
 
         /// When entering this state, perform these "actions" if the "condition" is TRUE.
         public let onEnter: OnEnterLifecycle?
@@ -1454,10 +1268,6 @@ extension IoTEvents {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The tag's key.
         public let key: String
@@ -1484,8 +1294,7 @@ extension IoTEvents {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -1521,12 +1330,6 @@ extension IoTEvents {
     }
 
     public struct TransitionEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "condition", required: true, type: .string), 
-            AWSShapeMember(label: "eventName", required: true, type: .string), 
-            AWSShapeMember(label: "nextState", required: true, type: .string)
-        ]
 
         /// The actions to be performed.
         public let actions: [Action]?
@@ -1564,8 +1367,8 @@ extension IoTEvents {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource.
@@ -1603,11 +1406,7 @@ extension IoTEvents {
 
     public struct UpdateDetectorModelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelDefinition", required: true, type: .structure), 
-            AWSShapeMember(label: "detectorModelDescription", required: false, type: .string), 
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"), required: true, type: .string), 
-            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
+            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
         ]
 
         /// Information that defines how a detector operates.
@@ -1649,9 +1448,6 @@ extension IoTEvents {
     }
 
     public struct UpdateDetectorModelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelConfiguration", required: false, type: .structure)
-        ]
 
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
@@ -1667,9 +1463,7 @@ extension IoTEvents {
 
     public struct UpdateInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputDefinition", required: true, type: .structure), 
-            AWSShapeMember(label: "inputDescription", required: false, type: .string), 
-            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"), required: true, type: .string)
+            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"))
         ]
 
         /// The definition of the input.
@@ -1701,9 +1495,6 @@ extension IoTEvents {
     }
 
     public struct UpdateInputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputConfiguration", required: false, type: .structure)
-        ]
 
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?

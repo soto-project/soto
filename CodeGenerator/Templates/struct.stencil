@@ -8,10 +8,10 @@
         public static let _xmlNamespace: String? = "{{struct.namespace}}"
 {%endif %}
 {# AWSShapeMember array #}
-{%if struct.members.count > 0%}
+{%if struct.awsShapeMembers.count > 0%}
         public static var _members: [AWSShapeMember] = [
-{%for member in struct.members %}
-            AWSShapeMember(label: "{{member.name}}", {%if member.location %}location: {{member.location}}, {%endif %}required: {{member.required}}, type: .{{member.typeEnum}}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
+{%for member in struct.awsShapeMembers %}
+            AWSShapeMember(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
 {%endfor %}
         ]
 {%endif %}

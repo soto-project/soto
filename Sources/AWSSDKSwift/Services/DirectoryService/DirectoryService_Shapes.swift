@@ -200,9 +200,6 @@ extension DirectoryService {
     //MARK: Shapes
 
     public struct AcceptSharedDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: true, type: .string)
-        ]
 
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account. 
         public let sharedDirectoryId: String
@@ -221,9 +218,6 @@ extension DirectoryService {
     }
 
     public struct AcceptSharedDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectory", required: false, type: .structure)
-        ]
 
         /// The shared directory in the directory consumer account.
         public let sharedDirectory: SharedDirectory?
@@ -238,11 +232,6 @@ extension DirectoryService {
     }
 
     public struct AddIpRoutesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "IpRoutes", required: true, type: .list), 
-            AWSShapeMember(label: "UpdateSecurityGroupForDirectoryControllers", required: false, type: .boolean)
-        ]
 
         /// Identifier (ID) of the directory to which to add the address block.
         public let directoryId: String
@@ -280,10 +269,6 @@ extension DirectoryService {
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// Identifier (ID) for the directory to which to add the tag.
         public let resourceId: String
@@ -317,10 +302,6 @@ extension DirectoryService {
     }
 
     public struct Attribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The name of the attribute.
         public let name: String?
@@ -343,10 +324,6 @@ extension DirectoryService {
     }
 
     public struct CancelSchemaExtensionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaExtensionId", required: true, type: .string)
-        ]
 
         /// The identifier of the directory whose schema extension will be canceled.
         public let directoryId: String
@@ -378,14 +355,6 @@ extension DirectoryService {
     }
 
     public struct Certificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "CommonName", required: false, type: .string), 
-            AWSShapeMember(label: "ExpiryDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RegisteredDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateReason", required: false, type: .string)
-        ]
 
         /// The identifier of the certificate.
         public let certificateId: String?
@@ -420,11 +389,6 @@ extension DirectoryService {
     }
 
     public struct CertificateInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "CommonName", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The identifier of the certificate.
         public let certificateId: String?
@@ -447,11 +411,6 @@ extension DirectoryService {
     }
 
     public struct Computer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ComputerId", required: false, type: .string), 
-            AWSShapeMember(label: "ComputerName", required: false, type: .string)
-        ]
 
         /// An array of Attribute objects containing the LDAP attributes that belong to the computer account.
         public let computerAttributes: [Attribute]?
@@ -474,11 +433,6 @@ extension DirectoryService {
     }
 
     public struct ConditionalForwarder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
-            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationScope", required: false, type: .enum)
-        ]
 
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public let dnsIpAddrs: [String]?
@@ -501,15 +455,6 @@ extension DirectoryService {
     }
 
     public struct ConnectDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectSettings", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A DirectoryConnectSettings object that contains additional information for the operation.
         public let connectSettings: DirectoryConnectSettings
@@ -562,9 +507,6 @@ extension DirectoryService {
     }
 
     public struct ConnectDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
 
         /// The identifier of the new directory.
         public let directoryId: String?
@@ -579,10 +521,6 @@ extension DirectoryService {
     }
 
     public struct CreateAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
         public let alias: String
@@ -608,10 +546,6 @@ extension DirectoryService {
     }
 
     public struct CreateAliasResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
 
         /// The alias for the directory.
         public let alias: String?
@@ -630,13 +564,6 @@ extension DirectoryService {
     }
 
     public struct CreateComputerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ComputerName", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string)
-        ]
 
         /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
         public let computerAttributes: [Attribute]?
@@ -681,9 +608,6 @@ extension DirectoryService {
     }
 
     public struct CreateComputerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Computer", required: false, type: .structure)
-        ]
 
         /// A Computer object that represents the computer account.
         public let computer: Computer?
@@ -698,11 +622,6 @@ extension DirectoryService {
     }
 
     public struct CreateConditionalForwarderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
-        ]
 
         /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
         public let directoryId: String
@@ -741,15 +660,6 @@ extension DirectoryService {
     }
 
     public struct CreateDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
-        ]
 
         /// A description for the directory.
         public let description: String?
@@ -801,9 +711,6 @@ extension DirectoryService {
     }
 
     public struct CreateDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
 
         /// The identifier of the directory that was created.
         public let directoryId: String?
@@ -818,10 +725,6 @@ extension DirectoryService {
     }
 
     public struct CreateLogSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "LogGroupName", required: true, type: .string)
-        ]
 
         /// Identifier of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group.
         public let directoryId: String
@@ -855,15 +758,6 @@ extension DirectoryService {
     }
 
     public struct CreateMicrosoftADRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Edition", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VpcSettings", required: true, type: .structure)
-        ]
 
         /// A description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
         public let description: String?
@@ -915,9 +809,6 @@ extension DirectoryService {
     }
 
     public struct CreateMicrosoftADResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
 
         /// The identifier of the directory that was created.
         public let directoryId: String?
@@ -932,10 +823,6 @@ extension DirectoryService {
     }
 
     public struct CreateSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The identifier of the directory of which to take a snapshot.
         public let directoryId: String
@@ -961,9 +848,6 @@ extension DirectoryService {
     }
 
     public struct CreateSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
-        ]
 
         /// The identifier of the snapshot that was created.
         public let snapshotId: String?
@@ -978,15 +862,6 @@ extension DirectoryService {
     }
 
     public struct CreateTrustRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionalForwarderIpAddrs", required: false, type: .list), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string), 
-            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
-            AWSShapeMember(label: "TrustDirection", required: true, type: .enum), 
-            AWSShapeMember(label: "TrustPassword", required: true, type: .string), 
-            AWSShapeMember(label: "TrustType", required: false, type: .enum)
-        ]
 
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
         public let conditionalForwarderIpAddrs: [String]?
@@ -1036,9 +911,6 @@ extension DirectoryService {
     }
 
     public struct CreateTrustResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: false, type: .string)
-        ]
 
         /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
@@ -1053,10 +925,6 @@ extension DirectoryService {
     }
 
     public struct DeleteConditionalForwarderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
-        ]
 
         /// The directory ID for which you are deleting the conditional forwarder.
         public let directoryId: String
@@ -1088,9 +956,6 @@ extension DirectoryService {
     }
 
     public struct DeleteDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The identifier of the directory to delete.
         public let directoryId: String
@@ -1109,9 +974,6 @@ extension DirectoryService {
     }
 
     public struct DeleteDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
-        ]
 
         /// The directory identifier.
         public let directoryId: String?
@@ -1126,9 +988,6 @@ extension DirectoryService {
     }
 
     public struct DeleteLogSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// Identifier of the directory whose log subscription you want to delete.
         public let directoryId: String
@@ -1155,9 +1014,6 @@ extension DirectoryService {
     }
 
     public struct DeleteSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
-        ]
 
         /// The identifier of the directory snapshot to be deleted.
         public let snapshotId: String
@@ -1176,9 +1032,6 @@ extension DirectoryService {
     }
 
     public struct DeleteSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
-        ]
 
         /// The identifier of the directory snapshot that was deleted.
         public let snapshotId: String?
@@ -1193,10 +1046,6 @@ extension DirectoryService {
     }
 
     public struct DeleteTrustRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteAssociatedConditionalForwarder", required: false, type: .boolean), 
-            AWSShapeMember(label: "TrustId", required: true, type: .string)
-        ]
 
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
         public let deleteAssociatedConditionalForwarder: Bool?
@@ -1219,9 +1068,6 @@ extension DirectoryService {
     }
 
     public struct DeleteTrustResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: false, type: .string)
-        ]
 
         /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
@@ -1236,10 +1082,6 @@ extension DirectoryService {
     }
 
     public struct DeregisterCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The identifier of the certificate.
         public let certificateId: String
@@ -1271,10 +1113,6 @@ extension DirectoryService {
     }
 
     public struct DeregisterEventTopicRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "TopicName", required: true, type: .string)
-        ]
 
         /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
         public let directoryId: String
@@ -1308,10 +1146,6 @@ extension DirectoryService {
     }
 
     public struct DescribeCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The identifier of the certificate.
         public let certificateId: String
@@ -1335,9 +1169,6 @@ extension DirectoryService {
     }
 
     public struct DescribeCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .structure)
-        ]
 
         /// Information about the certificate, including registered date time, certificate state, the reason for the state, expiration date time, and certificate common name.
         public let certificate: Certificate?
@@ -1352,10 +1183,6 @@ extension DirectoryService {
     }
 
     public struct DescribeConditionalForwardersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RemoteDomainNames", required: false, type: .list)
-        ]
 
         /// The directory ID for which to get the list of associated conditional forwarders.
         public let directoryId: String
@@ -1381,9 +1208,6 @@ extension DirectoryService {
     }
 
     public struct DescribeConditionalForwardersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionalForwarders", required: false, type: .list)
-        ]
 
         /// The list of conditional forwarders that have been created.
         public let conditionalForwarders: [ConditionalForwarder]?
@@ -1398,11 +1222,6 @@ extension DirectoryService {
     }
 
     public struct DescribeDirectoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryIds", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of identifiers of the directories for which to obtain the information. If this member is null, all directories that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let directoryIds: [String]?
@@ -1432,10 +1251,6 @@ extension DirectoryService {
     }
 
     public struct DescribeDirectoriesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let directoryDescriptions: [DirectoryDescription]?
@@ -1454,12 +1269,6 @@ extension DirectoryService {
     }
 
     public struct DescribeDomainControllersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "DomainControllerIds", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Identifier of the directory for which to retrieve the domain controller information.
         public let directoryId: String
@@ -1494,10 +1303,6 @@ extension DirectoryService {
     }
 
     public struct DescribeDomainControllersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainControllers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// List of the DomainController objects that were retrieved.
         public let domainControllers: [DomainController]?
@@ -1516,10 +1321,6 @@ extension DirectoryService {
     }
 
     public struct DescribeEventTopicsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "TopicNames", required: false, type: .list)
-        ]
 
         /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
         public let directoryId: String?
@@ -1547,9 +1348,6 @@ extension DirectoryService {
     }
 
     public struct DescribeEventTopicsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventTopics", required: false, type: .list)
-        ]
 
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
@@ -1564,12 +1362,6 @@ extension DirectoryService {
     }
 
     public struct DescribeLDAPSSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The identifier of the directory.
         public let directoryId: String
@@ -1602,10 +1394,6 @@ extension DirectoryService {
     }
 
     public struct DescribeLDAPSSettingsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LDAPSSettingsInfo", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about LDAP security for the specified directory, including status of enablement, state last updated date time, and the reason for the state.
         public let lDAPSSettingsInfo: [LDAPSSettingInfo]?
@@ -1624,12 +1412,6 @@ extension DirectoryService {
     }
 
     public struct DescribeSharedDirectoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerDirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "SharedDirectoryIds", required: false, type: .list)
-        ]
 
         /// The number of shared directories to return in the response object.
         public let limit: Int?
@@ -1664,10 +1446,6 @@ extension DirectoryService {
     }
 
     public struct DescribeSharedDirectoriesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SharedDirectories", required: false, type: .list)
-        ]
 
         /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSharedDirectories to retrieve the next set of items.
         public let nextToken: String?
@@ -1686,12 +1464,6 @@ extension DirectoryService {
     }
 
     public struct DescribeSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotIds", required: false, type: .list)
-        ]
 
         /// The identifier of the directory for which to retrieve snapshot information.
         public let directoryId: String?
@@ -1726,10 +1498,6 @@ extension DirectoryService {
     }
 
     public struct DescribeSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Snapshots", required: false, type: .list)
-        ]
 
         /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
         public let nextToken: String?
@@ -1748,12 +1516,6 @@ extension DirectoryService {
     }
 
     public struct DescribeTrustsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TrustIds", required: false, type: .list)
-        ]
 
         /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
         public let directoryId: String?
@@ -1788,10 +1550,6 @@ extension DirectoryService {
     }
 
     public struct DescribeTrustsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Trusts", required: false, type: .list)
-        ]
 
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
         public let nextToken: String?
@@ -1810,12 +1568,6 @@ extension DirectoryService {
     }
 
     public struct DirectoryConnectSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerDnsIps", required: true, type: .list), 
-            AWSShapeMember(label: "CustomerUserName", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "VpcId", required: true, type: .string)
-        ]
 
         /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
         public let customerDnsIps: [String]
@@ -1854,14 +1606,6 @@ extension DirectoryService {
     }
 
     public struct DirectoryConnectSettingsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "ConnectIps", required: false, type: .list), 
-            AWSShapeMember(label: "CustomerUserName", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// A list of the Availability Zones that the directory is in.
         public let availabilityZones: [String]?
@@ -1896,32 +1640,6 @@ extension DirectoryService {
     }
 
     public struct DirectoryDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Alias", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DesiredNumberOfDomainControllers", required: false, type: .integer), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
-            AWSShapeMember(label: "Edition", required: false, type: .enum), 
-            AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerDirectoryDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ShareMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
-            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .enum), 
-            AWSShapeMember(label: "SsoEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Stage", required: false, type: .enum), 
-            AWSShapeMember(label: "StageLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StageReason", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
-        ]
 
         /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
         public let accessUrl: String?
@@ -2028,17 +1746,6 @@ extension DirectoryService {
     }
 
     public struct DirectoryLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudOnlyDirectoriesCurrentCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyDirectoriesLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyDirectoriesLimitReached", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudOnlyMicrosoftADCurrentCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyMicrosoftADLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudOnlyMicrosoftADLimitReached", required: false, type: .boolean), 
-            AWSShapeMember(label: "ConnectedDirectoriesCurrentCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ConnectedDirectoriesLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean)
-        ]
 
         /// The current number of cloud directories in the Region.
         public let cloudOnlyDirectoriesCurrentCount: Int?
@@ -2085,10 +1792,6 @@ extension DirectoryService {
     }
 
     public struct DirectoryVpcSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "VpcId", required: true, type: .string)
-        ]
 
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
         public let subnetIds: [String]
@@ -2114,12 +1817,6 @@ extension DirectoryService {
     }
 
     public struct DirectoryVpcSettingsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The list of Availability Zones that the directory is in.
         public let availabilityZones: [String]?
@@ -2146,10 +1843,6 @@ extension DirectoryService {
     }
 
     public struct DisableLDAPSRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The identifier of the directory.
         public let directoryId: String
@@ -2180,9 +1873,6 @@ extension DirectoryService {
     }
 
     public struct DisableRadiusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The identifier of the directory for which to disable MFA.
         public let directoryId: String
@@ -2209,11 +1899,6 @@ extension DirectoryService {
     }
 
     public struct DisableSsoRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// The identifier of the directory for which to disable single-sign on.
         public let directoryId: String
@@ -2252,18 +1937,6 @@ extension DirectoryService {
     }
 
     public struct DomainController: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "DnsIpAddr", required: false, type: .string), 
-            AWSShapeMember(label: "DomainControllerId", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The Availability Zone where the domain controller is located.
         public let availabilityZone: String?
@@ -2314,10 +1987,6 @@ extension DirectoryService {
     }
 
     public struct EnableLDAPSRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The identifier of the directory.
         public let directoryId: String
@@ -2348,10 +2017,6 @@ extension DirectoryService {
     }
 
     public struct EnableRadiusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RadiusSettings", required: true, type: .structure)
-        ]
 
         /// The identifier of the directory for which to enable MFA.
         public let directoryId: String
@@ -2383,11 +2048,6 @@ extension DirectoryService {
     }
 
     public struct EnableSsoRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// The identifier of the directory for which to enable single-sign on.
         public let directoryId: String
@@ -2426,13 +2086,6 @@ extension DirectoryService {
     }
 
     public struct EventTopic: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "TopicName", required: false, type: .string)
-        ]
 
         /// The date and time of when you associated your directory with the SNS topic.
         public let createdDateTime: TimeStamp?
@@ -2471,9 +2124,6 @@ extension DirectoryService {
     }
 
     public struct GetDirectoryLimitsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryLimits", required: false, type: .structure)
-        ]
 
         /// A DirectoryLimits object that contains the directory limits for the current rRegion.
         public let directoryLimits: DirectoryLimits?
@@ -2488,9 +2138,6 @@ extension DirectoryService {
     }
 
     public struct GetSnapshotLimitsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// Contains the identifier of the directory to obtain the limits for.
         public let directoryId: String
@@ -2509,9 +2156,6 @@ extension DirectoryService {
     }
 
     public struct GetSnapshotLimitsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotLimits", required: false, type: .structure)
-        ]
 
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
         public let snapshotLimits: SnapshotLimits?
@@ -2526,10 +2170,6 @@ extension DirectoryService {
     }
 
     public struct IpRoute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrIp", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
 
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
@@ -2555,14 +2195,6 @@ extension DirectoryService {
     }
 
     public struct IpRouteInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CidrIp", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "IpRouteStatusMsg", required: false, type: .enum), 
-            AWSShapeMember(label: "IpRouteStatusReason", required: false, type: .string)
-        ]
 
         /// The date and time the address block was added to the directory.
         public let addedDateTime: TimeStamp?
@@ -2597,11 +2229,6 @@ extension DirectoryService {
     }
 
     public struct LDAPSSettingInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LDAPSStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LDAPSStatusReason", required: false, type: .string)
-        ]
 
         /// The date and time when the LDAPS settings were last updated.
         public let lastUpdatedDateTime: TimeStamp?
@@ -2624,11 +2251,6 @@ extension DirectoryService {
     }
 
     public struct ListCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The identifier of the directory.
         public let directoryId: String
@@ -2657,10 +2279,6 @@ extension DirectoryService {
     }
 
     public struct ListCertificatesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificatesInfo", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of certificates with basic details including certificate ID, certificate common name, certificate state.
         public let certificatesInfo: [CertificateInfo]?
@@ -2679,11 +2297,6 @@ extension DirectoryService {
     }
 
     public struct ListIpRoutesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
         public let directoryId: String
@@ -2711,10 +2324,6 @@ extension DirectoryService {
     }
 
     public struct ListIpRoutesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpRoutesInfo", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of IpRoutes.
         public let ipRoutesInfo: [IpRouteInfo]?
@@ -2733,11 +2342,6 @@ extension DirectoryService {
     }
 
     public struct ListLogSubscriptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your AWS account. If there are no log subscriptions for the AWS account or the directory, an empty list will be returned.
         public let directoryId: String?
@@ -2765,10 +2369,6 @@ extension DirectoryService {
     }
 
     public struct ListLogSubscriptionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogSubscriptions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of active LogSubscription objects for calling the AWS account.
         public let logSubscriptions: [LogSubscription]?
@@ -2787,11 +2387,6 @@ extension DirectoryService {
     }
 
     public struct ListSchemaExtensionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The identifier of the directory from which to retrieve the schema extension information.
         public let directoryId: String
@@ -2819,10 +2414,6 @@ extension DirectoryService {
     }
 
     public struct ListSchemaExtensionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaExtensionsInfo", required: false, type: .list)
-        ]
 
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
         public let nextToken: String?
@@ -2841,11 +2432,6 @@ extension DirectoryService {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
 
         /// Reserved for future use.
         public let limit: Int?
@@ -2873,10 +2459,6 @@ extension DirectoryService {
     }
 
     public struct ListTagsForResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// Reserved for future use.
         public let nextToken: String?
@@ -2895,11 +2477,6 @@ extension DirectoryService {
     }
 
     public struct LogSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionCreatedDateTime", required: false, type: .timestamp)
-        ]
 
         /// Identifier (ID) of the directory that you want to associate with the log subscription.
         public let directoryId: String?
@@ -2922,14 +2499,6 @@ extension DirectoryService {
     }
 
     public struct OwnerDirectoryDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
-            AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
-        ]
 
         /// Identifier of the directory owner account.
         public let accountId: String?
@@ -2964,16 +2533,6 @@ extension DirectoryService {
     }
 
     public struct RadiusSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "DisplayLabel", required: false, type: .string), 
-            AWSShapeMember(label: "RadiusPort", required: false, type: .integer), 
-            AWSShapeMember(label: "RadiusRetries", required: false, type: .integer), 
-            AWSShapeMember(label: "RadiusServers", required: false, type: .list), 
-            AWSShapeMember(label: "RadiusTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "SharedSecret", required: false, type: .string), 
-            AWSShapeMember(label: "UseSameUsername", required: false, type: .boolean)
-        ]
 
         /// The protocol specified for your RADIUS endpoints.
         public let authenticationProtocol: RadiusAuthenticationProtocol?
@@ -3033,10 +2592,6 @@ extension DirectoryService {
     }
 
     public struct RegisterCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateData", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The certificate PEM string that needs to be registered.
         public let certificateData: String
@@ -3061,9 +2616,6 @@ extension DirectoryService {
     }
 
     public struct RegisterCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateId", required: false, type: .string)
-        ]
 
         /// The identifier of the certificate.
         public let certificateId: String?
@@ -3078,10 +2630,6 @@ extension DirectoryService {
     }
 
     public struct RegisterEventTopicRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "TopicName", required: true, type: .string)
-        ]
 
         /// The Directory ID that will publish status messages to the SNS topic.
         public let directoryId: String
@@ -3115,9 +2663,6 @@ extension DirectoryService {
     }
 
     public struct RejectSharedDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: true, type: .string)
-        ]
 
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String
@@ -3136,9 +2681,6 @@ extension DirectoryService {
     }
 
     public struct RejectSharedDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
-        ]
 
         /// Identifier of the shared directory in the directory consumer account.
         public let sharedDirectoryId: String?
@@ -3153,10 +2695,6 @@ extension DirectoryService {
     }
 
     public struct RemoveIpRoutesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrIps", required: true, type: .list), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// IP address blocks that you want to remove.
         public let cidrIps: [String]
@@ -3190,10 +2728,6 @@ extension DirectoryService {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// Identifier (ID) of the directory from which to remove the tag.
         public let resourceId: String
@@ -3229,11 +2763,6 @@ extension DirectoryService {
     }
 
     public struct ResetUserPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "NewPassword", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which the user resides.
         public let directoryId: String
@@ -3273,9 +2802,6 @@ extension DirectoryService {
     }
 
     public struct RestoreFromSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
-        ]
 
         /// The identifier of the snapshot to restore from.
         public let snapshotId: String
@@ -3302,15 +2828,6 @@ extension DirectoryService {
     }
 
     public struct SchemaExtensionInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaExtensionStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SchemaExtensionStatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp)
-        ]
 
         /// A description of the schema extension.
         public let description: String?
@@ -3349,12 +2866,6 @@ extension DirectoryService {
     }
 
     public struct ShareDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "ShareMethod", required: true, type: .enum), 
-            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
-            AWSShapeMember(label: "ShareTarget", required: true, type: .structure)
-        ]
 
         /// Identifier of the AWS Managed Microsoft AD directory that you want to share with other AWS accounts.
         public let directoryId: String
@@ -3387,9 +2898,6 @@ extension DirectoryService {
     }
 
     public struct ShareDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
-        ]
 
         /// Identifier of the directory that is stored in the directory consumer account that is shared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
@@ -3404,10 +2912,6 @@ extension DirectoryService {
     }
 
     public struct ShareTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// Identifier of the directory consumer account.
         public let id: String
@@ -3431,17 +2935,6 @@ extension DirectoryService {
     }
 
     public struct SharedDirectory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "SharedAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "ShareMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
-            AWSShapeMember(label: "ShareStatus", required: false, type: .enum)
-        ]
 
         /// The date and time that the shared directory was created.
         public let createdDateTime: TimeStamp?
@@ -3488,14 +2981,6 @@ extension DirectoryService {
     }
 
     public struct Snapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The directory identifier.
         public let directoryId: String?
@@ -3530,11 +3015,6 @@ extension DirectoryService {
     }
 
     public struct SnapshotLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManualSnapshotsCurrentCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ManualSnapshotsLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "ManualSnapshotsLimitReached", required: false, type: .boolean)
-        ]
 
         /// The current number of manual snapshots of the directory.
         public let manualSnapshotsCurrentCount: Int?
@@ -3557,12 +3037,6 @@ extension DirectoryService {
     }
 
     public struct StartSchemaExtensionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "LdifContent", required: true, type: .string)
-        ]
 
         /// If true, creates a snapshot of the directory before applying the schema extension.
         public let createSnapshotBeforeSchemaExtension: Bool
@@ -3598,9 +3072,6 @@ extension DirectoryService {
     }
 
     public struct StartSchemaExtensionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string)
-        ]
 
         /// The identifier of the schema extension that will be applied.
         public let schemaExtensionId: String?
@@ -3615,10 +3086,6 @@ extension DirectoryService {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String
@@ -3646,19 +3113,6 @@ extension DirectoryService {
     }
 
     public struct Trust: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
-            AWSShapeMember(label: "StateLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrustDirection", required: false, type: .enum), 
-            AWSShapeMember(label: "TrustId", required: false, type: .string), 
-            AWSShapeMember(label: "TrustState", required: false, type: .enum), 
-            AWSShapeMember(label: "TrustStateReason", required: false, type: .string), 
-            AWSShapeMember(label: "TrustType", required: false, type: .enum)
-        ]
 
         /// The date and time that the trust relationship was created.
         public let createdDateTime: TimeStamp?
@@ -3713,10 +3167,6 @@ extension DirectoryService {
     }
 
     public struct UnshareDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "UnshareTarget", required: true, type: .structure)
-        ]
 
         /// The identifier of the AWS Managed Microsoft AD directory that you want to stop sharing.
         public let directoryId: String
@@ -3740,9 +3190,6 @@ extension DirectoryService {
     }
 
     public struct UnshareDirectoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
-        ]
 
         /// Identifier of the directory stored in the directory consumer account that is to be unshared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
@@ -3757,10 +3204,6 @@ extension DirectoryService {
     }
 
     public struct UnshareTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// Identifier of the directory consumer account.
         public let id: String
@@ -3784,11 +3227,6 @@ extension DirectoryService {
     }
 
     public struct UpdateConditionalForwarderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
-            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
-        ]
 
         /// The directory ID of the AWS directory for which to update the conditional forwarder.
         public let directoryId: String
@@ -3827,10 +3265,6 @@ extension DirectoryService {
     }
 
     public struct UpdateNumberOfDomainControllersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredNumber", required: true, type: .integer), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The number of domain controllers desired in the directory.
         public let desiredNumber: Int
@@ -3862,10 +3296,6 @@ extension DirectoryService {
     }
 
     public struct UpdateRadiusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RadiusSettings", required: true, type: .structure)
-        ]
 
         /// The identifier of the directory for which to update the RADIUS server information.
         public let directoryId: String
@@ -3897,10 +3327,6 @@ extension DirectoryService {
     }
 
     public struct UpdateTrustRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
-            AWSShapeMember(label: "TrustId", required: true, type: .string)
-        ]
 
         /// Updates selective authentication for the trust.
         public let selectiveAuth: SelectiveAuth?
@@ -3923,10 +3349,6 @@ extension DirectoryService {
     }
 
     public struct UpdateTrustResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "TrustId", required: false, type: .string)
-        ]
 
         public let requestId: String?
         /// Identifier of the trust relationship.
@@ -3944,9 +3366,6 @@ extension DirectoryService {
     }
 
     public struct VerifyTrustRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: true, type: .string)
-        ]
 
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
@@ -3965,9 +3384,6 @@ extension DirectoryService {
     }
 
     public struct VerifyTrustResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrustId", required: false, type: .string)
-        ]
 
         /// The unique Trust ID of the trust relationship that was verified.
         public let trustId: String?

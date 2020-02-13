@@ -125,9 +125,6 @@ extension Kendra {
     //MARK: Shapes
 
     public struct AccessControlListConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPath", required: false, type: .string)
-        ]
 
         /// Path to the AWS S3 bucket that contains the ACL files.
         public let keyPath: String?
@@ -148,9 +145,6 @@ extension Kendra {
     }
 
     public struct AclConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedGroupsColumnName", required: true, type: .string)
-        ]
 
         /// A list of groups, separated by semi-colons, that filters a query response based on user context. The document is only returned to users that are in one of the groups specified in the UserContext field of the Query operation.
         public let allowedGroupsColumnName: String
@@ -171,11 +165,6 @@ extension Kendra {
     }
 
     public struct AdditionalResultAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .structure), 
-            AWSShapeMember(label: "ValueType", required: true, type: .enum)
-        ]
 
         public let key: String
         public let value: AdditionalResultAttributeValue
@@ -195,9 +184,6 @@ extension Kendra {
     }
 
     public struct AdditionalResultAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TextWithHighlightsValue", required: false, type: .structure)
-        ]
 
         /// The text associated with the attribute and information about the highlight to apply to the text.
         public let textWithHighlightsValue: TextWithHighlights?
@@ -212,18 +198,6 @@ extension Kendra {
     }
 
     public class AttributeFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AndAllFilters", required: false, type: .list), 
-            AWSShapeMember(label: "ContainsAll", required: false, type: .structure), 
-            AWSShapeMember(label: "ContainsAny", required: false, type: .structure), 
-            AWSShapeMember(label: "EqualsTo", required: false, type: .structure), 
-            AWSShapeMember(label: "GreaterThan", required: false, type: .structure), 
-            AWSShapeMember(label: "GreaterThanOrEquals", required: false, type: .structure), 
-            AWSShapeMember(label: "LessThan", required: false, type: .structure), 
-            AWSShapeMember(label: "LessThanOrEquals", required: false, type: .structure), 
-            AWSShapeMember(label: "NotFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "OrAllFilters", required: false, type: .list)
-        ]
 
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
@@ -295,10 +269,6 @@ extension Kendra {
     }
 
     public struct BatchDeleteDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentIdList", required: true, type: .list), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string)
-        ]
 
         /// One or more identifiers for documents to delete from the index.
         public let documentIdList: [String]
@@ -329,9 +299,6 @@ extension Kendra {
     }
 
     public struct BatchDeleteDocumentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedDocuments", required: false, type: .list)
-        ]
 
         /// A list of documents that could not be removed from the index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
         public let failedDocuments: [BatchDeleteDocumentResponseFailedDocument]?
@@ -346,11 +313,6 @@ extension Kendra {
     }
 
     public struct BatchDeleteDocumentResponseFailedDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The error code for why the document couldn't be removed from the index.
         public let errorCode: ErrorCode?
@@ -373,11 +335,6 @@ extension Kendra {
     }
 
     public struct BatchPutDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Documents", required: true, type: .list), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string)
-        ]
 
         /// One or more documents to add to the index.  Each document is limited to 5 Mb, the total size of the list is limited to 50 Mb.
         public let documents: [Document]
@@ -414,9 +371,6 @@ extension Kendra {
     }
 
     public struct BatchPutDocumentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedDocuments", required: false, type: .list)
-        ]
 
         /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your AWS CloudWatch log.
         public let failedDocuments: [BatchPutDocumentResponseFailedDocument]?
@@ -431,11 +385,6 @@ extension Kendra {
     }
 
     public struct BatchPutDocumentResponseFailedDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The type of error that caused the document to fail to be indexed.
         public let errorCode: ErrorCode?
@@ -458,10 +407,6 @@ extension Kendra {
     }
 
     public struct ClickFeedback: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClickTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ResultId", required: true, type: .string)
-        ]
 
         /// The Unix timestamp of the data and time that the result was clicked.
         public let clickTime: TimeStamp
@@ -485,13 +430,6 @@ extension Kendra {
     }
 
     public struct ColumnConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeDetectingColumns", required: true, type: .list), 
-            AWSShapeMember(label: "DocumentDataColumnName", required: true, type: .string), 
-            AWSShapeMember(label: "DocumentIdColumnName", required: true, type: .string), 
-            AWSShapeMember(label: "DocumentTitleColumnName", required: false, type: .string), 
-            AWSShapeMember(label: "FieldMappings", required: false, type: .list)
-        ]
 
         /// One to five columns that indicate when a document in the database has changed.
         public let changeDetectingColumns: [String]
@@ -546,13 +484,6 @@ extension Kendra {
     }
 
     public struct ConnectionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseHost", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "DatabasePort", required: true, type: .integer), 
-            AWSShapeMember(label: "SecretArn", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The name of the host for the database. Can be either a string (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
         public let databaseHost: String
@@ -599,15 +530,6 @@ extension Kendra {
     }
 
     public struct CreateDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The connector configuration information that is required to access the repository.
         public let configuration: DataSourceConfiguration
@@ -662,9 +584,6 @@ extension Kendra {
     }
 
     public struct CreateDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
 
         /// A unique identifier for the data source.
         public let id: String
@@ -679,13 +598,6 @@ extension Kendra {
     }
 
     public struct CreateFaqRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "S3Path", required: true, type: .structure)
-        ]
 
         /// A description of the FAQ.
         public let description: String?
@@ -732,9 +644,6 @@ extension Kendra {
     }
 
     public struct CreateFaqResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The unique identifier of the FAQ.
         public let id: String?
@@ -749,12 +658,6 @@ extension Kendra {
     }
 
     public struct CreateIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure)
-        ]
 
         /// A description for the index.
         public let description: String?
@@ -794,9 +697,6 @@ extension Kendra {
     }
 
     public struct CreateIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The unique identifier of the index. Use this identifier when you query an index, set up a data source, or index a document.
         public let id: String?
@@ -811,11 +711,6 @@ extension Kendra {
     }
 
     public struct DataSourceConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatabaseConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "SharePointConfiguration", required: false, type: .structure)
-        ]
 
         /// Provides information necessary to create a connector for a database.
         public let databaseConfiguration: DatabaseConfiguration?
@@ -844,14 +739,6 @@ extension Kendra {
     }
 
     public struct DataSourceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// The UNIX datetime that the data source was created.
         public let createdAt: TimeStamp?
@@ -886,15 +773,6 @@ extension Kendra {
     }
 
     public struct DataSourceSyncJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public let dataSourceErrorCode: String?
@@ -933,11 +811,6 @@ extension Kendra {
     }
 
     public struct DataSourceToIndexFieldMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceFieldName", required: true, type: .string), 
-            AWSShapeMember(label: "DateFieldFormat", required: false, type: .string), 
-            AWSShapeMember(label: "IndexFieldName", required: true, type: .string)
-        ]
 
         /// The name of the column or attribute in the data source.
         public let dataSourceFieldName: String
@@ -971,10 +844,6 @@ extension Kendra {
     }
 
     public struct DataSourceVpcConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
-        ]
 
         /// A list of identifiers of security groups within your Amazon VPC. The security groups should enable Amazon Kendra to connect to the data source.
         public let securityGroupIds: [String]
@@ -1010,13 +879,6 @@ extension Kendra {
     }
 
     public struct DatabaseConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AclConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ColumnConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "ConnectionConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "DatabaseEngineType", required: true, type: .enum), 
-            AWSShapeMember(label: "VpcConfiguration", required: false, type: .structure)
-        ]
 
         /// Information about the database column that provides information for user context filtering.
         public let aclConfiguration: AclConfiguration?
@@ -1053,10 +915,6 @@ extension Kendra {
     }
 
     public struct DeleteFaqRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string)
-        ]
 
         /// The identifier of the FAQ to remove.
         public let id: String
@@ -1084,9 +942,6 @@ extension Kendra {
     }
 
     public struct DeleteIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
 
         /// The identifier of the index to delete.
         public let id: String
@@ -1107,10 +962,6 @@ extension Kendra {
     }
 
     public struct DescribeDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the data source to describe.
         public let id: String
@@ -1138,20 +989,6 @@ extension Kendra {
     }
 
     public struct DescribeDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "IndexId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// Information that describes where the data source is located and how the data source is configured. The specific information in the description depends on the data source provider.
         public let configuration: DataSourceConfiguration?
@@ -1210,10 +1047,6 @@ extension Kendra {
     }
 
     public struct DescribeFaqRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the FAQ.
         public let id: String
@@ -1241,18 +1074,6 @@ extension Kendra {
     }
 
     public struct DescribeFaqResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "IndexId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "S3Path", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// The date and time that the FAQ was created.
         public let createdAt: TimeStamp?
@@ -1302,9 +1123,6 @@ extension Kendra {
     }
 
     public struct DescribeIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
 
         /// The name of the index to describe.
         public let id: String
@@ -1325,19 +1143,6 @@ extension Kendra {
     }
 
     public struct DescribeIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentMetadataConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "IndexStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// The Unix datetime that the index was created.
         public let createdAt: TimeStamp?
@@ -1392,15 +1197,6 @@ extension Kendra {
     }
 
     public struct Document: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessControlList", required: false, type: .list), 
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "Blob", required: false, type: .blob), 
-            AWSShapeMember(label: "ContentType", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "S3Path", required: false, type: .structure), 
-            AWSShapeMember(label: "Title", required: false, type: .string)
-        ]
 
         /// Information to use for user context filtering.
         public let accessControlList: [Principal]?
@@ -1458,10 +1254,6 @@ extension Kendra {
     }
 
     public struct DocumentAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .structure)
-        ]
 
         /// The identifier for the attribute.
         public let key: String
@@ -1487,12 +1279,6 @@ extension Kendra {
     }
 
     public struct DocumentAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateValue", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LongValue", required: false, type: .long), 
-            AWSShapeMember(label: "StringListValue", required: false, type: .list), 
-            AWSShapeMember(label: "StringValue", required: false, type: .string)
-        ]
 
         /// A date value expressed as seconds from the Unix epoch.
         public let dateValue: TimeStamp?
@@ -1531,10 +1317,6 @@ extension Kendra {
     }
 
     public struct DocumentAttributeValueCountPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "DocumentAttributeValue", required: false, type: .structure)
-        ]
 
         /// The number of documents in the response that have the attribute value for the key.
         public let count: Int?
@@ -1553,12 +1335,6 @@ extension Kendra {
     }
 
     public struct DocumentMetadataConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Relevance", required: false, type: .structure), 
-            AWSShapeMember(label: "Search", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The name of the index field.
         public let name: String
@@ -1591,9 +1367,6 @@ extension Kendra {
     }
 
     public struct DocumentsMetadataConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Prefix", required: false, type: .string)
-        ]
 
         /// A prefix used to filter metadata configuration files in the AWS S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
         public let s3Prefix: String?
@@ -1614,9 +1387,6 @@ extension Kendra {
     }
 
     public struct Facet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentAttributeKey", required: false, type: .string)
-        ]
 
         /// The unique key for the document attribute.
         public let documentAttributeKey: String?
@@ -1637,10 +1407,6 @@ extension Kendra {
     }
 
     public struct FacetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentAttributeKey", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentAttributeValueCountPairs", required: false, type: .list)
-        ]
 
         /// The key for the facet values. This is the same as the DocumentAttributeKey provided in the query.
         public let documentAttributeKey: String?
@@ -1659,9 +1425,6 @@ extension Kendra {
     }
 
     public struct FaqStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexedQuestionAnswersCount", required: true, type: .integer)
-        ]
 
         /// The total number of FAQ questions and answers contained in the index.
         public let indexedQuestionAnswersCount: Int
@@ -1676,13 +1439,6 @@ extension Kendra {
     }
 
     public struct FaqSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// The UNIX datetime that the FAQ was added to the index.
         public let createdAt: TimeStamp?
@@ -1713,11 +1469,6 @@ extension Kendra {
     }
 
     public struct Highlight: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BeginOffset", required: true, type: .integer), 
-            AWSShapeMember(label: "EndOffset", required: true, type: .integer), 
-            AWSShapeMember(label: "TopAnswer", required: false, type: .boolean)
-        ]
 
         /// The zero-based location in the response string where the highlight starts.
         public let beginOffset: Int
@@ -1740,13 +1491,6 @@ extension Kendra {
     }
 
     public struct IndexConfigurationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
-        ]
 
         /// The Unix timestamp when the index was created.
         public let createdAt: TimeStamp
@@ -1777,10 +1521,6 @@ extension Kendra {
     }
 
     public struct IndexStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FaqStatistics", required: true, type: .structure), 
-            AWSShapeMember(label: "TextDocumentStatistics", required: true, type: .structure)
-        ]
 
         /// The number of question and answer topics in the index.
         public let faqStatistics: FaqStatistics
@@ -1799,14 +1539,6 @@ extension Kendra {
     }
 
     public struct ListDataSourceSyncJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartTimeFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "StatusFilter", required: false, type: .enum)
-        ]
 
         /// The identifier of the data source.
         public let id: String
@@ -1854,10 +1586,6 @@ extension Kendra {
     }
 
     public struct ListDataSourceSyncJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "History", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A history of synchronization jobs for the data source.
         public let history: [DataSourceSyncJob]?
@@ -1876,11 +1604,6 @@ extension Kendra {
     }
 
     public struct ListDataSourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The identifier of the index that contains the data source.
         public let indexId: String
@@ -1913,10 +1636,6 @@ extension Kendra {
     }
 
     public struct ListDataSourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SummaryItems", required: false, type: .list)
-        ]
 
         /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of data sources. 
         public let nextToken: String?
@@ -1935,11 +1654,6 @@ extension Kendra {
     }
 
     public struct ListFaqsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The index that contains the FAQ lists.
         public let indexId: String
@@ -1972,10 +1686,6 @@ extension Kendra {
     }
 
     public struct ListFaqsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FaqSummaryItems", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// information about the FAQs associated with the specified index.
         public let faqSummaryItems: [FaqSummary]?
@@ -1994,10 +1704,6 @@ extension Kendra {
     }
 
     public struct ListIndicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of data sources to return.
         public let maxResults: Int?
@@ -2023,10 +1729,6 @@ extension Kendra {
     }
 
     public struct ListIndicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexConfigurationSummaryItems", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of summary information for one or more indexes.
         public let indexConfigurationSummaryItems: [IndexConfigurationSummary]?
@@ -2045,11 +1747,6 @@ extension Kendra {
     }
 
     public struct Principal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Access", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// Whether to allow or deny access to the principal.
         public let access: ReadAccessType
@@ -2078,16 +1775,6 @@ extension Kendra {
     }
 
     public struct QueryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "Facets", required: false, type: .list), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "PageNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "QueryResultTypeFilter", required: false, type: .enum), 
-            AWSShapeMember(label: "QueryText", required: true, type: .string), 
-            AWSShapeMember(label: "RequestedDocumentAttributes", required: false, type: .list)
-        ]
 
         /// Enables filtered searches based on document attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter enables you to create a set of filtering rules that a document must satisfy to be included in the query results.
         public let attributeFilter: AttributeFilter?
@@ -2150,12 +1837,6 @@ extension Kendra {
     }
 
     public struct QueryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetResults", required: false, type: .list), 
-            AWSShapeMember(label: "QueryId", required: false, type: .string), 
-            AWSShapeMember(label: "ResultItems", required: false, type: .list), 
-            AWSShapeMember(label: "TotalNumberOfResults", required: false, type: .integer)
-        ]
 
         /// Contains the facet results. A FacetResult contains the counts for each attribute key that was specified in the Facets input parameter.
         public let facetResults: [FacetResult]?
@@ -2182,16 +1863,6 @@ extension Kendra {
     }
 
     public struct QueryResultItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "DocumentAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "DocumentExcerpt", required: false, type: .structure), 
-            AWSShapeMember(label: "DocumentId", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentTitle", required: false, type: .structure), 
-            AWSShapeMember(label: "DocumentURI", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         public let additionalAttributes: [AdditionalResultAttribute]?
         /// An array of document attributes for the document that the query result maps to. For example, the document author (Author) or the source URI (SourceUri) of the document.
@@ -2233,13 +1904,6 @@ extension Kendra {
     }
 
     public struct Relevance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Duration", required: false, type: .string), 
-            AWSShapeMember(label: "Freshness", required: false, type: .boolean), 
-            AWSShapeMember(label: "Importance", required: false, type: .integer), 
-            AWSShapeMember(label: "RankOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "ValueImportanceMap", required: false, type: .map)
-        ]
 
         /// Specifies the time period that the boost applies to. For example, to make the boost apply to documents with the field value within the last month, you would use "2628000s". Once the field value is beyond the specified range, the effect of the boost drops off. The higher the importance, the faster the effect drops off. If you don't specify a value, the default is 3 months. The value of the field is a numeric string followed by the character "s", for example "86400s" for one day, or "604800s" for one week.  Only applies to DATE fields.
         public let duration: String?
@@ -2284,10 +1948,6 @@ extension Kendra {
     }
 
     public struct RelevanceFeedback: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RelevanceValue", required: true, type: .enum), 
-            AWSShapeMember(label: "ResultId", required: true, type: .string)
-        ]
 
         /// Whether to document was relevant or not relevant to the search.
         public let relevanceValue: RelevanceType
@@ -2311,13 +1971,6 @@ extension Kendra {
     }
 
     public struct S3DataSourceConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessControlListConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "DocumentsMetadataConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ExclusionPatterns", required: false, type: .list), 
-            AWSShapeMember(label: "InclusionPrefixes", required: false, type: .list)
-        ]
 
         /// Provides the path to the S3 bucket that contains the user context filtering files for the data source.
         public let accessControlListConfiguration: AccessControlListConfiguration?
@@ -2369,10 +2022,6 @@ extension Kendra {
     }
 
     public struct S3Path: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
 
         /// The name of the S3 bucket that contains the file.
         public let bucket: String
@@ -2400,11 +2049,6 @@ extension Kendra {
     }
 
     public struct Search: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Displayable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Facetable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Searchable", required: false, type: .boolean)
-        ]
 
         /// Determines whether the field is returned in the query response. The default is true.
         public let displayable: Bool?
@@ -2427,9 +2071,6 @@ extension Kendra {
     }
 
     public struct ServerSideEncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
-        ]
 
         /// The identifier of the AWS KMS customer master key (CMK). Amazon Kendra doesn't support asymmetric CMKs.
         public let kmsKeyId: String?
@@ -2449,15 +2090,6 @@ extension Kendra {
     }
 
     public struct SharePointConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrawlAttachments", required: false, type: .boolean), 
-            AWSShapeMember(label: "DocumentTitleFieldName", required: false, type: .string), 
-            AWSShapeMember(label: "FieldMappings", required: false, type: .list), 
-            AWSShapeMember(label: "SecretArn", required: true, type: .string), 
-            AWSShapeMember(label: "SharePointVersion", required: true, type: .enum), 
-            AWSShapeMember(label: "Urls", required: true, type: .list), 
-            AWSShapeMember(label: "VpcConfiguration", required: false, type: .structure)
-        ]
 
         ///  TRUE to include attachments to documents stored in your Microsoft SharePoint site in the index; otherwise, FALSE.
         public let crawlAttachments: Bool?
@@ -2517,10 +2149,6 @@ extension Kendra {
     }
 
     public struct StartDataSourceSyncJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string)
-        ]
 
         /// The identifier of the data source to synchronize.
         public let id: String
@@ -2548,9 +2176,6 @@ extension Kendra {
     }
 
     public struct StartDataSourceSyncJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExecutionId", required: false, type: .string)
-        ]
 
         /// Identifies a particular synchronization job.
         public let executionId: String?
@@ -2565,10 +2190,6 @@ extension Kendra {
     }
 
     public struct StopDataSourceSyncJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string)
-        ]
 
         /// The identifier of the data source for which to stop the synchronization jobs.
         public let id: String
@@ -2596,12 +2217,6 @@ extension Kendra {
     }
 
     public struct SubmitFeedbackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClickFeedbackItems", required: false, type: .list), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "QueryId", required: true, type: .string), 
-            AWSShapeMember(label: "RelevanceFeedbackItems", required: false, type: .list)
-        ]
 
         /// Tells Amazon Kendra that a particular search result link was chosen by the user. 
         public let clickFeedbackItems: [ClickFeedback]?
@@ -2642,9 +2257,6 @@ extension Kendra {
     }
 
     public struct TextDocumentStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexedTextDocumentsCount", required: true, type: .integer)
-        ]
 
         /// The number of text documents indexed.
         public let indexedTextDocumentsCount: Int
@@ -2659,10 +2271,6 @@ extension Kendra {
     }
 
     public struct TextWithHighlights: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Highlights", required: false, type: .list), 
-            AWSShapeMember(label: "Text", required: false, type: .string)
-        ]
 
         /// The beginning and end of the text that should be highlighted.
         public let highlights: [Highlight]?
@@ -2681,10 +2289,6 @@ extension Kendra {
     }
 
     public struct TimeRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The UNIX datetime of the end of the time range.
         public let endTime: TimeStamp?
@@ -2703,15 +2307,6 @@ extension Kendra {
     }
 
     public struct UpdateDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IndexId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string)
-        ]
 
         public let configuration: DataSourceConfiguration?
         /// The new description for the data source.
@@ -2768,13 +2363,6 @@ extension Kendra {
     }
 
     public struct UpdateIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentMetadataConfigurationUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string)
-        ]
 
         /// A new description for the index.
         public let description: String?

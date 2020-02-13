@@ -95,11 +95,6 @@ extension SESV2 {
     //MARK: Shapes
 
     public struct BlacklistEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ListingTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RblName", required: false, type: .string)
-        ]
 
         /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
         public let description: String?
@@ -122,10 +117,6 @@ extension SESV2 {
     }
 
     public struct Body: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Html", required: false, type: .structure), 
-            AWSShapeMember(label: "Text", required: false, type: .structure)
-        ]
 
         /// An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. 
         public let html: Content?
@@ -144,9 +135,6 @@ extension SESV2 {
     }
 
     public struct CloudWatchDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DimensionConfigurations", required: true, type: .list)
-        ]
 
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
@@ -161,11 +149,6 @@ extension SESV2 {
     }
 
     public struct CloudWatchDimensionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultDimensionValue", required: true, type: .string), 
-            AWSShapeMember(label: "DimensionName", required: true, type: .string), 
-            AWSShapeMember(label: "DimensionValueSource", required: true, type: .enum)
-        ]
 
         /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
         public let defaultDimensionValue: String
@@ -188,10 +171,6 @@ extension SESV2 {
     }
 
     public struct Content: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Charset", required: false, type: .string), 
-            AWSShapeMember(label: "Data", required: true, type: .string)
-        ]
 
         /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon SES uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
         public let charset: String?
@@ -211,9 +190,7 @@ extension SESV2 {
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestination", required: true, type: .structure), 
-            AWSShapeMember(label: "EventDestinationName", required: true, type: .string)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to add an event destination to.
@@ -245,15 +222,6 @@ extension SESV2 {
     }
 
     public struct CreateConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SendingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SuppressionOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TrackingOptions", required: false, type: .structure)
-        ]
 
         /// The name of the configuration set.
         public let configurationSetName: String
@@ -299,10 +267,6 @@ extension SESV2 {
     }
 
     public struct CreateDedicatedIpPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The name of the dedicated IP pool.
         public let poolName: String
@@ -329,12 +293,6 @@ extension SESV2 {
     }
 
     public struct CreateDeliverabilityTestReportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: true, type: .structure), 
-            AWSShapeMember(label: "FromEmailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "ReportName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The HTML body of the message that you sent when you performed the predictive inbox placement test.
         public let content: EmailContent
@@ -365,10 +323,6 @@ extension SESV2 {
     }
 
     public struct CreateDeliverabilityTestReportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliverabilityTestStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ReportId", required: true, type: .string)
-        ]
 
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
         public let deliverabilityTestStatus: DeliverabilityTestStatus
@@ -387,11 +341,6 @@ extension SESV2 {
     }
 
     public struct CreateEmailIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimSigningAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailIdentity", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed to the default method, Easy DKIM. You can only specify this object if the email identity is a domain, as opposed to an address.
         public let dkimSigningAttributes: DkimSigningAttributes?
@@ -418,11 +367,6 @@ extension SESV2 {
     }
 
     public struct CreateEmailIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean)
-        ]
 
         /// An object that contains information about the DKIM attributes for the identity.
         public let dkimAttributes: DkimAttributes?
@@ -445,11 +389,6 @@ extension SESV2 {
     }
 
     public struct DailyVolume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainIspPlacements", required: false, type: .list), 
-            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VolumeStatistics", required: false, type: .structure)
-        ]
 
         /// An object that contains inbox placement metrics for a specified day in the analysis period, broken out by the recipient's email provider.
         public let domainIspPlacements: [DomainIspPlacement]?
@@ -472,12 +411,6 @@ extension SESV2 {
     }
 
     public struct DedicatedIp: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", required: true, type: .string), 
-            AWSShapeMember(label: "PoolName", required: false, type: .string), 
-            AWSShapeMember(label: "WarmupPercentage", required: true, type: .integer), 
-            AWSShapeMember(label: "WarmupStatus", required: true, type: .enum)
-        ]
 
         /// An IPv4 address.
         public let ip: String
@@ -505,8 +438,8 @@ extension SESV2 {
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         /// The name of the configuration set that contains the event destination that you want to delete.
@@ -535,7 +468,7 @@ extension SESV2 {
 
     public struct DeleteConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to delete.
@@ -560,7 +493,7 @@ extension SESV2 {
 
     public struct DeleteDedicatedIpPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", location: .uri(locationName: "PoolName"), required: true, type: .string)
+            AWSShapeMember(label: "PoolName", location: .uri(locationName: "PoolName"))
         ]
 
         /// The name of the dedicated IP pool that you want to delete.
@@ -585,7 +518,7 @@ extension SESV2 {
 
     public struct DeleteEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The identity (that is, the email address or domain) that you want to delete.
@@ -610,7 +543,7 @@ extension SESV2 {
 
     public struct DeleteSuppressedDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", location: .uri(locationName: "EmailAddress"), required: true, type: .string)
+            AWSShapeMember(label: "EmailAddress", location: .uri(locationName: "EmailAddress"))
         ]
 
         /// The suppressed email destination to remove from the account suppression list.
@@ -634,14 +567,6 @@ extension SESV2 {
     }
 
     public struct DeliverabilityTestReport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeliverabilityTestStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ReportId", required: false, type: .string), 
-            AWSShapeMember(label: "ReportName", required: false, type: .string), 
-            AWSShapeMember(label: "Subject", required: false, type: .string)
-        ]
 
         /// The date and time when the predictive inbox placement test was created, in Unix time format.
         public let createDate: TimeStamp?
@@ -676,10 +601,6 @@ extension SESV2 {
     }
 
     public struct DeliveryOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendingPoolName", required: false, type: .string), 
-            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum)
-        ]
 
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public let sendingPoolName: String?
@@ -698,11 +619,6 @@ extension SESV2 {
     }
 
     public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BccAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "CcAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "ToAddresses", required: false, type: .list)
-        ]
 
         /// An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email.
         public let bccAddresses: [String]?
@@ -725,12 +641,6 @@ extension SESV2 {
     }
 
     public struct DkimAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SigningAttributesOrigin", required: false, type: .enum), 
-            AWSShapeMember(label: "SigningEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Tokens", required: false, type: .list)
-        ]
 
         /// A string that indicates how DKIM was configured for the identity. There are two possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).  
         public let signingAttributesOrigin: DkimSigningAttributesOrigin?
@@ -757,10 +667,6 @@ extension SESV2 {
     }
 
     public struct DkimSigningAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainSigningPrivateKey", required: true, type: .string), 
-            AWSShapeMember(label: "DomainSigningSelector", required: true, type: .string)
-        ]
 
         /// A private key that's used to generate a DKIM signature. The private key must use 1024-bit RSA encryption, and must be encoded using base64 encoding.
         public let domainSigningPrivateKey: String
@@ -788,22 +694,6 @@ extension SESV2 {
     }
 
     public struct DomainDeliverabilityCampaign: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CampaignId", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteRate", required: false, type: .double), 
-            AWSShapeMember(label: "Esps", required: false, type: .list), 
-            AWSShapeMember(label: "FirstSeenDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FromAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
-            AWSShapeMember(label: "InboxCount", required: false, type: .long), 
-            AWSShapeMember(label: "LastSeenDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProjectedVolume", required: false, type: .long), 
-            AWSShapeMember(label: "ReadDeleteRate", required: false, type: .double), 
-            AWSShapeMember(label: "ReadRate", required: false, type: .double), 
-            AWSShapeMember(label: "SendingIps", required: false, type: .list), 
-            AWSShapeMember(label: "SpamCount", required: false, type: .long), 
-            AWSShapeMember(label: "Subject", required: false, type: .string)
-        ]
 
         /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
         public let campaignId: String?
@@ -870,11 +760,6 @@ extension SESV2 {
     }
 
     public struct DomainDeliverabilityTrackingOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "InboxPlacementTrackingOption", required: false, type: .structure), 
-            AWSShapeMember(label: "SubscriptionStartDate", required: false, type: .timestamp)
-        ]
 
         /// A verified domain that’s associated with your AWS account and currently has an active Deliverability dashboard subscription.
         public let domain: String?
@@ -897,13 +782,6 @@ extension SESV2 {
     }
 
     public struct DomainIspPlacement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InboxPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "InboxRawCount", required: false, type: .long), 
-            AWSShapeMember(label: "IspName", required: false, type: .string), 
-            AWSShapeMember(label: "SpamPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "SpamRawCount", required: false, type: .long)
-        ]
 
         /// The percentage of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
         public let inboxPercentage: Double?
@@ -934,11 +812,6 @@ extension SESV2 {
     }
 
     public struct EmailContent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Raw", required: false, type: .structure), 
-            AWSShapeMember(label: "Simple", required: false, type: .structure), 
-            AWSShapeMember(label: "Template", required: false, type: .structure)
-        ]
 
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that the Amazon SES API v2 supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
         public let raw: RawMessage?
@@ -965,15 +838,6 @@ extension SESV2 {
     }
 
     public struct EventDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "PinpointDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "SnsDestination", required: false, type: .structure)
-        ]
 
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
@@ -1012,14 +876,6 @@ extension SESV2 {
     }
 
     public struct EventDestinationDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "PinpointDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "SnsDestination", required: false, type: .structure)
-        ]
 
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
@@ -1062,14 +918,6 @@ extension SESV2 {
     }
 
     public struct GetAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedIpAutoWarmupEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnforcementStatus", required: false, type: .string), 
-            AWSShapeMember(label: "ProductionAccessEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SendQuota", required: false, type: .structure), 
-            AWSShapeMember(label: "SuppressionAttributes", required: false, type: .structure)
-        ]
 
         /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
         public let dedicatedIpAutoWarmupEnabled: Bool?
@@ -1105,7 +953,7 @@ extension SESV2 {
 
     public struct GetBlacklistReportsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlacklistItemNames", location: .querystring(locationName: "BlacklistItemNames"), required: true, type: .list)
+            AWSShapeMember(label: "BlacklistItemNames", location: .querystring(locationName: "BlacklistItemNames"))
         ]
 
         /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint.
@@ -1121,9 +969,6 @@ extension SESV2 {
     }
 
     public struct GetBlacklistReportsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlacklistReport", required: true, type: .map)
-        ]
 
         /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
         public let blacklistReport: [String: [BlacklistEntry]]
@@ -1139,7 +984,7 @@ extension SESV2 {
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that contains the event destination.
@@ -1155,9 +1000,6 @@ extension SESV2 {
     }
 
     public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestinations", required: false, type: .list)
-        ]
 
         /// An array that includes all of the events destinations that have been configured for the configuration set.
         public let eventDestinations: [EventDestination]?
@@ -1173,7 +1015,7 @@ extension SESV2 {
 
     public struct GetConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to obtain more information about.
@@ -1189,15 +1031,6 @@ extension SESV2 {
     }
 
     public struct GetConfigurationSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SendingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SuppressionOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TrackingOptions", required: false, type: .structure)
-        ]
 
         /// The name of the configuration set.
         public let configurationSetName: String?
@@ -1237,7 +1070,7 @@ extension SESV2 {
 
     public struct GetDedicatedIpRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"), required: true, type: .string)
+            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"))
         ]
 
         /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your AWS account.
@@ -1253,9 +1086,6 @@ extension SESV2 {
     }
 
     public struct GetDedicatedIpResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedIp", required: false, type: .structure)
-        ]
 
         /// An object that contains information about a dedicated IP address.
         public let dedicatedIp: DedicatedIp?
@@ -1271,9 +1101,9 @@ extension SESV2 {
 
     public struct GetDedicatedIpsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "PoolName", location: .querystring(locationName: "PoolName"), required: false, type: .string)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize")), 
+            AWSShapeMember(label: "PoolName", location: .querystring(locationName: "PoolName"))
         ]
 
         /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
@@ -1297,10 +1127,6 @@ extension SESV2 {
     }
 
     public struct GetDedicatedIpsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedIps", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of dedicated IP addresses that are associated with your AWS account.
         public let dedicatedIps: [DedicatedIp]?
@@ -1327,13 +1153,6 @@ extension SESV2 {
     }
 
     public struct GetDeliverabilityDashboardOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ActiveSubscribedDomains", required: false, type: .list), 
-            AWSShapeMember(label: "DashboardEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "PendingExpirationSubscribedDomains", required: false, type: .list), 
-            AWSShapeMember(label: "SubscriptionExpiryDate", required: false, type: .timestamp)
-        ]
 
         /// The current status of your Deliverability dashboard subscription. If this value is PENDING_EXPIRATION, your subscription is scheduled to expire at the end of the current calendar month.
         public let accountStatus: DeliverabilityDashboardAccountStatus?
@@ -1365,7 +1184,7 @@ extension SESV2 {
 
     public struct GetDeliverabilityTestReportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportId", location: .uri(locationName: "ReportId"), required: true, type: .string)
+            AWSShapeMember(label: "ReportId", location: .uri(locationName: "ReportId"))
         ]
 
         /// A unique string that identifies the predictive inbox placement test.
@@ -1381,13 +1200,6 @@ extension SESV2 {
     }
 
     public struct GetDeliverabilityTestReportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliverabilityTestReport", required: true, type: .structure), 
-            AWSShapeMember(label: "IspPlacements", required: true, type: .list), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "OverallPlacement", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// An object that contains the results of the predictive inbox placement test.
         public let deliverabilityTestReport: DeliverabilityTestReport
@@ -1419,7 +1231,7 @@ extension SESV2 {
 
     public struct GetDomainDeliverabilityCampaignRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "CampaignId"), required: true, type: .string)
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "CampaignId"))
         ]
 
         /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
@@ -1435,9 +1247,6 @@ extension SESV2 {
     }
 
     public struct GetDomainDeliverabilityCampaignResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainDeliverabilityCampaign", required: true, type: .structure)
-        ]
 
         /// An object that contains the deliverability data for the campaign.
         public let domainDeliverabilityCampaign: DomainDeliverabilityCampaign
@@ -1453,9 +1262,9 @@ extension SESV2 {
 
     public struct GetDomainStatisticsReportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", location: .uri(locationName: "Domain"), required: true, type: .string), 
-            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"), required: true, type: .timestamp)
+            AWSShapeMember(label: "Domain", location: .uri(locationName: "Domain")), 
+            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate")), 
+            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"))
         ]
 
         /// The domain that you want to obtain deliverability metrics for.
@@ -1479,10 +1288,6 @@ extension SESV2 {
     }
 
     public struct GetDomainStatisticsReportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DailyVolumes", required: true, type: .list), 
-            AWSShapeMember(label: "OverallVolume", required: true, type: .structure)
-        ]
 
         /// An object that contains deliverability metrics for the domain that you specified. This object contains data for each day, starting on the StartDate and ending on the EndDate.
         public let dailyVolumes: [DailyVolume]
@@ -1502,7 +1307,7 @@ extension SESV2 {
 
     public struct GetEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The email identity that you want to retrieve details for.
@@ -1518,14 +1323,6 @@ extension SESV2 {
     }
 
     public struct GetEmailIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "FeedbackForwardingStatus", required: false, type: .boolean), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "MailFromAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean)
-        ]
 
         /// An object that contains information about the DKIM attributes for the identity.
         public let dkimAttributes: DkimAttributes?
@@ -1561,7 +1358,7 @@ extension SESV2 {
 
     public struct GetSuppressedDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", location: .uri(locationName: "EmailAddress"), required: true, type: .string)
+            AWSShapeMember(label: "EmailAddress", location: .uri(locationName: "EmailAddress"))
         ]
 
         /// The email address that's on the account suppression list.
@@ -1577,9 +1374,6 @@ extension SESV2 {
     }
 
     public struct GetSuppressedDestinationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuppressedDestination", required: true, type: .structure)
-        ]
 
         /// An object containing information about the suppressed email address.
         public let suppressedDestination: SuppressedDestination
@@ -1594,11 +1388,6 @@ extension SESV2 {
     }
 
     public struct IdentityInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityName", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
-        ]
 
         /// The address or domain of the identity.
         public let identityName: String?
@@ -1621,10 +1410,6 @@ extension SESV2 {
     }
 
     public struct InboxPlacementTrackingOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Global", required: false, type: .boolean), 
-            AWSShapeMember(label: "TrackedIsps", required: false, type: .list)
-        ]
 
         /// Specifies whether inbox placement data is being tracked for the domain.
         public let global: Bool?
@@ -1643,10 +1428,6 @@ extension SESV2 {
     }
 
     public struct IspPlacement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IspName", required: false, type: .string), 
-            AWSShapeMember(label: "PlacementStatistics", required: false, type: .structure)
-        ]
 
         /// The name of the email provider that the inbox placement data applies to.
         public let ispName: String?
@@ -1665,10 +1446,6 @@ extension SESV2 {
     }
 
     public struct KinesisFirehoseDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamArn", required: true, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that the Amazon SES API v2 sends email events to.
         public let deliveryStreamArn: String
@@ -1688,8 +1465,8 @@ extension SESV2 {
 
     public struct ListConfigurationSetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
@@ -1709,10 +1486,6 @@ extension SESV2 {
     }
 
     public struct ListConfigurationSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array that contains all of the configuration sets in your Amazon SES account in the current AWS Region.
         public let configurationSets: [String]?
@@ -1732,8 +1505,8 @@ extension SESV2 {
 
     public struct ListDedicatedIpPoolsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
@@ -1753,10 +1526,6 @@ extension SESV2 {
     }
 
     public struct ListDedicatedIpPoolsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedIpPools", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of all of the dedicated IP pools that are associated with your AWS account in the current Region.
         public let dedicatedIpPools: [String]?
@@ -1776,8 +1545,8 @@ extension SESV2 {
 
     public struct ListDeliverabilityTestReportsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
@@ -1797,10 +1566,6 @@ extension SESV2 {
     }
 
     public struct ListDeliverabilityTestReportsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliverabilityTestReports", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An object that contains a lists of predictive inbox placement tests that you've performed.
         public let deliverabilityTestReports: [DeliverabilityTestReport]
@@ -1820,11 +1585,11 @@ extension SESV2 {
 
     public struct ListDomainDeliverabilityCampaignsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "SubscribedDomain", location: .uri(locationName: "SubscribedDomain"), required: true, type: .string)
+            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize")), 
+            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate")), 
+            AWSShapeMember(label: "SubscribedDomain", location: .uri(locationName: "SubscribedDomain"))
         ]
 
         /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
@@ -1856,10 +1621,6 @@ extension SESV2 {
     }
 
     public struct ListDomainDeliverabilityCampaignsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainDeliverabilityCampaigns", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of responses, one for each campaign that used the domain to send email during the specified time range.
         public let domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign]
@@ -1879,8 +1640,8 @@ extension SESV2 {
 
     public struct ListEmailIdentitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
@@ -1900,10 +1661,6 @@ extension SESV2 {
     }
 
     public struct ListEmailIdentitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentities", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array that includes all of the email identities associated with your AWS account.
         public let emailIdentities: [IdentityInfo]?
@@ -1923,11 +1680,11 @@ extension SESV2 {
 
     public struct ListSuppressedDestinationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "Reasons", location: .querystring(locationName: "Reason"), required: false, type: .list), 
-            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"), required: false, type: .timestamp)
+            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize")), 
+            AWSShapeMember(label: "Reasons", location: .querystring(locationName: "Reason")), 
+            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"))
         ]
 
         /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date. The date that you specify should be in Unix time format.
@@ -1959,10 +1716,6 @@ extension SESV2 {
     }
 
     public struct ListSuppressedDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SuppressedDestinationSummaries", required: false, type: .list)
-        ]
 
         /// A token that indicates that there are additional email addresses on the suppression list for your account. To view additional suppressed addresses, issue another request to ListSuppressedDestinations, and pass this token in the NextToken parameter.
         public let nextToken: String?
@@ -1982,7 +1735,7 @@ extension SESV2 {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
@@ -1998,9 +1751,6 @@ extension SESV2 {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
         public let tags: [Tag]
@@ -2015,11 +1765,6 @@ extension SESV2 {
     }
 
     public struct MailFromAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BehaviorOnMxFailure", required: true, type: .enum), 
-            AWSShapeMember(label: "MailFromDomain", required: true, type: .string), 
-            AWSShapeMember(label: "MailFromDomainStatus", required: true, type: .enum)
-        ]
 
         /// The action that you want to take if the required MX record can't be found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure
@@ -2042,10 +1787,6 @@ extension SESV2 {
     }
 
     public struct Message: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Body", required: true, type: .structure), 
-            AWSShapeMember(label: "Subject", required: true, type: .structure)
-        ]
 
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         public let body: Body
@@ -2064,10 +1805,6 @@ extension SESV2 {
     }
 
     public struct MessageTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the message tag. The message tag name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
         public let name: String
@@ -2086,11 +1823,6 @@ extension SESV2 {
     }
 
     public struct OverallVolume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainIspPlacements", required: false, type: .list), 
-            AWSShapeMember(label: "ReadRatePercent", required: false, type: .double), 
-            AWSShapeMember(label: "VolumeStatistics", required: false, type: .structure)
-        ]
 
         /// An object that contains inbox and junk mail placement metrics for individual email providers.
         public let domainIspPlacements: [DomainIspPlacement]?
@@ -2113,9 +1845,6 @@ extension SESV2 {
     }
 
     public struct PinpointDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
         public let applicationArn: String?
@@ -2130,13 +1859,6 @@ extension SESV2 {
     }
 
     public struct PlacementStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "InboxPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "MissingPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "SpamPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "SpfPercentage", required: false, type: .double)
-        ]
 
         /// The percentage of emails that were authenticated by using DomainKeys Identified Mail (DKIM) during the predictive inbox placement test.
         public let dkimPercentage: Double?
@@ -2167,9 +1889,6 @@ extension SESV2 {
     }
 
     public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoWarmupEnabled", required: false, type: .boolean)
-        ]
 
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
         public let autoWarmupEnabled: Bool?
@@ -2192,9 +1911,6 @@ extension SESV2 {
     }
 
     public struct PutAccountSendingAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
-        ]
 
         /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email. 
         public let sendingEnabled: Bool?
@@ -2217,9 +1933,6 @@ extension SESV2 {
     }
 
     public struct PutAccountSuppressionAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuppressedReasons", required: false, type: .list)
-        ]
 
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
         public let suppressedReasons: [SuppressionListReason]?
@@ -2243,9 +1956,7 @@ extension SESV2 {
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "SendingPoolName", required: false, type: .string), 
-            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to associate with a dedicated IP pool.
@@ -2278,8 +1989,7 @@ extension SESV2 {
 
     public struct PutConfigurationSetReputationOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to enable or disable reputation metric tracking for.
@@ -2308,8 +2018,7 @@ extension SESV2 {
 
     public struct PutConfigurationSetSendingOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to enable or disable email sending for.
@@ -2338,8 +2047,7 @@ extension SESV2 {
 
     public struct PutConfigurationSetSuppressionOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "SuppressedReasons", required: false, type: .list)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to change the suppression list preferences for.
@@ -2368,8 +2076,7 @@ extension SESV2 {
 
     public struct PutConfigurationSetTrackingOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "CustomRedirectDomain", required: false, type: .string)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to add a custom tracking domain to.
@@ -2398,8 +2105,7 @@ extension SESV2 {
 
     public struct PutDedicatedIpInPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationPoolName", required: true, type: .string), 
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"), required: true, type: .string)
+            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"))
         ]
 
         /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
@@ -2428,8 +2134,7 @@ extension SESV2 {
 
     public struct PutDedicatedIpWarmupAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"), required: true, type: .string), 
-            AWSShapeMember(label: "WarmupPercentage", required: true, type: .integer)
+            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"))
         ]
 
         /// The dedicated IP address that you want to update the warm-up attributes for.
@@ -2457,10 +2162,6 @@ extension SESV2 {
     }
 
     public struct PutDeliverabilityDashboardOptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "SubscribedDomains", required: false, type: .list)
-        ]
 
         /// Specifies whether to enable the Deliverability dashboard. To enable the dashboard, set this value to true.
         public let dashboardEnabled: Bool
@@ -2488,8 +2189,7 @@ extension SESV2 {
 
     public struct PutEmailIdentityDkimAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
-            AWSShapeMember(label: "SigningEnabled", required: false, type: .boolean)
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The email identity that you want to change the DKIM settings for.
@@ -2518,9 +2218,7 @@ extension SESV2 {
 
     public struct PutEmailIdentityDkimSigningAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
-            AWSShapeMember(label: "SigningAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "SigningAttributesOrigin", required: true, type: .enum)
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The email identity that you want to configure DKIM for.
@@ -2548,10 +2246,6 @@ extension SESV2 {
     }
 
     public struct PutEmailIdentityDkimSigningAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DkimTokens", required: false, type: .list)
-        ]
 
         /// The DKIM authentication status of the identity. Amazon SES determines the authentication status by searching for specific records in the DNS configuration for your domain. If you used Easy DKIM to set up DKIM authentication, Amazon SES tries to find three unique CNAME records in the DNS configuration for your domain. If you provided a public key to perform DKIM authentication, Amazon SES tries to find a TXT record that uses the selector that you specified. The value of the TXT record must be a public key that's paired with the private key that you specified in the process of creating the identity. The status can be one of the following:    PENDING – The verification process was initiated, but Amazon SES hasn't yet detected the DKIM records in the DNS configuration for the domain.    SUCCESS – The verification process completed successfully.    FAILED – The verification process failed. This typically occurs when Amazon SES fails to find the DKIM records in the DNS configuration of the domain.    TEMPORARY_FAILURE – A temporary issue is preventing Amazon SES from determining the DKIM authentication status of the domain.    NOT_STARTED – The DKIM verification process hasn't been initiated for the domain.  
         public let dkimStatus: DkimStatus?
@@ -2571,8 +2265,7 @@ extension SESV2 {
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailForwardingEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
@@ -2601,9 +2294,7 @@ extension SESV2 {
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BehaviorOnMxFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
-            AWSShapeMember(label: "MailFromDomain", required: false, type: .string)
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The action that you want to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
@@ -2635,10 +2326,6 @@ extension SESV2 {
     }
 
     public struct PutSuppressedDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "Reason", required: true, type: .enum)
-        ]
 
         /// The email address that should be added to the suppression list for your account.
         public let emailAddress: String
@@ -2665,9 +2352,6 @@ extension SESV2 {
     }
 
     public struct RawMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: true, type: .blob)
-        ]
 
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that the Amazon SES supports.   The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
         public let data: Data
@@ -2682,10 +2366,6 @@ extension SESV2 {
     }
 
     public struct ReputationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastFreshStart", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean)
-        ]
 
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
         public let lastFreshStart: TimeStamp?
@@ -2704,15 +2384,6 @@ extension SESV2 {
     }
 
     public struct SendEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Content", required: true, type: .structure), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "EmailTags", required: false, type: .list), 
-            AWSShapeMember(label: "FeedbackForwardingEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list)
-        ]
 
         /// The name of the configuration set that you want to use when sending the email.
         public let configurationSetName: String?
@@ -2755,9 +2426,6 @@ extension SESV2 {
     }
 
     public struct SendEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
 
         /// A unique identifier for the message that is generated when the message is accepted.  It's possible for Amazon SES to accept a message without sending it. This can happen when the message that you're trying to send has an attachment contains a virus, or when you send a templated email that contains invalid personalization content, for example. 
         public let messageId: String?
@@ -2772,11 +2440,6 @@ extension SESV2 {
     }
 
     public struct SendQuota: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Max24HourSend", required: false, type: .double), 
-            AWSShapeMember(label: "MaxSendRate", required: false, type: .double), 
-            AWSShapeMember(label: "SentLast24Hours", required: false, type: .double)
-        ]
 
         /// The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your sending quota.
         public let max24HourSend: Double?
@@ -2799,9 +2462,6 @@ extension SESV2 {
     }
 
     public struct SendingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
-        ]
 
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
@@ -2816,9 +2476,6 @@ extension SESV2 {
     }
 
     public struct SnsDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
@@ -2833,12 +2490,6 @@ extension SESV2 {
     }
 
     public struct SuppressedDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "LastUpdateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Reason", required: true, type: .enum)
-        ]
 
         /// An optional value that can contain additional information about the reasons that the address was added to the suppression list for your account.
         public let attributes: SuppressedDestinationAttributes?
@@ -2865,10 +2516,6 @@ extension SESV2 {
     }
 
     public struct SuppressedDestinationAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FeedbackId", required: false, type: .string), 
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
 
         /// A unique identifier that's generated when an email address is added to the suppression list for your account.
         public let feedbackId: String?
@@ -2887,11 +2534,6 @@ extension SESV2 {
     }
 
     public struct SuppressedDestinationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "LastUpdateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Reason", required: true, type: .enum)
-        ]
 
         /// The email address that's on the suppression list for your account.
         public let emailAddress: String
@@ -2914,9 +2556,6 @@ extension SESV2 {
     }
 
     public struct SuppressionAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuppressedReasons", required: false, type: .list)
-        ]
 
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
         public let suppressedReasons: [SuppressionListReason]?
@@ -2931,9 +2570,6 @@ extension SESV2 {
     }
 
     public struct SuppressionOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuppressedReasons", required: false, type: .list)
-        ]
 
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
         public let suppressedReasons: [SuppressionListReason]?
@@ -2948,10 +2584,6 @@ extension SESV2 {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         public let key: String
@@ -2970,10 +2602,6 @@ extension SESV2 {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to add one or more tags to.
         public let resourceArn: String
@@ -3000,10 +2628,6 @@ extension SESV2 {
     }
 
     public struct Template: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateData", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String?
@@ -3026,9 +2650,6 @@ extension SESV2 {
     }
 
     public struct TrackingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomRedirectDomain", required: true, type: .string)
-        ]
 
         /// The domain that you want to use for tracking open and click events.
         public let customRedirectDomain: String
@@ -3044,8 +2665,8 @@ extension SESV2 {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "TagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn")), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "TagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
@@ -3074,9 +2695,8 @@ extension SESV2 {
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestination", required: true, type: .structure), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         /// The name of the configuration set that contains the event destination that you want to modify.
@@ -3108,12 +2728,6 @@ extension SESV2 {
     }
 
     public struct VolumeStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InboxRawCount", required: false, type: .long), 
-            AWSShapeMember(label: "ProjectedInbox", required: false, type: .long), 
-            AWSShapeMember(label: "ProjectedSpam", required: false, type: .long), 
-            AWSShapeMember(label: "SpamRawCount", required: false, type: .long)
-        ]
 
         /// The total number of emails that arrived in recipients' inboxes.
         public let inboxRawCount: Int64?

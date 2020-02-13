@@ -63,10 +63,6 @@ extension RAM {
     //MARK: Shapes
 
     public struct AcceptResourceShareInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -85,10 +81,6 @@ extension RAM {
     }
 
     public struct AcceptResourceShareInvitationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitation", required: false, type: .structure)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -107,12 +99,6 @@ extension RAM {
     }
 
     public struct AssociateResourceSharePermissionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "permissionArn", required: true, type: .string), 
-            AWSShapeMember(label: "replace", required: false, type: .boolean), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -139,10 +125,6 @@ extension RAM {
     }
 
     public struct AssociateResourceSharePermissionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -161,12 +143,6 @@ extension RAM {
     }
 
     public struct AssociateResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -193,10 +169,6 @@ extension RAM {
     }
 
     public struct AssociateResourceShareResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -215,15 +187,6 @@ extension RAM {
     }
 
     public struct CreateResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "permissionArns", required: false, type: .list), 
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
@@ -262,10 +225,6 @@ extension RAM {
     }
 
     public struct CreateResourceShareResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShare", required: false, type: .structure)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -285,8 +244,8 @@ extension RAM {
 
     public struct DeleteResourceShareRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"), required: true, type: .string)
+            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken")), 
+            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -306,10 +265,6 @@ extension RAM {
     }
 
     public struct DeleteResourceShareResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -328,11 +283,6 @@ extension RAM {
     }
 
     public struct DisassociateResourceSharePermissionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "permissionArn", required: true, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -355,10 +305,6 @@ extension RAM {
     }
 
     public struct DisassociateResourceSharePermissionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -377,12 +323,6 @@ extension RAM {
     }
 
     public struct DisassociateResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -409,10 +349,6 @@ extension RAM {
     }
 
     public struct DisassociateResourceShareResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -439,9 +375,6 @@ extension RAM {
     }
 
     public struct EnableSharingWithAwsOrganizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
-        ]
 
         /// Indicates whether the request succeeded.
         public let returnValue: Bool?
@@ -456,10 +389,6 @@ extension RAM {
     }
 
     public struct GetPermissionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "permissionArn", required: true, type: .string), 
-            AWSShapeMember(label: "permissionVersion", required: false, type: .integer)
-        ]
 
         /// The ARN of the permission.
         public let permissionArn: String
@@ -478,9 +407,6 @@ extension RAM {
     }
 
     public struct GetPermissionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "permission", required: false, type: .structure)
-        ]
 
         /// Information about the permission.
         public let permission: ResourceSharePermissionDetail?
@@ -495,12 +421,6 @@ extension RAM {
     }
 
     public struct GetResourcePoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArns", required: true, type: .list)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -532,10 +452,6 @@ extension RAM {
     }
 
     public struct GetResourcePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -554,15 +470,6 @@ extension RAM {
     }
 
     public struct GetResourceShareAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "associationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "associationType", required: true, type: .enum), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list)
-        ]
 
         /// The association status.
         public let associationStatus: ResourceShareAssociationStatus?
@@ -606,10 +513,6 @@ extension RAM {
     }
 
     public struct GetResourceShareAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -628,12 +531,6 @@ extension RAM {
     }
 
     public struct GetResourceShareInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceShareInvitationArns", required: false, type: .list)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -665,10 +562,6 @@ extension RAM {
     }
 
     public struct GetResourceShareInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitations", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -687,15 +580,6 @@ extension RAM {
     }
 
     public struct GetResourceSharesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceShareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "tagFilters", required: false, type: .list)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -739,10 +623,6 @@ extension RAM {
     }
 
     public struct GetResourceSharesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShares", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -761,11 +641,6 @@ extension RAM {
     }
 
     public struct ListPendingInvitationResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -793,10 +668,6 @@ extension RAM {
     }
 
     public struct ListPendingInvitationResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resources", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -815,11 +686,6 @@ extension RAM {
     }
 
     public struct ListPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -847,10 +713,6 @@ extension RAM {
     }
 
     public struct ListPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "permissions", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -869,15 +731,6 @@ extension RAM {
     }
 
     public struct ListPrincipalsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principals", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceType", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -921,10 +774,6 @@ extension RAM {
     }
 
     public struct ListPrincipalsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principals", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -943,11 +792,6 @@ extension RAM {
     }
 
     public struct ListResourceSharePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -975,10 +819,6 @@ extension RAM {
     }
 
     public struct ListResourceSharePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "permissions", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -997,15 +837,6 @@ extension RAM {
     }
 
     public struct ListResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceOwner", required: true, type: .enum), 
-            AWSShapeMember(label: "resourceShareArns", required: false, type: .list), 
-            AWSShapeMember(label: "resourceType", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -1049,10 +880,6 @@ extension RAM {
     }
 
     public struct ListResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resources", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1071,13 +898,6 @@ extension RAM {
     }
 
     public struct Principal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "external", required: false, type: .boolean), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string)
-        ]
 
         /// The time when the principal was associated with the resource share.
         public let creationTime: TimeStamp?
@@ -1109,7 +929,7 @@ extension RAM {
 
     public struct PromoteResourceShareCreatedFromPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"), required: true, type: .string)
+            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
 
         /// The ARN of the resource share to promote.
@@ -1125,9 +945,6 @@ extension RAM {
     }
 
     public struct PromoteResourceShareCreatedFromPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
-        ]
 
         /// Indicates whether the request succeeded.
         public let returnValue: Bool?
@@ -1142,10 +959,6 @@ extension RAM {
     }
 
     public struct RejectResourceShareInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -1164,10 +977,6 @@ extension RAM {
     }
 
     public struct RejectResourceShareInvitationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitation", required: false, type: .structure)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -1186,16 +995,6 @@ extension RAM {
     }
 
     public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -1238,18 +1037,6 @@ extension RAM {
     }
 
     public struct ResourceShare: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "featureSet", required: false, type: .enum), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "owningAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
@@ -1300,17 +1087,6 @@ extension RAM {
     }
 
     public struct ResourceShareAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "associatedEntity", required: false, type: .string), 
-            AWSShapeMember(label: "associationType", required: false, type: .enum), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "external", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusMessage", required: false, type: .string)
-        ]
 
         /// The associated entity. For resource associations, this is the ARN of the resource. For principal associations, this is the ID of an AWS account or the ARN of an OU or organization from AWS Organizations.
         public let associatedEntity: String?
@@ -1357,15 +1133,6 @@ extension RAM {
     }
 
     public struct ResourceShareInvitation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "invitationTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "receiverAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareInvitationArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareName", required: false, type: .string), 
-            AWSShapeMember(label: "senderAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The date and time when the invitation was sent.
         public let invitationTimestamp: TimeStamp?
@@ -1404,16 +1171,6 @@ extension RAM {
     }
 
     public struct ResourceSharePermissionDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "defaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "permission", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The ARN of the permission.
         public let arn: String?
@@ -1456,16 +1213,6 @@ extension RAM {
     }
 
     public struct ResourceSharePermissionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "defaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The ARN of the permission.
         public let arn: String?
@@ -1508,10 +1255,6 @@ extension RAM {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The key of the tag.
         public let key: String?
@@ -1530,10 +1273,6 @@ extension RAM {
     }
 
     public struct TagFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagKey", required: false, type: .string), 
-            AWSShapeMember(label: "tagValues", required: false, type: .list)
-        ]
 
         /// The tag key.
         public let tagKey: String?
@@ -1552,10 +1291,6 @@ extension RAM {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
@@ -1582,10 +1317,6 @@ extension RAM {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
@@ -1612,12 +1343,6 @@ extension RAM {
     }
 
     public struct UpdateResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
-        ]
 
         /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
@@ -1644,10 +1369,6 @@ extension RAM {
     }
 
     public struct UpdateResourceShareResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShare", required: false, type: .structure)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?

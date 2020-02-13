@@ -62,11 +62,6 @@ extension IoTAnalytics {
     //MARK: Shapes
 
     public struct AddAttributesActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .map), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string)
-        ]
 
         /// A list of 1-50 "AttributeNameMapping" objects that map an existing attribute to a new attribute.  The existing attributes remain in the message, so if you want to remove the originals, use "RemoveAttributeActivity". 
         public let attributes: [String: String]
@@ -102,11 +97,6 @@ extension IoTAnalytics {
     }
 
     public struct BatchPutMessageErrorEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "messageId", required: false, type: .string)
-        ]
 
         /// The code associated with the error.
         public let errorCode: String?
@@ -129,10 +119,6 @@ extension IoTAnalytics {
     }
 
     public struct BatchPutMessageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", required: true, type: .string), 
-            AWSShapeMember(label: "messages", required: true, type: .list)
-        ]
 
         /// The name of the channel where the messages are sent.
         public let channelName: String
@@ -160,9 +146,6 @@ extension IoTAnalytics {
     }
 
     public struct BatchPutMessageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "batchPutMessageErrorEntries", required: false, type: .list)
-        ]
 
         /// A list of any errors encountered when sending the messages to the channel.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
@@ -178,8 +161,8 @@ extension IoTAnalytics {
 
     public struct CancelPipelineReprocessingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string), 
-            AWSShapeMember(label: "reprocessingId", location: .uri(locationName: "reprocessingId"), required: true, type: .string)
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName")), 
+            AWSShapeMember(label: "reprocessingId", location: .uri(locationName: "reprocessingId"))
         ]
 
         /// The name of pipeline for which data reprocessing is canceled.
@@ -213,15 +196,6 @@ extension IoTAnalytics {
     }
 
     public struct Channel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "storage", required: false, type: .structure)
-        ]
 
         /// The ARN of the channel.
         public let arn: String?
@@ -260,11 +234,6 @@ extension IoTAnalytics {
     }
 
     public struct ChannelActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string)
-        ]
 
         /// The name of the channel from which the messages are processed.
         public let channelName: String
@@ -297,9 +266,6 @@ extension IoTAnalytics {
     }
 
     public struct ChannelStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "size", required: false, type: .structure)
-        ]
 
         /// The estimated size of the channel.
         public let size: EstimatedResourceSize?
@@ -314,10 +280,6 @@ extension IoTAnalytics {
     }
 
     public struct ChannelStorage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
-        ]
 
         /// Use this to store channel data in an S3 bucket that you manage. If customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the channel.
         public let customerManagedS3: CustomerManagedChannelS3Storage?
@@ -340,10 +302,6 @@ extension IoTAnalytics {
     }
 
     public struct ChannelStorageSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
-        ]
 
         /// Used to store channel data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedChannelS3StorageSummary?
@@ -362,13 +320,6 @@ extension IoTAnalytics {
     }
 
     public struct ChannelSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", required: false, type: .string), 
-            AWSShapeMember(label: "channelStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The name of the channel.
         public let channelName: String?
@@ -399,12 +350,6 @@ extension IoTAnalytics {
     }
 
     public struct ContainerDatasetAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "image", required: true, type: .string), 
-            AWSShapeMember(label: "resourceConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "variables", required: false, type: .list)
-        ]
 
         /// The ARN of the role which gives permission to the system to access needed resources in order to run the "containerAction". This includes, at minimum, permission to retrieve the data set contents which are the input to the containerized application.
         public let executionRoleArn: String
@@ -443,12 +388,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", required: true, type: .string), 
-            AWSShapeMember(label: "channelStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The name of the channel.
         public let channelName: String
@@ -488,11 +427,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelArn", required: false, type: .string), 
-            AWSShapeMember(label: "channelName", required: false, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
-        ]
 
         /// The ARN of the channel.
         public let channelArn: String?
@@ -516,7 +450,7 @@ extension IoTAnalytics {
 
     public struct CreateDatasetContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// The name of the data set.
@@ -538,9 +472,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatasetContentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "versionId", required: false, type: .string)
-        ]
 
         /// The version ID of the data set contents which are being created.
         public let versionId: String?
@@ -555,15 +486,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: true, type: .list), 
-            AWSShapeMember(label: "contentDeliveryRules", required: false, type: .list), 
-            AWSShapeMember(label: "datasetName", required: true, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "triggers", required: false, type: .list), 
-            AWSShapeMember(label: "versioningConfiguration", required: false, type: .structure)
-        ]
 
         /// A list of actions that create the data set contents.
         public let actions: [DatasetAction]
@@ -630,11 +552,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetArn", required: false, type: .string), 
-            AWSShapeMember(label: "datasetName", required: false, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
-        ]
 
         /// The ARN of the data set.
         public let datasetArn: String?
@@ -657,12 +574,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", required: true, type: .string), 
-            AWSShapeMember(label: "datastoreStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The name of the data store.
         public let datastoreName: String
@@ -702,11 +613,6 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatastoreResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreArn", required: false, type: .string), 
-            AWSShapeMember(label: "datastoreName", required: false, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
-        ]
 
         /// The ARN of the data store.
         public let datastoreArn: String?
@@ -729,11 +635,6 @@ extension IoTAnalytics {
     }
 
     public struct CreatePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineActivities", required: true, type: .list), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ] 
         public let pipelineActivities: [PipelineActivity]
@@ -772,10 +673,6 @@ extension IoTAnalytics {
     }
 
     public struct CreatePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string)
-        ]
 
         /// The ARN of the pipeline.
         public let pipelineArn: String?
@@ -794,11 +691,6 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedChannelS3Storage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: true, type: .string), 
-            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The name of the Amazon S3 bucket in which channel data is stored.
         public let bucket: String
@@ -832,11 +724,6 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedChannelS3StorageSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The name of the Amazon S3 bucket in which channel data is stored.
         public let bucket: String?
@@ -859,11 +746,6 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedDatastoreS3Storage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: true, type: .string), 
-            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The name of the Amazon S3 bucket in which data store data is stored.
         public let bucket: String
@@ -897,11 +779,6 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedDatastoreS3StorageSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The name of the Amazon S3 bucket in which data store data is stored.
         public let bucket: String?
@@ -924,18 +801,6 @@ extension IoTAnalytics {
     }
 
     public struct Dataset: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "contentDeliveryRules", required: false, type: .list), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "triggers", required: false, type: .list), 
-            AWSShapeMember(label: "versioningConfiguration", required: false, type: .structure)
-        ]
 
         /// The "DatasetAction" objects that automatically create the data set contents.
         public let actions: [DatasetAction]?
@@ -986,11 +851,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "containerAction", required: false, type: .structure), 
-            AWSShapeMember(label: "queryAction", required: false, type: .structure)
-        ]
 
         /// The name of the data set action by which data set contents are automatically created.
         public let actionName: String?
@@ -1021,10 +881,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetActionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "actionType", required: false, type: .enum)
-        ]
 
         /// The name of the action which automatically creates the data set's contents.
         public let actionName: String?
@@ -1043,10 +899,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentDeliveryDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "iotEventsDestinationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "s3DestinationConfiguration", required: false, type: .structure)
-        ]
 
         /// Configuration information for delivery of data set contents to AWS IoT Events.
         public let iotEventsDestinationConfiguration: IotEventsDestinationConfiguration?
@@ -1070,10 +922,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentDeliveryRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: true, type: .structure), 
-            AWSShapeMember(label: "entryName", required: false, type: .string)
-        ]
 
         /// The destination to which data set contents are delivered.
         public let destination: DatasetContentDeliveryDestination
@@ -1096,10 +944,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         /// The reason the data set contents are in this state.
         public let reason: String?
@@ -1118,13 +962,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "completionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "scheduleTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The time the dataset content status was updated to SUCCEEDED or FAILED.
         public let completionTime: TimeStamp?
@@ -1155,9 +992,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentVersionValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", required: true, type: .string)
-        ]
 
         /// The name of the data set whose latest contents are used as input to the notebook or application.
         public let datasetName: String
@@ -1178,10 +1012,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataURI", required: false, type: .string), 
-            AWSShapeMember(label: "entryName", required: false, type: .string)
-        ]
 
         /// The pre-signed URI of the data set item.
         public let dataURI: String?
@@ -1200,14 +1030,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "datasetName", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
-        ]
 
         /// A list of "DataActionSummary" objects.
         public let actions: [DatasetActionSummary]?
@@ -1242,10 +1064,6 @@ extension IoTAnalytics {
     }
 
     public struct DatasetTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataset", required: false, type: .structure), 
-            AWSShapeMember(label: "schedule", required: false, type: .structure)
-        ]
 
         /// The data set whose content creation triggers the creation of this data set's contents.
         public let dataset: TriggeringDataset?
@@ -1268,15 +1086,6 @@ extension IoTAnalytics {
     }
 
     public struct Datastore: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "storage", required: false, type: .structure)
-        ]
 
         /// The ARN of the data store.
         public let arn: String?
@@ -1315,10 +1124,6 @@ extension IoTAnalytics {
     }
 
     public struct DatastoreActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the data store where processed messages are stored.
         public let datastoreName: String
@@ -1345,9 +1150,6 @@ extension IoTAnalytics {
     }
 
     public struct DatastoreStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "size", required: false, type: .structure)
-        ]
 
         /// The estimated size of the data store.
         public let size: EstimatedResourceSize?
@@ -1362,10 +1164,6 @@ extension IoTAnalytics {
     }
 
     public struct DatastoreStorage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
-        ]
 
         /// Use this to store data store data in an S3 bucket that you manage. When customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
         public let customerManagedS3: CustomerManagedDatastoreS3Storage?
@@ -1388,10 +1186,6 @@ extension IoTAnalytics {
     }
 
     public struct DatastoreStorageSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
-        ]
 
         /// Used to store data store data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedDatastoreS3StorageSummary?
@@ -1410,13 +1204,6 @@ extension IoTAnalytics {
     }
 
     public struct DatastoreSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "datastoreName", required: false, type: .string), 
-            AWSShapeMember(label: "datastoreStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// When the data store was created.
         public let creationTime: TimeStamp?
@@ -1448,7 +1235,7 @@ extension IoTAnalytics {
 
     public struct DeleteChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string)
+            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"))
         ]
 
         /// The name of the channel to delete.
@@ -1471,8 +1258,8 @@ extension IoTAnalytics {
 
     public struct DeleteDatasetContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName")), 
+            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// The name of the data set whose content is deleted.
@@ -1501,7 +1288,7 @@ extension IoTAnalytics {
 
     public struct DeleteDatasetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// The name of the data set to delete.
@@ -1524,7 +1311,7 @@ extension IoTAnalytics {
 
     public struct DeleteDatastoreRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string)
+            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"))
         ]
 
         /// The name of the data store to delete.
@@ -1547,7 +1334,7 @@ extension IoTAnalytics {
 
     public struct DeletePipelineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// The name of the pipeline to delete.
@@ -1569,10 +1356,6 @@ extension IoTAnalytics {
     }
 
     public struct DeltaTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offsetSeconds", required: true, type: .integer), 
-            AWSShapeMember(label: "timeExpression", required: true, type: .string)
-        ]
 
         /// The number of seconds of estimated "in flight" lag time of message data. When you create data set contents using message data from a specified time frame, some message data may still be "in flight" when processing begins, and so will not arrive in time to be processed. Use this field to make allowances for the "in flight" time of your message data, so that data not processed from a previous time frame will be included with the next time frame. Without this, missed message data would be excluded from processing during the next time frame as well, because its timestamp places it within the previous time frame.
         public let offsetSeconds: Int
@@ -1592,8 +1375,8 @@ extension IoTAnalytics {
 
     public struct DescribeChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string), 
-            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"), required: false, type: .boolean)
+            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName")), 
+            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
         ]
 
         /// The name of the channel whose information is retrieved.
@@ -1619,10 +1402,6 @@ extension IoTAnalytics {
     }
 
     public struct DescribeChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channel", required: false, type: .structure), 
-            AWSShapeMember(label: "statistics", required: false, type: .structure)
-        ]
 
         /// An object that contains information about the channel.
         public let channel: Channel?
@@ -1642,7 +1421,7 @@ extension IoTAnalytics {
 
     public struct DescribeDatasetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string)
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// The name of the data set whose information is retrieved.
@@ -1664,9 +1443,6 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataset", required: false, type: .structure)
-        ]
 
         /// An object that contains information about the data set.
         public let dataset: Dataset?
@@ -1682,8 +1458,8 @@ extension IoTAnalytics {
 
     public struct DescribeDatastoreRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string), 
-            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"), required: false, type: .boolean)
+            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName")), 
+            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
         ]
 
         /// The name of the data store
@@ -1709,10 +1485,6 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatastoreResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastore", required: false, type: .structure), 
-            AWSShapeMember(label: "statistics", required: false, type: .structure)
-        ]
 
         /// Information about the data store.
         public let datastore: Datastore?
@@ -1739,9 +1511,6 @@ extension IoTAnalytics {
     }
 
     public struct DescribeLoggingOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptions", required: false, type: .structure)
-        ]
 
         /// The current settings of the AWS IoT Analytics logging options.
         public let loggingOptions: LoggingOptions?
@@ -1757,7 +1526,7 @@ extension IoTAnalytics {
 
     public struct DescribePipelineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// The name of the pipeline whose information is retrieved.
@@ -1779,9 +1548,6 @@ extension IoTAnalytics {
     }
 
     public struct DescribePipelineResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: false, type: .structure)
-        ]
 
         /// A "Pipeline" object that contains information about the pipeline.
         public let pipeline: Pipeline?
@@ -1796,13 +1562,6 @@ extension IoTAnalytics {
     }
 
     public struct DeviceRegistryEnrichActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attribute", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "thingName", required: true, type: .string)
-        ]
 
         /// The name of the attribute that is added to the message.
         public let attribute: String
@@ -1846,13 +1605,6 @@ extension IoTAnalytics {
     }
 
     public struct DeviceShadowEnrichActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attribute", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "thingName", required: true, type: .string)
-        ]
 
         /// The name of the attribute that is added to the message.
         public let attribute: String
@@ -1896,10 +1648,6 @@ extension IoTAnalytics {
     }
 
     public struct EstimatedResourceSize: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "estimatedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "estimatedSizeInBytes", required: false, type: .double)
-        ]
 
         /// The time when the estimate of the size of the resource was made.
         public let estimatedOn: TimeStamp?
@@ -1918,11 +1666,6 @@ extension IoTAnalytics {
     }
 
     public struct FilterActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string)
-        ]
 
         /// An expression that looks like a SQL WHERE clause that must return a Boolean value.
         public let filter: String
@@ -1955,8 +1698,8 @@ extension IoTAnalytics {
 
     public struct GetDatasetContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName")), 
+            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// The name of the data set whose contents are retrieved.
@@ -1984,11 +1727,6 @@ extension IoTAnalytics {
     }
 
     public struct GetDatasetContentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entries", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .structure), 
-            AWSShapeMember(label: "timestamp", required: false, type: .timestamp)
-        ]
 
         /// A list of "DatasetEntry" objects.
         public let entries: [DatasetEntry]?
@@ -2011,10 +1749,6 @@ extension IoTAnalytics {
     }
 
     public struct GlueConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "databaseName", required: true, type: .string), 
-            AWSShapeMember(label: "tableName", required: true, type: .string)
-        ]
 
         /// The name of the database in your AWS Glue Data Catalog in which the table is located. (An AWS Glue Data Catalog database contains Glue Data tables.)
         public let databaseName: String
@@ -2042,10 +1776,6 @@ extension IoTAnalytics {
     }
 
     public struct IotEventsDestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The name of the AWS IoT Events input to which data set contents are delivered.
         public let inputName: String
@@ -2072,12 +1802,6 @@ extension IoTAnalytics {
     }
 
     public struct LambdaActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "batchSize", required: true, type: .integer), 
-            AWSShapeMember(label: "lambdaName", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string)
-        ]
 
         /// The number of messages passed to the Lambda function for processing. The AWS Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
         public let batchSize: Int
@@ -2117,8 +1841,8 @@ extension IoTAnalytics {
 
     public struct ListChannelsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2143,10 +1867,6 @@ extension IoTAnalytics {
     }
 
     public struct ListChannelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of "ChannelSummary" objects.
         public let channelSummaries: [ChannelSummary]?
@@ -2166,11 +1886,11 @@ extension IoTAnalytics {
 
     public struct ListDatasetContentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "scheduledOnOrAfter", location: .querystring(locationName: "scheduledOnOrAfter"), required: false, type: .timestamp)
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName")), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSShapeMember(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore")), 
+            AWSShapeMember(label: "scheduledOnOrAfter", location: .querystring(locationName: "scheduledOnOrAfter"))
         ]
 
         /// The name of the data set whose contents information you want to list.
@@ -2210,10 +1930,6 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetContentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetContentSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Summary information about data set contents that have been created.
         public let datasetContentSummaries: [DatasetContentSummary]?
@@ -2233,8 +1949,8 @@ extension IoTAnalytics {
 
     public struct ListDatasetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2259,10 +1975,6 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of "DatasetSummary" objects.
         public let datasetSummaries: [DatasetSummary]?
@@ -2282,8 +1994,8 @@ extension IoTAnalytics {
 
     public struct ListDatastoresRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2308,10 +2020,6 @@ extension IoTAnalytics {
     }
 
     public struct ListDatastoresResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of "DatastoreSummary" objects.
         public let datastoreSummaries: [DatastoreSummary]?
@@ -2331,8 +2039,8 @@ extension IoTAnalytics {
 
     public struct ListPipelinesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2357,10 +2065,6 @@ extension IoTAnalytics {
     }
 
     public struct ListPipelinesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineSummaries", required: false, type: .list)
-        ]
 
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -2380,7 +2084,7 @@ extension IoTAnalytics {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to list.
@@ -2401,9 +2105,6 @@ extension IoTAnalytics {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The tags (metadata) which you have assigned to the resource.
         public let tags: [Tag]?
@@ -2418,11 +2119,6 @@ extension IoTAnalytics {
     }
 
     public struct LoggingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "level", required: true, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// If true, logging is enabled for AWS IoT Analytics.
         public let enabled: Bool
@@ -2450,12 +2146,6 @@ extension IoTAnalytics {
     }
 
     public struct MathActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attribute", required: true, type: .string), 
-            AWSShapeMember(label: "math", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string)
-        ]
 
         /// The name of the attribute that contains the result of the math operation.
         public let attribute: String
@@ -2493,10 +2183,6 @@ extension IoTAnalytics {
     }
 
     public struct Message: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageId", required: true, type: .string), 
-            AWSShapeMember(label: "payload", required: true, type: .blob)
-        ]
 
         /// The ID you wish to assign to the message. Each "messageId" must be unique within each batch sent.
         public let messageId: String
@@ -2520,9 +2206,6 @@ extension IoTAnalytics {
     }
 
     public struct OutputFileUriValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileName", required: true, type: .string)
-        ]
 
         /// The URI of the location where data set contents are stored, usually the URI of a file in an S3 bucket.
         public let fileName: String
@@ -2541,14 +2224,6 @@ extension IoTAnalytics {
     }
 
     public struct Pipeline: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activities", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "reprocessingSummaries", required: false, type: .list)
-        ]
 
         /// The activities that perform transformations on the messages.
         public let activities: [PipelineActivity]?
@@ -2583,18 +2258,6 @@ extension IoTAnalytics {
     }
 
     public struct PipelineActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "channel", required: false, type: .structure), 
-            AWSShapeMember(label: "datastore", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceRegistryEnrich", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceShadowEnrich", required: false, type: .structure), 
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "lambda", required: false, type: .structure), 
-            AWSShapeMember(label: "math", required: false, type: .structure), 
-            AWSShapeMember(label: "removeAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "selectAttributes", required: false, type: .structure)
-        ]
 
         /// Adds other attributes based on existing attributes in the message.
         public let addAttributes: AddAttributesActivity?
@@ -2658,12 +2321,6 @@ extension IoTAnalytics {
     }
 
     public struct PipelineSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "reprocessingSummaries", required: false, type: .list)
-        ]
 
         /// When the pipeline was created.
         public let creationTime: TimeStamp?
@@ -2690,9 +2347,6 @@ extension IoTAnalytics {
     }
 
     public struct PutLoggingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptions", required: true, type: .structure)
-        ]
 
         /// The new values of the AWS IoT Analytics logging options.
         public let loggingOptions: LoggingOptions
@@ -2711,9 +2365,6 @@ extension IoTAnalytics {
     }
 
     public struct QueryFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deltaTime", required: false, type: .structure)
-        ]
 
         /// Used to limit data to that which has arrived since the last execution of the action.
         public let deltaTime: DeltaTime?
@@ -2728,11 +2379,6 @@ extension IoTAnalytics {
     }
 
     public struct RemoveAttributesActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string)
-        ]
 
         /// A list of 1-50 attributes to remove from the message.
         public let attributes: [String]
@@ -2768,11 +2414,6 @@ extension IoTAnalytics {
     }
 
     public struct ReprocessingSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The time the pipeline reprocessing was created.
         public let creationTime: TimeStamp?
@@ -2795,10 +2436,6 @@ extension IoTAnalytics {
     }
 
     public struct ResourceConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computeType", required: true, type: .enum), 
-            AWSShapeMember(label: "volumeSizeInGB", required: true, type: .integer)
-        ]
 
         /// The type of the compute resource used to execute the "containerAction". Possible values are: ACU_1 (vCPU=4, memory=16GiB) or ACU_2 (vCPU=8, memory=32GiB).
         public let computeType: ComputeType
@@ -2822,10 +2459,6 @@ extension IoTAnalytics {
     }
 
     public struct RetentionPeriod: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfDays", required: false, type: .integer), 
-            AWSShapeMember(label: "unlimited", required: false, type: .boolean)
-        ]
 
         /// The number of days that message data is kept. The "unlimited" parameter must be false.
         public let numberOfDays: Int?
@@ -2848,10 +2481,6 @@ extension IoTAnalytics {
     }
 
     public struct RunPipelineActivityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payloads", required: true, type: .list), 
-            AWSShapeMember(label: "pipelineActivity", required: true, type: .structure)
-        ]
 
         /// The sample message payloads on which the pipeline activity is run.
         public let payloads: [Data]
@@ -2876,10 +2505,6 @@ extension IoTAnalytics {
     }
 
     public struct RunPipelineActivityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logResult", required: false, type: .string), 
-            AWSShapeMember(label: "payloads", required: false, type: .list)
-        ]
 
         /// In case the pipeline activity fails, the log message that is generated.
         public let logResult: String?
@@ -2898,12 +2523,6 @@ extension IoTAnalytics {
     }
 
     public struct S3DestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: true, type: .string), 
-            AWSShapeMember(label: "glueConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The name of the Amazon S3 bucket to which data set contents are delivered.
         public let bucket: String
@@ -2943,10 +2562,10 @@ extension IoTAnalytics {
 
     public struct SampleChannelDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string), 
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "maxMessages", location: .querystring(locationName: "maxMessages"), required: false, type: .integer), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp)
+            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName")), 
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSShapeMember(label: "maxMessages", location: .querystring(locationName: "maxMessages")), 
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"))
         ]
 
         /// The name of the channel whose message samples are retrieved.
@@ -2982,9 +2601,6 @@ extension IoTAnalytics {
     }
 
     public struct SampleChannelDataResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payloads", required: false, type: .list)
-        ]
 
         /// The list of message samples. Each sample message is returned as a base64-encoded string.
         public let payloads: [Data]?
@@ -2999,9 +2615,6 @@ extension IoTAnalytics {
     }
 
     public struct Schedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expression", required: false, type: .string)
-        ]
 
         /// The expression that defines when to trigger an update. For more information, see  Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.
         public let expression: String?
@@ -3016,11 +2629,6 @@ extension IoTAnalytics {
     }
 
     public struct SelectAttributesActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "next", required: false, type: .string)
-        ]
 
         /// A list of the attributes to select from the message.
         public let attributes: [String]
@@ -3088,10 +2696,6 @@ extension IoTAnalytics {
     }
 
     public struct SqlQueryDatasetAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "sqlQuery", required: true, type: .string)
-        ]
 
         /// Pre-filters applied to message data.
         public let filters: [QueryFilter]?
@@ -3116,9 +2720,7 @@ extension IoTAnalytics {
 
     public struct StartPipelineReprocessingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// The end time (exclusive) of raw message data that is reprocessed.
@@ -3148,9 +2750,6 @@ extension IoTAnalytics {
     }
 
     public struct StartPipelineReprocessingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reprocessingId", required: false, type: .string)
-        ]
 
         /// The ID of the pipeline reprocessing activity that was started.
         public let reprocessingId: String?
@@ -3165,10 +2764,6 @@ extension IoTAnalytics {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The tag's key.
         public let key: String
@@ -3195,8 +2790,7 @@ extension IoTAnalytics {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to modify.
@@ -3234,9 +2828,6 @@ extension IoTAnalytics {
     }
 
     public struct TriggeringDataset: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the data set whose content generation triggers the new data set content generation.
         public let name: String
@@ -3258,8 +2849,8 @@ extension IoTAnalytics {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource whose tags you want to remove.
@@ -3299,9 +2890,7 @@ extension IoTAnalytics {
 
     public struct UpdateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string), 
-            AWSShapeMember(label: "channelStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"))
         ]
 
         /// The name of the channel to be updated.
@@ -3334,12 +2923,7 @@ extension IoTAnalytics {
 
     public struct UpdateDatasetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: true, type: .list), 
-            AWSShapeMember(label: "contentDeliveryRules", required: false, type: .list), 
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "triggers", required: false, type: .list), 
-            AWSShapeMember(label: "versioningConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// A list of "DatasetAction" objects.
@@ -3399,9 +2983,7 @@ extension IoTAnalytics {
 
     public struct UpdateDatastoreRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string), 
-            AWSShapeMember(label: "datastoreStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
+            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"))
         ]
 
         /// The name of the data store to be updated.
@@ -3434,8 +3016,7 @@ extension IoTAnalytics {
 
     public struct UpdatePipelineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineActivities", required: true, type: .list), 
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
+            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ] 
@@ -3466,13 +3047,6 @@ extension IoTAnalytics {
     }
 
     public struct Variable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetContentVersionValue", required: false, type: .structure), 
-            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "outputFileUriValue", required: false, type: .structure), 
-            AWSShapeMember(label: "stringValue", required: false, type: .string)
-        ]
 
         /// The value of the variable as a structure that specifies a data set content version.
         public let datasetContentVersionValue: DatasetContentVersionValue?
@@ -3512,10 +3086,6 @@ extension IoTAnalytics {
     }
 
     public struct VersioningConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxVersions", required: false, type: .integer), 
-            AWSShapeMember(label: "unlimited", required: false, type: .boolean)
-        ]
 
         /// How many versions of data set contents will be kept. The "unlimited" parameter must be false.
         public let maxVersions: Int?

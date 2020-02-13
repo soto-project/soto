@@ -34,9 +34,6 @@ extension CloudWatchEvents {
     //MARK: Shapes
 
     public struct ActivateEventSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the partner event source to activate.
         public let name: String
@@ -57,11 +54,6 @@ extension CloudWatchEvents {
     }
 
     public struct AwsVpcConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignPublicIp", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Subnets", required: true, type: .list)
-        ]
 
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public let assignPublicIp: AssignPublicIp?
@@ -84,9 +76,6 @@ extension CloudWatchEvents {
     }
 
     public struct BatchArrayProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: false, type: .integer)
-        ]
 
         /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
         public let size: Int?
@@ -101,12 +90,6 @@ extension CloudWatchEvents {
     }
 
     public struct BatchParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArrayProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "JobDefinition", required: true, type: .string), 
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "RetryStrategy", required: false, type: .structure)
-        ]
 
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an AWS Batch job.
         public let arrayProperties: BatchArrayProperties?
@@ -133,9 +116,6 @@ extension CloudWatchEvents {
     }
 
     public struct BatchRetryStrategy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attempts", required: false, type: .integer)
-        ]
 
         /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
         public let attempts: Int?
@@ -150,11 +130,6 @@ extension CloudWatchEvents {
     }
 
     public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The key for the condition. Currently, the only supported key is aws:PrincipalOrgID.
         public let key: String
@@ -177,10 +152,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreateEventBusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// If you're creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
         public let eventSourceName: String?
@@ -208,9 +179,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreateEventBusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusArn", required: false, type: .string)
-        ]
 
         /// The ARN of the new event bus.
         public let eventBusArn: String?
@@ -225,10 +193,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreatePartnerEventSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Account", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The AWS account ID of the customer who is permitted to create a matching partner event bus for this partner event source.
         public let account: String
@@ -256,9 +220,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreatePartnerEventSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSourceArn", required: false, type: .string)
-        ]
 
         /// The ARN of the partner event source.
         public let eventSourceArn: String?
@@ -273,9 +234,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeactivateEventSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the partner event source to deactivate.
         public let name: String
@@ -296,9 +254,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeleteEventBusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the event bus to delete.
         public let name: String
@@ -319,10 +274,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeletePartnerEventSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Account", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The AWS account ID of the AWS customer that the event source was created for.
         public let account: String
@@ -350,11 +301,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeleteRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Force", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -386,9 +332,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventBusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the event bus to show details for. If you omit this, the default event bus is displayed.
         public let name: String?
@@ -409,11 +352,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventBusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
         public let arn: String?
@@ -436,9 +374,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the partner event source to display the details of.
         public let name: String
@@ -459,14 +394,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The ARN of the partner event source.
         public let arn: String?
@@ -501,9 +428,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribePartnerEventSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the event source to display.
         public let name: String
@@ -524,10 +448,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribePartnerEventSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the event source.
         public let arn: String?
@@ -546,10 +466,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -577,17 +493,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
-            AWSShapeMember(label: "ManagedBy", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
@@ -634,10 +539,6 @@ extension CloudWatchEvents {
     }
 
     public struct DisableRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -665,14 +566,6 @@ extension CloudWatchEvents {
     }
 
     public struct EcsParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchType", required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "TaskCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TaskDefinitionArn", required: true, type: .string)
-        ]
 
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public let group: String?
@@ -713,10 +606,6 @@ extension CloudWatchEvents {
     }
 
     public struct EnableRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -744,11 +633,6 @@ extension CloudWatchEvents {
     }
 
     public struct EventBus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .string)
-        ]
 
         /// The ARN of the event bus.
         public let arn: String?
@@ -771,14 +655,6 @@ extension CloudWatchEvents {
     }
 
     public struct EventSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The ARN of the event source.
         public let arn: String?
@@ -813,10 +689,6 @@ extension CloudWatchEvents {
     }
 
     public struct InputTransformer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputPathsMap", required: false, type: .map), 
-            AWSShapeMember(label: "InputTemplate", required: true, type: .string)
-        ]
 
         /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys can't start with "AWS".
         public let inputPathsMap: [String: String]?
@@ -846,9 +718,6 @@ extension CloudWatchEvents {
     }
 
     public struct KinesisParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartitionKeyPath", required: true, type: .string)
-        ]
 
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
         public let partitionKeyPath: String
@@ -867,11 +736,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventBusesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
@@ -904,10 +768,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventBusesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBuses", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// This list of event buses.
         public let eventBuses: [EventBus]?
@@ -926,11 +786,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventSourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
@@ -963,10 +818,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventSourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSources", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of event sources.
         public let eventSources: [EventSource]?
@@ -985,11 +836,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourceAccountsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSourceName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the partner event source to display account information about.
         public let eventSourceName: String
@@ -1022,10 +868,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourceAccountsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PartnerEventSourceAccounts", required: false, type: .list)
-        ]
 
         /// A token you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
@@ -1044,11 +886,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NamePrefix", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// pecifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
@@ -1081,10 +918,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PartnerEventSources", required: false, type: .list)
-        ]
 
         /// A token you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
@@ -1103,12 +936,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRuleNamesByTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TargetArn", required: true, type: .string)
-        ]
 
         /// Limits the results to show only the rules associated with the specified event bus.
         public let eventBusName: String?
@@ -1147,10 +974,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRuleNamesByTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RuleNames", required: false, type: .list)
-        ]
 
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
@@ -1169,12 +992,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Limits the results to show only the rules associated with the specified event bus.
         public let eventBusName: String?
@@ -1214,10 +1031,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list)
-        ]
 
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
@@ -1236,9 +1049,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// The ARN of the rule for which you want to view tags.
         public let resourceARN: String
@@ -1258,9 +1068,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The list of tag keys and values associated with the rule that you specified.
         public let tags: [Tag]?
@@ -1275,12 +1082,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTargetsByRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Rule", required: true, type: .string)
-        ]
 
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -1320,10 +1121,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTargetsByRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
-        ]
 
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
@@ -1342,9 +1139,6 @@ extension CloudWatchEvents {
     }
 
     public struct NetworkConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsvpcConfiguration", required: false, type: .structure)
-        ]
 
         /// Use this structure to specify the VPC subnets and security groups for the task and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
@@ -1359,10 +1153,6 @@ extension CloudWatchEvents {
     }
 
     public struct PartnerEventSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the partner event source.
         public let arn: String?
@@ -1381,12 +1171,6 @@ extension CloudWatchEvents {
     }
 
     public struct PartnerEventSourceAccount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Account", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The AWS account ID that the partner event source was offered to.
         public let account: String?
@@ -1413,9 +1197,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: true, type: .list)
-        ]
 
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
@@ -1438,14 +1219,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsRequestEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Detail", required: false, type: .string), 
-            AWSShapeMember(label: "DetailType", required: false, type: .string), 
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "Time", required: false, type: .timestamp)
-        ]
 
         /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
         public let detail: String?
@@ -1486,10 +1259,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: false, type: .list), 
-            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
-        ]
 
         /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
         public let entries: [PutEventsResultEntry]?
@@ -1508,11 +1277,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsResultEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EventId", required: false, type: .string)
-        ]
 
         /// The error code that indicates why the event submission failed.
         public let errorCode: String?
@@ -1535,9 +1299,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: true, type: .list)
-        ]
 
         /// The list of events to write to the event bus.
         public let entries: [PutPartnerEventsRequestEntry]
@@ -1557,13 +1318,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsRequestEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Detail", required: false, type: .string), 
-            AWSShapeMember(label: "DetailType", required: false, type: .string), 
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "Time", required: false, type: .timestamp)
-        ]
 
         /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
         public let detail: String?
@@ -1594,10 +1348,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: false, type: .list), 
-            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
-        ]
 
         /// The list of events from this operation that were successfully written to the partner event bus.
         public let entries: [PutPartnerEventsResultEntry]?
@@ -1616,11 +1366,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsResultEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EventId", required: false, type: .string)
-        ]
 
         /// The error code that indicates why the event submission failed.
         public let errorCode: String?
@@ -1643,13 +1388,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPermissionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: true, type: .string), 
-            AWSShapeMember(label: "Condition", required: false, type: .structure), 
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Principal", required: true, type: .string), 
-            AWSShapeMember(label: "StatementId", required: true, type: .string)
-        ]
 
         /// The action that you're enabling the other account to perform. Currently, this must be events:PutEvents.
         public let action: String
@@ -1695,16 +1433,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A description of the rule.
         public let description: String?
@@ -1763,9 +1491,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
@@ -1780,11 +1505,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Rule", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
-        ]
 
         /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -1821,10 +1541,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedEntries", required: false, type: .list), 
-            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
-        ]
 
         /// The failed target entries.
         public let failedEntries: [PutTargetsResultEntry]?
@@ -1843,11 +1559,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutTargetsResultEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "TargetId", required: false, type: .string)
-        ]
 
         /// The error code that indicates why the target addition failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
@@ -1870,10 +1581,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemovePermissionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "StatementId", required: true, type: .string)
-        ]
 
         /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -1901,12 +1608,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemoveTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "Force", required: false, type: .boolean), 
-            AWSShapeMember(label: "Ids", required: true, type: .list), 
-            AWSShapeMember(label: "Rule", required: true, type: .string)
-        ]
 
         /// The name of the event bus associated with the rule.
         public let eventBusName: String?
@@ -1949,10 +1650,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemoveTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedEntries", required: false, type: .list), 
-            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
-        ]
 
         /// The failed target entries.
         public let failedEntries: [RemoveTargetsResultEntry]?
@@ -1971,11 +1668,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemoveTargetsResultEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "TargetId", required: false, type: .string)
-        ]
 
         /// The error code that indicates why the target removal failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
@@ -1998,17 +1690,6 @@ extension CloudWatchEvents {
     }
 
     public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
-            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
-            AWSShapeMember(label: "ManagedBy", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
@@ -2055,9 +1736,6 @@ extension CloudWatchEvents {
     }
 
     public struct RunCommandParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RunCommandTargets", required: true, type: .list)
-        ]
 
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         public let runCommandTargets: [RunCommandTarget]
@@ -2080,10 +1758,6 @@ extension CloudWatchEvents {
     }
 
     public struct RunCommandTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// Can be either tag: tag-key or InstanceIds.
         public let key: String
@@ -2114,9 +1788,6 @@ extension CloudWatchEvents {
     }
 
     public struct SqsParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageGroupId", required: false, type: .string)
-        ]
 
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
@@ -2131,10 +1802,6 @@ extension CloudWatchEvents {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
@@ -2160,10 +1827,6 @@ extension CloudWatchEvents {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The ARN of the rule that you're adding tags to.
         public let resourceARN: String
@@ -2198,19 +1861,6 @@ extension CloudWatchEvents {
     }
 
     public struct Target: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "BatchParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "EcsParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Input", required: false, type: .string), 
-            AWSShapeMember(label: "InputPath", required: false, type: .string), 
-            AWSShapeMember(label: "InputTransformer", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "RunCommandParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "SqsParameters", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the target.
         public let arn: String
@@ -2281,10 +1931,6 @@ extension CloudWatchEvents {
     }
 
     public struct TestEventPatternRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: true, type: .string), 
-            AWSShapeMember(label: "EventPattern", required: true, type: .string)
-        ]
 
         /// The event, in JSON format, to test against the event pattern.
         public let event: String
@@ -2303,9 +1949,6 @@ extension CloudWatchEvents {
     }
 
     public struct TestEventPatternResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Result", required: false, type: .boolean)
-        ]
 
         /// Indicates whether the event matches the event pattern.
         public let result: Bool?
@@ -2320,10 +1963,6 @@ extension CloudWatchEvents {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The ARN of the rule that you're removing tags from.
         public let resourceARN: String

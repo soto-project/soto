@@ -150,14 +150,6 @@ extension WorkSpaces {
     //MARK: Shapes
 
     public struct AccountModification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
-            AWSShapeMember(label: "DedicatedTenancySupport", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ModificationState", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The IP address range, specified as an IPv4 CIDR block, for the management network interface used for the account.
         public let dedicatedTenancyManagementCidrRange: String?
@@ -192,10 +184,6 @@ extension WorkSpaces {
     }
 
     public struct AssociateIpGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupIds", required: true, type: .list)
-        ]
 
         /// The identifier of the directory.
         public let directoryId: String
@@ -231,10 +219,6 @@ extension WorkSpaces {
     }
 
     public struct AuthorizeIpRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: true, type: .string), 
-            AWSShapeMember(label: "UserRules", required: true, type: .list)
-        ]
 
         /// The identifier of the group.
         public let groupId: String
@@ -265,9 +249,6 @@ extension WorkSpaces {
     }
 
     public struct ClientProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReconnectEnabled", required: false, type: .enum)
-        ]
 
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials. 
         public let reconnectEnabled: ReconnectEnum?
@@ -282,10 +263,6 @@ extension WorkSpaces {
     }
 
     public struct ClientPropertiesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string)
-        ]
 
         /// Information about the Amazon WorkSpaces client.
         public let clientProperties: ClientProperties?
@@ -304,9 +281,6 @@ extension WorkSpaces {
     }
 
     public struct ComputeType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum)
-        ]
 
         /// The compute type.
         public let name: Compute?
@@ -321,13 +295,6 @@ extension WorkSpaces {
     }
 
     public struct CopyWorkspaceImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SourceImageId", required: true, type: .string), 
-            AWSShapeMember(label: "SourceRegion", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A description of the image.
         public let description: String?
@@ -374,9 +341,6 @@ extension WorkSpaces {
     }
 
     public struct CopyWorkspaceImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: false, type: .string)
-        ]
 
         /// The identifier of the image.
         public let imageId: String?
@@ -391,12 +355,6 @@ extension WorkSpaces {
     }
 
     public struct CreateIpGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupDesc", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserRules", required: false, type: .list)
-        ]
 
         /// The description of the group.
         public let groupDesc: String?
@@ -429,9 +387,6 @@ extension WorkSpaces {
     }
 
     public struct CreateIpGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: false, type: .string)
-        ]
 
         /// The identifier of the group.
         public let groupId: String?
@@ -446,10 +401,6 @@ extension WorkSpaces {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
@@ -483,9 +434,6 @@ extension WorkSpaces {
     }
 
     public struct CreateWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workspaces", required: true, type: .list)
-        ]
 
         /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
         public let workspaces: [WorkspaceRequest]
@@ -508,10 +456,6 @@ extension WorkSpaces {
     }
 
     public struct CreateWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list), 
-            AWSShapeMember(label: "PendingRequests", required: false, type: .list)
-        ]
 
         /// Information about the WorkSpaces that could not be created.
         public let failedRequests: [FailedCreateWorkspaceRequest]?
@@ -530,14 +474,6 @@ extension WorkSpaces {
     }
 
     public struct DefaultWorkspaceCreationProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
-            AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableMaintenanceMode", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableWorkDocs", required: false, type: .boolean), 
-            AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean)
-        ]
 
         /// The identifier of any security groups to apply to WorkSpaces when they are created.
         public let customSecurityGroupId: String?
@@ -572,9 +508,6 @@ extension WorkSpaces {
     }
 
     public struct DeleteIpGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: true, type: .string)
-        ]
 
         /// The identifier of the IP access control group.
         public let groupId: String
@@ -601,10 +534,6 @@ extension WorkSpaces {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
@@ -638,9 +567,6 @@ extension WorkSpaces {
     }
 
     public struct DeleteWorkspaceImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: true, type: .string)
-        ]
 
         /// The identifier of the image.
         public let imageId: String
@@ -667,9 +593,6 @@ extension WorkSpaces {
     }
 
     public struct DeregisterWorkspaceDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
-        ]
 
         /// The identifier of the directory. If any WorkSpaces are registered to this directory, you must remove them before you deregister the directory, or you will receive an OperationNotSupportedException error.
         public let directoryId: String
@@ -698,9 +621,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeAccountModificationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
@@ -720,10 +640,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeAccountModificationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountModifications", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of modifications to the configuration of BYOL.
         public let accountModifications: [AccountModification]?
@@ -750,10 +666,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeAccountResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
-            AWSShapeMember(label: "DedicatedTenancySupport", required: false, type: .enum)
-        ]
 
         /// The IP address range, specified as an IPv4 CIDR block, used for the management network interface. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
         public let dedicatedTenancyManagementCidrRange: String?
@@ -772,9 +684,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeClientPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIds", required: true, type: .list)
-        ]
 
         /// The resource identifier, in the form of directory IDs.
         public let resourceIds: [String]
@@ -797,9 +706,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeClientPropertiesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientPropertiesList", required: false, type: .list)
-        ]
 
         /// Information about the specified Amazon WorkSpaces clients.
         public let clientPropertiesList: [ClientPropertiesResult]?
@@ -814,11 +720,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeIpGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The identifiers of one or more IP access control groups.
         public let groupIds: [String]?
@@ -851,10 +752,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeIpGroupsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Result", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next set of results, or null if no more results are available.
         public let nextToken: String?
@@ -873,9 +770,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
 
         /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
@@ -894,9 +788,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeTagsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The tags.
         public let tagList: [Tag]?
@@ -911,11 +802,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BundleIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string)
-        ]
 
         /// The identifiers of the bundles. You cannot combine this parameter with any other filter.
         public let bundleIds: [String]?
@@ -948,10 +834,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceBundlesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bundles", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the bundles.
         public let bundles: [WorkspaceBundle]?
@@ -970,11 +852,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceDirectoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryIds", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The identifiers of the directories. If the value is null, all directories are retrieved.
         public let directoryIds: [String]?
@@ -1011,10 +888,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceDirectoriesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Directories", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the directories.
         public let directories: [WorkspaceDirectory]?
@@ -1033,11 +906,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The identifier of the image.
         public let imageIds: [String]?
@@ -1072,10 +940,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceImagesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Images", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the images.
         public let images: [WorkspaceImage]?
@@ -1094,9 +958,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -1115,10 +976,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspaceSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RebuildSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "RestoreSnapshots", required: false, type: .list)
-        ]
 
         /// Information about the snapshots that can be used to rebuild a WorkSpace. These snapshots include the user volume.
         public let rebuildSnapshots: [Snapshot]?
@@ -1137,10 +994,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list)
-        ]
 
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
@@ -1169,10 +1022,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspacesConnectionStatusResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspacesConnectionStatus", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next set of results, or null if no more results are available.
         public let nextToken: String?
@@ -1191,14 +1040,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BundleId", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list)
-        ]
 
         /// The identifier of the bundle. All WorkSpaces that are created from this bundle are retrieved. You cannot combine this parameter with any other filter.
         public let bundleId: String?
@@ -1251,10 +1092,6 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Workspaces", required: false, type: .list)
-        ]
 
         /// The token to use to retrieve the next set of results, or null if no more results are available.
         public let nextToken: String?
@@ -1273,10 +1110,6 @@ extension WorkSpaces {
     }
 
     public struct DisassociateIpGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupIds", required: true, type: .list)
-        ]
 
         /// The identifier of the directory.
         public let directoryId: String
@@ -1312,11 +1145,6 @@ extension WorkSpaces {
     }
 
     public struct FailedCreateWorkspaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceRequest", required: false, type: .structure)
-        ]
 
         /// The error code that is returned if the WorkSpace cannot be created.
         public let errorCode: String?
@@ -1339,11 +1167,6 @@ extension WorkSpaces {
     }
 
     public struct FailedWorkspaceChangeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
-        ]
 
         /// The error code that is returned if the WorkSpace cannot be rebooted.
         public let errorCode: String?
@@ -1366,13 +1189,6 @@ extension WorkSpaces {
     }
 
     public struct ImportWorkspaceImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ec2ImageId", required: true, type: .string), 
-            AWSShapeMember(label: "ImageDescription", required: true, type: .string), 
-            AWSShapeMember(label: "ImageName", required: true, type: .string), 
-            AWSShapeMember(label: "IngestionProcess", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
@@ -1416,9 +1232,6 @@ extension WorkSpaces {
     }
 
     public struct ImportWorkspaceImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: false, type: .string)
-        ]
 
         /// The identifier of the WorkSpace image.
         public let imageId: String?
@@ -1433,10 +1246,6 @@ extension WorkSpaces {
     }
 
     public struct IpRuleItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ipRule", required: false, type: .string), 
-            AWSShapeMember(label: "ruleDesc", required: false, type: .string)
-        ]
 
         /// The IP address range, in CIDR notation.
         public let ipRule: String?
@@ -1455,11 +1264,6 @@ extension WorkSpaces {
     }
 
     public struct ListAvailableManagementCidrRangesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManagementCidrRangeConstraint", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The IP address range to search. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block).
         public let managementCidrRangeConstraint: String
@@ -1490,10 +1294,6 @@ extension WorkSpaces {
     }
 
     public struct ListAvailableManagementCidrRangesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManagementCidrRanges", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of available IP address ranges, specified as IPv4 CIDR blocks.
         public let managementCidrRanges: [String]?
@@ -1512,10 +1312,6 @@ extension WorkSpaces {
     }
 
     public struct MigrateWorkspaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BundleId", required: true, type: .string), 
-            AWSShapeMember(label: "SourceWorkspaceId", required: true, type: .string)
-        ]
 
         /// The identifier of the target bundle type to migrate the WorkSpace to.
         public let bundleId: String
@@ -1539,10 +1335,6 @@ extension WorkSpaces {
     }
 
     public struct MigrateWorkspaceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceWorkspaceId", required: false, type: .string), 
-            AWSShapeMember(label: "TargetWorkspaceId", required: false, type: .string)
-        ]
 
         /// The original identifier of the WorkSpace that is being migrated.
         public let sourceWorkspaceId: String?
@@ -1561,10 +1353,6 @@ extension WorkSpaces {
     }
 
     public struct ModificationState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resource", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The resource.
         public let resource: ModificationResourceEnum?
@@ -1583,10 +1371,6 @@ extension WorkSpaces {
     }
 
     public struct ModifyAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedTenancyManagementCidrRange", required: false, type: .string), 
-            AWSShapeMember(label: "DedicatedTenancySupport", required: false, type: .enum)
-        ]
 
         /// The IP address range, specified as an IPv4 CIDR block, for the management network interface. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also be specified as available by the ListAvailableManagementCidrRanges operation.
         public let dedicatedTenancyManagementCidrRange: String?
@@ -1617,10 +1401,6 @@ extension WorkSpaces {
     }
 
     public struct ModifyClientPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientProperties", required: true, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
 
         /// Information about the Amazon WorkSpaces client.
         public let clientProperties: ClientProperties
@@ -1651,10 +1431,6 @@ extension WorkSpaces {
     }
 
     public struct ModifySelfservicePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "SelfservicePermissions", required: true, type: .structure)
-        ]
 
         /// The identifier of the directory.
         public let resourceId: String
@@ -1687,10 +1463,6 @@ extension WorkSpaces {
     }
 
     public struct ModifyWorkspaceAccessPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "WorkspaceAccessProperties", required: true, type: .structure)
-        ]
 
         /// The identifier of the directory.
         public let resourceId: String
@@ -1723,10 +1495,6 @@ extension WorkSpaces {
     }
 
     public struct ModifyWorkspaceCreationPropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "WorkspaceCreationProperties", required: true, type: .structure)
-        ]
 
         /// The identifier of the directory.
         public let resourceId: String
@@ -1760,10 +1528,6 @@ extension WorkSpaces {
     }
 
     public struct ModifyWorkspacePropertiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
-            AWSShapeMember(label: "WorkspaceProperties", required: true, type: .structure)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -1794,10 +1558,6 @@ extension WorkSpaces {
     }
 
     public struct ModifyWorkspaceStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
-            AWSShapeMember(label: "WorkspaceState", required: true, type: .enum)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -1828,9 +1588,6 @@ extension WorkSpaces {
     }
 
     public struct OperatingSystem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The operating system.
         public let `type`: OperatingSystemType?
@@ -1845,9 +1602,6 @@ extension WorkSpaces {
     }
 
     public struct RebootRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -1866,9 +1620,6 @@ extension WorkSpaces {
     }
 
     public struct RebootWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RebootWorkspaceRequests", required: true, type: .list)
-        ]
 
         /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
         public let rebootWorkspaceRequests: [RebootRequest]
@@ -1891,9 +1642,6 @@ extension WorkSpaces {
     }
 
     public struct RebootWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
 
         /// Information about the WorkSpaces that could not be rebooted.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -1908,9 +1656,6 @@ extension WorkSpaces {
     }
 
     public struct RebuildRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -1929,9 +1674,6 @@ extension WorkSpaces {
     }
 
     public struct RebuildWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RebuildWorkspaceRequests", required: true, type: .list)
-        ]
 
         /// The WorkSpace to rebuild. You can specify a single WorkSpace.
         public let rebuildWorkspaceRequests: [RebuildRequest]
@@ -1954,9 +1696,6 @@ extension WorkSpaces {
     }
 
     public struct RebuildWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
 
         /// Information about the WorkSpace that could not be rebuilt.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -1971,14 +1710,6 @@ extension WorkSpaces {
     }
 
     public struct RegisterWorkspaceDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "EnableSelfService", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableWorkDocs", required: true, type: .boolean), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Tenancy", required: false, type: .enum)
-        ]
 
         /// The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateException error. If you have already registered the maximum number of directories that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again.
         public let directoryId: String
@@ -2036,9 +1767,6 @@ extension WorkSpaces {
     }
 
     public struct RestoreWorkspaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -2065,10 +1793,6 @@ extension WorkSpaces {
     }
 
     public struct RevokeIpRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: true, type: .string), 
-            AWSShapeMember(label: "UserRules", required: true, type: .list)
-        ]
 
         /// The identifier of the group.
         public let groupId: String
@@ -2099,9 +1823,6 @@ extension WorkSpaces {
     }
 
     public struct RootStorage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .string)
-        ]
 
         /// The size of the root volume.
         public let capacity: String?
@@ -2116,13 +1837,6 @@ extension WorkSpaces {
     }
 
     public struct SelfservicePermissions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeComputeType", required: false, type: .enum), 
-            AWSShapeMember(label: "IncreaseVolumeSize", required: false, type: .enum), 
-            AWSShapeMember(label: "RebuildWorkspace", required: false, type: .enum), 
-            AWSShapeMember(label: "RestartWorkspace", required: false, type: .enum), 
-            AWSShapeMember(label: "SwitchRunningMode", required: false, type: .enum)
-        ]
 
         /// Specifies whether users can change the compute type (bundle) for their WorkSpace.
         public let changeComputeType: ReconnectEnum?
@@ -2153,9 +1867,6 @@ extension WorkSpaces {
     }
 
     public struct Snapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotTime", required: false, type: .timestamp)
-        ]
 
         /// The time when the snapshot was created.
         public let snapshotTime: TimeStamp?
@@ -2170,9 +1881,6 @@ extension WorkSpaces {
     }
 
     public struct StartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
@@ -2191,9 +1899,6 @@ extension WorkSpaces {
     }
 
     public struct StartWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartWorkspaceRequests", required: true, type: .list)
-        ]
 
         /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
         public let startWorkspaceRequests: [StartRequest]
@@ -2216,9 +1921,6 @@ extension WorkSpaces {
     }
 
     public struct StartWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
 
         /// Information about the WorkSpaces that could not be started.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -2233,9 +1935,6 @@ extension WorkSpaces {
     }
 
     public struct StopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
@@ -2254,9 +1953,6 @@ extension WorkSpaces {
     }
 
     public struct StopWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StopWorkspaceRequests", required: true, type: .list)
-        ]
 
         /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
         public let stopWorkspaceRequests: [StopRequest]
@@ -2279,9 +1975,6 @@ extension WorkSpaces {
     }
 
     public struct StopWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
 
         /// Information about the WorkSpaces that could not be stopped.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -2296,10 +1989,6 @@ extension WorkSpaces {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The key of the tag.
         public let key: String
@@ -2324,9 +2013,6 @@ extension WorkSpaces {
     }
 
     public struct TerminateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
 
         /// The identifier of the WorkSpace.
         public let workspaceId: String
@@ -2345,9 +2031,6 @@ extension WorkSpaces {
     }
 
     public struct TerminateWorkspacesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminateWorkspaceRequests", required: true, type: .list)
-        ]
 
         /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
         public let terminateWorkspaceRequests: [TerminateRequest]
@@ -2370,9 +2053,6 @@ extension WorkSpaces {
     }
 
     public struct TerminateWorkspacesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
-        ]
 
         /// Information about the WorkSpaces that could not be terminated.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -2387,10 +2067,6 @@ extension WorkSpaces {
     }
 
     public struct UpdateRulesOfIpGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: true, type: .string), 
-            AWSShapeMember(label: "UserRules", required: true, type: .list)
-        ]
 
         /// The identifier of the group.
         public let groupId: String
@@ -2421,9 +2097,6 @@ extension WorkSpaces {
     }
 
     public struct UserStorage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capacity", required: false, type: .string)
-        ]
 
         /// The size of the user storage.
         public let capacity: String?
@@ -2438,23 +2111,6 @@ extension WorkSpaces {
     }
 
     public struct Workspace: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BundleId", required: false, type: .string), 
-            AWSShapeMember(label: "ComputerName", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ModificationStates", required: false, type: .list), 
-            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure)
-        ]
 
         /// The identifier of the bundle used to create the WorkSpace.
         public let bundleId: String?
@@ -2525,15 +2181,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceAccessProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceTypeAndroid", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceTypeChromeOs", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceTypeIos", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceTypeOsx", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceTypeWeb", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceTypeWindows", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceTypeZeroClient", required: false, type: .enum)
-        ]
 
         /// Indicates whether users can use Android devices to access their WorkSpaces.
         public let deviceTypeAndroid: AccessPropertyValue?
@@ -2572,17 +2219,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceBundle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BundleId", required: false, type: .string), 
-            AWSShapeMember(label: "ComputeType", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .string), 
-            AWSShapeMember(label: "RootStorage", required: false, type: .structure), 
-            AWSShapeMember(label: "UserStorage", required: false, type: .structure)
-        ]
 
         /// The bundle identifier.
         public let bundleId: String?
@@ -2629,12 +2265,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceConnectionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionState", required: false, type: .enum), 
-            AWSShapeMember(label: "ConnectionStateCheckTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastKnownUserConnectionTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
-        ]
 
         /// The connection state of the WorkSpace. The connection state is unknown if the WorkSpace is stopped.
         public let connectionState: ConnectionState?
@@ -2661,13 +2291,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceCreationProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
-            AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableMaintenanceMode", required: false, type: .boolean), 
-            AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean)
-        ]
 
         /// The identifier of your custom security group.
         public let customSecurityGroupId: String?
@@ -2704,24 +2327,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceDirectory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: false, type: .string), 
-            AWSShapeMember(label: "CustomerUserName", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryName", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryType", required: false, type: .enum), 
-            AWSShapeMember(label: "DnsIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "IamRoleId", required: false, type: .string), 
-            AWSShapeMember(label: "ipGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "RegistrationCode", required: false, type: .string), 
-            AWSShapeMember(label: "SelfservicePermissions", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "Tenancy", required: false, type: .enum), 
-            AWSShapeMember(label: "WorkspaceAccessProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "WorkspaceCreationProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "WorkspaceSecurityGroupId", required: false, type: .string)
-        ]
 
         /// The directory alias.
         public let alias: String?
@@ -2796,16 +2401,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceImage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OperatingSystem", required: false, type: .structure), 
-            AWSShapeMember(label: "RequiredTenancy", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The description of the image.
         public let description: String?
@@ -2848,13 +2443,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComputeTypeName", required: false, type: .enum), 
-            AWSShapeMember(label: "RootVolumeSizeGib", required: false, type: .integer), 
-            AWSShapeMember(label: "RunningMode", required: false, type: .enum), 
-            AWSShapeMember(label: "RunningModeAutoStopTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "UserVolumeSizeGib", required: false, type: .integer)
-        ]
 
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
@@ -2885,16 +2473,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BundleId", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure)
-        ]
 
         /// The identifier of the bundle for the WorkSpace. You can use DescribeWorkspaceBundles to list the available bundles.
         public let bundleId: String
@@ -2949,12 +2527,6 @@ extension WorkSpaces {
     }
 
     public struct WorkspacesIpGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "groupDesc", required: false, type: .string), 
-            AWSShapeMember(label: "groupId", required: false, type: .string), 
-            AWSShapeMember(label: "groupName", required: false, type: .string), 
-            AWSShapeMember(label: "userRules", required: false, type: .list)
-        ]
 
         /// The description of the group.
         public let groupDesc: String?

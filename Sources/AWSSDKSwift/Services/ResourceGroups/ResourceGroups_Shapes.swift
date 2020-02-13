@@ -31,12 +31,6 @@ extension ResourceGroups {
     //MARK: Shapes
 
     public struct CreateGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceQuery", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The description of the resource group. Descriptions can have a maximum of 511 characters, including letters, numbers, hyphens, underscores, punctuation, and spaces.
         public let description: String?
@@ -80,11 +74,6 @@ extension ResourceGroups {
     }
 
     public struct CreateGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceQuery", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// A full description of the resource group after it is created.
         public let group: Group?
@@ -108,7 +97,7 @@ extension ResourceGroups {
 
     public struct DeleteGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group to delete.
@@ -130,9 +119,6 @@ extension ResourceGroups {
     }
 
     public struct DeleteGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
 
         /// A full description of the deleted resource group.
         public let group: Group?
@@ -148,7 +134,7 @@ extension ResourceGroups {
 
     public struct GetGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group.
@@ -170,9 +156,6 @@ extension ResourceGroups {
     }
 
     public struct GetGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
 
         /// A full description of the resource group.
         public let group: Group?
@@ -188,7 +171,7 @@ extension ResourceGroups {
 
     public struct GetGroupQueryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group.
@@ -210,9 +193,6 @@ extension ResourceGroups {
     }
 
     public struct GetGroupQueryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupQuery", required: false, type: .structure)
-        ]
 
         /// The resource query associated with the specified group.
         public let groupQuery: GroupQuery?
@@ -228,7 +208,7 @@ extension ResourceGroups {
 
     public struct GetTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"), required: true, type: .string)
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"))
         ]
 
         /// The ARN of the resource group for which you want a list of tags. The resource must exist within the account you are using.
@@ -250,10 +230,6 @@ extension ResourceGroups {
     }
 
     public struct GetTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The ARN of the tagged resource group.
         public let arn: String?
@@ -272,11 +248,6 @@ extension ResourceGroups {
     }
 
     public struct Group: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The description of the resource group.
         public let description: String?
@@ -299,10 +270,6 @@ extension ResourceGroups {
     }
 
     public struct GroupFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The name of the filter. Filter names are case-sensitive.
         public let name: GroupFilterName
@@ -331,10 +298,6 @@ extension ResourceGroups {
     }
 
     public struct GroupIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string)
-        ]
 
         /// The ARN of a resource group.
         public let groupArn: String?
@@ -353,10 +316,6 @@ extension ResourceGroups {
     }
 
     public struct GroupQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceQuery", required: true, type: .structure)
-        ]
 
         /// The name of a resource group that is associated with a specific resource query.
         public let groupName: String
@@ -376,10 +335,9 @@ extension ResourceGroups {
 
     public struct ListGroupResourcesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName")), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Filters, formatted as ResourceFilter objects, that you want to apply to a ListGroupResources operation.    resource-type - Filter resources by their type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.  
@@ -421,11 +379,6 @@ extension ResourceGroups {
     }
 
     public struct ListGroupResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "QueryErrors", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceIdentifiers", required: false, type: .list)
-        ]
 
         /// The NextToken value to include in a subsequent ListGroupResources request, to get more results.
         public let nextToken: String?
@@ -449,9 +402,8 @@ extension ResourceGroups {
 
     public struct ListGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter groups by resource type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.  
@@ -486,10 +438,6 @@ extension ResourceGroups {
     }
 
     public struct ListGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of GroupIdentifier objects. Each identifier is an object that contains both the GroupName and the GroupArn.
         public let groupIdentifiers: [GroupIdentifier]?
@@ -508,10 +456,6 @@ extension ResourceGroups {
     }
 
     public struct QueryError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// Possible values are CLOUDFORMATION_STACK_INACTIVE and CLOUDFORMATION_STACK_NOT_EXISTING.
         public let errorCode: QueryErrorCode?
@@ -530,10 +474,6 @@ extension ResourceGroups {
     }
 
     public struct ResourceFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The name of the filter. Filter names are case-sensitive.
         public let name: ResourceFilterName
@@ -562,10 +502,6 @@ extension ResourceGroups {
     }
 
     public struct ResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The ARN of a resource.
         public let resourceArn: String?
@@ -584,10 +520,6 @@ extension ResourceGroups {
     }
 
     public struct ResourceQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Query", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The query that defines a group or a search.
         public let query: String
@@ -611,11 +543,6 @@ extension ResourceGroups {
     }
 
     public struct SearchResourcesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceQuery", required: true, type: .structure)
-        ]
 
         /// The maximum number of group member ARNs returned by SearchResources in paginated output. By default, this number is 50.
         public let maxResults: Int?
@@ -647,11 +574,6 @@ extension ResourceGroups {
     }
 
     public struct SearchResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "QueryErrors", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceIdentifiers", required: false, type: .list)
-        ]
 
         /// The NextToken value to include in a subsequent SearchResources request, to get more results.
         public let nextToken: String?
@@ -675,8 +597,7 @@ extension ResourceGroups {
 
     public struct TagInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"))
         ]
 
         /// The ARN of the resource to which to add tags.
@@ -710,10 +631,6 @@ extension ResourceGroups {
     }
 
     public struct TagOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The ARN of the tagged resource.
         public let arn: String?
@@ -733,8 +650,7 @@ extension ResourceGroups {
 
     public struct UntagInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Keys", required: true, type: .list)
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"))
         ]
 
         /// The ARN of the resource from which to remove tags.
@@ -765,10 +681,6 @@ extension ResourceGroups {
     }
 
     public struct UntagOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Keys", required: false, type: .list)
-        ]
 
         /// The ARN of the resource from which tags have been removed.
         public let arn: String?
@@ -788,8 +700,7 @@ extension ResourceGroups {
 
     public struct UpdateGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The description of the resource group. Descriptions can have a maximum of 511 characters, including letters, numbers, hyphens, underscores, punctuation, and spaces.
@@ -817,9 +728,6 @@ extension ResourceGroups {
     }
 
     public struct UpdateGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
 
         /// The full description of the resource group after it has been updated.
         public let group: Group?
@@ -835,8 +743,7 @@ extension ResourceGroups {
 
     public struct UpdateGroupQueryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "ResourceQuery", required: true, type: .structure)
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group for which you want to edit the query.
@@ -863,9 +770,6 @@ extension ResourceGroups {
     }
 
     public struct UpdateGroupQueryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupQuery", required: false, type: .structure)
-        ]
 
         /// The resource query associated with the resource group after the update.
         public let groupQuery: GroupQuery?

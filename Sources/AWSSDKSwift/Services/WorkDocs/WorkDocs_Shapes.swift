@@ -219,9 +219,9 @@ extension WorkDocs {
 
     public struct AbortDocumentVersionUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -257,8 +257,8 @@ extension WorkDocs {
 
     public struct ActivateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -286,9 +286,6 @@ extension WorkDocs {
     }
 
     public struct ActivateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// The user information.
         public let user: User?
@@ -303,17 +300,6 @@ extension WorkDocs {
     }
 
     public struct Activity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommentMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
-            AWSShapeMember(label: "IsIndirectActivity", required: false, type: .boolean), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "OriginalParent", required: false, type: .structure), 
-            AWSShapeMember(label: "Participants", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
         public let commentMetadata: CommentMetadata?
@@ -361,10 +347,8 @@ extension WorkDocs {
 
     public struct AddResourcePermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "NotificationOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Principals", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -404,9 +388,6 @@ extension WorkDocs {
     }
 
     public struct AddResourcePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShareResults", required: false, type: .list)
-        ]
 
         /// The share results.
         public let shareResults: [ShareResult]?
@@ -421,17 +402,6 @@ extension WorkDocs {
     }
 
     public struct Comment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommentId", required: true, type: .string), 
-            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ParentId", required: false, type: .string), 
-            AWSShapeMember(label: "RecipientId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
-            AWSShapeMember(label: "Visibility", required: false, type: .enum)
-        ]
 
         /// The ID of the comment.
         public let commentId: String
@@ -478,13 +448,6 @@ extension WorkDocs {
     }
 
     public struct CommentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommentId", required: false, type: .string), 
-            AWSShapeMember(label: "CommentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RecipientId", required: false, type: .string)
-        ]
 
         /// The ID of the comment.
         public let commentId: String?
@@ -516,14 +479,9 @@ extension WorkDocs {
 
     public struct CreateCommentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "NotifyCollaborators", required: false, type: .boolean), 
-            AWSShapeMember(label: "ParentId", required: false, type: .string), 
-            AWSShapeMember(label: "Text", required: true, type: .string), 
-            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "Visibility", required: false, type: .enum)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -586,9 +544,6 @@ extension WorkDocs {
     }
 
     public struct CreateCommentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .structure)
-        ]
 
         /// The comment that has been created.
         public let comment: Comment?
@@ -604,10 +559,9 @@ extension WorkDocs {
 
     public struct CreateCustomMetadataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "CustomMetadata", required: true, type: .map), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId")), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -663,9 +617,7 @@ extension WorkDocs {
 
     public struct CreateFolderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -700,9 +652,6 @@ extension WorkDocs {
     }
 
     public struct CreateFolderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
 
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
@@ -718,9 +667,8 @@ extension WorkDocs {
 
     public struct CreateLabelsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -767,10 +715,7 @@ extension WorkDocs {
 
     public struct CreateNotificationSubscriptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
-            AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"))
         ]
 
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https.
@@ -806,9 +751,6 @@ extension WorkDocs {
     }
 
     public struct CreateNotificationSubscriptionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subscription", required: false, type: .structure)
-        ]
 
         /// The subscription.
         public let subscription: Subscription?
@@ -824,15 +766,7 @@ extension WorkDocs {
 
     public struct CreateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "GivenName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
-            AWSShapeMember(label: "Surname", required: true, type: .string), 
-            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -904,9 +838,6 @@ extension WorkDocs {
     }
 
     public struct CreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// The user information.
         public let user: User?
@@ -922,8 +853,8 @@ extension WorkDocs {
 
     public struct DeactivateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -952,10 +883,10 @@ extension WorkDocs {
 
     public struct DeleteCommentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "CommentId", location: .uri(locationName: "CommentId"), required: true, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "CommentId", location: .uri(locationName: "CommentId")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -998,11 +929,11 @@ extension WorkDocs {
 
     public struct DeleteCustomMetadataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Keys", location: .querystring(locationName: "keys"), required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll")), 
+            AWSShapeMember(label: "Keys", location: .querystring(locationName: "keys")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId")), 
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1060,8 +991,8 @@ extension WorkDocs {
 
     public struct DeleteDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1090,8 +1021,8 @@ extension WorkDocs {
 
     public struct DeleteFolderContentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1120,8 +1051,8 @@ extension WorkDocs {
 
     public struct DeleteFolderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1150,10 +1081,10 @@ extension WorkDocs {
 
     public struct DeleteLabelsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Labels", location: .querystring(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll")), 
+            AWSShapeMember(label: "Labels", location: .querystring(locationName: "labels")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1204,8 +1135,8 @@ extension WorkDocs {
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionId", location: .uri(locationName: "SubscriptionId"), required: true, type: .string)
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId")), 
+            AWSShapeMember(label: "SubscriptionId", location: .uri(locationName: "SubscriptionId"))
         ]
 
         /// The ID of the organization.
@@ -1235,8 +1166,8 @@ extension WorkDocs {
 
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1265,16 +1196,16 @@ extension WorkDocs {
 
     public struct DescribeActivitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivityTypes", location: .querystring(locationName: "activityTypes"), required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "IncludeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", location: .querystring(locationName: "resourceId"), required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
+            AWSShapeMember(label: "ActivityTypes", location: .querystring(locationName: "activityTypes")), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "endTime")), 
+            AWSShapeMember(label: "IncludeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId")), 
+            AWSShapeMember(label: "ResourceId", location: .querystring(locationName: "resourceId")), 
+            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "startTime")), 
+            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"))
         ]
 
         /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
@@ -1348,10 +1279,6 @@ extension WorkDocs {
     }
 
     public struct DescribeActivitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "UserActivities", required: false, type: .list)
-        ]
 
         /// The marker for the next set of results.
         public let marker: String?
@@ -1371,11 +1298,11 @@ extension WorkDocs {
 
     public struct DescribeCommentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1423,10 +1350,6 @@ extension WorkDocs {
     }
 
     public struct DescribeCommentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comments", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The list of comments for the specified document version.
         public let comments: [Comment]?
@@ -1446,12 +1369,12 @@ extension WorkDocs {
 
     public struct DescribeDocumentVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields")), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1505,10 +1428,6 @@ extension WorkDocs {
     }
 
     public struct DescribeDocumentVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentVersions", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The document versions.
         public let documentVersions: [DocumentVersionMetadata]?
@@ -1528,14 +1447,14 @@ extension WorkDocs {
 
     public struct DescribeFolderContentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
-            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
-            AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId")), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order")), 
+            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort")), 
+            AWSShapeMember(label: "Type", location: .querystring(locationName: "type"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1594,11 +1513,6 @@ extension WorkDocs {
     }
 
     public struct DescribeFolderContentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Documents", required: false, type: .list), 
-            AWSShapeMember(label: "Folders", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The documents in the specified folder.
         public let documents: [DocumentMetadata]?
@@ -1622,11 +1536,11 @@ extension WorkDocs {
 
     public struct DescribeGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
-            AWSShapeMember(label: "SearchQuery", location: .querystring(locationName: "searchQuery"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId")), 
+            AWSShapeMember(label: "SearchQuery", location: .querystring(locationName: "searchQuery"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1673,10 +1587,6 @@ extension WorkDocs {
     }
 
     public struct DescribeGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The list of groups.
         public let groups: [GroupMetadata]?
@@ -1696,9 +1606,9 @@ extension WorkDocs {
 
     public struct DescribeNotificationSubscriptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string)
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"))
         ]
 
         /// The maximum number of items to return with this call.
@@ -1732,10 +1642,6 @@ extension WorkDocs {
     }
 
     public struct DescribeNotificationSubscriptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
-        ]
 
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -1755,11 +1661,11 @@ extension WorkDocs {
 
     public struct DescribeResourcePermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", location: .querystring(locationName: "principalId"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "PrincipalId", location: .querystring(locationName: "principalId")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1806,10 +1712,6 @@ extension WorkDocs {
     }
 
     public struct DescribeResourcePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Principals", required: false, type: .list)
-        ]
 
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -1829,9 +1731,9 @@ extension WorkDocs {
 
     public struct DescribeRootFoldersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1864,10 +1766,6 @@ extension WorkDocs {
     }
 
     public struct DescribeRootFoldersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Folders", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The user's special folders.
         public let folders: [FolderMetadata]?
@@ -1887,16 +1785,16 @@ extension WorkDocs {
 
     public struct DescribeUsersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
-            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Query", location: .querystring(locationName: "query"), required: false, type: .string), 
-            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
-            AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields")), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order")), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId")), 
+            AWSShapeMember(label: "Query", location: .querystring(locationName: "query")), 
+            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort")), 
+            AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1969,10 +1867,6 @@ extension WorkDocs {
     }
 
     public struct DescribeUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Users", required: false, type: .list)
-        ]
 
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -1991,16 +1885,6 @@ extension WorkDocs {
     }
 
     public struct DocumentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Labels", required: false, type: .list), 
-            AWSShapeMember(label: "LatestVersionMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum)
-        ]
 
         /// The time when the document was created.
         public let createdTimestamp: TimeStamp?
@@ -2043,21 +1927,6 @@ extension WorkDocs {
     }
 
     public struct DocumentVersionMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Signature", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .long), 
-            AWSShapeMember(label: "Source", required: false, type: .map), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Thumbnail", required: false, type: .map)
-        ]
 
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: TimeStamp?
@@ -2120,19 +1989,6 @@ extension WorkDocs {
     }
 
     public struct FolderMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Labels", required: false, type: .list), 
-            AWSShapeMember(label: "LatestVersionSize", required: false, type: .long), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeMember(label: "Signature", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .long)
-        ]
 
         /// The time when the folder was created.
         public let createdTimestamp: TimeStamp?
@@ -2188,7 +2044,7 @@ extension WorkDocs {
 
     public struct GetCurrentUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2209,9 +2065,6 @@ extension WorkDocs {
     }
 
     public struct GetCurrentUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// Metadata of the user.
         public let user: User?
@@ -2227,11 +2080,11 @@ extension WorkDocs {
 
     public struct GetDocumentPathRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2278,9 +2131,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentPathResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .structure)
-        ]
 
         /// The path information.
         public let path: ResourcePath?
@@ -2296,9 +2146,9 @@ extension WorkDocs {
 
     public struct GetDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2330,10 +2180,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
 
         /// The custom metadata on the document.
         public let customMetadata: [String: String]?
@@ -2353,11 +2199,11 @@ extension WorkDocs {
 
     public struct GetDocumentVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields")), 
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata")), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2403,10 +2249,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
 
         /// The custom metadata on the document version.
         public let customMetadata: [String: String]?
@@ -2426,11 +2268,11 @@ extension WorkDocs {
 
     public struct GetFolderPathRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields")), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2477,9 +2319,6 @@ extension WorkDocs {
     }
 
     public struct GetFolderPathResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .structure)
-        ]
 
         /// The path information.
         public let path: ResourcePath?
@@ -2495,9 +2334,9 @@ extension WorkDocs {
 
     public struct GetFolderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId")), 
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2529,10 +2368,6 @@ extension WorkDocs {
     }
 
     public struct GetFolderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "Metadata", required: false, type: .structure)
-        ]
 
         /// The custom metadata on the folder.
         public let customMetadata: [String: String]?
@@ -2552,11 +2387,11 @@ extension WorkDocs {
 
     public struct GetResourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "CollectionType", location: .querystring(locationName: "collectionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "CollectionType", location: .querystring(locationName: "collectionType")), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker")), 
+            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"))
         ]
 
         /// The Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API operation using AWS credentials.
@@ -2600,11 +2435,6 @@ extension WorkDocs {
     }
 
     public struct GetResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Documents", required: false, type: .list), 
-            AWSShapeMember(label: "Folders", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The documents in the specified collection.
         public let documents: [DocumentMetadata]?
@@ -2627,10 +2457,6 @@ extension WorkDocs {
     }
 
     public struct GroupMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ID of the user group.
         public let id: String?
@@ -2650,14 +2476,7 @@ extension WorkDocs {
 
     public struct InitiateDocumentVersionUploadRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2717,10 +2536,6 @@ extension WorkDocs {
     }
 
     public struct InitiateDocumentVersionUploadResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "UploadMetadata", required: false, type: .structure)
-        ]
 
         /// The document metadata.
         public let metadata: DocumentMetadata?
@@ -2739,10 +2554,6 @@ extension WorkDocs {
     }
 
     public struct NotificationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SendEmail", required: false, type: .boolean)
-        ]
 
         /// Text value to be included in the email body.
         public let emailMessage: String?
@@ -2766,10 +2577,6 @@ extension WorkDocs {
     }
 
     public struct Participants: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "Users", required: false, type: .list)
-        ]
 
         /// The list of user groups.
         public let groups: [GroupMetadata]?
@@ -2788,10 +2595,6 @@ extension WorkDocs {
     }
 
     public struct PermissionInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The role of the user.
         public let role: RoleType?
@@ -2810,11 +2613,6 @@ extension WorkDocs {
     }
 
     public struct Principal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Roles", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The ID of the resource.
         public let id: String?
@@ -2838,8 +2636,8 @@ extension WorkDocs {
 
     public struct RemoveAllResourcePermissionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2868,10 +2666,10 @@ extension WorkDocs {
 
     public struct RemoveResourcePermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string), 
-            AWSShapeMember(label: "PrincipalType", location: .querystring(locationName: "type"), required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId")), 
+            AWSShapeMember(label: "PrincipalType", location: .querystring(locationName: "type")), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2910,15 +2708,6 @@ extension WorkDocs {
     }
 
     public struct ResourceMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OriginalName", required: false, type: .string), 
-            AWSShapeMember(label: "Owner", required: false, type: .structure), 
-            AWSShapeMember(label: "ParentId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The ID of the resource.
         public let id: String?
@@ -2957,9 +2746,6 @@ extension WorkDocs {
     }
 
     public struct ResourcePath: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Components", required: false, type: .list)
-        ]
 
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
@@ -2974,10 +2760,6 @@ extension WorkDocs {
     }
 
     public struct ResourcePathComponent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ID of the resource path.
         public let id: String?
@@ -2996,11 +2778,6 @@ extension WorkDocs {
     }
 
     public struct SharePrincipal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Role", required: true, type: .enum), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The ID of the recipient.
         public let id: String
@@ -3029,14 +2806,6 @@ extension WorkDocs {
     }
 
     public struct ShareResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InviteePrincipalId", required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .enum), 
-            AWSShapeMember(label: "ShareId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// The ID of the invited user.
         public let inviteePrincipalId: String?
@@ -3071,10 +2840,6 @@ extension WorkDocs {
     }
 
     public struct StorageRuleType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageAllocatedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "StorageType", required: false, type: .enum)
-        ]
 
         /// The amount of storage allocated, in bytes.
         public let storageAllocatedInBytes: Int64?
@@ -3097,11 +2862,6 @@ extension WorkDocs {
     }
 
     public struct Subscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndPoint", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "SubscriptionId", required: false, type: .string)
-        ]
 
         /// The endpoint of the subscription.
         public let endPoint: String?
@@ -3125,11 +2885,8 @@ extension WorkDocs {
 
     public struct UpdateDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -3176,10 +2933,9 @@ extension WorkDocs {
 
     public struct UpdateDocumentVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionStatus", required: false, type: .enum)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -3219,11 +2975,8 @@ extension WorkDocs {
 
     public struct UpdateFolderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceState", required: false, type: .enum)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -3270,15 +3023,8 @@ extension WorkDocs {
 
     public struct UpdateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeMember(label: "GivenName", required: false, type: .string), 
-            AWSShapeMember(label: "GrantPoweruserPrivileges", required: false, type: .enum), 
-            AWSShapeMember(label: "Locale", required: false, type: .enum), 
-            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
-            AWSShapeMember(label: "Surname", required: false, type: .string), 
-            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -3341,9 +3087,6 @@ extension WorkDocs {
     }
 
     public struct UpdateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// The user information.
         public let user: User?
@@ -3358,10 +3101,6 @@ extension WorkDocs {
     }
 
     public struct UploadMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SignedHeaders", required: false, type: .map), 
-            AWSShapeMember(label: "UploadUrl", required: false, type: .string)
-        ]
 
         /// The signed headers.
         public let signedHeaders: [String: String]?
@@ -3380,23 +3119,6 @@ extension WorkDocs {
     }
 
     public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "GivenName", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Locale", required: false, type: .enum), 
-            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "RecycleBinFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "RootFolderId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Storage", required: false, type: .structure), 
-            AWSShapeMember(label: "Surname", required: false, type: .string), 
-            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The time when the user was created.
         public let createdTimestamp: TimeStamp?
@@ -3467,13 +3189,6 @@ extension WorkDocs {
     }
 
     public struct UserMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "GivenName", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Surname", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The email address of the user.
         public let emailAddress: String?
@@ -3504,10 +3219,6 @@ extension WorkDocs {
     }
 
     public struct UserStorageMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageUtilizedInBytes", required: false, type: .long)
-        ]
 
         /// The storage for a user.
         public let storageRule: StorageRuleType?

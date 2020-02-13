@@ -46,13 +46,6 @@ extension DLM {
     //MARK: Shapes
 
     public struct CreateLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
         public let description: String
@@ -100,9 +93,6 @@ extension DLM {
     }
 
     public struct CreateLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: false, type: .string)
-        ]
 
         /// The identifier of the lifecycle policy.
         public let policyId: String?
@@ -117,11 +107,6 @@ extension DLM {
     }
 
     public struct CreateRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Interval", required: true, type: .integer), 
-            AWSShapeMember(label: "IntervalUnit", required: true, type: .enum), 
-            AWSShapeMember(label: "Times", required: false, type: .list)
-        ]
 
         /// The interval between snapshots. The supported values are 2, 3, 4, 6, 8, 12, and 24.
         public let interval: Int
@@ -154,10 +139,6 @@ extension DLM {
     }
 
     public struct CrossRegionCopyRetainRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Interval", required: false, type: .integer), 
-            AWSShapeMember(label: "IntervalUnit", required: false, type: .enum)
-        ]
 
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
         public let interval: Int?
@@ -180,13 +161,6 @@ extension DLM {
     }
 
     public struct CrossRegionCopyRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CmkArn", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "Encrypted", required: true, type: .boolean), 
-            AWSShapeMember(label: "RetainRule", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetRegion", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
         public let cmkArn: String?
@@ -228,7 +202,7 @@ extension DLM {
 
     public struct DeleteLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"), required: true, type: .string)
+            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"))
         ]
 
         /// The identifier of the lifecycle policy.
@@ -258,12 +232,6 @@ extension DLM {
     }
 
     public struct FastRestoreRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "Interval", required: false, type: .integer), 
-            AWSShapeMember(label: "IntervalUnit", required: false, type: .enum)
-        ]
 
         /// The Availability Zones in which to enable fast snapshot restore.
         public let availabilityZones: [String]
@@ -304,11 +272,11 @@ extension DLM {
 
     public struct GetLifecyclePoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyIds", location: .querystring(locationName: "policyIds"), required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypes", location: .querystring(locationName: "resourceTypes"), required: false, type: .list), 
-            AWSShapeMember(label: "State", location: .querystring(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "TagsToAdd", location: .querystring(locationName: "tagsToAdd"), required: false, type: .list), 
-            AWSShapeMember(label: "TargetTags", location: .querystring(locationName: "targetTags"), required: false, type: .list)
+            AWSShapeMember(label: "PolicyIds", location: .querystring(locationName: "policyIds")), 
+            AWSShapeMember(label: "ResourceTypes", location: .querystring(locationName: "resourceTypes")), 
+            AWSShapeMember(label: "State", location: .querystring(locationName: "state")), 
+            AWSShapeMember(label: "TagsToAdd", location: .querystring(locationName: "tagsToAdd")), 
+            AWSShapeMember(label: "TargetTags", location: .querystring(locationName: "targetTags"))
         ]
 
         /// The identifiers of the data lifecycle policies.
@@ -364,9 +332,6 @@ extension DLM {
     }
 
     public struct GetLifecyclePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policies", required: false, type: .list)
-        ]
 
         /// Summary information about the lifecycle policies.
         public let policies: [LifecyclePolicySummary]?
@@ -382,7 +347,7 @@ extension DLM {
 
     public struct GetLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"), required: true, type: .string)
+            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"))
         ]
 
         /// The identifier of the lifecycle policy.
@@ -404,9 +369,6 @@ extension DLM {
     }
 
     public struct GetLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
-        ]
 
         /// Detailed information about the lifecycle policy.
         public let policy: LifecyclePolicy?
@@ -421,18 +383,6 @@ extension DLM {
     }
 
     public struct LifecyclePolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DateModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The local date and time when the lifecycle policy was created.
         public let dateCreated: TimeStamp?
@@ -483,12 +433,6 @@ extension DLM {
     }
 
     public struct LifecyclePolicySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The description of the lifecycle policy.
         public let description: String?
@@ -516,7 +460,7 @@ extension DLM {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -538,9 +482,6 @@ extension DLM {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// Information about the tags.
         public let tags: [String: String]?
@@ -555,9 +496,6 @@ extension DLM {
     }
 
     public struct Parameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludeBootVolume", required: false, type: .boolean)
-        ]
 
         /// When executing an EBS Snapshot Management – Instance policy, execute all CreateSnapshots calls with the excludeBootVolume set to the supplied field. Defaults to false. Only valid for EBS Snapshot Management – Instance policies.
         public let excludeBootVolume: Bool?
@@ -572,13 +510,6 @@ extension DLM {
     }
 
     public struct PolicyDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Schedules", required: false, type: .list), 
-            AWSShapeMember(label: "TargetTags", required: false, type: .list)
-        ]
 
         /// A set of optional parameters that can be provided by the policy. 
         public let parameters: Parameters?
@@ -624,11 +555,6 @@ extension DLM {
     }
 
     public struct RetainRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "Interval", required: false, type: .integer), 
-            AWSShapeMember(label: "IntervalUnit", required: false, type: .enum)
-        ]
 
         /// The number of snapshots to retain for each volume, up to a maximum of 1000.
         public let count: Int?
@@ -657,16 +583,6 @@ extension DLM {
     }
 
     public struct Schedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreateRule", required: false, type: .structure), 
-            AWSShapeMember(label: "CrossRegionCopyRules", required: false, type: .list), 
-            AWSShapeMember(label: "FastRestoreRule", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RetainRule", required: false, type: .structure), 
-            AWSShapeMember(label: "TagsToAdd", required: false, type: .list), 
-            AWSShapeMember(label: "VariableTags", required: false, type: .list)
-        ]
 
         /// Copy all user-defined tags on a source volume to snapshots of the volume created by this policy.
         public let copyTags: Bool?
@@ -733,10 +649,6 @@ extension DLM {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The tag key.
         public let key: String
@@ -765,8 +677,7 @@ extension DLM {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -808,8 +719,8 @@ extension DLM {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -851,11 +762,7 @@ extension DLM {
 
     public struct UpdateLifecyclePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"), required: true, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
+            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"))
         ]
 
         /// A description of the lifecycle policy.

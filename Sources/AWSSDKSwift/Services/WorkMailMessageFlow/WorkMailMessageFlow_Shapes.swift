@@ -10,7 +10,7 @@ extension WorkMailMessageFlow {
 
     public struct GetRawMessageContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageId", location: .uri(locationName: "messageId"), required: true, type: .string)
+            AWSShapeMember(label: "messageId", location: .uri(locationName: "messageId"))
         ]
 
         /// The identifier of the email message to retrieve.
@@ -35,7 +35,7 @@ extension WorkMailMessageFlow {
         /// The key for the payload
         public static let payloadPath: String? = "messageContent"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageContent", required: true, type: .blob)
+            AWSShapeMember(label: "messageContent", encoding: .blob)
         ]
 
         /// The raw content of the email message, in MIME format.

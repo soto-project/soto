@@ -9,14 +9,6 @@ extension MobileAnalytics {
     //MARK: Shapes
 
     public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "eventType", required: true, type: .string), 
-            AWSShapeMember(label: "metrics", required: false, type: .map), 
-            AWSShapeMember(label: "session", required: false, type: .structure), 
-            AWSShapeMember(label: "timestamp", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
         public let attributes: [String: String]?
@@ -70,9 +62,8 @@ extension MobileAnalytics {
 
     public struct PutEventsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientContext", location: .header(locationName: "x-amz-Client-Context"), required: true, type: .string), 
-            AWSShapeMember(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"), required: false, type: .string), 
-            AWSShapeMember(label: "events", required: true, type: .list)
+            AWSShapeMember(label: "clientContext", location: .header(locationName: "x-amz-Client-Context")), 
+            AWSShapeMember(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"))
         ]
 
         /// The client context including the client ID, app title, app version and package name.
@@ -102,12 +93,6 @@ extension MobileAnalytics {
     }
 
     public struct Session: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "duration", required: false, type: .long), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "startTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "stopTimestamp", required: false, type: .string)
-        ]
 
         /// The duration of the session.
         public let duration: Int64?

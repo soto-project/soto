@@ -220,9 +220,6 @@ extension CodeBuild {
     //MARK: Shapes
 
     public struct BatchDeleteBuildsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: true, type: .list)
-        ]
 
         /// The IDs of the builds to delete.
         public let ids: [String]
@@ -245,10 +242,6 @@ extension CodeBuild {
     }
 
     public struct BatchDeleteBuildsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "buildsDeleted", required: false, type: .list), 
-            AWSShapeMember(label: "buildsNotDeleted", required: false, type: .list)
-        ]
 
         /// The IDs of the builds that were successfully deleted.
         public let buildsDeleted: [String]?
@@ -267,9 +260,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetBuildsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: true, type: .list)
-        ]
 
         /// The IDs of the builds.
         public let ids: [String]
@@ -292,10 +282,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetBuildsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "builds", required: false, type: .list), 
-            AWSShapeMember(label: "buildsNotFound", required: false, type: .list)
-        ]
 
         /// Information about the requested builds.
         public let builds: [Build]?
@@ -314,9 +300,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetProjectsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "names", required: true, type: .list)
-        ]
 
         /// The names or ARNs of the build projects. To get information about a project shared with your AWS account, its ARN must be specified. You cannot specify a shared project using its name.
         public let names: [String]
@@ -339,10 +322,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetProjectsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projects", required: false, type: .list), 
-            AWSShapeMember(label: "projectsNotFound", required: false, type: .list)
-        ]
 
         /// Information about the requested build projects.
         public let projects: [Project]?
@@ -361,9 +340,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetReportGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reportGroupArns", required: true, type: .list)
-        ]
 
         ///  An array of report group ARNs that identify the report groups to return. 
         public let reportGroupArns: [String]
@@ -386,10 +362,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetReportGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reportGroups", required: false, type: .list), 
-            AWSShapeMember(label: "reportGroupsNotFound", required: false, type: .list)
-        ]
 
         ///  The array of report groups returned by BatchGetReportGroups. 
         public let reportGroups: [ReportGroup]?
@@ -408,9 +380,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetReportsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reportArns", required: true, type: .list)
-        ]
 
         ///  An array of ARNs that identify the Report objects to return. 
         public let reportArns: [String]
@@ -433,10 +402,6 @@ extension CodeBuild {
     }
 
     public struct BatchGetReportsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reports", required: false, type: .list), 
-            AWSShapeMember(label: "reportsNotFound", required: false, type: .list)
-        ]
 
         ///  The array of Report objects returned by BatchGetReports. 
         public let reports: [Report]?
@@ -455,37 +420,6 @@ extension CodeBuild {
     }
 
     public struct Build: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "buildComplete", required: false, type: .boolean), 
-            AWSShapeMember(label: "buildNumber", required: false, type: .long), 
-            AWSShapeMember(label: "buildStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "currentPhase", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "environment", required: false, type: .structure), 
-            AWSShapeMember(label: "exportedEnvironmentVariables", required: false, type: .list), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "initiator", required: false, type: .string), 
-            AWSShapeMember(label: "logs", required: false, type: .structure), 
-            AWSShapeMember(label: "networkInterface", required: false, type: .structure), 
-            AWSShapeMember(label: "phases", required: false, type: .list), 
-            AWSShapeMember(label: "projectName", required: false, type: .string), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "reportArns", required: false, type: .list), 
-            AWSShapeMember(label: "resolvedSourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the build.
         public let arn: String?
@@ -612,14 +546,6 @@ extension CodeBuild {
     }
 
     public struct BuildArtifacts: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "md5sum", required: false, type: .string), 
-            AWSShapeMember(label: "overrideArtifactName", required: false, type: .boolean), 
-            AWSShapeMember(label: "sha256sum", required: false, type: .string)
-        ]
 
         ///  An identifier for this artifact definition. 
         public let artifactIdentifier: String?
@@ -654,10 +580,6 @@ extension CodeBuild {
     }
 
     public struct BuildNotDeleted: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string)
-        ]
 
         /// The ID of the build that could not be successfully deleted.
         public let id: String?
@@ -676,14 +598,6 @@ extension CodeBuild {
     }
 
     public struct BuildPhase: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contexts", required: false, type: .list), 
-            AWSShapeMember(label: "durationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "phaseStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "phaseType", required: false, type: .enum), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
-        ]
 
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public let contexts: [PhaseContext]?
@@ -718,11 +632,6 @@ extension CodeBuild {
     }
 
     public struct CloudWatchLogsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "groupName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "streamName", required: false, type: .string)
-        ]
 
         ///  The group name of the logs in Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
         public let groupName: String?
@@ -745,26 +654,6 @@ extension CodeBuild {
     }
 
     public struct CreateProjectInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifacts", required: true, type: .structure), 
-            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "environment", required: true, type: .structure), 
-            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRole", required: true, type: .string), 
-            AWSShapeMember(label: "source", required: true, type: .structure), 
-            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
-        ]
 
         /// Information about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts
@@ -878,9 +767,6 @@ extension CodeBuild {
     }
 
     public struct CreateProjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "project", required: false, type: .structure)
-        ]
 
         /// Information about the build project that was created.
         public let project: Project?
@@ -895,11 +781,6 @@ extension CodeBuild {
     }
 
     public struct CreateReportGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         ///  A ReportExportConfig object that contains information about where the report group test results are exported. 
         public let exportConfig: ReportExportConfig
@@ -928,9 +809,6 @@ extension CodeBuild {
     }
 
     public struct CreateReportGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reportGroup", required: false, type: .structure)
-        ]
 
         ///  Information about the report group that was created. 
         public let reportGroup: ReportGroup?
@@ -945,11 +823,6 @@ extension CodeBuild {
     }
 
     public struct CreateWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchFilter", required: false, type: .string), 
-            AWSShapeMember(label: "filterGroups", required: false, type: .list), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
 
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
@@ -978,9 +851,6 @@ extension CodeBuild {
     }
 
     public struct CreateWebhookOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: false, type: .structure)
-        ]
 
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
@@ -995,9 +865,6 @@ extension CodeBuild {
     }
 
     public struct DeleteProjectInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the build project.
         public let name: String
@@ -1024,9 +891,6 @@ extension CodeBuild {
     }
 
     public struct DeleteReportGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         ///  The ARN of the report group to delete. 
         public let arn: String
@@ -1053,9 +917,6 @@ extension CodeBuild {
     }
 
     public struct DeleteReportInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         ///  The ARN of the report to delete. 
         public let arn: String
@@ -1082,9 +943,6 @@ extension CodeBuild {
     }
 
     public struct DeleteResourcePolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         ///  The ARN of the resource that is associated with the resource policy. 
         public let resourceArn: String
@@ -1111,9 +969,6 @@ extension CodeBuild {
     }
 
     public struct DeleteSourceCredentialsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String
@@ -1132,9 +987,6 @@ extension CodeBuild {
     }
 
     public struct DeleteSourceCredentialsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
@@ -1149,9 +1001,6 @@ extension CodeBuild {
     }
 
     public struct DeleteWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
 
         /// The name of the AWS CodeBuild project.
         public let projectName: String
@@ -1180,12 +1029,6 @@ extension CodeBuild {
     }
 
     public struct DescribeTestCasesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reportArn", required: true, type: .string)
-        ]
 
         ///  A TestCaseFilter object used to filter the returned reports. 
         public let filter: TestCaseFilter?
@@ -1217,10 +1060,6 @@ extension CodeBuild {
     }
 
     public struct DescribeTestCasesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "testCases", required: false, type: .list)
-        ]
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1239,11 +1078,6 @@ extension CodeBuild {
     }
 
     public struct EnvironmentImage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "versions", required: false, type: .list)
-        ]
 
         /// The description of the Docker image.
         public let description: String?
@@ -1266,10 +1100,6 @@ extension CodeBuild {
     }
 
     public struct EnvironmentLanguage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "images", required: false, type: .list), 
-            AWSShapeMember(label: "language", required: false, type: .enum)
-        ]
 
         /// The list of Docker images that are related by the specified programming language.
         public let images: [EnvironmentImage]?
@@ -1288,10 +1118,6 @@ extension CodeBuild {
     }
 
     public struct EnvironmentPlatform: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "languages", required: false, type: .list), 
-            AWSShapeMember(label: "platform", required: false, type: .enum)
-        ]
 
         /// The list of programming languages that are available for the specified platform.
         public let languages: [EnvironmentLanguage]?
@@ -1310,11 +1136,6 @@ extension CodeBuild {
     }
 
     public struct EnvironmentVariable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The name or key of the environment variable.
         public let name: String
@@ -1341,10 +1162,6 @@ extension CodeBuild {
     }
 
     public struct ExportedEnvironmentVariable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         ///  The name of this exported environment variable. 
         public let name: String?
@@ -1363,9 +1180,6 @@ extension CodeBuild {
     }
 
     public struct GetResourcePolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         ///  The ARN of the resource that is associated with the resource policy. 
         public let resourceArn: String
@@ -1384,9 +1198,6 @@ extension CodeBuild {
     }
 
     public struct GetResourcePolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: false, type: .string)
-        ]
 
         ///  The resource policy for the resource identified by the input ARN parameter. 
         public let policy: String?
@@ -1401,9 +1212,6 @@ extension CodeBuild {
     }
 
     public struct GitSubmodulesConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fetchSubmodules", required: true, type: .boolean)
-        ]
 
         ///  Set to true to fetch Git submodules for your AWS CodeBuild build project. 
         public let fetchSubmodules: Bool
@@ -1418,13 +1226,6 @@ extension CodeBuild {
     }
 
     public struct ImportSourceCredentialsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authType", required: true, type: .enum), 
-            AWSShapeMember(label: "serverType", required: true, type: .enum), 
-            AWSShapeMember(label: "shouldOverwrite", required: false, type: .boolean), 
-            AWSShapeMember(label: "token", required: true, type: .string), 
-            AWSShapeMember(label: "username", required: false, type: .string)
-        ]
 
         ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the AWS CodeBuild console. 
         public let authType: AuthType
@@ -1460,9 +1261,6 @@ extension CodeBuild {
     }
 
     public struct ImportSourceCredentialsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
@@ -1477,9 +1275,6 @@ extension CodeBuild {
     }
 
     public struct InvalidateProjectCacheInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", required: true, type: .string)
-        ]
 
         /// The name of the AWS CodeBuild build project that the cache is reset for.
         public let projectName: String
@@ -1506,11 +1301,6 @@ extension CodeBuild {
     }
 
     public struct ListBuildsForProjectInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projectName", required: true, type: .string), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -1537,10 +1327,6 @@ extension CodeBuild {
     }
 
     public struct ListBuildsForProjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
@@ -1559,10 +1345,6 @@ extension CodeBuild {
     }
 
     public struct ListBuildsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -1581,10 +1363,6 @@ extension CodeBuild {
     }
 
     public struct ListBuildsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ids", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of build IDs, with each build ID representing a single build.
         public let ids: [String]?
@@ -1611,9 +1389,6 @@ extension CodeBuild {
     }
 
     public struct ListCuratedEnvironmentImagesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platforms", required: false, type: .list)
-        ]
 
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public let platforms: [EnvironmentPlatform]?
@@ -1628,11 +1403,6 @@ extension CodeBuild {
     }
 
     public struct ListProjectsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -1659,10 +1429,6 @@ extension CodeBuild {
     }
 
     public struct ListProjectsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projects", required: false, type: .list)
-        ]
 
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
@@ -1681,12 +1447,6 @@ extension CodeBuild {
     }
 
     public struct ListReportGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         ///  The maximum number of paginated report groups returned per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
         public let maxResults: Int?
@@ -1718,10 +1478,6 @@ extension CodeBuild {
     }
 
     public struct ListReportGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reportGroups", required: false, type: .list)
-        ]
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1740,13 +1496,6 @@ extension CodeBuild {
     }
 
     public struct ListReportsForReportGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reportGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         ///  A ReportFilter object used to filter the returned reports. 
         public let filter: ReportFilter?
@@ -1782,10 +1531,6 @@ extension CodeBuild {
     }
 
     public struct ListReportsForReportGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reports", required: false, type: .list)
-        ]
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1804,12 +1549,6 @@ extension CodeBuild {
     }
 
     public struct ListReportsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         ///  A ReportFilter object used to filter the returned reports. 
         public let filter: ReportFilter?
@@ -1841,10 +1580,6 @@ extension CodeBuild {
     }
 
     public struct ListReportsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reports", required: false, type: .list)
-        ]
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1863,12 +1598,6 @@ extension CodeBuild {
     }
 
     public struct ListSharedProjectsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         ///  The maximum number of paginated shared build projects returned per response. Use nextToken to iterate pages in the list of returned Project objects. The default value is 100. 
         public let maxResults: Int?
@@ -1901,10 +1630,6 @@ extension CodeBuild {
     }
 
     public struct ListSharedProjectsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projects", required: false, type: .list)
-        ]
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1923,12 +1648,6 @@ extension CodeBuild {
     }
 
     public struct ListSharedReportGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
-        ]
 
         ///  The maximum number of paginated shared report groups per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
         public let maxResults: Int?
@@ -1960,10 +1679,6 @@ extension CodeBuild {
     }
 
     public struct ListSharedReportGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reportGroups", required: false, type: .list)
-        ]
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1990,9 +1705,6 @@ extension CodeBuild {
     }
 
     public struct ListSourceCredentialsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourceCredentialsInfos", required: false, type: .list)
-        ]
 
         ///  A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials. 
         public let sourceCredentialsInfos: [SourceCredentialsInfo]?
@@ -2007,10 +1719,6 @@ extension CodeBuild {
     }
 
     public struct LogsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudWatchLogs", required: false, type: .structure), 
-            AWSShapeMember(label: "s3Logs", required: false, type: .structure)
-        ]
 
         ///  Information about Amazon CloudWatch Logs for a build project. Amazon CloudWatch Logs are enabled by default. 
         public let cloudWatchLogs: CloudWatchLogsConfig?
@@ -2029,16 +1737,6 @@ extension CodeBuild {
     }
 
     public struct LogsLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudWatchLogs", required: false, type: .structure), 
-            AWSShapeMember(label: "cloudWatchLogsArn", required: false, type: .string), 
-            AWSShapeMember(label: "deepLink", required: false, type: .string), 
-            AWSShapeMember(label: "groupName", required: false, type: .string), 
-            AWSShapeMember(label: "s3DeepLink", required: false, type: .string), 
-            AWSShapeMember(label: "s3Logs", required: false, type: .structure), 
-            AWSShapeMember(label: "s3LogsArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamName", required: false, type: .string)
-        ]
 
         ///  Information about Amazon CloudWatch Logs for a build project. 
         public let cloudWatchLogs: CloudWatchLogsConfig?
@@ -2081,10 +1779,6 @@ extension CodeBuild {
     }
 
     public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string)
-        ]
 
         /// The ID of the network interface.
         public let networkInterfaceId: String?
@@ -2103,10 +1797,6 @@ extension CodeBuild {
     }
 
     public struct PhaseContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string)
-        ]
 
         /// An explanation of the build phase's context. This might include a command ID and an exit code.
         public let message: String?
@@ -2125,30 +1815,6 @@ extension CodeBuild {
     }
 
     public struct Project: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "badge", required: false, type: .structure), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "environment", required: false, type: .structure), 
-            AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "webhook", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the build project.
         public let arn: String?
@@ -2247,17 +1913,6 @@ extension CodeBuild {
     }
 
     public struct ProjectArtifacts: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "namespaceType", required: false, type: .enum), 
-            AWSShapeMember(label: "overrideArtifactName", required: false, type: .boolean), 
-            AWSShapeMember(label: "packaging", required: false, type: .enum), 
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         ///  An identifier for this artifact definition. 
         public let artifactIdentifier: String?
@@ -2304,10 +1959,6 @@ extension CodeBuild {
     }
 
     public struct ProjectBadge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "badgeRequestUrl", required: false, type: .string)
-        ]
 
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
         public let badgeEnabled: Bool?
@@ -2326,11 +1977,6 @@ extension CodeBuild {
     }
 
     public struct ProjectCache: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "modes", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// Information about the cache location:     NO_CACHE or LOCAL: This value is ignored.    S3: This is the S3 bucket name/prefix.  
         public let location: String?
@@ -2353,16 +1999,6 @@ extension CodeBuild {
     }
 
     public struct ProjectEnvironment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificate", required: false, type: .string), 
-            AWSShapeMember(label: "computeType", required: true, type: .enum), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .list), 
-            AWSShapeMember(label: "image", required: true, type: .string), 
-            AWSShapeMember(label: "imagePullCredentialsType", required: false, type: .enum), 
-            AWSShapeMember(label: "privilegedMode", required: false, type: .boolean), 
-            AWSShapeMember(label: "registryCredential", required: false, type: .structure), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The certificate to use with this build project.
         public let certificate: String?
@@ -2413,17 +2049,6 @@ extension CodeBuild {
     }
 
     public struct ProjectSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auth", required: false, type: .structure), 
-            AWSShapeMember(label: "buildspec", required: false, type: .string), 
-            AWSShapeMember(label: "gitCloneDepth", required: false, type: .integer), 
-            AWSShapeMember(label: "gitSubmodulesConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "insecureSsl", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "reportBuildStatus", required: false, type: .boolean), 
-            AWSShapeMember(label: "sourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly.
         public let auth: SourceAuth?
@@ -2474,10 +2099,6 @@ extension CodeBuild {
     }
 
     public struct ProjectSourceVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "sourceVersion", required: true, type: .string)
-        ]
 
         /// An identifier for a source in the build project.
         public let sourceIdentifier: String
@@ -2496,10 +2117,6 @@ extension CodeBuild {
     }
 
     public struct PutResourcePolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: true, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         ///  A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the AWS CodeBuild User Guide. 
         public let policy: String
@@ -2523,9 +2140,6 @@ extension CodeBuild {
     }
 
     public struct PutResourcePolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: false, type: .string)
-        ]
 
         ///  The ARN of the Project or ReportGroup resource that is associated with a resource policy. 
         public let resourceArn: String?
@@ -2540,10 +2154,6 @@ extension CodeBuild {
     }
 
     public struct RegistryCredential: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "credential", required: true, type: .string), 
-            AWSShapeMember(label: "credentialProvider", required: true, type: .enum)
-        ]
 
         ///  The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.    The credential can use the name of the credentials only if they exist in your current region.  
         public let credential: String
@@ -2566,19 +2176,6 @@ extension CodeBuild {
     }
 
     public struct Report: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "executionId", required: false, type: .string), 
-            AWSShapeMember(label: "expired", required: false, type: .timestamp), 
-            AWSShapeMember(label: "exportConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "reportGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "testSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "truncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         ///  The ARN of the report run. 
         public let arn: String?
@@ -2633,10 +2230,6 @@ extension CodeBuild {
     }
 
     public struct ReportExportConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportConfigType", required: false, type: .enum), 
-            AWSShapeMember(label: "s3Destination", required: false, type: .structure)
-        ]
 
         ///  The export configuration type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.   
         public let exportConfigType: ReportExportConfigType?
@@ -2659,9 +2252,6 @@ extension CodeBuild {
     }
 
     public struct ReportFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         ///  The status used to filter reports. You can filter using one status only. 
         public let status: ReportStatusType?
@@ -2676,14 +2266,6 @@ extension CodeBuild {
     }
 
     public struct ReportGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "exportConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         ///  The ARN of a ReportGroup. 
         public let arn: String?
@@ -2718,11 +2300,6 @@ extension CodeBuild {
     }
 
     public struct S3LogsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         ///  Set to true if you do not want your S3 build log output encrypted. By default S3 build logs are encrypted. 
         public let encryptionDisabled: Bool?
@@ -2745,13 +2322,6 @@ extension CodeBuild {
     }
 
     public struct S3ReportExportConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "packaging", required: false, type: .enum), 
-            AWSShapeMember(label: "path", required: false, type: .string)
-        ]
 
         ///  The name of the S3 bucket where the raw data of a report are exported. 
         public let bucket: String?
@@ -2787,10 +2357,6 @@ extension CodeBuild {
     }
 
     public struct SourceAuth: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resource", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
@@ -2809,11 +2375,6 @@ extension CodeBuild {
     }
 
     public struct SourceCredentialsInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "authType", required: false, type: .enum), 
-            AWSShapeMember(label: "serverType", required: false, type: .enum)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
@@ -2836,37 +2397,6 @@ extension CodeBuild {
     }
 
     public struct StartBuildInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactsOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "buildspecOverride", required: false, type: .string), 
-            AWSShapeMember(label: "cacheOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "certificateOverride", required: false, type: .string), 
-            AWSShapeMember(label: "computeTypeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "encryptionKeyOverride", required: false, type: .string), 
-            AWSShapeMember(label: "environmentTypeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "environmentVariablesOverride", required: false, type: .list), 
-            AWSShapeMember(label: "gitCloneDepthOverride", required: false, type: .integer), 
-            AWSShapeMember(label: "gitSubmodulesConfigOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "idempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "imageOverride", required: false, type: .string), 
-            AWSShapeMember(label: "imagePullCredentialsTypeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "insecureSslOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "logsConfigOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "privilegedModeOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "projectName", required: true, type: .string), 
-            AWSShapeMember(label: "queuedTimeoutInMinutesOverride", required: false, type: .integer), 
-            AWSShapeMember(label: "registryCredentialOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "reportBuildStatusOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "secondaryArtifactsOverride", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySourcesOverride", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySourcesVersionOverride", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRoleOverride", required: false, type: .string), 
-            AWSShapeMember(label: "sourceAuthOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "sourceLocationOverride", required: false, type: .string), 
-            AWSShapeMember(label: "sourceTypeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "timeoutInMinutesOverride", required: false, type: .integer)
-        ]
 
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
         public let artifactsOverride: ProjectArtifacts?
@@ -3018,9 +2548,6 @@ extension CodeBuild {
     }
 
     public struct StartBuildOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "build", required: false, type: .structure)
-        ]
 
         /// Information about the build to be run.
         public let build: Build?
@@ -3035,9 +2562,6 @@ extension CodeBuild {
     }
 
     public struct StopBuildInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
 
         /// The ID of the build.
         public let id: String
@@ -3056,9 +2580,6 @@ extension CodeBuild {
     }
 
     public struct StopBuildOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "build", required: false, type: .structure)
-        ]
 
         /// Information about the build.
         public let build: Build?
@@ -3073,10 +2594,6 @@ extension CodeBuild {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The tag's key.
         public let key: String?
@@ -3104,16 +2621,6 @@ extension CodeBuild {
     }
 
     public struct TestCase: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "durationInNanoSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "expired", required: false, type: .timestamp), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "prefix", required: false, type: .string), 
-            AWSShapeMember(label: "reportArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "testRawDataPath", required: false, type: .string)
-        ]
 
         ///  The number of nanoseconds it took to run this test case. 
         public let durationInNanoSeconds: Int64?
@@ -3156,9 +2663,6 @@ extension CodeBuild {
     }
 
     public struct TestCaseFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .string)
-        ]
 
         ///  The status used to filter test cases. Valid statuses are SUCCEEDED, FAILED, ERROR, SKIPPED, and UNKNOWN. A TestCaseFilter can have one status. 
         public let status: String?
@@ -3173,11 +2677,6 @@ extension CodeBuild {
     }
 
     public struct TestReportSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "durationInNanoSeconds", required: true, type: .long), 
-            AWSShapeMember(label: "statusCounts", required: true, type: .map), 
-            AWSShapeMember(label: "total", required: true, type: .integer)
-        ]
 
         ///  The number of nanoseconds it took to run all of the test cases in this report. 
         public let durationInNanoSeconds: Int64
@@ -3200,26 +2699,6 @@ extension CodeBuild {
     }
 
     public struct UpdateProjectInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "cache", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeMember(label: "environment", required: false, type: .structure), 
-            AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySources", required: false, type: .list), 
-            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
-        ]
 
         /// Information to be changed about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts?
@@ -3331,9 +2810,6 @@ extension CodeBuild {
     }
 
     public struct UpdateProjectOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "project", required: false, type: .structure)
-        ]
 
         /// Information about the build project that was changed.
         public let project: Project?
@@ -3348,10 +2824,6 @@ extension CodeBuild {
     }
 
     public struct UpdateReportGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "exportConfig", required: false, type: .structure)
-        ]
 
         ///  The ARN of the report group to update. 
         public let arn: String
@@ -3375,9 +2847,6 @@ extension CodeBuild {
     }
 
     public struct UpdateReportGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reportGroup", required: false, type: .structure)
-        ]
 
         ///  Information about the updated report group. 
         public let reportGroup: ReportGroup?
@@ -3392,12 +2861,6 @@ extension CodeBuild {
     }
 
     public struct UpdateWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchFilter", required: false, type: .string), 
-            AWSShapeMember(label: "filterGroups", required: false, type: .list), 
-            AWSShapeMember(label: "projectName", required: true, type: .string), 
-            AWSShapeMember(label: "rotateSecret", required: false, type: .boolean)
-        ]
 
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
@@ -3430,9 +2893,6 @@ extension CodeBuild {
     }
 
     public struct UpdateWebhookOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: false, type: .structure)
-        ]
 
         ///  Information about a repository's webhook that is associated with a project in AWS CodeBuild. 
         public let webhook: Webhook?
@@ -3447,11 +2907,6 @@ extension CodeBuild {
     }
 
     public struct VpcConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "subnets", required: false, type: .list), 
-            AWSShapeMember(label: "vpcId", required: false, type: .string)
-        ]
 
         /// A list of one or more security groups IDs in your Amazon VPC.
         public let securityGroupIds: [String]?
@@ -3486,14 +2941,6 @@ extension CodeBuild {
     }
 
     public struct Webhook: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchFilter", required: false, type: .string), 
-            AWSShapeMember(label: "filterGroups", required: false, type: .list), 
-            AWSShapeMember(label: "lastModifiedSecret", required: false, type: .timestamp), 
-            AWSShapeMember(label: "payloadUrl", required: false, type: .string), 
-            AWSShapeMember(label: "secret", required: false, type: .string), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
 
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
@@ -3528,11 +2975,6 @@ extension CodeBuild {
     }
 
     public struct WebhookFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "excludeMatchedPattern", required: false, type: .boolean), 
-            AWSShapeMember(label: "pattern", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         ///  Used to indicate that the pattern determines which webhook events do not trigger a build. If true, then a webhook event that does not match the pattern triggers a build. If false, then a webhook event that matches the pattern triggers a build. 
         public let excludeMatchedPattern: Bool?
