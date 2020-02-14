@@ -49,8 +49,7 @@ extension MediaConnect {
 
     public struct AddFlowOutputsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn")), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"))
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"))
         ]
 
         public let flowArn: String
@@ -69,10 +68,6 @@ extension MediaConnect {
     }
 
     public struct AddFlowOutputsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"))
-        ]
 
         /// The ARN of the flow that these outputs were added to.
         public let flowArn: String?
@@ -92,17 +87,7 @@ extension MediaConnect {
 
     public struct AddOutputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrAllowList", location: .body(locationName: "cidrAllowList")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId")), 
-            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency")), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -158,13 +143,6 @@ extension MediaConnect {
     }
 
     public struct CreateFlowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs")), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"))
-        ]
 
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
         public let availabilityZone: String?
@@ -194,9 +172,6 @@ extension MediaConnect {
     }
 
     public struct CreateFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Flow", location: .body(locationName: "flow"))
-        ]
 
         public let flow: Flow?
 
@@ -226,10 +201,6 @@ extension MediaConnect {
     }
 
     public struct DeleteFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ARN of the flow that was deleted.
         public let flowArn: String?
@@ -264,10 +235,6 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Flow", location: .body(locationName: "flow")), 
-            AWSShapeMember(label: "Messages", location: .body(locationName: "messages"))
-        ]
 
         public let flow: Flow?
         public let messages: Messages?
@@ -284,17 +251,6 @@ extension MediaConnect {
     }
 
     public struct Encryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm")), 
-            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector")), 
-            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId")), 
-            AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
-        ]
 
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm
@@ -341,14 +297,6 @@ extension MediaConnect {
     }
 
     public struct Entitlement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"))
-        ]
 
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -383,17 +331,6 @@ extension MediaConnect {
     }
 
     public struct Flow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "EgressIp", location: .body(locationName: "egressIp")), 
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements")), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs")), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
         public let availabilityZone: String
@@ -439,13 +376,6 @@ extension MediaConnect {
     }
 
     public struct GrantEntitlementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"))
-        ]
 
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -477,7 +407,6 @@ extension MediaConnect {
 
     public struct GrantFlowEntitlementsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements")), 
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"))
         ]
 
@@ -497,10 +426,6 @@ extension MediaConnect {
     }
 
     public struct GrantFlowEntitlementsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements")), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"))
-        ]
 
         /// The entitlements that were just granted.
         public let entitlements: [Entitlement]?
@@ -544,10 +469,6 @@ extension MediaConnect {
     }
 
     public struct ListEntitlementsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// A list of entitlements that have been granted to you from other AWS accounts.
         public let entitlements: [ListedEntitlement]?
@@ -591,10 +512,6 @@ extension MediaConnect {
     }
 
     public struct ListFlowsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Flows", location: .body(locationName: "flows")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// A list of flow summaries.
         public let flows: [ListedFlow]?
@@ -629,9 +546,6 @@ extension MediaConnect {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
@@ -646,11 +560,6 @@ extension MediaConnect {
     }
 
     public struct ListedEntitlement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent")), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn")), 
-            AWSShapeMember(label: "EntitlementName", location: .body(locationName: "entitlementName"))
-        ]
 
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -673,14 +582,6 @@ extension MediaConnect {
     }
 
     public struct ListedFlow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "SourceType", location: .body(locationName: "sourceType")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The Availability Zone that the flow was created in.
         public let availabilityZone: String
@@ -715,9 +616,6 @@ extension MediaConnect {
     }
 
     public struct Messages: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", location: .body(locationName: "errors"))
-        ]
 
         /// A list of errors that might have been generated from processes on this flow.
         public let errors: [String]
@@ -732,18 +630,6 @@ extension MediaConnect {
     }
 
     public struct Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn")), 
-            AWSShapeMember(label: "MediaLiveInputArn", location: .body(locationName: "mediaLiveInputArn")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn")), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port")), 
-            AWSShapeMember(label: "Transport", location: .body(locationName: "transport"))
-        ]
 
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -814,10 +700,6 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowOutputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn"))
-        ]
 
         /// The ARN of the flow that is associated with the output you removed.
         public let flowArn: String?
@@ -856,10 +738,6 @@ extension MediaConnect {
     }
 
     public struct RevokeFlowEntitlementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn")), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"))
-        ]
 
         /// The ARN of the entitlement that was revoked.
         public let entitlementArn: String?
@@ -879,16 +757,7 @@ extension MediaConnect {
 
     public struct SetSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn")), 
-            AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort")), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId")), 
-            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The type of encryption that is used on the content ingested from this source.
@@ -940,18 +809,6 @@ extension MediaConnect {
     }
 
     public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent")), 
-            AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn")), 
-            AWSShapeMember(label: "IngestIp", location: .body(locationName: "ingestIp")), 
-            AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn")), 
-            AWSShapeMember(label: "Transport", location: .body(locationName: "transport")), 
-            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"))
-        ]
 
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -1018,10 +875,6 @@ extension MediaConnect {
     }
 
     public struct StartFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ARN of the flow that you started.
         public let flowArn: String?
@@ -1056,10 +909,6 @@ extension MediaConnect {
     }
 
     public struct StopFlowResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ARN of the flow that you stopped.
         public let flowArn: String?
@@ -1079,8 +928,7 @@ extension MediaConnect {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         public let resourceArn: String
@@ -1100,13 +948,7 @@ extension MediaConnect {
 
     public struct Transport: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrAllowList", location: .body(locationName: "cidrAllowList")), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId")), 
-            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency")), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -1166,17 +1008,6 @@ extension MediaConnect {
     }
 
     public struct UpdateEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm")), 
-            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector")), 
-            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId")), 
-            AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
-        ]
 
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm?
@@ -1224,11 +1055,8 @@ extension MediaConnect {
 
     public struct UpdateFlowEntitlementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
             AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn")), 
-            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn")), 
-            AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"))
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"))
         ]
 
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
@@ -1258,10 +1086,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowEntitlementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entitlement", location: .body(locationName: "entitlement")), 
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"))
-        ]
 
         public let entitlement: Entitlement?
         /// The ARN of the flow that this entitlement was granted on.
@@ -1280,18 +1104,9 @@ extension MediaConnect {
 
     public struct UpdateFlowOutputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrAllowList", location: .body(locationName: "cidrAllowList")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn")), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency")), 
             AWSShapeMember(label: "OutputArn", location: .uri(locationName: "outputArn")), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId")), 
-            AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency")), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -1349,10 +1164,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowOutputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Output", location: .body(locationName: "output"))
-        ]
 
         /// The ARN of the flow that is associated with the updated output.
         public let flowArn: String?
@@ -1371,17 +1182,9 @@ extension MediaConnect {
 
     public struct UpdateFlowSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn")), 
             AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn")), 
-            AWSShapeMember(label: "IngestPort", location: .body(locationName: "ingestPort")), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
-            AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency")), 
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "SourceArn", location: .uri(locationName: "sourceArn")), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId")), 
-            AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"))
+            AWSShapeMember(label: "SourceArn", location: .uri(locationName: "sourceArn"))
         ]
 
         /// The type of encryption used on the content ingested from this source.
@@ -1435,10 +1238,6 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn")), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"))
-        ]
 
         /// The ARN of the flow that you want to update.
         public let flowArn: String?

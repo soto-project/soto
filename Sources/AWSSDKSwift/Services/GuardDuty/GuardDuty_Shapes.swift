@@ -101,9 +101,7 @@ extension GuardDuty {
 
     public struct AcceptInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId")), 
-            AWSShapeMember(label: "MasterId", location: .body(locationName: "masterId"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector of the GuardDuty member account.
@@ -140,12 +138,6 @@ extension GuardDuty {
     }
 
     public struct AccessKeyDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessKeyId", location: .body(locationName: "accessKeyId")), 
-            AWSShapeMember(label: "PrincipalId", location: .body(locationName: "principalId")), 
-            AWSShapeMember(label: "UserName", location: .body(locationName: "userName")), 
-            AWSShapeMember(label: "UserType", location: .body(locationName: "userType"))
-        ]
 
         /// Access key ID of the user.
         public let accessKeyId: String?
@@ -172,10 +164,6 @@ extension GuardDuty {
     }
 
     public struct AccountDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId")), 
-            AWSShapeMember(label: "Email", location: .body(locationName: "email"))
-        ]
 
         /// Member account ID.
         public let accountId: String
@@ -201,13 +189,6 @@ extension GuardDuty {
     }
 
     public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionType", location: .body(locationName: "actionType")), 
-            AWSShapeMember(label: "AwsApiCallAction", location: .body(locationName: "awsApiCallAction")), 
-            AWSShapeMember(label: "DnsRequestAction", location: .body(locationName: "dnsRequestAction")), 
-            AWSShapeMember(label: "NetworkConnectionAction", location: .body(locationName: "networkConnectionAction")), 
-            AWSShapeMember(label: "PortProbeAction", location: .body(locationName: "portProbeAction"))
-        ]
 
         /// GuardDuty Finding activity type.
         public let actionType: String?
@@ -239,8 +220,7 @@ extension GuardDuty {
 
     public struct ArchiveFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
@@ -279,13 +259,6 @@ extension GuardDuty {
     }
 
     public struct AwsApiCallAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Api", location: .body(locationName: "api")), 
-            AWSShapeMember(label: "CallerType", location: .body(locationName: "callerType")), 
-            AWSShapeMember(label: "DomainDetails", location: .body(locationName: "domainDetails")), 
-            AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails")), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"))
-        ]
 
         /// AWS API name.
         public let api: String?
@@ -316,9 +289,6 @@ extension GuardDuty {
     }
 
     public struct City: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CityName", location: .body(locationName: "cityName"))
-        ]
 
         /// City name of the remote IP address.
         public let cityName: String?
@@ -333,14 +303,6 @@ extension GuardDuty {
     }
 
     public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Equals", location: .body(locationName: "equals")), 
-            AWSShapeMember(label: "GreaterThan", location: .body(locationName: "greaterThan")), 
-            AWSShapeMember(label: "GreaterThanOrEqual", location: .body(locationName: "greaterThanOrEqual")), 
-            AWSShapeMember(label: "LessThan", location: .body(locationName: "lessThan")), 
-            AWSShapeMember(label: "LessThanOrEqual", location: .body(locationName: "lessThanOrEqual")), 
-            AWSShapeMember(label: "NotEquals", location: .body(locationName: "notEquals"))
-        ]
 
         /// Represents an equal condition to be applied to a single field when querying for findings.
         public let equals: [String]?
@@ -375,10 +337,6 @@ extension GuardDuty {
     }
 
     public struct Country: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountryCode", location: .body(locationName: "countryCode")), 
-            AWSShapeMember(label: "CountryName", location: .body(locationName: "countryName"))
-        ]
 
         /// Country code of the remote IP address.
         public let countryCode: String?
@@ -397,12 +355,6 @@ extension GuardDuty {
     }
 
     public struct CreateDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "Enable", location: .body(locationName: "enable")), 
-            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The idempotency token for the create request.
         public let clientToken: String?
@@ -440,9 +392,6 @@ extension GuardDuty {
     }
 
     public struct CreateDetectorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId"))
-        ]
 
         /// The unique ID of the created detector.
         public let detectorId: String?
@@ -458,14 +407,7 @@ extension GuardDuty {
 
     public struct CreateFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", location: .body(locationName: "action")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Rank", location: .body(locationName: "rank")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// Specifies the action that is to be applied to the findings that match the filter.
@@ -528,9 +470,6 @@ extension GuardDuty {
     }
 
     public struct CreateFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The name of the successfully created filter.
         public let name: String
@@ -546,13 +485,7 @@ extension GuardDuty {
 
     public struct CreateIPSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
@@ -609,9 +542,6 @@ extension GuardDuty {
     }
 
     public struct CreateIPSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpSetId", location: .body(locationName: "ipSetId"))
-        ]
 
         /// The ID of the IPSet resource.
         public let ipSetId: String
@@ -627,7 +557,6 @@ extension GuardDuty {
 
     public struct CreateMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountDetails", location: .body(locationName: "accountDetails")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -658,9 +587,6 @@ extension GuardDuty {
     }
 
     public struct CreateMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -676,9 +602,6 @@ extension GuardDuty {
 
     public struct CreatePublishingDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "DestinationProperties", location: .body(locationName: "destinationProperties")), 
-            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -714,9 +637,6 @@ extension GuardDuty {
     }
 
     public struct CreatePublishingDestinationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", location: .body(locationName: "destinationId"))
-        ]
 
         /// The ID of the publishing destination created.
         public let destinationId: String
@@ -732,8 +652,7 @@ extension GuardDuty {
 
     public struct CreateSampleFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FindingTypes", location: .body(locationName: "findingTypes"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector to create sample findings for.
@@ -773,13 +692,7 @@ extension GuardDuty {
 
     public struct CreateThreatIntelSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
@@ -836,9 +749,6 @@ extension GuardDuty {
     }
 
     public struct CreateThreatIntelSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreatIntelSetId", location: .body(locationName: "threatIntelSetId"))
-        ]
 
         /// The ID of the ThreatIntelSet resource.
         public let threatIntelSetId: String
@@ -853,9 +763,6 @@ extension GuardDuty {
     }
 
     public struct DeclineInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"))
-        ]
 
         /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
         public let accountIds: [String]
@@ -879,9 +786,6 @@ extension GuardDuty {
     }
 
     public struct DeclineInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -996,9 +900,6 @@ extension GuardDuty {
     }
 
     public struct DeleteInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"))
-        ]
 
         /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to delete invitations from.
         public let accountIds: [String]
@@ -1022,9 +923,6 @@ extension GuardDuty {
     }
 
     public struct DeleteInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -1040,7 +938,6 @@ extension GuardDuty {
 
     public struct DeleteMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -1072,9 +969,6 @@ extension GuardDuty {
     }
 
     public struct DeleteMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// The accounts that could not be processed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -1186,13 +1080,6 @@ extension GuardDuty {
     }
 
     public struct DescribePublishingDestinationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", location: .body(locationName: "destinationId")), 
-            AWSShapeMember(label: "DestinationProperties", location: .body(locationName: "destinationProperties")), 
-            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType")), 
-            AWSShapeMember(label: "PublishingFailureStartTimestamp", location: .body(locationName: "publishingFailureStartTimestamp")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ID of the publishing destination.
         public let destinationId: String
@@ -1223,11 +1110,6 @@ extension GuardDuty {
     }
 
     public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", location: .body(locationName: "destinationId")), 
-            AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The unique ID of the publishing destination.
         public let destinationId: String
@@ -1250,10 +1132,6 @@ extension GuardDuty {
     }
 
     public struct DestinationProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationArn", location: .body(locationName: "destinationArn")), 
-            AWSShapeMember(label: "KmsKeyArn", location: .body(locationName: "kmsKeyArn"))
-        ]
 
         /// The ARN of the resource to publish to.
         public let destinationArn: String?
@@ -1303,7 +1181,6 @@ extension GuardDuty {
 
     public struct DisassociateMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -1335,9 +1212,6 @@ extension GuardDuty {
     }
 
     public struct DisassociateMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -1352,9 +1226,6 @@ extension GuardDuty {
     }
 
     public struct DnsRequestAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", location: .body(locationName: "domain"))
-        ]
 
         /// Domain information for the API request.
         public let domain: String?
@@ -1369,9 +1240,6 @@ extension GuardDuty {
     }
 
     public struct DomainDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", location: .body(locationName: "domain"))
-        ]
 
         /// Domain information for the AWS API call.
         public let domain: String?
@@ -1386,9 +1254,6 @@ extension GuardDuty {
     }
 
     public struct Evidence: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreatIntelligenceDetails", location: .body(locationName: "threatIntelligenceDetails"))
-        ]
 
         /// A list of threat intelligence details related to the evidence.
         public let threatIntelligenceDetails: [ThreatIntelligenceDetail]?
@@ -1404,21 +1269,7 @@ extension GuardDuty {
 
     public struct Finding: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId")), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Confidence", location: .body(locationName: "confidence")), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Partition", location: .body(locationName: "partition")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "Resource", location: .body(locationName: "resource")), 
-            AWSShapeMember(label: "SchemaVersion", location: .body(locationName: "schemaVersion")), 
-            AWSShapeMember(label: "Service", location: .body(locationName: "service")), 
-            AWSShapeMember(label: "Severity", location: .body(locationName: "severity")), 
-            AWSShapeMember(label: "Title", location: .body(locationName: "title")), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"))
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The ID of the account in which the finding was generated.
@@ -1488,9 +1339,6 @@ extension GuardDuty {
     }
 
     public struct FindingCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Criterion", location: .body(locationName: "criterion"))
-        ]
 
         /// Represents a map of finding properties that match specified conditions and values when querying findings.
         public let criterion: [String: Condition]?
@@ -1505,9 +1353,6 @@ extension GuardDuty {
     }
 
     public struct FindingStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountBySeverity", location: .body(locationName: "countBySeverity"))
-        ]
 
         /// Represents a map of severity to count statistic for a set of findings
         public let countBySeverity: [String: Int]?
@@ -1522,10 +1367,6 @@ extension GuardDuty {
     }
 
     public struct GeoLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Lat", location: .body(locationName: "lat")), 
-            AWSShapeMember(label: "Lon", location: .body(locationName: "lon"))
-        ]
 
         /// Latitude information of remote IP address.
         public let lat: Double?
@@ -1566,14 +1407,6 @@ extension GuardDuty {
     }
 
     public struct GetDetectorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
-            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency")), 
-            AWSShapeMember(label: "ServiceRole", location: .body(locationName: "serviceRole")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"))
-        ]
 
         /// Detector creation timestamp.
         public let createdAt: String?
@@ -1635,14 +1468,6 @@ extension GuardDuty {
     }
 
     public struct GetFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", location: .body(locationName: "action")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Rank", location: .body(locationName: "rank")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// Specifies the action that is to be applied to the findings that match the filter.
         public let action: FilterAction
@@ -1678,9 +1503,7 @@ extension GuardDuty {
 
     public struct GetFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds")), 
-            AWSShapeMember(label: "SortCriteria", location: .body(locationName: "sortCriteria"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
@@ -1715,9 +1538,6 @@ extension GuardDuty {
     }
 
     public struct GetFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Findings", location: .body(locationName: "findings"))
-        ]
 
         /// A list of findings.
         public let findings: [Finding]
@@ -1733,9 +1553,7 @@ extension GuardDuty {
 
     public struct GetFindingsStatisticsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria")), 
-            AWSShapeMember(label: "FindingStatisticTypes", location: .body(locationName: "findingStatisticTypes"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
@@ -1766,9 +1584,6 @@ extension GuardDuty {
     }
 
     public struct GetFindingsStatisticsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindingStatistics", location: .body(locationName: "findingStatistics"))
-        ]
 
         /// Finding statistics object.
         public let findingStatistics: FindingStatistics
@@ -1810,13 +1625,6 @@ extension GuardDuty {
     }
 
     public struct GetIPSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
@@ -1855,9 +1663,6 @@ extension GuardDuty {
     }
 
     public struct GetInvitationsCountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitationsCount", location: .body(locationName: "invitationsCount"))
-        ]
 
         /// The number of received invitations.
         public let invitationsCount: Int?
@@ -1894,9 +1699,6 @@ extension GuardDuty {
     }
 
     public struct GetMasterAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Master", location: .body(locationName: "master"))
-        ]
 
         /// Master account details.
         public let master: Master
@@ -1912,7 +1714,6 @@ extension GuardDuty {
 
     public struct GetMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -1944,10 +1745,6 @@ extension GuardDuty {
     }
 
     public struct GetMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", location: .body(locationName: "members")), 
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of members.
         public let members: [Member]
@@ -1993,13 +1790,6 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The format of the threatIntelSet.
         public let format: ThreatIntelSetFormat
@@ -2030,10 +1820,6 @@ extension GuardDuty {
     }
 
     public struct IamInstanceProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"))
-        ]
 
         /// AWS EC2 instance profile ARN.
         public let arn: String?
@@ -2052,20 +1838,6 @@ extension GuardDuty {
     }
 
     public struct InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "ImageDescription", location: .body(locationName: "imageDescription")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceState", location: .body(locationName: "instanceState")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "LaunchTime", location: .body(locationName: "launchTime")), 
-            AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaces")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The availability zone of the EC2 instance.
         public let availabilityZone: String?
@@ -2124,12 +1896,6 @@ extension GuardDuty {
     }
 
     public struct Invitation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId")), 
-            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId")), 
-            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt")), 
-            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"))
-        ]
 
         /// The ID of the account from which the invitations was sent.
         public let accountId: String?
@@ -2157,10 +1923,7 @@ extension GuardDuty {
 
     public struct InviteMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "DisableEmailNotification", location: .body(locationName: "disableEmailNotification")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
@@ -2199,9 +1962,6 @@ extension GuardDuty {
     }
 
     public struct InviteMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -2243,10 +2003,6 @@ extension GuardDuty {
     }
 
     public struct ListDetectorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorIds", location: .body(locationName: "detectorIds")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// A list of detector Ids.
         public let detectorIds: [String]
@@ -2299,10 +2055,6 @@ extension GuardDuty {
     }
 
     public struct ListFiltersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterNames", location: .body(locationName: "filterNames")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// A list of filter names
         public let filterNames: [String]
@@ -2322,11 +2074,7 @@ extension GuardDuty {
 
     public struct ListFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "SortCriteria", location: .body(locationName: "sortCriteria"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
@@ -2365,10 +2113,6 @@ extension GuardDuty {
     }
 
     public struct ListFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// The IDs of the findings you are listing.
         public let findingIds: [String]
@@ -2421,10 +2165,6 @@ extension GuardDuty {
     }
 
     public struct ListIPSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpSetIds", location: .body(locationName: "ipSetIds")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// The IDs of the IPSet resources.
         public let ipSetIds: [String]
@@ -2470,10 +2210,6 @@ extension GuardDuty {
     }
 
     public struct ListInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invitations", location: .body(locationName: "invitations")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// A list of invitation descriptions.
         public let invitations: [Invitation]?
@@ -2531,10 +2267,6 @@ extension GuardDuty {
     }
 
     public struct ListMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", location: .body(locationName: "members")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// A list of members.
         public let members: [Member]?
@@ -2587,10 +2319,6 @@ extension GuardDuty {
     }
 
     public struct ListPublishingDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         /// A Destinations obect that includes information about each publishing destination returned.
         public let destinations: [Destination]
@@ -2630,9 +2358,6 @@ extension GuardDuty {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The tags associated with the resource.
         public let tags: [String: String]?
@@ -2681,10 +2406,6 @@ extension GuardDuty {
     }
 
     public struct ListThreatIntelSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "ThreatIntelSetIds", location: .body(locationName: "threatIntelSetIds"))
-        ]
 
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
@@ -2703,10 +2424,6 @@ extension GuardDuty {
     }
 
     public struct LocalPortDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Port", location: .body(locationName: "port")), 
-            AWSShapeMember(label: "PortName", location: .body(locationName: "portName"))
-        ]
 
         /// Port number of the local connection.
         public let port: Int?
@@ -2725,12 +2442,6 @@ extension GuardDuty {
     }
 
     public struct Master: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId")), 
-            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId")), 
-            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt")), 
-            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"))
-        ]
 
         /// The ID of the account used as the Master account.
         public let accountId: String?
@@ -2757,15 +2468,6 @@ extension GuardDuty {
     }
 
     public struct Member: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId")), 
-            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId")), 
-            AWSShapeMember(label: "Email", location: .body(locationName: "email")), 
-            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt")), 
-            AWSShapeMember(label: "MasterId", location: .body(locationName: "masterId")), 
-            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus")), 
-            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"))
-        ]
 
         /// Member account ID.
         public let accountId: String
@@ -2805,12 +2507,7 @@ extension GuardDuty {
 
     public struct NetworkConnectionAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked")), 
-            AWSShapeMember(label: "ConnectionDirection", location: .body(locationName: "connectionDirection")), 
-            AWSShapeMember(label: "LocalPortDetails", location: .body(locationName: "localPortDetails")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails")), 
-            AWSShapeMember(label: "RemotePortDetails", location: .body(locationName: "remotePortDetails"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// Network connection blocked information.
@@ -2846,18 +2543,6 @@ extension GuardDuty {
     }
 
     public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddresses")), 
-            AWSShapeMember(label: "PublicDnsName", location: .body(locationName: "publicDnsName")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp")), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// A list of EC2 instance IPv6 address information.
         public let ipv6Addresses: [String]?
@@ -2908,12 +2593,6 @@ extension GuardDuty {
     }
 
     public struct Organization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Asn", location: .body(locationName: "asn")), 
-            AWSShapeMember(label: "AsnOrg", location: .body(locationName: "asnOrg")), 
-            AWSShapeMember(label: "Isp", location: .body(locationName: "isp")), 
-            AWSShapeMember(label: "Org", location: .body(locationName: "org"))
-        ]
 
         /// Autonomous system number of the internet provider of the remote IP address.
         public let asn: String?
@@ -2940,10 +2619,6 @@ extension GuardDuty {
     }
 
     public struct PortProbeAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked")), 
-            AWSShapeMember(label: "PortProbeDetails", location: .body(locationName: "portProbeDetails"))
-        ]
 
         /// Port probe blocked information.
         public let blocked: Bool?
@@ -2962,10 +2637,6 @@ extension GuardDuty {
     }
 
     public struct PortProbeDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalPortDetails", location: .body(locationName: "localPortDetails")), 
-            AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"))
-        ]
 
         /// Local port information of the connection.
         public let localPortDetails: LocalPortDetails?
@@ -2984,10 +2655,6 @@ extension GuardDuty {
     }
 
     public struct PrivateIpAddressDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"))
-        ]
 
         /// Private DNS name of the EC2 instance.
         public let privateDnsName: String?
@@ -3006,10 +2673,6 @@ extension GuardDuty {
     }
 
     public struct ProductCode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "ProductType", location: .body(locationName: "productType"))
-        ]
 
         /// Product code information.
         public let code: String?
@@ -3028,13 +2691,6 @@ extension GuardDuty {
     }
 
     public struct RemoteIpDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "City", location: .body(locationName: "city")), 
-            AWSShapeMember(label: "Country", location: .body(locationName: "country")), 
-            AWSShapeMember(label: "GeoLocation", location: .body(locationName: "geoLocation")), 
-            AWSShapeMember(label: "IpAddressV4", location: .body(locationName: "ipAddressV4")), 
-            AWSShapeMember(label: "Organization", location: .body(locationName: "organization"))
-        ]
 
         /// City information of the remote IP address.
         public let city: City?
@@ -3065,10 +2721,6 @@ extension GuardDuty {
     }
 
     public struct RemotePortDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Port", location: .body(locationName: "port")), 
-            AWSShapeMember(label: "PortName", location: .body(locationName: "portName"))
-        ]
 
         /// Port number of the remote connection.
         public let port: Int?
@@ -3087,11 +2739,6 @@ extension GuardDuty {
     }
 
     public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessKeyDetails", location: .body(locationName: "accessKeyDetails")), 
-            AWSShapeMember(label: "InstanceDetails", location: .body(locationName: "instanceDetails")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType"))
-        ]
 
         /// The IAM access key details (IAM user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public let accessKeyDetails: AccessKeyDetails?
@@ -3114,10 +2761,6 @@ extension GuardDuty {
     }
 
     public struct SecurityGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"))
-        ]
 
         /// EC2 instance's security group ID.
         public let groupId: String?
@@ -3136,18 +2779,6 @@ extension GuardDuty {
     }
 
     public struct Service: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", location: .body(locationName: "action")), 
-            AWSShapeMember(label: "Archived", location: .body(locationName: "archived")), 
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId")), 
-            AWSShapeMember(label: "EventFirstSeen", location: .body(locationName: "eventFirstSeen")), 
-            AWSShapeMember(label: "EventLastSeen", location: .body(locationName: "eventLastSeen")), 
-            AWSShapeMember(label: "Evidence", location: .body(locationName: "evidence")), 
-            AWSShapeMember(label: "ResourceRole", location: .body(locationName: "resourceRole")), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName")), 
-            AWSShapeMember(label: "UserFeedback", location: .body(locationName: "userFeedback"))
-        ]
 
         /// Information about the activity described in a finding.
         public let action: Action?
@@ -3198,10 +2829,6 @@ extension GuardDuty {
     }
 
     public struct SortCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", location: .body(locationName: "attributeName")), 
-            AWSShapeMember(label: "OrderBy", location: .body(locationName: "orderBy"))
-        ]
 
         /// Represents the finding attribute (for example, accountId) by which to sort findings.
         public let attributeName: String?
@@ -3221,7 +2848,6 @@ extension GuardDuty {
 
     public struct StartMonitoringMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -3253,9 +2879,6 @@ extension GuardDuty {
     }
 
     public struct StartMonitoringMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -3271,7 +2894,6 @@ extension GuardDuty {
 
     public struct StopMonitoringMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -3303,9 +2925,6 @@ extension GuardDuty {
     }
 
     public struct StopMonitoringMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"))
-        ]
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -3320,10 +2939,6 @@ extension GuardDuty {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .body(locationName: "key")), 
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// EC2 instance tag key.
         public let key: String?
@@ -3343,8 +2958,7 @@ extension GuardDuty {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
@@ -3382,10 +2996,6 @@ extension GuardDuty {
     }
 
     public struct ThreatIntelligenceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreatListName", location: .body(locationName: "threatListName")), 
-            AWSShapeMember(label: "ThreatNames", location: .body(locationName: "threatNames"))
-        ]
 
         /// The name of the threat intelligence list that triggered the finding.
         public let threatListName: String?
@@ -3405,8 +3015,7 @@ extension GuardDuty {
 
     public struct UnarchiveFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector associated with the findings to unarchive.
@@ -3445,10 +3054,6 @@ extension GuardDuty {
     }
 
     public struct UnprocessedAccount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId")), 
-            AWSShapeMember(label: "Result", location: .body(locationName: "result"))
-        ]
 
         /// AWS Account ID.
         public let accountId: String
@@ -3509,9 +3114,7 @@ extension GuardDuty {
 
     public struct UpdateDetectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "Enable", location: .body(locationName: "enable")), 
-            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector to update.
@@ -3549,12 +3152,8 @@ extension GuardDuty {
 
     public struct UpdateFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", location: .body(locationName: "action")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName")), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria")), 
-            AWSShapeMember(label: "Rank", location: .body(locationName: "rank"))
+            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"))
         ]
 
         /// Specifies the action that is to be applied to the findings that match the filter.
@@ -3599,9 +3198,6 @@ extension GuardDuty {
     }
 
     public struct UpdateFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The name of the filter.
         public let name: String
@@ -3617,10 +3213,7 @@ extension GuardDuty {
 
     public struct UpdateFindingsFeedbackRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comments", location: .body(locationName: "comments")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "Feedback", location: .body(locationName: "feedback")), 
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"))
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// Additional feedback about the GuardDuty findings.
@@ -3668,11 +3261,8 @@ extension GuardDuty {
 
     public struct UpdateIPSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId")), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
+            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"))
         ]
 
         /// The updated boolean value that specifies whether the IPSet is active or not.
@@ -3723,7 +3313,6 @@ extension GuardDuty {
     public struct UpdatePublishingDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationId", location: .uri(locationName: "destinationId")), 
-            AWSShapeMember(label: "DestinationProperties", location: .body(locationName: "destinationProperties")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
@@ -3762,10 +3351,7 @@ extension GuardDuty {
 
     public struct UpdateThreatIntelSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate")), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
             AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
         ]
 

@@ -1073,9 +1073,6 @@ extension Pinpoint {
     }
 
     public struct ApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the application.
         public let arn: String
@@ -1476,9 +1473,6 @@ extension Pinpoint {
     }
 
     public struct CampaignResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// An array of responses, one for each treatment that you defined for the campaign, in addition to the default treatment.
         public let additionalTreatments: [TreatmentResource]?
@@ -1769,9 +1763,6 @@ extension Pinpoint {
     }
 
     public struct CreateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
         public let name: String
@@ -3119,9 +3110,6 @@ extension Pinpoint {
     }
 
     public struct EmailTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
         public let defaultSubstitutions: String?
@@ -3156,9 +3144,6 @@ extension Pinpoint {
     }
 
     public struct EmailTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
@@ -5999,9 +5984,6 @@ extension Pinpoint {
     }
 
     public struct JourneyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity.
         public let activities: [String: Activity]?
@@ -6718,9 +6700,6 @@ extension Pinpoint {
     }
 
     public struct PushNotificationTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The message template to use for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let adm: AndroidPushNotificationTemplate?
@@ -6763,9 +6742,6 @@ extension Pinpoint {
     }
 
     public struct PushNotificationTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The message template that's used for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let adm: AndroidPushNotificationTemplate?
@@ -7188,9 +7164,6 @@ extension Pinpoint {
     }
 
     public struct SMSTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The message body to use in text messages that are based on the message template.
         public let body: String?
@@ -7217,9 +7190,6 @@ extension Pinpoint {
     }
 
     public struct SMSTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
@@ -7521,9 +7491,6 @@ extension Pinpoint {
     }
 
     public struct SegmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The unique identifier for the application that the segment is associated with.
         public let applicationId: String
@@ -7768,9 +7735,6 @@ extension Pinpoint {
     }
 
     public struct SimpleCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SegmentDimensions", location: .body(locationName: "segmentDimensions"))
-        ]
 
         /// The dimension settings for the event that's associated with the activity.
         public let eventCondition: EventCondition?
@@ -7872,9 +7836,6 @@ extension Pinpoint {
     }
 
     public struct TagsModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, journey, message template, or segment. Each of these resources can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]
@@ -7947,9 +7908,6 @@ extension Pinpoint {
     }
 
     public struct TemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
@@ -9096,9 +9054,6 @@ extension Pinpoint {
     }
 
     public struct VoiceTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The text of the script to use in messages that are based on the message template, in plain text format.
         public let body: String?
@@ -9133,9 +9088,6 @@ extension Pinpoint {
     }
 
     public struct VoiceTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
@@ -9256,9 +9208,6 @@ extension Pinpoint {
     }
 
     public struct WriteCampaignRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// An array of requests that defines additional treatments for the campaign, in addition to the default treatment for the campaign.
         public let additionalTreatments: [WriteTreatmentResource]?
@@ -9407,9 +9356,6 @@ extension Pinpoint {
     }
 
     public struct WriteSegmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"))
-        ]
 
         /// The criteria that define the dimensions for the segment.
         public let dimensions: SegmentDimensions?

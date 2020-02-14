@@ -113,9 +113,6 @@ extension MediaTailor {
     }
 
     public struct GetPlaybackConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
@@ -251,9 +248,6 @@ extension MediaTailor {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let tags: [String: String]?
 
@@ -285,9 +279,6 @@ extension MediaTailor {
     }
 
     public struct PlaybackConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let adDecisionServerUrl: String?
         public let cdnConfiguration: CdnConfiguration?
@@ -334,9 +325,6 @@ extension MediaTailor {
     }
 
     public struct PutPlaybackConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
@@ -383,9 +371,6 @@ extension MediaTailor {
     }
 
     public struct PutPlaybackConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let adDecisionServerUrl: String?
         public let cdnConfiguration: CdnConfiguration?
@@ -436,8 +421,7 @@ extension MediaTailor {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         public let resourceArn: String

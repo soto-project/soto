@@ -93,10 +93,6 @@ extension MediaPackage {
     //MARK: Shapes
 
     public struct Authorization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CdnIdentifierSecret", location: .body(locationName: "cdnIdentifierSecret")), 
-            AWSShapeMember(label: "SecretsRoleArn", location: .body(locationName: "secretsRoleArn"))
-        ]
 
         /// The Amazon Resource Name (ARN) for the secret in Secrets Manager that your Content Distribution Network (CDN) uses for authorization to access your endpoint.
         public let cdnIdentifierSecret: String
@@ -115,13 +111,6 @@ extension MediaPackage {
     }
 
     public struct Channel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
@@ -150,10 +139,6 @@ extension MediaPackage {
     }
 
     public struct CmafEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds")), 
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"))
-        ]
 
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
@@ -171,13 +156,6 @@ extension MediaPackage {
     }
 
     public struct CmafPackage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "HlsManifests", location: .body(locationName: "hlsManifests")), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds")), 
-            AWSShapeMember(label: "SegmentPrefix", location: .body(locationName: "segmentPrefix")), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"))
-        ]
 
         public let encryption: CmafEncryption?
         /// A list of HLS manifest configurations
@@ -207,13 +185,6 @@ extension MediaPackage {
     }
 
     public struct CmafPackageCreateOrUpdateParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "HlsManifests", location: .body(locationName: "hlsManifests")), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds")), 
-            AWSShapeMember(label: "SegmentPrefix", location: .body(locationName: "segmentPrefix")), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"))
-        ]
 
         public let encryption: CmafEncryption?
         /// A list of HLS manifest configurations
@@ -243,11 +214,6 @@ extension MediaPackage {
     }
 
     public struct CreateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let id: String
@@ -267,13 +233,6 @@ extension MediaPackage {
     }
 
     public struct CreateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let description: String?
@@ -299,13 +258,6 @@ extension MediaPackage {
     }
 
     public struct CreateHarvestJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId")), 
-            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"))
-        ]
 
         public let endTime: String
         public let id: String
@@ -331,17 +283,6 @@ extension MediaPackage {
     }
 
     public struct CreateHarvestJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId")), 
-            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         public let arn: String?
         public let channelId: String?
@@ -379,22 +320,6 @@ extension MediaPackage {
     }
 
     public struct CreateOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage")), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage")), 
-            AWSShapeMember(label: "Origination", location: .body(locationName: "origination")), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds")), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"))
-        ]
 
         public let authorization: Authorization?
         public let channelId: String
@@ -447,24 +372,6 @@ extension MediaPackage {
     }
 
     public struct CreateOriginEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage")), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage")), 
-            AWSShapeMember(label: "Origination", location: .body(locationName: "origination")), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"))
-        ]
 
         public let arn: String?
         public let authorization: Authorization?
@@ -523,10 +430,6 @@ extension MediaPackage {
     }
 
     public struct DashEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds")), 
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"))
-        ]
 
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
@@ -544,21 +447,6 @@ extension MediaPackage {
     }
 
     public struct DashPackage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdsOnDeliveryRestrictions", location: .body(locationName: "adsOnDeliveryRestrictions")), 
-            AWSShapeMember(label: "AdTriggers", location: .body(locationName: "adTriggers")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "ManifestLayout", location: .body(locationName: "manifestLayout")), 
-            AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds")), 
-            AWSShapeMember(label: "MinBufferTimeSeconds", location: .body(locationName: "minBufferTimeSeconds")), 
-            AWSShapeMember(label: "MinUpdatePeriodSeconds", location: .body(locationName: "minUpdatePeriodSeconds")), 
-            AWSShapeMember(label: "PeriodTriggers", location: .body(locationName: "periodTriggers")), 
-            AWSShapeMember(label: "Profile", location: .body(locationName: "profile")), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds")), 
-            AWSShapeMember(label: "SegmentTemplateFormat", location: .body(locationName: "segmentTemplateFormat")), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection")), 
-            AWSShapeMember(label: "SuggestedPresentationDelaySeconds", location: .body(locationName: "suggestedPresentationDelaySeconds"))
-        ]
 
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [Adtriggerselement]?
@@ -685,13 +573,6 @@ extension MediaPackage {
     }
 
     public struct DescribeChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let description: String?
@@ -733,17 +614,6 @@ extension MediaPackage {
     }
 
     public struct DescribeHarvestJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId")), 
-            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         public let arn: String?
         public let channelId: String?
@@ -797,24 +667,6 @@ extension MediaPackage {
     }
 
     public struct DescribeOriginEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage")), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage")), 
-            AWSShapeMember(label: "Origination", location: .body(locationName: "origination")), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"))
-        ]
 
         public let arn: String?
         public let authorization: Authorization?
@@ -873,17 +725,6 @@ extension MediaPackage {
     }
 
     public struct HarvestJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt")), 
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId")), 
-            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
         public let arn: String?
@@ -933,13 +774,6 @@ extension MediaPackage {
     }
 
     public struct HlsEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector")), 
-            AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod")), 
-            AWSShapeMember(label: "KeyRotationIntervalSeconds", location: .body(locationName: "keyRotationIntervalSeconds")), 
-            AWSShapeMember(label: "RepeatExtXKey", location: .body(locationName: "repeatExtXKey")), 
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"))
-        ]
 
         /// A constant initialization vector for encryption (optional).
         /// When not specified the initialization vector will be periodically rotated.
@@ -970,9 +804,6 @@ extension MediaPackage {
     }
 
     public struct HlsIngest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IngestEndpoints", location: .body(locationName: "ingestEndpoints"))
-        ]
 
         /// A list of endpoints to which the source stream should be sent.
         public let ingestEndpoints: [IngestEndpoint]?
@@ -987,16 +818,6 @@ extension MediaPackage {
     }
 
     public struct HlsManifest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType")), 
-            AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds")), 
-            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
-        ]
 
         /// This setting controls how ad markers are included in the packaged OriginEndpoint.
         /// "NONE" will omit all SCTE-35 ad markers from the output.
@@ -1054,17 +875,6 @@ extension MediaPackage {
     }
 
     public struct HlsManifestCreateOrUpdateParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers")), 
-            AWSShapeMember(label: "AdsOnDeliveryRestrictions", location: .body(locationName: "adsOnDeliveryRestrictions")), 
-            AWSShapeMember(label: "AdTriggers", location: .body(locationName: "adTriggers")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType")), 
-            AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds")), 
-            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds"))
-        ]
 
         /// This setting controls how ad markers are included in the packaged OriginEndpoint.
         /// "NONE" will omit all SCTE-35 ad markers from the output.
@@ -1124,19 +934,6 @@ extension MediaPackage {
     }
 
     public struct HlsPackage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers")), 
-            AWSShapeMember(label: "AdsOnDeliveryRestrictions", location: .body(locationName: "adsOnDeliveryRestrictions")), 
-            AWSShapeMember(label: "AdTriggers", location: .body(locationName: "adTriggers")), 
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream")), 
-            AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType")), 
-            AWSShapeMember(label: "PlaylistWindowSeconds", location: .body(locationName: "playlistWindowSeconds")), 
-            AWSShapeMember(label: "ProgramDateTimeIntervalSeconds", location: .body(locationName: "programDateTimeIntervalSeconds")), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds")), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection")), 
-            AWSShapeMember(label: "UseAudioRenditionGroup", location: .body(locationName: "useAudioRenditionGroup"))
-        ]
 
         /// This setting controls how ad markers are included in the packaged OriginEndpoint.
         /// "NONE" will omit all SCTE-35 ad markers from the output.
@@ -1203,12 +1000,6 @@ extension MediaPackage {
     }
 
     public struct IngestEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"))
-        ]
 
         /// The system generated unique identifier for the IngestEndpoint
         public let id: String?
@@ -1260,10 +1051,6 @@ extension MediaPackage {
     }
 
     public struct ListChannelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         public let channels: [Channel]?
         public let nextToken: String?
@@ -1313,10 +1100,6 @@ extension MediaPackage {
     }
 
     public struct ListHarvestJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HarvestJobs", location: .body(locationName: "harvestJobs")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         public let harvestJobs: [HarvestJob]?
         public let nextToken: String?
@@ -1362,10 +1145,6 @@ extension MediaPackage {
     }
 
     public struct ListOriginEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "OriginEndpoints", location: .body(locationName: "originEndpoints"))
-        ]
 
         public let nextToken: String?
         public let originEndpoints: [OriginEndpoint]?
@@ -1398,9 +1177,6 @@ extension MediaPackage {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let tags: [String: String]?
 
@@ -1414,9 +1190,6 @@ extension MediaPackage {
     }
 
     public struct MssEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"))
-        ]
 
         public let spekeKeyProvider: SpekeKeyProvider
 
@@ -1430,12 +1203,6 @@ extension MediaPackage {
     }
 
     public struct MssPackage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption")), 
-            AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds")), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds")), 
-            AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"))
-        ]
 
         public let encryption: MssEncryption?
         /// The time window (in seconds) contained in each manifest.
@@ -1460,24 +1227,6 @@ extension MediaPackage {
     }
 
     public struct OriginEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage")), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage")), 
-            AWSShapeMember(label: "Origination", location: .body(locationName: "origination")), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"))
-        ]
 
         /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
         public let arn: String?
@@ -1566,13 +1315,6 @@ extension MediaPackage {
     }
 
     public struct RotateChannelCredentialsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let description: String?
@@ -1618,13 +1360,6 @@ extension MediaPackage {
     }
 
     public struct RotateIngestEndpointCredentialsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let description: String?
@@ -1650,11 +1385,6 @@ extension MediaPackage {
     }
 
     public struct S3Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketName", location: .body(locationName: "bucketName")), 
-            AWSShapeMember(label: "ManifestKey", location: .body(locationName: "manifestKey")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"))
-        ]
 
         /// The name of an S3 bucket within which harvested content will be exported
         public let bucketName: String
@@ -1677,13 +1407,6 @@ extension MediaPackage {
     }
 
     public struct SpekeKeyProvider: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "SystemIds", location: .body(locationName: "systemIds")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url"))
-        ]
 
         /// An Amazon Resource Name (ARN) of a Certificate Manager certificate
         /// that MediaPackage will use for enforcing secure end-to-end data
@@ -1717,11 +1440,6 @@ extension MediaPackage {
     }
 
     public struct StreamSelection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxVideoBitsPerSecond", location: .body(locationName: "maxVideoBitsPerSecond")), 
-            AWSShapeMember(label: "MinVideoBitsPerSecond", location: .body(locationName: "minVideoBitsPerSecond")), 
-            AWSShapeMember(label: "StreamOrder", location: .body(locationName: "streamOrder"))
-        ]
 
         /// The maximum video bitrate (bps) to include in output.
         public let maxVideoBitsPerSecond: Int?
@@ -1745,8 +1463,7 @@ extension MediaPackage {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1785,7 +1502,6 @@ extension MediaPackage {
 
     public struct UpdateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
         ]
 
@@ -1804,13 +1520,6 @@ extension MediaPackage {
     }
 
     public struct UpdateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let description: String?
@@ -1837,18 +1546,7 @@ extension MediaPackage {
 
     public struct UpdateOriginEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization")), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage")), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage")), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage")), 
-            AWSShapeMember(label: "Origination", location: .body(locationName: "origination")), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds")), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds")), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"))
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let authorization: Authorization?
@@ -1896,24 +1594,6 @@ extension MediaPackage {
     }
 
     public struct UpdateOriginEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Authorization", location: .body(locationName: "authorization")), 
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "CmafPackage", location: .body(locationName: "cmafPackage")), 
-            AWSShapeMember(label: "DashPackage", location: .body(locationName: "dashPackage")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "HlsPackage", location: .body(locationName: "hlsPackage")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName")), 
-            AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage")), 
-            AWSShapeMember(label: "Origination", location: .body(locationName: "origination")), 
-            AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"))
-        ]
 
         public let arn: String?
         public let authorization: Authorization?

@@ -1761,9 +1761,6 @@ extension EC2 {
     }
 
     public struct AcceptReservedInstancesExchangeQuoteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExchangeId", location: .body(locationName: "exchangeId"))
-        ]
 
         /// The ID of the successful exchange.
         public let exchangeId: String?
@@ -1796,9 +1793,6 @@ extension EC2 {
     }
 
     public struct AcceptTransitGatewayPeeringAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayPeeringAttachment", location: .body(locationName: "transitGatewayPeeringAttachment"))
-        ]
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -1831,9 +1825,6 @@ extension EC2 {
     }
 
     public struct AcceptTransitGatewayVpcAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayVpcAttachment", location: .body(locationName: "transitGatewayVpcAttachment"))
-        ]
 
         /// The VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -1874,7 +1865,7 @@ extension EC2 {
 
     public struct AcceptVpcEndpointConnectionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the interface endpoints that were not accepted, if applicable.
@@ -1890,10 +1881,6 @@ extension EC2 {
     }
 
     public struct AcceptVpcPeeringConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -1912,9 +1899,6 @@ extension EC2 {
     }
 
     public struct AcceptVpcPeeringConnectionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcPeeringConnection", location: .body(locationName: "vpcPeeringConnection"))
-        ]
 
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
@@ -1930,7 +1914,6 @@ extension EC2 {
 
     public struct AccountAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", location: .body(locationName: "attributeName")), 
             AWSShapeMember(label: "AttributeValues", location: .body(locationName: "attributeValueSet"), encoding: .list(member:"item"))
         ]
 
@@ -1951,9 +1934,6 @@ extension EC2 {
     }
 
     public struct AccountAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeValue", location: .body(locationName: "attributeValue"))
-        ]
 
         /// The value of the attribute.
         public let attributeValue: String?
@@ -1968,12 +1948,6 @@ extension EC2 {
     }
 
     public struct ActiveInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceHealth", location: .body(locationName: "instanceHealth")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId"))
-        ]
 
         /// The health status of the instance. If the status of either the instance status check or the system status check is impaired, the health status of the instance is unhealthy. Otherwise, the health status is healthy.
         public let instanceHealth: InstanceHealthStatus?
@@ -2001,18 +1975,6 @@ extension EC2 {
 
     public struct Address: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationId", location: .body(locationName: "allocationId")), 
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "CustomerOwnedIp", location: .body(locationName: "customerOwnedIp")), 
-            AWSShapeMember(label: "CustomerOwnedIpv4Pool", location: .body(locationName: "customerOwnedIpv4Pool")), 
-            AWSShapeMember(label: "Domain", location: .body(locationName: "domain")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "NetworkBorderGroup", location: .body(locationName: "networkBorderGroup")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "NetworkInterfaceOwnerId", location: .body(locationName: "networkInterfaceOwnerId")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp")), 
-            AWSShapeMember(label: "PublicIpv4Pool", location: .body(locationName: "publicIpv4Pool")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -2095,9 +2057,6 @@ extension EC2 {
     }
 
     public struct AdvertiseByoipCidrResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ByoipCidr", location: .body(locationName: "byoipCidr"))
-        ]
 
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
@@ -2112,9 +2071,6 @@ extension EC2 {
     }
 
     public struct AllocateAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// [EC2-VPC] The Elastic IP address to recover or an IPv4 address from an address pool.
         public let address: String?
@@ -2149,15 +2105,6 @@ extension EC2 {
     }
 
     public struct AllocateAddressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationId", location: .body(locationName: "allocationId")), 
-            AWSShapeMember(label: "CustomerOwnedIp", location: .body(locationName: "customerOwnedIp")), 
-            AWSShapeMember(label: "CustomerOwnedIpv4Pool", location: .body(locationName: "customerOwnedIpv4Pool")), 
-            AWSShapeMember(label: "Domain", location: .body(locationName: "domain")), 
-            AWSShapeMember(label: "NetworkBorderGroup", location: .body(locationName: "networkBorderGroup")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp")), 
-            AWSShapeMember(label: "PublicIpv4Pool", location: .body(locationName: "publicIpv4Pool"))
-        ]
 
         /// [EC2-VPC] The ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
         public let allocationId: String?
@@ -2197,11 +2144,6 @@ extension EC2 {
 
     public struct AllocateHostsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoPlacement", location: .body(locationName: "autoPlacement")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Quantity", location: .body(locationName: "quantity")), 
             AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
@@ -2263,10 +2205,6 @@ extension EC2 {
     }
 
     public struct AllowedPrincipal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Principal", location: .body(locationName: "principal")), 
-            AWSShapeMember(label: "PrincipalType", location: .body(locationName: "principalType"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the principal.
         public let principal: String?
@@ -2315,7 +2253,7 @@ extension EC2 {
 
     public struct ApplySecurityGroupsToClientVpnTargetNetworkResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "SecurityGroupIds", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the applied security groups.
@@ -2332,9 +2270,7 @@ extension EC2 {
 
     public struct AssignIpv6AddressesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6AddressCount", location: .body(locationName: "ipv6AddressCount")), 
-            AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
+            AWSShapeMember(label: "Ipv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The number of IPv6 addresses to assign to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
@@ -2359,8 +2295,7 @@ extension EC2 {
 
     public struct AssignIpv6AddressesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignedIpv6Addresses", location: .body(locationName: "assignedIpv6Addresses"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
+            AWSShapeMember(label: "AssignedIpv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The IPv6 addresses assigned to the network interface.
@@ -2381,10 +2316,7 @@ extension EC2 {
 
     public struct AssignPrivateIpAddressesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowReassignment", location: .body(locationName: "allowReassignment")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress")), 
-            AWSShapeMember(label: "SecondaryPrivateIpAddressCount", location: .body(locationName: "secondaryPrivateIpAddressCount"))
+            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
         ]
 
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
@@ -2413,8 +2345,7 @@ extension EC2 {
 
     public struct AssignPrivateIpAddressesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignedPrivateIpAddresses", location: .body(locationName: "assignedPrivateIpAddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
+            AWSShapeMember(label: "AssignedPrivateIpAddresses", location: .body(locationName: "assignedPrivateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// The private IP addresses assigned to the network interface.
@@ -2434,9 +2365,6 @@ extension EC2 {
     }
 
     public struct AssignedPrivateIpAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"))
-        ]
 
         /// The private IP address assigned to the network interface.
         public let privateIpAddress: String?
@@ -2451,12 +2379,6 @@ extension EC2 {
     }
 
     public struct AssociateAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowReassociation", location: .body(locationName: "allowReassociation")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"))
-        ]
 
         /// [EC2-VPC] The allocation ID. This is required for EC2-VPC.
         public let allocationId: String?
@@ -2495,9 +2417,6 @@ extension EC2 {
     }
 
     public struct AssociateAddressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId"))
-        ]
 
         /// [EC2-VPC] The ID that represents the association of the Elastic IP address with an instance.
         public let associationId: String?
@@ -2538,10 +2457,6 @@ extension EC2 {
     }
 
     public struct AssociateClientVpnTargetNetworkResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The unique ID of the target network association.
         public let associationId: String?
@@ -2560,9 +2475,6 @@ extension EC2 {
     }
 
     public struct AssociateDhcpOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The ID of the DHCP options set, or default to associate no DHCP options with the VPC.
         public let dhcpOptionsId: String
@@ -2603,9 +2515,6 @@ extension EC2 {
     }
 
     public struct AssociateIamInstanceProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamInstanceProfileAssociation", location: .body(locationName: "iamInstanceProfileAssociation"))
-        ]
 
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -2620,11 +2529,6 @@ extension EC2 {
     }
 
     public struct AssociateRouteTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2651,10 +2555,6 @@ extension EC2 {
     }
 
     public struct AssociateRouteTableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "AssociationState", location: .body(locationName: "associationState"))
-        ]
 
         /// The route table association ID. This ID is required for disassociating the route table.
         public let associationId: String?
@@ -2673,10 +2573,6 @@ extension EC2 {
     }
 
     public struct AssociateSubnetCidrBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// The IPv6 CIDR block for your subnet. The subnet must have a /64 prefix length.
         public let ipv6CidrBlock: String
@@ -2695,10 +2591,6 @@ extension EC2 {
     }
 
     public struct AssociateSubnetCidrBlockResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// Information about the IPv6 CIDR block association.
         public let ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation?
@@ -2746,9 +2638,6 @@ extension EC2 {
     }
 
     public struct AssociateTransitGatewayMulticastDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Associations", location: .body(locationName: "associations"))
-        ]
 
         /// Information about the transit gateway multicast domain associations.
         public let associations: TransitGatewayMulticastDomainAssociations?
@@ -2785,9 +2674,6 @@ extension EC2 {
     }
 
     public struct AssociateTransitGatewayRouteTableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Association", location: .body(locationName: "association"))
-        ]
 
         /// The ID of the association.
         public let association: TransitGatewayAssociation?
@@ -2802,10 +2688,6 @@ extension EC2 {
     }
 
     public struct AssociateVpcCidrBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmazonProvidedIpv6CidrBlock", location: .body(locationName: "amazonProvidedIpv6CidrBlock")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses, or the size of the CIDR block.
         public let amazonProvidedIpv6CidrBlock: Bool?
@@ -2840,11 +2722,6 @@ extension EC2 {
     }
 
     public struct AssociateVpcCidrBlockResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlockAssociation", location: .body(locationName: "cidrBlockAssociation")), 
-            AWSShapeMember(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Information about the IPv4 CIDR block association.
         public let cidrBlockAssociation: VpcCidrBlockAssociation?
@@ -2867,10 +2744,6 @@ extension EC2 {
     }
 
     public struct AssociationStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The state of the target network association.
         public let code: AssociationStatusCode?
@@ -2890,10 +2763,7 @@ extension EC2 {
 
     public struct AttachClassicLinkVpcRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"groupId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"groupId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2938,11 +2808,6 @@ extension EC2 {
     }
 
     public struct AttachInternetGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2965,12 +2830,6 @@ extension EC2 {
     }
 
     public struct AttachNetworkInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceIndex", location: .body(locationName: "deviceIndex")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
-        ]
 
         /// The index of the device for the network interface attachment.
         public let deviceIndex: Int
@@ -2997,9 +2856,6 @@ extension EC2 {
     }
 
     public struct AttachNetworkInterfaceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachmentId", location: .body(locationName: "attachmentId"))
-        ]
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -3014,9 +2870,6 @@ extension EC2 {
     }
 
     public struct AttachVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let device: String
@@ -3043,9 +2896,6 @@ extension EC2 {
     }
 
     public struct AttachVpnGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -3085,9 +2935,6 @@ extension EC2 {
     }
 
     public struct AttributeBooleanValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The attribute value. The valid values are true or false.
         public let value: Bool?
@@ -3102,9 +2949,6 @@ extension EC2 {
     }
 
     public struct AttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The attribute value. The value is case-sensitive.
         public let value: String?
@@ -3119,14 +2963,6 @@ extension EC2 {
     }
 
     public struct AuthorizationRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessAll", location: .body(locationName: "accessAll")), 
-            AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DestinationCidr", location: .body(locationName: "destinationCidr")), 
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// Indicates whether the authorization rule grants access to all clients.
         public let accessAll: Bool?
@@ -3199,9 +3035,6 @@ extension EC2 {
     }
 
     public struct AuthorizeClientVpnIngressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The current state of the authorization rule.
         public let status: ClientVpnAuthorizationRuleStatus?
@@ -3217,15 +3050,7 @@ extension EC2 {
 
     public struct AuthorizeSecurityGroupEgressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrIp", location: .body(locationName: "cidrIp")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "FromPort", location: .body(locationName: "fromPort")), 
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "IpPermissions", location: .body(locationName: "ipPermissions"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "IpProtocol", location: .body(locationName: "ipProtocol")), 
-            AWSShapeMember(label: "SourceSecurityGroupName", location: .body(locationName: "sourceSecurityGroupName")), 
-            AWSShapeMember(label: "SourceSecurityGroupOwnerId", location: .body(locationName: "sourceSecurityGroupOwnerId")), 
-            AWSShapeMember(label: "ToPort", location: .body(locationName: "toPort"))
+            AWSShapeMember(label: "IpPermissions", encoding: .list(member:"item"))
         ]
 
         /// Not supported. Use a set of IP permissions to specify the CIDR.
@@ -3274,7 +3099,6 @@ extension EC2 {
 
     public struct AuthorizeSecurityGroupIngressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "IpPermissions", encoding: .list(member:"item"))
         ]
 
@@ -3328,14 +3152,8 @@ extension EC2 {
 
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
             AWSShapeMember(label: "Messages", location: .body(locationName: "messageSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkBorderGroup", location: .body(locationName: "networkBorderGroup")), 
-            AWSShapeMember(label: "OptInStatus", location: .body(locationName: "optInStatus")), 
-            AWSShapeMember(label: "RegionName", location: .body(locationName: "regionName")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "zoneState")), 
-            AWSShapeMember(label: "ZoneId", location: .body(locationName: "zoneId")), 
-            AWSShapeMember(label: "ZoneName", location: .body(locationName: "zoneName"))
+            AWSShapeMember(label: "State", location: .body(locationName: "zoneState"))
         ]
 
         ///  For Availability Zones, this parameter has the same value as the Region name. For Local Zones, the name of the associated group, for example us-west-2-lax-1.
@@ -3379,9 +3197,6 @@ extension EC2 {
     }
 
     public struct AvailabilityZoneMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The message about the Availability Zone or Local Zone.
         public let message: String?
@@ -3397,8 +3212,7 @@ extension EC2 {
 
     public struct AvailableCapacity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailableInstanceCapacity", location: .body(locationName: "availableInstanceCapacity"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "AvailableVCpus", location: .body(locationName: "availableVCpus"))
+            AWSShapeMember(label: "AvailableInstanceCapacity", encoding: .list(member:"item"))
         ]
 
         /// The number of instances that can be launched onto the Dedicated Host depending on the host's available capacity. For Dedicated Hosts that support multiple instance types, this parameter represents the number of instances for each instance size that is supported on the host.
@@ -3418,9 +3232,6 @@ extension EC2 {
     }
 
     public struct BlobAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         public let value: Data?
 
@@ -3434,12 +3245,6 @@ extension EC2 {
     }
 
     public struct BlockDeviceMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceName", location: .body(locationName: "deviceName")), 
-            AWSShapeMember(label: "Ebs", location: .body(locationName: "ebs")), 
-            AWSShapeMember(label: "NoDevice", location: .body(locationName: "noDevice")), 
-            AWSShapeMember(label: "VirtualName", location: .body(locationName: "virtualName"))
-        ]
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -3466,9 +3271,6 @@ extension EC2 {
     }
 
     public struct BundleInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -3509,14 +3311,7 @@ extension EC2 {
 
     public struct BundleTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BundleId", location: .body(locationName: "bundleId")), 
-            AWSShapeMember(label: "BundleTaskError", location: .body(locationName: "error")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Storage", location: .body(locationName: "storage")), 
-            AWSShapeMember(label: "UpdateTime", location: .body(locationName: "updateTime"))
+            AWSShapeMember(label: "BundleTaskError", location: .body(locationName: "error"))
         ]
 
         /// The ID of the bundle task.
@@ -3560,10 +3355,6 @@ extension EC2 {
     }
 
     public struct BundleTaskError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: String?
@@ -3582,12 +3373,6 @@ extension EC2 {
     }
 
     public struct ByoipCidr: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// The address range, in CIDR notation.
         public let cidr: String?
@@ -3614,9 +3399,6 @@ extension EC2 {
     }
 
     public struct CancelBundleTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The ID of the bundle task.
         public let bundleId: String
@@ -3687,11 +3469,6 @@ extension EC2 {
     }
 
     public struct CancelConversionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConversionTaskId", location: .body(locationName: "conversionTaskId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "ReasonMessage", location: .body(locationName: "reasonMessage"))
-        ]
 
         /// The ID of the conversion task.
         public let conversionTaskId: String
@@ -3714,9 +3491,6 @@ extension EC2 {
     }
 
     public struct CancelExportTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportTaskId", location: .body(locationName: "exportTaskId"))
-        ]
 
         /// The ID of the export task. This is the ID returned by CreateInstanceExportTask.
         public let exportTaskId: String
@@ -3753,11 +3527,6 @@ extension EC2 {
     }
 
     public struct CancelImportTaskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportTaskId", location: .body(locationName: "importTaskId")), 
-            AWSShapeMember(label: "PreviousState", location: .body(locationName: "previousState")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// The ID of the task being canceled.
         public let importTaskId: String?
@@ -3780,9 +3549,6 @@ extension EC2 {
     }
 
     public struct CancelReservedInstancesListingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"))
-        ]
 
         /// The ID of the Reserved Instance listing.
         public let reservedInstancesListingId: String
@@ -3814,10 +3580,6 @@ extension EC2 {
     }
 
     public struct CancelSpotFleetRequestsError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: CancelBatchErrorCode?
@@ -3836,10 +3598,6 @@ extension EC2 {
     }
 
     public struct CancelSpotFleetRequestsErrorItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", location: .body(locationName: "error")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"))
-        ]
 
         /// The error.
         public let error: CancelSpotFleetRequestsError?
@@ -3859,9 +3617,7 @@ extension EC2 {
 
     public struct CancelSpotFleetRequestsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TerminateInstances", location: .body(locationName: "terminateInstances"))
+            AWSShapeMember(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3907,11 +3663,6 @@ extension EC2 {
     }
 
     public struct CancelSpotFleetRequestsSuccessItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentSpotFleetRequestState", location: .body(locationName: "currentSpotFleetRequestState")), 
-            AWSShapeMember(label: "PreviousSpotFleetRequestState", location: .body(locationName: "previousSpotFleetRequestState")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"))
-        ]
 
         /// The current state of the Spot Fleet request.
         public let currentSpotFleetRequestState: BatchState?
@@ -3935,7 +3686,6 @@ extension EC2 {
 
     public struct CancelSpotInstanceRequestsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "SpotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
         ]
 
@@ -3973,10 +3723,6 @@ extension EC2 {
     }
 
     public struct CancelledSpotInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// The ID of the Spot Instance request.
         public let spotInstanceRequestId: String?
@@ -3996,24 +3742,7 @@ extension EC2 {
 
     public struct CapacityReservation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "AvailabilityZoneId", location: .body(locationName: "availabilityZoneId")), 
-            AWSShapeMember(label: "AvailableInstanceCount", location: .body(locationName: "availableInstanceCount")), 
-            AWSShapeMember(label: "CapacityReservationArn", location: .body(locationName: "capacityReservationArn")), 
-            AWSShapeMember(label: "CapacityReservationId", location: .body(locationName: "capacityReservationId")), 
-            AWSShapeMember(label: "CreateDate", location: .body(locationName: "createDate")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
-            AWSShapeMember(label: "EndDate", location: .body(locationName: "endDate")), 
-            AWSShapeMember(label: "EndDateType", location: .body(locationName: "endDateType")), 
-            AWSShapeMember(label: "EphemeralStorage", location: .body(locationName: "ephemeralStorage")), 
-            AWSShapeMember(label: "InstanceMatchCriteria", location: .body(locationName: "instanceMatchCriteria")), 
-            AWSShapeMember(label: "InstancePlatform", location: .body(locationName: "instancePlatform")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Tenancy", location: .body(locationName: "tenancy")), 
-            AWSShapeMember(label: "TotalInstanceCount", location: .body(locationName: "totalInstanceCount"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which the capacity is reserved.
@@ -4097,9 +3826,6 @@ extension EC2 {
     }
 
     public struct CapacityReservationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UsageStrategy", location: .body(locationName: "usageStrategy"))
-        ]
 
         /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price or prioritized) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price or prioritized). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
         public let usageStrategy: FleetCapacityReservationUsageStrategy?
@@ -4146,10 +3872,6 @@ extension EC2 {
     }
 
     public struct CapacityReservationSpecificationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapacityReservationPreference", location: .body(locationName: "capacityReservationPreference")), 
-            AWSShapeMember(label: "CapacityReservationTarget", location: .body(locationName: "capacityReservationTarget"))
-        ]
 
         /// Describes the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.  
         public let capacityReservationPreference: CapacityReservationPreference?
@@ -4182,9 +3904,6 @@ extension EC2 {
     }
 
     public struct CapacityReservationTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapacityReservationId", location: .body(locationName: "capacityReservationId"))
-        ]
 
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
@@ -4199,9 +3918,6 @@ extension EC2 {
     }
 
     public struct CertificateAuthentication: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRootCertificateChain", location: .body(locationName: "clientRootCertificateChain"))
-        ]
 
         /// The ARN of the client certificate. 
         public let clientRootCertificateChain: String?
@@ -4248,9 +3964,6 @@ extension EC2 {
     }
 
     public struct CidrBlock: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock"))
-        ]
 
         /// The IPv4 CIDR block.
         public let cidrBlock: String?
@@ -4265,10 +3978,6 @@ extension EC2 {
     }
 
     public struct ClassicLinkDnsSupport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassicLinkDnsSupported", location: .body(locationName: "classicLinkDnsSupported")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Indicates whether ClassicLink DNS support is enabled for the VPC.
         public let classicLinkDnsSupported: Bool?
@@ -4289,9 +3998,7 @@ extension EC2 {
     public struct ClassicLinkInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A list of security groups.
@@ -4319,9 +4026,6 @@ extension EC2 {
     }
 
     public struct ClassicLoadBalancer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The name of the load balancer.
         public let name: String?
@@ -4337,7 +4041,7 @@ extension EC2 {
 
     public struct ClassicLoadBalancersConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassicLoadBalancers", location: .body(locationName: "classicLoadBalancers"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "ClassicLoadBalancers", encoding: .list(member:"item"))
         ]
 
         /// One or more Classic Load Balancers.
@@ -4358,10 +4062,6 @@ extension EC2 {
     }
 
     public struct ClientCertificateRevocationListStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The state of the client certificate revocation list.
         public let code: ClientCertificateRevocationListStatusCode?
@@ -4407,8 +4107,6 @@ extension EC2 {
 
     public struct ClientVpnAuthentication: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveDirectory", location: .body(locationName: "activeDirectory")), 
-            AWSShapeMember(label: "MutualAuthentication", location: .body(locationName: "mutualAuthentication")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -4455,10 +4153,6 @@ extension EC2 {
     }
 
     public struct ClientVpnAuthorizationRuleStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The state of the authorization rule.
         public let code: ClientVpnAuthorizationRuleStatusCode?
@@ -4477,21 +4171,6 @@ extension EC2 {
     }
 
     public struct ClientVpnConnection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientIp", location: .body(locationName: "clientIp")), 
-            AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId")), 
-            AWSShapeMember(label: "CommonName", location: .body(locationName: "commonName")), 
-            AWSShapeMember(label: "ConnectionEndTime", location: .body(locationName: "connectionEndTime")), 
-            AWSShapeMember(label: "ConnectionEstablishedTime", location: .body(locationName: "connectionEstablishedTime")), 
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
-            AWSShapeMember(label: "EgressBytes", location: .body(locationName: "egressBytes")), 
-            AWSShapeMember(label: "EgressPackets", location: .body(locationName: "egressPackets")), 
-            AWSShapeMember(label: "IngressBytes", location: .body(locationName: "ingressBytes")), 
-            AWSShapeMember(label: "IngressPackets", location: .body(locationName: "ingressPackets")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Timestamp", location: .body(locationName: "timestamp")), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"))
-        ]
 
         /// The IP address of the client.
         public let clientIp: String?
@@ -4554,10 +4233,6 @@ extension EC2 {
     }
 
     public struct ClientVpnConnectionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The state of the client connection.
         public let code: ClientVpnConnectionStatusCode?
@@ -4577,22 +4252,9 @@ extension EC2 {
 
     public struct ClientVpnEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationOptions", location: .body(locationName: "authenticationOptions"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ClientCidrBlock", location: .body(locationName: "clientCidrBlock")), 
-            AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId")), 
-            AWSShapeMember(label: "ConnectionLogOptions", location: .body(locationName: "connectionLogOptions")), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "DeletionTime", location: .body(locationName: "deletionTime")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DnsName", location: .body(locationName: "dnsName")), 
+            AWSShapeMember(label: "AuthenticationOptions", encoding: .list(member:"item")), 
             AWSShapeMember(label: "DnsServers", location: .body(locationName: "dnsServer"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ServerCertificateArn", location: .body(locationName: "serverCertificateArn")), 
-            AWSShapeMember(label: "SplitTunnel", location: .body(locationName: "splitTunnel")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransportProtocol", location: .body(locationName: "transportProtocol")), 
-            AWSShapeMember(label: "VpnPort", location: .body(locationName: "vpnPort")), 
-            AWSShapeMember(label: "VpnProtocol", location: .body(locationName: "vpnProtocol"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the authentication method used by the Client VPN endpoint.
@@ -4668,10 +4330,6 @@ extension EC2 {
     }
 
     public struct ClientVpnEndpointStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The state of the Client VPN endpoint. Possible states include:    pending-associate - The Client VPN endpoint has been created but no target networks have been associated. The Client VPN endpoint cannot accept connections.    available - The Client VPN endpoint has been created and a target network has been associated. The Client VPN endpoint can accept connections.    deleting - The Client VPN endpoint is being deleted. The Client VPN endpoint cannot accept connections.    deleted - The Client VPN endpoint has been deleted. The Client VPN endpoint cannot accept connections.  
         public let code: ClientVpnEndpointStatusCode?
@@ -4691,12 +4349,6 @@ extension EC2 {
 
     public struct ClientVpnRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DestinationCidr", location: .body(locationName: "destinationCidr")), 
-            AWSShapeMember(label: "Origin", location: .body(locationName: "origin")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "TargetSubnet", location: .body(locationName: "targetSubnet")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -4737,10 +4389,6 @@ extension EC2 {
     }
 
     public struct ClientVpnRouteStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The state of the Client VPN endpoint route.
         public let code: ClientVpnRouteStatusCode?
@@ -4759,12 +4407,6 @@ extension EC2 {
     }
 
     public struct CoipAddressUsage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationId", location: .body(locationName: "allocationId")), 
-            AWSShapeMember(label: "AwsAccountId", location: .body(locationName: "awsAccountId")), 
-            AWSShapeMember(label: "AwsService", location: .body(locationName: "awsService")), 
-            AWSShapeMember(label: "CoIp", location: .body(locationName: "coIp"))
-        ]
 
         /// The allocation ID of the address.
         public let allocationId: String?
@@ -4792,9 +4434,7 @@ extension EC2 {
 
     public struct CoipPool: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId")), 
             AWSShapeMember(label: "PoolCidrs", location: .body(locationName: "poolCidrSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PoolId", location: .body(locationName: "poolId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -4823,9 +4463,6 @@ extension EC2 {
     }
 
     public struct ConfirmProductInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -4849,7 +4486,6 @@ extension EC2 {
 
     public struct ConfirmProductInstanceResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
             AWSShapeMember(label: "Return", location: .body(locationName: "return"))
         ]
 
@@ -4915,13 +4551,7 @@ extension EC2 {
 
     public struct ConnectionNotification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionEvents", location: .body(locationName: "connectionEvents"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ConnectionNotificationArn", location: .body(locationName: "connectionNotificationArn")), 
-            AWSShapeMember(label: "ConnectionNotificationId", location: .body(locationName: "connectionNotificationId")), 
-            AWSShapeMember(label: "ConnectionNotificationState", location: .body(locationName: "connectionNotificationState")), 
-            AWSShapeMember(label: "ConnectionNotificationType", location: .body(locationName: "connectionNotificationType")), 
-            AWSShapeMember(label: "ServiceId", location: .body(locationName: "serviceId")), 
-            AWSShapeMember(label: "VpcEndpointId", location: .body(locationName: "vpcEndpointId"))
+            AWSShapeMember(label: "ConnectionEvents", encoding: .list(member:"item"))
         ]
 
         /// The events for the notification. Valid values are Accept, Connect, Delete, and Reject.
@@ -4962,12 +4592,6 @@ extension EC2 {
 
     public struct ConversionTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConversionTaskId", location: .body(locationName: "conversionTaskId")), 
-            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime")), 
-            AWSShapeMember(label: "ImportInstance", location: .body(locationName: "importInstance")), 
-            AWSShapeMember(label: "ImportVolume", location: .body(locationName: "importVolume")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -5042,9 +4666,6 @@ extension EC2 {
     }
 
     public struct CopyFpgaImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FpgaImageId", location: .body(locationName: "fpgaImageId"))
-        ]
 
         /// The ID of the new AFI.
         public let fpgaImageId: String?
@@ -5059,11 +4680,6 @@ extension EC2 {
     }
 
     public struct CopyImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"))
-        ]
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
         public let clientToken: String?
@@ -5106,9 +4722,6 @@ extension EC2 {
     }
 
     public struct CopyImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId"))
-        ]
 
         /// The ID of the new AMI.
         public let imageId: String?
@@ -5124,11 +4737,6 @@ extension EC2 {
 
     public struct CopySnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationRegion", location: .body(locationName: "destinationRegion")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId")), 
-            AWSShapeMember(label: "PresignedUrl", location: .body(locationName: "presignedUrl")), 
             AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
@@ -5178,7 +4786,6 @@ extension EC2 {
 
     public struct CopySnapshotResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -5199,10 +4806,6 @@ extension EC2 {
     }
 
     public struct CpuOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreCount", location: .body(locationName: "coreCount")), 
-            AWSShapeMember(label: "ThreadsPerCore", location: .body(locationName: "threadsPerCore"))
-        ]
 
         /// The number of CPU cores for the instance.
         public let coreCount: Int?
@@ -5308,9 +4911,6 @@ extension EC2 {
     }
 
     public struct CreateCapacityReservationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapacityReservation", location: .body(locationName: "capacityReservation"))
-        ]
 
         /// Information about the Capacity Reservation.
         public let capacityReservation: CapacityReservation?
@@ -5388,11 +4988,6 @@ extension EC2 {
     }
 
     public struct CreateClientVpnEndpointResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId")), 
-            AWSShapeMember(label: "DnsName", location: .body(locationName: "dnsName")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String?
@@ -5449,9 +5044,6 @@ extension EC2 {
     }
 
     public struct CreateClientVpnRouteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The current state of the route.
         public let status: ClientVpnRouteStatus?
@@ -5467,7 +5059,6 @@ extension EC2 {
 
     public struct CreateCustomerGatewayRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "PublicIp", location: .body(locationName: "IpAddress"))
         ]
 
@@ -5504,9 +5095,6 @@ extension EC2 {
     }
 
     public struct CreateCustomerGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGateway", location: .body(locationName: "customerGateway"))
-        ]
 
         /// Information about the customer gateway.
         public let customerGateway: CustomerGateway?
@@ -5539,9 +5127,6 @@ extension EC2 {
     }
 
     public struct CreateDefaultSubnetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnet", location: .body(locationName: "subnet"))
-        ]
 
         /// Information about the subnet.
         public let subnet: Subnet?
@@ -5570,9 +5155,6 @@ extension EC2 {
     }
 
     public struct CreateDefaultVpcResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"))
-        ]
 
         /// Information about the VPC.
         public let vpc: Vpc?
@@ -5588,8 +5170,7 @@ extension EC2 {
 
     public struct CreateDhcpOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DhcpConfigurations", location: .body(locationName: "dhcpConfiguration"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
+            AWSShapeMember(label: "DhcpConfigurations", location: .body(locationName: "dhcpConfiguration"), encoding: .list(member:"item"))
         ]
 
         /// A DHCP configuration option.
@@ -5609,9 +5190,6 @@ extension EC2 {
     }
 
     public struct CreateDhcpOptionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DhcpOptions", location: .body(locationName: "dhcpOptions"))
-        ]
 
         /// A set of DHCP options.
         public let dhcpOptions: DhcpOptions?
@@ -5648,10 +5226,6 @@ extension EC2 {
     }
 
     public struct CreateEgressOnlyInternetGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "EgressOnlyInternetGateway", location: .body(locationName: "egressOnlyInternetGateway"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -5670,12 +5244,6 @@ extension EC2 {
     }
 
     public struct CreateFleetError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode")), 
-            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage")), 
-            AWSShapeMember(label: "LaunchTemplateAndOverrides", location: .body(locationName: "launchTemplateAndOverrides")), 
-            AWSShapeMember(label: "Lifecycle", location: .body(locationName: "lifecycle"))
-        ]
 
         /// The error code that indicates why the instance could not be launched. For more information about error codes, see Error Codes.
         public let errorCode: String?
@@ -5703,11 +5271,7 @@ extension EC2 {
 
     public struct CreateFleetInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIds", location: .body(locationName: "instanceIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "LaunchTemplateAndOverrides", location: .body(locationName: "launchTemplateAndOverrides")), 
-            AWSShapeMember(label: "Lifecycle", location: .body(locationName: "lifecycle")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform"))
+            AWSShapeMember(label: "InstanceIds", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the instances.
@@ -5814,7 +5378,6 @@ extension EC2 {
     public struct CreateFleetResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "FleetId", location: .body(locationName: "fleetId")), 
             AWSShapeMember(label: "Instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item"))
         ]
 
@@ -5893,9 +5456,8 @@ extension EC2 {
 
     public struct CreateFlowLogsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
             AWSShapeMember(label: "FlowLogIds", location: .body(locationName: "flowLogIdSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -5960,10 +5522,6 @@ extension EC2 {
     }
 
     public struct CreateFpgaImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FpgaImageGlobalId", location: .body(locationName: "fpgaImageGlobalId")), 
-            AWSShapeMember(label: "FpgaImageId", location: .body(locationName: "fpgaImageId"))
-        ]
 
         /// The global FPGA image identifier (AGFI ID).
         public let fpgaImageGlobalId: String?
@@ -5983,12 +5541,7 @@ extension EC2 {
 
     public struct CreateImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "NoReboot", location: .body(locationName: "noReboot"))
+            AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
         ]
 
         /// The block device mappings. This parameter cannot be used to modify the encryption status of existing volumes or snapshots. To create an AMI with encrypted snapshots, use the CopyImage action.
@@ -6024,9 +5577,6 @@ extension EC2 {
     }
 
     public struct CreateImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId"))
-        ]
 
         /// The ID of the new AMI.
         public let imageId: String?
@@ -6042,10 +5592,7 @@ extension EC2 {
 
     public struct CreateInstanceExportTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "ExportToS3Task", location: .body(locationName: "exportToS3")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "TargetEnvironment", location: .body(locationName: "targetEnvironment"))
+            AWSShapeMember(label: "ExportToS3Task", location: .body(locationName: "exportToS3"))
         ]
 
         /// A description for the conversion task or the resource being exported. The maximum length is 255 bytes.
@@ -6073,9 +5620,6 @@ extension EC2 {
     }
 
     public struct CreateInstanceExportTaskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportTask", location: .body(locationName: "exportTask"))
-        ]
 
         /// Information about the instance export task.
         public let exportTask: ExportTask?
@@ -6090,9 +5634,6 @@ extension EC2 {
     }
 
     public struct CreateInternetGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6107,9 +5648,6 @@ extension EC2 {
     }
 
     public struct CreateInternetGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InternetGateway", location: .body(locationName: "internetGateway"))
-        ]
 
         /// Information about the internet gateway.
         public let internetGateway: InternetGateway?
@@ -6124,9 +5662,6 @@ extension EC2 {
     }
 
     public struct CreateKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6190,9 +5725,6 @@ extension EC2 {
     }
 
     public struct CreateLaunchTemplateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplate", location: .body(locationName: "launchTemplate"))
-        ]
 
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
@@ -6253,9 +5785,6 @@ extension EC2 {
     }
 
     public struct CreateLaunchTemplateVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateVersion", location: .body(locationName: "launchTemplateVersion"))
-        ]
 
         /// Information about the launch template version.
         public let launchTemplateVersion: LaunchTemplateVersion?
@@ -6296,9 +5825,6 @@ extension EC2 {
     }
 
     public struct CreateLocalGatewayRouteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Route", location: .body(locationName: "route"))
-        ]
 
         /// Information about the route.
         public let route: LocalGatewayRoute?
@@ -6335,9 +5861,6 @@ extension EC2 {
     }
 
     public struct CreateLocalGatewayRouteTableVpcAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayRouteTableVpcAssociation", location: .body(locationName: "localGatewayRouteTableVpcAssociation"))
-        ]
 
         /// Information about the association.
         public let localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation?
@@ -6374,10 +5897,6 @@ extension EC2 {
     }
 
     public struct CreateNatGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "NatGateway", location: .body(locationName: "natGateway"))
-        ]
 
         /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
         public let clientToken: String?
@@ -6397,16 +5916,8 @@ extension EC2 {
 
     public struct CreateNetworkAclEntryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Egress", location: .body(locationName: "egress")), 
             AWSShapeMember(label: "IcmpTypeCode", location: .body(locationName: "Icmp")), 
-            AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock")), 
-            AWSShapeMember(label: "NetworkAclId", location: .body(locationName: "networkAclId")), 
-            AWSShapeMember(label: "PortRange", location: .body(locationName: "portRange")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RuleAction", location: .body(locationName: "ruleAction")), 
-            AWSShapeMember(label: "RuleNumber", location: .body(locationName: "ruleNumber"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
@@ -6458,10 +5969,6 @@ extension EC2 {
     }
 
     public struct CreateNetworkAclRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6480,9 +5987,6 @@ extension EC2 {
     }
 
     public struct CreateNetworkAclResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkAcl", location: .body(locationName: "networkAcl"))
-        ]
 
         /// Information about the network ACL.
         public let networkAcl: NetworkAcl?
@@ -6527,9 +6031,6 @@ extension EC2 {
     }
 
     public struct CreateNetworkInterfacePermissionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InterfacePermission", location: .body(locationName: "interfacePermission"))
-        ]
 
         /// Information about the permission for the network interface.
         public let interfacePermission: NetworkInterfacePermission?
@@ -6545,15 +6046,9 @@ extension EC2 {
 
     public struct CreateNetworkInterfaceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSShapeMember(label: "Ipv6AddressCount", location: .body(locationName: "ipv6AddressCount")), 
-            AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddresses"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SecondaryPrivateIpAddressCount", location: .body(locationName: "secondaryPrivateIpAddressCount")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
+            AWSShapeMember(label: "Ipv6Addresses", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "PrivateIpAddresses", encoding: .list(member:"item"))
         ]
 
         /// A description for the network interface.
@@ -6605,9 +6100,6 @@ extension EC2 {
     }
 
     public struct CreateNetworkInterfaceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkInterface", location: .body(locationName: "networkInterface"))
-        ]
 
         /// Information about the network interface.
         public let networkInterface: NetworkInterface?
@@ -6622,11 +6114,6 @@ extension EC2 {
     }
 
     public struct CreatePlacementGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "Strategy", location: .body(locationName: "strategy"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6654,10 +6141,7 @@ extension EC2 {
 
     public struct CreateReservedInstancesListingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "InstanceCount", location: .body(locationName: "instanceCount")), 
-            AWSShapeMember(label: "PriceSchedules", location: .body(locationName: "priceSchedules"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"))
+            AWSShapeMember(label: "PriceSchedules", encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
@@ -6702,18 +6186,6 @@ extension EC2 {
     }
 
     public struct CreateRouteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId")), 
-            AWSShapeMember(label: "GatewayId", location: .body(locationName: "gatewayId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "NatGatewayId", location: .body(locationName: "natGatewayId")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match.
         public let destinationCidrBlock: String?
@@ -6789,10 +6261,6 @@ extension EC2 {
     }
 
     public struct CreateRouteTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6811,9 +6279,6 @@ extension EC2 {
     }
 
     public struct CreateRouteTableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RouteTable", location: .body(locationName: "routeTable"))
-        ]
 
         /// Information about the route table.
         public let routeTable: RouteTable?
@@ -6829,8 +6294,7 @@ extension EC2 {
 
     public struct CreateSecurityGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "GroupDescription")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
+            AWSShapeMember(label: "Description", location: .body(locationName: "GroupDescription"))
         ]
 
         /// A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
@@ -6858,9 +6322,6 @@ extension EC2 {
     }
 
     public struct CreateSecurityGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId"))
-        ]
 
         /// The ID of the security group.
         public let groupId: String?
@@ -6876,7 +6337,6 @@ extension EC2 {
 
     public struct CreateSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
@@ -6955,11 +6415,6 @@ extension EC2 {
     }
 
     public struct CreateSpotDatafeedSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .body(locationName: "bucket")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Prefix", location: .body(locationName: "prefix"))
-        ]
 
         /// The Amazon S3 bucket in which to store the Spot Instance data feed.
         public let bucket: String
@@ -6982,9 +6437,6 @@ extension EC2 {
     }
 
     public struct CreateSpotDatafeedSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpotDatafeedSubscription", location: .body(locationName: "spotDatafeedSubscription"))
-        ]
 
         /// The Spot Instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
@@ -6999,9 +6451,6 @@ extension EC2 {
     }
 
     public struct CreateSubnetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The Availability Zone or Local Zone for the subnet. Default: AWS selects one for you. If you create more than one subnet in your VPC, we do not necessarily select a different zone for each subnet. To create a subnet in a Local Zone, set this value to the Local Zone ID, for example us-west-2-lax-1a. For information about the Regions that support Local Zones, see Available Regions in the Amazon Elastic Compute Cloud User Guide.
         public let availabilityZone: String?
@@ -7040,9 +6489,6 @@ extension EC2 {
     }
 
     public struct CreateSubnetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnet", location: .body(locationName: "subnet"))
-        ]
 
         /// Information about the subnet.
         public let subnet: Subnet?
@@ -7058,7 +6504,6 @@ extension EC2 {
 
     public struct CreateTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Resources", location: .body(locationName: "ResourceId"), encoding: .list(member:"member")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
         ]
@@ -7113,10 +6558,6 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorFilterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "TrafficMirrorFilter", location: .body(locationName: "trafficMirrorFilter"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -7193,10 +6634,6 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorFilterRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "TrafficMirrorFilterRule", location: .body(locationName: "trafficMirrorFilterRule"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -7268,10 +6705,6 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "TrafficMirrorSession", location: .body(locationName: "trafficMirrorSession"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -7327,10 +6760,6 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorTargetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "TrafficMirrorTarget", location: .body(locationName: "trafficMirrorTarget"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -7374,9 +6803,6 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayMulticastDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayMulticastDomain", location: .body(locationName: "transitGatewayMulticastDomain"))
-        ]
 
         /// Information about the transit gateway multicast domain.
         public let transitGatewayMulticastDomain: TransitGatewayMulticastDomain?
@@ -7428,9 +6854,6 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayPeeringAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayPeeringAttachment", location: .body(locationName: "transitGatewayPeeringAttachment"))
-        ]
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -7474,9 +6897,6 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGateway", location: .body(locationName: "transitGateway"))
-        ]
 
         /// Information about the transit gateway.
         public let transitGateway: TransitGateway?
@@ -7521,9 +6941,6 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayRouteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Route", location: .body(locationName: "route"))
-        ]
 
         /// Information about the route.
         public let route: TransitGatewayRoute?
@@ -7563,9 +6980,6 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayRouteTableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayRouteTable", location: .body(locationName: "transitGatewayRouteTable"))
-        ]
 
         /// Information about the transit gateway route table.
         public let transitGatewayRouteTable: TransitGatewayRouteTable?
@@ -7636,9 +7050,6 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayVpcAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayVpcAttachment", location: .body(locationName: "transitGatewayVpcAttachment"))
-        ]
 
         /// Information about the VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -7653,10 +7064,6 @@ extension EC2 {
     }
 
     public struct CreateVolumePermission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", location: .body(locationName: "group")), 
-            AWSShapeMember(label: "UserId", location: .body(locationName: "userId"))
-        ]
 
         /// The group to be added or removed. The possible value is all.
         public let group: PermissionGroup?
@@ -7698,8 +7105,6 @@ extension EC2 {
 
     public struct CreateVolumeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
             AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
@@ -7789,10 +7194,6 @@ extension EC2 {
     }
 
     public struct CreateVpcEndpointConnectionNotificationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "ConnectionNotification", location: .body(locationName: "connectionNotification"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7866,10 +7267,6 @@ extension EC2 {
     }
 
     public struct CreateVpcEndpointResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "VpcEndpoint", location: .body(locationName: "vpcEndpoint"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7921,10 +7318,6 @@ extension EC2 {
     }
 
     public struct CreateVpcEndpointServiceConfigurationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "ServiceConfiguration", location: .body(locationName: "serviceConfiguration"))
-        ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7943,12 +7336,6 @@ extension EC2 {
     }
 
     public struct CreateVpcPeeringConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "PeerOwnerId", location: .body(locationName: "peerOwnerId")), 
-            AWSShapeMember(label: "PeerVpcId", location: .body(locationName: "peerVpcId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7979,9 +7366,6 @@ extension EC2 {
     }
 
     public struct CreateVpcPeeringConnectionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcPeeringConnection", location: .body(locationName: "vpcPeeringConnection"))
-        ]
 
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
@@ -7996,11 +7380,6 @@ extension EC2 {
     }
 
     public struct CreateVpcRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmazonProvidedIpv6CidrBlock", location: .body(locationName: "amazonProvidedIpv6CidrBlock")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy"))
-        ]
 
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
         public let amazonProvidedIpv6CidrBlock: Bool?
@@ -8039,9 +7418,6 @@ extension EC2 {
     }
 
     public struct CreateVpcResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"))
-        ]
 
         /// Information about the VPC.
         public let vpc: Vpc?
@@ -8056,10 +7432,6 @@ extension EC2 {
     }
 
     public struct CreateVpnConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Options", location: .body(locationName: "options"))
-        ]
 
         /// The ID of the customer gateway.
         public let customerGatewayId: String
@@ -8094,9 +7466,6 @@ extension EC2 {
     }
 
     public struct CreateVpnConnectionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpnConnection", location: .body(locationName: "vpnConnection"))
-        ]
 
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
@@ -8129,9 +7498,6 @@ extension EC2 {
     }
 
     public struct CreateVpnGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session. If you're using a 16-bit ASN, it must be in the 64512 to 65534 range. If you're using a 32-bit ASN, it must be in the 4200000000 to 4294967294 range. Default: 64512
         public let amazonSideAsn: Int64?
@@ -8158,9 +7524,6 @@ extension EC2 {
     }
 
     public struct CreateVpnGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpnGateway", location: .body(locationName: "vpnGateway"))
-        ]
 
         /// Information about the virtual private gateway.
         public let vpnGateway: VpnGateway?
@@ -8175,9 +7538,6 @@ extension EC2 {
     }
 
     public struct CreditSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CpuCredits", location: .body(locationName: "cpuCredits"))
-        ]
 
         /// The credit option for CPU usage of a T2 or T3 instance. Valid values are standard and unlimited.
         public let cpuCredits: String?
@@ -8207,12 +7567,6 @@ extension EC2 {
 
     public struct CustomerGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BgpAsn", location: .body(locationName: "bgpAsn")), 
-            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn")), 
-            AWSShapeMember(label: "CustomerGatewayId", location: .body(locationName: "customerGatewayId")), 
-            AWSShapeMember(label: "DeviceName", location: .body(locationName: "deviceName")), 
-            AWSShapeMember(label: "IpAddress", location: .body(locationName: "ipAddress")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
@@ -8276,9 +7630,6 @@ extension EC2 {
     }
 
     public struct DeleteClientVpnEndpointResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The current state of the Client VPN endpoint.
         public let status: ClientVpnEndpointStatus?
@@ -8319,9 +7670,6 @@ extension EC2 {
     }
 
     public struct DeleteClientVpnRouteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The current state of the route.
         public let status: ClientVpnRouteStatus?
@@ -8336,9 +7684,6 @@ extension EC2 {
     }
 
     public struct DeleteCustomerGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The ID of the customer gateway.
         public let customerGatewayId: String
@@ -8357,9 +7702,6 @@ extension EC2 {
     }
 
     public struct DeleteDhcpOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The ID of the DHCP options set.
         public let dhcpOptionsId: String
@@ -8396,9 +7738,6 @@ extension EC2 {
     }
 
     public struct DeleteEgressOnlyInternetGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnCode", location: .body(locationName: "returnCode"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnCode: Bool?
@@ -8413,10 +7752,6 @@ extension EC2 {
     }
 
     public struct DeleteFleetError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: DeleteFleetErrorCode?
@@ -8435,10 +7770,6 @@ extension EC2 {
     }
 
     public struct DeleteFleetErrorItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", location: .body(locationName: "error")), 
-            AWSShapeMember(label: "FleetId", location: .body(locationName: "fleetId"))
-        ]
 
         /// The error.
         public let error: DeleteFleetError?
@@ -8457,11 +7788,6 @@ extension EC2 {
     }
 
     public struct DeleteFleetSuccessItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentFleetState", location: .body(locationName: "currentFleetState")), 
-            AWSShapeMember(label: "FleetId", location: .body(locationName: "fleetId")), 
-            AWSShapeMember(label: "PreviousFleetState", location: .body(locationName: "previousFleetState"))
-        ]
 
         /// The current state of the EC2 Fleet.
         public let currentFleetState: FleetStateCode?
@@ -8553,7 +7879,7 @@ extension EC2 {
 
     public struct DeleteFlowLogsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the flow logs that could not be deleted successfully.
@@ -8604,10 +7930,6 @@ extension EC2 {
     }
 
     public struct DeleteInternetGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8626,9 +7948,6 @@ extension EC2 {
     }
 
     public struct DeleteKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8675,9 +7994,6 @@ extension EC2 {
     }
 
     public struct DeleteLaunchTemplateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplate", location: .body(locationName: "launchTemplate"))
-        ]
 
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
@@ -8727,12 +8043,6 @@ extension EC2 {
     }
 
     public struct DeleteLaunchTemplateVersionsResponseErrorItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateId", location: .body(locationName: "launchTemplateId")), 
-            AWSShapeMember(label: "LaunchTemplateName", location: .body(locationName: "launchTemplateName")), 
-            AWSShapeMember(label: "ResponseError", location: .body(locationName: "responseError")), 
-            AWSShapeMember(label: "VersionNumber", location: .body(locationName: "versionNumber"))
-        ]
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -8759,11 +8069,6 @@ extension EC2 {
     }
 
     public struct DeleteLaunchTemplateVersionsResponseSuccessItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateId", location: .body(locationName: "launchTemplateId")), 
-            AWSShapeMember(label: "LaunchTemplateName", location: .body(locationName: "launchTemplateName")), 
-            AWSShapeMember(label: "VersionNumber", location: .body(locationName: "versionNumber"))
-        ]
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -8830,9 +8135,6 @@ extension EC2 {
     }
 
     public struct DeleteLocalGatewayRouteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Route", location: .body(locationName: "route"))
-        ]
 
         /// Information about the route.
         public let route: LocalGatewayRoute?
@@ -8865,9 +8167,6 @@ extension EC2 {
     }
 
     public struct DeleteLocalGatewayRouteTableVpcAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayRouteTableVpcAssociation", location: .body(locationName: "localGatewayRouteTableVpcAssociation"))
-        ]
 
         /// Information about the association.
         public let localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation?
@@ -8896,9 +8195,6 @@ extension EC2 {
     }
 
     public struct DeleteNatGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NatGatewayId", location: .body(locationName: "natGatewayId"))
-        ]
 
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
@@ -8913,12 +8209,6 @@ extension EC2 {
     }
 
     public struct DeleteNetworkAclEntryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Egress", location: .body(locationName: "egress")), 
-            AWSShapeMember(label: "NetworkAclId", location: .body(locationName: "networkAclId")), 
-            AWSShapeMember(label: "RuleNumber", location: .body(locationName: "ruleNumber"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8945,10 +8235,6 @@ extension EC2 {
     }
 
     public struct DeleteNetworkAclRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "NetworkAclId", location: .body(locationName: "networkAclId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9006,10 +8292,6 @@ extension EC2 {
     }
 
     public struct DeleteNetworkInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9028,10 +8310,6 @@ extension EC2 {
     }
 
     public struct DeletePlacementGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9050,10 +8328,6 @@ extension EC2 {
     }
 
     public struct DeleteQueuedReservedInstancesError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: DeleteQueuedReservedInstancesErrorCode?
@@ -9120,12 +8394,6 @@ extension EC2 {
     }
 
     public struct DeleteRouteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId"))
-        ]
 
         /// The IPv4 CIDR range for the route. The value you specify must match the CIDR for the route exactly.
         public let destinationCidrBlock: String?
@@ -9152,10 +8420,6 @@ extension EC2 {
     }
 
     public struct DeleteRouteTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9174,9 +8438,6 @@ extension EC2 {
     }
 
     public struct DeleteSecurityGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9199,9 +8460,6 @@ extension EC2 {
     }
 
     public struct DeleteSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9220,9 +8478,6 @@ extension EC2 {
     }
 
     public struct DeleteSpotDatafeedSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9237,9 +8492,6 @@ extension EC2 {
     }
 
     public struct DeleteSubnetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9259,7 +8511,6 @@ extension EC2 {
 
     public struct DeleteTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Resources", location: .body(locationName: "resourceId"), encoding: .list(member:"member")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
         ]
@@ -9303,9 +8554,6 @@ extension EC2 {
     }
 
     public struct DeleteTrafficMirrorFilterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId"))
-        ]
 
         /// The ID of the Traffic Mirror filter.
         public let trafficMirrorFilterId: String?
@@ -9338,9 +8586,6 @@ extension EC2 {
     }
 
     public struct DeleteTrafficMirrorFilterRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficMirrorFilterRuleId", location: .body(locationName: "trafficMirrorFilterRuleId"))
-        ]
 
         /// The ID of the deleted Traffic Mirror rule.
         public let trafficMirrorFilterRuleId: String?
@@ -9373,9 +8618,6 @@ extension EC2 {
     }
 
     public struct DeleteTrafficMirrorSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficMirrorSessionId", location: .body(locationName: "trafficMirrorSessionId"))
-        ]
 
         /// The ID of the deleted Traffic Mirror session.
         public let trafficMirrorSessionId: String?
@@ -9408,9 +8650,6 @@ extension EC2 {
     }
 
     public struct DeleteTrafficMirrorTargetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficMirrorTargetId", location: .body(locationName: "trafficMirrorTargetId"))
-        ]
 
         /// The ID of the deleted Traffic Mirror target.
         public let trafficMirrorTargetId: String?
@@ -9443,9 +8682,6 @@ extension EC2 {
     }
 
     public struct DeleteTransitGatewayMulticastDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayMulticastDomain", location: .body(locationName: "transitGatewayMulticastDomain"))
-        ]
 
         /// Information about the deleted transit gateway multicast domain.
         public let transitGatewayMulticastDomain: TransitGatewayMulticastDomain?
@@ -9478,9 +8714,6 @@ extension EC2 {
     }
 
     public struct DeleteTransitGatewayPeeringAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayPeeringAttachment", location: .body(locationName: "transitGatewayPeeringAttachment"))
-        ]
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -9513,9 +8746,6 @@ extension EC2 {
     }
 
     public struct DeleteTransitGatewayResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGateway", location: .body(locationName: "transitGateway"))
-        ]
 
         /// Information about the deleted transit gateway.
         public let transitGateway: TransitGateway?
@@ -9552,9 +8782,6 @@ extension EC2 {
     }
 
     public struct DeleteTransitGatewayRouteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Route", location: .body(locationName: "route"))
-        ]
 
         /// Information about the route.
         public let route: TransitGatewayRoute?
@@ -9587,9 +8814,6 @@ extension EC2 {
     }
 
     public struct DeleteTransitGatewayRouteTableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayRouteTable", location: .body(locationName: "transitGatewayRouteTable"))
-        ]
 
         /// Information about the deleted transit gateway route table.
         public let transitGatewayRouteTable: TransitGatewayRouteTable?
@@ -9622,9 +8846,6 @@ extension EC2 {
     }
 
     public struct DeleteTransitGatewayVpcAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayVpcAttachment", location: .body(locationName: "transitGatewayVpcAttachment"))
-        ]
 
         /// Information about the deleted VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -9639,9 +8860,6 @@ extension EC2 {
     }
 
     public struct DeleteVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9682,7 +8900,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointConnectionNotificationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the notifications that could not be deleted successfully.
@@ -9720,7 +8938,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointServiceConfigurationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the service configurations that were not deleted, if applicable.
@@ -9758,7 +8976,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the VPC endpoints that were not successfully deleted.
@@ -9774,10 +8992,6 @@ extension EC2 {
     }
 
     public struct DeleteVpcPeeringConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9813,9 +9027,6 @@ extension EC2 {
     }
 
     public struct DeleteVpcRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9834,9 +9045,6 @@ extension EC2 {
     }
 
     public struct DeleteVpnConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9873,9 +9081,6 @@ extension EC2 {
     }
 
     public struct DeleteVpnGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9912,9 +9117,6 @@ extension EC2 {
     }
 
     public struct DeprovisionByoipCidrResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ByoipCidr", location: .body(locationName: "byoipCidr"))
-        ]
 
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
@@ -9929,9 +9131,6 @@ extension EC2 {
     }
 
     public struct DeregisterImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9979,9 +9178,6 @@ extension EC2 {
     }
 
     public struct DeregisterTransitGatewayMulticastGroupMembersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeregisteredMulticastGroupMembers", location: .body(locationName: "deregisteredMulticastGroupMembers"))
-        ]
 
         /// Information about the deregistered members.
         public let deregisteredMulticastGroupMembers: TransitGatewayMulticastDeregisteredGroupMembers?
@@ -10025,9 +9221,6 @@ extension EC2 {
     }
 
     public struct DeregisterTransitGatewayMulticastGroupSourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeregisteredMulticastGroupSources", location: .body(locationName: "deregisteredMulticastGroupSources"))
-        ]
 
         /// Information about the deregistered group sources.
         public let deregisteredMulticastGroupSources: TransitGatewayMulticastDeregisteredGroupSources?
@@ -10043,8 +9236,7 @@ extension EC2 {
 
     public struct DescribeAccountAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", location: .body(locationName: "attributeName"), encoding: .list(member:"attributeName")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
+            AWSShapeMember(label: "AttributeNames", location: .body(locationName: "attributeName"), encoding: .list(member:"attributeName"))
         ]
 
         /// The account attribute names.
@@ -10083,7 +9275,6 @@ extension EC2 {
     public struct DescribeAddressesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllocationIds", location: .body(locationName: "AllocationId"), encoding: .list(member:"AllocationId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "PublicIps", location: .body(locationName: "PublicIp"), encoding: .list(member:"PublicIp"))
         ]
@@ -10145,8 +9336,7 @@ extension EC2 {
 
     public struct DescribeAggregateIdFormatResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "UseLongIdsAggregated", location: .body(locationName: "useLongIdsAggregated"))
+            AWSShapeMember(label: "Statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about each resource's ID format.
@@ -10167,7 +9357,6 @@ extension EC2 {
 
     public struct DescribeAvailabilityZonesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "ZoneIds", location: .body(locationName: "ZoneId"), encoding: .list(member:"ZoneId")), 
             AWSShapeMember(label: "ZoneNames", location: .body(locationName: "ZoneName"), encoding: .list(member:"ZoneName"))
@@ -10221,7 +9410,6 @@ extension EC2 {
     public struct DescribeBundleTasksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BundleIds", location: .body(locationName: "BundleId"), encoding: .list(member:"BundleId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
@@ -10291,8 +9479,7 @@ extension EC2 {
 
     public struct DescribeByoipCidrsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ByoipCidrs", location: .body(locationName: "byoipCidrSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ByoipCidrs", location: .body(locationName: "byoipCidrSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about your address ranges.
@@ -10352,8 +9539,7 @@ extension EC2 {
 
     public struct DescribeCapacityReservationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapacityReservations", location: .body(locationName: "capacityReservationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "CapacityReservations", location: .body(locationName: "capacityReservationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Capacity Reservations.
@@ -10374,11 +9560,8 @@ extension EC2 {
 
     public struct DescribeClassicLinkInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10416,8 +9599,7 @@ extension EC2 {
 
     public struct DescribeClassicLinkInstancesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more linked EC2-Classic instances.
@@ -10476,8 +9658,7 @@ extension EC2 {
 
     public struct DescribeClientVpnAuthorizationRulesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizationRules", location: .body(locationName: "authorizationRule"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "AuthorizationRules", location: .body(locationName: "authorizationRule"), encoding: .list(member:"item"))
         ]
 
         /// Information about the authorization rules.
@@ -10536,8 +9717,7 @@ extension EC2 {
 
     public struct DescribeClientVpnConnectionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connections", location: .body(locationName: "connections"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Connections", encoding: .list(member:"item"))
         ]
 
         /// Information about the active and terminated client connections.
@@ -10597,8 +9777,7 @@ extension EC2 {
 
     public struct DescribeClientVpnEndpointsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientVpnEndpoints", location: .body(locationName: "clientVpnEndpoint"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ClientVpnEndpoints", location: .body(locationName: "clientVpnEndpoint"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Client VPN endpoints.
@@ -10657,8 +9836,7 @@ extension EC2 {
 
     public struct DescribeClientVpnRoutesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "Routes", location: .body(locationName: "routes"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Routes", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10722,8 +9900,7 @@ extension EC2 {
 
     public struct DescribeClientVpnTargetNetworksResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientVpnTargetNetworks", location: .body(locationName: "clientVpnTargetNetworks"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ClientVpnTargetNetworks", encoding: .list(member:"item"))
         ]
 
         /// Information about the associated target networks.
@@ -10783,8 +9960,7 @@ extension EC2 {
 
     public struct DescribeCoipPoolsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoipPools", location: .body(locationName: "coipPoolSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "CoipPools", location: .body(locationName: "coipPoolSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the address pools.
@@ -10805,8 +9981,7 @@ extension EC2 {
 
     public struct DescribeConversionTasksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConversionTaskIds", location: .body(locationName: "conversionTaskId"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
+            AWSShapeMember(label: "ConversionTaskIds", location: .body(locationName: "conversionTaskId"), encoding: .list(member:"item"))
         ]
 
         /// The conversion task IDs.
@@ -10827,7 +10002,7 @@ extension EC2 {
 
     public struct DescribeConversionTasksResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConversionTasks", location: .body(locationName: "conversionTasks"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "ConversionTasks", encoding: .list(member:"item"))
         ]
 
         /// Information about the conversion tasks.
@@ -10845,7 +10020,6 @@ extension EC2 {
     public struct DescribeCustomerGatewaysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomerGatewayIds", location: .body(locationName: "CustomerGatewayId"), encoding: .list(member:"CustomerGatewayId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
@@ -10889,7 +10063,6 @@ extension EC2 {
     public struct DescribeDhcpOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DhcpOptionsIds", location: .body(locationName: "DhcpOptionsId"), encoding: .list(member:"DhcpOptionsId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
@@ -10928,8 +10101,7 @@ extension EC2 {
 
     public struct DescribeDhcpOptionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DhcpOptions", location: .body(locationName: "dhcpOptionsSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "DhcpOptions", location: .body(locationName: "dhcpOptionsSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more DHCP options sets.
@@ -10989,8 +10161,7 @@ extension EC2 {
 
     public struct DescribeEgressOnlyInternetGatewaysResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EgressOnlyInternetGateways", location: .body(locationName: "egressOnlyInternetGatewaySet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "EgressOnlyInternetGateways", location: .body(locationName: "egressOnlyInternetGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the egress-only internet gateways.
@@ -11050,9 +10221,7 @@ extension EC2 {
 
     public struct DescribeElasticGpusResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticGpuSet", location: .body(locationName: "elasticGpuSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ElasticGpuSet", encoding: .list(member:"item"))
         ]
 
         /// Information about the Elastic Graphics accelerators.
@@ -11116,8 +10285,7 @@ extension EC2 {
 
     public struct DescribeExportImageTasksResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportImageTasks", location: .body(locationName: "exportImageTaskSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ExportImageTasks", location: .body(locationName: "exportImageTaskSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the export image tasks.
@@ -11176,19 +10344,6 @@ extension EC2 {
     }
 
     public struct DescribeFastSnapshotRestoreSuccessItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "DisabledTime", location: .body(locationName: "disabledTime")), 
-            AWSShapeMember(label: "DisablingTime", location: .body(locationName: "disablingTime")), 
-            AWSShapeMember(label: "EnabledTime", location: .body(locationName: "enabledTime")), 
-            AWSShapeMember(label: "EnablingTime", location: .body(locationName: "enablingTime")), 
-            AWSShapeMember(label: "OptimizingTime", location: .body(locationName: "optimizingTime")), 
-            AWSShapeMember(label: "OwnerAlias", location: .body(locationName: "ownerAlias")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StateTransitionReason", location: .body(locationName: "stateTransitionReason"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -11278,8 +10433,7 @@ extension EC2 {
 
     public struct DescribeFastSnapshotRestoresResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FastSnapshotRestores", location: .body(locationName: "fastSnapshotRestoreSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "FastSnapshotRestores", location: .body(locationName: "fastSnapshotRestoreSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the state of fast snapshot restores.
@@ -11299,12 +10453,6 @@ extension EC2 {
     }
 
     public struct DescribeFleetError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode")), 
-            AWSShapeMember(label: "ErrorMessage", location: .body(locationName: "errorMessage")), 
-            AWSShapeMember(label: "LaunchTemplateAndOverrides", location: .body(locationName: "launchTemplateAndOverrides")), 
-            AWSShapeMember(label: "Lifecycle", location: .body(locationName: "lifecycle"))
-        ]
 
         /// The error code that indicates why the instance could not be launched. For more information about error codes, see Error Codes.
         public let errorCode: String?
@@ -11366,11 +10514,7 @@ extension EC2 {
 
     public struct DescribeFleetHistoryResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetId", location: .body(locationName: "fleetId")), 
-            AWSShapeMember(label: "HistoryRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LastEvaluatedTime", location: .body(locationName: "lastEvaluatedTime")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"))
+            AWSShapeMember(label: "HistoryRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the EC Fleet.
@@ -11436,9 +10580,7 @@ extension EC2 {
 
     public struct DescribeFleetInstancesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "FleetId", location: .body(locationName: "fleetId")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ActiveInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
         ]
 
         /// The running instances. This list is refreshed periodically and might be out of date.
@@ -11463,11 +10605,7 @@ extension EC2 {
 
     public struct DescribeFleetsInstances: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIds", location: .body(locationName: "instanceIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "LaunchTemplateAndOverrides", location: .body(locationName: "launchTemplateAndOverrides")), 
-            AWSShapeMember(label: "Lifecycle", location: .body(locationName: "lifecycle")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform"))
+            AWSShapeMember(label: "InstanceIds", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the instances.
@@ -11534,8 +10672,7 @@ extension EC2 {
 
     public struct DescribeFleetsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fleets", location: .body(locationName: "fleetSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Fleets", location: .body(locationName: "fleetSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the EC2 Fleets.
@@ -11590,8 +10727,7 @@ extension EC2 {
 
     public struct DescribeFlowLogsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowLogs", location: .body(locationName: "flowLogSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "FlowLogs", location: .body(locationName: "flowLogSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the flow logs.
@@ -11633,9 +10769,6 @@ extension EC2 {
     }
 
     public struct DescribeFpgaImageAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FpgaImageAttribute", location: .body(locationName: "fpgaImageAttribute"))
-        ]
 
         /// Information about the attribute.
         public let fpgaImageAttribute: FpgaImageAttribute?
@@ -11695,8 +10828,7 @@ extension EC2 {
 
     public struct DescribeFpgaImagesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FpgaImages", location: .body(locationName: "fpgaImageSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "FpgaImages", location: .body(locationName: "fpgaImageSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the FPGA images.
@@ -11759,8 +10891,7 @@ extension EC2 {
 
     public struct DescribeHostReservationOfferingsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "OfferingSet", location: .body(locationName: "offeringSet"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "OfferingSet", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11811,8 +10942,7 @@ extension EC2 {
 
     public struct DescribeHostReservationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostReservationSet", location: .body(locationName: "hostReservationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "HostReservationSet", encoding: .list(member:"item"))
         ]
 
         /// Details about the reservation's configuration.
@@ -11833,10 +10963,8 @@ extension EC2 {
 
     public struct DescribeHostsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "HostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Filter", encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "HostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
         ]
 
         /// The filters.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    availability-zone - The Availability Zone of the host.    client-token - The idempotency token that you provided when you allocated the host.    host-reservation-id - The ID of the reservation assigned to this host.    instance-type - The instance type size that the Dedicated Host is configured to support.    state - The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -11865,8 +10993,7 @@ extension EC2 {
 
     public struct DescribeHostsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Hosts", location: .body(locationName: "hostSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Hosts", location: .body(locationName: "hostSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Dedicated Hosts.
@@ -11922,8 +11049,7 @@ extension EC2 {
 
     public struct DescribeIamInstanceProfileAssociationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamInstanceProfileAssociations", location: .body(locationName: "iamInstanceProfileAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "IamInstanceProfileAssociations", location: .body(locationName: "iamInstanceProfileAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the IAM instance profile associations.
@@ -11974,10 +11100,6 @@ extension EC2 {
     }
 
     public struct DescribeIdentityIdFormatRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrincipalArn", location: .body(locationName: "principalArn")), 
-            AWSShapeMember(label: "Resource", location: .body(locationName: "resource"))
-        ]
 
         /// The ARN of the principal, which can be an IAM role, IAM user, or the root user.
         public let principalArn: String
@@ -12013,9 +11135,6 @@ extension EC2 {
     }
 
     public struct DescribeImageAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The AMI attribute.  Note: Depending on your account privileges, the blockDeviceMapping attribute may return a Client.AuthFailure error. If this happens, use DescribeImages to get information about the block device mapping for the AMI.
         public let attribute: ImageAttributeName
@@ -12039,7 +11158,6 @@ extension EC2 {
 
     public struct DescribeImagesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "ExecutableUsers", location: .body(locationName: "ExecutableBy"), encoding: .list(member:"ExecutableBy")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "ImageIds", location: .body(locationName: "ImageId"), encoding: .list(member:"ImageId")), 
@@ -12127,8 +11245,7 @@ extension EC2 {
 
     public struct DescribeImportImageTasksResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportImageTasks", location: .body(locationName: "importImageTaskSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ImportImageTasks", location: .body(locationName: "importImageTaskSet"), encoding: .list(member:"item"))
         ]
 
         /// A list of zero or more import image tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -12183,8 +11300,7 @@ extension EC2 {
 
     public struct DescribeImportSnapshotTasksResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportSnapshotTasks", location: .body(locationName: "importSnapshotTaskSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ImportSnapshotTasks", location: .body(locationName: "importSnapshotTaskSet"), encoding: .list(member:"item"))
         ]
 
         /// A list of zero or more import snapshot tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -12204,11 +11320,6 @@ extension EC2 {
     }
 
     public struct DescribeInstanceAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attribute", location: .body(locationName: "attribute")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"))
-        ]
 
         /// The instance attribute. Note: The enaSupport attribute is not supported at this time.
         public let attribute: InstanceAttributeName
@@ -12271,8 +11382,7 @@ extension EC2 {
 
     public struct DescribeInstanceCreditSpecificationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCreditSpecifications", location: .body(locationName: "instanceCreditSpecificationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "InstanceCreditSpecifications", location: .body(locationName: "instanceCreditSpecificationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the credit option for CPU usage of an instance.
@@ -12293,9 +11403,7 @@ extension EC2 {
 
     public struct DescribeInstanceStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "IncludeAllInstances", location: .body(locationName: "includeAllInstances")), 
             AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
@@ -12333,8 +11441,7 @@ extension EC2 {
 
     public struct DescribeInstanceStatusResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceStatuses", location: .body(locationName: "instanceStatusSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "InstanceStatuses", location: .body(locationName: "instanceStatusSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the status of the instances.
@@ -12393,8 +11500,7 @@ extension EC2 {
 
     public struct DescribeInstanceTypeOfferingsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceTypeOfferings", location: .body(locationName: "instanceTypeOfferingSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "InstanceTypeOfferings", location: .body(locationName: "instanceTypeOfferingSet"), encoding: .list(member:"item"))
         ]
 
         /// The instance types offered.
@@ -12455,8 +11561,7 @@ extension EC2 {
 
     public struct DescribeInstanceTypesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceTypes", location: .body(locationName: "instanceTypeSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "InstanceTypes", location: .body(locationName: "instanceTypeSet"), encoding: .list(member:"item"))
         ]
 
         /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
@@ -12477,11 +11582,8 @@ extension EC2 {
 
     public struct DescribeInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12514,7 +11616,6 @@ extension EC2 {
 
     public struct DescribeInstancesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Reservations", location: .body(locationName: "reservationSet"), encoding: .list(member:"item"))
         ]
 
@@ -12536,7 +11637,6 @@ extension EC2 {
 
     public struct DescribeInternetGatewaysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "InternetGatewayIds", location: .body(locationName: "internetGatewayId"), encoding: .list(member:"item"))
         ]
@@ -12576,8 +11676,7 @@ extension EC2 {
 
     public struct DescribeInternetGatewaysResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InternetGateways", location: .body(locationName: "internetGatewaySet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "InternetGateways", location: .body(locationName: "internetGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more internet gateways.
@@ -12637,8 +11736,7 @@ extension EC2 {
 
     public struct DescribeIpv6PoolsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6Pools", location: .body(locationName: "ipv6PoolSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Ipv6Pools", location: .body(locationName: "ipv6PoolSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the IPv6 address pools.
@@ -12659,7 +11757,6 @@ extension EC2 {
 
     public struct DescribeKeyPairsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "KeyNames", location: .body(locationName: "KeyName"), encoding: .list(member:"KeyName")), 
             AWSShapeMember(label: "KeyPairIds", location: .body(locationName: "KeyPairId"), encoding: .list(member:"KeyPairId"))
@@ -12764,8 +11861,7 @@ extension EC2 {
 
     public struct DescribeLaunchTemplateVersionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateVersions", location: .body(locationName: "launchTemplateVersionSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LaunchTemplateVersions", location: .body(locationName: "launchTemplateVersionSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the launch template versions.
@@ -12835,8 +11931,7 @@ extension EC2 {
 
     public struct DescribeLaunchTemplatesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplates", location: .body(locationName: "launchTemplates"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LaunchTemplates", encoding: .list(member:"item"))
         ]
 
         /// Information about the launch templates.
@@ -12896,8 +11991,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayRouteTableVirtualInterfaceGroupAssociations", location: .body(locationName: "localGatewayRouteTableVirtualInterfaceGroupAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LocalGatewayRouteTableVirtualInterfaceGroupAssociations", location: .body(locationName: "localGatewayRouteTableVirtualInterfaceGroupAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the associations.
@@ -12957,8 +12051,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTableVpcAssociationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayRouteTableVpcAssociations", location: .body(locationName: "localGatewayRouteTableVpcAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LocalGatewayRouteTableVpcAssociations", location: .body(locationName: "localGatewayRouteTableVpcAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the associations.
@@ -13018,8 +12111,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTablesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayRouteTables", location: .body(locationName: "localGatewayRouteTableSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LocalGatewayRouteTables", location: .body(locationName: "localGatewayRouteTableSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the local gateway route tables.
@@ -13079,8 +12171,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayVirtualInterfaceGroupsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroups", location: .body(locationName: "localGatewayVirtualInterfaceGroupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroups", location: .body(locationName: "localGatewayVirtualInterfaceGroupSet"), encoding: .list(member:"item"))
         ]
 
         /// The virtual interface groups.
@@ -13140,8 +12231,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayVirtualInterfacesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayVirtualInterfaces", location: .body(locationName: "localGatewayVirtualInterfaceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LocalGatewayVirtualInterfaces", location: .body(locationName: "localGatewayVirtualInterfaceSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the virtual interfaces.
@@ -13201,8 +12291,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewaysResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGateways", location: .body(locationName: "localGatewaySet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "LocalGateways", location: .body(locationName: "localGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the local gateways.
@@ -13223,10 +12312,7 @@ extension EC2 {
 
     public struct DescribeMovingAddressesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "PublicIps", location: .body(locationName: "publicIp"), encoding: .list(member:"item"))
         ]
 
@@ -13265,8 +12351,7 @@ extension EC2 {
 
     public struct DescribeMovingAddressesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MovingAddressStatuses", location: .body(locationName: "movingAddressStatusSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "MovingAddressStatuses", location: .body(locationName: "movingAddressStatusSet"), encoding: .list(member:"item"))
         ]
 
         /// The status for each Elastic IP address.
@@ -13322,8 +12407,7 @@ extension EC2 {
 
     public struct DescribeNatGatewaysResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NatGateways", location: .body(locationName: "natGatewaySet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "NatGateways", location: .body(locationName: "natGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the NAT gateways.
@@ -13344,7 +12428,6 @@ extension EC2 {
 
     public struct DescribeNetworkAclsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "NetworkAclIds", location: .body(locationName: "NetworkAclId"), encoding: .list(member:"item"))
         ]
@@ -13384,8 +12467,7 @@ extension EC2 {
 
     public struct DescribeNetworkAclsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkAcls", location: .body(locationName: "networkAclSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "NetworkAcls", location: .body(locationName: "networkAclSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more network ACLs.
@@ -13405,11 +12487,6 @@ extension EC2 {
     }
 
     public struct DescribeNetworkInterfaceAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attribute", location: .body(locationName: "attribute")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
-        ]
 
         /// The attribute of the network interface. This parameter is required.
         public let attribute: NetworkInterfaceAttribute?
@@ -13433,11 +12510,7 @@ extension EC2 {
 
     public struct DescribeNetworkInterfaceAttributeResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attachment", location: .body(locationName: "attachment")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"))
+            AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
         ]
 
         /// The attachment (if any) of the network interface.
@@ -13505,8 +12578,7 @@ extension EC2 {
 
     public struct DescribeNetworkInterfacePermissionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkInterfacePermissions", location: .body(locationName: "networkInterfacePermissions"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "NetworkInterfacePermissions", encoding: .list(member:"item"))
         ]
 
         /// The network interface permissions.
@@ -13527,7 +12599,6 @@ extension EC2 {
 
     public struct DescribeNetworkInterfacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "NetworkInterfaceIds", location: .body(locationName: "NetworkInterfaceId"), encoding: .list(member:"item"))
         ]
@@ -13567,8 +12638,7 @@ extension EC2 {
 
     public struct DescribeNetworkInterfacesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more network interfaces.
@@ -13589,7 +12659,6 @@ extension EC2 {
 
     public struct DescribePlacementGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "GroupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"GroupId")), 
             AWSShapeMember(label: "GroupNames", location: .body(locationName: "groupName"), encoding: .list(member:"member"))
@@ -13672,7 +12741,6 @@ extension EC2 {
 
     public struct DescribePrefixListsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "PrefixLists", location: .body(locationName: "prefixListSet"), encoding: .list(member:"item"))
         ]
 
@@ -13728,7 +12796,6 @@ extension EC2 {
 
     public struct DescribePrincipalIdFormatResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Principals", location: .body(locationName: "principalSet"), encoding: .list(member:"item"))
         ]
 
@@ -13780,7 +12847,6 @@ extension EC2 {
 
     public struct DescribePublicIpv4PoolsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "PublicIpv4Pools", location: .body(locationName: "publicIpv4PoolSet"), encoding: .list(member:"item"))
         ]
 
@@ -13802,7 +12868,6 @@ extension EC2 {
 
     public struct DescribeRegionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "RegionNames", location: .body(locationName: "RegionName"), encoding: .list(member:"RegionName"))
         ]
@@ -13850,9 +12915,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesListingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId")), 
-            AWSShapeMember(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"))
+            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// One or more filters.    reserved-instances-id - The ID of the Reserved Instances.    reserved-instances-listing-id - The ID of the Reserved Instances listing.    status - The status of the Reserved Instance listing (pending | active | cancelled | closed).    status-message - The reason for the status.  
@@ -13895,7 +12958,6 @@ extension EC2 {
     public struct DescribeReservedInstancesModificationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "ReservedInstancesModificationIds", location: .body(locationName: "ReservedInstancesModificationId"), encoding: .list(member:"ReservedInstancesModificationId"))
         ]
 
@@ -13921,7 +12983,6 @@ extension EC2 {
 
     public struct DescribeReservedInstancesModificationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "ReservedInstancesModifications", location: .body(locationName: "reservedInstancesModificationsSet"), encoding: .list(member:"item"))
         ]
 
@@ -13943,12 +13004,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesOfferingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
             AWSShapeMember(label: "ReservedInstancesOfferingIds", location: .body(locationName: "ReservedInstancesOfferingId"), encoding: .list(member:"member"))
         ]
 
@@ -14022,7 +13078,6 @@ extension EC2 {
 
     public struct DescribeReservedInstancesOfferingsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "ReservedInstancesOfferings", location: .body(locationName: "reservedInstancesOfferingsSet"), encoding: .list(member:"item"))
         ]
 
@@ -14044,9 +13099,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
             AWSShapeMember(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId"))
         ]
 
@@ -14097,7 +13150,6 @@ extension EC2 {
 
     public struct DescribeRouteTablesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "RouteTableIds", location: .body(locationName: "RouteTableId"), encoding: .list(member:"item"))
         ]
@@ -14137,7 +13189,6 @@ extension EC2 {
 
     public struct DescribeRouteTablesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "RouteTables", location: .body(locationName: "routeTableSet"), encoding: .list(member:"item"))
         ]
 
@@ -14209,8 +13260,7 @@ extension EC2 {
 
     public struct DescribeScheduledInstanceAvailabilityResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "ScheduledInstanceAvailabilitySet", location: .body(locationName: "scheduledInstanceAvailabilitySet"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "ScheduledInstanceAvailabilitySet", encoding: .list(member:"item"))
         ]
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -14269,8 +13319,7 @@ extension EC2 {
 
     public struct DescribeScheduledInstancesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "ScheduledInstanceSet", location: .body(locationName: "scheduledInstanceSet"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "ScheduledInstanceSet", encoding: .list(member:"item"))
         ]
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -14312,7 +13361,7 @@ extension EC2 {
 
     public struct DescribeSecurityGroupReferencesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupReferenceSet", location: .body(locationName: "securityGroupReferenceSet"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "SecurityGroupReferenceSet", encoding: .list(member:"item"))
         ]
 
         /// Information about the VPCs with the referencing security groups.
@@ -14329,7 +13378,6 @@ extension EC2 {
 
     public struct DescribeSecurityGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "GroupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId")), 
             AWSShapeMember(label: "GroupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"GroupName"))
@@ -14374,7 +13422,6 @@ extension EC2 {
 
     public struct DescribeSecurityGroupsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroupInfo"), encoding: .list(member:"item"))
         ]
 
@@ -14395,9 +13442,6 @@ extension EC2 {
     }
 
     public struct DescribeSnapshotAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The snapshot attribute you would like to view.
         public let attribute: SnapshotAttributeName
@@ -14422,8 +13466,7 @@ extension EC2 {
     public struct DescribeSnapshotAttributeResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateVolumePermissions", location: .body(locationName: "createVolumePermission"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId"))
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item"))
         ]
 
         /// The users and groups that have the permissions for creating volumes from the snapshot.
@@ -14448,7 +13491,6 @@ extension EC2 {
 
     public struct DescribeSnapshotsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "OwnerIds", location: .body(locationName: "Owner"), encoding: .list(member:"Owner")), 
             AWSShapeMember(label: "RestorableByUserIds", location: .body(locationName: "RestorableBy"), encoding: .list(member:"member")), 
@@ -14493,7 +13535,6 @@ extension EC2 {
 
     public struct DescribeSnapshotsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Snapshots", location: .body(locationName: "snapshotSet"), encoding: .list(member:"item"))
         ]
 
@@ -14514,9 +13555,6 @@ extension EC2 {
     }
 
     public struct DescribeSpotDatafeedSubscriptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14531,9 +13569,6 @@ extension EC2 {
     }
 
     public struct DescribeSpotDatafeedSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpotDatafeedSubscription", location: .body(locationName: "spotDatafeedSubscription"))
-        ]
 
         /// The Spot Instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
@@ -14548,12 +13583,6 @@ extension EC2 {
     }
 
     public struct DescribeSpotFleetInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14586,9 +13615,7 @@ extension EC2 {
 
     public struct DescribeSpotFleetInstancesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"))
+            AWSShapeMember(label: "ActiveInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
         ]
 
         /// The running instances. This list is refreshed periodically and might be out of date.
@@ -14612,14 +13639,6 @@ extension EC2 {
     }
 
     public struct DescribeSpotFleetRequestHistoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EventType", location: .body(locationName: "eventType")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14660,11 +13679,7 @@ extension EC2 {
 
     public struct DescribeSpotFleetRequestHistoryResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HistoryRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LastEvaluatedTime", location: .body(locationName: "lastEvaluatedTime")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"))
+            AWSShapeMember(label: "HistoryRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the events in the history of the Spot Fleet request.
@@ -14697,9 +13712,6 @@ extension EC2 {
 
     public struct DescribeSpotFleetRequestsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
         ]
 
@@ -14729,7 +13741,6 @@ extension EC2 {
 
     public struct DescribeSpotFleetRequestsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "SpotFleetRequestConfigs", location: .body(locationName: "spotFleetRequestConfigSet"), encoding: .list(member:"item"))
         ]
 
@@ -14751,7 +13762,6 @@ extension EC2 {
 
     public struct DescribeSpotInstanceRequestsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "SpotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
         ]
@@ -14786,7 +13796,6 @@ extension EC2 {
 
     public struct DescribeSpotInstanceRequestsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "SpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
         ]
 
@@ -14808,15 +13817,9 @@ extension EC2 {
 
     public struct DescribeSpotPriceHistoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "InstanceTypes", location: .body(locationName: "InstanceType"), encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "ProductDescriptions", location: .body(locationName: "ProductDescription"), encoding: .list(member:"member")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"))
+            AWSShapeMember(label: "ProductDescriptions", location: .body(locationName: "ProductDescription"), encoding: .list(member:"member"))
         ]
 
         /// Filters the results by the specified Availability Zone.
@@ -14865,7 +13868,6 @@ extension EC2 {
 
     public struct DescribeSpotPriceHistoryResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "SpotPriceHistory", location: .body(locationName: "spotPriceHistorySet"), encoding: .list(member:"item"))
         ]
 
@@ -14920,8 +13922,7 @@ extension EC2 {
 
     public struct DescribeStaleSecurityGroupsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "StaleSecurityGroupSet", location: .body(locationName: "staleSecurityGroupSet"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "StaleSecurityGroupSet", encoding: .list(member:"item"))
         ]
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -14942,7 +13943,6 @@ extension EC2 {
 
     public struct DescribeSubnetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "SubnetId"), encoding: .list(member:"SubnetId"))
         ]
@@ -14982,7 +13982,6 @@ extension EC2 {
 
     public struct DescribeSubnetsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Subnets", location: .body(locationName: "subnetSet"), encoding: .list(member:"item"))
         ]
 
@@ -15004,10 +14003,7 @@ extension EC2 {
 
     public struct DescribeTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15036,7 +14032,6 @@ extension EC2 {
 
     public struct DescribeTagsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -15097,7 +14092,6 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorFiltersResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "TrafficMirrorFilters", location: .body(locationName: "trafficMirrorFilterSet"), encoding: .list(member:"item"))
         ]
 
@@ -15158,7 +14152,6 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorSessionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "TrafficMirrorSessions", location: .body(locationName: "trafficMirrorSessionSet"), encoding: .list(member:"item"))
         ]
 
@@ -15219,7 +14212,6 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorTargetsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "TrafficMirrorTargets", location: .body(locationName: "trafficMirrorTargetSet"), encoding: .list(member:"item"))
         ]
 
@@ -15280,8 +14272,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayAttachmentsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "TransitGatewayAttachments", location: .body(locationName: "transitGatewayAttachments"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TransitGatewayAttachments", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15341,8 +14332,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayMulticastDomainsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "TransitGatewayMulticastDomains", location: .body(locationName: "transitGatewayMulticastDomains"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TransitGatewayMulticastDomains", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15402,8 +14392,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayPeeringAttachmentsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "TransitGatewayPeeringAttachments", location: .body(locationName: "transitGatewayPeeringAttachments"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TransitGatewayPeeringAttachments", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15463,8 +14452,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayRouteTablesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "TransitGatewayRouteTables", location: .body(locationName: "transitGatewayRouteTables"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TransitGatewayRouteTables", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15524,8 +14512,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayVpcAttachmentsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "TransitGatewayVpcAttachments", location: .body(locationName: "transitGatewayVpcAttachments"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TransitGatewayVpcAttachments", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15585,7 +14572,6 @@ extension EC2 {
 
     public struct DescribeTransitGatewaysResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "TransitGateways", location: .body(locationName: "transitGatewaySet"), encoding: .list(member:"item"))
         ]
 
@@ -15606,9 +14592,6 @@ extension EC2 {
     }
 
     public struct DescribeVolumeAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The attribute of the volume. This parameter is required.
         public let attribute: VolumeAttributeName
@@ -15632,9 +14615,7 @@ extension EC2 {
 
     public struct DescribeVolumeAttributeResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoEnableIO", location: .body(locationName: "autoEnableIO")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId"))
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item"))
         ]
 
         /// The state of autoEnableIO attribute.
@@ -15659,7 +14640,6 @@ extension EC2 {
 
     public struct DescribeVolumeStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "VolumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
         ]
@@ -15694,7 +14674,6 @@ extension EC2 {
 
     public struct DescribeVolumeStatusResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "VolumeStatuses", location: .body(locationName: "volumeStatusSet"), encoding: .list(member:"item"))
         ]
 
@@ -15750,7 +14729,6 @@ extension EC2 {
 
     public struct DescribeVolumesModificationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "VolumesModifications", location: .body(locationName: "volumeModificationSet"), encoding: .list(member:"item"))
         ]
 
@@ -15772,10 +14750,7 @@ extension EC2 {
 
     public struct DescribeVolumesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "VolumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
         ]
 
@@ -15809,7 +14784,6 @@ extension EC2 {
 
     public struct DescribeVolumesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Volumes", location: .body(locationName: "volumeSet"), encoding: .list(member:"item"))
         ]
 
@@ -15830,9 +14804,6 @@ extension EC2 {
     }
 
     public struct DescribeVpcAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The VPC attribute.
         public let attribute: VpcAttributeName
@@ -15855,11 +14826,6 @@ extension EC2 {
     }
 
     public struct DescribeVpcAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableDnsHostnames", location: .body(locationName: "enableDnsHostnames")), 
-            AWSShapeMember(label: "EnableDnsSupport", location: .body(locationName: "enableDnsSupport")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Indicates whether the instances launched in the VPC get DNS hostnames. If this attribute is true, instances in the VPC get DNS hostnames; otherwise, they do not.
         public let enableDnsHostnames: AttributeBooleanValue?
@@ -15883,8 +14849,6 @@ extension EC2 {
 
     public struct DescribeVpcClassicLinkDnsSupportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "VpcIds", encoding: .list(member:"VpcId"))
         ]
 
@@ -15917,8 +14881,7 @@ extension EC2 {
 
     public struct DescribeVpcClassicLinkDnsSupportResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "Vpcs", location: .body(locationName: "vpcs"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Vpcs", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15939,7 +14902,6 @@ extension EC2 {
 
     public struct DescribeVpcClassicLinkRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "VpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
         ]
@@ -16016,8 +14978,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointConnectionNotificationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionNotificationSet", location: .body(locationName: "connectionNotificationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "ConnectionNotificationSet", encoding: .list(member:"item"))
         ]
 
         /// One or more notifications.
@@ -16067,7 +15028,6 @@ extension EC2 {
 
     public struct DescribeVpcEndpointConnectionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "VpcEndpointConnections", location: .body(locationName: "vpcEndpointConnectionSet"), encoding: .list(member:"item"))
         ]
 
@@ -16123,7 +15083,6 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServiceConfigurationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "ServiceConfigurations", location: .body(locationName: "serviceConfigurationSet"), encoding: .list(member:"item"))
         ]
 
@@ -16178,8 +15137,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServicePermissionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedPrincipals", location: .body(locationName: "allowedPrincipals"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "AllowedPrincipals", encoding: .list(member:"item"))
         ]
 
         /// Information about one or more allowed principals.
@@ -16234,7 +15192,6 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServicesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "ServiceDetails", location: .body(locationName: "serviceDetailSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "ServiceNames", location: .body(locationName: "serviceNameSet"), encoding: .list(member:"item"))
         ]
@@ -16295,7 +15252,6 @@ extension EC2 {
 
     public struct DescribeVpcEndpointsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "VpcEndpoints", location: .body(locationName: "vpcEndpointSet"), encoding: .list(member:"item"))
         ]
 
@@ -16317,7 +15273,6 @@ extension EC2 {
 
     public struct DescribeVpcPeeringConnectionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "VpcPeeringConnectionIds", location: .body(locationName: "VpcPeeringConnectionId"), encoding: .list(member:"item"))
         ]
@@ -16357,7 +15312,6 @@ extension EC2 {
 
     public struct DescribeVpcPeeringConnectionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "VpcPeeringConnections", location: .body(locationName: "vpcPeeringConnectionSet"), encoding: .list(member:"item"))
         ]
 
@@ -16379,7 +15333,6 @@ extension EC2 {
 
     public struct DescribeVpcsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "VpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
         ]
@@ -16419,7 +15372,6 @@ extension EC2 {
 
     public struct DescribeVpcsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Vpcs", location: .body(locationName: "vpcSet"), encoding: .list(member:"item"))
         ]
 
@@ -16441,7 +15393,6 @@ extension EC2 {
 
     public struct DescribeVpnConnectionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "VpnConnectionIds", location: .body(locationName: "VpnConnectionId"), encoding: .list(member:"VpnConnectionId"))
         ]
@@ -16485,7 +15436,6 @@ extension EC2 {
 
     public struct DescribeVpnGatewaysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
             AWSShapeMember(label: "VpnGatewayIds", location: .body(locationName: "VpnGatewayId"), encoding: .list(member:"VpnGatewayId"))
         ]
@@ -16528,11 +15478,6 @@ extension EC2 {
     }
 
     public struct DetachClassicLinkVpcRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16572,11 +15517,6 @@ extension EC2 {
     }
 
     public struct DetachInternetGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16599,11 +15539,6 @@ extension EC2 {
     }
 
     public struct DetachNetworkInterfaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachmentId", location: .body(locationName: "attachmentId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Force", location: .body(locationName: "force"))
-        ]
 
         /// The ID of the attachment.
         public let attachmentId: String
@@ -16626,9 +15561,6 @@ extension EC2 {
     }
 
     public struct DetachVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The device name.
         public let device: String?
@@ -16659,9 +15591,6 @@ extension EC2 {
     }
 
     public struct DetachVpnGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16685,7 +15614,6 @@ extension EC2 {
 
     public struct DhcpConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .body(locationName: "key")), 
             AWSShapeMember(label: "Values", location: .body(locationName: "valueSet"), encoding: .list(member:"item"))
         ]
 
@@ -16708,8 +15636,6 @@ extension EC2 {
     public struct DhcpOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DhcpConfigurations", location: .body(locationName: "dhcpConfigurationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "DhcpOptionsId", location: .body(locationName: "dhcpOptionsId")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -16738,9 +15664,6 @@ extension EC2 {
     }
 
     public struct DirectoryServiceAuthentication: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryId", location: .body(locationName: "directoryId"))
-        ]
 
         /// The ID of the Active Directory used for authentication.
         public let directoryId: String?
@@ -16783,9 +15706,6 @@ extension EC2 {
     }
 
     public struct DisableEbsEncryptionByDefaultResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EbsEncryptionByDefault", location: .body(locationName: "ebsEncryptionByDefault"))
-        ]
 
         /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
@@ -16801,8 +15721,7 @@ extension EC2 {
 
     public struct DisableFastSnapshotRestoreErrorItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId"))
+            AWSShapeMember(label: "FastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
         ]
 
         /// The errors.
@@ -16822,10 +15741,6 @@ extension EC2 {
     }
 
     public struct DisableFastSnapshotRestoreStateError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: String?
@@ -16844,10 +15759,6 @@ extension EC2 {
     }
 
     public struct DisableFastSnapshotRestoreStateErrorItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Error", location: .body(locationName: "error"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -16866,19 +15777,6 @@ extension EC2 {
     }
 
     public struct DisableFastSnapshotRestoreSuccessItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "DisabledTime", location: .body(locationName: "disabledTime")), 
-            AWSShapeMember(label: "DisablingTime", location: .body(locationName: "disablingTime")), 
-            AWSShapeMember(label: "EnabledTime", location: .body(locationName: "enabledTime")), 
-            AWSShapeMember(label: "EnablingTime", location: .body(locationName: "enablingTime")), 
-            AWSShapeMember(label: "OptimizingTime", location: .body(locationName: "optimizingTime")), 
-            AWSShapeMember(label: "OwnerAlias", location: .body(locationName: "ownerAlias")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StateTransitionReason", location: .body(locationName: "stateTransitionReason"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -16960,8 +15858,8 @@ extension EC2 {
 
     public struct DisableFastSnapshotRestoresResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Successful", location: .body(locationName: "successful"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Successful", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the snapshots for which fast snapshot restores were successfully disabled.
@@ -17003,9 +15901,6 @@ extension EC2 {
     }
 
     public struct DisableTransitGatewayRouteTablePropagationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Propagation", location: .body(locationName: "propagation"))
-        ]
 
         /// Information about route propagation.
         public let propagation: TransitGatewayPropagation?
@@ -17069,10 +15964,6 @@ extension EC2 {
     }
 
     public struct DisableVpcClassicLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17108,9 +15999,6 @@ extension EC2 {
     }
 
     public struct DisassociateAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// [EC2-VPC] The association ID. Required for EC2-VPC.
         public let associationId: String?
@@ -17155,10 +16043,6 @@ extension EC2 {
     }
 
     public struct DisassociateClientVpnTargetNetworkResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ID of the target network association.
         public let associationId: String?
@@ -17191,9 +16075,6 @@ extension EC2 {
     }
 
     public struct DisassociateIamInstanceProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamInstanceProfileAssociation", location: .body(locationName: "iamInstanceProfileAssociation"))
-        ]
 
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -17208,10 +16089,6 @@ extension EC2 {
     }
 
     public struct DisassociateRouteTableRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The association ID representing the current association between the route table and subnet.
         public let associationId: String
@@ -17230,9 +16107,6 @@ extension EC2 {
     }
 
     public struct DisassociateSubnetCidrBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId"))
-        ]
 
         /// The association ID for the CIDR block.
         public let associationId: String
@@ -17247,10 +16121,6 @@ extension EC2 {
     }
 
     public struct DisassociateSubnetCidrBlockResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// Information about the IPv6 CIDR block association.
         public let ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation?
@@ -17298,9 +16168,6 @@ extension EC2 {
     }
 
     public struct DisassociateTransitGatewayMulticastDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Associations", location: .body(locationName: "associations"))
-        ]
 
         /// Information about the association.
         public let associations: TransitGatewayMulticastDomainAssociations?
@@ -17337,9 +16204,6 @@ extension EC2 {
     }
 
     public struct DisassociateTransitGatewayRouteTableResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Association", location: .body(locationName: "association"))
-        ]
 
         /// Information about the association.
         public let association: TransitGatewayAssociation?
@@ -17354,9 +16218,6 @@ extension EC2 {
     }
 
     public struct DisassociateVpcCidrBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId"))
-        ]
 
         /// The association ID for the CIDR block.
         public let associationId: String
@@ -17371,11 +16232,6 @@ extension EC2 {
     }
 
     public struct DisassociateVpcCidrBlockResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlockAssociation", location: .body(locationName: "cidrBlockAssociation")), 
-            AWSShapeMember(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Information about the IPv4 CIDR block association.
         public let cidrBlockAssociation: VpcCidrBlockAssociation?
@@ -17420,12 +16276,6 @@ extension EC2 {
     }
 
     public struct DiskImageDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Checksum", location: .body(locationName: "checksum")), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "ImportManifestUrl", location: .body(locationName: "importManifestUrl")), 
-            AWSShapeMember(label: "Size", location: .body(locationName: "size"))
-        ]
 
         /// The checksum computed for the disk image.
         public let checksum: String?
@@ -17452,11 +16302,6 @@ extension EC2 {
     }
 
     public struct DiskImageDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bytes", location: .body(locationName: "bytes")), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "ImportManifestUrl", location: .body(locationName: "importManifestUrl"))
-        ]
 
         /// The size of the disk image, in GiB.
         public let bytes: Int64
@@ -17479,10 +16324,6 @@ extension EC2 {
     }
 
     public struct DiskImageVolumeDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Size", location: .body(locationName: "size"))
-        ]
 
         /// The volume identifier.
         public let id: String?
@@ -17502,8 +16343,6 @@ extension EC2 {
 
     public struct DiskInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "SizeInGB", location: .body(locationName: "sizeInGB")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -17528,10 +16367,6 @@ extension EC2 {
     }
 
     public struct DnsEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsName", location: .body(locationName: "dnsName")), 
-            AWSShapeMember(label: "HostedZoneId", location: .body(locationName: "hostedZoneId"))
-        ]
 
         /// The DNS name.
         public let dnsName: String?
@@ -17571,14 +16406,6 @@ extension EC2 {
     }
 
     public struct EbsBlockDevice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "Iops", location: .body(locationName: "iops")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "VolumeSize", location: .body(locationName: "volumeSize")), 
-            AWSShapeMember(label: "VolumeType", location: .body(locationName: "volumeType"))
-        ]
 
         /// Indicates whether the EBS volume is deleted on instance termination. For more information, see Preserving Amazon EBS Volumes on Instance Termination in the Amazon Elastic Compute Cloud User Guide.
         public let deleteOnTermination: Bool?
@@ -17617,10 +16444,6 @@ extension EC2 {
     }
 
     public struct EbsInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EbsOptimizedSupport", location: .body(locationName: "ebsOptimizedSupport")), 
-            AWSShapeMember(label: "EncryptionSupport", location: .body(locationName: "encryptionSupport"))
-        ]
 
         /// Indicates that the instance type is Amazon EBS-optimized. For more information, see Amazon EBS-Optimized Instances in Amazon EC2 User Guide for Linux Instances.
         public let ebsOptimizedSupport: EbsOptimizedSupport?
@@ -17639,12 +16462,6 @@ extension EC2 {
     }
 
     public struct EbsInstanceBlockDevice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachTime", location: .body(locationName: "attachTime")), 
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId"))
-        ]
 
         /// The time stamp when the attachment initiated.
         public let attachTime: TimeStamp?
@@ -17671,10 +16488,6 @@ extension EC2 {
     }
 
     public struct EbsInstanceBlockDeviceSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId"))
-        ]
 
         /// Indicates whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
@@ -17695,7 +16508,6 @@ extension EC2 {
     public struct EgressOnlyInternetGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -17720,12 +16532,6 @@ extension EC2 {
     }
 
     public struct ElasticGpuAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticGpuAssociationId", location: .body(locationName: "elasticGpuAssociationId")), 
-            AWSShapeMember(label: "ElasticGpuAssociationState", location: .body(locationName: "elasticGpuAssociationState")), 
-            AWSShapeMember(label: "ElasticGpuAssociationTime", location: .body(locationName: "elasticGpuAssociationTime")), 
-            AWSShapeMember(label: "ElasticGpuId", location: .body(locationName: "elasticGpuId"))
-        ]
 
         /// The ID of the association.
         public let elasticGpuAssociationId: String?
@@ -17752,9 +16558,6 @@ extension EC2 {
     }
 
     public struct ElasticGpuHealth: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The health status.
         public let status: ElasticGpuStatus?
@@ -17801,12 +16604,6 @@ extension EC2 {
 
     public struct ElasticGpus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "ElasticGpuHealth", location: .body(locationName: "elasticGpuHealth")), 
-            AWSShapeMember(label: "ElasticGpuId", location: .body(locationName: "elasticGpuId")), 
-            AWSShapeMember(label: "ElasticGpuState", location: .body(locationName: "elasticGpuState")), 
-            AWSShapeMember(label: "ElasticGpuType", location: .body(locationName: "elasticGpuType")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -17869,12 +16666,6 @@ extension EC2 {
     }
 
     public struct ElasticInferenceAcceleratorAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElasticInferenceAcceleratorArn", location: .body(locationName: "elasticInferenceAcceleratorArn")), 
-            AWSShapeMember(label: "ElasticInferenceAcceleratorAssociationId", location: .body(locationName: "elasticInferenceAcceleratorAssociationId")), 
-            AWSShapeMember(label: "ElasticInferenceAcceleratorAssociationState", location: .body(locationName: "elasticInferenceAcceleratorAssociationState")), 
-            AWSShapeMember(label: "ElasticInferenceAcceleratorAssociationTime", location: .body(locationName: "elasticInferenceAcceleratorAssociationTime"))
-        ]
 
         ///  The Amazon Resource Name (ARN) of the elastic inference accelerator. 
         public let elasticInferenceAcceleratorArn: String?
@@ -17915,9 +16706,6 @@ extension EC2 {
     }
 
     public struct EnableEbsEncryptionByDefaultResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EbsEncryptionByDefault", location: .body(locationName: "ebsEncryptionByDefault"))
-        ]
 
         /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
@@ -17933,8 +16721,7 @@ extension EC2 {
 
     public struct EnableFastSnapshotRestoreErrorItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId"))
+            AWSShapeMember(label: "FastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
         ]
 
         /// The errors.
@@ -17954,10 +16741,6 @@ extension EC2 {
     }
 
     public struct EnableFastSnapshotRestoreStateError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: String?
@@ -17976,10 +16759,6 @@ extension EC2 {
     }
 
     public struct EnableFastSnapshotRestoreStateErrorItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Error", location: .body(locationName: "error"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -17998,19 +16777,6 @@ extension EC2 {
     }
 
     public struct EnableFastSnapshotRestoreSuccessItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "DisabledTime", location: .body(locationName: "disabledTime")), 
-            AWSShapeMember(label: "DisablingTime", location: .body(locationName: "disablingTime")), 
-            AWSShapeMember(label: "EnabledTime", location: .body(locationName: "enabledTime")), 
-            AWSShapeMember(label: "EnablingTime", location: .body(locationName: "enablingTime")), 
-            AWSShapeMember(label: "OptimizingTime", location: .body(locationName: "optimizingTime")), 
-            AWSShapeMember(label: "OwnerAlias", location: .body(locationName: "ownerAlias")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StateTransitionReason", location: .body(locationName: "stateTransitionReason"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -18092,8 +16858,8 @@ extension EC2 {
 
     public struct EnableFastSnapshotRestoresResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Successful", location: .body(locationName: "successful"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Successful", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the snapshots for which fast snapshot restores were successfully enabled.
@@ -18135,9 +16901,6 @@ extension EC2 {
     }
 
     public struct EnableTransitGatewayRouteTablePropagationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Propagation", location: .body(locationName: "propagation"))
-        ]
 
         /// Information about route propagation.
         public let propagation: TransitGatewayPropagation?
@@ -18170,10 +16933,6 @@ extension EC2 {
     }
 
     public struct EnableVolumeIORequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -18223,10 +16982,6 @@ extension EC2 {
     }
 
     public struct EnableVpcClassicLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -18262,11 +17017,6 @@ extension EC2 {
     }
 
     public struct EventInformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDescription", location: .body(locationName: "eventDescription")), 
-            AWSShapeMember(label: "EventSubType", location: .body(locationName: "eventSubType")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"))
-        ]
 
         /// The description of the event.
         public let eventDescription: String?
@@ -18307,10 +17057,6 @@ extension EC2 {
     }
 
     public struct ExportClientVpnClientCertificateRevocationListResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateRevocationList", location: .body(locationName: "certificateRevocationList")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// Information about the client certificate revocation list.
         public let certificateRevocationList: String?
@@ -18347,9 +17093,6 @@ extension EC2 {
     }
 
     public struct ExportClientVpnClientConfigurationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientConfiguration", location: .body(locationName: "clientConfiguration"))
-        ]
 
         /// The contents of the Client VPN endpoint configuration file.
         public let clientConfiguration: String?
@@ -18402,17 +17145,6 @@ extension EC2 {
     }
 
     public struct ExportImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DiskImageFormat", location: .body(locationName: "diskImageFormat")), 
-            AWSShapeMember(label: "ExportImageTaskId", location: .body(locationName: "exportImageTaskId")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "RoleName", location: .body(locationName: "roleName")), 
-            AWSShapeMember(label: "S3ExportLocation", location: .body(locationName: "s3ExportLocation")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// A description of the image being exported.
         public let description: String?
@@ -18459,15 +17191,6 @@ extension EC2 {
     }
 
     public struct ExportImageTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "ExportImageTaskId", location: .body(locationName: "exportImageTaskId")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "S3ExportLocation", location: .body(locationName: "s3ExportLocation")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// A description of the image being exported.
         public let description: String?
@@ -18507,12 +17230,8 @@ extension EC2 {
 
     public struct ExportTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "ExportTaskId", location: .body(locationName: "exportTaskId")), 
             AWSShapeMember(label: "ExportToS3Task", location: .body(locationName: "exportToS3")), 
             AWSShapeMember(label: "InstanceExportDetails", location: .body(locationName: "instanceExport")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -18553,10 +17272,6 @@ extension EC2 {
     }
 
     public struct ExportTaskS3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", location: .body(locationName: "s3Bucket")), 
-            AWSShapeMember(label: "S3Prefix", location: .body(locationName: "s3Prefix"))
-        ]
 
         /// The destination S3 bucket.
         public let s3Bucket: String?
@@ -18593,12 +17308,6 @@ extension EC2 {
     }
 
     public struct ExportToS3Task: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerFormat", location: .body(locationName: "containerFormat")), 
-            AWSShapeMember(label: "DiskImageFormat", location: .body(locationName: "diskImageFormat")), 
-            AWSShapeMember(label: "S3Bucket", location: .body(locationName: "s3Bucket")), 
-            AWSShapeMember(label: "S3Key", location: .body(locationName: "s3Key"))
-        ]
 
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
         public let containerFormat: ContainerFormat?
@@ -18625,12 +17334,6 @@ extension EC2 {
     }
 
     public struct ExportToS3TaskSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerFormat", location: .body(locationName: "containerFormat")), 
-            AWSShapeMember(label: "DiskImageFormat", location: .body(locationName: "diskImageFormat")), 
-            AWSShapeMember(label: "S3Bucket", location: .body(locationName: "s3Bucket")), 
-            AWSShapeMember(label: "S3Prefix", location: .body(locationName: "s3Prefix"))
-        ]
 
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
         public let containerFormat: ContainerFormat?
@@ -18686,9 +17389,6 @@ extension EC2 {
     }
 
     public struct ExportTransitGatewayRoutesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Location", location: .body(locationName: "s3Location"))
-        ]
 
         /// The URL of the exported file in Amazon S3. For example, s3://bucket_name/VPCTransitGateway/TransitGatewayRouteTables/file_name.
         public let s3Location: String?
@@ -18703,10 +17403,6 @@ extension EC2 {
     }
 
     public struct FailedQueuedPurchaseDeletion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", location: .body(locationName: "error")), 
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"))
-        ]
 
         /// The error.
         public let error: DeleteQueuedReservedInstancesError?
@@ -18747,26 +17443,11 @@ extension EC2 {
 
     public struct FleetData: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivityStatus", location: .body(locationName: "activityStatus")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
             AWSShapeMember(label: "Errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ExcessCapacityTerminationPolicy", location: .body(locationName: "excessCapacityTerminationPolicy")), 
-            AWSShapeMember(label: "FleetId", location: .body(locationName: "fleetId")), 
-            AWSShapeMember(label: "FleetState", location: .body(locationName: "fleetState")), 
-            AWSShapeMember(label: "FulfilledCapacity", location: .body(locationName: "fulfilledCapacity")), 
-            AWSShapeMember(label: "FulfilledOnDemandCapacity", location: .body(locationName: "fulfilledOnDemandCapacity")), 
             AWSShapeMember(label: "Instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LaunchTemplateConfigs", location: .body(locationName: "launchTemplateConfigs"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OnDemandOptions", location: .body(locationName: "onDemandOptions")), 
-            AWSShapeMember(label: "ReplaceUnhealthyInstances", location: .body(locationName: "replaceUnhealthyInstances")), 
-            AWSShapeMember(label: "SpotOptions", location: .body(locationName: "spotOptions")), 
+            AWSShapeMember(label: "LaunchTemplateConfigs", encoding: .list(member:"item")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TargetCapacitySpecification", location: .body(locationName: "targetCapacitySpecification")), 
-            AWSShapeMember(label: "TerminateInstancesWithExpiration", location: .body(locationName: "terminateInstancesWithExpiration")), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "ValidFrom", location: .body(locationName: "validFrom")), 
-            AWSShapeMember(label: "ValidUntil", location: .body(locationName: "validUntil"))
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The progress of the EC2 Fleet. If there is an error, the status is error. After all requests are placed, the status is pending_fulfillment. If the size of the EC2 Fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the EC2 Fleet is decreased, the status is pending_termination while instances are terminating.
@@ -18859,8 +17540,7 @@ extension EC2 {
 
     public struct FleetLaunchTemplateConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateSpecification", location: .body(locationName: "launchTemplateSpecification")), 
-            AWSShapeMember(label: "Overrides", location: .body(locationName: "overrides"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Overrides", encoding: .list(member:"item"))
         ]
 
         /// The launch template.
@@ -18906,15 +17586,6 @@ extension EC2 {
     }
 
     public struct FleetLaunchTemplateOverrides: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "MaxPrice", location: .body(locationName: "maxPrice")), 
-            AWSShapeMember(label: "Placement", location: .body(locationName: "placement")), 
-            AWSShapeMember(label: "Priority", location: .body(locationName: "priority")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "WeightedCapacity", location: .body(locationName: "weightedCapacity"))
-        ]
 
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
@@ -18991,11 +17662,6 @@ extension EC2 {
     }
 
     public struct FleetLaunchTemplateSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateId", location: .body(locationName: "launchTemplateId")), 
-            AWSShapeMember(label: "LaunchTemplateName", location: .body(locationName: "launchTemplateName")), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"))
-        ]
 
         /// The ID of the launch template. You must specify either a template ID or a template name.
         public let launchTemplateId: String?
@@ -19052,20 +17718,6 @@ extension EC2 {
     }
 
     public struct FlowLog: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "DeliverLogsErrorMessage", location: .body(locationName: "deliverLogsErrorMessage")), 
-            AWSShapeMember(label: "DeliverLogsPermissionArn", location: .body(locationName: "deliverLogsPermissionArn")), 
-            AWSShapeMember(label: "DeliverLogsStatus", location: .body(locationName: "deliverLogsStatus")), 
-            AWSShapeMember(label: "FlowLogId", location: .body(locationName: "flowLogId")), 
-            AWSShapeMember(label: "FlowLogStatus", location: .body(locationName: "flowLogStatus")), 
-            AWSShapeMember(label: "LogDestination", location: .body(locationName: "logDestination")), 
-            AWSShapeMember(label: "LogDestinationType", location: .body(locationName: "logDestinationType")), 
-            AWSShapeMember(label: "LogFormat", location: .body(locationName: "logFormat")), 
-            AWSShapeMember(label: "LogGroupName", location: .body(locationName: "logGroupName")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "TrafficType", location: .body(locationName: "trafficType"))
-        ]
 
         /// The date and time the flow log was created.
         public let creationTime: TimeStamp?
@@ -19124,12 +17776,6 @@ extension EC2 {
     }
 
     public struct FpgaDeviceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "Manufacturer", location: .body(locationName: "manufacturer")), 
-            AWSShapeMember(label: "MemoryInfo", location: .body(locationName: "memoryInfo")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The count of FPGA accelerators for the instance type.
         public let count: Int?
@@ -19156,9 +17802,6 @@ extension EC2 {
     }
 
     public struct FpgaDeviceMemoryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SizeInMiB", location: .body(locationName: "sizeInMiB"))
-        ]
 
         /// The size (in MiB) for the memory available to the FPGA accelerator.
         public let sizeInMiB: Int?
@@ -19174,21 +17817,9 @@ extension EC2 {
 
     public struct FpgaImage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
-            AWSShapeMember(label: "DataRetentionSupport", location: .body(locationName: "dataRetentionSupport")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "FpgaImageGlobalId", location: .body(locationName: "fpgaImageGlobalId")), 
-            AWSShapeMember(label: "FpgaImageId", location: .body(locationName: "fpgaImageId")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "OwnerAlias", location: .body(locationName: "ownerAlias")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "PciId", location: .body(locationName: "pciId")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item")), 
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item")), 
             AWSShapeMember(label: "Public", location: .body(locationName: "public")), 
-            AWSShapeMember(label: "ShellVersion", location: .body(locationName: "shellVersion")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "UpdateTime", location: .body(locationName: "updateTime"))
+            AWSShapeMember(label: "Tags", encoding: .list(member:"item"))
         ]
 
         /// The date and time the AFI was created.
@@ -19261,11 +17892,8 @@ extension EC2 {
 
     public struct FpgaImageAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "FpgaImageId", location: .body(locationName: "fpgaImageId")), 
-            AWSShapeMember(label: "LoadPermissions", location: .body(locationName: "loadPermissions"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "LoadPermissions", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item"))
         ]
 
         /// The description of the AFI.
@@ -19297,10 +17925,6 @@ extension EC2 {
     }
 
     public struct FpgaImageState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The state. The following are the possible values:    pending - AFI bitstream generation is in progress.    available - The AFI is available for use.    failed - AFI bitstream generation failed.    unavailable - The AFI is no longer available for use.  
         public let code: FpgaImageStateCode?
@@ -19320,8 +17944,7 @@ extension EC2 {
 
     public struct FpgaInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fpgas", location: .body(locationName: "fpgas"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TotalFpgaMemoryInMiB", location: .body(locationName: "totalFpgaMemoryInMiB"))
+            AWSShapeMember(label: "Fpgas", encoding: .list(member:"item"))
         ]
 
         /// Describes the FPGAs for the instance type.
@@ -19373,8 +17996,7 @@ extension EC2 {
 
     public struct GetAssociatedIpv6PoolCidrsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6CidrAssociations", location: .body(locationName: "ipv6CidrAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Ipv6CidrAssociations", location: .body(locationName: "ipv6CidrAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the IPv6 CIDR block associations.
@@ -19426,13 +18048,7 @@ extension EC2 {
 
     public struct GetCapacityReservationUsageResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailableInstanceCount", location: .body(locationName: "availableInstanceCount")), 
-            AWSShapeMember(label: "CapacityReservationId", location: .body(locationName: "capacityReservationId")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "InstanceUsages", location: .body(locationName: "instanceUsageSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TotalInstanceCount", location: .body(locationName: "totalInstanceCount"))
+            AWSShapeMember(label: "InstanceUsages", location: .body(locationName: "instanceUsageSet"), encoding: .list(member:"item"))
         ]
 
         /// The remaining capacity. Indicates the number of instances that can be launched in the Capacity Reservation.
@@ -19511,9 +18127,7 @@ extension EC2 {
 
     public struct GetCoipPoolUsageResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoipAddressUsages", location: .body(locationName: "coipAddressUsageSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "CoipPoolId", location: .body(locationName: "coipPoolId")), 
-            AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId"))
+            AWSShapeMember(label: "CoipAddressUsages", location: .body(locationName: "coipAddressUsageSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the address usage.
@@ -19537,9 +18151,6 @@ extension EC2 {
     }
 
     public struct GetConsoleOutputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -19562,11 +18173,6 @@ extension EC2 {
     }
 
     public struct GetConsoleOutputResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "Output", location: .body(locationName: "output")), 
-            AWSShapeMember(label: "Timestamp", location: .body(locationName: "timestamp"))
-        ]
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -19611,10 +18217,6 @@ extension EC2 {
     }
 
     public struct GetConsoleScreenshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageData", location: .body(locationName: "imageData")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"))
-        ]
 
         /// The data that comprises the image.
         public let imageData: String?
@@ -19651,9 +18253,6 @@ extension EC2 {
     }
 
     public struct GetDefaultCreditSpecificationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceFamilyCreditSpecification", location: .body(locationName: "instanceFamilyCreditSpecification"))
-        ]
 
         /// The default credit option for CPU usage of the instance family.
         public let instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification?
@@ -19682,9 +18281,6 @@ extension EC2 {
     }
 
     public struct GetEbsDefaultKmsKeyIdResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
         public let kmsKeyId: String?
@@ -19713,9 +18309,6 @@ extension EC2 {
     }
 
     public struct GetEbsEncryptionByDefaultResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EbsEncryptionByDefault", location: .body(locationName: "ebsEncryptionByDefault"))
-        ]
 
         /// Indicates whether encryption by default is enabled.
         public let ebsEncryptionByDefault: Bool?
@@ -19752,10 +18345,7 @@ extension EC2 {
 
     public struct GetHostReservationPurchasePreviewResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Purchase", location: .body(locationName: "purchase"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TotalHourlyPrice", location: .body(locationName: "totalHourlyPrice")), 
-            AWSShapeMember(label: "TotalUpfrontPrice", location: .body(locationName: "totalUpfrontPrice"))
+            AWSShapeMember(label: "Purchase", encoding: .list(member:"item"))
         ]
 
         /// The currency in which the totalUpfrontPrice and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -19801,9 +18391,6 @@ extension EC2 {
     }
 
     public struct GetLaunchTemplateDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateData", location: .body(locationName: "launchTemplateData"))
-        ]
 
         /// The instance data.
         public let launchTemplateData: ResponseLaunchTemplateData?
@@ -19818,9 +18405,6 @@ extension EC2 {
     }
 
     public struct GetPasswordDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -19839,11 +18423,6 @@ extension EC2 {
     }
 
     public struct GetPasswordDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "PasswordData", location: .body(locationName: "passwordData")), 
-            AWSShapeMember(label: "Timestamp", location: .body(locationName: "timestamp"))
-        ]
 
         /// The ID of the Windows instance.
         public let instanceId: String?
@@ -19893,15 +18472,8 @@ extension EC2 {
 
     public struct GetReservedInstancesExchangeQuoteResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "IsValidExchange", location: .body(locationName: "isValidExchange")), 
-            AWSShapeMember(label: "OutputReservedInstancesWillExpireAt", location: .body(locationName: "outputReservedInstancesWillExpireAt")), 
-            AWSShapeMember(label: "PaymentDue", location: .body(locationName: "paymentDue")), 
-            AWSShapeMember(label: "ReservedInstanceValueRollup", location: .body(locationName: "reservedInstanceValueRollup")), 
-            AWSShapeMember(label: "ReservedInstanceValueSet", location: .body(locationName: "reservedInstanceValueSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TargetConfigurationValueRollup", location: .body(locationName: "targetConfigurationValueRollup")), 
-            AWSShapeMember(label: "TargetConfigurationValueSet", location: .body(locationName: "targetConfigurationValueSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ValidationFailureReason", location: .body(locationName: "validationFailureReason"))
+            AWSShapeMember(label: "ReservedInstanceValueSet", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "TargetConfigurationValueSet", encoding: .list(member:"item"))
         ]
 
         /// The currency of the transaction.
@@ -19988,8 +18560,7 @@ extension EC2 {
 
     public struct GetTransitGatewayAttachmentPropagationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentPropagations", location: .body(locationName: "transitGatewayAttachmentPropagations"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TransitGatewayAttachmentPropagations", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -20048,8 +18619,7 @@ extension EC2 {
 
     public struct GetTransitGatewayMulticastDomainAssociationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MulticastDomainAssociations", location: .body(locationName: "multicastDomainAssociations"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "MulticastDomainAssociations", encoding: .list(member:"item"))
         ]
 
         /// Information about the multicast domain associations.
@@ -20108,8 +18678,7 @@ extension EC2 {
 
     public struct GetTransitGatewayRouteTableAssociationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Associations", location: .body(locationName: "associations"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "Associations", encoding: .list(member:"item"))
         ]
 
         /// Information about the associations.
@@ -20168,8 +18737,7 @@ extension EC2 {
 
     public struct GetTransitGatewayRouteTablePropagationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "TransitGatewayRouteTablePropagations", location: .body(locationName: "transitGatewayRouteTablePropagations"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TransitGatewayRouteTablePropagations", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -20189,12 +18757,6 @@ extension EC2 {
     }
 
     public struct GpuDeviceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "Manufacturer", location: .body(locationName: "manufacturer")), 
-            AWSShapeMember(label: "MemoryInfo", location: .body(locationName: "memoryInfo")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The number of GPUs for the instance type.
         public let count: Int?
@@ -20221,9 +18783,6 @@ extension EC2 {
     }
 
     public struct GpuDeviceMemoryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SizeInMiB", location: .body(locationName: "sizeInMiB"))
-        ]
 
         /// The size (in MiB) for the memory available to the GPU accelerator.
         public let sizeInMiB: Int?
@@ -20239,8 +18798,7 @@ extension EC2 {
 
     public struct GpuInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Gpus", location: .body(locationName: "gpus"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TotalGpuMemoryInMiB", location: .body(locationName: "totalGpuMemoryInMiB"))
+            AWSShapeMember(label: "Gpus", encoding: .list(member:"item"))
         ]
 
         /// Describes the GPU accelerators for the instance type.
@@ -20260,10 +18818,6 @@ extension EC2 {
     }
 
     public struct GroupIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"))
-        ]
 
         /// The ID of the security group.
         public let groupId: String?
@@ -20282,9 +18836,6 @@ extension EC2 {
     }
 
     public struct HibernationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configured", location: .body(locationName: "configured"))
-        ]
 
         /// If this parameter is set to true, your instance is enabled for hibernation; otherwise, it is not enabled for hibernation.
         public let configured: Bool?
@@ -20313,11 +18864,6 @@ extension EC2 {
     }
 
     public struct HistoryRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventInformation", location: .body(locationName: "eventInformation")), 
-            AWSShapeMember(label: "EventType", location: .body(locationName: "eventType")), 
-            AWSShapeMember(label: "Timestamp", location: .body(locationName: "timestamp"))
-        ]
 
         /// Information about the event.
         public let eventInformation: EventInformation?
@@ -20340,11 +18886,6 @@ extension EC2 {
     }
 
     public struct HistoryRecordEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventInformation", location: .body(locationName: "eventInformation")), 
-            AWSShapeMember(label: "EventType", location: .body(locationName: "eventType")), 
-            AWSShapeMember(label: "Timestamp", location: .body(locationName: "timestamp"))
-        ]
 
         /// Information about the event.
         public let eventInformation: EventInformation?
@@ -20368,22 +18909,7 @@ extension EC2 {
 
     public struct Host: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationTime", location: .body(locationName: "allocationTime")), 
-            AWSShapeMember(label: "AllowsMultipleInstanceTypes", location: .body(locationName: "allowsMultipleInstanceTypes")), 
-            AWSShapeMember(label: "AutoPlacement", location: .body(locationName: "autoPlacement")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "AvailabilityZoneId", location: .body(locationName: "availabilityZoneId")), 
-            AWSShapeMember(label: "AvailableCapacity", location: .body(locationName: "availableCapacity")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "HostId", location: .body(locationName: "hostId")), 
-            AWSShapeMember(label: "HostProperties", location: .body(locationName: "hostProperties")), 
-            AWSShapeMember(label: "HostRecovery", location: .body(locationName: "hostRecovery")), 
-            AWSShapeMember(label: "HostReservationId", location: .body(locationName: "hostReservationId")), 
-            AWSShapeMember(label: "Instances", location: .body(locationName: "instances"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MemberOfServiceLinkedResourceGroup", location: .body(locationName: "memberOfServiceLinkedResourceGroup")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "ReleaseTime", location: .body(locationName: "releaseTime")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
+            AWSShapeMember(label: "Instances", encoding: .list(member:"item")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -20464,11 +18990,6 @@ extension EC2 {
     }
 
     public struct HostInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"))
-        ]
 
         /// The ID of instance that is running on the Dedicated Host.
         public let instanceId: String?
@@ -20491,15 +19012,6 @@ extension EC2 {
     }
 
     public struct HostOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "HourlyPrice", location: .body(locationName: "hourlyPrice")), 
-            AWSShapeMember(label: "InstanceFamily", location: .body(locationName: "instanceFamily")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId")), 
-            AWSShapeMember(label: "PaymentOption", location: .body(locationName: "paymentOption")), 
-            AWSShapeMember(label: "UpfrontPrice", location: .body(locationName: "upfrontPrice"))
-        ]
 
         /// The currency of the offering.
         public let currencyCode: CurrencyCodeValues?
@@ -20538,13 +19050,6 @@ extension EC2 {
     }
 
     public struct HostProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cores", location: .body(locationName: "cores")), 
-            AWSShapeMember(label: "InstanceFamily", location: .body(locationName: "instanceFamily")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Sockets", location: .body(locationName: "sockets")), 
-            AWSShapeMember(label: "TotalVCpus", location: .body(locationName: "totalVCpus"))
-        ]
 
         /// The number of cores on the Dedicated Host.
         public let cores: Int?
@@ -20576,20 +19081,8 @@ extension EC2 {
 
     public struct HostReservation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "End", location: .body(locationName: "end")), 
-            AWSShapeMember(label: "HostIdSet", location: .body(locationName: "hostIdSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "HostReservationId", location: .body(locationName: "hostReservationId")), 
-            AWSShapeMember(label: "HourlyPrice", location: .body(locationName: "hourlyPrice")), 
-            AWSShapeMember(label: "InstanceFamily", location: .body(locationName: "instanceFamily")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId")), 
-            AWSShapeMember(label: "PaymentOption", location: .body(locationName: "paymentOption")), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "UpfrontPrice", location: .body(locationName: "upfrontPrice"))
+            AWSShapeMember(label: "HostIdSet", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The number of Dedicated Hosts the reservation is associated with.
@@ -20657,9 +19150,6 @@ extension EC2 {
     }
 
     public struct IKEVersionsListValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The IKE version.
         public let value: String?
@@ -20688,10 +19178,6 @@ extension EC2 {
     }
 
     public struct IamInstanceProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -20710,13 +19196,6 @@ extension EC2 {
     }
 
     public struct IamInstanceProfileAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Timestamp", location: .body(locationName: "timestamp"))
-        ]
 
         /// The ID of the association.
         public let associationId: String?
@@ -20747,10 +19226,6 @@ extension EC2 {
     }
 
     public struct IamInstanceProfileSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -20770,7 +19245,6 @@ extension EC2 {
 
     public struct IcmpTypeCode: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -20791,11 +19265,6 @@ extension EC2 {
     }
 
     public struct IdFormat: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deadline", location: .body(locationName: "deadline")), 
-            AWSShapeMember(label: "Resource", location: .body(locationName: "resource")), 
-            AWSShapeMember(label: "UseLongIds", location: .body(locationName: "useLongIds"))
-        ]
 
         /// The date in UTC at which you are permanently switched over to using longer IDs. If a deadline is not yet available for this resource type, this field is not returned.
         public let deadline: TimeStamp?
@@ -20819,30 +19288,12 @@ extension EC2 {
 
     public struct Image: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Architecture", location: .body(locationName: "architecture")), 
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "CreationDate", location: .body(locationName: "creationDate")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "EnaSupport", location: .body(locationName: "enaSupport")), 
-            AWSShapeMember(label: "Hypervisor", location: .body(locationName: "hypervisor")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "ImageLocation", location: .body(locationName: "imageLocation")), 
-            AWSShapeMember(label: "ImageOwnerAlias", location: .body(locationName: "imageOwnerAlias")), 
-            AWSShapeMember(label: "ImageType", location: .body(locationName: "imageType")), 
-            AWSShapeMember(label: "KernelId", location: .body(locationName: "kernelId")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
             AWSShapeMember(label: "OwnerId", location: .body(locationName: "imageOwnerId")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item")), 
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item")), 
             AWSShapeMember(label: "Public", location: .body(locationName: "isPublic")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdiskId")), 
-            AWSShapeMember(label: "RootDeviceName", location: .body(locationName: "rootDeviceName")), 
-            AWSShapeMember(label: "RootDeviceType", location: .body(locationName: "rootDeviceType")), 
-            AWSShapeMember(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport")), 
             AWSShapeMember(label: "State", location: .body(locationName: "imageState")), 
-            AWSShapeMember(label: "StateReason", location: .body(locationName: "stateReason")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VirtualizationType", location: .body(locationName: "virtualizationType"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The architecture of the image.
@@ -20952,13 +19403,10 @@ extension EC2 {
     public struct ImageAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
             AWSShapeMember(label: "KernelId", location: .body(locationName: "kernel")), 
             AWSShapeMember(label: "LaunchPermissions", location: .body(locationName: "launchPermission"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdisk")), 
-            AWSShapeMember(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"))
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdisk"))
         ]
 
         /// The block device mapping entries.
@@ -21089,9 +19537,6 @@ extension EC2 {
     }
 
     public struct ImportImageLicenseConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseConfigurationArn", location: .body(locationName: "licenseConfigurationArn"))
-        ]
 
         /// The ARN of a license configuration.
         public let licenseConfigurationArn: String?
@@ -21173,20 +19618,8 @@ extension EC2 {
 
     public struct ImportImageResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Architecture", location: .body(locationName: "architecture")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "Hypervisor", location: .body(locationName: "hypervisor")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "ImportTaskId", location: .body(locationName: "importTaskId")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId")), 
-            AWSShapeMember(label: "LicenseSpecifications", location: .body(locationName: "licenseSpecifications"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LicenseType", location: .body(locationName: "licenseType")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "SnapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
+            AWSShapeMember(label: "LicenseSpecifications", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "SnapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item"))
         ]
 
         /// The architecture of the virtual machine.
@@ -21255,20 +19688,8 @@ extension EC2 {
 
     public struct ImportImageTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Architecture", location: .body(locationName: "architecture")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "Hypervisor", location: .body(locationName: "hypervisor")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "ImportTaskId", location: .body(locationName: "importTaskId")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId")), 
-            AWSShapeMember(label: "LicenseSpecifications", location: .body(locationName: "licenseSpecifications"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LicenseType", location: .body(locationName: "licenseType")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
+            AWSShapeMember(label: "LicenseSpecifications", encoding: .list(member:"item")), 
             AWSShapeMember(label: "SnapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -21342,17 +19763,8 @@ extension EC2 {
 
     public struct ImportInstanceLaunchSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalInfo", location: .body(locationName: "additionalInfo")), 
-            AWSShapeMember(label: "Architecture", location: .body(locationName: "architecture")), 
             AWSShapeMember(label: "GroupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSShapeMember(label: "GroupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"SecurityGroup")), 
-            AWSShapeMember(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Monitoring", location: .body(locationName: "monitoring")), 
-            AWSShapeMember(label: "Placement", location: .body(locationName: "placement")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "UserData", location: .body(locationName: "userData"))
+            AWSShapeMember(label: "GroupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"SecurityGroup"))
         ]
 
         /// Reserved.
@@ -21409,11 +19821,7 @@ extension EC2 {
 
     public struct ImportInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DiskImages", location: .body(locationName: "diskImage"), encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "LaunchSpecification", location: .body(locationName: "launchSpecification")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform"))
+            AWSShapeMember(label: "DiskImages", location: .body(locationName: "diskImage"), encoding: .list(member:"member"))
         ]
 
         /// A description for the instance being imported.
@@ -21445,9 +19853,6 @@ extension EC2 {
     }
 
     public struct ImportInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConversionTask", location: .body(locationName: "conversionTask"))
-        ]
 
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
@@ -21463,10 +19868,7 @@ extension EC2 {
 
     public struct ImportInstanceTaskDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "Volumes", location: .body(locationName: "volumes"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Volumes", encoding: .list(member:"item"))
         ]
 
         /// A description of the task.
@@ -21494,15 +19896,6 @@ extension EC2 {
     }
 
     public struct ImportInstanceVolumeDetailItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "BytesConverted", location: .body(locationName: "bytesConverted")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Image", location: .body(locationName: "image")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
-            AWSShapeMember(label: "Volume", location: .body(locationName: "volume"))
-        ]
 
         /// The Availability Zone where the resulting instance will reside.
         public let availabilityZone: String?
@@ -21541,11 +19934,6 @@ extension EC2 {
     }
 
     public struct ImportKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
-            AWSShapeMember(label: "PublicKeyMaterial", location: .body(locationName: "publicKeyMaterial"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -21568,10 +19956,6 @@ extension EC2 {
     }
 
     public struct ImportKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName"))
-        ]
 
         /// The MD5 public key fingerprint as specified in section 4 of RFC 4716.
         public let keyFingerprint: String?
@@ -21632,11 +20016,6 @@ extension EC2 {
     }
 
     public struct ImportSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "ImportTaskId", location: .body(locationName: "importTaskId")), 
-            AWSShapeMember(label: "SnapshotTaskDetail", location: .body(locationName: "snapshotTaskDetail"))
-        ]
 
         /// A description of the import snapshot task.
         public let description: String?
@@ -21660,9 +20039,6 @@ extension EC2 {
 
     public struct ImportSnapshotTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "ImportTaskId", location: .body(locationName: "importTaskId")), 
-            AWSShapeMember(label: "SnapshotTaskDetail", location: .body(locationName: "snapshotTaskDetail")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -21691,13 +20067,6 @@ extension EC2 {
     }
 
     public struct ImportVolumeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Image", location: .body(locationName: "image")), 
-            AWSShapeMember(label: "Volume", location: .body(locationName: "volume"))
-        ]
 
         /// The Availability Zone for the resulting EBS volume.
         public let availabilityZone: String
@@ -21728,9 +20097,6 @@ extension EC2 {
     }
 
     public struct ImportVolumeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConversionTask", location: .body(locationName: "conversionTask"))
-        ]
 
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
@@ -21745,13 +20111,6 @@ extension EC2 {
     }
 
     public struct ImportVolumeTaskDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "BytesConverted", location: .body(locationName: "bytesConverted")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Image", location: .body(locationName: "image")), 
-            AWSShapeMember(label: "Volume", location: .body(locationName: "volume"))
-        ]
 
         /// The Availability Zone where the resulting volume will reside.
         public let availabilityZone: String?
@@ -21783,7 +20142,7 @@ extension EC2 {
 
     public struct InferenceAcceleratorInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accelerators", location: .body(locationName: "accelerators"), encoding: .list(member:"member"))
+            AWSShapeMember(label: "Accelerators", encoding: .list(member:"member"))
         ]
 
         /// Describes the Inference accelerators for the instance type.
@@ -21799,11 +20158,6 @@ extension EC2 {
     }
 
     public struct InferenceDeviceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "Manufacturer", location: .body(locationName: "manufacturer")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The number of Inference accelerators for the instance type.
         public let count: Int?
@@ -21827,53 +20181,18 @@ extension EC2 {
 
     public struct Instance: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmiLaunchIndex", location: .body(locationName: "amiLaunchIndex")), 
-            AWSShapeMember(label: "Architecture", location: .body(locationName: "architecture")), 
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "CapacityReservationId", location: .body(locationName: "capacityReservationId")), 
-            AWSShapeMember(label: "CapacityReservationSpecification", location: .body(locationName: "capacityReservationSpecification")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "CpuOptions", location: .body(locationName: "cpuOptions")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
             AWSShapeMember(label: "ElasticGpuAssociations", location: .body(locationName: "elasticGpuAssociationSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "ElasticInferenceAcceleratorAssociations", location: .body(locationName: "elasticInferenceAcceleratorAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "EnaSupport", location: .body(locationName: "enaSupport")), 
-            AWSShapeMember(label: "HibernationOptions", location: .body(locationName: "hibernationOptions")), 
-            AWSShapeMember(label: "Hypervisor", location: .body(locationName: "hypervisor")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceLifecycle", location: .body(locationName: "instanceLifecycle")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "KernelId", location: .body(locationName: "kernelId")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
-            AWSShapeMember(label: "LaunchTime", location: .body(locationName: "launchTime")), 
             AWSShapeMember(label: "Licenses", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MetadataOptions", location: .body(locationName: "metadataOptions")), 
-            AWSShapeMember(label: "Monitoring", location: .body(locationName: "monitoring")), 
             AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "Placement", location: .body(locationName: "placement")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item")), 
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item")), 
             AWSShapeMember(label: "PublicDnsName", location: .body(locationName: "dnsName")), 
             AWSShapeMember(label: "PublicIpAddress", location: .body(locationName: "ipAddress")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdiskId")), 
-            AWSShapeMember(label: "RootDeviceName", location: .body(locationName: "rootDeviceName")), 
-            AWSShapeMember(label: "RootDeviceType", location: .body(locationName: "rootDeviceType")), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck")), 
-            AWSShapeMember(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId")), 
-            AWSShapeMember(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport")), 
             AWSShapeMember(label: "State", location: .body(locationName: "instanceState")), 
-            AWSShapeMember(label: "StateReason", location: .body(locationName: "stateReason")), 
             AWSShapeMember(label: "StateTransitionReason", location: .body(locationName: "reason")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VirtualizationType", location: .body(locationName: "virtualizationType")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The AMI launch index, which can be used to find this instance in the launch group.
@@ -22075,20 +20394,10 @@ extension EC2 {
     public struct InstanceAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
-            AWSShapeMember(label: "EnaSupport", location: .body(locationName: "enaSupport")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
             AWSShapeMember(label: "KernelId", location: .body(locationName: "kernel")), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdisk")), 
-            AWSShapeMember(label: "RootDeviceName", location: .body(locationName: "rootDeviceName")), 
-            AWSShapeMember(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck")), 
-            AWSShapeMember(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport")), 
-            AWSShapeMember(label: "UserData", location: .body(locationName: "userData"))
+            AWSShapeMember(label: "ProductCodes", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdisk"))
         ]
 
         /// The block device mapping of the instance.
@@ -22160,10 +20469,6 @@ extension EC2 {
     }
 
     public struct InstanceBlockDeviceMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceName", location: .body(locationName: "deviceName")), 
-            AWSShapeMember(label: "Ebs", location: .body(locationName: "ebs"))
-        ]
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -22182,12 +20487,6 @@ extension EC2 {
     }
 
     public struct InstanceBlockDeviceMappingSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceName", location: .body(locationName: "deviceName")), 
-            AWSShapeMember(label: "Ebs", location: .body(locationName: "ebs")), 
-            AWSShapeMember(label: "NoDevice", location: .body(locationName: "noDevice")), 
-            AWSShapeMember(label: "VirtualName", location: .body(locationName: "virtualName"))
-        ]
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -22214,11 +20513,6 @@ extension EC2 {
     }
 
     public struct InstanceCapacity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailableCapacity", location: .body(locationName: "availableCapacity")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "TotalCapacity", location: .body(locationName: "totalCapacity"))
-        ]
 
         /// The number of instances that can be launched onto the Dedicated Host based on the host's available capacity.
         public let availableCapacity: Int?
@@ -22241,10 +20535,6 @@ extension EC2 {
     }
 
     public struct InstanceCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCount", location: .body(locationName: "instanceCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// The number of listed Reserved Instances in the state specified by the state.
         public let instanceCount: Int?
@@ -22263,10 +20553,6 @@ extension EC2 {
     }
 
     public struct InstanceCreditSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CpuCredits", location: .body(locationName: "cpuCredits")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"))
-        ]
 
         /// The credit option for CPU usage of the instance. Valid values are standard and unlimited.
         public let cpuCredits: String?
@@ -22303,10 +20589,6 @@ extension EC2 {
     }
 
     public struct InstanceExportDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "TargetEnvironment", location: .body(locationName: "targetEnvironment"))
-        ]
 
         /// The ID of the resource being exported.
         public let instanceId: String?
@@ -22325,10 +20607,6 @@ extension EC2 {
     }
 
     public struct InstanceFamilyCreditSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CpuCredits", location: .body(locationName: "cpuCredits")), 
-            AWSShapeMember(label: "InstanceFamily", location: .body(locationName: "instanceFamily"))
-        ]
 
         /// The default credit option for CPU usage of the instance family. Valid values are standard and unlimited.
         public let cpuCredits: String?
@@ -22347,9 +20625,6 @@ extension EC2 {
     }
 
     public struct InstanceIpv6Address: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6Address", location: .body(locationName: "ipv6Address"))
-        ]
 
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -22418,12 +20693,6 @@ extension EC2 {
     }
 
     public struct InstanceMetadataOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HttpEndpoint", location: .body(locationName: "httpEndpoint")), 
-            AWSShapeMember(label: "HttpPutResponseHopLimit", location: .body(locationName: "httpPutResponseHopLimit")), 
-            AWSShapeMember(label: "HttpTokens", location: .body(locationName: "httpTokens")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata. 
         public let httpEndpoint: InstanceMetadataEndpointState?
@@ -22450,10 +20719,6 @@ extension EC2 {
     }
 
     public struct InstanceMonitoring: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "Monitoring", location: .body(locationName: "monitoring"))
-        ]
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -22473,22 +20738,9 @@ extension EC2 {
 
     public struct InstanceNetworkInterface: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Association", location: .body(locationName: "association")), 
-            AWSShapeMember(label: "Attachment", location: .body(locationName: "attachment")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InterfaceType", location: .body(locationName: "interfaceType")), 
             AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MacAddress", location: .body(locationName: "macAddress")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// The association information for an Elastic IPv4 associated with the network interface.
@@ -22564,11 +20816,6 @@ extension EC2 {
     }
 
     public struct InstanceNetworkInterfaceAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpOwnerId", location: .body(locationName: "ipOwnerId")), 
-            AWSShapeMember(label: "PublicDnsName", location: .body(locationName: "publicDnsName")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"))
-        ]
 
         /// The ID of the owner of the Elastic IP address.
         public let ipOwnerId: String?
@@ -22591,13 +20838,6 @@ extension EC2 {
     }
 
     public struct InstanceNetworkInterfaceAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachmentId", location: .body(locationName: "attachmentId")), 
-            AWSShapeMember(label: "AttachTime", location: .body(locationName: "attachTime")), 
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "DeviceIndex", location: .body(locationName: "deviceIndex")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -22629,18 +20869,9 @@ extension EC2 {
 
     public struct InstanceNetworkInterfaceSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatePublicIpAddress", location: .body(locationName: "associatePublicIpAddress")), 
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DeviceIndex", location: .body(locationName: "deviceIndex")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSShapeMember(label: "Ipv6AddressCount", location: .body(locationName: "ipv6AddressCount")), 
             AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SecondaryPrivateIpAddressCount", location: .body(locationName: "secondaryPrivateIpAddressCount")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
+            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether to assign a public IPv4 address to an instance you launch in a VPC. The public IP address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
@@ -22704,12 +20935,6 @@ extension EC2 {
     }
 
     public struct InstancePrivateIpAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Association", location: .body(locationName: "association")), 
-            AWSShapeMember(label: "Primary", location: .body(locationName: "primary")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"))
-        ]
 
         /// The association information for an Elastic IP address for the network interface.
         public let association: InstanceNetworkInterfaceAssociation?
@@ -22754,10 +20979,6 @@ extension EC2 {
     }
 
     public struct InstanceState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The state of the instance as a 16-bit unsigned integer.  The high byte is all of the bits between 2^8 and (2^16)-1, which equals decimal values between 256 and 65,535. These numerical values are used for internal purposes and should be ignored. The low byte is all of the bits between 2^0 and (2^8)-1, which equals decimal values between 0 and 255.  The valid values for instance-state-code will all be in the range of the low byte and they are:    0 : pending     16 : running     32 : shutting-down     48 : terminated     64 : stopping     80 : stopped    You can ignore the high byte value by zeroing out all of the bits above 2^8 or 256 in decimal.
         public let code: Int?
@@ -22776,11 +20997,6 @@ extension EC2 {
     }
 
     public struct InstanceStateChange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentState", location: .body(locationName: "currentState")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "PreviousState", location: .body(locationName: "previousState"))
-        ]
 
         /// The current state of the instance.
         public let currentState: InstanceState?
@@ -22804,13 +21020,7 @@ extension EC2 {
 
     public struct InstanceStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceState", location: .body(locationName: "instanceState")), 
-            AWSShapeMember(label: "InstanceStatus", location: .body(locationName: "instanceStatus")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "SystemStatus", location: .body(locationName: "systemStatus"))
+            AWSShapeMember(label: "Events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone of the instance.
@@ -22850,11 +21060,6 @@ extension EC2 {
     }
 
     public struct InstanceStatusDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImpairedSince", location: .body(locationName: "impairedSince")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The time when a status check failed. For an instance that was launched and impaired, this is the time when the instance was launched.
         public let impairedSince: TimeStamp?
@@ -22877,14 +21082,6 @@ extension EC2 {
     }
 
     public struct InstanceStatusEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "InstanceEventId", location: .body(locationName: "instanceEventId")), 
-            AWSShapeMember(label: "NotAfter", location: .body(locationName: "notAfter")), 
-            AWSShapeMember(label: "NotBefore", location: .body(locationName: "notBefore")), 
-            AWSShapeMember(label: "NotBeforeDeadline", location: .body(locationName: "notBeforeDeadline"))
-        ]
 
         /// The event code.
         public let code: EventCode?
@@ -22920,8 +21117,7 @@ extension EC2 {
 
     public struct InstanceStatusSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", location: .body(locationName: "details"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
+            AWSShapeMember(label: "Details", encoding: .list(member:"item"))
         ]
 
         /// The system instance health or application instance health.
@@ -22942,8 +21138,7 @@ extension EC2 {
 
     public struct InstanceStorageInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Disks", location: .body(locationName: "disks"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TotalSizeInGB", location: .body(locationName: "totalSizeInGB"))
+            AWSShapeMember(label: "Disks", encoding: .list(member:"item"))
         ]
 
         /// Array describing the disks that are available for the instance type.
@@ -22964,28 +21159,8 @@ extension EC2 {
 
     public struct InstanceTypeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoRecoverySupported", location: .body(locationName: "autoRecoverySupported")), 
-            AWSShapeMember(label: "BareMetal", location: .body(locationName: "bareMetal")), 
-            AWSShapeMember(label: "BurstablePerformanceSupported", location: .body(locationName: "burstablePerformanceSupported")), 
-            AWSShapeMember(label: "CurrentGeneration", location: .body(locationName: "currentGeneration")), 
-            AWSShapeMember(label: "DedicatedHostsSupported", location: .body(locationName: "dedicatedHostsSupported")), 
-            AWSShapeMember(label: "EbsInfo", location: .body(locationName: "ebsInfo")), 
-            AWSShapeMember(label: "FpgaInfo", location: .body(locationName: "fpgaInfo")), 
-            AWSShapeMember(label: "FreeTierEligible", location: .body(locationName: "freeTierEligible")), 
-            AWSShapeMember(label: "GpuInfo", location: .body(locationName: "gpuInfo")), 
-            AWSShapeMember(label: "HibernationSupported", location: .body(locationName: "hibernationSupported")), 
-            AWSShapeMember(label: "Hypervisor", location: .body(locationName: "hypervisor")), 
-            AWSShapeMember(label: "InferenceAcceleratorInfo", location: .body(locationName: "inferenceAcceleratorInfo")), 
-            AWSShapeMember(label: "InstanceStorageInfo", location: .body(locationName: "instanceStorageInfo")), 
-            AWSShapeMember(label: "InstanceStorageSupported", location: .body(locationName: "instanceStorageSupported")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "MemoryInfo", location: .body(locationName: "memoryInfo")), 
-            AWSShapeMember(label: "NetworkInfo", location: .body(locationName: "networkInfo")), 
-            AWSShapeMember(label: "PlacementGroupInfo", location: .body(locationName: "placementGroupInfo")), 
-            AWSShapeMember(label: "ProcessorInfo", location: .body(locationName: "processorInfo")), 
-            AWSShapeMember(label: "SupportedRootDeviceTypes", location: .body(locationName: "supportedRootDeviceTypes"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SupportedUsageClasses", location: .body(locationName: "supportedUsageClasses"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VCpuInfo", location: .body(locationName: "vCpuInfo"))
+            AWSShapeMember(label: "SupportedRootDeviceTypes", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "SupportedUsageClasses", encoding: .list(member:"item"))
         ]
 
         /// Indicates whether auto recovery is supported.
@@ -23085,11 +21260,6 @@ extension EC2 {
     }
 
     public struct InstanceTypeOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location")), 
-            AWSShapeMember(label: "LocationType", location: .body(locationName: "locationType"))
-        ]
 
         /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
         public let instanceType: InstanceType?
@@ -23112,10 +21282,6 @@ extension EC2 {
     }
 
     public struct InstanceUsage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId")), 
-            AWSShapeMember(label: "UsedInstanceCount", location: .body(locationName: "usedInstanceCount"))
-        ]
 
         /// The ID of the AWS account that is making use of the Capacity Reservation.
         public let accountId: String?
@@ -23136,8 +21302,6 @@ extension EC2 {
     public struct InternetGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -23166,10 +21330,6 @@ extension EC2 {
     }
 
     public struct InternetGatewayAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// The current state of the attachment. For an internet gateway, the state is available when attached to a VPC; otherwise, this value is not returned.
         public let state: AttachmentStatus?
@@ -23189,12 +21349,9 @@ extension EC2 {
 
     public struct IpPermission: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FromPort", location: .body(locationName: "fromPort")), 
-            AWSShapeMember(label: "IpProtocol", location: .body(locationName: "ipProtocol")), 
-            AWSShapeMember(label: "IpRanges", location: .body(locationName: "ipRanges"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Ipv6Ranges", location: .body(locationName: "ipv6Ranges"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PrefixListIds", location: .body(locationName: "prefixListIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ToPort", location: .body(locationName: "toPort")), 
+            AWSShapeMember(label: "IpRanges", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Ipv6Ranges", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "PrefixListIds", encoding: .list(member:"item")), 
             AWSShapeMember(label: "UserIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
         ]
 
@@ -23235,10 +21392,6 @@ extension EC2 {
     }
 
     public struct IpRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrIp", location: .body(locationName: "cidrIp")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"))
-        ]
 
         /// The IPv4 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv4 address, use the /32 prefix length.
         public let cidrIp: String?
@@ -23257,10 +21410,6 @@ extension EC2 {
     }
 
     public struct Ipv6CidrAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatedResource", location: .body(locationName: "associatedResource")), 
-            AWSShapeMember(label: "Ipv6Cidr", location: .body(locationName: "ipv6Cidr"))
-        ]
 
         /// The resource that's associated with the IPv6 CIDR block.
         public let associatedResource: String?
@@ -23279,9 +21428,6 @@ extension EC2 {
     }
 
     public struct Ipv6CidrBlock: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"))
-        ]
 
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
@@ -23297,9 +21443,7 @@ extension EC2 {
 
     public struct Ipv6Pool: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
             AWSShapeMember(label: "PoolCidrBlocks", location: .body(locationName: "poolCidrBlockSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PoolId", location: .body(locationName: "poolId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -23328,10 +21472,6 @@ extension EC2 {
     }
 
     public struct Ipv6Range: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrIpv6", location: .body(locationName: "cidrIpv6")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"))
-        ]
 
         /// The IPv6 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv6 address, use the /128 prefix length.
         public let cidrIpv6: String?
@@ -23350,12 +21490,6 @@ extension EC2 {
     }
 
     public struct KeyPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint")), 
-            AWSShapeMember(label: "KeyMaterial", location: .body(locationName: "keyMaterial")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
-            AWSShapeMember(label: "KeyPairId", location: .body(locationName: "keyPairId"))
-        ]
 
         /// The SHA-1 digest of the DER encoded private key.
         public let keyFingerprint: String?
@@ -23383,9 +21517,6 @@ extension EC2 {
 
     public struct KeyPairInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
-            AWSShapeMember(label: "KeyPairId", location: .body(locationName: "keyPairId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -23414,10 +21545,6 @@ extension EC2 {
     }
 
     public struct LastError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code for the VPC endpoint error.
         public let code: String?
@@ -23436,10 +21563,6 @@ extension EC2 {
     }
 
     public struct LaunchPermission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", location: .body(locationName: "group")), 
-            AWSShapeMember(label: "UserId", location: .body(locationName: "userId"))
-        ]
 
         /// The name of the group.
         public let group: PermissionGroup?
@@ -23481,21 +21604,9 @@ extension EC2 {
 
     public struct LaunchSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressingType", location: .body(locationName: "addressingType")), 
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "KernelId", location: .body(locationName: "kernelId")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
-            AWSShapeMember(label: "Monitoring", location: .body(locationName: "monitoring")), 
             AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Placement", location: .body(locationName: "placement")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdiskId")), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "UserData", location: .body(locationName: "userData"))
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
         ]
 
         /// Deprecated.
@@ -23567,12 +21678,6 @@ extension EC2 {
 
     public struct LaunchTemplate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", location: .body(locationName: "createdBy")), 
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
-            AWSShapeMember(label: "DefaultVersionNumber", location: .body(locationName: "defaultVersionNumber")), 
-            AWSShapeMember(label: "LatestVersionNumber", location: .body(locationName: "latestVersionNumber")), 
-            AWSShapeMember(label: "LaunchTemplateId", location: .body(locationName: "launchTemplateId")), 
-            AWSShapeMember(label: "LaunchTemplateName", location: .body(locationName: "launchTemplateName")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -23613,10 +21718,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateAndOverridesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateSpecification", location: .body(locationName: "launchTemplateSpecification")), 
-            AWSShapeMember(label: "Overrides", location: .body(locationName: "overrides"))
-        ]
 
         /// The launch template.
         public let launchTemplateSpecification: FleetLaunchTemplateSpecification?
@@ -23635,12 +21736,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateBlockDeviceMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceName", location: .body(locationName: "deviceName")), 
-            AWSShapeMember(label: "Ebs", location: .body(locationName: "ebs")), 
-            AWSShapeMember(label: "NoDevice", location: .body(locationName: "noDevice")), 
-            AWSShapeMember(label: "VirtualName", location: .body(locationName: "virtualName"))
-        ]
 
         /// The device name.
         public let deviceName: String?
@@ -23711,10 +21806,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateCapacityReservationSpecificationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapacityReservationPreference", location: .body(locationName: "capacityReservationPreference")), 
-            AWSShapeMember(label: "CapacityReservationTarget", location: .body(locationName: "capacityReservationTarget"))
-        ]
 
         /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.  
         public let capacityReservationPreference: CapacityReservationPreference?
@@ -23734,8 +21825,7 @@ extension EC2 {
 
     public struct LaunchTemplateConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateSpecification", location: .body(locationName: "launchTemplateSpecification")), 
-            AWSShapeMember(label: "Overrides", location: .body(locationName: "overrides"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Overrides", encoding: .list(member:"item"))
         ]
 
         /// The launch template.
@@ -23759,10 +21849,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateCpuOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoreCount", location: .body(locationName: "coreCount")), 
-            AWSShapeMember(label: "ThreadsPerCore", location: .body(locationName: "threadsPerCore"))
-        ]
 
         /// The number of CPU cores for the instance.
         public let coreCount: Int?
@@ -23799,15 +21885,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateEbsBlockDevice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "Iops", location: .body(locationName: "iops")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "VolumeSize", location: .body(locationName: "volumeSize")), 
-            AWSShapeMember(label: "VolumeType", location: .body(locationName: "volumeType"))
-        ]
 
         /// Indicates whether the EBS volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
@@ -23907,7 +21984,6 @@ extension EC2 {
 
     public struct LaunchTemplateElasticInferenceAcceleratorResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -23928,9 +22004,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateHibernationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configured", location: .body(locationName: "configured"))
-        ]
 
         /// If this parameter is set to true, the instance is enabled for hibernation; otherwise, it is not enabled for hibernation.
         public let configured: Bool?
@@ -23959,10 +22032,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateIamInstanceProfileSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -23999,10 +22068,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateInstanceMarketOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MarketType", location: .body(locationName: "marketType")), 
-            AWSShapeMember(label: "SpotOptions", location: .body(locationName: "spotOptions"))
-        ]
 
         /// The market type.
         public let marketType: MarketType?
@@ -24039,12 +22104,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateInstanceMetadataOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HttpEndpoint", location: .body(locationName: "httpEndpoint")), 
-            AWSShapeMember(label: "HttpPutResponseHopLimit", location: .body(locationName: "httpPutResponseHopLimit")), 
-            AWSShapeMember(label: "HttpTokens", location: .body(locationName: "httpTokens")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.  
         public let httpEndpoint: LaunchTemplateInstanceMetadataEndpointState?
@@ -24094,19 +22153,9 @@ extension EC2 {
 
     public struct LaunchTemplateInstanceNetworkInterfaceSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatePublicIpAddress", location: .body(locationName: "associatePublicIpAddress")), 
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DeviceIndex", location: .body(locationName: "deviceIndex")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"groupId")), 
-            AWSShapeMember(label: "InterfaceType", location: .body(locationName: "interfaceType")), 
-            AWSShapeMember(label: "Ipv6AddressCount", location: .body(locationName: "ipv6AddressCount")), 
             AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
-            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SecondaryPrivateIpAddressCount", location: .body(locationName: "secondaryPrivateIpAddressCount")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
+            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether to associate a public IPv4 address with eth0 for a new network interface.
@@ -24237,9 +22286,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateLicenseConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseConfigurationArn", location: .body(locationName: "licenseConfigurationArn"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
@@ -24268,14 +22314,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateOverrides: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Priority", location: .body(locationName: "priority")), 
-            AWSShapeMember(label: "SpotPrice", location: .body(locationName: "spotPrice")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "WeightedCapacity", location: .body(locationName: "weightedCapacity"))
-        ]
 
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
@@ -24310,16 +22348,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplatePlacement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Affinity", location: .body(locationName: "affinity")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "HostId", location: .body(locationName: "hostId")), 
-            AWSShapeMember(label: "HostResourceGroupArn", location: .body(locationName: "hostResourceGroupArn")), 
-            AWSShapeMember(label: "PartitionNumber", location: .body(locationName: "partitionNumber")), 
-            AWSShapeMember(label: "SpreadDomain", location: .body(locationName: "spreadDomain")), 
-            AWSShapeMember(label: "Tenancy", location: .body(locationName: "tenancy"))
-        ]
 
         /// The affinity setting for the instance on the Dedicated Host.
         public let affinity: String?
@@ -24426,13 +22454,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateSpotMarketOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes")), 
-            AWSShapeMember(label: "InstanceInterruptionBehavior", location: .body(locationName: "instanceInterruptionBehavior")), 
-            AWSShapeMember(label: "MaxPrice", location: .body(locationName: "maxPrice")), 
-            AWSShapeMember(label: "SpotInstanceType", location: .body(locationName: "spotInstanceType")), 
-            AWSShapeMember(label: "ValidUntil", location: .body(locationName: "validUntil"))
-        ]
 
         /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360).
         public let blockDurationMinutes: Int?
@@ -24494,7 +22515,6 @@ extension EC2 {
 
     public struct LaunchTemplateTagSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -24536,16 +22556,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", location: .body(locationName: "createdBy")), 
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
-            AWSShapeMember(label: "DefaultVersion", location: .body(locationName: "defaultVersion")), 
-            AWSShapeMember(label: "LaunchTemplateData", location: .body(locationName: "launchTemplateData")), 
-            AWSShapeMember(label: "LaunchTemplateId", location: .body(locationName: "launchTemplateId")), 
-            AWSShapeMember(label: "LaunchTemplateName", location: .body(locationName: "launchTemplateName")), 
-            AWSShapeMember(label: "VersionDescription", location: .body(locationName: "versionDescription")), 
-            AWSShapeMember(label: "VersionNumber", location: .body(locationName: "versionNumber"))
-        ]
 
         /// The principal that created the version.
         public let createdBy: String?
@@ -24588,9 +22598,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplatesMonitoring: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"))
-        ]
 
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
@@ -24619,9 +22626,6 @@ extension EC2 {
     }
 
     public struct LicenseConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LicenseConfigurationArn", location: .body(locationName: "licenseConfigurationArn"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
@@ -24650,10 +22654,6 @@ extension EC2 {
     }
 
     public struct LoadBalancersConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassicLoadBalancersConfig", location: .body(locationName: "classicLoadBalancersConfig")), 
-            AWSShapeMember(label: "TargetGroupsConfig", location: .body(locationName: "targetGroupsConfig"))
-        ]
 
         /// The Classic Load Balancers.
         public let classicLoadBalancersConfig: ClassicLoadBalancersConfig?
@@ -24677,10 +22677,6 @@ extension EC2 {
     }
 
     public struct LoadPermission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", location: .body(locationName: "group")), 
-            AWSShapeMember(label: "UserId", location: .body(locationName: "userId"))
-        ]
 
         /// The name of the group.
         public let group: PermissionGroup?
@@ -24740,10 +22736,6 @@ extension EC2 {
 
     public struct LocalGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -24777,10 +22769,6 @@ extension EC2 {
 
     public struct LocalGatewayRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId")), 
-            AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroupId", location: .body(locationName: "localGatewayVirtualInterfaceGroupId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -24814,10 +22802,6 @@ extension EC2 {
 
     public struct LocalGatewayRouteTable: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId")), 
-            AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -24851,11 +22835,6 @@ extension EC2 {
 
     public struct LocalGatewayRouteTableVirtualInterfaceGroupAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId")), 
-            AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId")), 
-            AWSShapeMember(label: "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId", location: .body(locationName: "localGatewayRouteTableVirtualInterfaceGroupAssociationId")), 
-            AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroupId", location: .body(locationName: "localGatewayVirtualInterfaceGroupId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -24893,12 +22872,7 @@ extension EC2 {
 
     public struct LocalGatewayRouteTableVpcAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId")), 
-            AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId")), 
-            AWSShapeMember(label: "LocalGatewayRouteTableVpcAssociationId", location: .body(locationName: "localGatewayRouteTableVpcAssociationId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
@@ -24935,14 +22909,7 @@ extension EC2 {
 
     public struct LocalGatewayVirtualInterface: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalAddress", location: .body(locationName: "localAddress")), 
-            AWSShapeMember(label: "LocalBgpAsn", location: .body(locationName: "localBgpAsn")), 
-            AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId")), 
-            AWSShapeMember(label: "LocalGatewayVirtualInterfaceId", location: .body(locationName: "localGatewayVirtualInterfaceId")), 
-            AWSShapeMember(label: "PeerAddress", location: .body(locationName: "peerAddress")), 
-            AWSShapeMember(label: "PeerBgpAsn", location: .body(locationName: "peerBgpAsn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Vlan", location: .body(locationName: "vlan"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The local address.
@@ -24987,8 +22954,6 @@ extension EC2 {
 
     public struct LocalGatewayVirtualInterfaceGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId")), 
-            AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroupId", location: .body(locationName: "localGatewayVirtualInterfaceGroupId")), 
             AWSShapeMember(label: "LocalGatewayVirtualInterfaceIds", location: .body(locationName: "localGatewayVirtualInterfaceIdSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
@@ -25018,9 +22983,6 @@ extension EC2 {
     }
 
     public struct MemoryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SizeInMiB", location: .body(locationName: "sizeInMiB"))
-        ]
 
         /// Size of the memory, in MiB.
         public let sizeInMiB: Int64?
@@ -25163,9 +23125,6 @@ extension EC2 {
     }
 
     public struct ModifyDefaultCreditSpecificationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceFamilyCreditSpecification", location: .body(locationName: "instanceFamilyCreditSpecification"))
-        ]
 
         /// The default credit option for CPU usage of the instance family.
         public let instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification?
@@ -25198,9 +23157,6 @@ extension EC2 {
     }
 
     public struct ModifyEbsDefaultKmsKeyIdResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
         public let kmsKeyId: String?
@@ -25313,9 +23269,6 @@ extension EC2 {
     }
 
     public struct ModifyFpgaImageAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FpgaImageAttribute", location: .body(locationName: "fpgaImageAttribute"))
-        ]
 
         /// Information about the attribute.
         public let fpgaImageAttribute: FpgaImageAttribute?
@@ -25331,7 +23284,6 @@ extension EC2 {
 
     public struct ModifyHostsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoPlacement", location: .body(locationName: "autoPlacement")), 
             AWSShapeMember(label: "HostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
         ]
 
@@ -25365,8 +23317,8 @@ extension EC2 {
 
     public struct ModifyHostsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Successful", location: .body(locationName: "successful"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Successful", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the Dedicated Hosts that were successfully modified.
@@ -25404,11 +23356,6 @@ extension EC2 {
     }
 
     public struct ModifyIdentityIdFormatRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrincipalArn", location: .body(locationName: "principalArn")), 
-            AWSShapeMember(label: "Resource", location: .body(locationName: "resource")), 
-            AWSShapeMember(label: "UseLongIds", location: .body(locationName: "useLongIds"))
-        ]
 
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. Specify all to modify the ID format for all IAM users, IAM roles, and the root user of the account.
         public let principalArn: String
@@ -25432,7 +23379,6 @@ extension EC2 {
 
     public struct ModifyImageAttributeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "ProductCodes", location: .body(locationName: "ProductCode"), encoding: .list(member:"ProductCode")), 
             AWSShapeMember(label: "UserGroups", location: .body(locationName: "UserGroup"), encoding: .list(member:"UserGroup")), 
             AWSShapeMember(label: "UserIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
@@ -25488,21 +23434,8 @@ extension EC2 {
 
     public struct ModifyInstanceAttributeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attribute", location: .body(locationName: "attribute")), 
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
-            AWSShapeMember(label: "EnaSupport", location: .body(locationName: "enaSupport")), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Kernel", location: .body(locationName: "kernel")), 
-            AWSShapeMember(label: "Ramdisk", location: .body(locationName: "ramdisk")), 
-            AWSShapeMember(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport")), 
-            AWSShapeMember(label: "UserData", location: .body(locationName: "userData")), 
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
+            AWSShapeMember(label: "Groups", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId"))
         ]
 
         /// The name of the attribute.
@@ -25690,9 +23623,6 @@ extension EC2 {
     }
 
     public struct ModifyInstanceEventStartTimeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", location: .body(locationName: "event"))
-        ]
 
         public let event: InstanceStatusEvent?
 
@@ -25736,10 +23666,6 @@ extension EC2 {
     }
 
     public struct ModifyInstanceMetadataOptionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceMetadataOptions", location: .body(locationName: "instanceMetadataOptions"))
-        ]
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -25758,12 +23684,6 @@ extension EC2 {
     }
 
     public struct ModifyInstancePlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Affinity", location: .body(locationName: "affinity")), 
-            AWSShapeMember(label: "HostId", location: .body(locationName: "hostId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "Tenancy", location: .body(locationName: "tenancy"))
-        ]
 
         /// The affinity setting for the instance.
         public let affinity: Affinity?
@@ -25858,9 +23778,6 @@ extension EC2 {
     }
 
     public struct ModifyLaunchTemplateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplate", location: .body(locationName: "launchTemplate"))
-        ]
 
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
@@ -25876,12 +23793,7 @@ extension EC2 {
 
     public struct ModifyNetworkInterfaceAttributeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attachment", location: .body(locationName: "attachment")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"))
+            AWSShapeMember(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId"))
         ]
 
         /// Information about the interface attachment. If modifying the 'delete on termination' attribute, you must specify the ID of the interface attachment.
@@ -25918,7 +23830,6 @@ extension EC2 {
 
     public struct ModifyReservedInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
             AWSShapeMember(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId")), 
             AWSShapeMember(label: "TargetConfigurations", location: .body(locationName: "ReservedInstancesConfigurationSetItemType"), encoding: .list(member:"item"))
         ]
@@ -25944,9 +23855,6 @@ extension EC2 {
     }
 
     public struct ModifyReservedInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedInstancesModificationId", location: .body(locationName: "reservedInstancesModificationId"))
-        ]
 
         /// The ID for the modification.
         public let reservedInstancesModificationId: String?
@@ -25962,7 +23870,6 @@ extension EC2 {
 
     public struct ModifySnapshotAttributeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "GroupNames", location: .body(locationName: "UserGroup"), encoding: .list(member:"GroupName")), 
             AWSShapeMember(label: "UserIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
         ]
@@ -26004,11 +23911,6 @@ extension EC2 {
     }
 
     public struct ModifySpotFleetRequestRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcessCapacityTerminationPolicy", location: .body(locationName: "excessCapacityTerminationPolicy")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId")), 
-            AWSShapeMember(label: "TargetCapacity", location: .body(locationName: "targetCapacity"))
-        ]
 
         /// Indicates whether running Spot Instances should be terminated if the target capacity of the Spot Fleet request is decreased below the current size of the Spot Fleet.
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
@@ -26052,9 +23954,6 @@ extension EC2 {
     }
 
     public struct ModifySubnetAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address).  If you enable the IPv6 addressing feature for your subnet, your network interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API.
         public let assignIpv6AddressOnCreation: AttributeBooleanValue?
@@ -26107,9 +24006,6 @@ extension EC2 {
     }
 
     public struct ModifyTrafficMirrorFilterNetworkServicesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficMirrorFilter", location: .body(locationName: "trafficMirrorFilter"))
-        ]
 
         /// The Traffic Mirror filter that the network service is associated with.
         public let trafficMirrorFilter: TrafficMirrorFilter?
@@ -26185,9 +24081,6 @@ extension EC2 {
     }
 
     public struct ModifyTrafficMirrorFilterRuleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficMirrorFilterRule", location: .body(locationName: "trafficMirrorFilterRule"))
-        ]
 
         /// Modifies a Traffic Mirror rule.
         public let trafficMirrorFilterRule: TrafficMirrorFilterRule?
@@ -26251,9 +24144,6 @@ extension EC2 {
     }
 
     public struct ModifyTrafficMirrorSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficMirrorSession", location: .body(locationName: "trafficMirrorSession"))
-        ]
 
         /// Information about the Traffic Mirror session.
         public let trafficMirrorSession: TrafficMirrorSession?
@@ -26320,9 +24210,6 @@ extension EC2 {
     }
 
     public struct ModifyTransitGatewayVpcAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayVpcAttachment", location: .body(locationName: "transitGatewayVpcAttachment"))
-        ]
 
         /// Information about the modified attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -26337,9 +24224,6 @@ extension EC2 {
     }
 
     public struct ModifyVolumeAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// Indicates whether the volume should be auto-enabled for I/O operations.
         public let autoEnableIO: AttributeBooleanValue?
@@ -26392,9 +24276,6 @@ extension EC2 {
     }
 
     public struct ModifyVolumeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeModification", location: .body(locationName: "volumeModification"))
-        ]
 
         /// Information about the volume modification.
         public let volumeModification: VolumeModification?
@@ -26409,9 +24290,6 @@ extension EC2 {
     }
 
     public struct ModifyVpcAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// Indicates whether the instances launched in the VPC get DNS hostnames. If enabled, instances in the VPC get DNS hostnames; otherwise, they do not. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. You can only enable DNS hostnames if you've enabled DNS support.
         public let enableDnsHostnames: AttributeBooleanValue?
@@ -26691,10 +24569,6 @@ extension EC2 {
     }
 
     public struct ModifyVpcPeeringConnectionOptionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccepterPeeringConnectionOptions", location: .body(locationName: "accepterPeeringConnectionOptions")), 
-            AWSShapeMember(label: "RequesterPeeringConnectionOptions", location: .body(locationName: "requesterPeeringConnectionOptions"))
-        ]
 
         /// Information about the VPC peering connection options for the accepter VPC.
         public let accepterPeeringConnectionOptions: PeeringConnectionOptions?
@@ -26782,9 +24656,6 @@ extension EC2 {
     }
 
     public struct ModifyVpnConnectionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpnConnection", location: .body(locationName: "vpnConnection"))
-        ]
 
         public let vpnConnection: VpnConnection?
 
@@ -26820,9 +24691,6 @@ extension EC2 {
     }
 
     public struct ModifyVpnTunnelCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpnConnection", location: .body(locationName: "vpnConnection"))
-        ]
 
         public let vpnConnection: VpnConnection?
 
@@ -26862,9 +24730,6 @@ extension EC2 {
     }
 
     public struct ModifyVpnTunnelOptionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpnConnection", location: .body(locationName: "vpnConnection"))
-        ]
 
         public let vpnConnection: VpnConnection?
 
@@ -26958,7 +24823,6 @@ extension EC2 {
 
     public struct MonitorInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
@@ -26996,9 +24860,6 @@ extension EC2 {
     }
 
     public struct Monitoring: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let state: MonitoringState?
@@ -27013,10 +24874,6 @@ extension EC2 {
     }
 
     public struct MoveAddressToVpcRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -27035,10 +24892,6 @@ extension EC2 {
     }
 
     public struct MoveAddressToVpcResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationId", location: .body(locationName: "allocationId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The allocation ID for the Elastic IP address.
         public let allocationId: String?
@@ -27057,10 +24910,6 @@ extension EC2 {
     }
 
     public struct MovingAddressStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MoveStatus", location: .body(locationName: "moveStatus")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"))
-        ]
 
         /// The status of the Elastic IP address that's being moved to the EC2-VPC platform, or restored to the EC2-Classic platform.
         public let moveStatus: MoveStatus?
@@ -27080,17 +24929,8 @@ extension EC2 {
 
     public struct NatGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
-            AWSShapeMember(label: "DeleteTime", location: .body(locationName: "deleteTime")), 
-            AWSShapeMember(label: "FailureCode", location: .body(locationName: "failureCode")), 
-            AWSShapeMember(label: "FailureMessage", location: .body(locationName: "failureMessage")), 
             AWSShapeMember(label: "NatGatewayAddresses", location: .body(locationName: "natGatewayAddressSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NatGatewayId", location: .body(locationName: "natGatewayId")), 
-            AWSShapeMember(label: "ProvisionedBandwidth", location: .body(locationName: "provisionedBandwidth")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The date and time the NAT gateway was created.
@@ -27146,12 +24986,6 @@ extension EC2 {
     }
 
     public struct NatGatewayAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationId", location: .body(locationName: "allocationId")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "PrivateIp", location: .body(locationName: "privateIp")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"))
-        ]
 
         /// The allocation ID of the Elastic IP address that's associated with the NAT gateway.
         public let allocationId: String?
@@ -27182,10 +25016,7 @@ extension EC2 {
             AWSShapeMember(label: "Associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Entries", location: .body(locationName: "entrySet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "IsDefault", location: .body(locationName: "default")), 
-            AWSShapeMember(label: "NetworkAclId", location: .body(locationName: "networkAclId")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Any associations between the network ACL and one or more subnets
@@ -27225,11 +25056,6 @@ extension EC2 {
     }
 
     public struct NetworkAclAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkAclAssociationId", location: .body(locationName: "networkAclAssociationId")), 
-            AWSShapeMember(label: "NetworkAclId", location: .body(locationName: "networkAclId")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// The ID of the association between a network ACL and a subnet.
         public let networkAclAssociationId: String?
@@ -27253,14 +25079,7 @@ extension EC2 {
 
     public struct NetworkAclEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock")), 
-            AWSShapeMember(label: "Egress", location: .body(locationName: "egress")), 
-            AWSShapeMember(label: "IcmpTypeCode", location: .body(locationName: "icmpTypeCode")), 
-            AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock")), 
-            AWSShapeMember(label: "PortRange", location: .body(locationName: "portRange")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RuleAction", location: .body(locationName: "ruleAction")), 
-            AWSShapeMember(label: "RuleNumber", location: .body(locationName: "ruleNumber"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation.
@@ -27304,14 +25123,6 @@ extension EC2 {
     }
 
     public struct NetworkInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnaSupport", location: .body(locationName: "enaSupport")), 
-            AWSShapeMember(label: "Ipv4AddressesPerInterface", location: .body(locationName: "ipv4AddressesPerInterface")), 
-            AWSShapeMember(label: "Ipv6AddressesPerInterface", location: .body(locationName: "ipv6AddressesPerInterface")), 
-            AWSShapeMember(label: "Ipv6Supported", location: .body(locationName: "ipv6Supported")), 
-            AWSShapeMember(label: "MaximumNetworkInterfaces", location: .body(locationName: "maximumNetworkInterfaces")), 
-            AWSShapeMember(label: "NetworkPerformance", location: .body(locationName: "networkPerformance"))
-        ]
 
         /// Indicates whether Elastic Network Adapter (ENA) is supported.
         public let enaSupport: EnaSupport?
@@ -27347,27 +25158,10 @@ extension EC2 {
 
     public struct NetworkInterface: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Association", location: .body(locationName: "association")), 
-            AWSShapeMember(label: "Attachment", location: .body(locationName: "attachment")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "InterfaceType", location: .body(locationName: "interfaceType")), 
             AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MacAddress", location: .body(locationName: "macAddress")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
             AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "RequesterId", location: .body(locationName: "requesterId")), 
-            AWSShapeMember(label: "RequesterManaged", location: .body(locationName: "requesterManaged")), 
-            AWSShapeMember(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "TagSet", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "TagSet", encoding: .list(member:"item"))
         ]
 
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
@@ -27463,13 +25257,6 @@ extension EC2 {
     }
 
     public struct NetworkInterfaceAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationId", location: .body(locationName: "allocationId")), 
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "IpOwnerId", location: .body(locationName: "ipOwnerId")), 
-            AWSShapeMember(label: "PublicDnsName", location: .body(locationName: "publicDnsName")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"))
-        ]
 
         /// The allocation ID.
         public let allocationId: String?
@@ -27500,15 +25287,6 @@ extension EC2 {
     }
 
     public struct NetworkInterfaceAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachmentId", location: .body(locationName: "attachmentId")), 
-            AWSShapeMember(label: "AttachTime", location: .body(locationName: "attachTime")), 
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "DeviceIndex", location: .body(locationName: "deviceIndex")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceOwnerId", location: .body(locationName: "instanceOwnerId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -27547,10 +25325,6 @@ extension EC2 {
     }
 
     public struct NetworkInterfaceAttachmentChanges: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachmentId", location: .body(locationName: "attachmentId")), 
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"))
-        ]
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -27569,9 +25343,6 @@ extension EC2 {
     }
 
     public struct NetworkInterfaceIpv6Address: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6Address", location: .body(locationName: "ipv6Address"))
-        ]
 
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -27586,14 +25357,6 @@ extension EC2 {
     }
 
     public struct NetworkInterfacePermission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .body(locationName: "awsAccountId")), 
-            AWSShapeMember(label: "AwsService", location: .body(locationName: "awsService")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "NetworkInterfacePermissionId", location: .body(locationName: "networkInterfacePermissionId")), 
-            AWSShapeMember(label: "Permission", location: .body(locationName: "permission")), 
-            AWSShapeMember(label: "PermissionState", location: .body(locationName: "permissionState"))
-        ]
 
         /// The AWS account ID.
         public let awsAccountId: String?
@@ -27628,10 +25391,6 @@ extension EC2 {
     }
 
     public struct NetworkInterfacePermissionState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// The state of the permission.
         public let state: NetworkInterfacePermissionStateCode?
@@ -27650,12 +25409,6 @@ extension EC2 {
     }
 
     public struct NetworkInterfacePrivateIpAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Association", location: .body(locationName: "association")), 
-            AWSShapeMember(label: "Primary", location: .body(locationName: "primary")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"))
-        ]
 
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
         public let association: NetworkInterfaceAssociation?
@@ -27683,7 +25436,6 @@ extension EC2 {
 
     public struct NewDhcpConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .body(locationName: "key")), 
             AWSShapeMember(label: "Values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
         ]
 
@@ -27702,14 +25454,6 @@ extension EC2 {
     }
 
     public struct OnDemandOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationStrategy", location: .body(locationName: "allocationStrategy")), 
-            AWSShapeMember(label: "CapacityReservationOptions", location: .body(locationName: "capacityReservationOptions")), 
-            AWSShapeMember(label: "MaxTotalPrice", location: .body(locationName: "maxTotalPrice")), 
-            AWSShapeMember(label: "MinTargetCapacity", location: .body(locationName: "minTargetCapacity")), 
-            AWSShapeMember(label: "SingleAvailabilityZone", location: .body(locationName: "singleAvailabilityZone")), 
-            AWSShapeMember(label: "SingleInstanceType", location: .body(locationName: "singleInstanceType"))
-        ]
 
         /// The order of the launch template overrides to use in fulfilling On-Demand capacity. If you specify lowest-price, EC2 Fleet uses price to determine the order, launching the lowest price first. If you specify prioritized, EC2 Fleet uses the priority that you assigned to each launch template override, launching the highest priority first. If you do not specify a value, EC2 Fleet defaults to lowest-price.
         public let allocationStrategy: FleetOnDemandAllocationStrategy?
@@ -27804,10 +25548,6 @@ extension EC2 {
     }
 
     public struct PeeringAttachmentStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The status code.
         public let code: String?
@@ -27826,11 +25566,6 @@ extension EC2 {
     }
 
     public struct PeeringConnectionOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc")), 
-            AWSShapeMember(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc")), 
-            AWSShapeMember(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: .body(locationName: "allowEgressFromLocalVpcToRemoteClassicLink"))
-        ]
 
         /// If true, the public DNS hostnames of instances in the specified VPC resolve to private IP addresses when queried from instances in the peer VPC.
         public let allowDnsResolutionFromRemoteVpc: Bool?
@@ -27875,11 +25610,6 @@ extension EC2 {
     }
 
     public struct PeeringTgwInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId"))
-        ]
 
         /// The AWS account ID of the owner of the transit gateway.
         public let ownerId: String?
@@ -27902,9 +25632,6 @@ extension EC2 {
     }
 
     public struct Phase1DHGroupNumbersListValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The Diffie-Hellmann group number.
         public let value: Int?
@@ -27933,9 +25660,6 @@ extension EC2 {
     }
 
     public struct Phase1EncryptionAlgorithmsListValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The value for the encryption algorithm.
         public let value: String?
@@ -27964,9 +25688,6 @@ extension EC2 {
     }
 
     public struct Phase1IntegrityAlgorithmsListValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The value for the integrity algorithm.
         public let value: String?
@@ -27995,9 +25716,6 @@ extension EC2 {
     }
 
     public struct Phase2DHGroupNumbersListValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The Diffie-Hellmann group number.
         public let value: Int?
@@ -28026,9 +25744,6 @@ extension EC2 {
     }
 
     public struct Phase2EncryptionAlgorithmsListValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The encryption algorithm.
         public let value: String?
@@ -28057,9 +25772,6 @@ extension EC2 {
     }
 
     public struct Phase2IntegrityAlgorithmsListValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The integrity algorithm.
         public let value: String?
@@ -28088,16 +25800,6 @@ extension EC2 {
     }
 
     public struct Placement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Affinity", location: .body(locationName: "affinity")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "HostId", location: .body(locationName: "hostId")), 
-            AWSShapeMember(label: "HostResourceGroupArn", location: .body(locationName: "hostResourceGroupArn")), 
-            AWSShapeMember(label: "PartitionNumber", location: .body(locationName: "partitionNumber")), 
-            AWSShapeMember(label: "SpreadDomain", location: .body(locationName: "spreadDomain")), 
-            AWSShapeMember(label: "Tenancy", location: .body(locationName: "tenancy"))
-        ]
 
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command.
         public let affinity: String?
@@ -28141,11 +25843,6 @@ extension EC2 {
 
     public struct PlacementGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "PartitionCount", location: .body(locationName: "partitionCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Strategy", location: .body(locationName: "strategy")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -28183,7 +25880,7 @@ extension EC2 {
 
     public struct PlacementGroupInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportedStrategies", location: .body(locationName: "supportedStrategies"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "SupportedStrategies", encoding: .list(member:"item"))
         ]
 
         /// A list of supported placement groups types.
@@ -28199,9 +25896,6 @@ extension EC2 {
     }
 
     public struct PlacementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"))
-        ]
 
         /// The name of the placement group that the instance is in.
         public let groupName: String?
@@ -28233,10 +25927,6 @@ extension EC2 {
     }
 
     public struct PortRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "From", location: .body(locationName: "from")), 
-            AWSShapeMember(label: "To", location: .body(locationName: "to"))
-        ]
 
         /// The first port in the range.
         public let from: Int?
@@ -28256,9 +25946,7 @@ extension EC2 {
 
     public struct PrefixList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidrs", location: .body(locationName: "cidrSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PrefixListId", location: .body(locationName: "prefixListId")), 
-            AWSShapeMember(label: "PrefixListName", location: .body(locationName: "prefixListName"))
+            AWSShapeMember(label: "Cidrs", location: .body(locationName: "cidrSet"), encoding: .list(member:"item"))
         ]
 
         /// The IP address range of the AWS service.
@@ -28282,10 +25970,6 @@ extension EC2 {
     }
 
     public struct PrefixListId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "PrefixListId", location: .body(locationName: "prefixListId"))
-        ]
 
         /// A description for the security group rule that references this prefix list ID. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=;{}!$*
         public let description: String?
@@ -28304,12 +25988,6 @@ extension EC2 {
     }
 
     public struct PriceSchedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Active", location: .body(locationName: "active")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Price", location: .body(locationName: "price")), 
-            AWSShapeMember(label: "Term", location: .body(locationName: "term"))
-        ]
 
         /// The current price schedule, as determined by the term remaining for the Reserved Instance in the listing. A specific price schedule is always in effect, but only one price schedule can be active at any time. Take, for example, a Reserved Instance listing that has five months remaining in its term. When you specify price schedules for five months and two months, this means that schedule 1, covering the first three months of the remaining term, will be active during months 5, 4, and 3. Then schedule 2, covering the last two months of the term, will be active for months 2 and 1.
         public let active: Bool?
@@ -28336,11 +26014,6 @@ extension EC2 {
     }
 
     public struct PriceScheduleSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Price", location: .body(locationName: "price")), 
-            AWSShapeMember(label: "Term", location: .body(locationName: "term"))
-        ]
 
         /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
@@ -28363,10 +26036,6 @@ extension EC2 {
     }
 
     public struct PricingDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "Price", location: .body(locationName: "price"))
-        ]
 
         /// The number of reservations available for the price.
         public let count: Int?
@@ -28386,7 +26055,6 @@ extension EC2 {
 
     public struct PrincipalIdFormat: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
             AWSShapeMember(label: "Statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
         ]
 
@@ -28408,10 +26076,7 @@ extension EC2 {
 
     public struct PrivateDnsNameConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The name of the record subdomain the service provider needs to create. The service provider adds the value text to the name.
@@ -28439,10 +26104,6 @@ extension EC2 {
     }
 
     public struct PrivateIpAddressSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Primary", location: .body(locationName: "primary")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"))
-        ]
 
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
         public let primary: Bool?
@@ -28462,8 +26123,7 @@ extension EC2 {
 
     public struct ProcessorInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportedArchitectures", location: .body(locationName: "supportedArchitectures"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SustainedClockSpeedInGhz", location: .body(locationName: "sustainedClockSpeedInGhz"))
+            AWSShapeMember(label: "SupportedArchitectures", encoding: .list(member:"item"))
         ]
 
         /// A list of architectures supported by the instance type.
@@ -28505,9 +26165,6 @@ extension EC2 {
     }
 
     public struct PropagatingVgw: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayId", location: .body(locationName: "gatewayId"))
-        ]
 
         /// The ID of the virtual private gateway.
         public let gatewayId: String?
@@ -28552,9 +26209,6 @@ extension EC2 {
     }
 
     public struct ProvisionByoipCidrResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ByoipCidr", location: .body(locationName: "byoipCidr"))
-        ]
 
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
@@ -28569,13 +26223,6 @@ extension EC2 {
     }
 
     public struct ProvisionedBandwidth: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Provisioned", location: .body(locationName: "provisioned")), 
-            AWSShapeMember(label: "ProvisionTime", location: .body(locationName: "provisionTime")), 
-            AWSShapeMember(label: "Requested", location: .body(locationName: "requested")), 
-            AWSShapeMember(label: "RequestTime", location: .body(locationName: "requestTime")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
         public let provisioned: String?
@@ -28607,11 +26254,7 @@ extension EC2 {
 
     public struct PublicIpv4Pool: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "PoolAddressRanges", location: .body(locationName: "poolAddressRangeSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PoolId", location: .body(locationName: "poolId")), 
-            AWSShapeMember(label: "TotalAddressCount", location: .body(locationName: "totalAddressCount")), 
-            AWSShapeMember(label: "TotalAvailableAddressCount", location: .body(locationName: "totalAvailableAddressCount"))
+            AWSShapeMember(label: "PoolAddressRanges", location: .body(locationName: "poolAddressRangeSet"), encoding: .list(member:"item"))
         ]
 
         /// A description of the address pool.
@@ -28643,12 +26286,6 @@ extension EC2 {
     }
 
     public struct PublicIpv4PoolRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressCount", location: .body(locationName: "addressCount")), 
-            AWSShapeMember(label: "AvailableAddressCount", location: .body(locationName: "availableAddressCount")), 
-            AWSShapeMember(label: "FirstAddress", location: .body(locationName: "firstAddress")), 
-            AWSShapeMember(label: "LastAddress", location: .body(locationName: "lastAddress"))
-        ]
 
         /// The number of addresses in the range.
         public let addressCount: Int?
@@ -28676,14 +26313,7 @@ extension EC2 {
 
     public struct Purchase: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "HostIdSet", location: .body(locationName: "hostIdSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "HostReservationId", location: .body(locationName: "hostReservationId")), 
-            AWSShapeMember(label: "HourlyPrice", location: .body(locationName: "hourlyPrice")), 
-            AWSShapeMember(label: "InstanceFamily", location: .body(locationName: "instanceFamily")), 
-            AWSShapeMember(label: "PaymentOption", location: .body(locationName: "paymentOption")), 
-            AWSShapeMember(label: "UpfrontPrice", location: .body(locationName: "upfrontPrice"))
+            AWSShapeMember(label: "HostIdSet", encoding: .list(member:"item"))
         ]
 
         /// The currency in which the UpfrontPrice and HourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -28761,11 +26391,7 @@ extension EC2 {
 
     public struct PurchaseHostReservationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Purchase", location: .body(locationName: "purchase"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TotalHourlyPrice", location: .body(locationName: "totalHourlyPrice")), 
-            AWSShapeMember(label: "TotalUpfrontPrice", location: .body(locationName: "totalUpfrontPrice"))
+            AWSShapeMember(label: "Purchase", encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -28815,10 +26441,6 @@ extension EC2 {
     }
 
     public struct PurchaseReservedInstancesOfferingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "LimitPrice", location: .body(locationName: "limitPrice"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -28849,9 +26471,6 @@ extension EC2 {
     }
 
     public struct PurchaseReservedInstancesOfferingResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"))
-        ]
 
         /// The IDs of the purchased Reserved Instances.
         public let reservedInstancesId: String?
@@ -28896,7 +26515,7 @@ extension EC2 {
 
     public struct PurchaseScheduledInstancesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduledInstanceSet", location: .body(locationName: "scheduledInstanceSet"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "ScheduledInstanceSet", encoding: .list(member:"item"))
         ]
 
         /// Information about the Scheduled Instances.
@@ -28913,7 +26532,6 @@ extension EC2 {
 
     public struct RebootInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
@@ -28934,10 +26552,6 @@ extension EC2 {
     }
 
     public struct RecurringCharge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Amount", location: .body(locationName: "amount")), 
-            AWSShapeMember(label: "Frequency", location: .body(locationName: "frequency"))
-        ]
 
         /// The amount of the recurring charge.
         public let amount: Double?
@@ -28957,9 +26571,7 @@ extension EC2 {
 
     public struct Region: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", location: .body(locationName: "regionEndpoint")), 
-            AWSShapeMember(label: "OptInStatus", location: .body(locationName: "optInStatus")), 
-            AWSShapeMember(label: "RegionName", location: .body(locationName: "regionName"))
+            AWSShapeMember(label: "Endpoint", location: .body(locationName: "regionEndpoint"))
         ]
 
         /// The Region service endpoint.
@@ -28984,18 +26596,8 @@ extension EC2 {
 
     public struct RegisterImageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Architecture", location: .body(locationName: "architecture")), 
             AWSShapeMember(label: "BillingProducts", location: .body(locationName: "BillingProduct"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EnaSupport", location: .body(locationName: "enaSupport")), 
-            AWSShapeMember(label: "KernelId", location: .body(locationName: "kernelId")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdiskId")), 
-            AWSShapeMember(label: "RootDeviceName", location: .body(locationName: "rootDeviceName")), 
-            AWSShapeMember(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport")), 
-            AWSShapeMember(label: "VirtualizationType", location: .body(locationName: "virtualizationType"))
+            AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
         ]
 
         /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
@@ -29059,9 +26661,6 @@ extension EC2 {
     }
 
     public struct RegisterImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId"))
-        ]
 
         /// The ID of the newly registered AMI.
         public let imageId: String?
@@ -29105,9 +26704,6 @@ extension EC2 {
     }
 
     public struct RegisterTransitGatewayMulticastGroupMembersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegisteredMulticastGroupMembers", location: .body(locationName: "registeredMulticastGroupMembers"))
-        ]
 
         /// Information about the registered transit gateway multicast group members.
         public let registeredMulticastGroupMembers: TransitGatewayMulticastRegisteredGroupMembers?
@@ -29151,9 +26747,6 @@ extension EC2 {
     }
 
     public struct RegisterTransitGatewayMulticastGroupSourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegisteredMulticastGroupSources", location: .body(locationName: "registeredMulticastGroupSources"))
-        ]
 
         /// Information about the transit gateway multicast group sources.
         public let registeredMulticastGroupSources: TransitGatewayMulticastRegisteredGroupSources?
@@ -29186,9 +26779,6 @@ extension EC2 {
     }
 
     public struct RejectTransitGatewayPeeringAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayPeeringAttachment", location: .body(locationName: "transitGatewayPeeringAttachment"))
-        ]
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -29221,9 +26811,6 @@ extension EC2 {
     }
 
     public struct RejectTransitGatewayVpcAttachmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayVpcAttachment", location: .body(locationName: "transitGatewayVpcAttachment"))
-        ]
 
         /// Information about the attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -29264,7 +26851,7 @@ extension EC2 {
 
     public struct RejectVpcEndpointConnectionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the endpoints that were not rejected, if applicable.
@@ -29280,10 +26867,6 @@ extension EC2 {
     }
 
     public struct RejectVpcPeeringConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -29319,9 +26902,6 @@ extension EC2 {
     }
 
     public struct ReleaseAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// [EC2-VPC] The allocation ID. Required for EC2-VPC.
         public let allocationId: String?
@@ -29366,8 +26946,8 @@ extension EC2 {
 
     public struct ReleaseHostsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Successful", location: .body(locationName: "successful"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "Successful", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the Dedicated Hosts that were successfully released.
@@ -29405,9 +26985,6 @@ extension EC2 {
     }
 
     public struct ReplaceIamInstanceProfileAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamInstanceProfileAssociation", location: .body(locationName: "iamInstanceProfileAssociation"))
-        ]
 
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -29422,11 +26999,6 @@ extension EC2 {
     }
 
     public struct ReplaceNetworkAclAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "NetworkAclId", location: .body(locationName: "networkAclId"))
-        ]
 
         /// The ID of the current association between the original network ACL and the subnet.
         public let associationId: String
@@ -29449,9 +27021,6 @@ extension EC2 {
     }
 
     public struct ReplaceNetworkAclAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NewAssociationId", location: .body(locationName: "newAssociationId"))
-        ]
 
         /// The ID of the new association.
         public let newAssociationId: String?
@@ -29467,16 +27036,8 @@ extension EC2 {
 
     public struct ReplaceNetworkAclEntryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Egress", location: .body(locationName: "egress")), 
             AWSShapeMember(label: "IcmpTypeCode", location: .body(locationName: "Icmp")), 
-            AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock")), 
-            AWSShapeMember(label: "NetworkAclId", location: .body(locationName: "networkAclId")), 
-            AWSShapeMember(label: "PortRange", location: .body(locationName: "portRange")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RuleAction", location: .body(locationName: "ruleAction")), 
-            AWSShapeMember(label: "RuleNumber", location: .body(locationName: "ruleNumber"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
@@ -29528,18 +27089,6 @@ extension EC2 {
     }
 
     public struct ReplaceRouteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId")), 
-            AWSShapeMember(label: "GatewayId", location: .body(locationName: "gatewayId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "NatGatewayId", location: .body(locationName: "natGatewayId")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// The IPv4 CIDR address block used for the destination match. The value that you provide must match the CIDR of an existing route in the table.
         public let destinationCidrBlock: String?
@@ -29602,11 +27151,6 @@ extension EC2 {
     }
 
     public struct ReplaceRouteTableAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId"))
-        ]
 
         /// The association ID.
         public let associationId: String
@@ -29629,10 +27173,6 @@ extension EC2 {
     }
 
     public struct ReplaceRouteTableAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationState", location: .body(locationName: "associationState")), 
-            AWSShapeMember(label: "NewAssociationId", location: .body(locationName: "newAssociationId"))
-        ]
 
         /// The state of the association.
         public let associationState: RouteTableAssociationState?
@@ -29681,9 +27221,6 @@ extension EC2 {
     }
 
     public struct ReplaceTransitGatewayRouteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Route", location: .body(locationName: "route"))
-        ]
 
         /// Information about the modified route.
         public let route: TransitGatewayRoute?
@@ -29699,13 +27236,8 @@ extension EC2 {
 
     public struct ReportInstanceStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime")), 
             AWSShapeMember(label: "Instances", location: .body(locationName: "instanceId"), encoding: .list(member:"InstanceId")), 
-            AWSShapeMember(label: "ReasonCodes", location: .body(locationName: "reasonCode"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
+            AWSShapeMember(label: "ReasonCodes", location: .body(locationName: "reasonCode"), encoding: .list(member:"item"))
         ]
 
         /// Descriptive text about the health state of your instance.
@@ -29875,10 +27407,6 @@ extension EC2 {
     }
 
     public struct RequestSpotFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "SpotFleetRequestConfig", location: .body(locationName: "spotFleetRequestConfig"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -29901,9 +27429,6 @@ extension EC2 {
     }
 
     public struct RequestSpotFleetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"))
-        ]
 
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
@@ -29919,16 +27444,7 @@ extension EC2 {
 
     public struct RequestSpotInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZoneGroup", location: .body(locationName: "availabilityZoneGroup")), 
-            AWSShapeMember(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InstanceCount", location: .body(locationName: "instanceCount")), 
-            AWSShapeMember(label: "LaunchGroup", location: .body(locationName: "launchGroup")), 
-            AWSShapeMember(label: "SpotPrice", location: .body(locationName: "spotPrice")), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "ValidFrom", location: .body(locationName: "validFrom")), 
-            AWSShapeMember(label: "ValidUntil", location: .body(locationName: "validUntil"))
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The user-specified name for a logical grouping of requests. When you specify an Availability Zone group in a Spot Instance request, all Spot Instances in the request are launched in the same Availability Zone. Instance proximity is maintained with this parameter, but the choice of Availability Zone is not. The group applies only to requests for Spot Instances of the same instance type. Any additional Spot Instance requests that are specified with the same Availability Zone group name are launched in that same Availability Zone, as long as at least one instance from the group is still active. If there is no active instance running in the Availability Zone group that you specify for a new Spot Instance request (all instances are terminated, the request is expired, or the maximum price you specified falls below current Spot price), then Amazon EC2 launches the instance in any Availability Zone where the constraint can be met. Consequently, the subsequent set of Spot Instances could be placed in a different zone from the original request, even if you specified the same Availability Zone group. Default: Instances are launched in any available Availability Zone.
@@ -30006,22 +27522,10 @@ extension EC2 {
 
     public struct RequestSpotLaunchSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressingType", location: .body(locationName: "addressingType")), 
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "KernelId", location: .body(locationName: "kernelId")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
-            AWSShapeMember(label: "Monitoring", location: .body(locationName: "monitoring")), 
             AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Placement", location: .body(locationName: "placement")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdiskId")), 
             AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "UserData", location: .body(locationName: "userData"))
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"item"))
         ]
 
         /// Deprecated.
@@ -30099,10 +27603,7 @@ extension EC2 {
     public struct Reservation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "RequesterId", location: .body(locationName: "requesterId")), 
-            AWSShapeMember(label: "ReservationId", location: .body(locationName: "reservationId"))
+            AWSShapeMember(label: "Instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// [EC2-Classic only] The security groups.
@@ -30134,11 +27635,6 @@ extension EC2 {
     }
 
     public struct ReservationValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HourlyPrice", location: .body(locationName: "hourlyPrice")), 
-            AWSShapeMember(label: "RemainingTotalValue", location: .body(locationName: "remainingTotalValue")), 
-            AWSShapeMember(label: "RemainingUpfrontValue", location: .body(locationName: "remainingUpfrontValue"))
-        ]
 
         /// The hourly rate of the reservation.
         public let hourlyPrice: String?
@@ -30161,10 +27657,6 @@ extension EC2 {
     }
 
     public struct ReservedInstanceLimitPrice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Amount", location: .body(locationName: "amount")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"))
-        ]
 
         /// Used for Reserved Instance Marketplace offerings. Specifies the limit price on the total order (instanceCount * price).
         public let amount: Double?
@@ -30183,10 +27675,6 @@ extension EC2 {
     }
 
     public struct ReservedInstanceReservationValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservationValue", location: .body(locationName: "reservationValue")), 
-            AWSShapeMember(label: "ReservedInstanceId", location: .body(locationName: "reservedInstanceId"))
-        ]
 
         /// The total value of the Convertible Reserved Instance that you are exchanging.
         public let reservationValue: ReservationValue?
@@ -30206,24 +27694,8 @@ extension EC2 {
 
     public struct ReservedInstances: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "End", location: .body(locationName: "end")), 
-            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice")), 
-            AWSShapeMember(label: "InstanceCount", location: .body(locationName: "instanceCount")), 
-            AWSShapeMember(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "OfferingClass", location: .body(locationName: "offeringClass")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
-            AWSShapeMember(label: "ProductDescription", location: .body(locationName: "productDescription")), 
-            AWSShapeMember(label: "RecurringCharges", location: .body(locationName: "recurringCharges"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId")), 
-            AWSShapeMember(label: "Scope", location: .body(locationName: "scope")), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"))
+            AWSShapeMember(label: "RecurringCharges", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which the Reserved Instance can be used.
@@ -30307,13 +27779,6 @@ extension EC2 {
     }
 
     public struct ReservedInstancesConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "InstanceCount", location: .body(locationName: "instanceCount")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "Scope", location: .body(locationName: "scope"))
-        ]
 
         /// The Availability Zone for the modified Reserved Instances.
         public let availabilityZone: String?
@@ -30344,9 +27809,6 @@ extension EC2 {
     }
 
     public struct ReservedInstancesId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"))
-        ]
 
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
@@ -30362,16 +27824,9 @@ extension EC2 {
 
     public struct ReservedInstancesListing: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "CreateDate", location: .body(locationName: "createDate")), 
-            AWSShapeMember(label: "InstanceCounts", location: .body(locationName: "instanceCounts"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PriceSchedules", location: .body(locationName: "priceSchedules"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId")), 
-            AWSShapeMember(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "UpdateDate", location: .body(locationName: "updateDate"))
+            AWSShapeMember(label: "InstanceCounts", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "PriceSchedules", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
@@ -30424,15 +27879,8 @@ extension EC2 {
 
     public struct ReservedInstancesModification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "CreateDate", location: .body(locationName: "createDate")), 
-            AWSShapeMember(label: "EffectiveDate", location: .body(locationName: "effectiveDate")), 
             AWSShapeMember(label: "ModificationResults", location: .body(locationName: "modificationResultSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ReservedInstancesIds", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ReservedInstancesModificationId", location: .body(locationName: "reservedInstancesModificationId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
-            AWSShapeMember(label: "UpdateDate", location: .body(locationName: "updateDate"))
+            AWSShapeMember(label: "ReservedInstancesIds", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item"))
         ]
 
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
@@ -30480,10 +27928,6 @@ extension EC2 {
     }
 
     public struct ReservedInstancesModificationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId")), 
-            AWSShapeMember(label: "TargetConfiguration", location: .body(locationName: "targetConfiguration"))
-        ]
 
         /// The ID for the Reserved Instances that were created as part of the modification request. This field is only available when the modification is fulfilled.
         public let reservedInstancesId: String?
@@ -30503,21 +27947,8 @@ extension EC2 {
 
     public struct ReservedInstancesOffering: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice")), 
-            AWSShapeMember(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "Marketplace", location: .body(locationName: "marketplace")), 
-            AWSShapeMember(label: "OfferingClass", location: .body(locationName: "offeringClass")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
             AWSShapeMember(label: "PricingDetails", location: .body(locationName: "pricingDetailsSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ProductDescription", location: .body(locationName: "productDescription")), 
-            AWSShapeMember(label: "RecurringCharges", location: .body(locationName: "recurringCharges"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ReservedInstancesOfferingId", location: .body(locationName: "reservedInstancesOfferingId")), 
-            AWSShapeMember(label: "Scope", location: .body(locationName: "scope")), 
-            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"))
+            AWSShapeMember(label: "RecurringCharges", encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which the Reserved Instance can be used.
@@ -30603,9 +28034,6 @@ extension EC2 {
     }
 
     public struct ResetEbsDefaultKmsKeyIdResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the default CMK for EBS encryption by default.
         public let kmsKeyId: String?
@@ -30659,9 +28087,6 @@ extension EC2 {
     }
 
     public struct ResetImageAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The attribute to reset (currently you can only reset the launch permission attribute).
         public let attribute: ResetImageAttributeName
@@ -30684,11 +28109,6 @@ extension EC2 {
     }
 
     public struct ResetInstanceAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attribute", location: .body(locationName: "attribute")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"))
-        ]
 
         /// The attribute to reset.  You can only reset the following attributes: kernel | ramdisk | sourceDestCheck. To change an instance attribute, use ModifyInstanceAttribute. 
         public let attribute: InstanceAttributeName
@@ -30711,11 +28131,6 @@ extension EC2 {
     }
 
     public struct ResetNetworkInterfaceAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -30738,9 +28153,6 @@ extension EC2 {
     }
 
     public struct ResetSnapshotAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"))
-        ]
 
         /// The attribute to reset. Currently, only the attribute for permission to create volumes can be reset.
         public let attribute: SnapshotAttributeName
@@ -30763,10 +28175,6 @@ extension EC2 {
     }
 
     public struct ResponseError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: LaunchTemplateErrorCode?
@@ -30787,31 +28195,13 @@ extension EC2 {
     public struct ResponseLaunchTemplateData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMappingSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "CapacityReservationSpecification", location: .body(locationName: "capacityReservationSpecification")), 
-            AWSShapeMember(label: "CpuOptions", location: .body(locationName: "cpuOptions")), 
-            AWSShapeMember(label: "CreditSpecification", location: .body(locationName: "creditSpecification")), 
-            AWSShapeMember(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
             AWSShapeMember(label: "ElasticGpuSpecifications", location: .body(locationName: "elasticGpuSpecificationSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "ElasticInferenceAccelerators", location: .body(locationName: "elasticInferenceAcceleratorSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "HibernationOptions", location: .body(locationName: "hibernationOptions")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior")), 
-            AWSShapeMember(label: "InstanceMarketOptions", location: .body(locationName: "instanceMarketOptions")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "KernelId", location: .body(locationName: "kernelId")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
             AWSShapeMember(label: "LicenseSpecifications", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MetadataOptions", location: .body(locationName: "metadataOptions")), 
-            AWSShapeMember(label: "Monitoring", location: .body(locationName: "monitoring")), 
             AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Placement", location: .body(locationName: "placement")), 
-            AWSShapeMember(label: "RamDiskId", location: .body(locationName: "ramDiskId")), 
             AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIdSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "UserData", location: .body(locationName: "userData"))
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
         ]
 
         /// The block device mappings.
@@ -30927,10 +28317,6 @@ extension EC2 {
     }
 
     public struct RestoreAddressToClassicRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -30949,10 +28335,6 @@ extension EC2 {
     }
 
     public struct RestoreAddressToClassicResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The Elastic IP address.
         public let publicIp: String?
@@ -31001,9 +28383,6 @@ extension EC2 {
     }
 
     public struct RevokeClientVpnIngressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The current state of the authorization rule.
         public let status: ClientVpnAuthorizationRuleStatus?
@@ -31019,15 +28398,7 @@ extension EC2 {
 
     public struct RevokeSecurityGroupEgressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrIp", location: .body(locationName: "cidrIp")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "FromPort", location: .body(locationName: "fromPort")), 
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "IpPermissions", location: .body(locationName: "ipPermissions"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "IpProtocol", location: .body(locationName: "ipProtocol")), 
-            AWSShapeMember(label: "SourceSecurityGroupName", location: .body(locationName: "sourceSecurityGroupName")), 
-            AWSShapeMember(label: "SourceSecurityGroupOwnerId", location: .body(locationName: "sourceSecurityGroupOwnerId")), 
-            AWSShapeMember(label: "ToPort", location: .body(locationName: "toPort"))
+            AWSShapeMember(label: "IpPermissions", encoding: .list(member:"item"))
         ]
 
         /// Not supported. Use a set of IP permissions to specify the CIDR.
@@ -31076,7 +28447,6 @@ extension EC2 {
 
     public struct RevokeSecurityGroupIngressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "IpPermissions", encoding: .list(member:"item"))
         ]
 
@@ -31129,22 +28499,6 @@ extension EC2 {
     }
 
     public struct Route: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock")), 
-            AWSShapeMember(label: "DestinationPrefixListId", location: .body(locationName: "destinationPrefixListId")), 
-            AWSShapeMember(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId")), 
-            AWSShapeMember(label: "GatewayId", location: .body(locationName: "gatewayId")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceOwnerId", location: .body(locationName: "instanceOwnerId")), 
-            AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId")), 
-            AWSShapeMember(label: "NatGatewayId", location: .body(locationName: "natGatewayId")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "Origin", location: .body(locationName: "origin")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// The IPv4 CIDR block used for the destination match.
         public let destinationCidrBlock: String?
@@ -31213,12 +28567,9 @@ extension EC2 {
     public struct RouteTable: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
             AWSShapeMember(label: "PropagatingVgws", location: .body(locationName: "propagatingVgwSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The associations between the route table and one or more subnets or a gateway.
@@ -31258,14 +28609,6 @@ extension EC2 {
     }
 
     public struct RouteTableAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationState", location: .body(locationName: "associationState")), 
-            AWSShapeMember(label: "GatewayId", location: .body(locationName: "gatewayId")), 
-            AWSShapeMember(label: "Main", location: .body(locationName: "main")), 
-            AWSShapeMember(label: "RouteTableAssociationId", location: .body(locationName: "routeTableAssociationId")), 
-            AWSShapeMember(label: "RouteTableId", location: .body(locationName: "routeTableId")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// The state of the association.
         public let associationState: RouteTableAssociationState?
@@ -31300,10 +28643,6 @@ extension EC2 {
     }
 
     public struct RouteTableAssociationState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// The state of the association.
         public let state: RouteTableAssociationStateCode?
@@ -31322,9 +28661,6 @@ extension EC2 {
     }
 
     public struct RunInstancesMonitoringEnabled: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"))
-        ]
 
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool
@@ -31340,20 +28676,12 @@ extension EC2 {
 
     public struct RunInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalInfo", location: .body(locationName: "additionalInfo")), 
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
             AWSShapeMember(label: "ElasticGpuSpecification", encoding: .list(member:"item")), 
             AWSShapeMember(label: "ElasticInferenceAccelerators", location: .body(locationName: "ElasticInferenceAccelerator"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior")), 
             AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "Ipv6Address"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "LicenseSpecifications", location: .body(locationName: "LicenseSpecification"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterface"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress")), 
             AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"SecurityGroup")), 
             AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
@@ -31549,7 +28877,7 @@ extension EC2 {
 
     public struct RunScheduledInstancesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIdSet", location: .body(locationName: "instanceIdSet"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "InstanceIdSet", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the newly launched instances.
@@ -31565,12 +28893,6 @@ extension EC2 {
     }
 
     public struct S3Storage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .body(locationName: "bucket")), 
-            AWSShapeMember(label: "Prefix", location: .body(locationName: "prefix")), 
-            AWSShapeMember(label: "UploadPolicy", location: .body(locationName: "uploadPolicy")), 
-            AWSShapeMember(label: "UploadPolicySignature", location: .body(locationName: "uploadPolicySignature"))
-        ]
 
         /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Managing AWS Access Keys.
         public let aWSAccessKeyId: String?
@@ -31601,23 +28923,6 @@ extension EC2 {
     }
 
     public struct ScheduledInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "CreateDate", location: .body(locationName: "createDate")), 
-            AWSShapeMember(label: "HourlyPrice", location: .body(locationName: "hourlyPrice")), 
-            AWSShapeMember(label: "InstanceCount", location: .body(locationName: "instanceCount")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "NetworkPlatform", location: .body(locationName: "networkPlatform")), 
-            AWSShapeMember(label: "NextSlotStartTime", location: .body(locationName: "nextSlotStartTime")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "PreviousSlotEndTime", location: .body(locationName: "previousSlotEndTime")), 
-            AWSShapeMember(label: "Recurrence", location: .body(locationName: "recurrence")), 
-            AWSShapeMember(label: "ScheduledInstanceId", location: .body(locationName: "scheduledInstanceId")), 
-            AWSShapeMember(label: "SlotDurationInHours", location: .body(locationName: "slotDurationInHours")), 
-            AWSShapeMember(label: "TermEndDate", location: .body(locationName: "termEndDate")), 
-            AWSShapeMember(label: "TermStartDate", location: .body(locationName: "termStartDate")), 
-            AWSShapeMember(label: "TotalScheduledInstanceHours", location: .body(locationName: "totalScheduledInstanceHours"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -31688,21 +28993,6 @@ extension EC2 {
     }
 
     public struct ScheduledInstanceAvailability: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "AvailableInstanceCount", location: .body(locationName: "availableInstanceCount")), 
-            AWSShapeMember(label: "FirstSlotStartTime", location: .body(locationName: "firstSlotStartTime")), 
-            AWSShapeMember(label: "HourlyPrice", location: .body(locationName: "hourlyPrice")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "MaxTermDurationInDays", location: .body(locationName: "maxTermDurationInDays")), 
-            AWSShapeMember(label: "MinTermDurationInDays", location: .body(locationName: "minTermDurationInDays")), 
-            AWSShapeMember(label: "NetworkPlatform", location: .body(locationName: "networkPlatform")), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform")), 
-            AWSShapeMember(label: "PurchaseToken", location: .body(locationName: "purchaseToken")), 
-            AWSShapeMember(label: "Recurrence", location: .body(locationName: "recurrence")), 
-            AWSShapeMember(label: "SlotDurationInHours", location: .body(locationName: "slotDurationInHours")), 
-            AWSShapeMember(label: "TotalScheduledInstanceHours", location: .body(locationName: "totalScheduledInstanceHours"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -31766,11 +29056,7 @@ extension EC2 {
 
     public struct ScheduledInstanceRecurrence: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Frequency", location: .body(locationName: "frequency")), 
-            AWSShapeMember(label: "Interval", location: .body(locationName: "interval")), 
-            AWSShapeMember(label: "OccurrenceDaySet", location: .body(locationName: "occurrenceDaySet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OccurrenceRelativeToEnd", location: .body(locationName: "occurrenceRelativeToEnd")), 
-            AWSShapeMember(label: "OccurrenceUnit", location: .body(locationName: "occurrenceUnit"))
+            AWSShapeMember(label: "OccurrenceDaySet", encoding: .list(member:"item"))
         ]
 
         /// The frequency (Daily, Weekly, or Monthly).
@@ -32145,7 +29431,6 @@ extension EC2 {
 
     public struct SearchLocalGatewayRoutesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
             AWSShapeMember(label: "Routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
         ]
 
@@ -32205,8 +29490,7 @@ extension EC2 {
 
     public struct SearchTransitGatewayMulticastGroupsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MulticastGroups", location: .body(locationName: "multicastGroups"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
+            AWSShapeMember(label: "MulticastGroups", encoding: .list(member:"item"))
         ]
 
         /// Information about the transit gateway multicast group.
@@ -32261,7 +29545,6 @@ extension EC2 {
 
     public struct SearchTransitGatewayRoutesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalRoutesAvailable", location: .body(locationName: "additionalRoutesAvailable")), 
             AWSShapeMember(label: "Routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
         ]
 
@@ -32284,13 +29567,9 @@ extension EC2 {
     public struct SecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "groupDescription")), 
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "IpPermissions", location: .body(locationName: "ipPermissions"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "IpPermissionsEgress", location: .body(locationName: "ipPermissionsEgress"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "IpPermissions", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "IpPermissionsEgress", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A description of the security group.
@@ -32334,10 +29613,6 @@ extension EC2 {
     }
 
     public struct SecurityGroupIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"))
-        ]
 
         /// The ID of the security group.
         public let groupId: String?
@@ -32356,11 +29631,6 @@ extension EC2 {
     }
 
     public struct SecurityGroupReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "ReferencingVpcId", location: .body(locationName: "referencingVpcId")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// The ID of your security group.
         public let groupId: String?
@@ -32402,17 +29672,10 @@ extension EC2 {
 
     public struct ServiceConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptanceRequired", location: .body(locationName: "acceptanceRequired")), 
             AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "BaseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ManagesVpcEndpoints", location: .body(locationName: "managesVpcEndpoints")), 
             AWSShapeMember(label: "NetworkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateDnsNameConfiguration", location: .body(locationName: "privateDnsNameConfiguration")), 
-            AWSShapeMember(label: "ServiceId", location: .body(locationName: "serviceId")), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName")), 
-            AWSShapeMember(label: "ServiceState", location: .body(locationName: "serviceState")), 
-            AWSShapeMember(label: "ServiceType", location: .body(locationName: "serviceType"), encoding: .list(member:"item")), 
+            AWSShapeMember(label: "ServiceType", encoding: .list(member:"item")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
@@ -32474,18 +29737,10 @@ extension EC2 {
 
     public struct ServiceDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptanceRequired", location: .body(locationName: "acceptanceRequired")), 
             AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "BaseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ManagesVpcEndpoints", location: .body(locationName: "managesVpcEndpoints")), 
-            AWSShapeMember(label: "Owner", location: .body(locationName: "owner")), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName")), 
-            AWSShapeMember(label: "PrivateDnsNameVerificationState", location: .body(locationName: "privateDnsNameVerificationState")), 
-            AWSShapeMember(label: "ServiceId", location: .body(locationName: "serviceId")), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName")), 
-            AWSShapeMember(label: "ServiceType", location: .body(locationName: "serviceType"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcEndpointPolicySupported", location: .body(locationName: "vpcEndpointPolicySupported"))
+            AWSShapeMember(label: "ServiceType", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether VPC endpoint connection requests to the service must be accepted by the service owner.
@@ -32545,9 +29800,6 @@ extension EC2 {
     }
 
     public struct ServiceTypeDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceType", location: .body(locationName: "serviceType"))
-        ]
 
         /// The type of service.
         public let serviceType: ServiceType?
@@ -32599,20 +29851,9 @@ extension EC2 {
 
     public struct Snapshot: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataEncryptionKeyId", location: .body(locationName: "dataEncryptionKeyId")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId")), 
-            AWSShapeMember(label: "OwnerAlias", location: .body(locationName: "ownerAlias")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
             AWSShapeMember(label: "State", location: .body(locationName: "status")), 
             AWSShapeMember(label: "StateMessage", location: .body(locationName: "statusMessage")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId")), 
-            AWSShapeMember(label: "VolumeSize", location: .body(locationName: "volumeSize"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The data encryption key identifier for the snapshot. This value is a unique identifier that corresponds to the data encryption key that was used to encrypt the original volume or snapshot copy. Because data encryption keys are inherited by volumes created from snapshots, and vice versa, if snapshots share the same data encryption key identifier, then they belong to the same volume/snapshot lineage. This parameter is only returned by DescribeSnapshots.
@@ -32680,18 +29921,6 @@ extension EC2 {
     }
 
     public struct SnapshotDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DeviceName", location: .body(locationName: "deviceName")), 
-            AWSShapeMember(label: "DiskImageSize", location: .body(locationName: "diskImageSize")), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "UserBucket", location: .body(locationName: "userBucket"))
-        ]
 
         /// A description for the snapshot.
         public let description: String?
@@ -32769,16 +29998,7 @@ extension EC2 {
 
     public struct SnapshotInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId")), 
-            AWSShapeMember(label: "VolumeSize", location: .body(locationName: "volumeSize"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Description specified by the CreateSnapshotRequest that has been applied to all snapshots.
@@ -32830,19 +30050,6 @@ extension EC2 {
     }
 
     public struct SnapshotTaskDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DiskImageSize", location: .body(locationName: "diskImageSize")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "UserBucket", location: .body(locationName: "userBucket"))
-        ]
 
         /// The description of the snapshot.
         public let description: String?
@@ -32897,13 +30104,6 @@ extension EC2 {
     }
 
     public struct SpotDatafeedSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .body(locationName: "bucket")), 
-            AWSShapeMember(label: "Fault", location: .body(locationName: "fault")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "Prefix", location: .body(locationName: "prefix")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// The Amazon S3 bucket where the Spot Instance data feed is located.
         public let bucket: String?
@@ -32935,24 +30135,10 @@ extension EC2 {
 
     public struct SpotFleetLaunchSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressingType", location: .body(locationName: "addressingType")), 
             AWSShapeMember(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "EbsOptimized", location: .body(locationName: "ebsOptimized")), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile")), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "KernelId", location: .body(locationName: "kernelId")), 
-            AWSShapeMember(label: "KeyName", location: .body(locationName: "keyName")), 
-            AWSShapeMember(label: "Monitoring", location: .body(locationName: "monitoring")), 
             AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Placement", location: .body(locationName: "placement")), 
-            AWSShapeMember(label: "RamdiskId", location: .body(locationName: "ramdiskId")), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "SpotPrice", location: .body(locationName: "spotPrice")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "UserData", location: .body(locationName: "userData")), 
-            AWSShapeMember(label: "WeightedCapacity", location: .body(locationName: "weightedCapacity"))
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
         ]
 
         /// Deprecated.
@@ -33036,9 +30222,6 @@ extension EC2 {
     }
 
     public struct SpotFleetMonitoring: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"))
-        ]
 
         /// Enables monitoring for the instance. Default: false 
         public let enabled: Bool?
@@ -33053,13 +30236,6 @@ extension EC2 {
     }
 
     public struct SpotFleetRequestConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivityStatus", location: .body(locationName: "activityStatus")), 
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
-            AWSShapeMember(label: "SpotFleetRequestConfig", location: .body(locationName: "spotFleetRequestConfig")), 
-            AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId")), 
-            AWSShapeMember(label: "SpotFleetRequestState", location: .body(locationName: "spotFleetRequestState"))
-        ]
 
         /// The progress of the Spot Fleet request. If there is an error, the status is error. After all requests are placed, the status is pending_fulfillment. If the size of the fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the fleet is decreased, the status is pending_termination while Spot Instances are terminating.
         public let activityStatus: ActivityStatus?
@@ -33091,28 +30267,9 @@ extension EC2 {
 
     public struct SpotFleetRequestConfigData: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationStrategy", location: .body(locationName: "allocationStrategy")), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken")), 
-            AWSShapeMember(label: "ExcessCapacityTerminationPolicy", location: .body(locationName: "excessCapacityTerminationPolicy")), 
-            AWSShapeMember(label: "FulfilledCapacity", location: .body(locationName: "fulfilledCapacity")), 
-            AWSShapeMember(label: "IamFleetRole", location: .body(locationName: "iamFleetRole")), 
-            AWSShapeMember(label: "InstanceInterruptionBehavior", location: .body(locationName: "instanceInterruptionBehavior")), 
-            AWSShapeMember(label: "InstancePoolsToUseCount", location: .body(locationName: "instancePoolsToUseCount")), 
-            AWSShapeMember(label: "LaunchSpecifications", location: .body(locationName: "launchSpecifications"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LaunchTemplateConfigs", location: .body(locationName: "launchTemplateConfigs"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LoadBalancersConfig", location: .body(locationName: "loadBalancersConfig")), 
-            AWSShapeMember(label: "OnDemandAllocationStrategy", location: .body(locationName: "onDemandAllocationStrategy")), 
-            AWSShapeMember(label: "OnDemandFulfilledCapacity", location: .body(locationName: "onDemandFulfilledCapacity")), 
-            AWSShapeMember(label: "OnDemandMaxTotalPrice", location: .body(locationName: "onDemandMaxTotalPrice")), 
-            AWSShapeMember(label: "OnDemandTargetCapacity", location: .body(locationName: "onDemandTargetCapacity")), 
-            AWSShapeMember(label: "ReplaceUnhealthyInstances", location: .body(locationName: "replaceUnhealthyInstances")), 
-            AWSShapeMember(label: "SpotMaxTotalPrice", location: .body(locationName: "spotMaxTotalPrice")), 
-            AWSShapeMember(label: "SpotPrice", location: .body(locationName: "spotPrice")), 
-            AWSShapeMember(label: "TargetCapacity", location: .body(locationName: "targetCapacity")), 
-            AWSShapeMember(label: "TerminateInstancesWithExpiration", location: .body(locationName: "terminateInstancesWithExpiration")), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "ValidFrom", location: .body(locationName: "validFrom")), 
-            AWSShapeMember(label: "ValidUntil", location: .body(locationName: "validUntil"))
+            AWSShapeMember(label: "LaunchSpecifications", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "LaunchTemplateConfigs", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the Spot Fleet request. If the allocation strategy is lowestPrice, Spot Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, Spot Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacityOptimized, Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
@@ -33220,7 +30377,6 @@ extension EC2 {
 
     public struct SpotFleetTagSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
         ]
 
@@ -33242,25 +30398,8 @@ extension EC2 {
 
     public struct SpotInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActualBlockHourlyPrice", location: .body(locationName: "actualBlockHourlyPrice")), 
-            AWSShapeMember(label: "AvailabilityZoneGroup", location: .body(locationName: "availabilityZoneGroup")), 
-            AWSShapeMember(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes")), 
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
-            AWSShapeMember(label: "Fault", location: .body(locationName: "fault")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "InstanceInterruptionBehavior", location: .body(locationName: "instanceInterruptionBehavior")), 
-            AWSShapeMember(label: "LaunchedAvailabilityZone", location: .body(locationName: "launchedAvailabilityZone")), 
-            AWSShapeMember(label: "LaunchGroup", location: .body(locationName: "launchGroup")), 
-            AWSShapeMember(label: "LaunchSpecification", location: .body(locationName: "launchSpecification")), 
-            AWSShapeMember(label: "ProductDescription", location: .body(locationName: "productDescription")), 
-            AWSShapeMember(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId")), 
-            AWSShapeMember(label: "SpotPrice", location: .body(locationName: "spotPrice")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "ValidFrom", location: .body(locationName: "validFrom")), 
-            AWSShapeMember(label: "ValidUntil", location: .body(locationName: "validUntil"))
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// If you specified a duration and your Spot Instance request was fulfilled, this is the fixed hourly price in effect for the Spot Instance while it runs.
@@ -33348,10 +30487,6 @@ extension EC2 {
     }
 
     public struct SpotInstanceStateFault: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The reason code for the Spot Instance state change.
         public let code: String?
@@ -33370,11 +30505,6 @@ extension EC2 {
     }
 
     public struct SpotInstanceStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message")), 
-            AWSShapeMember(label: "UpdateTime", location: .body(locationName: "updateTime"))
-        ]
 
         /// The status code. For a list of status codes, see Spot Status Codes in the Amazon EC2 User Guide for Linux Instances.
         public let code: String?
@@ -33427,15 +30557,6 @@ extension EC2 {
     }
 
     public struct SpotOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocationStrategy", location: .body(locationName: "allocationStrategy")), 
-            AWSShapeMember(label: "InstanceInterruptionBehavior", location: .body(locationName: "instanceInterruptionBehavior")), 
-            AWSShapeMember(label: "InstancePoolsToUseCount", location: .body(locationName: "instancePoolsToUseCount")), 
-            AWSShapeMember(label: "MaxTotalPrice", location: .body(locationName: "maxTotalPrice")), 
-            AWSShapeMember(label: "MinTargetCapacity", location: .body(locationName: "minTargetCapacity")), 
-            AWSShapeMember(label: "SingleAvailabilityZone", location: .body(locationName: "singleAvailabilityZone")), 
-            AWSShapeMember(label: "SingleInstanceType", location: .body(locationName: "singleInstanceType"))
-        ]
 
         /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet. If the allocation strategy is lowest-price, EC2 Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, EC2 Fleet launches instances from all of the Spot Instance pools that you specify. If the allocation strategy is capacity-optimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotAllocationStrategy?
@@ -33512,11 +30633,6 @@ extension EC2 {
     }
 
     public struct SpotPlacement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "Tenancy", location: .body(locationName: "tenancy"))
-        ]
 
         /// The Availability Zone. [Spot Fleet only] To specify multiple Availability Zones, separate them using commas; for example, "us-west-2a, us-west-2b".
         public let availabilityZone: String?
@@ -33539,13 +30655,6 @@ extension EC2 {
     }
 
     public struct SpotPrice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType")), 
-            AWSShapeMember(label: "ProductDescription", location: .body(locationName: "productDescription")), 
-            AWSShapeMember(label: "SpotPrice", location: .body(locationName: "spotPrice")), 
-            AWSShapeMember(label: "Timestamp", location: .body(locationName: "timestamp"))
-        ]
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -33577,11 +30686,8 @@ extension EC2 {
 
     public struct StaleIpPermission: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FromPort", location: .body(locationName: "fromPort")), 
-            AWSShapeMember(label: "IpProtocol", location: .body(locationName: "ipProtocol")), 
-            AWSShapeMember(label: "IpRanges", location: .body(locationName: "ipRanges"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "PrefixListIds", location: .body(locationName: "prefixListIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ToPort", location: .body(locationName: "toPort")), 
+            AWSShapeMember(label: "IpRanges", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "PrefixListIds", encoding: .list(member:"item")), 
             AWSShapeMember(label: "UserIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
         ]
 
@@ -33619,12 +30725,8 @@ extension EC2 {
 
     public struct StaleSecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "StaleIpPermissions", location: .body(locationName: "staleIpPermissions"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "StaleIpPermissionsEgress", location: .body(locationName: "staleIpPermissionsEgress"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "StaleIpPermissions", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "StaleIpPermissionsEgress", encoding: .list(member:"item"))
         ]
 
         /// The description of the security group.
@@ -33661,8 +30763,6 @@ extension EC2 {
 
     public struct StartInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalInfo", location: .body(locationName: "additionalInfo")), 
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
@@ -33739,10 +30839,6 @@ extension EC2 {
     }
 
     public struct StateReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The reason code for the state change.
         public let code: String?
@@ -33762,8 +30858,6 @@ extension EC2 {
 
     public struct StopInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
-            AWSShapeMember(label: "Force", location: .body(locationName: "force")), 
             AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
@@ -33842,21 +30936,8 @@ extension EC2 {
 
     public struct Subnet: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignIpv6AddressOnCreation", location: .body(locationName: "assignIpv6AddressOnCreation")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "AvailabilityZoneId", location: .body(locationName: "availabilityZoneId")), 
-            AWSShapeMember(label: "AvailableIpAddressCount", location: .body(locationName: "availableIpAddressCount")), 
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock")), 
-            AWSShapeMember(label: "DefaultForAz", location: .body(locationName: "defaultForAz")), 
-            AWSShapeMember(label: "Ipv6CidrBlockAssociationSet", location: .body(locationName: "ipv6CidrBlockAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "MapPublicIpOnLaunch", location: .body(locationName: "mapPublicIpOnLaunch")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "SubnetArn", location: .body(locationName: "subnetArn")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether a network interface created in this subnet (including a network interface created by RunInstances) receives an IPv6 address.
@@ -33928,10 +31009,6 @@ extension EC2 {
     }
 
     public struct SubnetAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"))
-        ]
 
         /// The state of the subnet association.
         public let state: TransitGatewayMulitcastDomainAssociationState?
@@ -33950,10 +31027,6 @@ extension EC2 {
     }
 
     public struct SubnetCidrBlockState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// The state of a CIDR block.
         public let state: SubnetCidrBlockStateCode?
@@ -33972,11 +31045,6 @@ extension EC2 {
     }
 
     public struct SubnetIpv6CidrBlockAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock")), 
-            AWSShapeMember(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"))
-        ]
 
         /// The association ID for the CIDR block.
         public let associationId: String?
@@ -33999,9 +31067,6 @@ extension EC2 {
     }
 
     public struct SuccessfulInstanceCreditSpecificationItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"))
-        ]
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -34016,9 +31081,6 @@ extension EC2 {
     }
 
     public struct SuccessfulQueuedPurchaseDeletion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"))
-        ]
 
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
@@ -34033,10 +31095,6 @@ extension EC2 {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .body(locationName: "key")), 
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws:.
         public let key: String?
@@ -34055,12 +31113,6 @@ extension EC2 {
     }
 
     public struct TagDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .body(locationName: "key")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"))
-        ]
 
         /// The tag key.
         public let key: String?
@@ -34088,7 +31140,6 @@ extension EC2 {
 
     public struct TagSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
         ]
 
@@ -34109,12 +31160,6 @@ extension EC2 {
     }
 
     public struct TargetCapacitySpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultTargetCapacityType", location: .body(locationName: "defaultTargetCapacityType")), 
-            AWSShapeMember(label: "OnDemandTargetCapacity", location: .body(locationName: "onDemandTargetCapacity")), 
-            AWSShapeMember(label: "SpotTargetCapacity", location: .body(locationName: "spotTargetCapacity")), 
-            AWSShapeMember(label: "TotalTargetCapacity", location: .body(locationName: "totalTargetCapacity"))
-        ]
 
         /// The default TotalTargetCapacity, which is either Spot or On-Demand.
         public let defaultTargetCapacityType: DefaultTargetCapacityType?
@@ -34167,10 +31212,6 @@ extension EC2 {
     }
 
     public struct TargetConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCount", location: .body(locationName: "instanceCount")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId"))
-        ]
 
         /// The number of instances the Convertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
         public let instanceCount: Int?
@@ -34207,9 +31248,6 @@ extension EC2 {
     }
 
     public struct TargetGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let arn: String?
@@ -34225,7 +31263,7 @@ extension EC2 {
 
     public struct TargetGroupsConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", location: .body(locationName: "targetGroups"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "TargetGroups", encoding: .list(member:"item"))
         ]
 
         /// One or more target groups.
@@ -34247,12 +31285,7 @@ extension EC2 {
 
     public struct TargetNetwork: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId")), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "TargetNetworkId", location: .body(locationName: "targetNetworkId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "SecurityGroups", encoding: .list(member:"item"))
         ]
 
         /// The ID of the association.
@@ -34288,10 +31321,6 @@ extension EC2 {
     }
 
     public struct TargetReservationValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservationValue", location: .body(locationName: "reservationValue")), 
-            AWSShapeMember(label: "TargetConfiguration", location: .body(locationName: "targetConfiguration"))
-        ]
 
         /// The total value of the Convertible Reserved Instances that make up the exchange. This is the sum of the list value, remaining upfront price, and additional upfront cost of the exchange.
         public let reservationValue: ReservationValue?
@@ -34337,9 +31366,7 @@ extension EC2 {
 
     public struct TerminateClientVpnConnectionsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId")), 
-            AWSShapeMember(label: "ConnectionStatuses", location: .body(locationName: "connectionStatuses"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"))
+            AWSShapeMember(label: "ConnectionStatuses", encoding: .list(member:"item"))
         ]
 
         /// The ID of the Client VPN endpoint.
@@ -34363,11 +31390,6 @@ extension EC2 {
     }
 
     public struct TerminateConnectionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionId", location: .body(locationName: "connectionId")), 
-            AWSShapeMember(label: "CurrentStatus", location: .body(locationName: "currentStatus")), 
-            AWSShapeMember(label: "PreviousStatus", location: .body(locationName: "previousStatus"))
-        ]
 
         /// The ID of the client connection.
         public let connectionId: String?
@@ -34391,7 +31413,6 @@ extension EC2 {
 
     public struct TerminateInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
@@ -34430,12 +31451,10 @@ extension EC2 {
 
     public struct TrafficMirrorFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
             AWSShapeMember(label: "EgressFilterRules", location: .body(locationName: "egressFilterRuleSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "IngressFilterRules", location: .body(locationName: "ingressFilterRuleSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "NetworkServices", location: .body(locationName: "networkServiceSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The description of the Traffic Mirror filter.
@@ -34472,17 +31491,7 @@ extension EC2 {
 
     public struct TrafficMirrorFilterRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "DestinationPortRange", location: .body(locationName: "destinationPortRange")), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSShapeMember(label: "RuleAction", location: .body(locationName: "ruleAction")), 
-            AWSShapeMember(label: "RuleNumber", location: .body(locationName: "ruleNumber")), 
-            AWSShapeMember(label: "SourceCidrBlock", location: .body(locationName: "sourceCidrBlock")), 
-            AWSShapeMember(label: "SourcePortRange", location: .body(locationName: "sourcePortRange")), 
-            AWSShapeMember(label: "TrafficDirection", location: .body(locationName: "trafficDirection")), 
-            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId")), 
-            AWSShapeMember(label: "TrafficMirrorFilterRuleId", location: .body(locationName: "trafficMirrorFilterRuleId"))
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// The description of the Traffic Mirror rule.
@@ -34538,10 +31547,6 @@ extension EC2 {
     }
 
     public struct TrafficMirrorPortRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FromPort", location: .body(locationName: "fromPort")), 
-            AWSShapeMember(label: "ToPort", location: .body(locationName: "toPort"))
-        ]
 
         /// The start of the Traffic Mirror port range. This applies to the TCP and UDP protocols.
         public let fromPort: Int?
@@ -34579,16 +31584,7 @@ extension EC2 {
 
     public struct TrafficMirrorSession: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "PacketLength", location: .body(locationName: "packetLength")), 
-            AWSShapeMember(label: "SessionNumber", location: .body(locationName: "sessionNumber")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId")), 
-            AWSShapeMember(label: "TrafficMirrorSessionId", location: .body(locationName: "trafficMirrorSessionId")), 
-            AWSShapeMember(label: "TrafficMirrorTargetId", location: .body(locationName: "trafficMirrorTargetId")), 
-            AWSShapeMember(label: "VirtualNetworkId", location: .body(locationName: "virtualNetworkId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The description of the Traffic Mirror session.
@@ -34641,12 +31637,7 @@ extension EC2 {
 
     public struct TrafficMirrorTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "NetworkLoadBalancerArn", location: .body(locationName: "networkLoadBalancerArn")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TrafficMirrorTargetId", location: .body(locationName: "trafficMirrorTargetId")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -34688,14 +31679,7 @@ extension EC2 {
 
     public struct TransitGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "Options", location: .body(locationName: "options")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayArn", location: .body(locationName: "transitGatewayArn")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The creation time.
@@ -34739,13 +31723,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId")), 
-            AWSShapeMember(label: "TransitGatewayRouteTableId", location: .body(locationName: "transitGatewayRouteTableId"))
-        ]
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -34777,16 +31754,7 @@ extension EC2 {
 
     public struct TransitGatewayAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Association", location: .body(locationName: "association")), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceOwnerId", location: .body(locationName: "resourceOwnerId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId")), 
-            AWSShapeMember(label: "TransitGatewayOwnerId", location: .body(locationName: "transitGatewayOwnerId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The association.
@@ -34838,10 +31806,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayAttachmentAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayRouteTableId", location: .body(locationName: "transitGatewayRouteTableId"))
-        ]
 
         /// The state of the association.
         public let state: TransitGatewayAssociationState?
@@ -34860,10 +31824,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayAttachmentPropagation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayRouteTableId", location: .body(locationName: "transitGatewayRouteTableId"))
-        ]
 
         /// The state of the propagation route table.
         public let state: TransitGatewayPropagationState?
@@ -34883,9 +31843,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDeregisteredGroupMembers: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeregisteredNetworkInterfaceIds", location: .body(locationName: "deregisteredNetworkInterfaceIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "GroupIpAddress", location: .body(locationName: "groupIpAddress")), 
-            AWSShapeMember(label: "TransitGatewayMulticastDomainId", location: .body(locationName: "transitGatewayMulticastDomainId"))
+            AWSShapeMember(label: "DeregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The network interface IDs of the deregistered members.
@@ -34910,9 +31868,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDeregisteredGroupSources: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeregisteredNetworkInterfaceIds", location: .body(locationName: "deregisteredNetworkInterfaceIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "GroupIpAddress", location: .body(locationName: "groupIpAddress")), 
-            AWSShapeMember(label: "TransitGatewayMulticastDomainId", location: .body(locationName: "transitGatewayMulticastDomainId"))
+            AWSShapeMember(label: "DeregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The network interface IDs of the non-registered members.
@@ -34937,11 +31893,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDomain: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId")), 
-            AWSShapeMember(label: "TransitGatewayMulticastDomainId", location: .body(locationName: "transitGatewayMulticastDomainId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The time the transit gateway multicast domain was created.
@@ -34973,12 +31925,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastDomainAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "Subnet", location: .body(locationName: "subnet")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId"))
-        ]
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -35006,11 +31952,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDomainAssociations: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "Subnets", location: .body(locationName: "subnets"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId")), 
-            AWSShapeMember(label: "TransitGatewayMulticastDomainId", location: .body(locationName: "transitGatewayMulticastDomainId"))
+            AWSShapeMember(label: "Subnets", encoding: .list(member:"item"))
         ]
 
         /// The ID of the resource.
@@ -35042,18 +31984,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupIpAddress", location: .body(locationName: "groupIpAddress")), 
-            AWSShapeMember(label: "GroupMember", location: .body(locationName: "groupMember")), 
-            AWSShapeMember(label: "GroupSource", location: .body(locationName: "groupSource")), 
-            AWSShapeMember(label: "MemberType", location: .body(locationName: "memberType")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "SourceType", location: .body(locationName: "sourceType")), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId"))
-        ]
 
         /// The IP address assigned to the transit gateway multicast group.
         public let groupIpAddress: String?
@@ -35105,9 +32035,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastRegisteredGroupMembers: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupIpAddress", location: .body(locationName: "groupIpAddress")), 
-            AWSShapeMember(label: "RegisteredNetworkInterfaceIds", location: .body(locationName: "registeredNetworkInterfaceIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayMulticastDomainId", location: .body(locationName: "transitGatewayMulticastDomainId"))
+            AWSShapeMember(label: "RegisteredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The IP address assigned to the transit gateway multicast group.
@@ -35132,9 +32060,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastRegisteredGroupSources: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupIpAddress", location: .body(locationName: "groupIpAddress")), 
-            AWSShapeMember(label: "RegisteredNetworkInterfaceIds", location: .body(locationName: "registeredNetworkInterfaceIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayMulticastDomainId", location: .body(locationName: "transitGatewayMulticastDomainId"))
+            AWSShapeMember(label: "RegisteredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The IP address assigned to the transit gateway multicast group.
@@ -35158,17 +32084,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmazonSideAsn", location: .body(locationName: "amazonSideAsn")), 
-            AWSShapeMember(label: "AssociationDefaultRouteTableId", location: .body(locationName: "associationDefaultRouteTableId")), 
-            AWSShapeMember(label: "AutoAcceptSharedAttachments", location: .body(locationName: "autoAcceptSharedAttachments")), 
-            AWSShapeMember(label: "DefaultRouteTableAssociation", location: .body(locationName: "defaultRouteTableAssociation")), 
-            AWSShapeMember(label: "DefaultRouteTablePropagation", location: .body(locationName: "defaultRouteTablePropagation")), 
-            AWSShapeMember(label: "DnsSupport", location: .body(locationName: "dnsSupport")), 
-            AWSShapeMember(label: "MulticastSupport", location: .body(locationName: "multicastSupport")), 
-            AWSShapeMember(label: "PropagationDefaultRouteTableId", location: .body(locationName: "propagationDefaultRouteTableId")), 
-            AWSShapeMember(label: "VpnEcmpSupport", location: .body(locationName: "vpnEcmpSupport"))
-        ]
 
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs.
         public let amazonSideAsn: Int64?
@@ -35216,13 +32131,7 @@ extension EC2 {
 
     public struct TransitGatewayPeeringAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccepterTgwInfo", location: .body(locationName: "accepterTgwInfo")), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "RequesterTgwInfo", location: .body(locationName: "requesterTgwInfo")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the accepter transit gateway.
@@ -35262,13 +32171,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayPropagation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId")), 
-            AWSShapeMember(label: "TransitGatewayRouteTableId", location: .body(locationName: "transitGatewayRouteTableId"))
-        ]
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -35338,9 +32240,7 @@ extension EC2 {
 
     public struct TransitGatewayRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayAttachments", location: .body(locationName: "transitGatewayAttachments"), encoding: .list(member:"item")), 
+            AWSShapeMember(label: "TransitGatewayAttachments", encoding: .list(member:"item")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -35369,11 +32269,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayRouteAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId"))
-        ]
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -35397,13 +32292,7 @@ extension EC2 {
 
     public struct TransitGatewayRouteTable: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "DefaultAssociationRouteTable", location: .body(locationName: "defaultAssociationRouteTable")), 
-            AWSShapeMember(label: "DefaultPropagationRouteTable", location: .body(locationName: "defaultPropagationRouteTable")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId")), 
-            AWSShapeMember(label: "TransitGatewayRouteTableId", location: .body(locationName: "transitGatewayRouteTableId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The creation time.
@@ -35443,12 +32332,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayRouteTableAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId"))
-        ]
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -35475,12 +32358,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayRouteTablePropagation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId"))
-        ]
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -35508,15 +32385,8 @@ extension EC2 {
 
     public struct TransitGatewayVpcAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime")), 
-            AWSShapeMember(label: "Options", location: .body(locationName: "options")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayAttachmentId", location: .body(locationName: "transitGatewayAttachmentId")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId")), 
-            AWSShapeMember(label: "VpcOwnerId", location: .body(locationName: "vpcOwnerId"))
+            AWSShapeMember(label: "SubnetIds", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The creation time.
@@ -35564,10 +32434,6 @@ extension EC2 {
     }
 
     public struct TransitGatewayVpcAttachmentOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsSupport", location: .body(locationName: "dnsSupport")), 
-            AWSShapeMember(label: "Ipv6Support", location: .body(locationName: "ipv6Support"))
-        ]
 
         /// Indicates whether DNS support is enabled.
         public let dnsSupport: DnsSupportValue?
@@ -35587,22 +32453,13 @@ extension EC2 {
 
     public struct TunnelOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DpdTimeoutSeconds", location: .body(locationName: "dpdTimeoutSeconds")), 
             AWSShapeMember(label: "IkeVersions", location: .body(locationName: "ikeVersionSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OutsideIpAddress", location: .body(locationName: "outsideIpAddress")), 
             AWSShapeMember(label: "Phase1DHGroupNumbers", location: .body(locationName: "phase1DHGroupNumberSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Phase1EncryptionAlgorithms", location: .body(locationName: "phase1EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Phase1IntegrityAlgorithms", location: .body(locationName: "phase1IntegrityAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Phase1LifetimeSeconds", location: .body(locationName: "phase1LifetimeSeconds")), 
             AWSShapeMember(label: "Phase2DHGroupNumbers", location: .body(locationName: "phase2DHGroupNumberSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Phase2EncryptionAlgorithms", location: .body(locationName: "phase2EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Phase2IntegrityAlgorithms", location: .body(locationName: "phase2IntegrityAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Phase2LifetimeSeconds", location: .body(locationName: "phase2LifetimeSeconds")), 
-            AWSShapeMember(label: "PreSharedKey", location: .body(locationName: "preSharedKey")), 
-            AWSShapeMember(label: "RekeyFuzzPercentage", location: .body(locationName: "rekeyFuzzPercentage")), 
-            AWSShapeMember(label: "RekeyMarginTimeSeconds", location: .body(locationName: "rekeyMarginTimeSeconds")), 
-            AWSShapeMember(label: "ReplayWindowSize", location: .body(locationName: "replayWindowSize")), 
-            AWSShapeMember(label: "TunnelInsideCidr", location: .body(locationName: "tunnelInsideCidr"))
+            AWSShapeMember(label: "Phase2IntegrityAlgorithms", location: .body(locationName: "phase2IntegrityAlgorithmSet"), encoding: .list(member:"item"))
         ]
 
         /// The number of seconds after which a DPD timeout occurs.
@@ -35679,8 +32536,7 @@ extension EC2 {
 
     public struct UnassignIpv6AddressesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
+            AWSShapeMember(label: "Ipv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The IPv6 addresses to unassign from the network interface.
@@ -35701,8 +32557,7 @@ extension EC2 {
 
     public struct UnassignIpv6AddressesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
-            AWSShapeMember(label: "UnassignedIpv6Addresses", location: .body(locationName: "unassignedIpv6Addresses"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "UnassignedIpv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The ID of the network interface.
@@ -35723,7 +32578,6 @@ extension EC2 {
 
     public struct UnassignPrivateIpAddressesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId")), 
             AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
         ]
 
@@ -35745,7 +32599,6 @@ extension EC2 {
 
     public struct UnmonitorInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun")), 
             AWSShapeMember(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
@@ -35783,10 +32636,6 @@ extension EC2 {
     }
 
     public struct UnsuccessfulInstanceCreditSpecificationItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", location: .body(locationName: "error")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"))
-        ]
 
         /// The applicable error for the burstable performance instance whose credit option for CPU usage was not modified.
         public let error: UnsuccessfulInstanceCreditSpecificationItemError?
@@ -35805,10 +32654,6 @@ extension EC2 {
     }
 
     public struct UnsuccessfulInstanceCreditSpecificationItemError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: UnsuccessfulInstanceCreditSpecificationErrorCode?
@@ -35827,10 +32672,6 @@ extension EC2 {
     }
 
     public struct UnsuccessfulItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", location: .body(locationName: "error")), 
-            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"))
-        ]
 
         /// Information about the error.
         public let error: UnsuccessfulItemError?
@@ -35849,10 +32690,6 @@ extension EC2 {
     }
 
     public struct UnsuccessfulItemError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The error code.
         public let code: String?
@@ -35981,10 +32818,6 @@ extension EC2 {
     }
 
     public struct UserBucketDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", location: .body(locationName: "s3Bucket")), 
-            AWSShapeMember(label: "S3Key", location: .body(locationName: "s3Key"))
-        ]
 
         /// The S3 bucket from which the disk image was created.
         public let s3Bucket: String?
@@ -36003,9 +32836,6 @@ extension EC2 {
     }
 
     public struct UserData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", location: .body(locationName: "data"))
-        ]
 
         /// The user data. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
         public let data: String?
@@ -36020,15 +32850,6 @@ extension EC2 {
     }
 
     public struct UserIdGroupPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId")), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName")), 
-            AWSShapeMember(label: "PeeringStatus", location: .body(locationName: "peeringStatus")), 
-            AWSShapeMember(label: "UserId", location: .body(locationName: "userId")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
-        ]
 
         /// A description for the security group rule that references this user ID group pair. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=;{}!$*
         public let description: String?
@@ -36068,11 +32889,8 @@ extension EC2 {
 
     public struct VCpuInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultCores", location: .body(locationName: "defaultCores")), 
-            AWSShapeMember(label: "DefaultThreadsPerCore", location: .body(locationName: "defaultThreadsPerCore")), 
-            AWSShapeMember(label: "DefaultVCpus", location: .body(locationName: "defaultVCpus")), 
-            AWSShapeMember(label: "ValidCores", location: .body(locationName: "validCores"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ValidThreadsPerCore", location: .body(locationName: "validThreadsPerCore"), encoding: .list(member:"item"))
+            AWSShapeMember(label: "ValidCores", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "ValidThreadsPerCore", encoding: .list(member:"item"))
         ]
 
         /// The default number of cores for the instance type.
@@ -36104,14 +32922,6 @@ extension EC2 {
     }
 
     public struct VgwTelemetry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptedRouteCount", location: .body(locationName: "acceptedRouteCount")), 
-            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn")), 
-            AWSShapeMember(label: "LastStatusChange", location: .body(locationName: "lastStatusChange")), 
-            AWSShapeMember(label: "OutsideIpAddress", location: .body(locationName: "outsideIpAddress")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// The number of accepted routes.
         public let acceptedRouteCount: Int?
@@ -36148,19 +32958,8 @@ extension EC2 {
     public struct Volume: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "CreateTime", location: .body(locationName: "createTime")), 
-            AWSShapeMember(label: "Encrypted", location: .body(locationName: "encrypted")), 
-            AWSShapeMember(label: "FastRestored", location: .body(locationName: "fastRestored")), 
-            AWSShapeMember(label: "Iops", location: .body(locationName: "iops")), 
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "Size", location: .body(locationName: "size")), 
-            AWSShapeMember(label: "SnapshotId", location: .body(locationName: "snapshotId")), 
             AWSShapeMember(label: "State", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId")), 
-            AWSShapeMember(label: "VolumeType", location: .body(locationName: "volumeType"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the volume attachments.
@@ -36229,12 +33028,7 @@ extension EC2 {
 
     public struct VolumeAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachTime", location: .body(locationName: "attachTime")), 
-            AWSShapeMember(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination")), 
-            AWSShapeMember(label: "Device", location: .body(locationName: "device")), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId"))
+            AWSShapeMember(label: "State", location: .body(locationName: "status"))
         ]
 
         /// The time stamp when the attachment initiated.
@@ -36270,9 +33064,6 @@ extension EC2 {
     }
 
     public struct VolumeDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", location: .body(locationName: "size"))
-        ]
 
         /// The size of the volume, in GiB.
         public let size: Int64
@@ -36287,20 +33078,6 @@ extension EC2 {
     }
 
     public struct VolumeModification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime")), 
-            AWSShapeMember(label: "ModificationState", location: .body(locationName: "modificationState")), 
-            AWSShapeMember(label: "OriginalIops", location: .body(locationName: "originalIops")), 
-            AWSShapeMember(label: "OriginalSize", location: .body(locationName: "originalSize")), 
-            AWSShapeMember(label: "OriginalVolumeType", location: .body(locationName: "originalVolumeType")), 
-            AWSShapeMember(label: "Progress", location: .body(locationName: "progress")), 
-            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage")), 
-            AWSShapeMember(label: "TargetIops", location: .body(locationName: "targetIops")), 
-            AWSShapeMember(label: "TargetSize", location: .body(locationName: "targetSize")), 
-            AWSShapeMember(label: "TargetVolumeType", location: .body(locationName: "targetVolumeType")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId"))
-        ]
 
         /// The modification completion or failure time.
         public let endTime: TimeStamp?
@@ -36359,12 +33136,6 @@ extension EC2 {
     }
 
     public struct VolumeStatusAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "EventId", location: .body(locationName: "eventId")), 
-            AWSShapeMember(label: "EventType", location: .body(locationName: "eventType"))
-        ]
 
         /// The code identifying the operation, for example, enable-volume-io.
         public let code: String?
@@ -36391,10 +33162,6 @@ extension EC2 {
     }
 
     public struct VolumeStatusDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
-        ]
 
         /// The name of the volume status.
         public let name: VolumeStatusName?
@@ -36413,13 +33180,6 @@ extension EC2 {
     }
 
     public struct VolumeStatusEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description")), 
-            AWSShapeMember(label: "EventId", location: .body(locationName: "eventId")), 
-            AWSShapeMember(label: "EventType", location: .body(locationName: "eventType")), 
-            AWSShapeMember(label: "NotAfter", location: .body(locationName: "notAfter")), 
-            AWSShapeMember(label: "NotBefore", location: .body(locationName: "notBefore"))
-        ]
 
         /// A description of the event.
         public let description: String?
@@ -36451,8 +33211,7 @@ extension EC2 {
 
     public struct VolumeStatusInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", location: .body(locationName: "details"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"))
+            AWSShapeMember(label: "Details", encoding: .list(member:"item"))
         ]
 
         /// The details of the volume status.
@@ -36474,11 +33233,7 @@ extension EC2 {
     public struct VolumeStatusItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Actions", location: .body(locationName: "actionsSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn")), 
-            AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId")), 
-            AWSShapeMember(label: "VolumeStatus", location: .body(locationName: "volumeStatus"))
+            AWSShapeMember(label: "Events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
         ]
 
         /// The details of the operation.
@@ -36515,16 +33270,9 @@ extension EC2 {
 
     public struct Vpc: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock")), 
-            AWSShapeMember(label: "CidrBlockAssociationSet", location: .body(locationName: "cidrBlockAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "DhcpOptionsId", location: .body(locationName: "dhcpOptionsId")), 
-            AWSShapeMember(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy")), 
-            AWSShapeMember(label: "Ipv6CidrBlockAssociationSet", location: .body(locationName: "ipv6CidrBlockAssociationSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "IsDefault", location: .body(locationName: "isDefault")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "CidrBlockAssociationSet", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The primary IPv4 CIDR block for the VPC.
@@ -36576,10 +33324,6 @@ extension EC2 {
     }
 
     public struct VpcAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
-        ]
 
         /// The current state of the attachment.
         public let state: AttachmentStatus?
@@ -36598,11 +33342,6 @@ extension EC2 {
     }
 
     public struct VpcCidrBlockAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock")), 
-            AWSShapeMember(label: "CidrBlockState", location: .body(locationName: "cidrBlockState"))
-        ]
 
         /// The association ID for the IPv4 CIDR block.
         public let associationId: String?
@@ -36625,10 +33364,6 @@ extension EC2 {
     }
 
     public struct VpcCidrBlockState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"))
-        ]
 
         /// The state of the CIDR block.
         public let state: VpcCidrBlockStateCode?
@@ -36648,9 +33383,7 @@ extension EC2 {
 
     public struct VpcClassicLink: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClassicLinkEnabled", location: .body(locationName: "classicLinkEnabled")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether the VPC is enabled for ClassicLink.
@@ -36675,23 +33408,12 @@ extension EC2 {
 
     public struct VpcEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", location: .body(locationName: "creationTimestamp")), 
             AWSShapeMember(label: "DnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "LastError", location: .body(locationName: "lastError")), 
             AWSShapeMember(label: "NetworkInterfaceIds", location: .body(locationName: "networkInterfaceIdSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "PolicyDocument", location: .body(locationName: "policyDocument")), 
-            AWSShapeMember(label: "PrivateDnsEnabled", location: .body(locationName: "privateDnsEnabled")), 
-            AWSShapeMember(label: "RequesterManaged", location: .body(locationName: "requesterManaged")), 
             AWSShapeMember(label: "RouteTableIds", location: .body(locationName: "routeTableIdSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIdSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcEndpointId", location: .body(locationName: "vpcEndpointId")), 
-            AWSShapeMember(label: "VpcEndpointType", location: .body(locationName: "vpcEndpointType")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The date and time that the VPC endpoint was created.
@@ -36772,13 +33494,8 @@ extension EC2 {
 
     public struct VpcEndpointConnection: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", location: .body(locationName: "creationTimestamp")), 
             AWSShapeMember(label: "DnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "NetworkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "ServiceId", location: .body(locationName: "serviceId")), 
-            AWSShapeMember(label: "VpcEndpointId", location: .body(locationName: "vpcEndpointId")), 
-            AWSShapeMember(label: "VpcEndpointOwner", location: .body(locationName: "vpcEndpointOwner")), 
-            AWSShapeMember(label: "VpcEndpointState", location: .body(locationName: "vpcEndpointState"))
+            AWSShapeMember(label: "NetworkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item"))
         ]
 
         /// The date and time that the VPC endpoint was created.
@@ -36818,13 +33535,6 @@ extension EC2 {
     }
 
     public struct VpcIpv6CidrBlockAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociationId", location: .body(locationName: "associationId")), 
-            AWSShapeMember(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock")), 
-            AWSShapeMember(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState")), 
-            AWSShapeMember(label: "Ipv6Pool", location: .body(locationName: "ipv6Pool")), 
-            AWSShapeMember(label: "NetworkBorderGroup", location: .body(locationName: "networkBorderGroup"))
-        ]
 
         /// The association ID for the IPv6 CIDR block.
         public let associationId: String?
@@ -36856,12 +33566,7 @@ extension EC2 {
 
     public struct VpcPeeringConnection: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccepterVpcInfo", location: .body(locationName: "accepterVpcInfo")), 
-            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime")), 
-            AWSShapeMember(label: "RequesterVpcInfo", location: .body(locationName: "requesterVpcInfo")), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"))
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the accepter VPC. CIDR block information is only returned when describing an active VPC peering connection.
@@ -36897,11 +33602,6 @@ extension EC2 {
     }
 
     public struct VpcPeeringConnectionOptionsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc")), 
-            AWSShapeMember(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc")), 
-            AWSShapeMember(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: .body(locationName: "allowEgressFromLocalVpcToRemoteClassicLink"))
-        ]
 
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
         public let allowDnsResolutionFromRemoteVpc: Bool?
@@ -36924,10 +33624,6 @@ extension EC2 {
     }
 
     public struct VpcPeeringConnectionStateReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code")), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// The status of the VPC peering connection.
         public let code: VpcPeeringConnectionStateReasonCode?
@@ -36947,13 +33643,8 @@ extension EC2 {
 
     public struct VpcPeeringConnectionVpcInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CidrBlock", location: .body(locationName: "cidrBlock")), 
-            AWSShapeMember(label: "CidrBlockSet", location: .body(locationName: "cidrBlockSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "Ipv6CidrBlockSet", location: .body(locationName: "ipv6CidrBlockSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId")), 
-            AWSShapeMember(label: "PeeringOptions", location: .body(locationName: "peeringOptions")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"))
+            AWSShapeMember(label: "CidrBlockSet", encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Ipv6CidrBlockSet", encoding: .list(member:"item"))
         ]
 
         /// The IPv4 CIDR block for the VPC.
@@ -36994,18 +33685,10 @@ extension EC2 {
 
     public struct VpnConnection: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Category", location: .body(locationName: "category")), 
-            AWSShapeMember(label: "CustomerGatewayConfiguration", location: .body(locationName: "customerGatewayConfiguration")), 
-            AWSShapeMember(label: "CustomerGatewayId", location: .body(locationName: "customerGatewayId")), 
-            AWSShapeMember(label: "Options", location: .body(locationName: "options")), 
-            AWSShapeMember(label: "Routes", location: .body(locationName: "routes"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
+            AWSShapeMember(label: "Routes", encoding: .list(member:"item")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "TransitGatewayId", location: .body(locationName: "transitGatewayId")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "VgwTelemetry", location: .body(locationName: "vgwTelemetry"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpnConnectionId", location: .body(locationName: "vpnConnectionId")), 
-            AWSShapeMember(label: "VpnGatewayId", location: .body(locationName: "vpnGatewayId"))
+            AWSShapeMember(label: "VgwTelemetry", encoding: .list(member:"item"))
         ]
 
         /// The category of the VPN connection. A value of VPN indicates an AWS VPN connection. A value of VPN-Classic indicates an AWS Classic VPN connection.
@@ -37066,8 +33749,6 @@ extension EC2 {
 
     public struct VpnConnectionOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableAcceleration", location: .body(locationName: "enableAcceleration")), 
-            AWSShapeMember(label: "StaticRoutesOnly", location: .body(locationName: "staticRoutesOnly")), 
             AWSShapeMember(label: "TunnelOptions", location: .body(locationName: "tunnelOptionSet"), encoding: .list(member:"item"))
         ]
 
@@ -37093,7 +33774,6 @@ extension EC2 {
 
     public struct VpnConnectionOptionsSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StaticRoutesOnly", location: .body(locationName: "staticRoutesOnly")), 
             AWSShapeMember(label: "TunnelOptions", encoding: .list(member:"member"))
         ]
 
@@ -37119,13 +33799,9 @@ extension EC2 {
 
     public struct VpnGateway: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmazonSideAsn", location: .body(locationName: "amazonSideAsn")), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "VpcAttachments", location: .body(locationName: "attachments"), encoding: .list(member:"item")), 
-            AWSShapeMember(label: "VpnGatewayId", location: .body(locationName: "vpnGatewayId"))
+            AWSShapeMember(label: "VpcAttachments", location: .body(locationName: "attachments"), encoding: .list(member:"item"))
         ]
 
         /// The private Autonomous System Number (ASN) for the Amazon side of a BGP session.
@@ -37165,11 +33841,6 @@ extension EC2 {
     }
 
     public struct VpnStaticRoute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock")), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// The CIDR block associated with the local subnet of the customer data center.
         public let destinationCidrBlock: String?
@@ -37289,9 +33960,6 @@ extension EC2 {
     }
 
     public struct WithdrawByoipCidrResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ByoipCidr", location: .body(locationName: "byoipCidr"))
-        ]
 
         /// Information about the address pool.
         public let byoipCidr: ByoipCidr?

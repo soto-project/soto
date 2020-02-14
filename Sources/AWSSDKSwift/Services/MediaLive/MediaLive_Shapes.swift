@@ -1417,17 +1417,6 @@ extension MediaLive {
     //MARK: Shapes
 
     public struct AacSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
-            AWSShapeMember(label: "InputType", location: .body(locationName: "inputType")), 
-            AWSShapeMember(label: "Profile", location: .body(locationName: "profile")), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
-            AWSShapeMember(label: "RawFormat", location: .body(locationName: "rawFormat")), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate")), 
-            AWSShapeMember(label: "Spec", location: .body(locationName: "spec")), 
-            AWSShapeMember(label: "VbrQuality", location: .body(locationName: "vbrQuality"))
-        ]
 
         /// Average bitrate in bits/second. Valid values depend on rate control mode and profile.
         public let bitrate: Double?
@@ -1475,15 +1464,6 @@ extension MediaLive {
     }
 
     public struct Ac3Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
-            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode")), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
-            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm")), 
-            AWSShapeMember(label: "DrcProfile", location: .body(locationName: "drcProfile")), 
-            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter")), 
-            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl"))
-        ]
 
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
         public let bitrate: Double?
@@ -1527,9 +1507,6 @@ extension MediaLive {
     }
 
     public struct ArchiveContainerSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"))
-        ]
 
         public let m2tsSettings: M2tsSettings?
 
@@ -1547,10 +1524,6 @@ extension MediaLive {
     }
 
     public struct ArchiveGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "RolloverInterval", location: .body(locationName: "rolloverInterval"))
-        ]
 
         /// A directory and base filename where archive files should be written.
         public let destination: OutputLocationRef
@@ -1574,9 +1547,7 @@ extension MediaLive {
 
     public struct ArchiveOutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings")), 
-            AWSShapeMember(label: "Extension", location: .body(locationName: "extension")), 
-            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"))
+            AWSShapeMember(label: "Extension", location: .body(locationName: "extension"))
         ]
 
         /// Settings specific to the container type of the file.
@@ -1620,10 +1591,6 @@ extension MediaLive {
     }
 
     public struct AudioChannelMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputChannelLevels", location: .body(locationName: "inputChannelLevels")), 
-            AWSShapeMember(label: "OutputChannel", location: .body(locationName: "outputChannel"))
-        ]
 
         /// Indices and gain values for each input channel that should be remixed into this output channel.
         public let inputChannelLevels: [InputChannelLevel]
@@ -1650,13 +1617,6 @@ extension MediaLive {
     }
 
     public struct AudioCodecSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AacSettings", location: .body(locationName: "aacSettings")), 
-            AWSShapeMember(label: "Ac3Settings", location: .body(locationName: "ac3Settings")), 
-            AWSShapeMember(label: "Eac3Settings", location: .body(locationName: "eac3Settings")), 
-            AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings")), 
-            AWSShapeMember(label: "PassThroughSettings", location: .body(locationName: "passThroughSettings"))
-        ]
 
         public let aacSettings: AacSettings?
         public let ac3Settings: Ac3Settings?
@@ -1687,18 +1647,6 @@ extension MediaLive {
     }
 
     public struct AudioDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioNormalizationSettings", location: .body(locationName: "audioNormalizationSettings")), 
-            AWSShapeMember(label: "AudioSelectorName", location: .body(locationName: "audioSelectorName")), 
-            AWSShapeMember(label: "AudioType", location: .body(locationName: "audioType")), 
-            AWSShapeMember(label: "AudioTypeControl", location: .body(locationName: "audioTypeControl")), 
-            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings")), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
-            AWSShapeMember(label: "LanguageCodeControl", location: .body(locationName: "languageCodeControl")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RemixSettings", location: .body(locationName: "remixSettings")), 
-            AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"))
-        ]
 
         /// Advanced audio normalization settings.
         public let audioNormalizationSettings: AudioNormalizationSettings?
@@ -1759,10 +1707,6 @@ extension MediaLive {
     }
 
     public struct AudioLanguageSelection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
-            AWSShapeMember(label: "LanguageSelectionPolicy", location: .body(locationName: "languageSelectionPolicy"))
-        ]
 
         /// Selects a specific three-letter language code from within an audio source.
         public let languageCode: String
@@ -1781,11 +1725,6 @@ extension MediaLive {
     }
 
     public struct AudioNormalizationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm")), 
-            AWSShapeMember(label: "AlgorithmControl", location: .body(locationName: "algorithmControl")), 
-            AWSShapeMember(label: "TargetLkfs", location: .body(locationName: "targetLkfs"))
-        ]
 
         /// Audio normalization algorithm to use. itu17701 conforms to the CALM Act specification, itu17702 conforms to the EBU R-128 specification.
         public let algorithm: AudioNormalizationAlgorithm?
@@ -1808,12 +1747,6 @@ extension MediaLive {
     }
 
     public struct AudioOnlyHlsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId")), 
-            AWSShapeMember(label: "AudioOnlyImage", location: .body(locationName: "audioOnlyImage")), 
-            AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType")), 
-            AWSShapeMember(label: "SegmentType", location: .body(locationName: "segmentType"))
-        ]
 
         /// Specifies the group to which the audio Rendition belongs.
         public let audioGroupId: String?
@@ -1849,9 +1782,6 @@ extension MediaLive {
     }
 
     public struct AudioPidSelection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"))
-        ]
 
         /// Selects a specific PID from within a source.
         public let pid: Int
@@ -1871,10 +1801,6 @@ extension MediaLive {
     }
 
     public struct AudioSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"))
-        ]
 
         /// The name of this AudioSelector. AudioDescriptions will use this name to uniquely identify this Selector.  Selector names should be unique per input.
         public let name: String
@@ -1898,10 +1824,6 @@ extension MediaLive {
     }
 
     public struct AudioSelectorSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioLanguageSelection", location: .body(locationName: "audioLanguageSelection")), 
-            AWSShapeMember(label: "AudioPidSelection", location: .body(locationName: "audioPidSelection"))
-        ]
 
         public let audioLanguageSelection: AudioLanguageSelection?
         public let audioPidSelection: AudioPidSelection?
@@ -1922,10 +1844,6 @@ extension MediaLive {
     }
 
     public struct AvailBlanking: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailBlankingImage", location: .body(locationName: "availBlankingImage")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let availBlankingImage: InputLocation?
@@ -1944,9 +1862,6 @@ extension MediaLive {
     }
 
     public struct AvailConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailSettings", location: .body(locationName: "availSettings"))
-        ]
 
         /// Ad avail settings.
         public let availSettings: AvailSettings?
@@ -1965,10 +1880,6 @@ extension MediaLive {
     }
 
     public struct AvailSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scte35SpliceInsert", location: .body(locationName: "scte35SpliceInsert")), 
-            AWSShapeMember(label: "Scte35TimeSignalApos", location: .body(locationName: "scte35TimeSignalApos"))
-        ]
 
         public let scte35SpliceInsert: Scte35SpliceInsert?
         public let scte35TimeSignalApos: Scte35TimeSignalApos?
@@ -1990,9 +1901,6 @@ extension MediaLive {
     }
 
     public struct BatchScheduleActionCreateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"))
-        ]
 
         /// A list of schedule actions to create.
         public let scheduleActions: [ScheduleAction]
@@ -2013,9 +1921,6 @@ extension MediaLive {
     }
 
     public struct BatchScheduleActionCreateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"))
-        ]
 
         /// List of actions that have been created in the schedule.
         public let scheduleActions: [ScheduleAction]
@@ -2030,9 +1935,6 @@ extension MediaLive {
     }
 
     public struct BatchScheduleActionDeleteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionNames", location: .body(locationName: "actionNames"))
-        ]
 
         /// A list of schedule actions to delete.
         public let actionNames: [String]
@@ -2047,9 +1949,6 @@ extension MediaLive {
     }
 
     public struct BatchScheduleActionDeleteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"))
-        ]
 
         /// List of actions that have been deleted from the schedule.
         public let scheduleActions: [ScheduleAction]
@@ -2065,9 +1964,7 @@ extension MediaLive {
 
     public struct BatchUpdateScheduleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId")), 
-            AWSShapeMember(label: "Creates", location: .body(locationName: "creates")), 
-            AWSShapeMember(label: "Deletes", location: .body(locationName: "deletes"))
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -2094,10 +1991,6 @@ extension MediaLive {
     }
 
     public struct BatchUpdateScheduleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Creates", location: .body(locationName: "creates")), 
-            AWSShapeMember(label: "Deletes", location: .body(locationName: "deletes"))
-        ]
 
         public let creates: BatchScheduleActionCreateResult?
         public let deletes: BatchScheduleActionDeleteResult?
@@ -2114,13 +2007,6 @@ extension MediaLive {
     }
 
     public struct BlackoutSlate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlackoutSlateImage", location: .body(locationName: "blackoutSlateImage")), 
-            AWSShapeMember(label: "NetworkEndBlackout", location: .body(locationName: "networkEndBlackout")), 
-            AWSShapeMember(label: "NetworkEndBlackoutImage", location: .body(locationName: "networkEndBlackoutImage")), 
-            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"))
-        ]
 
         /// Blackout slate image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let blackoutSlateImage: InputLocation?
@@ -2156,25 +2042,6 @@ extension MediaLive {
     }
 
     public struct BurnInDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment")), 
-            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor")), 
-            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity")), 
-            AWSShapeMember(label: "Font", location: .body(locationName: "font")), 
-            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor")), 
-            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity")), 
-            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution")), 
-            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize")), 
-            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor")), 
-            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize")), 
-            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor")), 
-            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity")), 
-            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset")), 
-            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset")), 
-            AWSShapeMember(label: "TeletextGridControl", location: .body(locationName: "teletextGridControl")), 
-            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition")), 
-            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"))
-        ]
 
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  All burn-in and DVB-Sub font settings must match.
         public let alignment: BurnInAlignment?
@@ -2268,13 +2135,6 @@ extension MediaLive {
     }
 
     public struct CaptionDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptionSelectorName", location: .body(locationName: "captionSelectorName")), 
-            AWSShapeMember(label: "DestinationSettings", location: .body(locationName: "destinationSettings")), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
-            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
-        ]
 
         /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
         public let captionSelectorName: String
@@ -2309,20 +2169,6 @@ extension MediaLive {
     }
 
     public struct CaptionDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AribDestinationSettings", location: .body(locationName: "aribDestinationSettings")), 
-            AWSShapeMember(label: "BurnInDestinationSettings", location: .body(locationName: "burnInDestinationSettings")), 
-            AWSShapeMember(label: "DvbSubDestinationSettings", location: .body(locationName: "dvbSubDestinationSettings")), 
-            AWSShapeMember(label: "EmbeddedDestinationSettings", location: .body(locationName: "embeddedDestinationSettings")), 
-            AWSShapeMember(label: "EmbeddedPlusScte20DestinationSettings", location: .body(locationName: "embeddedPlusScte20DestinationSettings")), 
-            AWSShapeMember(label: "RtmpCaptionInfoDestinationSettings", location: .body(locationName: "rtmpCaptionInfoDestinationSettings")), 
-            AWSShapeMember(label: "Scte20PlusEmbeddedDestinationSettings", location: .body(locationName: "scte20PlusEmbeddedDestinationSettings")), 
-            AWSShapeMember(label: "Scte27DestinationSettings", location: .body(locationName: "scte27DestinationSettings")), 
-            AWSShapeMember(label: "SmpteTtDestinationSettings", location: .body(locationName: "smpteTtDestinationSettings")), 
-            AWSShapeMember(label: "TeletextDestinationSettings", location: .body(locationName: "teletextDestinationSettings")), 
-            AWSShapeMember(label: "TtmlDestinationSettings", location: .body(locationName: "ttmlDestinationSettings")), 
-            AWSShapeMember(label: "WebvttDestinationSettings", location: .body(locationName: "webvttDestinationSettings"))
-        ]
 
         public let aribDestinationSettings: AribDestinationSettings?
         public let burnInDestinationSettings: BurnInDestinationSettings?
@@ -2374,11 +2220,6 @@ extension MediaLive {
     }
 
     public struct CaptionLanguageMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptionChannel", location: .body(locationName: "captionChannel")), 
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
-            AWSShapeMember(label: "LanguageDescription", location: .body(locationName: "languageDescription"))
-        ]
 
         /// The closed caption channel being described by this CaptionLanguageMapping.  Each channel mapping must have a unique channel number (maximum of 4)
         public let captionChannel: Int
@@ -2409,11 +2250,6 @@ extension MediaLive {
     }
 
     public struct CaptionSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", location: .body(locationName: "languageCode")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"))
-        ]
 
         /// When specified this field indicates the three letter language code of the caption track to extract from the source.
         public let languageCode: String?
@@ -2441,14 +2277,6 @@ extension MediaLive {
     }
 
     public struct CaptionSelectorSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AribSourceSettings", location: .body(locationName: "aribSourceSettings")), 
-            AWSShapeMember(label: "DvbSubSourceSettings", location: .body(locationName: "dvbSubSourceSettings")), 
-            AWSShapeMember(label: "EmbeddedSourceSettings", location: .body(locationName: "embeddedSourceSettings")), 
-            AWSShapeMember(label: "Scte20SourceSettings", location: .body(locationName: "scte20SourceSettings")), 
-            AWSShapeMember(label: "Scte27SourceSettings", location: .body(locationName: "scte27SourceSettings")), 
-            AWSShapeMember(label: "TeletextSourceSettings", location: .body(locationName: "teletextSourceSettings"))
-        ]
 
         public let aribSourceSettings: AribSourceSettings?
         public let dvbSubSourceSettings: DvbSubSourceSettings?
@@ -2484,23 +2312,6 @@ extension MediaLive {
     }
 
     public struct Channel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints")), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The unique arn of the channel.
         public let arn: String?
@@ -2570,9 +2381,6 @@ extension MediaLive {
     }
 
     public struct ChannelEgressEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIp", location: .body(locationName: "sourceIp"))
-        ]
 
         /// Public IP of where a channel's output comes from
         public let sourceIp: String?
@@ -2587,21 +2395,6 @@ extension MediaLive {
     }
 
     public struct ChannelSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The unique arn of the channel.
         public let arn: String?
@@ -2672,18 +2465,6 @@ extension MediaLive {
     }
 
     public struct CreateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let channelClass: ChannelClass?
         public let destinations: [OutputDestination]?
@@ -2734,9 +2515,6 @@ extension MediaLive {
     }
 
     public struct CreateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"))
-        ]
 
         public let channel: Channel?
 
@@ -2751,16 +2529,7 @@ extension MediaLive {
 
     public struct CreateInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups")), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type")), 
-            AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"))
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
         public let destinations: [InputDestinationRequest]?
@@ -2802,9 +2571,6 @@ extension MediaLive {
     }
 
     public struct CreateInputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Input", location: .body(locationName: "input"))
-        ]
 
         public let input: Input?
 
@@ -2818,10 +2584,6 @@ extension MediaLive {
     }
 
     public struct CreateInputSecurityGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"))
-        ]
 
         public let tags: [String: String]?
         public let whitelistRules: [InputWhitelistRuleCidr]?
@@ -2838,9 +2600,6 @@ extension MediaLive {
     }
 
     public struct CreateInputSecurityGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"))
-        ]
 
         public let securityGroup: InputSecurityGroup?
 
@@ -2855,10 +2614,7 @@ extension MediaLive {
 
     public struct CreateMultiplexProgramRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
-            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings")), 
-            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName")), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"))
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -2886,9 +2642,6 @@ extension MediaLive {
     }
 
     public struct CreateMultiplexProgramResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexProgram", location: .body(locationName: "multiplexProgram"))
-        ]
 
         public let multiplexProgram: MultiplexProgram?
 
@@ -2902,13 +2655,6 @@ extension MediaLive {
     }
 
     public struct CreateMultiplexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let availabilityZones: [String]
         public let multiplexSettings: MultiplexSettings
@@ -2938,9 +2684,6 @@ extension MediaLive {
     }
 
     public struct CreateMultiplexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Multiplex", location: .body(locationName: "multiplex"))
-        ]
 
         public let multiplex: Multiplex?
 
@@ -2955,8 +2698,7 @@ extension MediaLive {
 
     public struct CreateTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -2990,23 +2732,6 @@ extension MediaLive {
     }
 
     public struct DeleteChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints")), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -3130,12 +2855,6 @@ extension MediaLive {
     }
 
     public struct DeleteMultiplexProgramResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings")), 
-            AWSShapeMember(label: "PacketIdentifiersMap", location: .body(locationName: "packetIdentifiersMap")), 
-            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"))
-        ]
 
         public let channelId: String?
         public let multiplexProgramSettings: MultiplexProgramSettings?
@@ -3174,18 +2893,6 @@ extension MediaLive {
     }
 
     public struct DeleteMultiplexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -3242,26 +2949,6 @@ extension MediaLive {
     }
 
     public struct DeleteReservationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits")), 
-            AWSShapeMember(label: "End", location: .body(locationName: "end")), 
-            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "ReservationId", location: .body(locationName: "reservationId")), 
-            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification")), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"))
-        ]
 
         public let arn: String?
         public let count: Int?
@@ -3386,23 +3073,6 @@ extension MediaLive {
     }
 
     public struct DescribeChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints")), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -3475,19 +3145,6 @@ extension MediaLive {
 
     public struct DescribeInputResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AttachedChannels", location: .body(locationName: "attachedChannels")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputClass", location: .body(locationName: "inputClass")), 
-            AWSShapeMember(label: "InputSourceType", location: .body(locationName: "inputSourceType")), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups")), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -3558,14 +3215,6 @@ extension MediaLive {
     }
 
     public struct DescribeInputSecurityGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"))
-        ]
 
         public let arn: String?
         public let id: String?
@@ -3614,12 +3263,6 @@ extension MediaLive {
     }
 
     public struct DescribeMultiplexProgramResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings")), 
-            AWSShapeMember(label: "PacketIdentifiersMap", location: .body(locationName: "packetIdentifiersMap")), 
-            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"))
-        ]
 
         public let channelId: String?
         public let multiplexProgramSettings: MultiplexProgramSettings?
@@ -3658,18 +3301,6 @@ extension MediaLive {
     }
 
     public struct DescribeMultiplexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -3726,19 +3357,6 @@ extension MediaLive {
     }
 
     public struct DescribeOfferingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits")), 
-            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice")), 
-            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification")), 
-            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"))
-        ]
 
         public let arn: String?
         public let currencyCode: String?
@@ -3798,26 +3416,6 @@ extension MediaLive {
     }
 
     public struct DescribeReservationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits")), 
-            AWSShapeMember(label: "End", location: .body(locationName: "end")), 
-            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "ReservationId", location: .body(locationName: "reservationId")), 
-            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification")), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"))
-        ]
 
         public let arn: String?
         public let count: Int?
@@ -3911,10 +3509,6 @@ extension MediaLive {
     }
 
     public struct DescribeScheduleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "ScheduleActions", location: .body(locationName: "scheduleActions"))
-        ]
 
         public let nextToken: String?
         public let scheduleActions: [ScheduleAction]?
@@ -3931,11 +3525,6 @@ extension MediaLive {
     }
 
     public struct DvbNitSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .body(locationName: "networkId")), 
-            AWSShapeMember(label: "NetworkName", location: .body(locationName: "networkName")), 
-            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"))
-        ]
 
         /// The numeric value placed in the Network Information Table (NIT).
         public let networkId: Int
@@ -3967,12 +3556,6 @@ extension MediaLive {
     }
 
     public struct DvbSdtSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputSdt", location: .body(locationName: "outputSdt")), 
-            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval")), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName")), 
-            AWSShapeMember(label: "ServiceProviderName", location: .body(locationName: "serviceProviderName"))
-        ]
 
         /// Selects method of inserting SDT information into output stream. The sdtFollow setting copies SDT information from input stream to output stream. The sdtFollowIfPresent setting copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. The sdtManual setting means user will enter the SDT information. The sdtNone setting means output stream will not contain SDT information.
         public let outputSdt: DvbSdtOutputSdt?
@@ -4008,25 +3591,6 @@ extension MediaLive {
     }
 
     public struct DvbSubDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alignment", location: .body(locationName: "alignment")), 
-            AWSShapeMember(label: "BackgroundColor", location: .body(locationName: "backgroundColor")), 
-            AWSShapeMember(label: "BackgroundOpacity", location: .body(locationName: "backgroundOpacity")), 
-            AWSShapeMember(label: "Font", location: .body(locationName: "font")), 
-            AWSShapeMember(label: "FontColor", location: .body(locationName: "fontColor")), 
-            AWSShapeMember(label: "FontOpacity", location: .body(locationName: "fontOpacity")), 
-            AWSShapeMember(label: "FontResolution", location: .body(locationName: "fontResolution")), 
-            AWSShapeMember(label: "FontSize", location: .body(locationName: "fontSize")), 
-            AWSShapeMember(label: "OutlineColor", location: .body(locationName: "outlineColor")), 
-            AWSShapeMember(label: "OutlineSize", location: .body(locationName: "outlineSize")), 
-            AWSShapeMember(label: "ShadowColor", location: .body(locationName: "shadowColor")), 
-            AWSShapeMember(label: "ShadowOpacity", location: .body(locationName: "shadowOpacity")), 
-            AWSShapeMember(label: "ShadowXOffset", location: .body(locationName: "shadowXOffset")), 
-            AWSShapeMember(label: "ShadowYOffset", location: .body(locationName: "shadowYOffset")), 
-            AWSShapeMember(label: "TeletextGridControl", location: .body(locationName: "teletextGridControl")), 
-            AWSShapeMember(label: "XPosition", location: .body(locationName: "xPosition")), 
-            AWSShapeMember(label: "YPosition", location: .body(locationName: "yPosition"))
-        ]
 
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  This option is not valid for source captions that are STL or 608/embedded.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let alignment: DvbSubDestinationAlignment?
@@ -4120,9 +3684,6 @@ extension MediaLive {
     }
 
     public struct DvbSubSourceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"))
-        ]
 
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int?
@@ -4141,9 +3702,6 @@ extension MediaLive {
     }
 
     public struct DvbTdtSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RepInterval", location: .body(locationName: "repInterval"))
-        ]
 
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let repInterval: Int?
@@ -4163,28 +3721,6 @@ extension MediaLive {
     }
 
     public struct Eac3Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttenuationControl", location: .body(locationName: "attenuationControl")), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
-            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode")), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
-            AWSShapeMember(label: "DcFilter", location: .body(locationName: "dcFilter")), 
-            AWSShapeMember(label: "Dialnorm", location: .body(locationName: "dialnorm")), 
-            AWSShapeMember(label: "DrcLine", location: .body(locationName: "drcLine")), 
-            AWSShapeMember(label: "DrcRf", location: .body(locationName: "drcRf")), 
-            AWSShapeMember(label: "LfeControl", location: .body(locationName: "lfeControl")), 
-            AWSShapeMember(label: "LfeFilter", location: .body(locationName: "lfeFilter")), 
-            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel")), 
-            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel")), 
-            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel")), 
-            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel")), 
-            AWSShapeMember(label: "MetadataControl", location: .body(locationName: "metadataControl")), 
-            AWSShapeMember(label: "PassthroughControl", location: .body(locationName: "passthroughControl")), 
-            AWSShapeMember(label: "PhaseControl", location: .body(locationName: "phaseControl")), 
-            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix")), 
-            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode")), 
-            AWSShapeMember(label: "SurroundMode", location: .body(locationName: "surroundMode"))
-        ]
 
         /// When set to attenuate3Db, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public let attenuationControl: Eac3AttenuationControl?
@@ -4296,12 +3832,6 @@ extension MediaLive {
     }
 
     public struct EmbeddedSourceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708")), 
-            AWSShapeMember(label: "Scte20Detection", location: .body(locationName: "scte20Detection")), 
-            AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber")), 
-            AWSShapeMember(label: "Source608TrackNumber", location: .body(locationName: "source608TrackNumber"))
-        ]
 
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public let convert608To708: EmbeddedConvert608To708?
@@ -4335,18 +3865,6 @@ extension MediaLive {
     }
 
     public struct EncoderSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioDescriptions", location: .body(locationName: "audioDescriptions")), 
-            AWSShapeMember(label: "AvailBlanking", location: .body(locationName: "availBlanking")), 
-            AWSShapeMember(label: "AvailConfiguration", location: .body(locationName: "availConfiguration")), 
-            AWSShapeMember(label: "BlackoutSlate", location: .body(locationName: "blackoutSlate")), 
-            AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions")), 
-            AWSShapeMember(label: "GlobalConfiguration", location: .body(locationName: "globalConfiguration")), 
-            AWSShapeMember(label: "NielsenConfiguration", location: .body(locationName: "nielsenConfiguration")), 
-            AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups")), 
-            AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig")), 
-            AWSShapeMember(label: "VideoDescriptions", location: .body(locationName: "videoDescriptions"))
-        ]
 
         public let audioDescriptions: [AudioDescription]
         /// Settings for ad avail blanking.
@@ -4413,11 +3931,6 @@ extension MediaLive {
     }
 
     public struct FecOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnDepth", location: .body(locationName: "columnDepth")), 
-            AWSShapeMember(label: "IncludeFec", location: .body(locationName: "includeFec")), 
-            AWSShapeMember(label: "RowLength", location: .body(locationName: "rowLength"))
-        ]
 
         /// Parameter D from SMPTE 2022-1. The height of the FEC protection matrix.  The number of transport stream packets per column error correction packet. Must be between 4 and 20, inclusive.
         public let columnDepth: Int?
@@ -4447,9 +3960,6 @@ extension MediaLive {
     }
 
     public struct FixedModeScheduleActionStartSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Time", location: .body(locationName: "time"))
-        ]
 
         /// Start time for the action to start in the channel. (Not the time for the action to be added to the schedule: actions are always added to the schedule immediately.) UTC format: yyyy-mm-ddThh:mm:ss.nnnZ. All the letters are digits (for example, mm might be 01) except for the two constants "T" for time and "Z" for "UTC format".
         public let time: String
@@ -4464,9 +3974,6 @@ extension MediaLive {
     }
 
     public struct Fmp4HlsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"))
-        ]
 
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
@@ -4481,10 +3988,6 @@ extension MediaLive {
     }
 
     public struct FollowModeScheduleActionStartSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FollowPoint", location: .body(locationName: "followPoint")), 
-            AWSShapeMember(label: "ReferenceActionName", location: .body(locationName: "referenceActionName"))
-        ]
 
         /// Identifies whether this action starts relative to the start or relative to the end of the reference action.
         public let followPoint: FollowPoint
@@ -4503,9 +4006,6 @@ extension MediaLive {
     }
 
     public struct FrameCaptureGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"))
-        ]
 
         /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling_) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling_). The final file names consist of the prefix from the destination field (for example, "curling_") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curlingLow.00001.jpg
         public let destination: OutputLocationRef
@@ -4520,9 +4020,6 @@ extension MediaLive {
     }
 
     public struct FrameCaptureOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"))
-        ]
 
         /// Required if the output group contains more than one output. This modifier forms part of the output file name.
         public let nameModifier: String?
@@ -4537,10 +4034,6 @@ extension MediaLive {
     }
 
     public struct FrameCaptureSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptureInterval", location: .body(locationName: "captureInterval")), 
-            AWSShapeMember(label: "CaptureIntervalUnits", location: .body(locationName: "captureIntervalUnits"))
-        ]
 
         /// The frequency at which to capture frames for inclusion in the output. May be specified in either seconds or milliseconds, as specified by captureIntervalUnits.
         public let captureInterval: Int
@@ -4564,14 +4057,6 @@ extension MediaLive {
     }
 
     public struct GlobalConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialAudioGain", location: .body(locationName: "initialAudioGain")), 
-            AWSShapeMember(label: "InputEndAction", location: .body(locationName: "inputEndAction")), 
-            AWSShapeMember(label: "InputLossBehavior", location: .body(locationName: "inputLossBehavior")), 
-            AWSShapeMember(label: "OutputLockingMode", location: .body(locationName: "outputLockingMode")), 
-            AWSShapeMember(label: "OutputTimingSource", location: .body(locationName: "outputTimingSource")), 
-            AWSShapeMember(label: "SupportLowFramerateInputs", location: .body(locationName: "supportLowFramerateInputs"))
-        ]
 
         /// Value to set the initial audio gain for the Live Event.
         public let initialAudioGain: Int?
@@ -4614,11 +4099,6 @@ extension MediaLive {
     }
 
     public struct H264ColorSpaceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColorSpacePassthroughSettings", location: .body(locationName: "colorSpacePassthroughSettings")), 
-            AWSShapeMember(label: "Rec601Settings", location: .body(locationName: "rec601Settings")), 
-            AWSShapeMember(label: "Rec709Settings", location: .body(locationName: "rec709Settings"))
-        ]
 
         public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
         public let rec601Settings: Rec601Settings?
@@ -4638,46 +4118,6 @@ extension MediaLive {
     }
 
     public struct H264Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization")), 
-            AWSShapeMember(label: "AfdSignaling", location: .body(locationName: "afdSignaling")), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
-            AWSShapeMember(label: "BufFillPct", location: .body(locationName: "bufFillPct")), 
-            AWSShapeMember(label: "BufSize", location: .body(locationName: "bufSize")), 
-            AWSShapeMember(label: "ColorMetadata", location: .body(locationName: "colorMetadata")), 
-            AWSShapeMember(label: "ColorSpaceSettings", location: .body(locationName: "colorSpaceSettings")), 
-            AWSShapeMember(label: "EntropyEncoding", location: .body(locationName: "entropyEncoding")), 
-            AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd")), 
-            AWSShapeMember(label: "FlickerAq", location: .body(locationName: "flickerAq")), 
-            AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl")), 
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator")), 
-            AWSShapeMember(label: "GopBReference", location: .body(locationName: "gopBReference")), 
-            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence")), 
-            AWSShapeMember(label: "GopNumBFrames", location: .body(locationName: "gopNumBFrames")), 
-            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize")), 
-            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits")), 
-            AWSShapeMember(label: "Level", location: .body(locationName: "level")), 
-            AWSShapeMember(label: "LookAheadRateControl", location: .body(locationName: "lookAheadRateControl")), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
-            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval")), 
-            AWSShapeMember(label: "NumRefFrames", location: .body(locationName: "numRefFrames")), 
-            AWSShapeMember(label: "ParControl", location: .body(locationName: "parControl")), 
-            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator")), 
-            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator")), 
-            AWSShapeMember(label: "Profile", location: .body(locationName: "profile")), 
-            AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel")), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
-            AWSShapeMember(label: "ScanType", location: .body(locationName: "scanType")), 
-            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect")), 
-            AWSShapeMember(label: "Slices", location: .body(locationName: "slices")), 
-            AWSShapeMember(label: "Softness", location: .body(locationName: "softness")), 
-            AWSShapeMember(label: "SpatialAq", location: .body(locationName: "spatialAq")), 
-            AWSShapeMember(label: "SubgopLength", location: .body(locationName: "subgopLength")), 
-            AWSShapeMember(label: "Syntax", location: .body(locationName: "syntax")), 
-            AWSShapeMember(label: "TemporalAq", location: .body(locationName: "temporalAq")), 
-            AWSShapeMember(label: "TimecodeInsertion", location: .body(locationName: "timecodeInsertion"))
-        ]
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H264AdaptiveQuantization?
@@ -4884,12 +4324,6 @@ extension MediaLive {
     }
 
     public struct H265ColorSpaceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColorSpacePassthroughSettings", location: .body(locationName: "colorSpacePassthroughSettings")), 
-            AWSShapeMember(label: "Hdr10Settings", location: .body(locationName: "hdr10Settings")), 
-            AWSShapeMember(label: "Rec601Settings", location: .body(locationName: "rec601Settings")), 
-            AWSShapeMember(label: "Rec709Settings", location: .body(locationName: "rec709Settings"))
-        ]
 
         public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
         public let hdr10Settings: Hdr10Settings?
@@ -4916,36 +4350,6 @@ extension MediaLive {
     }
 
     public struct H265Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization")), 
-            AWSShapeMember(label: "AfdSignaling", location: .body(locationName: "afdSignaling")), 
-            AWSShapeMember(label: "AlternativeTransferFunction", location: .body(locationName: "alternativeTransferFunction")), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
-            AWSShapeMember(label: "BufSize", location: .body(locationName: "bufSize")), 
-            AWSShapeMember(label: "ColorMetadata", location: .body(locationName: "colorMetadata")), 
-            AWSShapeMember(label: "ColorSpaceSettings", location: .body(locationName: "colorSpaceSettings")), 
-            AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd")), 
-            AWSShapeMember(label: "FlickerAq", location: .body(locationName: "flickerAq")), 
-            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator")), 
-            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator")), 
-            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence")), 
-            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize")), 
-            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits")), 
-            AWSShapeMember(label: "Level", location: .body(locationName: "level")), 
-            AWSShapeMember(label: "LookAheadRateControl", location: .body(locationName: "lookAheadRateControl")), 
-            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate")), 
-            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval")), 
-            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator")), 
-            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator")), 
-            AWSShapeMember(label: "Profile", location: .body(locationName: "profile")), 
-            AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel")), 
-            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode")), 
-            AWSShapeMember(label: "ScanType", location: .body(locationName: "scanType")), 
-            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect")), 
-            AWSShapeMember(label: "Slices", location: .body(locationName: "slices")), 
-            AWSShapeMember(label: "Tier", location: .body(locationName: "tier")), 
-            AWSShapeMember(label: "TimecodeInsertion", location: .body(locationName: "timecodeInsertion"))
-        ]
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H265AdaptiveQuantization?
@@ -5102,10 +4506,6 @@ extension MediaLive {
     }
 
     public struct Hdr10Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxCll", location: .body(locationName: "maxCll")), 
-            AWSShapeMember(label: "MaxFall", location: .body(locationName: "maxFall"))
-        ]
 
         /// Maximum Content Light Level
         /// An integer metadata value defining the maximum light level, in nits,
@@ -5135,15 +4535,6 @@ extension MediaLive {
     }
 
     public struct HlsAkamaiSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval")), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration")), 
-            AWSShapeMember(label: "HttpTransferMode", location: .body(locationName: "httpTransferMode")), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries")), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay")), 
-            AWSShapeMember(label: "Salt", location: .body(locationName: "salt")), 
-            AWSShapeMember(label: "Token", location: .body(locationName: "token"))
-        ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -5191,12 +4582,6 @@ extension MediaLive {
     }
 
     public struct HlsBasicPutSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval")), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration")), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries")), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"))
-        ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -5232,12 +4617,6 @@ extension MediaLive {
     }
 
     public struct HlsCdnSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HlsAkamaiSettings", location: .body(locationName: "hlsAkamaiSettings")), 
-            AWSShapeMember(label: "HlsBasicPutSettings", location: .body(locationName: "hlsBasicPutSettings")), 
-            AWSShapeMember(label: "HlsMediaStoreSettings", location: .body(locationName: "hlsMediaStoreSettings")), 
-            AWSShapeMember(label: "HlsWebdavSettings", location: .body(locationName: "hlsWebdavSettings"))
-        ]
 
         public let hlsAkamaiSettings: HlsAkamaiSettings?
         public let hlsBasicPutSettings: HlsBasicPutSettings?
@@ -5267,48 +4646,6 @@ extension MediaLive {
     }
 
     public struct HlsGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers")), 
-            AWSShapeMember(label: "BaseUrlContent", location: .body(locationName: "baseUrlContent")), 
-            AWSShapeMember(label: "BaseUrlContent1", location: .body(locationName: "baseUrlContent1")), 
-            AWSShapeMember(label: "BaseUrlManifest", location: .body(locationName: "baseUrlManifest")), 
-            AWSShapeMember(label: "BaseUrlManifest1", location: .body(locationName: "baseUrlManifest1")), 
-            AWSShapeMember(label: "CaptionLanguageMappings", location: .body(locationName: "captionLanguageMappings")), 
-            AWSShapeMember(label: "CaptionLanguageSetting", location: .body(locationName: "captionLanguageSetting")), 
-            AWSShapeMember(label: "ClientCache", location: .body(locationName: "clientCache")), 
-            AWSShapeMember(label: "CodecSpecification", location: .body(locationName: "codecSpecification")), 
-            AWSShapeMember(label: "ConstantIv", location: .body(locationName: "constantIv")), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "DirectoryStructure", location: .body(locationName: "directoryStructure")), 
-            AWSShapeMember(label: "EncryptionType", location: .body(locationName: "encryptionType")), 
-            AWSShapeMember(label: "HlsCdnSettings", location: .body(locationName: "hlsCdnSettings")), 
-            AWSShapeMember(label: "HlsId3SegmentTagging", location: .body(locationName: "hlsId3SegmentTagging")), 
-            AWSShapeMember(label: "IFrameOnlyPlaylists", location: .body(locationName: "iFrameOnlyPlaylists")), 
-            AWSShapeMember(label: "IndexNSegments", location: .body(locationName: "indexNSegments")), 
-            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction")), 
-            AWSShapeMember(label: "IvInManifest", location: .body(locationName: "ivInManifest")), 
-            AWSShapeMember(label: "IvSource", location: .body(locationName: "ivSource")), 
-            AWSShapeMember(label: "KeepSegments", location: .body(locationName: "keepSegments")), 
-            AWSShapeMember(label: "KeyFormat", location: .body(locationName: "keyFormat")), 
-            AWSShapeMember(label: "KeyFormatVersions", location: .body(locationName: "keyFormatVersions")), 
-            AWSShapeMember(label: "KeyProviderSettings", location: .body(locationName: "keyProviderSettings")), 
-            AWSShapeMember(label: "ManifestCompression", location: .body(locationName: "manifestCompression")), 
-            AWSShapeMember(label: "ManifestDurationFormat", location: .body(locationName: "manifestDurationFormat")), 
-            AWSShapeMember(label: "MinSegmentLength", location: .body(locationName: "minSegmentLength")), 
-            AWSShapeMember(label: "Mode", location: .body(locationName: "mode")), 
-            AWSShapeMember(label: "OutputSelection", location: .body(locationName: "outputSelection")), 
-            AWSShapeMember(label: "ProgramDateTime", location: .body(locationName: "programDateTime")), 
-            AWSShapeMember(label: "ProgramDateTimePeriod", location: .body(locationName: "programDateTimePeriod")), 
-            AWSShapeMember(label: "RedundantManifest", location: .body(locationName: "redundantManifest")), 
-            AWSShapeMember(label: "SegmentationMode", location: .body(locationName: "segmentationMode")), 
-            AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength")), 
-            AWSShapeMember(label: "SegmentsPerSubdirectory", location: .body(locationName: "segmentsPerSubdirectory")), 
-            AWSShapeMember(label: "StreamInfResolution", location: .body(locationName: "streamInfResolution")), 
-            AWSShapeMember(label: "TimedMetadataId3Frame", location: .body(locationName: "timedMetadataId3Frame")), 
-            AWSShapeMember(label: "TimedMetadataId3Period", location: .body(locationName: "timedMetadataId3Period")), 
-            AWSShapeMember(label: "TimestampDeltaMilliseconds", location: .body(locationName: "timestampDeltaMilliseconds")), 
-            AWSShapeMember(label: "TsFileMode", location: .body(locationName: "tsFileMode"))
-        ]
 
         /// Choose one or more ad marker types to pass SCTE35 signals through to this group of Apple HLS outputs.
         public let adMarkers: [HlsAdMarkers]?
@@ -5509,9 +4846,6 @@ extension MediaLive {
     }
 
     public struct HlsId3SegmentTaggingScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tag", location: .body(locationName: "tag"))
-        ]
 
         /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
         public let tag: String
@@ -5526,12 +4860,6 @@ extension MediaLive {
     }
 
     public struct HlsInputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bandwidth", location: .body(locationName: "bandwidth")), 
-            AWSShapeMember(label: "BufferSegments", location: .body(locationName: "bufferSegments")), 
-            AWSShapeMember(label: "Retries", location: .body(locationName: "retries")), 
-            AWSShapeMember(label: "RetryInterval", location: .body(locationName: "retryInterval"))
-        ]
 
         /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen.  The bitrate is specified in bits per second, as in an HLS manifest.
         public let bandwidth: Int?
@@ -5565,13 +4893,6 @@ extension MediaLive {
     }
 
     public struct HlsMediaStoreSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval")), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration")), 
-            AWSShapeMember(label: "MediaStoreStorageClass", location: .body(locationName: "mediaStoreStorageClass")), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries")), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"))
-        ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -5611,12 +4932,6 @@ extension MediaLive {
     }
 
     public struct HlsOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "H265PackagingType", location: .body(locationName: "h265PackagingType")), 
-            AWSShapeMember(label: "HlsSettings", location: .body(locationName: "hlsSettings")), 
-            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier")), 
-            AWSShapeMember(label: "SegmentModifier", location: .body(locationName: "segmentModifier"))
-        ]
 
         /// Only applicable when this output is referencing an H.265 video description.
         /// Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
@@ -5649,11 +4964,6 @@ extension MediaLive {
     }
 
     public struct HlsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioOnlyHlsSettings", location: .body(locationName: "audioOnlyHlsSettings")), 
-            AWSShapeMember(label: "Fmp4HlsSettings", location: .body(locationName: "fmp4HlsSettings")), 
-            AWSShapeMember(label: "StandardHlsSettings", location: .body(locationName: "standardHlsSettings"))
-        ]
 
         public let audioOnlyHlsSettings: AudioOnlyHlsSettings?
         public let fmp4HlsSettings: Fmp4HlsSettings?
@@ -5677,9 +4987,6 @@ extension MediaLive {
     }
 
     public struct HlsTimedMetadataScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id3", location: .body(locationName: "id3"))
-        ]
 
         /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
         public let id3: String
@@ -5694,13 +5001,6 @@ extension MediaLive {
     }
 
     public struct HlsWebdavSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval")), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration")), 
-            AWSShapeMember(label: "HttpTransferMode", location: .body(locationName: "httpTransferMode")), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries")), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"))
-        ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -5749,19 +5049,6 @@ extension MediaLive {
 
     public struct Input: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AttachedChannels", location: .body(locationName: "attachedChannels")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputClass", location: .body(locationName: "inputClass")), 
-            AWSShapeMember(label: "InputSourceType", location: .body(locationName: "inputSourceType")), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups")), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"))
         ]
 
@@ -5830,11 +5117,6 @@ extension MediaLive {
     }
 
     public struct InputAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputAttachmentName", location: .body(locationName: "inputAttachmentName")), 
-            AWSShapeMember(label: "InputId", location: .body(locationName: "inputId")), 
-            AWSShapeMember(label: "InputSettings", location: .body(locationName: "inputSettings"))
-        ]
 
         /// User-specified name for the attachment. This is required if the user wants to use this input in an input switch action.
         public let inputAttachmentName: String?
@@ -5861,10 +5143,6 @@ extension MediaLive {
     }
 
     public struct InputChannelLevel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Gain", location: .body(locationName: "gain")), 
-            AWSShapeMember(label: "InputChannel", location: .body(locationName: "inputChannel"))
-        ]
 
         /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
         public let gain: Int
@@ -5890,11 +5168,6 @@ extension MediaLive {
     }
 
     public struct InputClippingSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputTimecodeSource", location: .body(locationName: "inputTimecodeSource")), 
-            AWSShapeMember(label: "StartTimecode", location: .body(locationName: "startTimecode")), 
-            AWSShapeMember(label: "StopTimecode", location: .body(locationName: "stopTimecode"))
-        ]
 
         /// The source of the timecodes in the source being clipped.
         public let inputTimecodeSource: InputTimecodeSource
@@ -5917,12 +5190,6 @@ extension MediaLive {
     }
 
     public struct InputDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .body(locationName: "ip")), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Vpc", location: .body(locationName: "vpc"))
-        ]
 
         /// The system-generated static IP address of endpoint.
         /// It remains fixed for the lifetime of the input.
@@ -5950,9 +5217,6 @@ extension MediaLive {
     }
 
     public struct InputDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"))
-        ]
 
         /// A unique name for the location the RTMP stream is being pushed
         /// to.
@@ -5968,10 +5232,6 @@ extension MediaLive {
     }
 
     public struct InputDestinationVpc: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone")), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"))
-        ]
 
         /// The availability zone of the Input destination.
         public let availabilityZone: String?
@@ -5990,11 +5250,6 @@ extension MediaLive {
     }
 
     public struct InputLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam")), 
-            AWSShapeMember(label: "Uri", location: .body(locationName: "uri")), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"))
-        ]
 
         /// key used to extract the password from EC2 Parameter store
         public let passwordParam: String?
@@ -6017,13 +5272,6 @@ extension MediaLive {
     }
 
     public struct InputLossBehavior: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlackFrameMsec", location: .body(locationName: "blackFrameMsec")), 
-            AWSShapeMember(label: "InputLossImageColor", location: .body(locationName: "inputLossImageColor")), 
-            AWSShapeMember(label: "InputLossImageSlate", location: .body(locationName: "inputLossImageSlate")), 
-            AWSShapeMember(label: "InputLossImageType", location: .body(locationName: "inputLossImageType")), 
-            AWSShapeMember(label: "RepeatFrameMsec", location: .body(locationName: "repeatFrameMsec"))
-        ]
 
         /// On input loss, the number of milliseconds to substitute black into the output before switching to the frame specified by inputLossImageType.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
         public let blackFrameMsec: Int?
@@ -6063,14 +5311,6 @@ extension MediaLive {
     }
 
     public struct InputSecurityGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"))
-        ]
 
         /// Unique ARN of Input Security Group
         public let arn: String?
@@ -6105,17 +5345,6 @@ extension MediaLive {
     }
 
     public struct InputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors")), 
-            AWSShapeMember(label: "CaptionSelectors", location: .body(locationName: "captionSelectors")), 
-            AWSShapeMember(label: "DeblockFilter", location: .body(locationName: "deblockFilter")), 
-            AWSShapeMember(label: "DenoiseFilter", location: .body(locationName: "denoiseFilter")), 
-            AWSShapeMember(label: "FilterStrength", location: .body(locationName: "filterStrength")), 
-            AWSShapeMember(label: "InputFilter", location: .body(locationName: "inputFilter")), 
-            AWSShapeMember(label: "NetworkInputSettings", location: .body(locationName: "networkInputSettings")), 
-            AWSShapeMember(label: "SourceEndBehavior", location: .body(locationName: "sourceEndBehavior")), 
-            AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"))
-        ]
 
         /// Used to select the audio stream to decode for inputs that have multiple available.
         public let audioSelectors: [AudioSelector]?
@@ -6178,11 +5407,6 @@ extension MediaLive {
     }
 
     public struct InputSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"))
-        ]
 
         /// The key used to extract the password from EC2 Parameter store.
         public let passwordParam: String?
@@ -6206,11 +5430,6 @@ extension MediaLive {
     }
 
     public struct InputSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"))
-        ]
 
         /// The key used to extract the password from EC2 Parameter store.
         public let passwordParam: String?
@@ -6234,11 +5453,6 @@ extension MediaLive {
     }
 
     public struct InputSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Codec", location: .body(locationName: "codec")), 
-            AWSShapeMember(label: "MaximumBitrate", location: .body(locationName: "maximumBitrate")), 
-            AWSShapeMember(label: "Resolution", location: .body(locationName: "resolution"))
-        ]
 
         /// Input codec
         public let codec: InputCodec?
@@ -6261,11 +5475,6 @@ extension MediaLive {
     }
 
     public struct InputSwitchScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputAttachmentNameReference", location: .body(locationName: "inputAttachmentNameReference")), 
-            AWSShapeMember(label: "InputClippingSettings", location: .body(locationName: "inputClippingSettings")), 
-            AWSShapeMember(label: "UrlPath", location: .body(locationName: "urlPath"))
-        ]
 
         /// The name of the input attachment (not the name of the input!) to switch to. The name is specified in the channel configuration.
         public let inputAttachmentNameReference: String
@@ -6288,10 +5497,6 @@ extension MediaLive {
     }
 
     public struct InputVpcRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds")), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"))
-        ]
 
         /// A list of up to 5 EC2 VPC security group IDs to attach to the Input VPC network interfaces.
         /// Requires subnetIds. If none are specified then the VPC default security group will be used.
@@ -6312,9 +5517,6 @@ extension MediaLive {
     }
 
     public struct InputWhitelistRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"))
-        ]
 
         /// The IPv4 CIDR that's whitelisted.
         public let cidr: String?
@@ -6329,9 +5531,6 @@ extension MediaLive {
     }
 
     public struct InputWhitelistRuleCidr: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", location: .body(locationName: "cidr"))
-        ]
 
         /// The IPv4 CIDR to whitelist.
         public let cidr: String?
@@ -6346,9 +5545,6 @@ extension MediaLive {
     }
 
     public struct KeyProviderSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StaticKeySettings", location: .body(locationName: "staticKeySettings"))
-        ]
 
         public let staticKeySettings: StaticKeySettings?
 
@@ -6391,10 +5587,6 @@ extension MediaLive {
     }
 
     public struct ListChannelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channels", location: .body(locationName: "channels")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         public let channels: [ChannelSummary]?
         public let nextToken: String?
@@ -6436,10 +5628,6 @@ extension MediaLive {
     }
 
     public struct ListInputSecurityGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         public let inputSecurityGroups: [InputSecurityGroup]?
         public let nextToken: String?
@@ -6481,10 +5669,6 @@ extension MediaLive {
     }
 
     public struct ListInputsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Inputs", location: .body(locationName: "inputs")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         public let inputs: [Input]?
         public let nextToken: String?
@@ -6530,10 +5714,6 @@ extension MediaLive {
     }
 
     public struct ListMultiplexProgramsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexPrograms", location: .body(locationName: "multiplexPrograms")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         public let multiplexPrograms: [MultiplexProgramSummary]?
         public let nextToken: String?
@@ -6575,10 +5755,6 @@ extension MediaLive {
     }
 
     public struct ListMultiplexesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Multiplexes", location: .body(locationName: "multiplexes")), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"))
-        ]
 
         public let multiplexes: [MultiplexSummary]?
         public let nextToken: String?
@@ -6660,10 +5836,6 @@ extension MediaLive {
     }
 
     public struct ListOfferingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "Offerings", location: .body(locationName: "offerings"))
-        ]
 
         public let nextToken: String?
         public let offerings: [Offering]?
@@ -6737,10 +5909,6 @@ extension MediaLive {
     }
 
     public struct ListReservationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken")), 
-            AWSShapeMember(label: "Reservations", location: .body(locationName: "reservations"))
-        ]
 
         public let nextToken: String?
         public let reservations: [Reservation]?
@@ -6773,9 +5941,6 @@ extension MediaLive {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let tags: [String: String]?
 
@@ -6789,55 +5954,6 @@ extension MediaLive {
     }
 
     public struct M2tsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AbsentInputAudioBehavior", location: .body(locationName: "absentInputAudioBehavior")), 
-            AWSShapeMember(label: "Arib", location: .body(locationName: "arib")), 
-            AWSShapeMember(label: "AribCaptionsPid", location: .body(locationName: "aribCaptionsPid")), 
-            AWSShapeMember(label: "AribCaptionsPidControl", location: .body(locationName: "aribCaptionsPidControl")), 
-            AWSShapeMember(label: "AudioBufferModel", location: .body(locationName: "audioBufferModel")), 
-            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes")), 
-            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids")), 
-            AWSShapeMember(label: "AudioStreamType", location: .body(locationName: "audioStreamType")), 
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
-            AWSShapeMember(label: "BufferModel", location: .body(locationName: "bufferModel")), 
-            AWSShapeMember(label: "CcDescriptor", location: .body(locationName: "ccDescriptor")), 
-            AWSShapeMember(label: "DvbNitSettings", location: .body(locationName: "dvbNitSettings")), 
-            AWSShapeMember(label: "DvbSdtSettings", location: .body(locationName: "dvbSdtSettings")), 
-            AWSShapeMember(label: "DvbSubPids", location: .body(locationName: "dvbSubPids")), 
-            AWSShapeMember(label: "DvbTdtSettings", location: .body(locationName: "dvbTdtSettings")), 
-            AWSShapeMember(label: "DvbTeletextPid", location: .body(locationName: "dvbTeletextPid")), 
-            AWSShapeMember(label: "Ebif", location: .body(locationName: "ebif")), 
-            AWSShapeMember(label: "EbpAudioInterval", location: .body(locationName: "ebpAudioInterval")), 
-            AWSShapeMember(label: "EbpLookaheadMs", location: .body(locationName: "ebpLookaheadMs")), 
-            AWSShapeMember(label: "EbpPlacement", location: .body(locationName: "ebpPlacement")), 
-            AWSShapeMember(label: "EcmPid", location: .body(locationName: "ecmPid")), 
-            AWSShapeMember(label: "EsRateInPes", location: .body(locationName: "esRateInPes")), 
-            AWSShapeMember(label: "EtvPlatformPid", location: .body(locationName: "etvPlatformPid")), 
-            AWSShapeMember(label: "EtvSignalPid", location: .body(locationName: "etvSignalPid")), 
-            AWSShapeMember(label: "FragmentTime", location: .body(locationName: "fragmentTime")), 
-            AWSShapeMember(label: "Klv", location: .body(locationName: "klv")), 
-            AWSShapeMember(label: "KlvDataPids", location: .body(locationName: "klvDataPids")), 
-            AWSShapeMember(label: "NielsenId3Behavior", location: .body(locationName: "nielsenId3Behavior")), 
-            AWSShapeMember(label: "NullPacketBitrate", location: .body(locationName: "nullPacketBitrate")), 
-            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval")), 
-            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl")), 
-            AWSShapeMember(label: "PcrPeriod", location: .body(locationName: "pcrPeriod")), 
-            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid")), 
-            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval")), 
-            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid")), 
-            AWSShapeMember(label: "ProgramNum", location: .body(locationName: "programNum")), 
-            AWSShapeMember(label: "RateMode", location: .body(locationName: "rateMode")), 
-            AWSShapeMember(label: "Scte27Pids", location: .body(locationName: "scte27Pids")), 
-            AWSShapeMember(label: "Scte35Control", location: .body(locationName: "scte35Control")), 
-            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid")), 
-            AWSShapeMember(label: "SegmentationMarkers", location: .body(locationName: "segmentationMarkers")), 
-            AWSShapeMember(label: "SegmentationStyle", location: .body(locationName: "segmentationStyle")), 
-            AWSShapeMember(label: "SegmentationTime", location: .body(locationName: "segmentationTime")), 
-            AWSShapeMember(label: "TimedMetadataBehavior", location: .body(locationName: "timedMetadataBehavior")), 
-            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid")), 
-            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId")), 
-            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"))
-        ]
 
         /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
         public let absentInputAudioBehavior: M2tsAbsentInputAudioBehavior?
@@ -7058,25 +6174,6 @@ extension MediaLive {
     }
 
     public struct M3u8Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes")), 
-            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids")), 
-            AWSShapeMember(label: "EcmPid", location: .body(locationName: "ecmPid")), 
-            AWSShapeMember(label: "NielsenId3Behavior", location: .body(locationName: "nielsenId3Behavior")), 
-            AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval")), 
-            AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl")), 
-            AWSShapeMember(label: "PcrPeriod", location: .body(locationName: "pcrPeriod")), 
-            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid")), 
-            AWSShapeMember(label: "PmtInterval", location: .body(locationName: "pmtInterval")), 
-            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid")), 
-            AWSShapeMember(label: "ProgramNum", location: .body(locationName: "programNum")), 
-            AWSShapeMember(label: "Scte35Behavior", location: .body(locationName: "scte35Behavior")), 
-            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid")), 
-            AWSShapeMember(label: "TimedMetadataBehavior", location: .body(locationName: "timedMetadataBehavior")), 
-            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid")), 
-            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId")), 
-            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"))
-        ]
 
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
@@ -7169,9 +6266,6 @@ extension MediaLive {
     }
 
     public struct MediaConnectFlow: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"))
-        ]
 
         /// The unique ARN of the MediaConnect Flow being used as a source.
         public let flowArn: String?
@@ -7186,9 +6280,6 @@ extension MediaLive {
     }
 
     public struct MediaConnectFlowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"))
-        ]
 
         /// The ARN of the MediaConnect Flow that you want to use as a source.
         public let flowArn: String?
@@ -7203,9 +6294,6 @@ extension MediaLive {
     }
 
     public struct MediaPackageGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"))
-        ]
 
         /// MediaPackage channel destination.
         public let destination: OutputLocationRef
@@ -7220,9 +6308,6 @@ extension MediaLive {
     }
 
     public struct MediaPackageOutputDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"))
-        ]
 
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public let channelId: String?
@@ -7249,11 +6334,6 @@ extension MediaLive {
     }
 
     public struct Mp2Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate")), 
-            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode")), 
-            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"))
-        ]
 
         /// Average bitrate in bits/second.
         public let bitrate: Double?
@@ -7276,27 +6356,6 @@ extension MediaLive {
     }
 
     public struct MsSmoothGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcquisitionPointId", location: .body(locationName: "acquisitionPointId")), 
-            AWSShapeMember(label: "AudioOnlyTimecodeControl", location: .body(locationName: "audioOnlyTimecodeControl")), 
-            AWSShapeMember(label: "CertificateMode", location: .body(locationName: "certificateMode")), 
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval")), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "EventId", location: .body(locationName: "eventId")), 
-            AWSShapeMember(label: "EventIdMode", location: .body(locationName: "eventIdMode")), 
-            AWSShapeMember(label: "EventStopBehavior", location: .body(locationName: "eventStopBehavior")), 
-            AWSShapeMember(label: "FilecacheDuration", location: .body(locationName: "filecacheDuration")), 
-            AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength")), 
-            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction")), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries")), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay")), 
-            AWSShapeMember(label: "SegmentationMode", location: .body(locationName: "segmentationMode")), 
-            AWSShapeMember(label: "SendDelayMs", location: .body(locationName: "sendDelayMs")), 
-            AWSShapeMember(label: "SparseTrackType", location: .body(locationName: "sparseTrackType")), 
-            AWSShapeMember(label: "StreamManifestBehavior", location: .body(locationName: "streamManifestBehavior")), 
-            AWSShapeMember(label: "TimestampOffset", location: .body(locationName: "timestampOffset")), 
-            AWSShapeMember(label: "TimestampOffsetMode", location: .body(locationName: "timestampOffsetMode"))
-        ]
 
         /// The value of the "Acquisition Point Identity" element used in each message placed in the sparse track.  Only enabled if sparseTrackType is not "none".
         public let acquisitionPointId: String?
@@ -7400,10 +6459,6 @@ extension MediaLive {
     }
 
     public struct MsSmoothOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "H265PackagingType", location: .body(locationName: "h265PackagingType")), 
-            AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"))
-        ]
 
         /// Only applicable when this output is referencing an H.265 video description.
         /// Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
@@ -7423,18 +6478,6 @@ extension MediaLive {
     }
 
     public struct Multiplex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The unique arn of the multiplex.
         public let arn: String?
@@ -7493,9 +6536,6 @@ extension MediaLive {
     }
 
     public struct MultiplexMediaConnectOutputDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"))
-        ]
 
         /// The MediaConnect entitlement ARN available as a Flow source.
         public let entitlementArn: String?
@@ -7510,9 +6550,6 @@ extension MediaLive {
     }
 
     public struct MultiplexOutputDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MediaConnectSettings", location: .body(locationName: "mediaConnectSettings"))
-        ]
 
         /// Multiplex MediaConnect output destination settings.
         public let mediaConnectSettings: MultiplexMediaConnectOutputDestinationSettings?
@@ -7527,9 +6564,6 @@ extension MediaLive {
     }
 
     public struct MultiplexOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"))
-        ]
 
         /// Destination is a Multiplex.
         public let destination: OutputLocationRef
@@ -7544,12 +6578,6 @@ extension MediaLive {
     }
 
     public struct MultiplexProgram: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings")), 
-            AWSShapeMember(label: "PacketIdentifiersMap", location: .body(locationName: "packetIdentifiersMap")), 
-            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"))
-        ]
 
         /// The MediaLive channel associated with the program.
         public let channelId: String?
@@ -7576,10 +6604,6 @@ extension MediaLive {
     }
 
     public struct MultiplexProgramChannelDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .body(locationName: "multiplexId")), 
-            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"))
-        ]
 
         /// The ID of the Multiplex that the encoder is providing output to. You do not need to specify the individual inputs to the Multiplex; MediaLive will handle the connection of the two MediaLive pipelines to the two Multiplex instances.
         /// The Multiplex must be in the same region as the Channel.
@@ -7604,21 +6628,6 @@ extension MediaLive {
     }
 
     public struct MultiplexProgramPacketIdentifiersMap: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids")), 
-            AWSShapeMember(label: "DvbSubPids", location: .body(locationName: "dvbSubPids")), 
-            AWSShapeMember(label: "DvbTeletextPid", location: .body(locationName: "dvbTeletextPid")), 
-            AWSShapeMember(label: "EtvPlatformPid", location: .body(locationName: "etvPlatformPid")), 
-            AWSShapeMember(label: "EtvSignalPid", location: .body(locationName: "etvSignalPid")), 
-            AWSShapeMember(label: "KlvDataPids", location: .body(locationName: "klvDataPids")), 
-            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid")), 
-            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid")), 
-            AWSShapeMember(label: "PrivateMetadataPid", location: .body(locationName: "privateMetadataPid")), 
-            AWSShapeMember(label: "Scte27Pids", location: .body(locationName: "scte27Pids")), 
-            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid")), 
-            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid")), 
-            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"))
-        ]
 
         public let audioPids: [Int]?
         public let dvbSubPids: [Int]?
@@ -7668,10 +6677,6 @@ extension MediaLive {
     }
 
     public struct MultiplexProgramServiceDescriptor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderName", location: .body(locationName: "providerName")), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"))
-        ]
 
         /// Name of the provider.
         public let providerName: String
@@ -7695,11 +6700,6 @@ extension MediaLive {
     }
 
     public struct MultiplexProgramSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber")), 
-            AWSShapeMember(label: "ServiceDescriptor", location: .body(locationName: "serviceDescriptor")), 
-            AWSShapeMember(label: "VideoSettings", location: .body(locationName: "videoSettings"))
-        ]
 
         /// Unique program number.
         public let programNumber: Int
@@ -7729,10 +6729,6 @@ extension MediaLive {
     }
 
     public struct MultiplexProgramSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId")), 
-            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"))
-        ]
 
         /// The MediaLive Channel associated with the program.
         public let channelId: String?
@@ -7751,12 +6747,6 @@ extension MediaLive {
     }
 
     public struct MultiplexSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaximumVideoBufferDelayMilliseconds", location: .body(locationName: "maximumVideoBufferDelayMilliseconds")), 
-            AWSShapeMember(label: "TransportStreamBitrate", location: .body(locationName: "transportStreamBitrate")), 
-            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId")), 
-            AWSShapeMember(label: "TransportStreamReservedBitrate", location: .body(locationName: "transportStreamReservedBitrate"))
-        ]
 
         /// Maximum video buffer delay in milliseconds.
         public let maximumVideoBufferDelayMilliseconds: Int?
@@ -7794,9 +6784,6 @@ extension MediaLive {
     }
 
     public struct MultiplexSettingsSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransportStreamBitrate", location: .body(locationName: "transportStreamBitrate"))
-        ]
 
         /// Transport stream bit rate.
         public let transportStreamBitrate: Int?
@@ -7811,10 +6798,6 @@ extension MediaLive {
     }
 
     public struct MultiplexStatmuxVideoSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaximumBitrate", location: .body(locationName: "maximumBitrate")), 
-            AWSShapeMember(label: "MinimumBitrate", location: .body(locationName: "minimumBitrate"))
-        ]
 
         /// Maximum statmux bitrate.
         public let maximumBitrate: Int?
@@ -7840,17 +6823,6 @@ extension MediaLive {
     }
 
     public struct MultiplexSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The unique arn of the multiplex.
         public let arn: String?
@@ -7897,10 +6869,6 @@ extension MediaLive {
     }
 
     public struct MultiplexVideoSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstantBitrate", location: .body(locationName: "constantBitrate")), 
-            AWSShapeMember(label: "StatmuxSettings", location: .body(locationName: "statmuxSettings"))
-        ]
 
         /// The constant bitrate configuration for the video encode.
         /// When this field is defined, StatmuxSettings must be undefined.
@@ -7927,10 +6895,6 @@ extension MediaLive {
     }
 
     public struct NetworkInputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HlsInputSettings", location: .body(locationName: "hlsInputSettings")), 
-            AWSShapeMember(label: "ServerValidation", location: .body(locationName: "serverValidation"))
-        ]
 
         /// Specifies HLS input settings when the uri is for a HLS manifest.
         public let hlsInputSettings: HlsInputSettings?
@@ -7953,10 +6917,6 @@ extension MediaLive {
     }
 
     public struct NielsenConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DistributorId", location: .body(locationName: "distributorId")), 
-            AWSShapeMember(label: "NielsenPcmToId3Tagging", location: .body(locationName: "nielsenPcmToId3Tagging"))
-        ]
 
         /// Enter the Distributor ID assigned to your organization by Nielsen.
         public let distributorId: String?
@@ -7975,19 +6935,6 @@ extension MediaLive {
     }
 
     public struct Offering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits")), 
-            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice")), 
-            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification")), 
-            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"))
-        ]
 
         /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
         public let arn: String?
@@ -8042,13 +6989,6 @@ extension MediaLive {
     }
 
     public struct Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioDescriptionNames", location: .body(locationName: "audioDescriptionNames")), 
-            AWSShapeMember(label: "CaptionDescriptionNames", location: .body(locationName: "captionDescriptionNames")), 
-            AWSShapeMember(label: "OutputName", location: .body(locationName: "outputName")), 
-            AWSShapeMember(label: "OutputSettings", location: .body(locationName: "outputSettings")), 
-            AWSShapeMember(label: "VideoDescriptionName", location: .body(locationName: "videoDescriptionName"))
-        ]
 
         /// The names of the AudioDescriptions used as audio sources for this output.
         public let audioDescriptionNames: [String]?
@@ -8085,12 +7025,6 @@ extension MediaLive {
     }
 
     public struct OutputDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "MediaPackageSettings", location: .body(locationName: "mediaPackageSettings")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Settings", location: .body(locationName: "settings"))
-        ]
 
         /// User-specified id. This is used in an output group or an output.
         public let id: String?
@@ -8124,12 +7058,6 @@ extension MediaLive {
     }
 
     public struct OutputDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordParam", location: .body(locationName: "passwordParam")), 
-            AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName")), 
-            AWSShapeMember(label: "Url", location: .body(locationName: "url")), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"))
-        ]
 
         /// key used to extract the password from EC2 Parameter store
         public let passwordParam: String?
@@ -8156,11 +7084,6 @@ extension MediaLive {
     }
 
     public struct OutputGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "OutputGroupSettings", location: .body(locationName: "outputGroupSettings")), 
-            AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"))
-        ]
 
         /// Custom output group name optionally defined by the user.  Only letters, numbers, and the underscore character allowed; only 32 characters allowed.
         public let name: String?
@@ -8190,16 +7113,6 @@ extension MediaLive {
     }
 
     public struct OutputGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArchiveGroupSettings", location: .body(locationName: "archiveGroupSettings")), 
-            AWSShapeMember(label: "FrameCaptureGroupSettings", location: .body(locationName: "frameCaptureGroupSettings")), 
-            AWSShapeMember(label: "HlsGroupSettings", location: .body(locationName: "hlsGroupSettings")), 
-            AWSShapeMember(label: "MediaPackageGroupSettings", location: .body(locationName: "mediaPackageGroupSettings")), 
-            AWSShapeMember(label: "MsSmoothGroupSettings", location: .body(locationName: "msSmoothGroupSettings")), 
-            AWSShapeMember(label: "MultiplexGroupSettings", location: .body(locationName: "multiplexGroupSettings")), 
-            AWSShapeMember(label: "RtmpGroupSettings", location: .body(locationName: "rtmpGroupSettings")), 
-            AWSShapeMember(label: "UdpGroupSettings", location: .body(locationName: "udpGroupSettings"))
-        ]
 
         public let archiveGroupSettings: ArchiveGroupSettings?
         public let frameCaptureGroupSettings: FrameCaptureGroupSettings?
@@ -8242,9 +7155,6 @@ extension MediaLive {
     }
 
     public struct OutputLocationRef: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationRefId", location: .body(locationName: "destinationRefId"))
-        ]
 
         public let destinationRefId: String?
 
@@ -8258,16 +7168,6 @@ extension MediaLive {
     }
 
     public struct OutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArchiveOutputSettings", location: .body(locationName: "archiveOutputSettings")), 
-            AWSShapeMember(label: "FrameCaptureOutputSettings", location: .body(locationName: "frameCaptureOutputSettings")), 
-            AWSShapeMember(label: "HlsOutputSettings", location: .body(locationName: "hlsOutputSettings")), 
-            AWSShapeMember(label: "MediaPackageOutputSettings", location: .body(locationName: "mediaPackageOutputSettings")), 
-            AWSShapeMember(label: "MsSmoothOutputSettings", location: .body(locationName: "msSmoothOutputSettings")), 
-            AWSShapeMember(label: "MultiplexOutputSettings", location: .body(locationName: "multiplexOutputSettings")), 
-            AWSShapeMember(label: "RtmpOutputSettings", location: .body(locationName: "rtmpOutputSettings")), 
-            AWSShapeMember(label: "UdpOutputSettings", location: .body(locationName: "udpOutputSettings"))
-        ]
 
         public let archiveOutputSettings: ArchiveOutputSettings?
         public let frameCaptureOutputSettings: FrameCaptureOutputSettings?
@@ -8317,9 +7217,6 @@ extension MediaLive {
     }
 
     public struct PauseStateScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pipelines", location: .body(locationName: "pipelines"))
-        ]
 
         public let pipelines: [PipelinePauseStateSettings]?
 
@@ -8333,11 +7230,6 @@ extension MediaLive {
     }
 
     public struct PipelineDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveInputAttachmentName", location: .body(locationName: "activeInputAttachmentName")), 
-            AWSShapeMember(label: "ActiveInputSwitchActionName", location: .body(locationName: "activeInputSwitchActionName")), 
-            AWSShapeMember(label: "PipelineId", location: .body(locationName: "pipelineId"))
-        ]
 
         /// The name of the active input attachment currently being ingested by this pipeline.
         public let activeInputAttachmentName: String?
@@ -8360,9 +7252,6 @@ extension MediaLive {
     }
 
     public struct PipelinePauseStateSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PipelineId", location: .body(locationName: "pipelineId"))
-        ]
 
         /// Pipeline ID to pause ("PIPELINE_0" or "PIPELINE_1").
         public let pipelineId: PipelineId
@@ -8378,12 +7267,7 @@ extension MediaLive {
 
     public struct PurchaseOfferingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId")), 
-            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId")), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId"))
         ]
 
         public let count: Int
@@ -8417,9 +7301,6 @@ extension MediaLive {
     }
 
     public struct PurchaseOfferingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"))
-        ]
 
         public let reservation: Reservation?
 
@@ -8449,11 +7330,6 @@ extension MediaLive {
     }
 
     public struct RemixSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelMappings", location: .body(locationName: "channelMappings")), 
-            AWSShapeMember(label: "ChannelsIn", location: .body(locationName: "channelsIn")), 
-            AWSShapeMember(label: "ChannelsOut", location: .body(locationName: "channelsOut"))
-        ]
 
         /// Mapping of input channels to output channels, with appropriate gain adjustments.
         public let channelMappings: [AudioChannelMapping]
@@ -8487,26 +7363,6 @@ extension MediaLive {
     }
 
     public struct Reservation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "Count", location: .body(locationName: "count")), 
-            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode")), 
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits")), 
-            AWSShapeMember(label: "End", location: .body(locationName: "end")), 
-            AWSShapeMember(label: "FixedPrice", location: .body(locationName: "fixedPrice")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription")), 
-            AWSShapeMember(label: "OfferingId", location: .body(locationName: "offeringId")), 
-            AWSShapeMember(label: "OfferingType", location: .body(locationName: "offeringType")), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region")), 
-            AWSShapeMember(label: "ReservationId", location: .body(locationName: "reservationId")), 
-            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification")), 
-            AWSShapeMember(label: "Start", location: .body(locationName: "start")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "UsagePrice", location: .body(locationName: "usagePrice"))
-        ]
 
         /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
         public let arn: String?
@@ -8589,16 +7445,6 @@ extension MediaLive {
     }
 
     public struct ReservationResourceSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Codec", location: .body(locationName: "codec")), 
-            AWSShapeMember(label: "MaximumBitrate", location: .body(locationName: "maximumBitrate")), 
-            AWSShapeMember(label: "MaximumFramerate", location: .body(locationName: "maximumFramerate")), 
-            AWSShapeMember(label: "Resolution", location: .body(locationName: "resolution")), 
-            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType")), 
-            AWSShapeMember(label: "SpecialFeature", location: .body(locationName: "specialFeature")), 
-            AWSShapeMember(label: "VideoQuality", location: .body(locationName: "videoQuality"))
-        ]
 
         /// Channel class, e.g. 'STANDARD'
         public let channelClass: ChannelClass?
@@ -8649,14 +7495,6 @@ extension MediaLive {
     }
 
     public struct RtmpGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationScheme", location: .body(locationName: "authenticationScheme")), 
-            AWSShapeMember(label: "CacheFullBehavior", location: .body(locationName: "cacheFullBehavior")), 
-            AWSShapeMember(label: "CacheLength", location: .body(locationName: "cacheLength")), 
-            AWSShapeMember(label: "CaptionData", location: .body(locationName: "captionData")), 
-            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction")), 
-            AWSShapeMember(label: "RestartDelay", location: .body(locationName: "restartDelay"))
-        ]
 
         /// Authentication scheme to use when connecting with CDN
         public let authenticationScheme: AuthenticationScheme?
@@ -8698,12 +7536,6 @@ extension MediaLive {
     }
 
     public struct RtmpOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateMode", location: .body(locationName: "certificateMode")), 
-            AWSShapeMember(label: "ConnectionRetryInterval", location: .body(locationName: "connectionRetryInterval")), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "NumRetries", location: .body(locationName: "numRetries"))
-        ]
 
         /// If set to verifyAuthenticity, verify the tls certificate chain to a trusted Certificate Authority (CA).  This will cause rtmps outputs with self-signed certificates to fail.
         public let certificateMode: RtmpOutputCertificateMode?
@@ -8735,11 +7567,6 @@ extension MediaLive {
     }
 
     public struct ScheduleAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionName", location: .body(locationName: "actionName")), 
-            AWSShapeMember(label: "ScheduleActionSettings", location: .body(locationName: "scheduleActionSettings")), 
-            AWSShapeMember(label: "ScheduleActionStartSettings", location: .body(locationName: "scheduleActionStartSettings"))
-        ]
 
         /// The name of the action, must be unique within the schedule. This name provides the main reference to an action once it is added to the schedule. A name is unique if it is no longer in the schedule. The schedule is automatically cleaned up to remove actions with a start time of more than 1 hour ago (approximately) so at that point a name can be reused.
         public let actionName: String
@@ -8766,17 +7593,6 @@ extension MediaLive {
     }
 
     public struct ScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HlsId3SegmentTaggingSettings", location: .body(locationName: "hlsId3SegmentTaggingSettings")), 
-            AWSShapeMember(label: "HlsTimedMetadataSettings", location: .body(locationName: "hlsTimedMetadataSettings")), 
-            AWSShapeMember(label: "InputSwitchSettings", location: .body(locationName: "inputSwitchSettings")), 
-            AWSShapeMember(label: "PauseStateSettings", location: .body(locationName: "pauseStateSettings")), 
-            AWSShapeMember(label: "Scte35ReturnToNetworkSettings", location: .body(locationName: "scte35ReturnToNetworkSettings")), 
-            AWSShapeMember(label: "Scte35SpliceInsertSettings", location: .body(locationName: "scte35SpliceInsertSettings")), 
-            AWSShapeMember(label: "Scte35TimeSignalSettings", location: .body(locationName: "scte35TimeSignalSettings")), 
-            AWSShapeMember(label: "StaticImageActivateSettings", location: .body(locationName: "staticImageActivateSettings")), 
-            AWSShapeMember(label: "StaticImageDeactivateSettings", location: .body(locationName: "staticImageDeactivateSettings"))
-        ]
 
         /// Action to insert HLS ID3 segment tagging
         public let hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings?
@@ -8831,11 +7647,6 @@ extension MediaLive {
     }
 
     public struct ScheduleActionStartSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FixedModeScheduleActionStartSettings", location: .body(locationName: "fixedModeScheduleActionStartSettings")), 
-            AWSShapeMember(label: "FollowModeScheduleActionStartSettings", location: .body(locationName: "followModeScheduleActionStartSettings")), 
-            AWSShapeMember(label: "ImmediateModeScheduleActionStartSettings", location: .body(locationName: "immediateModeScheduleActionStartSettings"))
-        ]
 
         /// Option for specifying the start time for an action.
         public let fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings?
@@ -8866,10 +7677,6 @@ extension MediaLive {
     }
 
     public struct Scte20SourceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708")), 
-            AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber"))
-        ]
 
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public let convert608To708: Scte20Convert608To708?
@@ -8901,9 +7708,6 @@ extension MediaLive {
     }
 
     public struct Scte27SourceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"))
-        ]
 
         /// The pid field is used in conjunction with the caption selector languageCode field as follows:
         ///   - Specify PID and Language: Extracts captions from that PID; the language is "informational".
@@ -8926,12 +7730,6 @@ extension MediaLive {
     }
 
     public struct Scte35DeliveryRestrictions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArchiveAllowedFlag", location: .body(locationName: "archiveAllowedFlag")), 
-            AWSShapeMember(label: "DeviceRestrictions", location: .body(locationName: "deviceRestrictions")), 
-            AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag")), 
-            AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"))
-        ]
 
         /// Corresponds to SCTE-35 archive_allowed_flag.
         public let archiveAllowedFlag: Scte35ArchiveAllowedFlag
@@ -8958,9 +7756,6 @@ extension MediaLive {
     }
 
     public struct Scte35Descriptor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scte35DescriptorSettings", location: .body(locationName: "scte35DescriptorSettings"))
-        ]
 
         /// SCTE-35 Descriptor Settings.
         public let scte35DescriptorSettings: Scte35DescriptorSettings
@@ -8979,9 +7774,6 @@ extension MediaLive {
     }
 
     public struct Scte35DescriptorSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SegmentationDescriptorScte35DescriptorSettings", location: .body(locationName: "segmentationDescriptorScte35DescriptorSettings"))
-        ]
 
         /// SCTE-35 Segmentation Descriptor.
         public let segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor
@@ -9000,9 +7792,6 @@ extension MediaLive {
     }
 
     public struct Scte35ReturnToNetworkScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SpliceEventId", location: .body(locationName: "spliceEventId"))
-        ]
 
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
         public let spliceEventId: Int64
@@ -9022,19 +7811,6 @@ extension MediaLive {
     }
 
     public struct Scte35SegmentationDescriptor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryRestrictions", location: .body(locationName: "deliveryRestrictions")), 
-            AWSShapeMember(label: "SegmentationCancelIndicator", location: .body(locationName: "segmentationCancelIndicator")), 
-            AWSShapeMember(label: "SegmentationDuration", location: .body(locationName: "segmentationDuration")), 
-            AWSShapeMember(label: "SegmentationEventId", location: .body(locationName: "segmentationEventId")), 
-            AWSShapeMember(label: "SegmentationTypeId", location: .body(locationName: "segmentationTypeId")), 
-            AWSShapeMember(label: "SegmentationUpid", location: .body(locationName: "segmentationUpid")), 
-            AWSShapeMember(label: "SegmentationUpidType", location: .body(locationName: "segmentationUpidType")), 
-            AWSShapeMember(label: "SegmentNum", location: .body(locationName: "segmentNum")), 
-            AWSShapeMember(label: "SegmentsExpected", location: .body(locationName: "segmentsExpected")), 
-            AWSShapeMember(label: "SubSegmentNum", location: .body(locationName: "subSegmentNum")), 
-            AWSShapeMember(label: "SubSegmentsExpected", location: .body(locationName: "subSegmentsExpected"))
-        ]
 
         /// Holds the four SCTE-35 delivery restriction parameters.
         public let deliveryRestrictions: Scte35DeliveryRestrictions?
@@ -9108,11 +7884,6 @@ extension MediaLive {
     }
 
     public struct Scte35SpliceInsert: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset")), 
-            AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag")), 
-            AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"))
-        ]
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public let adAvailOffset: Int?
@@ -9140,10 +7911,6 @@ extension MediaLive {
     }
 
     public struct Scte35SpliceInsertScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "SpliceEventId", location: .body(locationName: "spliceEventId"))
-        ]
 
         /// Optional, the duration for the splice_insert, in 90 KHz ticks. To convert seconds to ticks, multiple the seconds by 90,000. If you enter a duration, there is an expectation that the downstream system can read the duration and cue in at that time. If you do not enter a duration, the splice_insert will continue indefinitely and there is an expectation that you will enter a return_to_network to end the splice_insert at the appropriate time.
         public let duration: Int64?
@@ -9169,11 +7936,6 @@ extension MediaLive {
     }
 
     public struct Scte35TimeSignalApos: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdAvailOffset", location: .body(locationName: "adAvailOffset")), 
-            AWSShapeMember(label: "NoRegionalBlackoutFlag", location: .body(locationName: "noRegionalBlackoutFlag")), 
-            AWSShapeMember(label: "WebDeliveryAllowedFlag", location: .body(locationName: "webDeliveryAllowedFlag"))
-        ]
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public let adAvailOffset: Int?
@@ -9201,9 +7963,6 @@ extension MediaLive {
     }
 
     public struct Scte35TimeSignalScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scte35Descriptors", location: .body(locationName: "scte35Descriptors"))
-        ]
 
         /// The list of SCTE-35 descriptors accompanying the SCTE-35 time_signal.
         public let scte35Descriptors: [Scte35Descriptor]
@@ -9232,10 +7991,6 @@ extension MediaLive {
     }
 
     public struct StandardHlsSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets")), 
-            AWSShapeMember(label: "M3u8Settings", location: .body(locationName: "m3u8Settings"))
-        ]
 
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
@@ -9273,23 +8028,6 @@ extension MediaLive {
     }
 
     public struct StartChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints")), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -9361,18 +8099,6 @@ extension MediaLive {
     }
 
     public struct StartMultiplexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -9413,9 +8139,6 @@ extension MediaLive {
     }
 
     public struct StartTimecode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timecode", location: .body(locationName: "timecode"))
-        ]
 
         /// The timecode for the frame where you want to start the clip. Optional; if not specified, the clip starts at first frame in the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
         public let timecode: String?
@@ -9430,18 +8153,6 @@ extension MediaLive {
     }
 
     public struct StaticImageActivateScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Duration", location: .body(locationName: "duration")), 
-            AWSShapeMember(label: "FadeIn", location: .body(locationName: "fadeIn")), 
-            AWSShapeMember(label: "FadeOut", location: .body(locationName: "fadeOut")), 
-            AWSShapeMember(label: "Height", location: .body(locationName: "height")), 
-            AWSShapeMember(label: "Image", location: .body(locationName: "image")), 
-            AWSShapeMember(label: "ImageX", location: .body(locationName: "imageX")), 
-            AWSShapeMember(label: "ImageY", location: .body(locationName: "imageY")), 
-            AWSShapeMember(label: "Layer", location: .body(locationName: "layer")), 
-            AWSShapeMember(label: "Opacity", location: .body(locationName: "opacity")), 
-            AWSShapeMember(label: "Width", location: .body(locationName: "width"))
-        ]
 
         /// The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.
         public let duration: Int?
@@ -9506,10 +8217,6 @@ extension MediaLive {
     }
 
     public struct StaticImageDeactivateScheduleActionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FadeOut", location: .body(locationName: "fadeOut")), 
-            AWSShapeMember(label: "Layer", location: .body(locationName: "layer"))
-        ]
 
         /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
         public let fadeOut: Int?
@@ -9534,10 +8241,6 @@ extension MediaLive {
     }
 
     public struct StaticKeySettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyProviderServer", location: .body(locationName: "keyProviderServer")), 
-            AWSShapeMember(label: "StaticKeyValue", location: .body(locationName: "staticKeyValue"))
-        ]
 
         /// The URL of the license server used for protecting content.
         public let keyProviderServer: InputLocation?
@@ -9577,23 +8280,6 @@ extension MediaLive {
     }
 
     public struct StopChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EgressEndpoints", location: .body(locationName: "egressEndpoints")), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -9665,18 +8351,6 @@ extension MediaLive {
     }
 
     public struct StopMultiplexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn")), 
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount")), 
-            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount")), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -9717,10 +8391,6 @@ extension MediaLive {
     }
 
     public struct StopTimecode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastFrameClippingBehavior", location: .body(locationName: "lastFrameClippingBehavior")), 
-            AWSShapeMember(label: "Timecode", location: .body(locationName: "timecode"))
-        ]
 
         /// If you specify a StopTimecode in an input (in order to clip the file), you can specify if you want the clip to exclude (the default) or include the frame specified by the timecode.
         public let lastFrameClippingBehavior: LastFrameClippingBehavior?
@@ -9747,9 +8417,6 @@ extension MediaLive {
     }
 
     public struct TeletextSourceSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"))
-        ]
 
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
         public let pageNumber: String?
@@ -9764,10 +8431,6 @@ extension MediaLive {
     }
 
     public struct TimecodeConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Source", location: .body(locationName: "source")), 
-            AWSShapeMember(label: "SyncThreshold", location: .body(locationName: "syncThreshold"))
-        ]
 
         /// Identifies the source for the timecode that will be associated with the events outputs.
         /// -Embedded (embedded): Initialize the output timecode with timecode from the the source.  If no embedded timecode is detected in the source, the system falls back to using "Start at 0" (zerobased).
@@ -9794,9 +8457,6 @@ extension MediaLive {
     }
 
     public struct TtmlDestinationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StyleControl", location: .body(locationName: "styleControl"))
-        ]
 
         /// When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
         public let styleControl: TtmlDestinationStyleControl?
@@ -9811,9 +8471,6 @@ extension MediaLive {
     }
 
     public struct UdpContainerSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"))
-        ]
 
         public let m2tsSettings: M2tsSettings?
 
@@ -9831,11 +8488,6 @@ extension MediaLive {
     }
 
     public struct UdpGroupSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction")), 
-            AWSShapeMember(label: "TimedMetadataId3Frame", location: .body(locationName: "timedMetadataId3Frame")), 
-            AWSShapeMember(label: "TimedMetadataId3Period", location: .body(locationName: "timedMetadataId3Period"))
-        ]
 
         /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted.  When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement).  Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
         public let inputLossAction: InputLossActionForUdpOut?
@@ -9862,12 +8514,6 @@ extension MediaLive {
     }
 
     public struct UdpOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BufferMsec", location: .body(locationName: "bufferMsec")), 
-            AWSShapeMember(label: "ContainerSettings", location: .body(locationName: "containerSettings")), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination")), 
-            AWSShapeMember(label: "FecOutputSettings", location: .body(locationName: "fecOutputSettings"))
-        ]
 
         /// UDP output buffering in milliseconds. Larger values increase latency through the transcoder but simultaneously assist the transcoder in maintaining a constant, low-jitter UDP/RTP output while accommodating clock recovery, input switching, input disruptions, picture reordering, etc.
         public let bufferMsec: Int?
@@ -9901,9 +8547,7 @@ extension MediaLive {
 
     public struct UpdateChannelClassRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .body(locationName: "channelClass")), 
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"))
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelClass: ChannelClass
@@ -9930,9 +8574,6 @@ extension MediaLive {
     }
 
     public struct UpdateChannelClassResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"))
-        ]
 
         public let channel: Channel?
 
@@ -9947,14 +8588,7 @@ extension MediaLive {
 
     public struct UpdateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId")), 
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "EncoderSettings", location: .body(locationName: "encoderSettings")), 
-            AWSShapeMember(label: "InputAttachments", location: .body(locationName: "inputAttachments")), 
-            AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification")), 
-            AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"))
+            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -10000,9 +8634,6 @@ extension MediaLive {
     }
 
     public struct UpdateChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Channel", location: .body(locationName: "channel"))
-        ]
 
         public let channel: Channel?
 
@@ -10017,13 +8648,7 @@ extension MediaLive {
 
     public struct UpdateInputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations")), 
-            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId")), 
-            AWSShapeMember(label: "InputSecurityGroups", location: .body(locationName: "inputSecurityGroups")), 
-            AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn")), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"))
+            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"))
         ]
 
         public let destinations: [InputDestinationRequest]?
@@ -10056,9 +8681,6 @@ extension MediaLive {
     }
 
     public struct UpdateInputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Input", location: .body(locationName: "input"))
-        ]
 
         public let input: Input?
 
@@ -10073,9 +8695,7 @@ extension MediaLive {
 
     public struct UpdateInputSecurityGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags")), 
-            AWSShapeMember(label: "WhitelistRules", location: .body(locationName: "whitelistRules"))
+            AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
         ]
 
         public let inputSecurityGroupId: String
@@ -10096,9 +8716,6 @@ extension MediaLive {
     }
 
     public struct UpdateInputSecurityGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"))
-        ]
 
         public let securityGroup: InputSecurityGroup?
 
@@ -10114,7 +8731,6 @@ extension MediaLive {
     public struct UpdateMultiplexProgramRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
-            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings")), 
             AWSShapeMember(label: "ProgramName", location: .uri(locationName: "programName"))
         ]
 
@@ -10140,9 +8756,6 @@ extension MediaLive {
     }
 
     public struct UpdateMultiplexProgramResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexProgram", location: .body(locationName: "multiplexProgram"))
-        ]
 
         public let multiplexProgram: MultiplexProgram?
 
@@ -10157,9 +8770,7 @@ extension MediaLive {
 
     public struct UpdateMultiplexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
-            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"))
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -10184,9 +8795,6 @@ extension MediaLive {
     }
 
     public struct UpdateMultiplexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Multiplex", location: .body(locationName: "multiplex"))
-        ]
 
         public let multiplex: Multiplex?
 
@@ -10201,7 +8809,6 @@ extension MediaLive {
 
     public struct UpdateReservationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
             AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"))
         ]
 
@@ -10220,9 +8827,6 @@ extension MediaLive {
     }
 
     public struct UpdateReservationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"))
-        ]
 
         public let reservation: Reservation?
 
@@ -10236,11 +8840,6 @@ extension MediaLive {
     }
 
     public struct VideoCodecSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FrameCaptureSettings", location: .body(locationName: "frameCaptureSettings")), 
-            AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings")), 
-            AWSShapeMember(label: "H265Settings", location: .body(locationName: "h265Settings"))
-        ]
 
         public let frameCaptureSettings: FrameCaptureSettings?
         public let h264Settings: H264Settings?
@@ -10266,15 +8865,6 @@ extension MediaLive {
     }
 
     public struct VideoDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodecSettings", location: .body(locationName: "codecSettings")), 
-            AWSShapeMember(label: "Height", location: .body(locationName: "height")), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name")), 
-            AWSShapeMember(label: "RespondToAfd", location: .body(locationName: "respondToAfd")), 
-            AWSShapeMember(label: "ScalingBehavior", location: .body(locationName: "scalingBehavior")), 
-            AWSShapeMember(label: "Sharpness", location: .body(locationName: "sharpness")), 
-            AWSShapeMember(label: "Width", location: .body(locationName: "width"))
-        ]
 
         /// Video codec settings.
         public let codecSettings: VideoCodecSettings?
@@ -10319,11 +8909,6 @@ extension MediaLive {
     }
 
     public struct VideoSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColorSpace", location: .body(locationName: "colorSpace")), 
-            AWSShapeMember(label: "ColorSpaceUsage", location: .body(locationName: "colorSpaceUsage")), 
-            AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"))
-        ]
 
         /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
         public let colorSpace: VideoSelectorColorSpace?
@@ -10350,9 +8935,6 @@ extension MediaLive {
     }
 
     public struct VideoSelectorPid: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pid", location: .body(locationName: "pid"))
-        ]
 
         /// Selects a specific PID from within a video source.
         public let pid: Int?
@@ -10372,9 +8954,6 @@ extension MediaLive {
     }
 
     public struct VideoSelectorProgramId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProgramId", location: .body(locationName: "programId"))
-        ]
 
         /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
         public let programId: Int?
@@ -10394,10 +8973,6 @@ extension MediaLive {
     }
 
     public struct VideoSelectorSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VideoSelectorPid", location: .body(locationName: "videoSelectorPid")), 
-            AWSShapeMember(label: "VideoSelectorProgramId", location: .body(locationName: "videoSelectorProgramId"))
-        ]
 
         public let videoSelectorPid: VideoSelectorPid?
         public let videoSelectorProgramId: VideoSelectorProgramId?

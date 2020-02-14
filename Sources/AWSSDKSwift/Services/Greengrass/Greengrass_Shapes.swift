@@ -1319,9 +1319,6 @@ extension Greengrass {
     }
 
     public struct DefinitionInformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The ARN of the definition.
         public let arn: String?
@@ -1962,9 +1959,6 @@ extension Greengrass {
     }
 
     public struct GetConnectivityInfoResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// Connectivity info list.
         public let connectivityInfo: [ConnectivityInfo]?
@@ -4335,9 +4329,6 @@ extension Greengrass {
     }
 
     public struct UpdateConnectivityInfoResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"))
-        ]
 
         /// A message about the connectivity info update request.
         public let message: String?

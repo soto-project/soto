@@ -27,9 +27,6 @@ extension Schemas {
     //MARK: Shapes
 
     public struct CreateDiscovererRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let sourceArn: String
@@ -56,9 +53,6 @@ extension Schemas {
     }
 
     public struct CreateDiscovererResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let discovererArn: String?
@@ -88,8 +82,7 @@ extension Schemas {
 
     public struct CreateRegistryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"))
         ]
 
         public let description: String?
@@ -115,9 +108,6 @@ extension Schemas {
     }
 
     public struct CreateRegistryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let registryArn: String?
@@ -142,8 +132,7 @@ extension Schemas {
     public struct CreateSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName"))
         ]
 
         public let content: String
@@ -180,9 +169,6 @@ extension Schemas {
     }
 
     public struct CreateSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let lastModified: TimeStamp?
@@ -359,9 +345,6 @@ extension Schemas {
     }
 
     public struct DescribeDiscovererResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let discovererArn: String?
@@ -406,9 +389,6 @@ extension Schemas {
     }
 
     public struct DescribeRegistryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let registryArn: String?
@@ -455,9 +435,6 @@ extension Schemas {
     }
 
     public struct DescribeSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let content: String?
         public let description: String?
@@ -495,9 +472,6 @@ extension Schemas {
     }
 
     public struct DiscovererSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The ARN of the discoverer.
         public let discovererArn: String?
@@ -908,9 +882,6 @@ extension Schemas {
     }
 
     public struct RegistrySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The ARN of the registry.
         public let registryArn: String?
@@ -933,9 +904,6 @@ extension Schemas {
     }
 
     public struct SchemaSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         /// The date and time that schema was modified.
         public let lastModified: TimeStamp?
@@ -1140,8 +1108,7 @@ extension Schemas {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1229,9 +1196,6 @@ extension Schemas {
     }
 
     public struct UpdateDiscovererResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let discovererArn: String?
@@ -1284,9 +1248,6 @@ extension Schemas {
     }
 
     public struct UpdateRegistryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let registryArn: String?
@@ -1350,9 +1311,6 @@ extension Schemas {
     }
 
     public struct UpdateSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"))
-        ]
 
         public let description: String?
         public let lastModified: TimeStamp?
