@@ -47,13 +47,13 @@ Before using the SDK, you will need AWS credentials to sign all your requests. C
 
 If you are running your code on an AWS EC2 instance, you [can setup an IAM role as the server's Instance Profile](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-iam-instance-profile.html) to automatically grant credentials via the metadata service.
 
-There are no code changes or configurations to specify in the code, it will automatically pull and use them.
+There are no code changes or configurations to specify in the code, it will automatically pull and use the credentials.
 
 ### Via ECS Container credentials
 
 If you are running your code as an AWS ECS container task, you [can setup an IAM role for your container task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html#create_task_iam_policy_and_role) to automatically grant credentials via the metadata service.
 
-There are no code changes or configurations to specify in the code, it will automatically pull and use them.
+Similar to the EC2 setup there are no code changes or configurations to specify in the code, it will automatically pull and use the credentials.
 
 ### Load Credentials from shared credential file.
 
@@ -92,7 +92,7 @@ Some services like CognitoIdentityProvider don't require credentials to access s
 
 ## Using `aws-sdk-swift`
 
-AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call aws services. See documentation for details on specific services.
+AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call AWS services. See documentation for details on specific services.
 
 The underlying aws-sdk-swift httpclient returns a [swift-nio EventLoopFuture object](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html). An EventLoopFuture _is not_ the response, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread.
 
@@ -127,10 +127,6 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
     }
 }
 ```
-
-## upgrading from <3.0.x
-
-The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls. However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
 
 ## EventLoopGroup management
 
@@ -196,11 +192,9 @@ s3.createBucket(createBucketRequest).whenSuccess { response in
 
 ```
 -->
-## Speed Up Compilation
+## upgrading from <3.0.x
 
-By specifying only those modules necessary for your application, only those modules will compile which makes for fast compilation.
-
-If you want to create a module for your service, you can try using the module-exporter to build a separate repo for any of the modules.
+The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls. However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
 
 ## License
 `aws-sdk-swift` is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.
