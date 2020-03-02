@@ -92,7 +92,7 @@ Some services like CognitoIdentityProvider don't require credentials to access s
 
 ## Using AWSSDKSwift
 
-AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call AWS services. See [documentation](https://github.com/swift-aws/aws-sdk-swift/tree/adam-fowler-readme-updates#documentation) for details on specific services.
+AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call AWS services. See [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) for details on specific services.
 
 Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of aws-sdk-swift.
 
