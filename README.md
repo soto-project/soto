@@ -41,25 +41,23 @@ AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio]
 
 ## Configuring Credentials
 
-Before using the SDK, you will need AWS credentials to sign all your requests. Credentials can be provided in the following ways.
+Before using the SDK, you will need AWS credentials to sign all your requests. Credentials can be provided to the library in the following ways.
 
 ### Via EC2 Instance Profile
 
-If you are running your code on an AWS EC2 instance, you [can setup an IAM role as the server's Instance Profile](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-iam-instance-profile.html) to automatically grant credentials via the metadata service.
+If you are running your code on an AWS EC2 instance, you [can setup an IAM role](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-iam-instance-profile.html) as the server's Instance Profile to automatically grant credentials via the metadata service.
 
 There are no code changes or configurations to specify in the code, it will automatically pull and use the credentials.
 
 ### Via ECS Container credentials
 
-If you are running your code as an AWS ECS container task, you [can setup an IAM role for your container task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html#create_task_iam_policy_and_role) to automatically grant credentials via the metadata service.
+If you are running your code as an AWS ECS container task, you [can setup an IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html#create_task_iam_policy_and_role) for your container task to automatically grant credentials via the metadata service.
 
 Similar to the EC2 setup there are no code changes or configurations to specify in the code, it will automatically pull and use the credentials.
 
 ### Load Credentials from shared credential file.
 
-You can [set shared credentials in the home directory for the user running the app](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html)
-
-in ~/.aws/credentials,
+You can [set shared credentials](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html) in the home directory for the user running the app, in the file ~/.aws/credentials,
 
 ```ini
 [default]
