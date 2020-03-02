@@ -18,7 +18,7 @@ AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio]
 
 ## Documentation
 
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference.
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS api calls the aws-sdk-swift api calls you can use the official AWS [documentation](https://docs.aws.amazon.com/) to find out more about each AWS service. 
 
 ## Installation
 
