@@ -90,7 +90,7 @@ Some services like CognitoIdentityProvider don't require credentials to access s
 
 ## Using AWSSDKSwift
 
-AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call AWS services. See [documentation](#documentation) for details on specific services.
+AWS Swift Modules can be imported into any swift project. Each module provides a service struct that can be initialized with AWS credentials, and some configuration options. This struct also contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services.
 
 Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of aws-sdk-swift.
 
@@ -192,7 +192,7 @@ s3.createBucket(createBucketRequest).whenSuccess { response in
 -->
 ## Documentation
 
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS API calls and the aws-sdk-swift API calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the aws-sdk-swift api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
 
 ## upgrading from <3.0.x
 
