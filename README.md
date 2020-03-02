@@ -1,11 +1,15 @@
 # AWS SDK Swift
 
-AWS SDK for the Swift programming language working on Linux, macOS and iOS.
+AWS SDK for the Swift programming language working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. 
+
+The library consists of three parts 
+1. [aws-sdk-swift-core](https://github.com/swift-aws/aws-sdk-swift-core) which does all the core request encoding, response decoding and error handling. 
+2. The service api and shape [files](https://github.com/swift-aws/aws-sdk-swift/tree/master/Sources/AWSSDKSwift/Services) which define the individual AWS services and their commands with their input and output structures.
+3. The [CodeGenerator](https://github.com/swift-aws/aws-sdk-swift/tree/master/CodeGenerator) which builds the service api and model files from the [JSON model](https://github.com/swift-aws/aws-sdk-swift/tree/master/models/apis) files supplied by Amazon.
 
 [<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
-[<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/Swift/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions)
-
+[<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/CI/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions?query=workflow%3ACI)
 
 ## Installation
 
