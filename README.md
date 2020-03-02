@@ -1,15 +1,15 @@
 # AWS SDK Swift
 
-AWS SDK for the Swift programming language working on Linux, macOS and iOS.
-
 [<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
-[<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/Swift/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions)
+[<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/CI/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions?query=workflow%3ACI)
 
+AWS SDK for the Swift programming language working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. 
 
-## Documentation
-
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS API calls and the aws-sdk-swift API calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
+The library consists of three parts 
+1. [aws-sdk-swift-core](https://github.com/swift-aws/aws-sdk-swift-core) which does all the core request encoding and signing, response decoding and error handling. 
+2. The service [api files](https://github.com/swift-aws/aws-sdk-swift/tree/master/Sources/AWSSDKSwift/Services) which define the individual AWS services and their commands with their input and output structures.
+3. The [CodeGenerator](https://github.com/swift-aws/aws-sdk-swift/tree/master/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/swift-aws/aws-sdk-swift/tree/master/models/apis) files supplied by Amazon.
 
 ## Installation
 
@@ -41,25 +41,23 @@ AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio]
 
 ## Configuring Credentials
 
-Before using the SDK, you will need AWS credentials to sign all your requests. Credentials can be provided in the following ways.
+Before using the SDK, you will need AWS credentials to sign all your requests. Credentials can be provided to the library in the following ways.
 
 ### Via EC2 Instance Profile
 
-If you are running your code on an AWS EC2 instance, you [can setup an IAM role as the server's Instance Profile](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-iam-instance-profile.html) to automatically grant credentials via the metadata service.
+If you are running your code on an AWS EC2 instance, you [can setup an IAM role](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-iam-instance-profile.html) as the server's Instance Profile to automatically grant credentials via the metadata service.
 
 There are no code changes or configurations to specify in the code, it will automatically pull and use the credentials.
 
 ### Via ECS Container credentials
 
-If you are running your code as an AWS ECS container task, you [can setup an IAM role for your container task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html#create_task_iam_policy_and_role) to automatically grant credentials via the metadata service.
+If you are running your code as an AWS ECS container task, you [can setup an IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html#create_task_iam_policy_and_role) for your container task to automatically grant credentials via the metadata service.
 
 Similar to the EC2 setup there are no code changes or configurations to specify in the code, it will automatically pull and use the credentials.
 
 ### Load Credentials from shared credential file.
 
-You can [set shared credentials in the home directory for the user running the app](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html)
-
-in ~/.aws/credentials,
+You can [set shared credentials](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html) in the home directory for the user running the app, in the file ~/.aws/credentials,
 
 ```ini
 [default]
@@ -92,7 +90,7 @@ Some services like CognitoIdentityProvider don't require credentials to access s
 
 ## Using AWSSDKSwift
 
-AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call AWS services. See [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) for details on specific services.
+AWS Swift Modules can be imported into any swift project. Each module provides a service struct that can be initialized with AWS credentials, if required, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services.
 
 Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of aws-sdk-swift.
 
@@ -138,7 +136,7 @@ The EventLoopGroup types you can use depend on the platform you are running on. 
 
 ## Using AWSSDKSwift with Vapor
 
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the [compatibility](https://github.com/swift-aws/aws-sdk-swift/tree/adam-fowler-readme-updates#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
 ```swift
 import Vapor
@@ -192,6 +190,10 @@ s3.createBucket(createBucketRequest).whenSuccess { response in
 
 ```
 -->
+## Documentation
+
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the aws-sdk-swift api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
+
 ## upgrading from <3.0.x
 
 The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls. However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
