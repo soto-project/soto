@@ -3,7 +3,7 @@
 AWS SDK for the Swift programming language working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. 
 
 The library consists of three parts 
-1. [aws-sdk-swift-core](https://github.com/swift-aws/aws-sdk-swift-core) which does all the core request encoding, response decoding and error handling. 
+1. [aws-sdk-swift-core](https://github.com/swift-aws/aws-sdk-swift-core) which does all the core request encoding and signing, response decoding and error handling. 
 2. The service api and shape [files](https://github.com/swift-aws/aws-sdk-swift/tree/master/Sources/AWSSDKSwift/Services) which define the individual AWS services and their commands with their input and output structures.
 3. The [CodeGenerator](https://github.com/swift-aws/aws-sdk-swift/tree/master/CodeGenerator) which builds the service api and model files from the [JSON model](https://github.com/swift-aws/aws-sdk-swift/tree/master/models/apis) files supplied by Amazon.
 
@@ -90,7 +90,7 @@ Some services like CognitoIdentityProvider don't require credentials to access s
 
 ## Using AWSSDKSwift
 
-AWS Swift Modules can be imported into any swift project. Each module provides a service struct that can be initialized with AWS credentials, and some configuration options. This struct also contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services.
+AWS Swift Modules can be imported into any swift project. Each module provides a service struct that can be initialized with AWS credentials, if required, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services.
 
 Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of aws-sdk-swift.
 
