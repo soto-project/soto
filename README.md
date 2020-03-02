@@ -7,10 +7,6 @@ AWS SDK for the Swift programming language working on Linux, macOS and iOS.
 [<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/Swift/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions)
 
 
-## Documentation
-
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS API calls and the aws-sdk-swift API calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
-
 ## Installation
 
 ### Swift Package Manager
@@ -92,7 +88,7 @@ Some services like CognitoIdentityProvider don't require credentials to access s
 
 ## Using AWSSDKSwift
 
-AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call AWS services. See [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) for details on specific services.
+AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call AWS services. See [documentation](#documentation) for details on specific services.
 
 Each aws-sdk-swift command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of aws-sdk-swift.
 
@@ -138,7 +134,7 @@ The EventLoopGroup types you can use depend on the platform you are running on. 
 
 ## Using AWSSDKSwift with Vapor
 
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the [compatibility](https://github.com/swift-aws/aws-sdk-swift/tree/adam-fowler-readme-updates#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
 ```swift
 import Vapor
@@ -192,6 +188,10 @@ s3.createBucket(createBucketRequest).whenSuccess { response in
 
 ```
 -->
+## Documentation
+
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS API calls and the aws-sdk-swift API calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
+
 ## upgrading from <3.0.x
 
 The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls. However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
