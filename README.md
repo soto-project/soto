@@ -7,15 +7,6 @@ AWS SDK for the Swift programming language working on Linux, macOS and iOS.
 [<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/Swift/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions)
 
 
-## Compatibility
-
-AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio](https://github.com/apple/swift-nio) 2. Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
-
-| Version | Swift | MacOS | iOS    | Linux              | Vapor  |
-|---------|-------|-------|--------|--------------------|--------|
-| 3.x     | 4.2 - | ✓     |        | Ubuntu 14.04-18.04 | 3.0    |
-| 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 14.04-18.04 | 4.0    |
-
 ## Documentation
 
 Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS API calls and the aws-sdk-swift API calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about aws-sdk-swift commands. 
@@ -38,6 +29,15 @@ Then add target dependencies for each of the AWSSDKSwift targets you want to use
 )
 ```
 Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that.
+
+## Compatibility
+
+AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio](https://github.com/apple/swift-nio) 2. Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
+
+| Version | Swift | MacOS | iOS    | Linux              | Vapor  |
+|---------|-------|-------|--------|--------------------|--------|
+| 3.x     | 4.2 - | ✓     |        | Ubuntu 14.04-18.04 | 3.0    |
+| 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 14.04-18.04 | 4.0    |
 
 ## Configuring Credentials
 
