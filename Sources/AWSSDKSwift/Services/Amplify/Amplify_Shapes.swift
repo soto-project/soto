@@ -496,8 +496,8 @@ extension Amplify {
     }
 
     public struct CreateBackendEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -550,8 +550,8 @@ extension Amplify {
     }
 
     public struct CreateBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -671,9 +671,9 @@ extension Amplify {
     }
 
     public struct CreateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -730,8 +730,8 @@ extension Amplify {
     }
 
     public struct CreateDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -783,8 +783,8 @@ extension Amplify {
     }
 
     public struct CreateWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -867,8 +867,8 @@ extension Amplify {
     }
 
     public struct DeleteAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -902,9 +902,9 @@ extension Amplify {
     }
 
     public struct DeleteBackendEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "environmentName", location: .uri(locationName: "environmentName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
         ///  Unique Id of an Amplify App. 
@@ -945,9 +945,9 @@ extension Amplify {
     }
 
     public struct DeleteBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -988,9 +988,9 @@ extension Amplify {
     }
 
     public struct DeleteDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1029,10 +1029,10 @@ extension Amplify {
     }
 
     public struct DeleteJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName")), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1077,8 +1077,8 @@ extension Amplify {
     }
 
     public struct DeleteWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookId", location: .uri(locationName: "webhookId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
         ///  Unique Id for a webhook. 
@@ -1150,8 +1150,8 @@ extension Amplify {
     }
 
     public struct GenerateAccessLogsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1199,8 +1199,8 @@ extension Amplify {
     }
 
     public struct GetAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1234,8 +1234,8 @@ extension Amplify {
     }
 
     public struct GetArtifactUrlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactId", location: .uri(locationName: "artifactId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "artifactId", location: .uri(locationName: "artifactId"))
         ]
 
         ///  Unique Id for a artifact. 
@@ -1273,9 +1273,9 @@ extension Amplify {
     }
 
     public struct GetBackendEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "environmentName", location: .uri(locationName: "environmentName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1316,9 +1316,9 @@ extension Amplify {
     }
 
     public struct GetBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1358,9 +1358,9 @@ extension Amplify {
     }
 
     public struct GetDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1400,10 +1400,10 @@ extension Amplify {
     }
 
     public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName")), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1448,8 +1448,8 @@ extension Amplify {
     }
 
     public struct GetWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookId", location: .uri(locationName: "webhookId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
         ///  Unique Id for a webhook. 
@@ -1547,9 +1547,9 @@ extension Amplify {
     }
 
     public struct ListAppsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response. 
@@ -1593,12 +1593,12 @@ extension Amplify {
     }
 
     public struct ListArtifactsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName")), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1659,10 +1659,10 @@ extension Amplify {
     }
 
     public struct ListBackendEnvironmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an amplify App. 
@@ -1718,10 +1718,10 @@ extension Amplify {
     }
 
     public struct ListBranchesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1771,10 +1771,10 @@ extension Amplify {
     }
 
     public struct ListDomainAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1824,11 +1824,11 @@ extension Amplify {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1884,8 +1884,8 @@ extension Amplify {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  Resource arn used to list tags. 
@@ -1919,10 +1919,10 @@ extension Amplify {
     }
 
     public struct ListWebhooksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1998,9 +1998,9 @@ extension Amplify {
     }
 
     public struct StartDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2051,9 +2051,9 @@ extension Amplify {
     }
 
     public struct StartJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2176,10 +2176,10 @@ extension Amplify {
     }
 
     public struct StopJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName")), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2271,8 +2271,8 @@ extension Amplify {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  Resource arn used to tag resource. 
@@ -2310,9 +2310,9 @@ extension Amplify {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         ///  Resource arn used to untag resource. 
@@ -2351,8 +2351,8 @@ extension Amplify {
     }
 
     public struct UpdateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Personal Access token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. Token is not stored. 
@@ -2475,9 +2475,9 @@ extension Amplify {
     }
 
     public struct UpdateBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2587,9 +2587,9 @@ extension Amplify {
     }
 
     public struct UpdateDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId")), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2641,8 +2641,8 @@ extension Amplify {
     }
 
     public struct UpdateWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookId", location: .uri(locationName: "webhookId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
         ///  Name for a branch, part of an Amplify App. 

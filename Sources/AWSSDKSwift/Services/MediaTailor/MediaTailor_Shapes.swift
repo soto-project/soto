@@ -73,8 +73,8 @@ extension MediaTailor {
     }
 
     public struct DeletePlaybackConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "Name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Name", location: .uri(locationName: "Name"))
         ]
 
         public let name: String
@@ -97,8 +97,8 @@ extension MediaTailor {
     }
 
     public struct GetPlaybackConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "Name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Name", location: .uri(locationName: "Name"))
         ]
 
         public let name: String
@@ -189,9 +189,9 @@ extension MediaTailor {
     }
 
     public struct ListPlaybackConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         public let maxResults: Int?
@@ -232,8 +232,8 @@ extension MediaTailor {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         public let resourceArn: String
@@ -420,8 +420,8 @@ extension MediaTailor {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         public let resourceArn: String
@@ -439,9 +439,9 @@ extension MediaTailor {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String

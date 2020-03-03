@@ -160,9 +160,9 @@ extension IoTAnalytics {
     }
 
     public struct CancelPipelineReprocessingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName")), 
-            AWSShapeMember(label: "reprocessingId", location: .uri(locationName: "reprocessingId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName")), 
+            AWSMemberEncoding(label: "reprocessingId", location: .uri(locationName: "reprocessingId"))
         ]
 
         /// The name of pipeline for which data reprocessing is canceled.
@@ -449,8 +449,8 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatasetContentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// The name of the data set.
@@ -1234,8 +1234,8 @@ extension IoTAnalytics {
     }
 
     public struct DeleteChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
         ]
 
         /// The name of the channel to delete.
@@ -1257,9 +1257,9 @@ extension IoTAnalytics {
     }
 
     public struct DeleteDatasetContentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName")), 
-            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
+            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// The name of the data set whose content is deleted.
@@ -1287,8 +1287,8 @@ extension IoTAnalytics {
     }
 
     public struct DeleteDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// The name of the data set to delete.
@@ -1310,8 +1310,8 @@ extension IoTAnalytics {
     }
 
     public struct DeleteDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName"))
         ]
 
         /// The name of the data store to delete.
@@ -1333,8 +1333,8 @@ extension IoTAnalytics {
     }
 
     public struct DeletePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// The name of the pipeline to delete.
@@ -1374,9 +1374,9 @@ extension IoTAnalytics {
     }
 
     public struct DescribeChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName")), 
-            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
+            AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
         ]
 
         /// The name of the channel whose information is retrieved.
@@ -1420,8 +1420,8 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// The name of the data set whose information is retrieved.
@@ -1457,9 +1457,9 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName")), 
-            AWSShapeMember(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName")), 
+            AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
         ]
 
         /// The name of the data store
@@ -1525,8 +1525,8 @@ extension IoTAnalytics {
     }
 
     public struct DescribePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// The name of the pipeline whose information is retrieved.
@@ -1697,9 +1697,9 @@ extension IoTAnalytics {
     }
 
     public struct GetDatasetContentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName")), 
-            AWSShapeMember(label: "versionId", location: .querystring(locationName: "versionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
+            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// The name of the data set whose contents are retrieved.
@@ -1840,9 +1840,9 @@ extension IoTAnalytics {
     }
 
     public struct ListChannelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -1885,12 +1885,12 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetContentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore")), 
-            AWSShapeMember(label: "scheduledOnOrAfter", location: .querystring(locationName: "scheduledOnOrAfter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore")), 
+            AWSMemberEncoding(label: "scheduledOnOrAfter", location: .querystring(locationName: "scheduledOnOrAfter"))
         ]
 
         /// The name of the data set whose contents information you want to list.
@@ -1948,9 +1948,9 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -1993,9 +1993,9 @@ extension IoTAnalytics {
     }
 
     public struct ListDatastoresRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2038,9 +2038,9 @@ extension IoTAnalytics {
     }
 
     public struct ListPipelinesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return in this request. The default value is 100.
@@ -2083,8 +2083,8 @@ extension IoTAnalytics {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to list.
@@ -2561,11 +2561,11 @@ extension IoTAnalytics {
     }
 
     public struct SampleChannelDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName")), 
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime")), 
-            AWSShapeMember(label: "maxMessages", location: .querystring(locationName: "maxMessages")), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxMessages", location: .querystring(locationName: "maxMessages")), 
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
         ]
 
         /// The name of the channel whose message samples are retrieved.
@@ -2719,8 +2719,8 @@ extension IoTAnalytics {
     }
 
     public struct StartPipelineReprocessingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// The end time (exclusive) of raw message data that is reprocessed.
@@ -2789,8 +2789,8 @@ extension IoTAnalytics {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to modify.
@@ -2848,9 +2848,9 @@ extension IoTAnalytics {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource whose tags you want to remove.
@@ -2889,8 +2889,8 @@ extension IoTAnalytics {
     }
 
     public struct UpdateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
         ]
 
         /// The name of the channel to be updated.
@@ -2922,8 +2922,8 @@ extension IoTAnalytics {
     }
 
     public struct UpdateDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
         /// A list of "DatasetAction" objects.
@@ -2982,8 +2982,8 @@ extension IoTAnalytics {
     }
 
     public struct UpdateDatastoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName"))
         ]
 
         /// The name of the data store to be updated.
@@ -3015,8 +3015,8 @@ extension IoTAnalytics {
     }
 
     public struct UpdatePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
         /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ] 

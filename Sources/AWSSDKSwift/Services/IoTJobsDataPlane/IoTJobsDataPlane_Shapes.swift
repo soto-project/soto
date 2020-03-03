@@ -21,11 +21,11 @@ extension IoTJobsDataPlane {
     //MARK: Shapes
 
     public struct DescribeJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNumber", location: .querystring(locationName: "executionNumber")), 
-            AWSShapeMember(label: "includeJobDocument", location: .querystring(locationName: "includeJobDocument")), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId")), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")), 
+            AWSMemberEncoding(label: "includeJobDocument", location: .querystring(locationName: "includeJobDocument")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
@@ -74,8 +74,8 @@ extension IoTJobsDataPlane {
     }
 
     public struct GetPendingJobExecutionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The name of the thing that is executing the job.
@@ -225,8 +225,8 @@ extension IoTJobsDataPlane {
     }
 
     public struct StartNextPendingJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
@@ -278,9 +278,9 @@ extension IoTJobsDataPlane {
     }
 
     public struct UpdateJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId")), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// Optional. A number that identifies a particular job execution on a particular device.

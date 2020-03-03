@@ -275,8 +275,8 @@ extension EKS {
     }
 
     public struct CreateFargateProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -338,8 +338,8 @@ extension EKS {
     }
 
     public struct CreateNodegroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
 
         /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI.
@@ -436,8 +436,8 @@ extension EKS {
     }
 
     public struct DeleteClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the cluster to delete.
@@ -467,9 +467,9 @@ extension EKS {
     }
 
     public struct DeleteFargateProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
         ]
 
         /// The name of the Amazon EKS cluster associated with the Fargate profile to delete.
@@ -503,9 +503,9 @@ extension EKS {
     }
 
     public struct DeleteNodegroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
         ]
 
         /// The name of the Amazon EKS cluster that is associated with your node group.
@@ -539,8 +539,8 @@ extension EKS {
     }
 
     public struct DescribeClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the cluster to describe.
@@ -570,9 +570,9 @@ extension EKS {
     }
 
     public struct DescribeFargateProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
         ]
 
         /// The name of the Amazon EKS cluster associated with the Fargate profile.
@@ -606,9 +606,9 @@ extension EKS {
     }
 
     public struct DescribeNodegroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
         ]
 
         /// The name of the Amazon EKS cluster associated with the node group.
@@ -642,10 +642,10 @@ extension EKS {
     }
 
     public struct DescribeUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "nodegroupName", location: .querystring(locationName: "nodegroupName")), 
-            AWSShapeMember(label: "updateId", location: .uri(locationName: "updateId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "nodegroupName", location: .querystring(locationName: "nodegroupName")), 
+            AWSMemberEncoding(label: "updateId", location: .uri(locationName: "updateId"))
         ]
 
         /// The name of the Amazon EKS cluster associated with the update.
@@ -805,9 +805,9 @@ extension EKS {
     }
 
     public struct ListClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of cluster results returned by ListClusters in paginated output. When you use this parameter, ListClusters returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListClusters returns up to 100 results and a nextToken value if applicable.
@@ -850,10 +850,10 @@ extension EKS {
     }
 
     public struct ListFargateProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of the Amazon EKS cluster that you would like to listFargate profiles in.
@@ -900,10 +900,10 @@ extension EKS {
     }
 
     public struct ListNodegroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of the Amazon EKS cluster that you would like to list node groups in.
@@ -950,8 +950,8 @@ extension EKS {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
@@ -981,11 +981,11 @@ extension EKS {
     }
 
     public struct ListUpdatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "nodegroupName", location: .querystring(locationName: "nodegroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "nodegroupName", location: .querystring(locationName: "nodegroupName"))
         ]
 
         /// The maximum number of update results returned by ListUpdates in paginated output. When you use this parameter, ListUpdates returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListUpdates request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListUpdates returns up to 100 results and a nextToken value if applicable.
@@ -1246,8 +1246,8 @@ extension EKS {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
@@ -1283,9 +1283,9 @@ extension EKS {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
@@ -1356,8 +1356,8 @@ extension EKS {
     }
 
     public struct UpdateClusterConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1397,8 +1397,8 @@ extension EKS {
     }
 
     public struct UpdateClusterVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1463,9 +1463,9 @@ extension EKS {
     }
 
     public struct UpdateNodegroupConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1515,9 +1515,9 @@ extension EKS {
     }
 
     public struct UpdateNodegroupVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", location: .uri(locationName: "name")), 
-            AWSShapeMember(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.

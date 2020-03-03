@@ -17,8 +17,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ClaimDevicesByClaimCodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClaimCode", location: .uri(locationName: "claimCode"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ClaimCode", location: .uri(locationName: "claimCode"))
         ]
 
         public let claimCode: String
@@ -52,8 +52,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct DescribeDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId"))
         ]
 
         public let deviceId: String
@@ -82,8 +82,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The user specified attributes associated with the device for an event.
@@ -107,8 +107,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct DeviceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The ARN of the device.
@@ -185,8 +185,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct FinalizeDeviceClaimRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId"))
         ]
 
         public let deviceId: String
@@ -217,8 +217,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct GetDeviceMethodsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId"))
         ]
 
         public let deviceId: String
@@ -247,8 +247,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct InitiateDeviceClaimRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId"))
         ]
 
         public let deviceId: String
@@ -276,8 +276,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct InvokeDeviceMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId"))
         ]
 
         public let deviceId: String
@@ -314,12 +314,12 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListDeviceEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId")), 
-            AWSShapeMember(label: "FromTimeStamp", location: .querystring(locationName: "fromTimeStamp")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "ToTimeStamp", location: .querystring(locationName: "toTimeStamp"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "FromTimeStamp", location: .querystring(locationName: "fromTimeStamp")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "ToTimeStamp", location: .querystring(locationName: "toTimeStamp"))
         ]
 
         public let deviceId: String
@@ -367,10 +367,10 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceType", location: .querystring(locationName: "deviceType")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceType", location: .querystring(locationName: "deviceType")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let deviceType: String?
@@ -414,8 +414,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -443,8 +443,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -462,8 +462,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct UnclaimDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId"))
         ]
 
         public let deviceId: String
@@ -491,9 +491,9 @@ extension IoT1ClickDevicesService {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -511,8 +511,8 @@ extension IoT1ClickDevicesService {
     }
 
     public struct UpdateDeviceStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId"))
         ]
 
         public let deviceId: String

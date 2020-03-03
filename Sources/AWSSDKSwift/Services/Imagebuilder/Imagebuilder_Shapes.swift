@@ -875,8 +875,8 @@ extension Imagebuilder {
     }
 
     public struct DeleteComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the component build version to delete. 
@@ -914,8 +914,8 @@ extension Imagebuilder {
     }
 
     public struct DeleteDistributionConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the distribution configuration to delete. 
@@ -953,8 +953,8 @@ extension Imagebuilder {
     }
 
     public struct DeleteImagePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image pipeline to delete. 
@@ -992,8 +992,8 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageRecipeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe to delete. 
@@ -1031,8 +1031,8 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image to delete. 
@@ -1070,8 +1070,8 @@ extension Imagebuilder {
     }
 
     public struct DeleteInfrastructureConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the infrastructure configuration to delete. 
@@ -1289,8 +1289,8 @@ extension Imagebuilder {
     }
 
     public struct GetComponentPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentArn", location: .querystring(locationName: "componentArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "componentArn", location: .querystring(locationName: "componentArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the component whose policy you wish to retrieve. 
@@ -1328,8 +1328,8 @@ extension Imagebuilder {
     }
 
     public struct GetComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the component that you wish to retrieve. 
@@ -1367,8 +1367,8 @@ extension Imagebuilder {
     }
 
     public struct GetDistributionConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the distribution configuration that you wish to retrieve. 
@@ -1406,8 +1406,8 @@ extension Imagebuilder {
     }
 
     public struct GetImagePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image pipeline that you wish to retrieve. 
@@ -1445,8 +1445,8 @@ extension Imagebuilder {
     }
 
     public struct GetImagePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageArn", location: .querystring(locationName: "imageArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imageArn", location: .querystring(locationName: "imageArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image whose policy you wish to retrieve. 
@@ -1484,8 +1484,8 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe whose policy you wish to retrieve. 
@@ -1523,8 +1523,8 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image recipe that you wish to retrieve. 
@@ -1562,8 +1562,8 @@ extension Imagebuilder {
     }
 
     public struct GetImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the image that you wish to retrieve. 
@@ -1601,8 +1601,8 @@ extension Imagebuilder {
     }
 
     public struct GetInfrastructureConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the infrastructure configuration that you wish to retrieve. 
@@ -2777,8 +2777,8 @@ extension Imagebuilder {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource whose tags you wish to retrieve. 
@@ -3064,8 +3064,8 @@ extension Imagebuilder {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource that you wish to tag. 
@@ -3103,9 +3103,9 @@ extension Imagebuilder {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         ///  The Amazon Resource Name (ARN) of the resource that you wish to untag. 

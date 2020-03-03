@@ -228,8 +228,8 @@ extension AccessAnalyzer {
     }
 
     public struct CreateArchiveRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerName", location: .uri(locationName: "analyzerName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName"))
         ]
 
         /// The name of the created analyzer.
@@ -304,9 +304,9 @@ extension AccessAnalyzer {
     }
 
     public struct DeleteAnalyzerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
-            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
 
         /// The name of the analyzer to delete.
@@ -332,10 +332,10 @@ extension AccessAnalyzer {
     }
 
     public struct DeleteArchiveRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
-            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken")), 
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the analyzer that associated with the archive rule to delete.
@@ -484,9 +484,9 @@ extension AccessAnalyzer {
     }
 
     public struct GetAnalyzedResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the analyzer to retrieve information from.
@@ -525,8 +525,8 @@ extension AccessAnalyzer {
     }
 
     public struct GetAnalyzerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerName", location: .uri(locationName: "analyzerName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName"))
         ]
 
         /// The name of the analyzer retrieved.
@@ -562,9 +562,9 @@ extension AccessAnalyzer {
     }
 
     public struct GetArchiveRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the analyzer to retrieve rules from.
@@ -606,9 +606,9 @@ extension AccessAnalyzer {
     }
 
     public struct GetFindingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
-            AWSShapeMember(label: "id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         /// The ARN of the analyzer that generated the finding.
@@ -721,10 +721,10 @@ extension AccessAnalyzer {
     }
 
     public struct ListAnalyzersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "type", location: .querystring(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
         /// The maximum number of results to return in the response.
@@ -766,10 +766,10 @@ extension AccessAnalyzer {
     }
 
     public struct ListArchiveRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of the analyzer to retrieve rules from.
@@ -872,8 +872,8 @@ extension AccessAnalyzer {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource to retrieve tags from.
@@ -944,8 +944,8 @@ extension AccessAnalyzer {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource to add the tag to.
@@ -973,9 +973,9 @@ extension AccessAnalyzer {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource to remove the tag from.
@@ -1003,9 +1003,9 @@ extension AccessAnalyzer {
     }
 
     public struct UpdateArchiveRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the analyzer to update the archive rules for.

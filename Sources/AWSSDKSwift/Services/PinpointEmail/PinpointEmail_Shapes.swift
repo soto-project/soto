@@ -177,8 +177,8 @@ extension PinpointEmail {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to add an event destination to.
@@ -414,9 +414,9 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         /// The name of the configuration set that contains the event destination that you want to delete.
@@ -444,8 +444,8 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to delete.
@@ -469,8 +469,8 @@ extension PinpointEmail {
     }
 
     public struct DeleteDedicatedIpPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", location: .uri(locationName: "PoolName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PoolName", location: .uri(locationName: "PoolName"))
         ]
 
         /// The name of the dedicated IP pool that you want to delete.
@@ -494,8 +494,8 @@ extension PinpointEmail {
     }
 
     public struct DeleteEmailIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The identity (that is, the email address or domain) that you want to delete from your Amazon Pinpoint account.
@@ -869,8 +869,8 @@ extension PinpointEmail {
     }
 
     public struct GetBlacklistReportsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlacklistItemNames", location: .querystring(locationName: "BlacklistItemNames"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BlacklistItemNames", location: .querystring(locationName: "BlacklistItemNames"))
         ]
 
         /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES.
@@ -900,8 +900,8 @@ extension PinpointEmail {
     }
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that contains the event destination.
@@ -931,8 +931,8 @@ extension PinpointEmail {
     }
 
     public struct GetConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to obtain more information about.
@@ -982,8 +982,8 @@ extension PinpointEmail {
     }
 
     public struct GetDedicatedIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Ip", location: .uri(locationName: "IP"))
         ]
 
         /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint account.
@@ -1013,10 +1013,10 @@ extension PinpointEmail {
     }
 
     public struct GetDedicatedIpsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize")), 
-            AWSShapeMember(label: "PoolName", location: .querystring(locationName: "PoolName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize")), 
+            AWSMemberEncoding(label: "PoolName", location: .querystring(locationName: "PoolName"))
         ]
 
         /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
@@ -1096,8 +1096,8 @@ extension PinpointEmail {
     }
 
     public struct GetDeliverabilityTestReportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportId", location: .uri(locationName: "ReportId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReportId", location: .uri(locationName: "ReportId"))
         ]
 
         /// A unique string that identifies the predictive inbox placement test.
@@ -1143,8 +1143,8 @@ extension PinpointEmail {
     }
 
     public struct GetDomainDeliverabilityCampaignRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "CampaignId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CampaignId", location: .uri(locationName: "CampaignId"))
         ]
 
         /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
@@ -1174,10 +1174,10 @@ extension PinpointEmail {
     }
 
     public struct GetDomainStatisticsReportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", location: .uri(locationName: "Domain")), 
-            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate")), 
-            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Domain", location: .uri(locationName: "Domain")), 
+            AWSMemberEncoding(label: "EndDate", location: .querystring(locationName: "EndDate")), 
+            AWSMemberEncoding(label: "StartDate", location: .querystring(locationName: "StartDate"))
         ]
 
         /// The domain that you want to obtain deliverability metrics for.
@@ -1219,8 +1219,8 @@ extension PinpointEmail {
     }
 
     public struct GetEmailIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The email identity that you want to retrieve details for.
@@ -1346,9 +1346,9 @@ extension PinpointEmail {
     }
 
     public struct ListConfigurationSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
@@ -1386,9 +1386,9 @@ extension PinpointEmail {
     }
 
     public struct ListDedicatedIpPoolsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
@@ -1426,9 +1426,9 @@ extension PinpointEmail {
     }
 
     public struct ListDeliverabilityTestReportsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
@@ -1466,12 +1466,12 @@ extension PinpointEmail {
     }
 
     public struct ListDomainDeliverabilityCampaignsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize")), 
-            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate")), 
-            AWSShapeMember(label: "SubscribedDomain", location: .uri(locationName: "SubscribedDomain"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EndDate", location: .querystring(locationName: "EndDate")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize")), 
+            AWSMemberEncoding(label: "StartDate", location: .querystring(locationName: "StartDate")), 
+            AWSMemberEncoding(label: "SubscribedDomain", location: .uri(locationName: "SubscribedDomain"))
         ]
 
         /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
@@ -1521,9 +1521,9 @@ extension PinpointEmail {
     }
 
     public struct ListEmailIdentitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
@@ -1561,8 +1561,8 @@ extension PinpointEmail {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .querystring(locationName: "ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
@@ -1760,8 +1760,8 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to associate with a dedicated IP pool.
@@ -1793,8 +1793,8 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetReputationOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to enable or disable reputation metric tracking for.
@@ -1822,8 +1822,8 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetSendingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to enable or disable email sending for.
@@ -1851,8 +1851,8 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetTrackingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         /// The name of the configuration set that you want to add a custom tracking domain to.
@@ -1880,8 +1880,8 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpInPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Ip", location: .uri(locationName: "IP"))
         ]
 
         /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
@@ -1909,8 +1909,8 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpWarmupAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Ip", location: .uri(locationName: "IP"))
         ]
 
         /// The dedicated IP address that you want to update the warm-up attributes for.
@@ -1964,8 +1964,8 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityDkimAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The email identity that you want to change the DKIM settings for.
@@ -1993,8 +1993,8 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// Sets the feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
@@ -2022,8 +2022,8 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
 
         /// The action that you want Amazon Pinpoint to take if it can't read the required MX record when you send an email. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
@@ -2273,9 +2273,9 @@ extension PinpointEmail {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "TagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .querystring(locationName: "ResourceArn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "TagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
@@ -2303,9 +2303,9 @@ extension PinpointEmail {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         /// The name of the configuration set that contains the event destination that you want to modify.

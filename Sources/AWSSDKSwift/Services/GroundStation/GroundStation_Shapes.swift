@@ -141,8 +141,8 @@ extension GroundStation {
     }
 
     public struct CancelContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contactId", location: .uri(locationName: "contactId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactId", location: .uri(locationName: "contactId"))
         ]
 
         /// UUID of a contact.
@@ -518,9 +518,9 @@ extension GroundStation {
     }
 
     public struct DeleteConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configId", location: .uri(locationName: "configId")), 
-            AWSShapeMember(label: "configType", location: .uri(locationName: "configType"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")), 
+            AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
         ]
 
         /// UUID of a Config.
@@ -540,8 +540,8 @@ extension GroundStation {
     }
 
     public struct DeleteDataflowEndpointGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
         ]
 
         /// ID of a dataflow endpoint group.
@@ -557,8 +557,8 @@ extension GroundStation {
     }
 
     public struct DeleteMissionProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
         ]
 
         /// UUID of a mission profile.
@@ -593,8 +593,8 @@ extension GroundStation {
     }
 
     public struct DescribeContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contactId", location: .uri(locationName: "contactId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactId", location: .uri(locationName: "contactId"))
         ]
 
         /// UUID of a contact.
@@ -762,9 +762,9 @@ extension GroundStation {
     }
 
     public struct GetConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configId", location: .uri(locationName: "configId")), 
-            AWSShapeMember(label: "configType", location: .uri(locationName: "configType"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")), 
+            AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
         ]
 
         /// UUID of a Config.
@@ -819,8 +819,8 @@ extension GroundStation {
     }
 
     public struct GetDataflowEndpointGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
         ]
 
         /// UUID of a dataflow endpoint group.
@@ -910,8 +910,8 @@ extension GroundStation {
     }
 
     public struct GetMissionProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
         ]
 
         /// UUID of a mission profile.
@@ -978,8 +978,8 @@ extension GroundStation {
     }
 
     public struct GetSatelliteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "satelliteId", location: .uri(locationName: "satelliteId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "satelliteId", location: .uri(locationName: "satelliteId"))
         ]
 
         /// UUID of a satellite.
@@ -1051,9 +1051,9 @@ extension GroundStation {
     }
 
     public struct ListConfigsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Maximum number of Configs returned.
@@ -1151,9 +1151,9 @@ extension GroundStation {
     }
 
     public struct ListDataflowEndpointGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Maximum number of dataflow endpoint groups returned.
@@ -1191,9 +1191,9 @@ extension GroundStation {
     }
 
     public struct ListGroundStationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Maximum number of ground stations returned.
@@ -1231,9 +1231,9 @@ extension GroundStation {
     }
 
     public struct ListMissionProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Maximum number of mission profiles returned.
@@ -1271,9 +1271,9 @@ extension GroundStation {
     }
 
     public struct ListSatellitesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Maximum number of satellites returned.
@@ -1311,8 +1311,8 @@ extension GroundStation {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// ARN of a resource.
@@ -1500,8 +1500,8 @@ extension GroundStation {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// ARN of a resource tag.
@@ -1543,9 +1543,9 @@ extension GroundStation {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// ARN of a resource.
@@ -1573,9 +1573,9 @@ extension GroundStation {
     }
 
     public struct UpdateConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configId", location: .uri(locationName: "configId")), 
-            AWSShapeMember(label: "configType", location: .uri(locationName: "configType"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")), 
+            AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
         ]
 
         /// Parameters for a Config.
@@ -1610,8 +1610,8 @@ extension GroundStation {
     }
 
     public struct UpdateMissionProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
         ]
 
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.

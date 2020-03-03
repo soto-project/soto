@@ -9,10 +9,10 @@ extension IoT1ClickProjects {
     //MARK: Shapes
 
     public struct AssociateDeviceWithPlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName")), 
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName")), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName")), 
+            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")), 
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The ID of the physical device to be associated with the given placement in the project. Note that a mandatory 4 character prefix is required for all deviceId values.
@@ -62,8 +62,8 @@ extension IoT1ClickProjects {
     }
 
     public struct CreatePlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement.
@@ -158,9 +158,9 @@ extension IoT1ClickProjects {
     }
 
     public struct DeletePlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName")), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")), 
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The name of the empty placement to delete.
@@ -197,8 +197,8 @@ extension IoT1ClickProjects {
     }
 
     public struct DeleteProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The name of the empty project to delete.
@@ -228,9 +228,9 @@ extension IoT1ClickProjects {
     }
 
     public struct DescribePlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName")), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")), 
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The name of the placement within a project.
@@ -273,8 +273,8 @@ extension IoT1ClickProjects {
     }
 
     public struct DescribeProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The name of the project to be described.
@@ -337,10 +337,10 @@ extension IoT1ClickProjects {
     }
 
     public struct DisassociateDeviceFromPlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName")), 
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName")), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deviceTemplateName", location: .uri(locationName: "deviceTemplateName")), 
+            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")), 
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The device ID that should be removed from the placement.
@@ -384,9 +384,9 @@ extension IoT1ClickProjects {
     }
 
     public struct GetDevicesInPlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName")), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")), 
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The name of the placement to get the devices from.
@@ -429,10 +429,10 @@ extension IoT1ClickProjects {
     }
 
     public struct ListPlacementsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
@@ -484,9 +484,9 @@ extension IoT1ClickProjects {
     }
 
     public struct ListProjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
@@ -531,8 +531,8 @@ extension IoT1ClickProjects {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource whose tags you want to list.
@@ -722,8 +722,8 @@ extension IoT1ClickProjects {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resouce for which tag(s) should be added or modified.
@@ -761,9 +761,9 @@ extension IoT1ClickProjects {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource whose tag you want to remove.
@@ -802,9 +802,9 @@ extension IoT1ClickProjects {
     }
 
     public struct UpdatePlacementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "placementName", location: .uri(locationName: "placementName")), 
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "placementName", location: .uri(locationName: "placementName")), 
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50.
@@ -850,8 +850,8 @@ extension IoT1ClickProjects {
     }
 
     public struct UpdateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectName", location: .uri(locationName: "projectName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
 
         /// An optional user-defined description for the project.

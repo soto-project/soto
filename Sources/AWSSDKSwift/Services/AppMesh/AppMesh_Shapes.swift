@@ -250,9 +250,9 @@ extension AppMesh {
     }
 
     public struct CreateRouteInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -323,8 +323,8 @@ extension AppMesh {
     }
 
     public struct CreateVirtualNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -389,8 +389,8 @@ extension AppMesh {
     }
 
     public struct CreateVirtualRouterInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -455,8 +455,8 @@ extension AppMesh {
     }
 
     public struct CreateVirtualServiceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -519,8 +519,8 @@ extension AppMesh {
     }
 
     public struct DeleteMeshInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
 
         /// The name of the service mesh to delete.
@@ -557,10 +557,10 @@ extension AppMesh {
     }
 
     public struct DeleteRouteInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "routeName", location: .uri(locationName: "routeName")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// The name of the service mesh to delete the route in.
@@ -609,9 +609,9 @@ extension AppMesh {
     }
 
     public struct DeleteVirtualNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
         ]
 
         /// The name of the service mesh to delete the virtual node in.
@@ -654,9 +654,9 @@ extension AppMesh {
     }
 
     public struct DeleteVirtualRouterInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// The name of the service mesh to delete the virtual router in.
@@ -699,9 +699,9 @@ extension AppMesh {
     }
 
     public struct DeleteVirtualServiceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
         ]
 
         /// The name of the service mesh to delete the virtual service in.
@@ -742,8 +742,8 @@ extension AppMesh {
     }
 
     public struct DescribeMeshInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
 
         /// The name of the service mesh to describe.
@@ -780,10 +780,10 @@ extension AppMesh {
     }
 
     public struct DescribeRouteInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "routeName", location: .uri(locationName: "routeName")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// The name of the service mesh that the route resides in.
@@ -832,9 +832,9 @@ extension AppMesh {
     }
 
     public struct DescribeVirtualNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
         ]
 
         /// The name of the service mesh that the virtual node resides in.
@@ -877,9 +877,9 @@ extension AppMesh {
     }
 
     public struct DescribeVirtualRouterInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// The name of the service mesh that the virtual router resides in.
@@ -922,9 +922,9 @@ extension AppMesh {
     }
 
     public struct DescribeVirtualServiceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
         ]
 
         /// The name of the service mesh that the virtual service resides in.
@@ -1537,9 +1537,9 @@ extension AppMesh {
     }
 
     public struct ListMeshesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results returned by ListMeshes in paginated output.
@@ -1599,11 +1599,11 @@ extension AppMesh {
     }
 
     public struct ListRoutesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// The maximum number of results returned by ListRoutes in paginated output.
@@ -1671,10 +1671,10 @@ extension AppMesh {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The maximum number of tag results returned by ListTagsForResource in
@@ -1734,10 +1734,10 @@ extension AppMesh {
     }
 
     public struct ListVirtualNodesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results returned by ListVirtualNodes in paginated
@@ -1799,10 +1799,10 @@ extension AppMesh {
     }
 
     public struct ListVirtualRoutersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results returned by ListVirtualRouters in paginated
@@ -1864,10 +1864,10 @@ extension AppMesh {
     }
 
     public struct ListVirtualServicesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results returned by ListVirtualServices in paginated
@@ -2277,8 +2277,8 @@ extension AppMesh {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to add tags to.
@@ -2356,8 +2356,8 @@ extension AppMesh {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to delete tags from.
@@ -2394,8 +2394,8 @@ extension AppMesh {
     }
 
     public struct UpdateMeshInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -2440,10 +2440,10 @@ extension AppMesh {
     }
 
     public struct UpdateRouteInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "routeName", location: .uri(locationName: "routeName")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -2502,9 +2502,9 @@ extension AppMesh {
     }
 
     public struct UpdateVirtualNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -2557,9 +2557,9 @@ extension AppMesh {
     }
 
     public struct UpdateVirtualRouterInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
@@ -2612,9 +2612,9 @@ extension AppMesh {
     }
 
     public struct UpdateVirtualServiceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName")), 
-            AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
+            AWSMemberEncoding(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the

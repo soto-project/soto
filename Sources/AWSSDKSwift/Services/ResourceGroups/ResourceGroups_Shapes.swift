@@ -96,8 +96,8 @@ extension ResourceGroups {
     }
 
     public struct DeleteGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group to delete.
@@ -133,8 +133,8 @@ extension ResourceGroups {
     }
 
     public struct GetGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group.
@@ -170,8 +170,8 @@ extension ResourceGroups {
     }
 
     public struct GetGroupQueryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group.
@@ -207,8 +207,8 @@ extension ResourceGroups {
     }
 
     public struct GetTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "Arn"))
         ]
 
         /// The ARN of the resource group for which you want a list of tags. The resource must exist within the account you are using.
@@ -334,10 +334,10 @@ extension ResourceGroups {
     }
 
     public struct ListGroupResourcesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Filters, formatted as ResourceFilter objects, that you want to apply to a ListGroupResources operation.    resource-type - Filter resources by their type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.  
@@ -401,9 +401,9 @@ extension ResourceGroups {
     }
 
     public struct ListGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter groups by resource type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.  
@@ -596,8 +596,8 @@ extension ResourceGroups {
     }
 
     public struct TagInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "Arn"))
         ]
 
         /// The ARN of the resource to which to add tags.
@@ -649,8 +649,8 @@ extension ResourceGroups {
     }
 
     public struct UntagInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "Arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "Arn"))
         ]
 
         /// The ARN of the resource from which to remove tags.
@@ -699,8 +699,8 @@ extension ResourceGroups {
     }
 
     public struct UpdateGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The description of the resource group. Descriptions can have a maximum of 511 characters, including letters, numbers, hyphens, underscores, punctuation, and spaces.
@@ -742,8 +742,8 @@ extension ResourceGroups {
     }
 
     public struct UpdateGroupQueryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName"))
         ]
 
         /// The name of the resource group for which you want to edit the query.

@@ -243,9 +243,9 @@ extension RAM {
     }
 
     public struct DeleteResourceShareRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken")), 
-            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
+            AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -928,8 +928,8 @@ extension RAM {
     }
 
     public struct PromoteResourceShareCreatedFromPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
 
         /// The ARN of the resource share to promote.

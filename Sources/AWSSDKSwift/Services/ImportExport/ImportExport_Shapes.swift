@@ -85,8 +85,8 @@ extension ImportExport {
     }
 
     public struct CreateJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArtifactList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ArtifactList", encoding: .list(member:"member"))
         ]
 
         public let artifactList: [Artifact]?
@@ -116,8 +116,8 @@ extension ImportExport {
     }
 
     public struct GetShippingLabelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobIds", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobIds", encoding: .list(member:"member"))
         ]
 
         public let aPIVersion: String?
@@ -197,8 +197,8 @@ extension ImportExport {
     }
 
     public struct GetStatusOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArtifactList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ArtifactList", encoding: .list(member:"member"))
         ]
 
         public let artifactList: [Artifact]?
@@ -299,8 +299,8 @@ extension ImportExport {
     }
 
     public struct ListJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jobs", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Jobs", encoding: .list(member:"member"))
         ]
 
         public let isTruncated: Bool?
@@ -343,8 +343,8 @@ extension ImportExport {
     }
 
     public struct UpdateJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArtifactList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ArtifactList", encoding: .list(member:"member"))
         ]
 
         public let artifactList: [Artifact]?

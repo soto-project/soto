@@ -31,10 +31,10 @@ extension SSO {
     }
 
     public struct GetRoleCredentialsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
-            AWSShapeMember(label: "accountId", location: .querystring(locationName: "account_id")), 
-            AWSShapeMember(label: "roleName", location: .querystring(locationName: "role_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
+            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")), 
+            AWSMemberEncoding(label: "roleName", location: .querystring(locationName: "role_name"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -72,11 +72,11 @@ extension SSO {
     }
 
     public struct ListAccountRolesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
-            AWSShapeMember(label: "accountId", location: .querystring(locationName: "account_id")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "max_result")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "next_token"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
+            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -127,10 +127,10 @@ extension SSO {
     }
 
     public struct ListAccountsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "max_result")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "next_token"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
@@ -177,8 +177,8 @@ extension SSO {
     }
 
     public struct LogoutRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"))
         ]
 
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.

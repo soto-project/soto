@@ -201,8 +201,8 @@ extension DLM {
     }
 
     public struct DeleteLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyId", location: .uri(locationName: "policyId"))
         ]
 
         /// The identifier of the lifecycle policy.
@@ -271,12 +271,12 @@ extension DLM {
     }
 
     public struct GetLifecyclePoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyIds", location: .querystring(locationName: "policyIds")), 
-            AWSShapeMember(label: "ResourceTypes", location: .querystring(locationName: "resourceTypes")), 
-            AWSShapeMember(label: "State", location: .querystring(locationName: "state")), 
-            AWSShapeMember(label: "TagsToAdd", location: .querystring(locationName: "tagsToAdd")), 
-            AWSShapeMember(label: "TargetTags", location: .querystring(locationName: "targetTags"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyIds", location: .querystring(locationName: "policyIds")), 
+            AWSMemberEncoding(label: "ResourceTypes", location: .querystring(locationName: "resourceTypes")), 
+            AWSMemberEncoding(label: "State", location: .querystring(locationName: "state")), 
+            AWSMemberEncoding(label: "TagsToAdd", location: .querystring(locationName: "tagsToAdd")), 
+            AWSMemberEncoding(label: "TargetTags", location: .querystring(locationName: "targetTags"))
         ]
 
         /// The identifiers of the data lifecycle policies.
@@ -346,8 +346,8 @@ extension DLM {
     }
 
     public struct GetLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyId", location: .uri(locationName: "policyId"))
         ]
 
         /// The identifier of the lifecycle policy.
@@ -459,8 +459,8 @@ extension DLM {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -676,8 +676,8 @@ extension DLM {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -718,9 +718,9 @@ extension DLM {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -761,8 +761,8 @@ extension DLM {
     }
 
     public struct UpdateLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", location: .uri(locationName: "policyId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyId", location: .uri(locationName: "policyId"))
         ]
 
         /// A description of the lifecycle policy.

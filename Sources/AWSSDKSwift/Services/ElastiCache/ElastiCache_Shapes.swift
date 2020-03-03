@@ -109,8 +109,8 @@ extension ElastiCache {
     //MARK: Shapes
 
     public struct AddTagsToResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -130,9 +130,9 @@ extension ElastiCache {
     }
 
     public struct AllowedNodeTypeModificationsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScaleDownModifications", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ScaleUpModifications", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ScaleDownModifications", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ScaleUpModifications", encoding: .list(member:"member"))
         ]
 
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down on a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
@@ -201,9 +201,9 @@ extension ElastiCache {
     }
 
     public struct BatchApplyUpdateActionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheClusterIds", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReplicationGroupIds", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheClusterIds", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ReplicationGroupIds", encoding: .list(member:"member"))
         ]
 
         /// The cache cluster IDs
@@ -232,9 +232,9 @@ extension ElastiCache {
     }
 
     public struct BatchStopUpdateActionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheClusterIds", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReplicationGroupIds", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheClusterIds", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ReplicationGroupIds", encoding: .list(member:"member"))
         ]
 
         /// The cache cluster IDs
@@ -263,10 +263,10 @@ extension ElastiCache {
     }
 
     public struct CacheCluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodes", encoding: .list(member:"CacheNode")), 
-            AWSShapeMember(label: "CacheSecurityGroups", encoding: .list(member:"CacheSecurityGroup")), 
-            AWSShapeMember(label: "SecurityGroups", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodes", encoding: .list(member:"CacheNode")), 
+            AWSMemberEncoding(label: "CacheSecurityGroups", encoding: .list(member:"CacheSecurityGroup")), 
+            AWSMemberEncoding(label: "SecurityGroups", encoding: .list(member:"member"))
         ]
 
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable at-rest encryption on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
@@ -381,8 +381,8 @@ extension ElastiCache {
     }
 
     public struct CacheClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheClusters", encoding: .list(member:"CacheCluster"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheClusters", encoding: .list(member:"CacheCluster"))
         ]
 
         /// A list of clusters. Each item in the list contains detailed information about one cluster.
@@ -432,8 +432,8 @@ extension ElastiCache {
     }
 
     public struct CacheEngineVersionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheEngineVersions", encoding: .list(member:"CacheEngineVersion"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheEngineVersions", encoding: .list(member:"CacheEngineVersion"))
         ]
 
         /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
@@ -491,8 +491,8 @@ extension ElastiCache {
     }
 
     public struct CacheNodeTypeSpecificParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeTypeSpecificValues", encoding: .list(member:"CacheNodeTypeSpecificValue"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeTypeSpecificValues", encoding: .list(member:"CacheNodeTypeSpecificValue"))
         ]
 
         /// The valid range of values for the parameter.
@@ -622,9 +622,9 @@ extension ElastiCache {
     }
 
     public struct CacheParameterGroupDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", encoding: .list(member:"CacheNodeTypeSpecificParameter")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeTypeSpecificParameters", encoding: .list(member:"CacheNodeTypeSpecificParameter")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
@@ -662,8 +662,8 @@ extension ElastiCache {
     }
 
     public struct CacheParameterGroupStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeIdsToReboot", encoding: .list(member:"CacheNodeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeIdsToReboot", encoding: .list(member:"CacheNodeId"))
         ]
 
         /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
@@ -687,8 +687,8 @@ extension ElastiCache {
     }
 
     public struct CacheParameterGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheParameterGroups", encoding: .list(member:"CacheParameterGroup"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheParameterGroups", encoding: .list(member:"CacheParameterGroup"))
         ]
 
         /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
@@ -708,8 +708,8 @@ extension ElastiCache {
     }
 
     public struct CacheSecurityGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2SecurityGroups", encoding: .list(member:"EC2SecurityGroup"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EC2SecurityGroups", encoding: .list(member:"EC2SecurityGroup"))
         ]
 
         /// The name of the cache security group.
@@ -755,8 +755,8 @@ extension ElastiCache {
     }
 
     public struct CacheSecurityGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroups", encoding: .list(member:"CacheSecurityGroup"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheSecurityGroups", encoding: .list(member:"CacheSecurityGroup"))
         ]
 
         /// A list of cache security groups. Each element in the list contains detailed information about one group.
@@ -776,8 +776,8 @@ extension ElastiCache {
     }
 
     public struct CacheSubnetGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", encoding: .list(member:"Subnet"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Subnets", encoding: .list(member:"Subnet"))
         ]
 
         /// The description of the cache subnet group.
@@ -805,8 +805,8 @@ extension ElastiCache {
     }
 
     public struct CacheSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSubnetGroups", encoding: .list(member:"CacheSubnetGroup"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheSubnetGroups", encoding: .list(member:"CacheSubnetGroup"))
         ]
 
         /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
@@ -857,8 +857,8 @@ extension ElastiCache {
     }
 
     public struct ConfigureShard: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredAvailabilityZones", encoding: .list(member:"PreferredAvailabilityZone"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PreferredAvailabilityZones", encoding: .list(member:"PreferredAvailabilityZone"))
         ]
 
         /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enable: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
@@ -927,12 +927,12 @@ extension ElastiCache {
     }
 
     public struct CreateCacheClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
-            AWSShapeMember(label: "PreferredAvailabilityZones", encoding: .list(member:"PreferredAvailabilityZone")), 
-            AWSShapeMember(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId")), 
-            AWSShapeMember(label: "SnapshotArns", encoding: .list(member:"SnapshotArn")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
+            AWSMemberEncoding(label: "PreferredAvailabilityZones", encoding: .list(member:"PreferredAvailabilityZone")), 
+            AWSMemberEncoding(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "SnapshotArns", encoding: .list(member:"SnapshotArn")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &amp;, #, $, ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
@@ -1115,8 +1115,8 @@ extension ElastiCache {
     }
 
     public struct CreateCacheSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier"))
         ]
 
         /// A description for the cache subnet group.
@@ -1153,13 +1153,13 @@ extension ElastiCache {
     }
 
     public struct CreateReplicationGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
-            AWSShapeMember(label: "NodeGroupConfiguration", encoding: .list(member:"NodeGroupConfiguration")), 
-            AWSShapeMember(label: "PreferredCacheClusterAZs", encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId")), 
-            AWSShapeMember(label: "SnapshotArns", encoding: .list(member:"SnapshotArn")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
+            AWSMemberEncoding(label: "NodeGroupConfiguration", encoding: .list(member:"NodeGroupConfiguration")), 
+            AWSMemberEncoding(label: "PreferredCacheClusterAZs", encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "SnapshotArns", encoding: .list(member:"SnapshotArn")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
         ]
 
         /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
@@ -1363,9 +1363,9 @@ extension ElastiCache {
     }
 
     public struct DecreaseReplicaCountMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicaConfiguration", encoding: .list(member:"ConfigureShard")), 
-            AWSShapeMember(label: "ReplicasToRemove", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReplicaConfiguration", encoding: .list(member:"ConfigureShard")), 
+            AWSMemberEncoding(label: "ReplicasToRemove", encoding: .list(member:"member"))
         ]
 
         /// If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
@@ -1882,8 +1882,8 @@ extension ElastiCache {
     }
 
     public struct DescribeServiceUpdatesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceUpdateStatus", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ServiceUpdateStatus", encoding: .list(member:"member"))
         ]
 
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1915,8 +1915,8 @@ extension ElastiCache {
     }
 
     public struct DescribeSnapshotsListMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Snapshots", encoding: .list(member:"Snapshot"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Snapshots", encoding: .list(member:"Snapshot"))
         ]
 
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1974,11 +1974,11 @@ extension ElastiCache {
     }
 
     public struct DescribeUpdateActionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheClusterIds", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReplicationGroupIds", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ServiceUpdateStatus", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "UpdateActionStatus", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheClusterIds", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ReplicationGroupIds", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ServiceUpdateStatus", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "UpdateActionStatus", encoding: .list(member:"member"))
         ]
 
         /// The cache cluster IDs
@@ -2077,9 +2077,9 @@ extension ElastiCache {
     }
 
     public struct EngineDefaults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", encoding: .list(member:"CacheNodeTypeSpecificParameter")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"Parameter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeTypeSpecificParameters", encoding: .list(member:"CacheNodeTypeSpecificParameter")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
         ]
 
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
@@ -2133,8 +2133,8 @@ extension ElastiCache {
     }
 
     public struct EventsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", encoding: .list(member:"Event"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Events", encoding: .list(member:"Event"))
         ]
 
         /// A list of events. Each element in the list contains detailed information about one event.
@@ -2154,8 +2154,8 @@ extension ElastiCache {
     }
 
     public struct IncreaseReplicaCountMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicaConfiguration", encoding: .list(member:"ConfigureShard"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReplicaConfiguration", encoding: .list(member:"ConfigureShard"))
         ]
 
         /// If True, the number of replica nodes is increased immediately. ApplyImmediately=False is not currently supported.
@@ -2234,11 +2234,11 @@ extension ElastiCache {
     }
 
     public struct ModifyCacheClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeIdsToRemove", encoding: .list(member:"CacheNodeId")), 
-            AWSShapeMember(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
-            AWSShapeMember(label: "NewAvailabilityZones", encoding: .list(member:"PreferredAvailabilityZone")), 
-            AWSShapeMember(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeIdsToRemove", encoding: .list(member:"CacheNodeId")), 
+            AWSMemberEncoding(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
+            AWSMemberEncoding(label: "NewAvailabilityZones", encoding: .list(member:"PreferredAvailabilityZone")), 
+            AWSMemberEncoding(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId"))
         ]
 
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false 
@@ -2339,8 +2339,8 @@ extension ElastiCache {
     }
 
     public struct ModifyCacheParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterNameValues", encoding: .list(member:"ParameterNameValue"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ParameterNameValues", encoding: .list(member:"ParameterNameValue"))
         ]
 
         /// The name of the cache parameter group to modify.
@@ -2360,8 +2360,8 @@ extension ElastiCache {
     }
 
     public struct ModifyCacheSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier"))
         ]
 
         /// A description of the cache subnet group.
@@ -2398,9 +2398,9 @@ extension ElastiCache {
     }
 
     public struct ModifyReplicationGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
-            AWSShapeMember(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheSecurityGroupNames", encoding: .list(member:"CacheSecurityGroupName")), 
+            AWSMemberEncoding(label: "SecurityGroupIds", encoding: .list(member:"SecurityGroupId"))
         ]
 
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false 
@@ -2501,10 +2501,10 @@ extension ElastiCache {
     }
 
     public struct ModifyReplicationGroupShardConfigurationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupsToRemove", encoding: .list(member:"NodeGroupToRemove")), 
-            AWSShapeMember(label: "NodeGroupsToRetain", encoding: .list(member:"NodeGroupToRetain")), 
-            AWSShapeMember(label: "ReshardingConfiguration", encoding: .list(member:"ReshardingConfiguration"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NodeGroupsToRemove", encoding: .list(member:"NodeGroupToRemove")), 
+            AWSMemberEncoding(label: "NodeGroupsToRetain", encoding: .list(member:"NodeGroupToRetain")), 
+            AWSMemberEncoding(label: "ReshardingConfiguration", encoding: .list(member:"ReshardingConfiguration"))
         ]
 
         /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
@@ -2569,8 +2569,8 @@ extension ElastiCache {
     }
 
     public struct NodeGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupMembers", encoding: .list(member:"NodeGroupMember"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NodeGroupMembers", encoding: .list(member:"NodeGroupMember"))
         ]
 
         /// The identifier for the node group (shard). A Redis (cluster mode disabled) replication group contains only 1 node group; therefore, the node group ID is 0001. A Redis (cluster mode enabled) replication group contains 1 to 90 node groups numbered 0001 to 0090. Optionally, the user can provide the id for a node group. 
@@ -2606,8 +2606,8 @@ extension ElastiCache {
     }
 
     public struct NodeGroupConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicaAvailabilityZones", encoding: .list(member:"AvailabilityZone"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReplicaAvailabilityZones", encoding: .list(member:"AvailabilityZone"))
         ]
 
         /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these configuration values apply to.
@@ -2721,8 +2721,8 @@ extension ElastiCache {
     }
 
     public struct NodeGroupUpdateStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeGroupMemberUpdateStatus", encoding: .list(member:"NodeGroupMemberUpdateStatus"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NodeGroupMemberUpdateStatus", encoding: .list(member:"NodeGroupMemberUpdateStatus"))
         ]
 
         /// The ID of the node group
@@ -2862,8 +2862,8 @@ extension ElastiCache {
     }
 
     public struct PendingModifiedValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeIdsToRemove", encoding: .list(member:"CacheNodeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeIdsToRemove", encoding: .list(member:"CacheNodeId"))
         ]
 
         /// The auth token status
@@ -2956,8 +2956,8 @@ extension ElastiCache {
     }
 
     public struct RebootCacheClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeIdsToReboot", encoding: .list(member:"CacheNodeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeIdsToReboot", encoding: .list(member:"CacheNodeId"))
         ]
 
         /// The cluster identifier. This parameter is stored as a lowercase string.
@@ -3008,8 +3008,8 @@ extension ElastiCache {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "TagKeys", encoding: .list(member:"member"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -3029,9 +3029,9 @@ extension ElastiCache {
     }
 
     public struct ReplicationGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberClusters", encoding: .list(member:"ClusterId")), 
-            AWSShapeMember(label: "NodeGroups", encoding: .list(member:"NodeGroup"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MemberClusters", encoding: .list(member:"ClusterId")), 
+            AWSMemberEncoding(label: "NodeGroups", encoding: .list(member:"NodeGroup"))
         ]
 
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable encryption at-rest on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
@@ -3115,8 +3115,8 @@ extension ElastiCache {
     }
 
     public struct ReplicationGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroups", encoding: .list(member:"ReplicationGroup"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReplicationGroups", encoding: .list(member:"ReplicationGroup"))
         ]
 
         /// Provides an identifier to allow retrieval of paginated results.
@@ -3162,8 +3162,8 @@ extension ElastiCache {
     }
 
     public struct ReservedCacheNode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
         ]
 
         /// The number of cache nodes that have been reserved.
@@ -3227,8 +3227,8 @@ extension ElastiCache {
     }
 
     public struct ReservedCacheNodeMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedCacheNodes", encoding: .list(member:"ReservedCacheNode"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReservedCacheNodes", encoding: .list(member:"ReservedCacheNode"))
         ]
 
         /// Provides an identifier to allow retrieval of paginated results.
@@ -3248,8 +3248,8 @@ extension ElastiCache {
     }
 
     public struct ReservedCacheNodesOffering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
         ]
 
         /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
@@ -3293,8 +3293,8 @@ extension ElastiCache {
     }
 
     public struct ReservedCacheNodesOfferingMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedCacheNodesOfferings", encoding: .list(member:"ReservedCacheNodesOffering"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReservedCacheNodesOfferings", encoding: .list(member:"ReservedCacheNodesOffering"))
         ]
 
         /// Provides an identifier to allow retrieval of paginated results.
@@ -3314,8 +3314,8 @@ extension ElastiCache {
     }
 
     public struct ResetCacheParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterNameValues", encoding: .list(member:"ParameterNameValue"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ParameterNameValues", encoding: .list(member:"ParameterNameValue"))
         ]
 
         /// The name of the cache parameter group to reset.
@@ -3339,8 +3339,8 @@ extension ElastiCache {
     }
 
     public struct ReshardingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredAvailabilityZones", encoding: .list(member:"AvailabilityZone"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PreferredAvailabilityZones", encoding: .list(member:"AvailabilityZone"))
         ]
 
         /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these configuration values apply to.
@@ -3491,8 +3491,8 @@ extension ElastiCache {
     }
 
     public struct ServiceUpdatesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceUpdates", encoding: .list(member:"ServiceUpdate"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ServiceUpdates", encoding: .list(member:"ServiceUpdate"))
         ]
 
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -3526,8 +3526,8 @@ extension ElastiCache {
     }
 
     public struct Snapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeSnapshots", encoding: .list(member:"NodeSnapshot"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NodeSnapshots", encoding: .list(member:"NodeSnapshot"))
         ]
 
         /// Indicates the status of Multi-AZ with automatic failover for the source Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
@@ -3639,8 +3639,8 @@ extension ElastiCache {
     }
 
     public struct StartMigrationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerNodeEndpointList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CustomerNodeEndpointList", encoding: .list(member:"member"))
         ]
 
         /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
@@ -3709,8 +3709,8 @@ extension ElastiCache {
     }
 
     public struct TagListMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "TagList", encoding: .list(member:"Tag"))
         ]
 
         /// A list of cost allocation tags as key-value pairs.
@@ -3811,9 +3811,9 @@ extension ElastiCache {
     }
 
     public struct UpdateAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheNodeUpdateStatus", encoding: .list(member:"CacheNodeUpdateStatus")), 
-            AWSShapeMember(label: "NodeGroupUpdateStatus", encoding: .list(member:"NodeGroupUpdateStatus"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CacheNodeUpdateStatus", encoding: .list(member:"CacheNodeUpdateStatus")), 
+            AWSMemberEncoding(label: "NodeGroupUpdateStatus", encoding: .list(member:"NodeGroupUpdateStatus"))
         ]
 
         /// The ID of the cache cluster
@@ -3893,9 +3893,9 @@ extension ElastiCache {
     }
 
     public struct UpdateActionResultsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProcessedUpdateActions", encoding: .list(member:"ProcessedUpdateAction")), 
-            AWSShapeMember(label: "UnprocessedUpdateActions", encoding: .list(member:"UnprocessedUpdateAction"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ProcessedUpdateActions", encoding: .list(member:"ProcessedUpdateAction")), 
+            AWSMemberEncoding(label: "UnprocessedUpdateActions", encoding: .list(member:"UnprocessedUpdateAction"))
         ]
 
         /// Update actions that have been processed successfully
@@ -3915,8 +3915,8 @@ extension ElastiCache {
     }
 
     public struct UpdateActionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdateActions", encoding: .list(member:"UpdateAction"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "UpdateActions", encoding: .list(member:"UpdateAction"))
         ]
 
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.

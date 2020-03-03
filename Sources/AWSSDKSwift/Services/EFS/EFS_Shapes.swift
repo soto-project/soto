@@ -208,8 +208,8 @@ extension EFS {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// The ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
@@ -265,8 +265,8 @@ extension EFS {
     }
 
     public struct DeleteAccessPointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPointId", location: .uri(locationName: "AccessPointId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AccessPointId", location: .uri(locationName: "AccessPointId"))
         ]
 
         /// The ID of the access point that you want to delete.
@@ -282,8 +282,8 @@ extension EFS {
     }
 
     public struct DeleteFileSystemPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// Specifies the EFS file system for which to delete the FileSystemPolicy.
@@ -299,8 +299,8 @@ extension EFS {
     }
 
     public struct DeleteFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// The ID of the file system you want to delete.
@@ -316,8 +316,8 @@ extension EFS {
     }
 
     public struct DeleteMountTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MountTargetId", location: .uri(locationName: "MountTargetId"))
         ]
 
         /// The ID of the mount target to delete (String).
@@ -333,8 +333,8 @@ extension EFS {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// The ID of the file system whose tags you want to delete (String).
@@ -363,11 +363,11 @@ extension EFS {
     }
 
     public struct DescribeAccessPointsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPointId", location: .querystring(locationName: "AccessPointId")), 
-            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AccessPointId", location: .querystring(locationName: "AccessPointId")), 
+            AWSMemberEncoding(label: "FileSystemId", location: .querystring(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// (Optional) Specifies an EFS access point to describe in the response; mutually exclusive with FileSystemId.
@@ -417,8 +417,8 @@ extension EFS {
     }
 
     public struct DescribeFileSystemPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// Specifies which EFS file system to retrieve the FileSystemPolicy for.
@@ -434,11 +434,11 @@ extension EFS {
     }
 
     public struct DescribeFileSystemsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationToken", location: .querystring(locationName: "CreationToken")), 
-            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId")), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CreationToken", location: .querystring(locationName: "CreationToken")), 
+            AWSMemberEncoding(label: "FileSystemId", location: .querystring(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
@@ -494,8 +494,8 @@ extension EFS {
     }
 
     public struct DescribeLifecycleConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
@@ -511,8 +511,8 @@ extension EFS {
     }
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MountTargetId", location: .uri(locationName: "MountTargetId"))
         ]
 
         /// The ID of the mount target whose security groups you want to retrieve.
@@ -542,12 +542,12 @@ extension EFS {
     }
 
     public struct DescribeMountTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPointId", location: .querystring(locationName: "AccessPointId")), 
-            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId")), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems")), 
-            AWSShapeMember(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AccessPointId", location: .querystring(locationName: "AccessPointId")), 
+            AWSMemberEncoding(label: "FileSystemId", location: .querystring(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems")), 
+            AWSMemberEncoding(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"))
         ]
 
         /// (Optional) The ID of the access point whose mount targets that you want to list. It must be included in your request if a FileSystemId or MountTargetId is not included in your request. Accepts either an access point ID or ARN as input.
@@ -605,10 +605,10 @@ extension EFS {
     }
 
     public struct DescribeTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId")), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The ID of the file system whose tag set you want to retrieve.
@@ -796,10 +796,10 @@ extension EFS {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100.
@@ -845,8 +845,8 @@ extension EFS {
     }
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MountTargetId", location: .uri(locationName: "MountTargetId"))
         ]
 
         /// The ID of the mount target whose security groups you want to modify.
@@ -951,8 +951,8 @@ extension EFS {
     }
 
     public struct PutFileSystemPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// (Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system. The default value is False. 
@@ -976,8 +976,8 @@ extension EFS {
     }
 
     public struct PutLifecycleConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
@@ -1045,8 +1045,8 @@ extension EFS {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// The ID specifying the EFS resource that you want to create a tag for. 
@@ -1071,8 +1071,8 @@ extension EFS {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Specifies the EFS resource that you want to remove tags from.
@@ -1101,8 +1101,8 @@ extension EFS {
     }
 
     public struct UpdateFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
         /// The ID of the file system that you want to update.

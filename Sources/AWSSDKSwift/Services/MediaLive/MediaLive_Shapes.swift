@@ -1546,8 +1546,8 @@ extension MediaLive {
     }
 
     public struct ArchiveOutputSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Extension", location: .body(locationName: "extension"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Extension", location: .body(locationName: "extension"))
         ]
 
         /// Settings specific to the container type of the file.
@@ -1963,8 +1963,8 @@ extension MediaLive {
     }
 
     public struct BatchUpdateScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -2528,8 +2528,8 @@ extension MediaLive {
     }
 
     public struct CreateInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
         ]
 
         public let destinations: [InputDestinationRequest]?
@@ -2613,8 +2613,8 @@ extension MediaLive {
     }
 
     public struct CreateMultiplexProgramRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -2697,8 +2697,8 @@ extension MediaLive {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -2716,8 +2716,8 @@ extension MediaLive {
     }
 
     public struct DeleteChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -2787,8 +2787,8 @@ extension MediaLive {
     }
 
     public struct DeleteInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InputId", location: .uri(locationName: "inputId"))
         ]
 
         public let inputId: String
@@ -2811,8 +2811,8 @@ extension MediaLive {
     }
 
     public struct DeleteInputSecurityGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
         ]
 
         public let inputSecurityGroupId: String
@@ -2835,9 +2835,9 @@ extension MediaLive {
     }
 
     public struct DeleteMultiplexProgramRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
-            AWSShapeMember(label: "ProgramName", location: .uri(locationName: "programName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
+            AWSMemberEncoding(label: "ProgramName", location: .uri(locationName: "programName"))
         ]
 
         public let multiplexId: String
@@ -2877,8 +2877,8 @@ extension MediaLive {
     }
 
     public struct DeleteMultiplexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -2933,8 +2933,8 @@ extension MediaLive {
     }
 
     public struct DeleteReservationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReservationId", location: .uri(locationName: "reservationId"))
         ]
 
         public let reservationId: String
@@ -3013,8 +3013,8 @@ extension MediaLive {
     }
 
     public struct DeleteScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -3037,9 +3037,9 @@ extension MediaLive {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -3057,8 +3057,8 @@ extension MediaLive {
     }
 
     public struct DescribeChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -3128,8 +3128,8 @@ extension MediaLive {
     }
 
     public struct DescribeInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InputId", location: .uri(locationName: "inputId"))
         ]
 
         public let inputId: String
@@ -3144,8 +3144,8 @@ extension MediaLive {
     }
 
     public struct DescribeInputResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
         ]
 
         public let arn: String?
@@ -3199,8 +3199,8 @@ extension MediaLive {
     }
 
     public struct DescribeInputSecurityGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
         ]
 
         public let inputSecurityGroupId: String
@@ -3243,9 +3243,9 @@ extension MediaLive {
     }
 
     public struct DescribeMultiplexProgramRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
-            AWSShapeMember(label: "ProgramName", location: .uri(locationName: "programName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
+            AWSMemberEncoding(label: "ProgramName", location: .uri(locationName: "programName"))
         ]
 
         public let multiplexId: String
@@ -3285,8 +3285,8 @@ extension MediaLive {
     }
 
     public struct DescribeMultiplexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -3341,8 +3341,8 @@ extension MediaLive {
     }
 
     public struct DescribeOfferingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "OfferingId", location: .uri(locationName: "offeringId"))
         ]
 
         public let offeringId: String
@@ -3400,8 +3400,8 @@ extension MediaLive {
     }
 
     public struct DescribeReservationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReservationId", location: .uri(locationName: "reservationId"))
         ]
 
         public let reservationId: String
@@ -3480,10 +3480,10 @@ extension MediaLive {
     }
 
     public struct DescribeScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let channelId: String
@@ -5048,8 +5048,8 @@ extension MediaLive {
     }
 
     public struct Input: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The Unique ARN of the input (generated, immutable).
@@ -5562,9 +5562,9 @@ extension MediaLive {
     }
 
     public struct ListChannelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -5603,9 +5603,9 @@ extension MediaLive {
     }
 
     public struct ListInputSecurityGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -5644,9 +5644,9 @@ extension MediaLive {
     }
 
     public struct ListInputsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -5685,10 +5685,10 @@ extension MediaLive {
     }
 
     public struct ListMultiplexProgramsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -5730,9 +5730,9 @@ extension MediaLive {
     }
 
     public struct ListMultiplexesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -5771,19 +5771,19 @@ extension MediaLive {
     }
 
     public struct ListOfferingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .querystring(locationName: "channelClass")), 
-            AWSShapeMember(label: "ChannelConfiguration", location: .querystring(locationName: "channelConfiguration")), 
-            AWSShapeMember(label: "Codec", location: .querystring(locationName: "codec")), 
-            AWSShapeMember(label: "Duration", location: .querystring(locationName: "duration")), 
-            AWSShapeMember(label: "MaximumBitrate", location: .querystring(locationName: "maximumBitrate")), 
-            AWSShapeMember(label: "MaximumFramerate", location: .querystring(locationName: "maximumFramerate")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "Resolution", location: .querystring(locationName: "resolution")), 
-            AWSShapeMember(label: "ResourceType", location: .querystring(locationName: "resourceType")), 
-            AWSShapeMember(label: "SpecialFeature", location: .querystring(locationName: "specialFeature")), 
-            AWSShapeMember(label: "VideoQuality", location: .querystring(locationName: "videoQuality"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelClass", location: .querystring(locationName: "channelClass")), 
+            AWSMemberEncoding(label: "ChannelConfiguration", location: .querystring(locationName: "channelConfiguration")), 
+            AWSMemberEncoding(label: "Codec", location: .querystring(locationName: "codec")), 
+            AWSMemberEncoding(label: "Duration", location: .querystring(locationName: "duration")), 
+            AWSMemberEncoding(label: "MaximumBitrate", location: .querystring(locationName: "maximumBitrate")), 
+            AWSMemberEncoding(label: "MaximumFramerate", location: .querystring(locationName: "maximumFramerate")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "Resolution", location: .querystring(locationName: "resolution")), 
+            AWSMemberEncoding(label: "ResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "SpecialFeature", location: .querystring(locationName: "specialFeature")), 
+            AWSMemberEncoding(label: "VideoQuality", location: .querystring(locationName: "videoQuality"))
         ]
 
         public let channelClass: String?
@@ -5852,17 +5852,17 @@ extension MediaLive {
     }
 
     public struct ListReservationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelClass", location: .querystring(locationName: "channelClass")), 
-            AWSShapeMember(label: "Codec", location: .querystring(locationName: "codec")), 
-            AWSShapeMember(label: "MaximumBitrate", location: .querystring(locationName: "maximumBitrate")), 
-            AWSShapeMember(label: "MaximumFramerate", location: .querystring(locationName: "maximumFramerate")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "Resolution", location: .querystring(locationName: "resolution")), 
-            AWSShapeMember(label: "ResourceType", location: .querystring(locationName: "resourceType")), 
-            AWSShapeMember(label: "SpecialFeature", location: .querystring(locationName: "specialFeature")), 
-            AWSShapeMember(label: "VideoQuality", location: .querystring(locationName: "videoQuality"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelClass", location: .querystring(locationName: "channelClass")), 
+            AWSMemberEncoding(label: "Codec", location: .querystring(locationName: "codec")), 
+            AWSMemberEncoding(label: "MaximumBitrate", location: .querystring(locationName: "maximumBitrate")), 
+            AWSMemberEncoding(label: "MaximumFramerate", location: .querystring(locationName: "maximumFramerate")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "Resolution", location: .querystring(locationName: "resolution")), 
+            AWSMemberEncoding(label: "ResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "SpecialFeature", location: .querystring(locationName: "specialFeature")), 
+            AWSMemberEncoding(label: "VideoQuality", location: .querystring(locationName: "videoQuality"))
         ]
 
         public let channelClass: String?
@@ -5925,8 +5925,8 @@ extension MediaLive {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -7266,8 +7266,8 @@ extension MediaLive {
     }
 
     public struct PurchaseOfferingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "OfferingId", location: .uri(locationName: "offeringId"))
         ]
 
         public let count: Int
@@ -8012,8 +8012,8 @@ extension MediaLive {
     }
 
     public struct StartChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -8083,8 +8083,8 @@ extension MediaLive {
     }
 
     public struct StartMultiplexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -8264,8 +8264,8 @@ extension MediaLive {
     }
 
     public struct StopChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -8335,8 +8335,8 @@ extension MediaLive {
     }
 
     public struct StopMultiplexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -8546,8 +8546,8 @@ extension MediaLive {
     }
 
     public struct UpdateChannelClassRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelClass: ChannelClass
@@ -8587,8 +8587,8 @@ extension MediaLive {
     }
 
     public struct UpdateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .uri(locationName: "channelId"))
         ]
 
         public let channelId: String
@@ -8647,8 +8647,8 @@ extension MediaLive {
     }
 
     public struct UpdateInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InputId", location: .uri(locationName: "inputId"))
         ]
 
         public let destinations: [InputDestinationRequest]?
@@ -8694,8 +8694,8 @@ extension MediaLive {
     }
 
     public struct UpdateInputSecurityGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
         ]
 
         public let inputSecurityGroupId: String
@@ -8729,9 +8729,9 @@ extension MediaLive {
     }
 
     public struct UpdateMultiplexProgramRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
-            AWSShapeMember(label: "ProgramName", location: .uri(locationName: "programName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId")), 
+            AWSMemberEncoding(label: "ProgramName", location: .uri(locationName: "programName"))
         ]
 
         public let multiplexId: String
@@ -8769,8 +8769,8 @@ extension MediaLive {
     }
 
     public struct UpdateMultiplexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MultiplexId", location: .uri(locationName: "multiplexId"))
         ]
 
         public let multiplexId: String
@@ -8808,8 +8808,8 @@ extension MediaLive {
     }
 
     public struct UpdateReservationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ReservationId", location: .uri(locationName: "reservationId"))
         ]
 
         public let name: String?

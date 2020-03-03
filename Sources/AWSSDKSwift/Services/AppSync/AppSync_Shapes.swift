@@ -272,8 +272,8 @@ extension AppSync {
     }
 
     public struct CreateApiCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
@@ -323,8 +323,8 @@ extension AppSync {
     }
 
     public struct CreateApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The ID for your GraphQL API.
@@ -362,8 +362,8 @@ extension AppSync {
     }
 
     public struct CreateDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID for the GraphQL API for the DataSource.
@@ -435,8 +435,8 @@ extension AppSync {
     }
 
     public struct CreateFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The GraphQL API ID.
@@ -564,9 +564,9 @@ extension AppSync {
     }
 
     public struct CreateResolverRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The ID for the GraphQL API for which the resolver is being created.
@@ -648,8 +648,8 @@ extension AppSync {
     }
 
     public struct CreateTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -737,8 +737,8 @@ extension AppSync {
     }
 
     public struct DeleteApiCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -762,9 +762,9 @@ extension AppSync {
     }
 
     public struct DeleteApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         /// The API ID.
@@ -792,9 +792,9 @@ extension AppSync {
     }
 
     public struct DeleteDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The API ID.
@@ -828,9 +828,9 @@ extension AppSync {
     }
 
     public struct DeleteFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -864,8 +864,8 @@ extension AppSync {
     }
 
     public struct DeleteGraphqlApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -889,10 +889,10 @@ extension AppSync {
     }
 
     public struct DeleteResolverRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -933,9 +933,9 @@ extension AppSync {
     }
 
     public struct DeleteTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1039,8 +1039,8 @@ extension AppSync {
     }
 
     public struct FlushApiCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -1106,8 +1106,8 @@ extension AppSync {
     }
 
     public struct GetApiCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -1136,9 +1136,9 @@ extension AppSync {
     }
 
     public struct GetDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The API ID.
@@ -1178,9 +1178,9 @@ extension AppSync {
     }
 
     public struct GetFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -1220,8 +1220,8 @@ extension AppSync {
     }
 
     public struct GetGraphqlApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID for the GraphQL API.
@@ -1251,10 +1251,10 @@ extension AppSync {
     }
 
     public struct GetIntrospectionSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format")), 
-            AWSShapeMember(label: "includeDirectives", location: .querystring(locationName: "includeDirectives"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "includeDirectives", location: .querystring(locationName: "includeDirectives"))
         ]
 
         /// The API ID.
@@ -1280,8 +1280,8 @@ extension AppSync {
     public struct GetIntrospectionSchemaResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "schema"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "schema", encoding: .blob)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "schema", encoding: .blob)
         ]
 
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
@@ -1297,10 +1297,10 @@ extension AppSync {
     }
 
     public struct GetResolverRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1347,8 +1347,8 @@ extension AppSync {
     }
 
     public struct GetSchemaCreationStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -1382,10 +1382,10 @@ extension AppSync {
     }
 
     public struct GetTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1525,10 +1525,10 @@ extension AppSync {
     }
 
     public struct ListApiKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -1578,10 +1578,10 @@ extension AppSync {
     }
 
     public struct ListDataSourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -1631,10 +1631,10 @@ extension AppSync {
     }
 
     public struct ListFunctionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The GraphQL API ID.
@@ -1684,9 +1684,9 @@ extension AppSync {
     }
 
     public struct ListGraphqlApisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results you want the request to return.
@@ -1732,11 +1732,11 @@ extension AppSync {
     }
 
     public struct ListResolversByFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -1790,11 +1790,11 @@ extension AppSync {
     }
 
     public struct ListResolversRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -1848,8 +1848,8 @@ extension AppSync {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The GraphqlApi ARN.
@@ -1885,11 +1885,11 @@ extension AppSync {
     }
 
     public struct ListTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The API ID.
@@ -2103,8 +2103,8 @@ extension AppSync {
     }
 
     public struct StartSchemaCreationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// The API ID.
@@ -2160,8 +2160,8 @@ extension AppSync {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The GraphqlApi ARN.
@@ -2231,9 +2231,9 @@ extension AppSync {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The GraphqlApi ARN.
@@ -2274,8 +2274,8 @@ extension AppSync {
     }
 
     public struct UpdateApiCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
@@ -2317,9 +2317,9 @@ extension AppSync {
     }
 
     public struct UpdateApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         /// The ID for the GraphQL API.
@@ -2361,9 +2361,9 @@ extension AppSync {
     }
 
     public struct UpdateDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The API ID.
@@ -2435,9 +2435,9 @@ extension AppSync {
     }
 
     public struct UpdateFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
         ]
 
         /// The GraphQL API ID.
@@ -2511,8 +2511,8 @@ extension AppSync {
     }
 
     public struct UpdateGraphqlApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
 
         /// A list of additional authentication providers for the GraphqlApi API.
@@ -2566,10 +2566,10 @@ extension AppSync {
     }
 
     public struct UpdateResolverRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.
@@ -2651,9 +2651,9 @@ extension AppSync {
     }
 
     public struct UpdateTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
         ]
 
         /// The API ID.

@@ -52,8 +52,8 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -105,9 +105,9 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         public let configurationSetName: String
@@ -133,8 +133,8 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -213,8 +213,8 @@ extension PinpointSMSVoice {
     }
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -260,9 +260,9 @@ extension PinpointSMSVoice {
     }
 
     public struct ListConfigurationSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         public let nextToken: String?
@@ -399,9 +399,9 @@ extension PinpointSMSVoice {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         public let configurationSetName: String

@@ -57,11 +57,11 @@ extension Mobile {
     public struct CreateProjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contents", encoding: .blob), 
-            AWSShapeMember(label: "name", location: .querystring(locationName: "name")), 
-            AWSShapeMember(label: "region", location: .querystring(locationName: "region")), 
-            AWSShapeMember(label: "snapshotId", location: .querystring(locationName: "snapshotId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contents", encoding: .blob), 
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "region", location: .querystring(locationName: "region")), 
+            AWSMemberEncoding(label: "snapshotId", location: .querystring(locationName: "snapshotId"))
         ]
 
         ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation. 
@@ -103,8 +103,8 @@ extension Mobile {
     }
 
     public struct DeleteProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
         ///  Unique project identifier. 
@@ -138,8 +138,8 @@ extension Mobile {
     }
 
     public struct DescribeBundleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId"))
         ]
 
         ///  Unique bundle identifier. 
@@ -169,9 +169,9 @@ extension Mobile {
     }
 
     public struct DescribeProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId")), 
-            AWSShapeMember(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId")), 
+            AWSMemberEncoding(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"))
         ]
 
         ///  Unique project identifier. 
@@ -204,10 +204,10 @@ extension Mobile {
     }
 
     public struct ExportBundleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId")), 
-            AWSShapeMember(label: "platform", location: .querystring(locationName: "platform")), 
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId")), 
+            AWSMemberEncoding(label: "platform", location: .querystring(locationName: "platform")), 
+            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
         ]
 
         ///  Unique bundle identifier. 
@@ -245,8 +245,8 @@ extension Mobile {
     }
 
     public struct ExportProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
         ///  Unique project identifier. 
@@ -284,9 +284,9 @@ extension Mobile {
     }
 
     public struct ListBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response. 
@@ -324,9 +324,9 @@ extension Mobile {
     }
 
     public struct ListProjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response. 
@@ -444,9 +444,9 @@ extension Mobile {
     public struct UpdateProjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contents", encoding: .blob), 
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contents", encoding: .blob), 
+            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
         ]
 
         ///  ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation. 

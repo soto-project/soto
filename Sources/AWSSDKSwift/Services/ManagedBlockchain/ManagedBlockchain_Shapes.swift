@@ -107,8 +107,8 @@ extension ManagedBlockchain {
     }
 
     public struct CreateMemberInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -233,9 +233,9 @@ extension ManagedBlockchain {
     }
 
     public struct CreateNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MemberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -286,8 +286,8 @@ extension ManagedBlockchain {
     }
 
     public struct CreateProposalInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions.
@@ -344,9 +344,9 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteMemberInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MemberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The unique identifier of the member to remove.
@@ -381,10 +381,10 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "NodeId", location: .uri(locationName: "nodeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MemberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "NodeId", location: .uri(locationName: "nodeId"))
         ]
 
         /// The unique identifier of the member that owns this node.
@@ -425,9 +425,9 @@ extension ManagedBlockchain {
     }
 
     public struct GetMemberInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MemberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The unique identifier of the member.
@@ -468,8 +468,8 @@ extension ManagedBlockchain {
     }
 
     public struct GetNetworkInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The unique identifier of the network to get information about.
@@ -504,10 +504,10 @@ extension ManagedBlockchain {
     }
 
     public struct GetNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "NodeId", location: .uri(locationName: "nodeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MemberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "NodeId", location: .uri(locationName: "nodeId"))
         ]
 
         /// The unique identifier of the member that owns the node.
@@ -554,9 +554,9 @@ extension ManagedBlockchain {
     }
 
     public struct GetProposalInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "ProposalId", location: .uri(locationName: "proposalId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "ProposalId", location: .uri(locationName: "proposalId"))
         ]
 
         /// The unique identifier of the network for which the proposal is made.
@@ -640,9 +640,9 @@ extension ManagedBlockchain {
     }
 
     public struct ListInvitationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of invitations to return.
@@ -686,13 +686,13 @@ extension ManagedBlockchain {
     }
 
     public struct ListMembersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsOwned", location: .querystring(locationName: "isOwned")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "Name", location: .querystring(locationName: "name")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "IsOwned", location: .querystring(locationName: "isOwned")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "Name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "Status", location: .querystring(locationName: "status"))
         ]
 
         /// An optional Boolean value. If provided, the request is limited either to members that the current AWS account owns (true) or that other AWS accounts own (false). If omitted, all members are listed.
@@ -754,12 +754,12 @@ extension ManagedBlockchain {
     }
 
     public struct ListNetworksInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Framework", location: .querystring(locationName: "framework")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "Name", location: .querystring(locationName: "name")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Framework", location: .querystring(locationName: "framework")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "Name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "Status", location: .querystring(locationName: "status"))
         ]
 
         /// An optional framework specifier. If provided, only networks of this framework type are listed.
@@ -815,12 +815,12 @@ extension ManagedBlockchain {
     }
 
     public struct ListNodesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "MemberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "Status", location: .querystring(locationName: "status"))
         ]
 
         /// The maximum number of nodes to list.
@@ -880,11 +880,11 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalVotesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "ProposalId", location: .uri(locationName: "proposalId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "ProposalId", location: .uri(locationName: "proposalId"))
         ]
 
         ///  The maximum number of votes to return. 
@@ -940,10 +940,10 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  The maximum number of proposals to return. 
@@ -1562,8 +1562,8 @@ extension ManagedBlockchain {
     }
 
     public struct RejectInvitationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitationId", location: .uri(locationName: "invitationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InvitationId", location: .uri(locationName: "invitationId"))
         ]
 
         /// The unique identifier of the invitation to reject.
@@ -1611,9 +1611,9 @@ extension ManagedBlockchain {
     }
 
     public struct VoteOnProposalInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId")), 
-            AWSShapeMember(label: "ProposalId", location: .uri(locationName: "proposalId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "NetworkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "ProposalId", location: .uri(locationName: "proposalId"))
         ]
 
         ///  The unique identifier of the network. 

@@ -135,8 +135,8 @@ extension ElasticTranscoder {
     }
 
     public struct CancelJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
@@ -575,8 +575,8 @@ extension ElasticTranscoder {
     }
 
     public struct DeletePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the pipeline that you want to delete.
@@ -604,8 +604,8 @@ extension ElasticTranscoder {
     }
 
     public struct DeletePresetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the preset for which you want to get detailed information.
@@ -1040,10 +1040,10 @@ extension ElasticTranscoder {
     }
 
     public struct ListJobsByPipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending")), 
-            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken")), 
-            AWSShapeMember(label: "PipelineId", location: .uri(locationName: "PipelineId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Ascending", location: .querystring(locationName: "Ascending")), 
+            AWSMemberEncoding(label: "PageToken", location: .querystring(locationName: "PageToken")), 
+            AWSMemberEncoding(label: "PipelineId", location: .uri(locationName: "PipelineId"))
         ]
 
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false. 
@@ -1091,10 +1091,10 @@ extension ElasticTranscoder {
     }
 
     public struct ListJobsByStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending")), 
-            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken")), 
-            AWSShapeMember(label: "Status", location: .uri(locationName: "Status"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Ascending", location: .querystring(locationName: "Ascending")), 
+            AWSMemberEncoding(label: "PageToken", location: .querystring(locationName: "PageToken")), 
+            AWSMemberEncoding(label: "Status", location: .uri(locationName: "Status"))
         ]
 
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false. 
@@ -1142,9 +1142,9 @@ extension ElasticTranscoder {
     }
 
     public struct ListPipelinesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending")), 
-            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Ascending", location: .querystring(locationName: "Ascending")), 
+            AWSMemberEncoding(label: "PageToken", location: .querystring(locationName: "PageToken"))
         ]
 
         /// To list pipelines in chronological order by the date and time that they were created, enter true. To list pipelines in reverse chronological order, enter false.
@@ -1187,9 +1187,9 @@ extension ElasticTranscoder {
     }
 
     public struct ListPresetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending")), 
-            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Ascending", location: .querystring(locationName: "Ascending")), 
+            AWSMemberEncoding(label: "PageToken", location: .querystring(locationName: "PageToken"))
         ]
 
         /// To list presets in chronological order by the date and time that they were created, enter true. To list presets in reverse chronological order, enter false.
@@ -1575,8 +1575,8 @@ extension ElasticTranscoder {
     }
 
     public struct ReadJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the job for which you want to get detailed information.
@@ -1610,8 +1610,8 @@ extension ElasticTranscoder {
     }
 
     public struct ReadPipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the pipeline to read.
@@ -1649,8 +1649,8 @@ extension ElasticTranscoder {
     }
 
     public struct ReadPresetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the preset for which you want to get detailed information.
@@ -1836,8 +1836,8 @@ extension ElasticTranscoder {
     }
 
     public struct UpdatePipelineNotificationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the pipeline for which you want to change notification settings.
@@ -1876,8 +1876,8 @@ extension ElasticTranscoder {
     }
 
     public struct UpdatePipelineRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default AWS-KMS key, or if you are using an Encryption:Mode of aes-cbc-pkcs7, aes-ctr, or aes-gcm.
@@ -1952,8 +1952,8 @@ extension ElasticTranscoder {
     }
 
     public struct UpdatePipelineStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
         ]
 
         /// The identifier of the pipeline to update.

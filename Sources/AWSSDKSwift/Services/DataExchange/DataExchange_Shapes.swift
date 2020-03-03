@@ -164,8 +164,8 @@ extension DataExchange {
     }
 
     public struct CancelJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "JobId", location: .uri(locationName: "JobId"))
         ]
 
         public let jobId: String
@@ -305,8 +305,8 @@ extension DataExchange {
     }
 
     public struct CreateRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// An optional comment about the revision.
@@ -421,10 +421,10 @@ extension DataExchange {
     }
 
     public struct DeleteAssetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", location: .uri(locationName: "AssetId")), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AssetId", location: .uri(locationName: "AssetId")), 
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "RevisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let assetId: String
@@ -445,8 +445,8 @@ extension DataExchange {
     }
 
     public struct DeleteDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         public let dataSetId: String
@@ -461,9 +461,9 @@ extension DataExchange {
     }
 
     public struct DeleteRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "RevisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let dataSetId: String
@@ -593,10 +593,10 @@ extension DataExchange {
     }
 
     public struct GetAssetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", location: .uri(locationName: "AssetId")), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AssetId", location: .uri(locationName: "AssetId")), 
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "RevisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let assetId: String
@@ -657,8 +657,8 @@ extension DataExchange {
     }
 
     public struct GetDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         public let dataSetId: String
@@ -716,8 +716,8 @@ extension DataExchange {
     }
 
     public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "JobId", location: .uri(locationName: "JobId"))
         ]
 
         public let jobId: String
@@ -766,9 +766,9 @@ extension DataExchange {
     }
 
     public struct GetRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "RevisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let dataSetId: String
@@ -1025,10 +1025,10 @@ extension DataExchange {
     }
 
     public struct ListDataSetRevisionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let dataSetId: String
@@ -1070,10 +1070,10 @@ extension DataExchange {
     }
 
     public struct ListDataSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "Origin", location: .querystring(locationName: "origin"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "Origin", location: .querystring(locationName: "origin"))
         ]
 
         public let maxResults: Int?
@@ -1115,11 +1115,11 @@ extension DataExchange {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .querystring(locationName: "dataSetId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "RevisionId", location: .querystring(locationName: "revisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .querystring(locationName: "dataSetId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "RevisionId", location: .querystring(locationName: "revisionId"))
         ]
 
         public let dataSetId: String?
@@ -1164,11 +1164,11 @@ extension DataExchange {
     }
 
     public struct ListRevisionAssetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "RevisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let dataSetId: String
@@ -1213,8 +1213,8 @@ extension DataExchange {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1367,8 +1367,8 @@ extension DataExchange {
     }
 
     public struct StartJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "JobId", location: .uri(locationName: "JobId"))
         ]
 
         public let jobId: String
@@ -1391,8 +1391,8 @@ extension DataExchange {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1410,9 +1410,9 @@ extension DataExchange {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -1430,10 +1430,10 @@ extension DataExchange {
     }
 
     public struct UpdateAssetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", location: .uri(locationName: "AssetId")), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AssetId", location: .uri(locationName: "AssetId")), 
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "RevisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let assetId: String
@@ -1498,8 +1498,8 @@ extension DataExchange {
     }
 
     public struct UpdateDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         public let dataSetId: String
@@ -1562,9 +1562,9 @@ extension DataExchange {
     }
 
     public struct UpdateRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "RevisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         /// An optional comment about the revision.

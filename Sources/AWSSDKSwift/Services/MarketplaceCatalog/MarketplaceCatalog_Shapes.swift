@@ -24,9 +24,9 @@ extension MarketplaceCatalog {
     //MARK: Shapes
 
     public struct CancelChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", location: .querystring(locationName: "catalog")), 
-            AWSShapeMember(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace.
@@ -165,9 +165,9 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", location: .querystring(locationName: "catalog")), 
-            AWSShapeMember(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace 
@@ -238,9 +238,9 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeEntityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", location: .querystring(locationName: "catalog")), 
-            AWSShapeMember(label: "EntityId", location: .querystring(locationName: "entityId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "EntityId", location: .querystring(locationName: "entityId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace 

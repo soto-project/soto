@@ -505,8 +505,8 @@ extension IAM {
     }
 
     public struct ContextEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContextKeyValues", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ContextKeyValues", encoding: .list(member:"member"))
         ]
 
         /// The full name of a condition context key, including the service prefix. For example, aws:SourceIp or s3:VersionId.
@@ -716,9 +716,9 @@ extension IAM {
     }
 
     public struct CreateOpenIDConnectProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientIDList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ThumbprintList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ClientIDList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ThumbprintList", encoding: .list(member:"member"))
         ]
 
         /// A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.) You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
@@ -866,8 +866,8 @@ extension IAM {
     }
 
     public struct CreateRoleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The trust relationship policy document that grants an entity permission to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)    Upon success, the response includes the same trust policy in JSON format.
@@ -1068,8 +1068,8 @@ extension IAM {
     }
 
     public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         ///  The path for the user name. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
@@ -1697,8 +1697,8 @@ extension IAM {
     }
 
     public struct DeletionTaskFailureReasonType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleUsageList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RoleUsageList", encoding: .list(member:"member"))
         ]
 
         /// A short description of the reason that the service-linked role deletion failed.
@@ -1902,11 +1902,11 @@ extension IAM {
     }
 
     public struct EvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvalDecisionDetails", encoding: .map(entry:"entry", key: "key", value: "value")), 
-            AWSShapeMember(label: "MatchedStatements", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MissingContextValues", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceSpecificResults", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EvalDecisionDetails", encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSMemberEncoding(label: "MatchedStatements", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "MissingContextValues", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceSpecificResults", encoding: .list(member:"member"))
         ]
 
         /// The name of the API operation tested on the indicated resource.
@@ -2082,8 +2082,8 @@ extension IAM {
     }
 
     public struct GetAccountAuthorizationDetailsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Filter", encoding: .list(member:"member"))
         ]
 
         /// A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below.
@@ -2115,11 +2115,11 @@ extension IAM {
     }
 
     public struct GetAccountAuthorizationDetailsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupDetailList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Policies", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "RoleDetailList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "UserDetailList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "GroupDetailList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Policies", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "RoleDetailList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "UserDetailList", encoding: .list(member:"member"))
         ]
 
         /// A list containing information about IAM groups.
@@ -2169,8 +2169,8 @@ extension IAM {
     }
 
     public struct GetAccountSummaryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SummaryMap", encoding: .map(entry:"entry", key: "key", value: "value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SummaryMap", encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// A set of key–value pairs containing information about IAM entity usage and IAM quotas.
@@ -2186,8 +2186,8 @@ extension IAM {
     }
 
     public struct GetContextKeysForCustomPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyInputList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyInputList", encoding: .list(member:"member"))
         ]
 
         /// A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
@@ -2211,8 +2211,8 @@ extension IAM {
     }
 
     public struct GetContextKeysForPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContextKeyNames", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ContextKeyNames", encoding: .list(member:"member"))
         ]
 
         /// The list of context keys that are referenced in the input policies.
@@ -2228,8 +2228,8 @@ extension IAM {
     }
 
     public struct GetContextKeysForPrincipalPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyInputList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyInputList", encoding: .list(member:"member"))
         ]
 
         /// An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
@@ -2363,8 +2363,8 @@ extension IAM {
     }
 
     public struct GetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Users", encoding: .list(member:"member"))
         ]
 
         /// A structure that contains details about the group.
@@ -2479,9 +2479,9 @@ extension IAM {
     }
 
     public struct GetOpenIDConnectProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientIDList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ThumbprintList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ClientIDList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ThumbprintList", encoding: .list(member:"member"))
         ]
 
         /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
@@ -2545,8 +2545,8 @@ extension IAM {
     }
 
     public struct GetOrganizationsAccessReportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessDetails", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AccessDetails", encoding: .list(member:"member"))
         ]
 
         /// An object that contains details about the most recent attempt to access the service.
@@ -2899,8 +2899,8 @@ extension IAM {
     }
 
     public struct GetServiceLastAccessedDetailsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServicesLastAccessed", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ServicesLastAccessed", encoding: .list(member:"member"))
         ]
 
         /// An object that contains details about the reason the operation failed.
@@ -2979,8 +2979,8 @@ extension IAM {
     }
 
     public struct GetServiceLastAccessedDetailsWithEntitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntityDetailsList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EntityDetailsList", encoding: .list(member:"member"))
         ]
 
         /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified AWS service.
@@ -3170,9 +3170,9 @@ extension IAM {
     }
 
     public struct GroupDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedManagedPolicies", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "GroupPolicyList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AttachedManagedPolicies", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "GroupPolicyList", encoding: .list(member:"member"))
         ]
 
         public let arn: String?
@@ -3211,8 +3211,8 @@ extension IAM {
     }
 
     public struct InstanceProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Roles", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Roles", encoding: .list(member:"member"))
         ]
 
         ///  The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide. 
@@ -3281,8 +3281,8 @@ extension IAM {
     }
 
     public struct ListAccessKeysResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessKeyMetadata", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AccessKeyMetadata", encoding: .list(member:"member"))
         ]
 
         /// A list of objects containing metadata about the access keys.
@@ -3332,8 +3332,8 @@ extension IAM {
     }
 
     public struct ListAccountAliasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountAliases", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AccountAliases", encoding: .list(member:"member"))
         ]
 
         /// A list of aliases associated with the account. AWS supports only one alias per account.
@@ -3397,8 +3397,8 @@ extension IAM {
     }
 
     public struct ListAttachedGroupPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedPolicies", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AttachedPolicies", encoding: .list(member:"member"))
         ]
 
         /// A list of the attached policies.
@@ -3462,8 +3462,8 @@ extension IAM {
     }
 
     public struct ListAttachedRolePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedPolicies", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AttachedPolicies", encoding: .list(member:"member"))
         ]
 
         /// A list of the attached policies.
@@ -3527,8 +3527,8 @@ extension IAM {
     }
 
     public struct ListAttachedUserPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedPolicies", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AttachedPolicies", encoding: .list(member:"member"))
         ]
 
         /// A list of the attached policies.
@@ -3599,10 +3599,10 @@ extension IAM {
     }
 
     public struct ListEntitiesForPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyGroups", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "PolicyRoles", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "PolicyUsers", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyGroups", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "PolicyRoles", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "PolicyUsers", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -3667,8 +3667,8 @@ extension IAM {
     }
 
     public struct ListGroupPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyNames", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -3725,8 +3725,8 @@ extension IAM {
     }
 
     public struct ListGroupsForUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Groups", encoding: .list(member:"member"))
         ]
 
         /// A list of groups.
@@ -3783,8 +3783,8 @@ extension IAM {
     }
 
     public struct ListGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Groups", encoding: .list(member:"member"))
         ]
 
         /// A list of groups.
@@ -3841,8 +3841,8 @@ extension IAM {
     }
 
     public struct ListInstanceProfilesForRoleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceProfiles", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InstanceProfiles", encoding: .list(member:"member"))
         ]
 
         /// A list of instance profiles.
@@ -3899,8 +3899,8 @@ extension IAM {
     }
 
     public struct ListInstanceProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceProfiles", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "InstanceProfiles", encoding: .list(member:"member"))
         ]
 
         /// A list of instance profiles.
@@ -3957,8 +3957,8 @@ extension IAM {
     }
 
     public struct ListMFADevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFADevices", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MFADevices", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -3990,8 +3990,8 @@ extension IAM {
     }
 
     public struct ListOpenIDConnectProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpenIDConnectProviderList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "OpenIDConnectProviderList", encoding: .list(member:"member"))
         ]
 
         /// The list of IAM OIDC provider resource objects defined in the AWS account.
@@ -4007,8 +4007,8 @@ extension IAM {
     }
 
     public struct ListPoliciesGrantingServiceAccessEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policies", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Policies", encoding: .list(member:"member"))
         ]
 
         /// The PoliciesGrantingServiceAccess object that contains details about the policy.
@@ -4028,8 +4028,8 @@ extension IAM {
     }
 
     public struct ListPoliciesGrantingServiceAccessRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceNamespaces", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ServiceNamespaces", encoding: .list(member:"member"))
         ]
 
         /// The ARN of the IAM identity (user, group, or role) whose policies you want to list.
@@ -4068,8 +4068,8 @@ extension IAM {
     }
 
     public struct ListPoliciesGrantingServiceAccessResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoliciesGrantingServiceAccess", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PoliciesGrantingServiceAccess", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4138,8 +4138,8 @@ extension IAM {
     }
 
     public struct ListPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policies", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Policies", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4195,8 +4195,8 @@ extension IAM {
     }
 
     public struct ListPolicyVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Versions", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Versions", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4253,8 +4253,8 @@ extension IAM {
     }
 
     public struct ListRolePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyNames", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4311,8 +4311,8 @@ extension IAM {
     }
 
     public struct ListRoleTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
@@ -4369,8 +4369,8 @@ extension IAM {
     }
 
     public struct ListRolesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Roles", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Roles", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4402,8 +4402,8 @@ extension IAM {
     }
 
     public struct ListSAMLProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SAMLProviderList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SAMLProviderList", encoding: .list(member:"member"))
         ]
 
         /// The list of SAML provider resource objects defined in IAM for this AWS account.
@@ -4452,8 +4452,8 @@ extension IAM {
     }
 
     public struct ListSSHPublicKeysResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSHPublicKeys", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SSHPublicKeys", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4510,8 +4510,8 @@ extension IAM {
     }
 
     public struct ListServerCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerCertificateMetadataList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ServerCertificateMetadataList", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4559,8 +4559,8 @@ extension IAM {
     }
 
     public struct ListServiceSpecificCredentialsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceSpecificCredentials", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ServiceSpecificCredentials", encoding: .list(member:"member"))
         ]
 
         /// A list of structures that each contain details about a service-specific credential.
@@ -4609,8 +4609,8 @@ extension IAM {
     }
 
     public struct ListSigningCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Certificates", encoding: .list(member:"member"))
         ]
 
         /// A list of the user's signing certificate information.
@@ -4667,8 +4667,8 @@ extension IAM {
     }
 
     public struct ListUserPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyNames", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4725,8 +4725,8 @@ extension IAM {
     }
 
     public struct ListUserTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
@@ -4783,8 +4783,8 @@ extension IAM {
     }
 
     public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Users", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4838,8 +4838,8 @@ extension IAM {
     }
 
     public struct ListVirtualMFADevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VirtualMFADevices", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "VirtualMFADevices", encoding: .list(member:"member"))
         ]
 
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -4907,8 +4907,8 @@ extension IAM {
     }
 
     public struct ManagedPolicyDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyVersionList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PolicyVersionList", encoding: .list(member:"member"))
         ]
 
         public let arn: String?
@@ -5530,10 +5530,10 @@ extension IAM {
     }
 
     public struct ResourceSpecificResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvalDecisionDetails", encoding: .map(entry:"entry", key: "key", value: "value")), 
-            AWSShapeMember(label: "MatchedStatements", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "MissingContextValues", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EvalDecisionDetails", encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSMemberEncoding(label: "MatchedStatements", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "MissingContextValues", encoding: .list(member:"member"))
         ]
 
         /// Additional details about the results of the evaluation decision on a single resource. This parameter is returned only for cross-account simulations. This parameter explains how each policy type contributes to the resource-specific evaluation decision.
@@ -5610,8 +5610,8 @@ extension IAM {
     }
 
     public struct Role: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         ///  The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide guide. 
@@ -5667,11 +5667,11 @@ extension IAM {
     }
 
     public struct RoleDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedManagedPolicies", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "InstanceProfileList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "RolePolicyList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AttachedManagedPolicies", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "InstanceProfileList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "RolePolicyList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         public let arn: String?
@@ -5748,8 +5748,8 @@ extension IAM {
     }
 
     public struct RoleUsageType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resources", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Resources", encoding: .list(member:"member"))
         ]
 
         /// The name of the Region where the service-linked role is being used.
@@ -6077,12 +6077,12 @@ extension IAM {
     }
 
     public struct SimulateCustomPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionNames", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ContextEntries", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "PermissionsBoundaryPolicyInputList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "PolicyInputList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceArns", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ActionNames", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ContextEntries", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "PermissionsBoundaryPolicyInputList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "PolicyInputList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceArns", encoding: .list(member:"member"))
         ]
 
         /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
@@ -6176,8 +6176,8 @@ extension IAM {
     }
 
     public struct SimulatePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationResults", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EvaluationResults", encoding: .list(member:"member"))
         ]
 
         /// The results of the simulation.
@@ -6201,12 +6201,12 @@ extension IAM {
     }
 
     public struct SimulatePrincipalPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionNames", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ContextEntries", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "PermissionsBoundaryPolicyInputList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "PolicyInputList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceArns", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ActionNames", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ContextEntries", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "PermissionsBoundaryPolicyInputList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "PolicyInputList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceArns", encoding: .list(member:"member"))
         ]
 
         /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
@@ -6359,8 +6359,8 @@ extension IAM {
     }
 
     public struct TagRoleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The name of the role that you want to add tags to. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
@@ -6390,8 +6390,8 @@ extension IAM {
     }
 
     public struct TagUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The list of tags that you want to attach to the user. Each tag consists of a key name and an associated value.
@@ -6421,8 +6421,8 @@ extension IAM {
     }
 
     public struct UntagRoleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "TagKeys", encoding: .list(member:"member"))
         ]
 
         /// The name of the IAM role from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
@@ -6454,8 +6454,8 @@ extension IAM {
     }
 
     public struct UntagUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "TagKeys", encoding: .list(member:"member"))
         ]
 
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified user.
@@ -6665,8 +6665,8 @@ extension IAM {
     }
 
     public struct UpdateOpenIDConnectProviderThumbprintRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThumbprintList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ThumbprintList", encoding: .list(member:"member"))
         ]
 
         /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -7119,8 +7119,8 @@ extension IAM {
     }
 
     public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see IAM Identifiers in the IAM User Guide. 
@@ -7164,11 +7164,11 @@ extension IAM {
     }
 
     public struct UserDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedManagedPolicies", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "GroupList", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "UserPolicyList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AttachedManagedPolicies", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "GroupList", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "UserPolicyList", encoding: .list(member:"member"))
         ]
 
         public let arn: String?

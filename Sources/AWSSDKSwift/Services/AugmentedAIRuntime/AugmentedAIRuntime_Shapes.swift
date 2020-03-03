@@ -30,8 +30,8 @@ extension AugmentedAIRuntime {
     //MARK: Shapes
 
     public struct DeleteHumanLoopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
         /// The name of the human loop you want to delete.
@@ -61,8 +61,8 @@ extension AugmentedAIRuntime {
     }
 
     public struct DescribeHumanLoopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
         /// The name of the human loop.
@@ -242,12 +242,12 @@ extension AugmentedAIRuntime {
     }
 
     public struct ListHumanLoopsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", location: .querystring(locationName: "CreationTimeAfter")), 
-            AWSShapeMember(label: "CreationTimeBefore", location: .querystring(locationName: "CreationTimeBefore")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "SortOrder", location: .querystring(locationName: "SortOrder"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "CreationTimeAfter", location: .querystring(locationName: "CreationTimeAfter")), 
+            AWSMemberEncoding(label: "CreationTimeBefore", location: .querystring(locationName: "CreationTimeBefore")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "SortOrder", location: .querystring(locationName: "SortOrder"))
         ]
 
         /// (Optional) The timestamp of the date when you want the human loops to begin. For example, 1551000000.

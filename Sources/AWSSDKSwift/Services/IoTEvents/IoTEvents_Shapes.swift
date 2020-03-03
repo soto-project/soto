@@ -261,8 +261,8 @@ extension IoTEvents {
     }
 
     public struct DeleteDetectorModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
         ]
 
         /// The name of the detector model to be deleted.
@@ -292,8 +292,8 @@ extension IoTEvents {
     }
 
     public struct DeleteInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
         ]
 
         /// The name of the input to delete.
@@ -323,9 +323,9 @@ extension IoTEvents {
     }
 
     public struct DescribeDetectorModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
-            AWSShapeMember(label: "detectorModelVersion", location: .querystring(locationName: "version"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
+            AWSMemberEncoding(label: "detectorModelVersion", location: .querystring(locationName: "version"))
         ]
 
         /// The name of the detector model.
@@ -367,8 +367,8 @@ extension IoTEvents {
     }
 
     public struct DescribeInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
         ]
 
         /// The name of the input.
@@ -830,10 +830,10 @@ extension IoTEvents {
     }
 
     public struct ListDetectorModelVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of the detector model whose versions are returned.
@@ -883,9 +883,9 @@ extension IoTEvents {
     }
 
     public struct ListDetectorModelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -928,9 +928,9 @@ extension IoTEvents {
     }
 
     public struct ListInputsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -973,8 +973,8 @@ extension IoTEvents {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -1293,8 +1293,8 @@ extension IoTEvents {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The ARN of the resource.
@@ -1366,9 +1366,9 @@ extension IoTEvents {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource.
@@ -1405,8 +1405,8 @@ extension IoTEvents {
     }
 
     public struct UpdateDetectorModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
         ]
 
         /// Information that defines how a detector operates.
@@ -1462,8 +1462,8 @@ extension IoTEvents {
     }
 
     public struct UpdateInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", location: .uri(locationName: "inputName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
         ]
 
         /// The definition of the input.

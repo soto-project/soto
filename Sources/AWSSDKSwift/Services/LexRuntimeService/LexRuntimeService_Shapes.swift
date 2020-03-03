@@ -73,10 +73,10 @@ extension LexRuntimeService {
     }
 
     public struct DeleteSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The alias in use for the bot that contains the session data.
@@ -205,11 +205,11 @@ extension LexRuntimeService {
     }
 
     public struct GetSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
-            AWSShapeMember(label: "checkpointLabelFilter", location: .querystring(locationName: "checkpointLabelFilter")), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
+            AWSMemberEncoding(label: "checkpointLabelFilter", location: .querystring(locationName: "checkpointLabelFilter")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The alias in use for the bot that contains the session data.
@@ -318,15 +318,15 @@ extension LexRuntimeService {
     public struct PostContentRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "inputStream"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accept", location: .header(locationName: "Accept")), 
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSShapeMember(label: "inputStream", encoding: .blob), 
-            AWSShapeMember(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")), 
-            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "inputStream", encoding: .blob), 
+            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")), 
+            AWSMemberEncoding(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         ///  You pass this value as the Accept HTTP header.   The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.     If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little endian format.    The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)    
@@ -378,19 +378,19 @@ extension LexRuntimeService {
     public struct PostContentResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "audioStream", encoding: .blob), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 
-            AWSShapeMember(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")), 
-            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")), 
-            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message")), 
-            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")), 
-            AWSShapeMember(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment")), 
-            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
-            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
-            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots")), 
-            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "audioStream", encoding: .blob), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 
+            AWSMemberEncoding(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")), 
+            AWSMemberEncoding(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")), 
+            AWSMemberEncoding(label: "message", location: .header(locationName: "x-amz-lex-message")), 
+            AWSMemberEncoding(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")), 
+            AWSMemberEncoding(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment")), 
+            AWSMemberEncoding(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
+            AWSMemberEncoding(label: "slots", location: .header(locationName: "x-amz-lex-slots")), 
+            AWSMemberEncoding(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
         ]
 
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response. 
@@ -450,10 +450,10 @@ extension LexRuntimeService {
     }
 
     public struct PostTextRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The alias of the Amazon Lex bot.
@@ -547,11 +547,11 @@ extension LexRuntimeService {
     }
 
     public struct PutSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accept", location: .header(locationName: "Accept")), 
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias")), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName")), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
+            AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
         /// The message that Amazon Lex returns in the response can be either text or speech based depending on the value of this field.   If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech in the configuration that you specify. For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech is returned as audio/pcm in 16-bit, little endian format.   The following are the accepted values:    audio/mpeg     audio/ogg     audio/pcm     audio/* (defaults to mpeg)    text/plain; charset=utf-8     
@@ -605,17 +605,17 @@ extension LexRuntimeService {
     public struct PutSessionResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "audioStream", encoding: .blob), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 
-            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")), 
-            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message")), 
-            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")), 
-            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
-            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
-            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots")), 
-            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "audioStream", encoding: .blob), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")), 
+            AWSMemberEncoding(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")), 
+            AWSMemberEncoding(label: "message", location: .header(locationName: "x-amz-lex-message")), 
+            AWSMemberEncoding(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")), 
+            AWSMemberEncoding(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")), 
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
+            AWSMemberEncoding(label: "slots", location: .header(locationName: "x-amz-lex-slots")), 
+            AWSMemberEncoding(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
         ]
 
         /// The audio version of the message to convey to the user.

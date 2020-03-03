@@ -132,9 +132,9 @@ extension IoTEventsData {
     }
 
     public struct DescribeDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
-            AWSShapeMember(label: "keyValue", location: .querystring(locationName: "keyValue"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
+            AWSMemberEncoding(label: "keyValue", location: .querystring(locationName: "keyValue"))
         ]
 
         /// The name of the detector model whose detectors (instances) you want information about.
@@ -314,11 +314,11 @@ extension IoTEventsData {
     }
 
     public struct ListDetectorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "stateName", location: .querystring(locationName: "stateName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "stateName", location: .querystring(locationName: "stateName"))
         ]
 
         /// The name of the detector model whose detectors (instances) are listed.

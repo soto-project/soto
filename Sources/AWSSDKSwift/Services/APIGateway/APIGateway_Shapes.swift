@@ -285,8 +285,8 @@ extension APIGateway {
     }
 
     public struct ApiKeys: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -381,8 +381,8 @@ extension APIGateway {
     }
 
     public struct Authorizers: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -423,8 +423,8 @@ extension APIGateway {
     }
 
     public struct BasePathMappings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -503,8 +503,8 @@ extension APIGateway {
     }
 
     public struct ClientCertificates: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -565,8 +565,8 @@ extension APIGateway {
     }
 
     public struct CreateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
@@ -618,8 +618,8 @@ extension APIGateway {
     }
 
     public struct CreateBasePathMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name"))
         ]
 
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify a base path name after the domain name.
@@ -647,8 +647,8 @@ extension APIGateway {
     }
 
     public struct CreateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// Enables a cache cluster for the Stage resource specified in the input.
@@ -696,8 +696,8 @@ extension APIGateway {
     }
 
     public struct CreateDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The location of the targeted API entity of the to-be-created documentation part.
@@ -725,8 +725,8 @@ extension APIGateway {
     }
 
     public struct CreateDocumentationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A description about the new documentation snapshot.
@@ -808,8 +808,8 @@ extension APIGateway {
     }
 
     public struct CreateModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The content-type for the model.
@@ -841,8 +841,8 @@ extension APIGateway {
     }
 
     public struct CreateRequestValidatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The name of the to-be-created RequestValidator.
@@ -870,9 +870,9 @@ extension APIGateway {
     }
 
     public struct CreateResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parentId", location: .uri(locationName: "parent_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parentId", location: .uri(locationName: "parent_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The parent resource's identifier.
@@ -946,8 +946,8 @@ extension APIGateway {
     }
 
     public struct CreateStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// Whether cache clustering is enabled for the stage.
@@ -1003,8 +1003,8 @@ extension APIGateway {
     }
 
     public struct CreateUsagePlanKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// [Required] The identifier of a UsagePlanKey resource for a plan customer.
@@ -1088,8 +1088,8 @@ extension APIGateway {
     }
 
     public struct DeleteApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiKey", location: .uri(locationName: "api_Key"))
         ]
 
         /// [Required] The identifier of the ApiKey resource to be deleted.
@@ -1105,9 +1105,9 @@ extension APIGateway {
     }
 
     public struct DeleteAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the Authorizer resource.
@@ -1127,9 +1127,9 @@ extension APIGateway {
     }
 
     public struct DeleteBasePathMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path")), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "basePath", location: .uri(locationName: "base_path")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name"))
         ]
 
         /// [Required] The base path name of the BasePathMapping resource to delete. To specify an empty base path, set this parameter to '(none)'.
@@ -1149,8 +1149,8 @@ extension APIGateway {
     }
 
     public struct DeleteClientCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"))
         ]
 
         /// [Required] The identifier of the ClientCertificate resource to be deleted.
@@ -1166,9 +1166,9 @@ extension APIGateway {
     }
 
     public struct DeleteDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deployment_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the Deployment resource to delete.
@@ -1188,9 +1188,9 @@ extension APIGateway {
     }
 
     public struct DeleteDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "documentationPartId", location: .uri(locationName: "part_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the to-be-deleted documentation part.
@@ -1210,9 +1210,9 @@ extension APIGateway {
     }
 
     public struct DeleteDocumentationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "documentationVersion", location: .uri(locationName: "doc_version")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The version identifier of a to-be-deleted documentation snapshot.
@@ -1232,8 +1232,8 @@ extension APIGateway {
     }
 
     public struct DeleteDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name"))
         ]
 
         /// [Required] The name of the DomainName resource to be deleted.
@@ -1249,9 +1249,9 @@ extension APIGateway {
     }
 
     public struct DeleteGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "responseType", location: .uri(locationName: "response_type")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
@@ -1271,10 +1271,10 @@ extension APIGateway {
     }
 
     public struct DeleteIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] Specifies a delete integration request's HTTP method.
@@ -1298,11 +1298,11 @@ extension APIGateway {
     }
 
     public struct DeleteIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// [Required] Specifies a delete integration response request's HTTP method.
@@ -1334,10 +1334,10 @@ extension APIGateway {
     }
 
     public struct DeleteMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The HTTP verb of the Method resource.
@@ -1361,11 +1361,11 @@ extension APIGateway {
     }
 
     public struct DeleteMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// [Required] The HTTP verb of the Method resource.
@@ -1397,9 +1397,9 @@ extension APIGateway {
     }
 
     public struct DeleteModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "modelName", location: .uri(locationName: "model_name")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The name of the model to delete.
@@ -1419,9 +1419,9 @@ extension APIGateway {
     }
 
     public struct DeleteRequestValidatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the RequestValidator to be deleted.
@@ -1441,9 +1441,9 @@ extension APIGateway {
     }
 
     public struct DeleteResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the Resource resource.
@@ -1463,8 +1463,8 @@ extension APIGateway {
     }
 
     public struct DeleteRestApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The string identifier of the associated RestApi.
@@ -1480,9 +1480,9 @@ extension APIGateway {
     }
 
     public struct DeleteStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
 
         /// [Required] The string identifier of the associated RestApi.
@@ -1502,9 +1502,9 @@ extension APIGateway {
     }
 
     public struct DeleteUsagePlanKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId")), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyId", location: .uri(locationName: "keyId")), 
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// [Required] The Id of the UsagePlanKey resource to be deleted.
@@ -1524,8 +1524,8 @@ extension APIGateway {
     }
 
     public struct DeleteUsagePlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// [Required] The Id of the to-be-deleted usage plan.
@@ -1541,8 +1541,8 @@ extension APIGateway {
     }
 
     public struct DeleteVpcLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"))
         ]
 
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -1606,8 +1606,8 @@ extension APIGateway {
     }
 
     public struct Deployments: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -1700,8 +1700,8 @@ extension APIGateway {
     }
 
     public struct DocumentationParts: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -1742,8 +1742,8 @@ extension APIGateway {
     }
 
     public struct DocumentationVersions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -1832,8 +1832,8 @@ extension APIGateway {
     }
 
     public struct DomainNames: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -1872,10 +1872,10 @@ extension APIGateway {
     public struct ExportResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "body", encoding: .blob), 
-            AWSShapeMember(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", encoding: .blob), 
+            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
         ]
 
         /// The binary blob response to GetExport, which contains the export.
@@ -1899,9 +1899,9 @@ extension APIGateway {
     }
 
     public struct FlushStageAuthorizersCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
 
         /// The string identifier of the associated RestApi.
@@ -1921,9 +1921,9 @@ extension APIGateway {
     }
 
     public struct FlushStageCacheRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
 
         /// [Required] The string identifier of the associated RestApi.
@@ -1973,8 +1973,8 @@ extension APIGateway {
     }
 
     public struct GatewayResponses: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// Returns the entire collection, because of no pagination support.
@@ -2019,9 +2019,9 @@ extension APIGateway {
     }
 
     public struct GetApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key")), 
-            AWSShapeMember(label: "includeValue", location: .querystring(locationName: "includeValue"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiKey", location: .uri(locationName: "api_Key")), 
+            AWSMemberEncoding(label: "includeValue", location: .querystring(locationName: "includeValue"))
         ]
 
         /// [Required] The identifier of the ApiKey resource.
@@ -2041,12 +2041,12 @@ extension APIGateway {
     }
 
     public struct GetApiKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customerId", location: .querystring(locationName: "customerId")), 
-            AWSShapeMember(label: "includeValues", location: .querystring(locationName: "includeValues")), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "customerId", location: .querystring(locationName: "customerId")), 
+            AWSMemberEncoding(label: "includeValues", location: .querystring(locationName: "includeValues")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "nameQuery", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
@@ -2078,9 +2078,9 @@ extension APIGateway {
     }
 
     public struct GetAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the Authorizer resource.
@@ -2100,10 +2100,10 @@ extension APIGateway {
     }
 
     public struct GetAuthorizersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2127,9 +2127,9 @@ extension APIGateway {
     }
 
     public struct GetBasePathMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path")), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "basePath", location: .uri(locationName: "base_path")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name"))
         ]
 
         /// [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify any base path name after the domain name.
@@ -2149,10 +2149,10 @@ extension APIGateway {
     }
 
     public struct GetBasePathMappingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name")), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// [Required] The domain name of a BasePathMapping resource.
@@ -2176,8 +2176,8 @@ extension APIGateway {
     }
 
     public struct GetClientCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"))
         ]
 
         /// [Required] The identifier of the ClientCertificate resource to be described.
@@ -2193,9 +2193,9 @@ extension APIGateway {
     }
 
     public struct GetClientCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2215,10 +2215,10 @@ extension APIGateway {
     }
 
     public struct GetDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id")), 
-            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deployment_id")), 
+            AWSMemberEncoding(label: "embed", location: .querystring(locationName: "embed")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the Deployment resource to get information about.
@@ -2242,10 +2242,10 @@ extension APIGateway {
     }
 
     public struct GetDeploymentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2269,9 +2269,9 @@ extension APIGateway {
     }
 
     public struct GetDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "documentationPartId", location: .uri(locationName: "part_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The string identifier of the associated RestApi.
@@ -2291,14 +2291,14 @@ extension APIGateway {
     }
 
     public struct GetDocumentationPartsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "locationStatus", location: .querystring(locationName: "locationStatus")), 
-            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name")), 
-            AWSShapeMember(label: "path", location: .querystring(locationName: "path")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "type", location: .querystring(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "locationStatus", location: .querystring(locationName: "locationStatus")), 
+            AWSMemberEncoding(label: "nameQuery", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "path", location: .querystring(locationName: "path")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2338,9 +2338,9 @@ extension APIGateway {
     }
 
     public struct GetDocumentationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "documentationVersion", location: .uri(locationName: "doc_version")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
@@ -2360,10 +2360,10 @@ extension APIGateway {
     }
 
     public struct GetDocumentationVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2387,8 +2387,8 @@ extension APIGateway {
     }
 
     public struct GetDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name"))
         ]
 
         /// [Required] The name of the DomainName resource.
@@ -2404,9 +2404,9 @@ extension APIGateway {
     }
 
     public struct GetDomainNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2426,11 +2426,11 @@ extension APIGateway {
     }
 
     public struct GetExportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accepts", location: .header(locationName: "Accept")), 
-            AWSShapeMember(label: "exportType", location: .uri(locationName: "export_type")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accepts", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "exportType", location: .uri(locationName: "export_type")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
 
         /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType ofoas30 and swagger. This should be specified in the Accept header for direct API requests.
@@ -2462,9 +2462,9 @@ extension APIGateway {
     }
 
     public struct GetGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "responseType", location: .uri(locationName: "response_type")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE 
@@ -2484,10 +2484,10 @@ extension APIGateway {
     }
 
     public struct GetGatewayResponsesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500. The GatewayResponses collection does not support pagination and the limit does not apply here.
@@ -2511,10 +2511,10 @@ extension APIGateway {
     }
 
     public struct GetIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] Specifies a get integration request's HTTP method.
@@ -2538,11 +2538,11 @@ extension APIGateway {
     }
 
     public struct GetIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// [Required] Specifies a get integration response request's HTTP method.
@@ -2574,10 +2574,10 @@ extension APIGateway {
     }
 
     public struct GetMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] Specifies the method request's HTTP method type.
@@ -2601,11 +2601,11 @@ extension APIGateway {
     }
 
     public struct GetMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// [Required] The HTTP verb of the Method resource.
@@ -2637,10 +2637,10 @@ extension APIGateway {
     }
 
     public struct GetModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "flatten", location: .querystring(locationName: "flatten")), 
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "flatten", location: .querystring(locationName: "flatten")), 
+            AWSMemberEncoding(label: "modelName", location: .uri(locationName: "model_name")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
@@ -2664,9 +2664,9 @@ extension APIGateway {
     }
 
     public struct GetModelTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "modelName", location: .uri(locationName: "model_name")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The name of the model for which to generate a template.
@@ -2686,10 +2686,10 @@ extension APIGateway {
     }
 
     public struct GetModelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2713,9 +2713,9 @@ extension APIGateway {
     }
 
     public struct GetRequestValidatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the RequestValidator to be retrieved.
@@ -2735,10 +2735,10 @@ extension APIGateway {
     }
 
     public struct GetRequestValidatorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2762,10 +2762,10 @@ extension APIGateway {
     }
 
     public struct GetResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "embed", location: .querystring(locationName: "embed")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
@@ -2789,11 +2789,11 @@ extension APIGateway {
     }
 
     public struct GetResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "embed", location: .querystring(locationName: "embed")), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "embed", location: .querystring(locationName: "embed")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
@@ -2821,8 +2821,8 @@ extension APIGateway {
     }
 
     public struct GetRestApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The string identifier of the associated RestApi.
@@ -2838,9 +2838,9 @@ extension APIGateway {
     }
 
     public struct GetRestApisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2860,10 +2860,10 @@ extension APIGateway {
     }
 
     public struct GetSdkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "sdkType", location: .uri(locationName: "sdk_type")), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "sdkType", location: .uri(locationName: "sdk_type")), 
+            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
 
         /// A string-to-string key-value map of query parameters sdkType-dependent properties of the SDK. For sdkType of objectivec or swift, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required. For sdkType of java, parameters named serviceName and javaPackageName are required. 
@@ -2891,8 +2891,8 @@ extension APIGateway {
     }
 
     public struct GetSdkTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", location: .uri(locationName: "sdktype_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "sdktype_id"))
         ]
 
         /// [Required] The identifier of the queried SdkType instance.
@@ -2908,9 +2908,9 @@ extension APIGateway {
     }
 
     public struct GetSdkTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -2930,9 +2930,9 @@ extension APIGateway {
     }
 
     public struct GetStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
 
         /// [Required] The string identifier of the associated RestApi.
@@ -2952,9 +2952,9 @@ extension APIGateway {
     }
 
     public struct GetStagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", location: .querystring(locationName: "deploymentId")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deploymentId", location: .querystring(locationName: "deploymentId")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The stages' deployment identifiers.
@@ -2974,10 +2974,10 @@ extension APIGateway {
     }
 
     public struct GetTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource_arn"))
         ]
 
         /// (Not currently supported) The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -3001,9 +3001,9 @@ extension APIGateway {
     }
 
     public struct GetUsagePlanKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId")), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyId", location: .uri(locationName: "keyId")), 
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
@@ -3023,11 +3023,11 @@ extension APIGateway {
     }
 
     public struct GetUsagePlanKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "nameQuery", location: .querystring(locationName: "name")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "nameQuery", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -3055,8 +3055,8 @@ extension APIGateway {
     }
 
     public struct GetUsagePlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// [Required] The identifier of the UsagePlan resource to be retrieved.
@@ -3072,10 +3072,10 @@ extension APIGateway {
     }
 
     public struct GetUsagePlansRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyId", location: .querystring(locationName: "keyId")), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyId", location: .querystring(locationName: "keyId")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// The identifier of the API key associated with the usage plans.
@@ -3099,13 +3099,13 @@ extension APIGateway {
     }
 
     public struct GetUsageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endDate", location: .querystring(locationName: "endDate")), 
-            AWSShapeMember(label: "keyId", location: .querystring(locationName: "keyId")), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position")), 
-            AWSShapeMember(label: "startDate", location: .querystring(locationName: "startDate")), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "endDate")), 
+            AWSMemberEncoding(label: "keyId", location: .querystring(locationName: "keyId")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position")), 
+            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "startDate")), 
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// [Required] The ending date (e.g., 2016-12-31) of the usage data.
@@ -3141,8 +3141,8 @@ extension APIGateway {
     }
 
     public struct GetVpcLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"))
         ]
 
         /// [Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -3158,9 +3158,9 @@ extension APIGateway {
     }
 
     public struct GetVpcLinksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "position", location: .querystring(locationName: "position"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "position", location: .querystring(locationName: "position"))
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -3182,10 +3182,10 @@ extension APIGateway {
     public struct ImportApiKeysRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "body", encoding: .blob), 
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", encoding: .blob), 
+            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format"))
         ]
 
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
@@ -3211,11 +3211,11 @@ extension APIGateway {
     public struct ImportDocumentationPartsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "body", encoding: .blob), 
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
-            AWSShapeMember(label: "mode", location: .querystring(locationName: "mode")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", encoding: .blob), 
+            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
+            AWSMemberEncoding(label: "mode", location: .querystring(locationName: "mode")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
@@ -3245,9 +3245,9 @@ extension APIGateway {
     public struct ImportRestApiRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "body", encoding: .blob), 
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", encoding: .blob), 
+            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"))
         ]
 
         /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
@@ -3541,8 +3541,8 @@ extension APIGateway {
     }
 
     public struct Models: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -3587,9 +3587,9 @@ extension APIGateway {
     }
 
     public struct PutGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "responseType", location: .uri(locationName: "response_type")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -3625,11 +3625,11 @@ extension APIGateway {
     }
 
     public struct PutIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "integrationHttpMethod", location: .body(locationName: "httpMethod")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "integrationHttpMethod", location: .body(locationName: "httpMethod")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// An API-specific tag group of related cached parameters.
@@ -3705,11 +3705,11 @@ extension APIGateway {
     }
 
     public struct PutIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
@@ -3757,10 +3757,10 @@ extension APIGateway {
     }
 
     public struct PutMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// Specifies whether the method required a valid ApiKey.
@@ -3816,11 +3816,11 @@ extension APIGateway {
     }
 
     public struct PutMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// [Required] The HTTP verb of the Method resource.
@@ -3862,11 +3862,11 @@ extension APIGateway {
     public struct PutRestApiRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "body", encoding: .blob), 
-            AWSShapeMember(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
-            AWSShapeMember(label: "mode", location: .querystring(locationName: "mode")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", encoding: .blob), 
+            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
+            AWSMemberEncoding(label: "mode", location: .querystring(locationName: "mode")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
@@ -3946,8 +3946,8 @@ extension APIGateway {
     }
 
     public struct RequestValidators: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -3996,8 +3996,8 @@ extension APIGateway {
     }
 
     public struct Resources: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -4074,8 +4074,8 @@ extension APIGateway {
     }
 
     public struct RestApis: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -4126,10 +4126,10 @@ extension APIGateway {
     public struct SdkResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "body", encoding: .blob), 
-            AWSShapeMember(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", encoding: .blob), 
+            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
         ]
 
         /// The binary blob response to GetSdk, which contains the generated SDK.
@@ -4179,8 +4179,8 @@ extension APIGateway {
     }
 
     public struct SdkTypes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -4309,8 +4309,8 @@ extension APIGateway {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource_arn"))
         ]
 
         /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
@@ -4358,9 +4358,9 @@ extension APIGateway {
     }
 
     public struct TestInvokeAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Optional] A key-value map of additional context variables.
@@ -4441,10 +4441,10 @@ extension APIGateway {
     }
 
     public struct TestInvokeMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The simulated request body of an incoming invocation request.
@@ -4544,9 +4544,9 @@ extension APIGateway {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn")), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource_arn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
@@ -4580,8 +4580,8 @@ extension APIGateway {
     }
 
     public struct UpdateApiKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", location: .uri(locationName: "api_Key"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "apiKey", location: .uri(locationName: "api_Key"))
         ]
 
         /// [Required] The identifier of the ApiKey resource to be updated.
@@ -4601,9 +4601,9 @@ extension APIGateway {
     }
 
     public struct UpdateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizer_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the Authorizer resource.
@@ -4627,9 +4627,9 @@ extension APIGateway {
     }
 
     public struct UpdateBasePathMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path")), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "basePath", location: .uri(locationName: "base_path")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name"))
         ]
 
         /// [Required] The base path of the BasePathMapping resource to change. To specify an empty base path, set this parameter to '(none)'.
@@ -4653,8 +4653,8 @@ extension APIGateway {
     }
 
     public struct UpdateClientCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientCertificateId", location: .uri(locationName: "clientcertificate_id"))
         ]
 
         /// [Required] The identifier of the ClientCertificate resource to be updated.
@@ -4674,9 +4674,9 @@ extension APIGateway {
     }
 
     public struct UpdateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", location: .uri(locationName: "deployment_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deployment_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// The replacement identifier for the Deployment resource to change information about.
@@ -4700,9 +4700,9 @@ extension APIGateway {
     }
 
     public struct UpdateDocumentationPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "documentationPartId", location: .uri(locationName: "part_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "documentationPartId", location: .uri(locationName: "part_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The identifier of the to-be-updated documentation part.
@@ -4726,9 +4726,9 @@ extension APIGateway {
     }
 
     public struct UpdateDocumentationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "documentationVersion", location: .uri(locationName: "doc_version")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "documentationVersion", location: .uri(locationName: "doc_version")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The version identifier of the to-be-updated documentation version.
@@ -4752,8 +4752,8 @@ extension APIGateway {
     }
 
     public struct UpdateDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domain_name"))
         ]
 
         /// [Required] The name of the DomainName resource to be changed.
@@ -4773,9 +4773,9 @@ extension APIGateway {
     }
 
     public struct UpdateGatewayResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseType", location: .uri(locationName: "response_type")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "responseType", location: .uri(locationName: "response_type")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4799,10 +4799,10 @@ extension APIGateway {
     }
 
     public struct UpdateIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] Represents an update integration request's HTTP method.
@@ -4830,11 +4830,11 @@ extension APIGateway {
     }
 
     public struct UpdateIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// [Required] Specifies an update integration response request's HTTP method.
@@ -4870,10 +4870,10 @@ extension APIGateway {
     }
 
     public struct UpdateMethodRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The HTTP verb of the Method resource.
@@ -4901,11 +4901,11 @@ extension APIGateway {
     }
 
     public struct UpdateMethodResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "statusCode", location: .uri(locationName: "status_code"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "statusCode", location: .uri(locationName: "status_code"))
         ]
 
         /// [Required] The HTTP verb of the Method resource.
@@ -4941,9 +4941,9 @@ extension APIGateway {
     }
 
     public struct UpdateModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "modelName", location: .uri(locationName: "model_name")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "modelName", location: .uri(locationName: "model_name")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// [Required] The name of the model to update.
@@ -4967,9 +4967,9 @@ extension APIGateway {
     }
 
     public struct UpdateRequestValidatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4993,9 +4993,9 @@ extension APIGateway {
     }
 
     public struct UpdateResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", location: .uri(locationName: "resource_id")), 
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5019,8 +5019,8 @@ extension APIGateway {
     }
 
     public struct UpdateRestApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5040,9 +5040,9 @@ extension APIGateway {
     }
 
     public struct UpdateStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restApiId", location: .uri(locationName: "restapi_id")), 
-            AWSShapeMember(label: "stageName", location: .uri(locationName: "stage_name"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
+            AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5066,8 +5066,8 @@ extension APIGateway {
     }
 
     public struct UpdateUsagePlanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5087,9 +5087,9 @@ extension APIGateway {
     }
 
     public struct UpdateUsageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyId", location: .uri(locationName: "keyId")), 
-            AWSShapeMember(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyId", location: .uri(locationName: "keyId")), 
+            AWSMemberEncoding(label: "usagePlanId", location: .uri(locationName: "usageplanId"))
         ]
 
         /// [Required] The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
@@ -5113,8 +5113,8 @@ extension APIGateway {
     }
 
     public struct UpdateVpcLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "vpclink_id"))
         ]
 
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -5134,8 +5134,8 @@ extension APIGateway {
     }
 
     public struct Usage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "values"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "values"))
         ]
 
         /// The ending date of the usage data.
@@ -5234,8 +5234,8 @@ extension APIGateway {
     }
 
     public struct UsagePlanKeys: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -5254,8 +5254,8 @@ extension APIGateway {
     }
 
     public struct UsagePlans: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.
@@ -5312,8 +5312,8 @@ extension APIGateway {
     }
 
     public struct VpcLinks: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "items", location: .body(locationName: "item"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
         ]
 
         /// The current page of elements from this collection.

@@ -92,8 +92,8 @@ extension CloudDirectory {
     //MARK: Shapes
 
     public struct AddFacetToObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -136,8 +136,8 @@ extension CloudDirectory {
     }
 
     public struct ApplySchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns.
@@ -175,8 +175,8 @@ extension CloudDirectory {
     }
 
     public struct AttachObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The child object reference to be attached to the object.
@@ -224,8 +224,8 @@ extension CloudDirectory {
     }
 
     public struct AttachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
@@ -257,8 +257,8 @@ extension CloudDirectory {
     }
 
     public struct AttachToIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the directory where the object and index exist.
@@ -296,8 +296,8 @@ extension CloudDirectory {
     }
 
     public struct AttachTypedLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// A set of attributes that are associated with the typed link.
@@ -1618,9 +1618,9 @@ extension CloudDirectory {
     }
 
     public struct BatchReadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -1983,8 +1983,8 @@ extension CloudDirectory {
     }
 
     public struct BatchWriteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
@@ -2024,8 +2024,8 @@ extension CloudDirectory {
     }
 
     public struct CreateDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the Directory. Should be unique per account, per region.
@@ -2077,8 +2077,8 @@ extension CloudDirectory {
     }
 
     public struct CreateFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The attributes that are associated with the Facet.
@@ -2127,8 +2127,8 @@ extension CloudDirectory {
     }
 
     public struct CreateIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory where the index should be created.
@@ -2183,8 +2183,8 @@ extension CloudDirectory {
     }
 
     public struct CreateObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns.
@@ -2276,8 +2276,8 @@ extension CloudDirectory {
     }
 
     public struct CreateTypedLinkFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         ///  Facet structure that is associated with the typed link facet.
@@ -2309,8 +2309,8 @@ extension CloudDirectory {
     }
 
     public struct DeleteDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to delete.
@@ -2340,8 +2340,8 @@ extension CloudDirectory {
     }
 
     public struct DeleteFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the facet to delete.
@@ -2375,8 +2375,8 @@ extension CloudDirectory {
     }
 
     public struct DeleteObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -2404,8 +2404,8 @@ extension CloudDirectory {
     }
 
     public struct DeleteSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
@@ -2435,8 +2435,8 @@ extension CloudDirectory {
     }
 
     public struct DeleteTypedLinkFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The unique name of the typed link facet.
@@ -2468,8 +2468,8 @@ extension CloudDirectory {
     }
 
     public struct DetachFromIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the directory the index and object exist in.
@@ -2507,8 +2507,8 @@ extension CloudDirectory {
     }
 
     public struct DetachObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
@@ -2552,8 +2552,8 @@ extension CloudDirectory {
     }
 
     public struct DetachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
@@ -2585,8 +2585,8 @@ extension CloudDirectory {
     }
 
     public struct DetachTypedLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
@@ -2636,8 +2636,8 @@ extension CloudDirectory {
     }
 
     public struct DisableDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to disable.
@@ -2667,8 +2667,8 @@ extension CloudDirectory {
     }
 
     public struct EnableDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to enable.
@@ -2865,8 +2865,8 @@ extension CloudDirectory {
     }
 
     public struct GetDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory.
@@ -2896,8 +2896,8 @@ extension CloudDirectory {
     }
 
     public struct GetFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the facet to retrieve.
@@ -2937,8 +2937,8 @@ extension CloudDirectory {
     }
 
     public struct GetLinkAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// A list of attribute names whose values will be retrieved.
@@ -2989,9 +2989,9 @@ extension CloudDirectory {
     }
 
     public struct GetObjectAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// List of attribute names whose values will be retrieved.
@@ -3046,9 +3046,9 @@ extension CloudDirectory {
     }
 
     public struct GetObjectInformationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level at which to retrieve the object information.
@@ -3090,8 +3090,8 @@ extension CloudDirectory {
     }
 
     public struct GetSchemaAsJsonRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the schema to retrieve.
@@ -3125,8 +3125,8 @@ extension CloudDirectory {
     }
 
     public struct GetTypedLinkFacetInformationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The unique name of the typed link facet.
@@ -3270,9 +3270,9 @@ extension CloudDirectory {
     }
 
     public struct ListAttachedIndicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to use for this operation.
@@ -3410,8 +3410,8 @@ extension CloudDirectory {
     }
 
     public struct ListFacetAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -3464,8 +3464,8 @@ extension CloudDirectory {
     }
 
     public struct ListFacetNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -3511,8 +3511,8 @@ extension CloudDirectory {
     }
 
     public struct ListIncomingTypedLinksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to execute the request at.
@@ -3578,9 +3578,9 @@ extension CloudDirectory {
     }
 
     public struct ListIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to execute the request at.
@@ -3685,9 +3685,9 @@ extension CloudDirectory {
     }
 
     public struct ListObjectAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -3746,9 +3746,9 @@ extension CloudDirectory {
     }
 
     public struct ListObjectChildrenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -3802,8 +3802,8 @@ extension CloudDirectory {
     }
 
     public struct ListObjectParentPathsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory to which the parent path applies.
@@ -3853,9 +3853,9 @@ extension CloudDirectory {
     }
 
     public struct ListObjectParentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -3917,9 +3917,9 @@ extension CloudDirectory {
     }
 
     public struct ListObjectPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -3973,8 +3973,8 @@ extension CloudDirectory {
     }
 
     public struct ListOutgoingTypedLinksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The consistency level to execute the request at.
@@ -4040,9 +4040,9 @@ extension CloudDirectory {
     }
 
     public struct ListPolicyAttachmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level")), 
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
@@ -4184,8 +4184,8 @@ extension CloudDirectory {
     }
 
     public struct ListTypedLinkFacetAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -4236,8 +4236,8 @@ extension CloudDirectory {
     }
 
     public struct ListTypedLinkFacetNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The maximum number of results to retrieve.
@@ -4283,8 +4283,8 @@ extension CloudDirectory {
     }
 
     public struct LookupPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
@@ -4486,8 +4486,8 @@ extension CloudDirectory {
     }
 
     public struct PublishSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns.
@@ -4541,8 +4541,8 @@ extension CloudDirectory {
     }
 
     public struct PutSchemaFromJsonRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The replacement JSON schema.
@@ -4576,8 +4576,8 @@ extension CloudDirectory {
     }
 
     public struct RemoveFacetFromObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The ARN of the directory in which the object resides.
@@ -4961,8 +4961,8 @@ extension CloudDirectory {
     }
 
     public struct UpdateFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
@@ -5007,8 +5007,8 @@ extension CloudDirectory {
     }
 
     public struct UpdateLinkAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The attributes update structure.
@@ -5047,8 +5047,8 @@ extension CloudDirectory {
     }
 
     public struct UpdateObjectAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The attributes update structure.
@@ -5092,8 +5092,8 @@ extension CloudDirectory {
     }
 
     public struct UpdateSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// The name of the schema.
@@ -5133,8 +5133,8 @@ extension CloudDirectory {
     }
 
     public struct UpdateTypedLinkFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"))
         ]
 
         /// Attributes update structure.

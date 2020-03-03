@@ -81,8 +81,8 @@ extension Schemas {
     }
 
     public struct CreateRegistryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName"))
         ]
 
         public let description: String?
@@ -130,9 +130,9 @@ extension Schemas {
     }
 
     public struct CreateSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName"))
         ]
 
         public let content: String
@@ -203,8 +203,8 @@ extension Schemas {
     }
 
     public struct DeleteDiscovererRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscovererId", location: .uri(locationName: "discovererId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DiscovererId", location: .uri(locationName: "discovererId"))
         ]
 
         public let discovererId: String
@@ -219,8 +219,8 @@ extension Schemas {
     }
 
     public struct DeleteRegistryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName"))
         ]
 
         public let registryName: String
@@ -235,9 +235,9 @@ extension Schemas {
     }
 
     public struct DeleteSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName"))
         ]
 
         public let registryName: String
@@ -255,10 +255,10 @@ extension Schemas {
     }
 
     public struct DeleteSchemaVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName")), 
-            AWSShapeMember(label: "SchemaVersion", location: .uri(locationName: "schemaVersion"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "SchemaVersion", location: .uri(locationName: "schemaVersion"))
         ]
 
         public let registryName: String
@@ -279,11 +279,11 @@ extension Schemas {
     }
 
     public struct DescribeCodeBindingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Language", location: .uri(locationName: "language")), 
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName")), 
-            AWSShapeMember(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Language", location: .uri(locationName: "language")), 
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
         public let language: String
@@ -329,8 +329,8 @@ extension Schemas {
     }
 
     public struct DescribeDiscovererRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscovererId", location: .uri(locationName: "discovererId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DiscovererId", location: .uri(locationName: "discovererId"))
         ]
 
         public let discovererId: String
@@ -373,8 +373,8 @@ extension Schemas {
     }
 
     public struct DescribeRegistryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName"))
         ]
 
         public let registryName: String
@@ -411,10 +411,10 @@ extension Schemas {
     }
 
     public struct DescribeSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName")), 
-            AWSShapeMember(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
         public let registryName: String
@@ -501,11 +501,11 @@ extension Schemas {
     }
 
     public struct GetCodeBindingSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Language", location: .uri(locationName: "language")), 
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName")), 
-            AWSShapeMember(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Language", location: .uri(locationName: "language")), 
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
         public let language: String
@@ -531,8 +531,8 @@ extension Schemas {
     public struct GetCodeBindingSourceResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Body", encoding: .blob)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Body", encoding: .blob)
         ]
 
         public let body: Data?
@@ -585,11 +585,11 @@ extension Schemas {
     }
 
     public struct ListDiscoverersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscovererIdPrefix", location: .querystring(locationName: "discovererIdPrefix")), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "SourceArnPrefix", location: .querystring(locationName: "sourceArnPrefix"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DiscovererIdPrefix", location: .querystring(locationName: "discovererIdPrefix")), 
+            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "SourceArnPrefix", location: .querystring(locationName: "sourceArnPrefix"))
         ]
 
         public let discovererIdPrefix: String?
@@ -629,11 +629,11 @@ extension Schemas {
     }
 
     public struct ListRegistriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "RegistryNamePrefix", location: .querystring(locationName: "registryNamePrefix")), 
-            AWSShapeMember(label: "Scope", location: .querystring(locationName: "scope"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "RegistryNamePrefix", location: .querystring(locationName: "registryNamePrefix")), 
+            AWSMemberEncoding(label: "Scope", location: .querystring(locationName: "scope"))
         ]
 
         public let limit: Int?
@@ -673,11 +673,11 @@ extension Schemas {
     }
 
     public struct ListSchemaVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName"))
         ]
 
         public let limit: Int?
@@ -717,11 +717,11 @@ extension Schemas {
     }
 
     public struct ListSchemasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaNamePrefix", location: .querystring(locationName: "schemaNamePrefix"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaNamePrefix", location: .querystring(locationName: "schemaNamePrefix"))
         ]
 
         public let limit: Int?
@@ -761,8 +761,8 @@ extension Schemas {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -832,11 +832,11 @@ extension Schemas {
     }
 
     public struct PutCodeBindingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Language", location: .uri(locationName: "language")), 
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName")), 
-            AWSShapeMember(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Language", location: .uri(locationName: "language")), 
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
         public let language: String
@@ -999,11 +999,11 @@ extension Schemas {
     }
 
     public struct SearchSchemasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Keywords", location: .querystring(locationName: "keywords")), 
-            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Keywords", location: .querystring(locationName: "keywords")), 
+            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName"))
         ]
 
         public let keywords: String
@@ -1043,8 +1043,8 @@ extension Schemas {
     }
 
     public struct StartDiscovererRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscovererId", location: .uri(locationName: "discovererId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DiscovererId", location: .uri(locationName: "discovererId"))
         ]
 
         public let discovererId: String
@@ -1075,8 +1075,8 @@ extension Schemas {
     }
 
     public struct StopDiscovererRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscovererId", location: .uri(locationName: "discovererId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DiscovererId", location: .uri(locationName: "discovererId"))
         ]
 
         public let discovererId: String
@@ -1107,8 +1107,8 @@ extension Schemas {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1152,9 +1152,9 @@ extension Schemas {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -1172,8 +1172,8 @@ extension Schemas {
     }
 
     public struct UpdateDiscovererRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscovererId", location: .uri(locationName: "discovererId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DiscovererId", location: .uri(locationName: "discovererId"))
         ]
 
         public let description: String?
@@ -1224,8 +1224,8 @@ extension Schemas {
     }
 
     public struct UpdateRegistryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName"))
         ]
 
         public let description: String?
@@ -1270,9 +1270,9 @@ extension Schemas {
     }
 
     public struct UpdateSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName")), 
-            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "SchemaName", location: .uri(locationName: "schemaName"))
         ]
 
         public let clientTokenId: String?

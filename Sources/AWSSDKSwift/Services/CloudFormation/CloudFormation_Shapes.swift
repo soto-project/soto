@@ -432,8 +432,8 @@ extension CloudFormation {
     }
 
     public struct ContinueUpdateRollbackInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcesToSkip", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourcesToSkip", encoding: .list(member:"member"))
         ]
 
         /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that AWS CloudFormation successfully received them.
@@ -482,13 +482,13 @@ extension CloudFormation {
     }
 
     public struct CreateChangeSetInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NotificationARNs", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourcesToImport", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceTypes", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "NotificationARNs", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourcesToImport", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceTypes", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.  This capacity does not apply to creating change sets, and specifying it when creating change sets has no effect. Also, change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information on macros, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
@@ -613,12 +613,12 @@ extension CloudFormation {
     }
 
     public struct CreateStackInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NotificationARNs", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceTypes", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "NotificationARNs", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceTypes", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
@@ -724,10 +724,10 @@ extension CloudFormation {
     }
 
     public struct CreateStackInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ParameterOverrides", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Regions", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Accounts", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ParameterOverrides", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Regions", encoding: .list(member:"member"))
         ]
 
         /// The names of one or more AWS accounts that you want to create stack instances in the specified region(s) for.
@@ -801,10 +801,10 @@ extension CloudFormation {
     }
 
     public struct CreateStackSetInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The Amazon Resource Number (ARN) of the IAM role to use to create this stack set.  Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
@@ -924,8 +924,8 @@ extension CloudFormation {
     }
 
     public struct DeleteStackInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetainResources", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RetainResources", encoding: .list(member:"member"))
         ]
 
         /// A unique identifier for this DeleteStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to delete a stack with the same name. You might retry DeleteStack requests to ensure that AWS CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
@@ -961,9 +961,9 @@ extension CloudFormation {
     }
 
     public struct DeleteStackInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Regions", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Accounts", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Regions", encoding: .list(member:"member"))
         ]
 
         /// The names of the AWS accounts that you want to delete stack instances for.
@@ -1109,8 +1109,8 @@ extension CloudFormation {
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountLimits", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AccountLimits", encoding: .list(member:"member"))
         ]
 
         /// An account limit structure that contain a list of AWS CloudFormation account limits and their values.
@@ -1162,12 +1162,12 @@ extension CloudFormation {
     }
 
     public struct DescribeChangeSetOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Changes", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NotificationARNs", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Changes", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "NotificationARNs", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
@@ -1323,8 +1323,8 @@ extension CloudFormation {
     }
 
     public struct DescribeStackEventsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackEvents", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StackEvents", encoding: .list(member:"member"))
         ]
 
         /// If the output exceeds 1 MB in size, a string that identifies the next page of events. If no additional page exists, this value is null.
@@ -1384,8 +1384,8 @@ extension CloudFormation {
     }
 
     public struct DescribeStackResourceDriftsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackResourceDriftStatusFilters", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StackResourceDriftStatusFilters", encoding: .list(member:"member"))
         ]
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
@@ -1424,8 +1424,8 @@ extension CloudFormation {
     }
 
     public struct DescribeStackResourceDriftsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackResourceDrifts", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StackResourceDrifts", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call DescribeStackResourceDrifts again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
@@ -1499,8 +1499,8 @@ extension CloudFormation {
     }
 
     public struct DescribeStackResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackResources", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StackResources", encoding: .list(member:"member"))
         ]
 
         /// A list of StackResource structures.
@@ -1605,8 +1605,8 @@ extension CloudFormation {
     }
 
     public struct DescribeStacksOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Stacks", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Stacks", encoding: .list(member:"member"))
         ]
 
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
@@ -1779,8 +1779,8 @@ extension CloudFormation {
     }
 
     public struct DetectStackDriftInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogicalResourceIds", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "LogicalResourceIds", encoding: .list(member:"member"))
         ]
 
         /// The logical names of any resources you want to use as filters.
@@ -1901,8 +1901,8 @@ extension CloudFormation {
     }
 
     public struct EstimateTemplateCostInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member"))
         ]
 
         /// A list of Parameter structures that specify input parameters.
@@ -2065,8 +2065,8 @@ extension CloudFormation {
     }
 
     public struct GetTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StagesAvailable", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StagesAvailable", encoding: .list(member:"member"))
         ]
 
         /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After AWS CloudFormation finishes creating the change set, the Processed template becomes available.
@@ -2121,12 +2121,12 @@ extension CloudFormation {
     }
 
     public struct GetTemplateSummaryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DeclaredTransforms", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceIdentifierSummaries", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceTypes", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "DeclaredTransforms", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceIdentifierSummaries", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceTypes", encoding: .list(member:"member"))
         ]
 
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
@@ -2199,8 +2199,8 @@ extension CloudFormation {
     }
 
     public struct ListChangeSetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Summaries", encoding: .list(member:"member"))
         ]
 
         /// If the output exceeds 1 MB, a string that identifies the next page of change sets. If there is no additional page, this value is null.
@@ -2239,8 +2239,8 @@ extension CloudFormation {
     }
 
     public struct ListExportsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Exports", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Exports", encoding: .list(member:"member"))
         ]
 
         /// The output for the ListExports action.
@@ -2283,8 +2283,8 @@ extension CloudFormation {
     }
 
     public struct ListImportsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Imports", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Imports", encoding: .list(member:"member"))
         ]
 
         /// A list of stack names that are importing the specified exported output value. 
@@ -2342,8 +2342,8 @@ extension CloudFormation {
     }
 
     public struct ListStackInstancesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Summaries", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
@@ -2386,8 +2386,8 @@ extension CloudFormation {
     }
 
     public struct ListStackResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackResourceSummaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StackResourceSummaries", encoding: .list(member:"member"))
         ]
 
         /// If the output exceeds 1 MB, a string that identifies the next page of stack resources. If no additional page exists, this value is null.
@@ -2443,8 +2443,8 @@ extension CloudFormation {
     }
 
     public struct ListStackSetOperationResultsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Summaries", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
@@ -2493,8 +2493,8 @@ extension CloudFormation {
     }
 
     public struct ListStackSetOperationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Summaries", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
@@ -2543,8 +2543,8 @@ extension CloudFormation {
     }
 
     public struct ListStackSetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Summaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Summaries", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
@@ -2564,8 +2564,8 @@ extension CloudFormation {
     }
 
     public struct ListStacksInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackStatusFilter", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StackStatusFilter", encoding: .list(member:"member"))
         ]
 
         /// A string that identifies the next page of stacks that you want to retrieve.
@@ -2590,8 +2590,8 @@ extension CloudFormation {
     }
 
     public struct ListStacksOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackSummaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "StackSummaries", encoding: .list(member:"member"))
         ]
 
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
@@ -2657,8 +2657,8 @@ extension CloudFormation {
     }
 
     public struct ListTypeRegistrationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegistrationTokenList", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegistrationTokenList", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
@@ -2724,8 +2724,8 @@ extension CloudFormation {
     }
 
     public struct ListTypeVersionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypeVersionSummaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "TypeVersionSummaries", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
@@ -2782,8 +2782,8 @@ extension CloudFormation {
     }
 
     public struct ListTypesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypeSummaries", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "TypeSummaries", encoding: .list(member:"member"))
         ]
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
@@ -2882,8 +2882,8 @@ extension CloudFormation {
     }
 
     public struct ParameterConstraints: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "AllowedValues", encoding: .list(member:"member"))
         ]
 
         /// A list of values that are permitted for a parameter.
@@ -3097,9 +3097,9 @@ extension CloudFormation {
     }
 
     public struct ResourceChange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Scope", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Details", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Scope", encoding: .list(member:"member"))
         ]
 
         /// The action that AWS CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), or Remove (deletes a resource).
@@ -3165,9 +3165,9 @@ extension CloudFormation {
     }
 
     public struct ResourceIdentifierSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogicalResourceIds", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceIdentifiers", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "LogicalResourceIds", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceIdentifiers", encoding: .list(member:"member"))
         ]
 
         /// The logical IDs of the target resources of the specified ResourceType, as defined in the import template.
@@ -3213,8 +3213,8 @@ extension CloudFormation {
     }
 
     public struct ResourceToImport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIdentifier", encoding: .map(entry:"entry", key: "key", value: "value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceIdentifier", encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// The logical ID of the target resource as specified in the template.
@@ -3249,8 +3249,8 @@ extension CloudFormation {
     }
 
     public struct RollbackConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RollbackTriggers", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RollbackTriggers", encoding: .list(member:"member"))
         ]
 
         /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. The default is 0 minutes. If you specify a monitoring period but do not specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources after update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using CancelUpdateStack, for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
@@ -3401,12 +3401,12 @@ extension CloudFormation {
     }
 
     public struct Stack: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NotificationARNs", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Outputs", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "NotificationARNs", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Outputs", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The capabilities allowed in the stack.
@@ -3596,8 +3596,8 @@ extension CloudFormation {
     }
 
     public struct StackInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterOverrides", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ParameterOverrides", encoding: .list(member:"member"))
         ]
 
         /// The name of the AWS account that the stack instance is associated with.
@@ -3791,9 +3791,9 @@ extension CloudFormation {
     }
 
     public struct StackResourceDrift: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PhysicalResourceIdContext", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "PropertyDifferences", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "PhysicalResourceIdContext", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "PropertyDifferences", encoding: .list(member:"member"))
         ]
 
         /// A JSON structure containing the actual property values of the stack resource. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present. 
@@ -3919,10 +3919,10 @@ extension CloudFormation {
     }
 
     public struct StackSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The Amazon Resource Number (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
@@ -4078,8 +4078,8 @@ extension CloudFormation {
     }
 
     public struct StackSetOperationPreferences: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionOrder", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "RegionOrder", encoding: .list(member:"member"))
         ]
 
         /// The number of accounts, per region, for which this operation can fail before AWS CloudFormation stops the operation in that region. If the operation is stopped in a region, AWS CloudFormation doesn't attempt the operation in any subsequent regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both).
@@ -4419,12 +4419,12 @@ extension CloudFormation {
     }
 
     public struct UpdateStackInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NotificationARNs", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ResourceTypes", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "NotificationARNs", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ResourceTypes", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
@@ -4529,10 +4529,10 @@ extension CloudFormation {
     }
 
     public struct UpdateStackInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ParameterOverrides", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Regions", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Accounts", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ParameterOverrides", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Regions", encoding: .list(member:"member"))
         ]
 
         /// The names of one or more AWS accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and regions.
@@ -4607,12 +4607,12 @@ extension CloudFormation {
     }
 
     public struct UpdateStackSetInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Regions", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Tags", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Accounts", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Regions", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
         ]
 
         /// The accounts in which to update associated stack instances. If you specify accounts, you must also specify the regions in which to update stack set instances. To update all the stack instances associated with this stack set, do not specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, AWS CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and regions. If the stack set update does not include changes to the template or parameters, AWS CloudFormation updates the stack instances in the specified accounts and regions, while leaving all other stack instances with their existing stack instance status. 
@@ -4779,10 +4779,10 @@ extension CloudFormation {
     }
 
     public struct ValidateTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DeclaredTransforms", encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Parameters", encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Capabilities", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "DeclaredTransforms", encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"member"))
         ]
 
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.

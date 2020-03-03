@@ -509,8 +509,8 @@ extension MediaPackage {
     }
 
     public struct DeleteChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -533,8 +533,8 @@ extension MediaPackage {
     }
 
     public struct DeleteOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -557,8 +557,8 @@ extension MediaPackage {
     }
 
     public struct DescribeChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -598,8 +598,8 @@ extension MediaPackage {
     }
 
     public struct DescribeHarvestJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -651,8 +651,8 @@ extension MediaPackage {
     }
 
     public struct DescribeOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -1026,9 +1026,9 @@ extension MediaPackage {
     }
 
     public struct ListChannelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -1067,11 +1067,11 @@ extension MediaPackage {
     }
 
     public struct ListHarvestJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeChannelId", location: .querystring(locationName: "includeChannelId")), 
-            AWSShapeMember(label: "IncludeStatus", location: .querystring(locationName: "includeStatus")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "IncludeChannelId", location: .querystring(locationName: "includeChannelId")), 
+            AWSMemberEncoding(label: "IncludeStatus", location: .querystring(locationName: "includeStatus")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let includeChannelId: String?
@@ -1116,10 +1116,10 @@ extension MediaPackage {
     }
 
     public struct ListOriginEndpointsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelId", location: .querystring(locationName: "channelId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ChannelId", location: .querystring(locationName: "channelId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let channelId: String?
@@ -1161,8 +1161,8 @@ extension MediaPackage {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1299,8 +1299,8 @@ extension MediaPackage {
     }
 
     public struct RotateChannelCredentialsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -1340,9 +1340,9 @@ extension MediaPackage {
     }
 
     public struct RotateIngestEndpointCredentialsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id")), 
-            AWSShapeMember(label: "IngestEndpointId", location: .uri(locationName: "ingest_endpoint_id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id")), 
+            AWSMemberEncoding(label: "IngestEndpointId", location: .uri(locationName: "ingest_endpoint_id"))
         ]
 
         public let id: String
@@ -1462,8 +1462,8 @@ extension MediaPackage {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1481,9 +1481,9 @@ extension MediaPackage {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -1501,8 +1501,8 @@ extension MediaPackage {
     }
 
     public struct UpdateChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let description: String?
@@ -1545,8 +1545,8 @@ extension MediaPackage {
     }
 
     public struct UpdateOriginEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
         ]
 
         public let authorization: Authorization?

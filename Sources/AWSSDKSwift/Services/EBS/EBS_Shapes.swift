@@ -54,10 +54,10 @@ extension EBS {
     }
 
     public struct GetSnapshotBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockIndex", location: .uri(locationName: "blockIndex")), 
-            AWSShapeMember(label: "BlockToken", location: .querystring(locationName: "blockToken")), 
-            AWSShapeMember(label: "SnapshotId", location: .uri(locationName: "snapshotId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BlockIndex", location: .uri(locationName: "blockIndex")), 
+            AWSMemberEncoding(label: "BlockToken", location: .querystring(locationName: "blockToken")), 
+            AWSMemberEncoding(label: "SnapshotId", location: .uri(locationName: "snapshotId"))
         ]
 
         /// The block index of the block from which to get data. Obtain the block index by running the list changed blocks or list snapshot blocks operations.
@@ -91,11 +91,11 @@ extension EBS {
     public struct GetSnapshotBlockResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "BlockData"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockData", encoding: .blob), 
-            AWSShapeMember(label: "Checksum", location: .header(locationName: "x-amz-Checksum")), 
-            AWSShapeMember(label: "ChecksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")), 
-            AWSShapeMember(label: "DataLength", location: .header(locationName: "x-amz-Data-Length"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BlockData", encoding: .blob), 
+            AWSMemberEncoding(label: "Checksum", location: .header(locationName: "x-amz-Checksum")), 
+            AWSMemberEncoding(label: "ChecksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")), 
+            AWSMemberEncoding(label: "DataLength", location: .header(locationName: "x-amz-Data-Length"))
         ]
 
         /// The data content of the block.
@@ -123,12 +123,12 @@ extension EBS {
     }
 
     public struct ListChangedBlocksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FirstSnapshotId", location: .querystring(locationName: "firstSnapshotId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "pageToken")), 
-            AWSShapeMember(label: "SecondSnapshotId", location: .uri(locationName: "secondSnapshotId")), 
-            AWSShapeMember(label: "StartingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "FirstSnapshotId", location: .querystring(locationName: "firstSnapshotId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "pageToken")), 
+            AWSMemberEncoding(label: "SecondSnapshotId", location: .uri(locationName: "secondSnapshotId")), 
+            AWSMemberEncoding(label: "StartingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
         ]
 
         /// The ID of the first snapshot to use for the comparison.
@@ -203,11 +203,11 @@ extension EBS {
     }
 
     public struct ListSnapshotBlocksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "pageToken")), 
-            AWSShapeMember(label: "SnapshotId", location: .uri(locationName: "snapshotId")), 
-            AWSShapeMember(label: "StartingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "pageToken")), 
+            AWSMemberEncoding(label: "SnapshotId", location: .uri(locationName: "snapshotId")), 
+            AWSMemberEncoding(label: "StartingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
         ]
 
         /// The number of results to return.

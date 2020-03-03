@@ -285,8 +285,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateApiMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let apiId: String
@@ -434,8 +434,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -516,8 +516,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -607,8 +607,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -670,9 +670,9 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId"))
         ]
 
         public let apiId: String
@@ -794,8 +794,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -847,8 +847,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateRouteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -896,9 +896,9 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateRouteResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -1002,8 +1002,8 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let accessLogSettings: AccessLogSettings?
@@ -1100,9 +1100,9 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteApiMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let apiMappingId: String
@@ -1120,8 +1120,8 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -1136,9 +1136,9 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
         public let apiId: String
@@ -1156,8 +1156,8 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteCorsConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -1172,9 +1172,9 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
         public let apiId: String
@@ -1192,8 +1192,8 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let domainName: String
@@ -1208,9 +1208,9 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId"))
         ]
 
         public let apiId: String
@@ -1228,10 +1228,10 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSMemberEncoding(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
         public let apiId: String
@@ -1252,9 +1252,9 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "ModelId", location: .uri(locationName: "modelId"))
         ]
 
         public let apiId: String
@@ -1272,9 +1272,9 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteRouteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -1292,10 +1292,10 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteRouteResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
-            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSMemberEncoding(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
         public let apiId: String
@@ -1316,10 +1316,10 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteRouteSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteKey", location: .uri(locationName: "routeKey")), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteKey", location: .uri(locationName: "routeKey")), 
+            AWSMemberEncoding(label: "StageName", location: .uri(locationName: "stageName"))
         ]
 
         public let apiId: String
@@ -1340,9 +1340,9 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "StageName", location: .uri(locationName: "stageName"))
         ]
 
         public let apiId: String
@@ -1466,9 +1466,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let apiMappingId: String
@@ -1508,10 +1508,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiMappingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let domainName: String
@@ -1548,8 +1548,8 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -1616,9 +1616,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: String?
@@ -1652,9 +1652,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
         public let apiId: String
@@ -1709,10 +1709,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetAuthorizersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -1749,9 +1749,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
         public let apiId: String
@@ -1797,10 +1797,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDeploymentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -1837,8 +1837,8 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let domainName: String
@@ -1875,9 +1875,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDomainNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: String?
@@ -1911,9 +1911,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId"))
         ]
 
         public let apiId: String
@@ -1931,10 +1931,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSMemberEncoding(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
         public let apiId: String
@@ -1983,11 +1983,11 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationResponsesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2088,10 +2088,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2128,9 +2128,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "ModelId", location: .uri(locationName: "modelId"))
         ]
 
         public let apiId: String
@@ -2173,9 +2173,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "ModelId", location: .uri(locationName: "modelId"))
         ]
 
         public let apiId: String
@@ -2206,10 +2206,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2246,9 +2246,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRouteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -2266,10 +2266,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRouteResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
-            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSMemberEncoding(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
         public let apiId: String
@@ -2315,11 +2315,11 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRouteResponsesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -2408,10 +2408,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRoutesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2448,9 +2448,9 @@ extension ApiGatewayV2 {
     }
 
     public struct GetStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "StageName", location: .uri(locationName: "stageName"))
         ]
 
         public let apiId: String
@@ -2520,10 +2520,10 @@ extension ApiGatewayV2 {
     }
 
     public struct GetStagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let apiId: String
@@ -2560,8 +2560,8 @@ extension ApiGatewayV2 {
     }
 
     public struct GetTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -2589,9 +2589,9 @@ extension ApiGatewayV2 {
     }
 
     public struct ImportApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Basepath", location: .querystring(locationName: "basepath")), 
-            AWSShapeMember(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Basepath", location: .querystring(locationName: "basepath")), 
+            AWSMemberEncoding(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"))
         ]
 
         public let basepath: String?
@@ -2844,10 +2844,10 @@ extension ApiGatewayV2 {
     }
 
     public struct ReimportApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "Basepath", location: .querystring(locationName: "basepath")), 
-            AWSShapeMember(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "Basepath", location: .querystring(locationName: "basepath")), 
+            AWSMemberEncoding(label: "FailOnWarnings", location: .querystring(locationName: "failOnWarnings"))
         ]
 
         public let apiId: String
@@ -3111,8 +3111,8 @@ extension ApiGatewayV2 {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -3138,9 +3138,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -3158,9 +3158,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateApiMappingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiMappingId", location: .uri(locationName: "apiMappingId")), 
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let apiId: String
@@ -3209,8 +3209,8 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId"))
         ]
 
         public let apiId: String
@@ -3311,9 +3311,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "AuthorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
         public let apiId: String
@@ -3397,9 +3397,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "DeploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
         public let apiId: String
@@ -3448,8 +3448,8 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateDomainNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "domainName"))
         ]
 
         public let domainName: String
@@ -3489,9 +3489,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateIntegrationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId"))
         ]
 
         public let apiId: String
@@ -3556,10 +3556,10 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateIntegrationResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
-            AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "IntegrationId", location: .uri(locationName: "integrationId")), 
+            AWSMemberEncoding(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
         public let apiId: String
@@ -3684,9 +3684,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateModelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "ModelId", location: .uri(locationName: "modelId"))
         ]
 
         public let apiId: String
@@ -3741,9 +3741,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateRouteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId"))
         ]
 
         public let apiId: String
@@ -3794,10 +3794,10 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateRouteResponseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId")), 
-            AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "RouteId", location: .uri(locationName: "routeId")), 
+            AWSMemberEncoding(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
         public let apiId: String
@@ -3904,9 +3904,9 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId")), 
-            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ApiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "StageName", location: .uri(locationName: "stageName"))
         ]
 
         public let accessLogSettings: AccessLogSettings?

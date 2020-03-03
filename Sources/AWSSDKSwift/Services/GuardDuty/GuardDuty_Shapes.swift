@@ -100,8 +100,8 @@ extension GuardDuty {
     //MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector of the GuardDuty member account.
@@ -219,8 +219,8 @@ extension GuardDuty {
     }
 
     public struct ArchiveFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
@@ -406,8 +406,8 @@ extension GuardDuty {
     }
 
     public struct CreateFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// Specifies the action that is to be applied to the findings that match the filter.
@@ -484,8 +484,8 @@ extension GuardDuty {
     }
 
     public struct CreateIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
@@ -556,8 +556,8 @@ extension GuardDuty {
     }
 
     public struct CreateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account ID and email address pairs of the accounts that you want to associate with the master GuardDuty account.
@@ -601,8 +601,8 @@ extension GuardDuty {
     }
 
     public struct CreatePublishingDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The idempotency token for the request.
@@ -651,8 +651,8 @@ extension GuardDuty {
     }
 
     public struct CreateSampleFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector to create sample findings for.
@@ -691,8 +691,8 @@ extension GuardDuty {
     }
 
     public struct CreateThreatIntelSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
@@ -800,8 +800,8 @@ extension GuardDuty {
     }
 
     public struct DeleteDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector that you want to delete.
@@ -830,9 +830,9 @@ extension GuardDuty {
     }
 
     public struct DeleteFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "FilterName", location: .uri(locationName: "filterName"))
         ]
 
         /// The unique ID of the detector the filter is associated with.
@@ -865,9 +865,9 @@ extension GuardDuty {
     }
 
     public struct DeleteIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "IpSetId", location: .uri(locationName: "ipSetId"))
         ]
 
         /// The unique ID of the detector associated with the IPSet.
@@ -937,8 +937,8 @@ extension GuardDuty {
     }
 
     public struct DeleteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts that you want to delete.
@@ -983,9 +983,9 @@ extension GuardDuty {
     }
 
     public struct DeletePublishingDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", location: .uri(locationName: "destinationId")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DestinationId", location: .uri(locationName: "destinationId")), 
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the publishing destination to delete.
@@ -1018,9 +1018,9 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatIntelSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
         ]
 
         /// The unique ID of the detector the threatIntelSet is associated with.
@@ -1053,9 +1053,9 @@ extension GuardDuty {
     }
 
     public struct DescribePublishingDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", location: .uri(locationName: "destinationId")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DestinationId", location: .uri(locationName: "destinationId")), 
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the publishing destination to retrieve.
@@ -1150,8 +1150,8 @@ extension GuardDuty {
     }
 
     public struct DisassociateFromMasterAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector of the GuardDuty member account.
@@ -1180,8 +1180,8 @@ extension GuardDuty {
     }
 
     public struct DisassociateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from master.
@@ -1268,8 +1268,8 @@ extension GuardDuty {
     }
 
     public struct Finding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
         ]
 
         /// The ID of the account in which the finding was generated.
@@ -1385,8 +1385,8 @@ extension GuardDuty {
     }
 
     public struct GetDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector that you want to get.
@@ -1441,9 +1441,9 @@ extension GuardDuty {
     }
 
     public struct GetFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "FilterName", location: .uri(locationName: "filterName"))
         ]
 
         /// The unique ID of the detector the filter is associated with.
@@ -1502,8 +1502,8 @@ extension GuardDuty {
     }
 
     public struct GetFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
@@ -1552,8 +1552,8 @@ extension GuardDuty {
     }
 
     public struct GetFindingsStatisticsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
@@ -1598,9 +1598,9 @@ extension GuardDuty {
     }
 
     public struct GetIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "IpSetId", location: .uri(locationName: "ipSetId"))
         ]
 
         /// The unique ID of the detector the ipSet is associated with.
@@ -1677,8 +1677,8 @@ extension GuardDuty {
     }
 
     public struct GetMasterAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector of the GuardDuty member account.
@@ -1713,8 +1713,8 @@ extension GuardDuty {
     }
 
     public struct GetMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts that you want to describe.
@@ -1763,9 +1763,9 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
         ]
 
         /// The unique ID of the detector the threatIntelSet is associated with.
@@ -1922,8 +1922,8 @@ extension GuardDuty {
     }
 
     public struct InviteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
@@ -1976,9 +1976,9 @@ extension GuardDuty {
     }
 
     public struct ListDetectorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
@@ -2021,10 +2021,10 @@ extension GuardDuty {
     }
 
     public struct ListFiltersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The unique ID of the detector the filter is associated with.
@@ -2073,8 +2073,8 @@ extension GuardDuty {
     }
 
     public struct ListFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
@@ -2131,10 +2131,10 @@ extension GuardDuty {
     }
 
     public struct ListIPSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The unique ID of the detector the ipSet is associated with.
@@ -2183,9 +2183,9 @@ extension GuardDuty {
     }
 
     public struct ListInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
@@ -2228,11 +2228,11 @@ extension GuardDuty {
     }
 
     public struct ListMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "onlyAssociated"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "OnlyAssociated", location: .querystring(locationName: "onlyAssociated"))
         ]
 
         /// The unique ID of the detector the member is associated with.
@@ -2285,10 +2285,10 @@ extension GuardDuty {
     }
 
     public struct ListPublishingDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The ID of the detector to retrieve publishing destinations for.
@@ -2337,8 +2337,8 @@ extension GuardDuty {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the given GuardDuty resource 
@@ -2372,10 +2372,10 @@ extension GuardDuty {
     }
 
     public struct ListThreatIntelSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The unique ID of the detector the threatIntelSet is associated with.
@@ -2506,8 +2506,8 @@ extension GuardDuty {
     }
 
     public struct NetworkConnectionAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
         ]
 
         /// Network connection blocked information.
@@ -2847,8 +2847,8 @@ extension GuardDuty {
     }
 
     public struct StartMonitoringMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts to start monitoring.
@@ -2893,8 +2893,8 @@ extension GuardDuty {
     }
 
     public struct StopMonitoringMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// A list of account IDs of the GuardDuty member accounts whose findings you want the master account to stop monitoring.
@@ -2957,8 +2957,8 @@ extension GuardDuty {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
@@ -3014,8 +3014,8 @@ extension GuardDuty {
     }
 
     public struct UnarchiveFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector associated with the findings to unarchive.
@@ -3072,9 +3072,9 @@ extension GuardDuty {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) for the resource to remove tags from.
@@ -3113,8 +3113,8 @@ extension GuardDuty {
     }
 
     public struct UpdateDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The unique ID of the detector to update.
@@ -3151,9 +3151,9 @@ extension GuardDuty {
     }
 
     public struct UpdateFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "FilterName", location: .uri(locationName: "filterName"))
         ]
 
         /// Specifies the action that is to be applied to the findings that match the filter.
@@ -3212,8 +3212,8 @@ extension GuardDuty {
     }
 
     public struct UpdateFindingsFeedbackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// Additional feedback about the GuardDuty findings.
@@ -3260,9 +3260,9 @@ extension GuardDuty {
     }
 
     public struct UpdateIPSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "IpSetId", location: .uri(locationName: "ipSetId"))
         ]
 
         /// The updated boolean value that specifies whether the IPSet is active or not.
@@ -3311,9 +3311,9 @@ extension GuardDuty {
     }
 
     public struct UpdatePublishingDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", location: .uri(locationName: "destinationId")), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DestinationId", location: .uri(locationName: "destinationId")), 
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId"))
         ]
 
         /// The ID of the detector associated with the publishing destinations to update.
@@ -3350,9 +3350,9 @@ extension GuardDuty {
     }
 
     public struct UpdateThreatIntelSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId")), 
-            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "DetectorId", location: .uri(locationName: "detectorId")), 
+            AWSMemberEncoding(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
         ]
 
         /// The updated boolean value that specifies whether the ThreateIntelSet is active or not.

@@ -65,8 +65,8 @@ extension Outposts {
     }
 
     public struct GetOutpostInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutpostId", location: .uri(locationName: "OutpostId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "OutpostId", location: .uri(locationName: "OutpostId"))
         ]
 
         public let outpostId: String
@@ -87,10 +87,10 @@ extension Outposts {
     }
 
     public struct GetOutpostInstanceTypesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSShapeMember(label: "OutpostId", location: .uri(locationName: "OutpostId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "OutpostId", location: .uri(locationName: "OutpostId"))
         ]
 
         public let maxResults: Int?
@@ -170,9 +170,9 @@ extension Outposts {
     }
 
     public struct ListOutpostsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         public let maxResults: Int?
@@ -214,9 +214,9 @@ extension Outposts {
     }
 
     public struct ListSitesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         public let maxResults: Int?

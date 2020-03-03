@@ -418,8 +418,8 @@ extension MQ {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -437,9 +437,9 @@ extension MQ {
     }
 
     public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id")), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "Username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String
@@ -474,8 +474,8 @@ extension MQ {
     }
 
     public struct DeleteBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let brokerId: String
@@ -503,9 +503,9 @@ extension MQ {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -523,9 +523,9 @@ extension MQ {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id")), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "Username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String
@@ -551,10 +551,10 @@ extension MQ {
     }
 
     public struct DescribeBrokerEngineTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineType", location: .querystring(locationName: "engineType")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EngineType", location: .querystring(locationName: "engineType")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let engineType: String?
@@ -599,12 +599,12 @@ extension MQ {
     }
 
     public struct DescribeBrokerInstanceOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineType", location: .querystring(locationName: "engineType")), 
-            AWSShapeMember(label: "HostInstanceType", location: .querystring(locationName: "hostInstanceType")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "StorageType", location: .querystring(locationName: "storageType"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "EngineType", location: .querystring(locationName: "engineType")), 
+            AWSMemberEncoding(label: "HostInstanceType", location: .querystring(locationName: "hostInstanceType")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "StorageType", location: .querystring(locationName: "storageType"))
         ]
 
         public let engineType: String?
@@ -655,8 +655,8 @@ extension MQ {
     }
 
     public struct DescribeBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let brokerId: String
@@ -753,8 +753,8 @@ extension MQ {
     }
 
     public struct DescribeConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationId", location: .uri(locationName: "configuration-id"))
         ]
 
         public let configurationId: String
@@ -806,9 +806,9 @@ extension MQ {
     }
 
     public struct DescribeConfigurationRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id")), 
-            AWSShapeMember(label: "ConfigurationRevision", location: .uri(locationName: "configuration-revision"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationId", location: .uri(locationName: "configuration-id")), 
+            AWSMemberEncoding(label: "ConfigurationRevision", location: .uri(locationName: "configuration-revision"))
         ]
 
         public let configurationId: String
@@ -848,9 +848,9 @@ extension MQ {
     }
 
     public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id")), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "Username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String
@@ -925,9 +925,9 @@ extension MQ {
     }
 
     public struct ListBrokersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -966,10 +966,10 @@ extension MQ {
     }
 
     public struct ListConfigurationRevisionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationId", location: .uri(locationName: "configuration-id")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let configurationId: String
@@ -1017,9 +1017,9 @@ extension MQ {
     }
 
     public struct ListConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -1061,8 +1061,8 @@ extension MQ {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1090,10 +1090,10 @@ extension MQ {
     }
 
     public struct ListUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id")), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let brokerId: String
@@ -1207,8 +1207,8 @@ extension MQ {
     }
 
     public struct RebootBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let brokerId: String
@@ -1253,8 +1253,8 @@ extension MQ {
     }
 
     public struct UpdateBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let autoMinorVersionUpgrade: Bool?
@@ -1318,8 +1318,8 @@ extension MQ {
     }
 
     public struct UpdateConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ConfigurationId", location: .uri(locationName: "configuration-id"))
         ]
 
         public let configurationId: String
@@ -1368,9 +1368,9 @@ extension MQ {
     }
 
     public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id")), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "BrokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "Username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String

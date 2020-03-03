@@ -72,8 +72,8 @@ extension CodeGuruProfiler {
     }
 
     public struct ConfigureAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
         public let fleetInstanceId: String?
@@ -116,8 +116,8 @@ extension CodeGuruProfiler {
     }
 
     public struct CreateProfilingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", location: .querystring(locationName: "clientToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
 
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
@@ -162,8 +162,8 @@ extension CodeGuruProfiler {
     }
 
     public struct DeleteProfilingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
         public let profilingGroupName: String
@@ -192,8 +192,8 @@ extension CodeGuruProfiler {
     }
 
     public struct DescribeProfilingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
         public let profilingGroupName: String
@@ -229,13 +229,13 @@ extension CodeGuruProfiler {
     }
 
     public struct GetProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accept", location: .header(locationName: "Accept")), 
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime")), 
-            AWSShapeMember(label: "maxDepth", location: .querystring(locationName: "maxDepth")), 
-            AWSShapeMember(label: "period", location: .querystring(locationName: "period")), 
-            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxDepth", location: .querystring(locationName: "maxDepth")), 
+            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
         ]
 
         /// The format of the profile to return. Supports application/json or application/x-amzn-ion. Defaults to application/x-amzn-ion.
@@ -281,10 +281,10 @@ extension CodeGuruProfiler {
     public struct GetProfileResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "profile"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSShapeMember(label: "profile", encoding: .blob)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "profile", encoding: .blob)
         ]
 
         /// The content encoding of the profile in the payload.
@@ -307,14 +307,14 @@ extension CodeGuruProfiler {
     }
 
     public struct ListProfileTimesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSShapeMember(label: "orderBy", location: .querystring(locationName: "orderBy")), 
-            AWSShapeMember(label: "period", location: .querystring(locationName: "period")), 
-            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "orderBy", location: .querystring(locationName: "orderBy")), 
+            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
         ]
 
         /// The end time of the time range to list profiles until.
@@ -379,10 +379,10 @@ extension CodeGuruProfiler {
     }
 
     public struct ListProfilingGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeDescription", location: .querystring(locationName: "includeDescription")), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "includeDescription", location: .querystring(locationName: "includeDescription")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// If set to true, returns the full description of the profiling groups instead of the names. Defaults to false.
@@ -433,11 +433,11 @@ extension CodeGuruProfiler {
     public struct PostAgentProfileRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "agentProfile"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentProfile", encoding: .blob), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSShapeMember(label: "profileToken", location: .querystring(locationName: "profileToken")), 
-            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "agentProfile", encoding: .blob), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "profileToken", location: .querystring(locationName: "profileToken")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
         public let agentProfile: Data
@@ -546,8 +546,8 @@ extension CodeGuruProfiler {
     }
 
     public struct UpdateProfilingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
         /// Remote configuration to configure the agents of the profiling group.

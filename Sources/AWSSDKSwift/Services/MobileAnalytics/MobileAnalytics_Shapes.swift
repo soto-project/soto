@@ -61,9 +61,9 @@ extension MobileAnalytics {
     }
 
     public struct PutEventsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientContext", location: .header(locationName: "x-amz-Client-Context")), 
-            AWSShapeMember(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientContext", location: .header(locationName: "x-amz-Client-Context")), 
+            AWSMemberEncoding(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"))
         ]
 
         /// The client context including the client ID, app title, app version and package name.
