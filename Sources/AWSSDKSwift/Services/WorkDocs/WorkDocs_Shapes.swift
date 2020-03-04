@@ -219,9 +219,9 @@ extension WorkDocs {
 
     public struct AbortDocumentVersionUploadRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "VersionId", location: .uri(locationName: "VersionId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -257,8 +257,8 @@ extension WorkDocs {
 
     public struct ActivateUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -347,8 +347,8 @@ extension WorkDocs {
 
     public struct AddResourcePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -479,9 +479,9 @@ extension WorkDocs {
 
     public struct CreateCommentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "VersionId", location: .uri(locationName: "VersionId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -559,9 +559,9 @@ extension WorkDocs {
 
     public struct CreateCustomMetadataRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId")), 
-            AWSMemberEncoding(label: "VersionId", location: .querystring(locationName: "versionid"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionid"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -617,7 +617,7 @@ extension WorkDocs {
 
     public struct CreateFolderRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -667,8 +667,8 @@ extension WorkDocs {
 
     public struct CreateLabelsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -715,7 +715,7 @@ extension WorkDocs {
 
     public struct CreateNotificationSubscriptionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OrganizationId", location: .uri(locationName: "OrganizationId"))
+            AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId"))
         ]
 
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https.
@@ -766,7 +766,7 @@ extension WorkDocs {
 
     public struct CreateUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -853,8 +853,8 @@ extension WorkDocs {
 
     public struct DeactivateUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -883,10 +883,10 @@ extension WorkDocs {
 
     public struct DeleteCommentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "CommentId", location: .uri(locationName: "CommentId")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "VersionId", location: .uri(locationName: "VersionId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "commentId", location: .uri(locationName: "CommentId")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -929,11 +929,11 @@ extension WorkDocs {
 
     public struct DeleteCustomMetadataRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DeleteAll", location: .querystring(locationName: "deleteAll")), 
-            AWSMemberEncoding(label: "Keys", location: .querystring(locationName: "keys")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId")), 
-            AWSMemberEncoding(label: "VersionId", location: .querystring(locationName: "versionId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")), 
+            AWSMemberEncoding(label: "keys", location: .querystring(locationName: "keys")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -991,8 +991,8 @@ extension WorkDocs {
 
     public struct DeleteDocumentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1021,8 +1021,8 @@ extension WorkDocs {
 
     public struct DeleteFolderContentsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "FolderId", location: .uri(locationName: "FolderId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1051,8 +1051,8 @@ extension WorkDocs {
 
     public struct DeleteFolderRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "FolderId", location: .uri(locationName: "FolderId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1081,10 +1081,10 @@ extension WorkDocs {
 
     public struct DeleteLabelsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DeleteAll", location: .querystring(locationName: "deleteAll")), 
-            AWSMemberEncoding(label: "Labels", location: .querystring(locationName: "labels")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")), 
+            AWSMemberEncoding(label: "labels", location: .querystring(locationName: "labels")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1135,8 +1135,8 @@ extension WorkDocs {
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OrganizationId", location: .uri(locationName: "OrganizationId")), 
-            AWSMemberEncoding(label: "SubscriptionId", location: .uri(locationName: "SubscriptionId"))
+            AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId")), 
+            AWSMemberEncoding(label: "subscriptionId", location: .uri(locationName: "SubscriptionId"))
         ]
 
         /// The ID of the organization.
@@ -1166,8 +1166,8 @@ extension WorkDocs {
 
     public struct DeleteUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1196,16 +1196,16 @@ extension WorkDocs {
 
     public struct DescribeActivitiesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ActivityTypes", location: .querystring(locationName: "activityTypes")), 
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "EndTime", location: .querystring(locationName: "endTime")), 
-            AWSMemberEncoding(label: "IncludeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "OrganizationId", location: .querystring(locationName: "organizationId")), 
-            AWSMemberEncoding(label: "ResourceId", location: .querystring(locationName: "resourceId")), 
-            AWSMemberEncoding(label: "StartTime", location: .querystring(locationName: "startTime")), 
-            AWSMemberEncoding(label: "UserId", location: .querystring(locationName: "userId"))
+            AWSMemberEncoding(label: "activityTypes", location: .querystring(locationName: "activityTypes")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "includeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")), 
+            AWSMemberEncoding(label: "resourceId", location: .querystring(locationName: "resourceId")), 
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")), 
+            AWSMemberEncoding(label: "userId", location: .querystring(locationName: "userId"))
         ]
 
         /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
@@ -1298,11 +1298,11 @@ extension WorkDocs {
 
     public struct DescribeCommentsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "VersionId", location: .uri(locationName: "VersionId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1369,12 +1369,12 @@ extension WorkDocs {
 
     public struct DescribeDocumentVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "Fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "Include", location: .querystring(locationName: "include")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
+            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1447,14 +1447,14 @@ extension WorkDocs {
 
     public struct DescribeFolderContentsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "FolderId", location: .uri(locationName: "FolderId")), 
-            AWSMemberEncoding(label: "Include", location: .querystring(locationName: "include")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "Order", location: .querystring(locationName: "order")), 
-            AWSMemberEncoding(label: "Sort", location: .querystring(locationName: "sort")), 
-            AWSMemberEncoding(label: "Type", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
+            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")), 
+            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")), 
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1536,11 +1536,11 @@ extension WorkDocs {
 
     public struct DescribeGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "OrganizationId", location: .querystring(locationName: "organizationId")), 
-            AWSMemberEncoding(label: "SearchQuery", location: .querystring(locationName: "searchQuery"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")), 
+            AWSMemberEncoding(label: "searchQuery", location: .querystring(locationName: "searchQuery"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1606,9 +1606,9 @@ extension WorkDocs {
 
     public struct DescribeNotificationSubscriptionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "OrganizationId", location: .uri(locationName: "OrganizationId"))
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId"))
         ]
 
         /// The maximum number of items to return with this call.
@@ -1661,11 +1661,11 @@ extension WorkDocs {
 
     public struct DescribeResourcePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "PrincipalId", location: .querystring(locationName: "principalId")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "principalId", location: .querystring(locationName: "principalId")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1731,9 +1731,9 @@ extension WorkDocs {
 
     public struct DescribeRootFoldersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1785,16 +1785,16 @@ extension WorkDocs {
 
     public struct DescribeUsersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "Fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "Include", location: .querystring(locationName: "include")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "Order", location: .querystring(locationName: "order")), 
-            AWSMemberEncoding(label: "OrganizationId", location: .querystring(locationName: "organizationId")), 
-            AWSMemberEncoding(label: "Query", location: .querystring(locationName: "query")), 
-            AWSMemberEncoding(label: "Sort", location: .querystring(locationName: "sort")), 
-            AWSMemberEncoding(label: "UserIds", location: .querystring(locationName: "userIds"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
+            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")), 
+            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")), 
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "query")), 
+            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")), 
+            AWSMemberEncoding(label: "userIds", location: .querystring(locationName: "userIds"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2044,7 +2044,7 @@ extension WorkDocs {
 
     public struct GetCurrentUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2080,11 +2080,11 @@ extension WorkDocs {
 
     public struct GetDocumentPathRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "Fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2146,9 +2146,9 @@ extension WorkDocs {
 
     public struct GetDocumentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2199,11 +2199,11 @@ extension WorkDocs {
 
     public struct GetDocumentVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "Fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata")), 
-            AWSMemberEncoding(label: "VersionId", location: .uri(locationName: "VersionId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
+            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2268,11 +2268,11 @@ extension WorkDocs {
 
     public struct GetFolderPathRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "Fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "FolderId", location: .uri(locationName: "FolderId")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2334,9 +2334,9 @@ extension WorkDocs {
 
     public struct GetFolderRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "FolderId", location: .uri(locationName: "FolderId")), 
-            AWSMemberEncoding(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
+            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2387,11 +2387,11 @@ extension WorkDocs {
 
     public struct GetResourcesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "CollectionType", location: .querystring(locationName: "collectionType")), 
-            AWSMemberEncoding(label: "Limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "UserId", location: .querystring(locationName: "userId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "collectionType", location: .querystring(locationName: "collectionType")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "userId", location: .querystring(locationName: "userId"))
         ]
 
         /// The Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API operation using AWS credentials.
@@ -2476,7 +2476,7 @@ extension WorkDocs {
 
     public struct InitiateDocumentVersionUploadRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2636,8 +2636,8 @@ extension WorkDocs {
 
     public struct RemoveAllResourcePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2666,10 +2666,10 @@ extension WorkDocs {
 
     public struct RemoveResourcePermissionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "PrincipalId", location: .uri(locationName: "PrincipalId")), 
-            AWSMemberEncoding(label: "PrincipalType", location: .querystring(locationName: "type")), 
-            AWSMemberEncoding(label: "ResourceId", location: .uri(locationName: "ResourceId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "PrincipalId")), 
+            AWSMemberEncoding(label: "principalType", location: .querystring(locationName: "type")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2885,8 +2885,8 @@ extension WorkDocs {
 
     public struct UpdateDocumentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2933,9 +2933,9 @@ extension WorkDocs {
 
     public struct UpdateDocumentVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "DocumentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "VersionId", location: .uri(locationName: "VersionId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -2975,8 +2975,8 @@ extension WorkDocs {
 
     public struct UpdateFolderRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "FolderId", location: .uri(locationName: "FolderId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -3023,8 +3023,8 @@ extension WorkDocs {
 
     public struct UpdateUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.

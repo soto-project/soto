@@ -25,8 +25,8 @@ extension MarketplaceCatalog {
 
     public struct CancelChangeSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Catalog", location: .querystring(locationName: "catalog")), 
-            AWSMemberEncoding(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"))
+            AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "changeSetId", location: .querystring(locationName: "changeSetId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace.
@@ -166,8 +166,8 @@ extension MarketplaceCatalog {
 
     public struct DescribeChangeSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Catalog", location: .querystring(locationName: "catalog")), 
-            AWSMemberEncoding(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"))
+            AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "changeSetId", location: .querystring(locationName: "changeSetId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace 
@@ -239,8 +239,8 @@ extension MarketplaceCatalog {
 
     public struct DescribeEntityRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Catalog", location: .querystring(locationName: "catalog")), 
-            AWSMemberEncoding(label: "EntityId", location: .querystring(locationName: "entityId"))
+            AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "entityId", location: .querystring(locationName: "entityId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace 

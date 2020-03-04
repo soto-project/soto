@@ -10,7 +10,7 @@ extension ApiGatewayManagementApi {
 
     public struct DeleteConnectionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionId", location: .uri(locationName: "connectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId"))
         ]
 
         public let connectionId: String
@@ -26,7 +26,7 @@ extension ApiGatewayManagementApi {
 
     public struct GetConnectionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionId", location: .uri(locationName: "connectionId"))
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId"))
         ]
 
         public let connectionId: String
@@ -79,10 +79,10 @@ extension ApiGatewayManagementApi {
 
     public struct PostToConnectionRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Data"
+        public static let payloadPath: String? = "data"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionId", location: .uri(locationName: "connectionId")), 
-            AWSMemberEncoding(label: "Data", encoding: .blob)
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")), 
+            AWSMemberEncoding(label: "data", location: .body(locationName: "Data"), encoding: .blob)
         ]
 
         public let connectionId: String

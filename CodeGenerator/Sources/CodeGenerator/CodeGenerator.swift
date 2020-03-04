@@ -386,15 +386,20 @@ extension AWSService {
 
     /// Generate the context information for outputting a member variable
     func generateAWSShapeMemberContext(_ member: Member, shape: Shape) -> AWSShapeMemberContext? {
-        var location = member.location?.enumStyleDescription()
         let encoding = member.shapeEncoding?.enumStyleDescription()
-        if case .body(let name) = member.location, name == member.name.toSwiftVariableCase() {
+        var location = member.location
+        // if member has collection encoding ie the codingkey will be needed, then add a Location.body
+        if encoding != nil && location == nil {
+            location = .body(locationName: member.name)
+        }
+        // remove location if equal to body and name is same as variable name
+        if case .body(let name) = location, name == member.name.toSwiftLabelCase() {
             location = nil
         }
         guard location != nil || encoding != nil else { return nil }
         return AWSShapeMemberContext(
-            name: member.name,
-            location: location,
+            name: member.name.toSwiftLabelCase(),
+            location: location?.enumStyleDescription(),
             encoding: encoding
         )
     }
@@ -487,7 +492,7 @@ extension AWSService {
         return StructureContext(
             object: doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
             name: shape.swiftTypeName,
-            payload: type.payload,
+            payload: type.payload?.toSwiftLabelCase(),
             namespace: type.xmlNamespace,
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,

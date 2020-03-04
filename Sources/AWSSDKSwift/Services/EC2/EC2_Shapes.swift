@@ -1736,8 +1736,8 @@ extension EC2 {
 
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), encoding: .list(member:"ReservedInstanceId")), 
-            AWSMemberEncoding(label: "TargetConfigurations", location: .body(locationName: "TargetConfiguration"), encoding: .list(member:"TargetConfigurationRequest"))
+            AWSMemberEncoding(label: "reservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), encoding: .list(member:"ReservedInstanceId")), 
+            AWSMemberEncoding(label: "targetConfigurations", location: .body(locationName: "TargetConfiguration"), encoding: .list(member:"TargetConfigurationRequest"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1840,7 +1840,7 @@ extension EC2 {
 
     public struct AcceptVpcEndpointConnectionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1865,7 +1865,7 @@ extension EC2 {
 
     public struct AcceptVpcEndpointConnectionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the interface endpoints that were not accepted, if applicable.
@@ -1914,7 +1914,7 @@ extension EC2 {
 
     public struct AccountAttribute: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AttributeValues", location: .body(locationName: "attributeValueSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "attributeValueSet"), encoding: .list(member:"item"))
         ]
 
         /// The name of the account attribute.
@@ -1975,7 +1975,7 @@ extension EC2 {
 
     public struct Address: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID representing the allocation of the address for use with EC2-VPC.
@@ -2144,7 +2144,7 @@ extension EC2 {
 
     public struct AllocateHostsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether the host accepts any untargeted instance launches that match its instance type configuration, or if it only accepts Host tenancy instance launches that specify its unique host ID. For more information, see  Understanding Instance Placement and Host Affinity in the Amazon EC2 User Guide for Linux Instances. Default: on 
@@ -2189,7 +2189,7 @@ extension EC2 {
 
     public struct AllocateHostsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostIds", location: .body(locationName: "hostIdSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostIdSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the allocated Dedicated Host. This is used to launch an instance onto a specific host.
@@ -2224,7 +2224,7 @@ extension EC2 {
 
     public struct ApplySecurityGroupsToClientVpnTargetNetworkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the Client VPN endpoint.
@@ -2253,7 +2253,7 @@ extension EC2 {
 
     public struct ApplySecurityGroupsToClientVpnTargetNetworkResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SecurityGroupIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "securityGroupIds", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the applied security groups.
@@ -2270,7 +2270,7 @@ extension EC2 {
 
     public struct AssignIpv6AddressesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Ipv6Addresses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The number of IPv6 addresses to assign to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
@@ -2295,7 +2295,7 @@ extension EC2 {
 
     public struct AssignIpv6AddressesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssignedIpv6Addresses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "assignedIpv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The IPv6 addresses assigned to the network interface.
@@ -2316,7 +2316,7 @@ extension EC2 {
 
     public struct AssignPrivateIpAddressesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
+            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
         ]
 
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
@@ -2345,7 +2345,7 @@ extension EC2 {
 
     public struct AssignPrivateIpAddressesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssignedPrivateIpAddresses", location: .body(locationName: "assignedPrivateIpAddressesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "assignedPrivateIpAddresses", location: .body(locationName: "assignedPrivateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// The private IP addresses assigned to the network interface.
@@ -2610,7 +2610,7 @@ extension EC2 {
 
     public struct AssociateTransitGatewayMulticastDomainRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2763,7 +2763,7 @@ extension EC2 {
 
     public struct AttachClassicLinkVpcRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"groupId"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"groupId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2791,9 +2791,6 @@ extension EC2 {
     }
 
     public struct AttachClassicLinkVpcResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -2919,7 +2916,7 @@ extension EC2 {
 
     public struct AttachVpnGatewayResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcAttachment", location: .body(locationName: "attachment"))
+            AWSMemberEncoding(label: "vpcAttachment", location: .body(locationName: "attachment"))
         ]
 
         /// Information about the attachment.
@@ -3050,7 +3047,7 @@ extension EC2 {
 
     public struct AuthorizeSecurityGroupEgressRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpPermissions", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipPermissions", encoding: .list(member:"item"))
         ]
 
         /// Not supported. Use a set of IP permissions to specify the CIDR.
@@ -3099,7 +3096,7 @@ extension EC2 {
 
     public struct AuthorizeSecurityGroupIngressRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpPermissions", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
         ]
 
         /// The IPv4 address range, in CIDR format. You can't specify this parameter when specifying a source security group. To specify an IPv6 address range, use a set of IP permissions. Alternatively, use a set of IP permissions to specify multiple rules and a description for the rule.
@@ -3152,8 +3149,8 @@ extension EC2 {
 
     public struct AvailabilityZone: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Messages", location: .body(locationName: "messageSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "State", location: .body(locationName: "zoneState"))
+            AWSMemberEncoding(label: "messages", location: .body(locationName: "messageSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "state", location: .body(locationName: "zoneState"))
         ]
 
         ///  For Availability Zones, this parameter has the same value as the Region name. For Local Zones, the name of the associated group, for example us-west-2-lax-1.
@@ -3212,7 +3209,7 @@ extension EC2 {
 
     public struct AvailableCapacity: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailableInstanceCapacity", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "availableInstanceCapacity", encoding: .list(member:"item"))
         ]
 
         /// The number of instances that can be launched onto the Dedicated Host depending on the host's available capacity. For Dedicated Hosts that support multiple instance types, this parameter represents the number of instances for each instance size that is supported on the host.
@@ -3294,7 +3291,7 @@ extension EC2 {
 
     public struct BundleInstanceResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BundleTask", location: .body(locationName: "bundleInstanceTask"))
+            AWSMemberEncoding(label: "bundleTask", location: .body(locationName: "bundleInstanceTask"))
         ]
 
         /// Information about the bundle task.
@@ -3311,7 +3308,7 @@ extension EC2 {
 
     public struct BundleTask: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BundleTaskError", location: .body(locationName: "error"))
+            AWSMemberEncoding(label: "bundleTaskError", location: .body(locationName: "error"))
         ]
 
         /// The ID of the bundle task.
@@ -3418,7 +3415,7 @@ extension EC2 {
 
     public struct CancelBundleTaskResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BundleTask", location: .body(locationName: "bundleInstanceTask"))
+            AWSMemberEncoding(label: "bundleTask", location: .body(locationName: "bundleInstanceTask"))
         ]
 
         /// Information about the bundle task.
@@ -3452,9 +3449,6 @@ extension EC2 {
     }
 
     public struct CancelCapacityReservationResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -3564,7 +3558,7 @@ extension EC2 {
 
     public struct CancelReservedInstancesListingResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
         ]
 
         /// The Reserved Instance listing.
@@ -3617,7 +3611,7 @@ extension EC2 {
 
     public struct CancelSpotFleetRequestsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "spotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3642,8 +3636,8 @@ extension EC2 {
 
     public struct CancelSpotFleetRequestsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SuccessfulFleetRequests", location: .body(locationName: "successfulFleetRequestSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "UnsuccessfulFleetRequests", location: .body(locationName: "unsuccessfulFleetRequestSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successfulFleetRequests", location: .body(locationName: "successfulFleetRequestSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessfulFleetRequests", location: .body(locationName: "unsuccessfulFleetRequestSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Spot Fleet requests that are successfully canceled.
@@ -3686,7 +3680,7 @@ extension EC2 {
 
     public struct CancelSpotInstanceRequestsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SpotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
+            AWSMemberEncoding(label: "spotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3707,7 +3701,7 @@ extension EC2 {
 
     public struct CancelSpotInstanceRequestsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CancelledSpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "cancelledSpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
         ]
 
         /// One or more Spot Instance requests.
@@ -3742,7 +3736,7 @@ extension EC2 {
 
     public struct CapacityReservation: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which the capacity is reserved.
@@ -3997,8 +3991,8 @@ extension EC2 {
 
     public struct ClassicLinkInstance: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A list of security groups.
@@ -4041,7 +4035,7 @@ extension EC2 {
 
     public struct ClassicLoadBalancersConfig: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClassicLoadBalancers", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "classicLoadBalancers", encoding: .list(member:"item"))
         ]
 
         /// One or more Classic Load Balancers.
@@ -4106,9 +4100,6 @@ extension EC2 {
     }
 
     public struct ClientVpnAuthentication: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// Information about the Active Directory, if applicable.
         public let activeDirectory: DirectoryServiceAuthentication?
@@ -4252,9 +4243,9 @@ extension EC2 {
 
     public struct ClientVpnEndpoint: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationOptions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "DnsServers", location: .body(locationName: "dnsServer"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "authenticationOptions", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "dnsServers", location: .body(locationName: "dnsServer"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the authentication method used by the Client VPN endpoint.
@@ -4348,9 +4339,6 @@ extension EC2 {
     }
 
     public struct ClientVpnRoute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// The ID of the Client VPN endpoint with which the route is associated.
         public let clientVpnEndpointId: String?
@@ -4434,8 +4422,8 @@ extension EC2 {
 
     public struct CoipPool: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PoolCidrs", location: .body(locationName: "poolCidrSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "poolCidrs", location: .body(locationName: "poolCidrSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway route table.
@@ -4485,9 +4473,6 @@ extension EC2 {
     }
 
     public struct ConfirmProductInstanceResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// The AWS account ID of the instance owner. This is only present if the product code is attached to the instance.
         public let ownerId: String?
@@ -4551,7 +4536,7 @@ extension EC2 {
 
     public struct ConnectionNotification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionEvents", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "connectionEvents", encoding: .list(member:"item"))
         ]
 
         /// The events for the notification. Valid values are Accept, Connect, Delete, and Reject.
@@ -4592,7 +4577,7 @@ extension EC2 {
 
     public struct ConversionTask: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the conversion task.
@@ -4737,7 +4722,7 @@ extension EC2 {
 
     public struct CopySnapshotRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// A description for the EBS snapshot.
@@ -4786,7 +4771,7 @@ extension EC2 {
 
     public struct CopySnapshotResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the new snapshot.
@@ -4843,7 +4828,7 @@ extension EC2 {
 
     public struct CreateCapacityReservationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecifications"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which to create the Capacity Reservation.
@@ -4926,9 +4911,9 @@ extension EC2 {
 
     public struct CreateClientVpnEndpointRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthenticationOptions", location: .body(locationName: "Authentication"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "DnsServers", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "authenticationOptions", location: .body(locationName: "Authentication"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "dnsServers", location: .body(locationName: "DnsServers"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Information about the authentication method to be used to authenticate clients.
@@ -5059,7 +5044,7 @@ extension EC2 {
 
     public struct CreateCustomerGatewayRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PublicIp", location: .body(locationName: "IpAddress"))
+            AWSMemberEncoding(label: "publicIp", location: .body(locationName: "IpAddress"))
         ]
 
         /// For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
@@ -5170,7 +5155,7 @@ extension EC2 {
 
     public struct CreateDhcpOptionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DhcpConfigurations", location: .body(locationName: "dhcpConfiguration"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "dhcpConfigurations", location: .body(locationName: "dhcpConfiguration"), encoding: .list(member:"item"))
         ]
 
         /// A DHCP configuration option.
@@ -5271,7 +5256,7 @@ extension EC2 {
 
     public struct CreateFleetInstance: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceIds", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the instances.
@@ -5304,8 +5289,8 @@ extension EC2 {
 
     public struct CreateFleetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LaunchTemplateConfigs", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "launchTemplateConfigs", location: .body(locationName: "LaunchTemplateConfigs"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
@@ -5377,8 +5362,8 @@ extension EC2 {
 
     public struct CreateFleetResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the instances that could not be launched by the fleet. Valid only when Type is set to instant.
@@ -5403,7 +5388,7 @@ extension EC2 {
 
     public struct CreateFlowLogsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceIds", location: .body(locationName: "ResourceId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "resourceIds", location: .body(locationName: "ResourceId"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -5456,8 +5441,8 @@ extension EC2 {
 
     public struct CreateFlowLogsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowLogIds", location: .body(locationName: "flowLogIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "flowLogIds", location: .body(locationName: "flowLogIdSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -5482,7 +5467,7 @@ extension EC2 {
 
     public struct CreateFpgaImageRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
@@ -5541,7 +5526,7 @@ extension EC2 {
 
     public struct CreateImageRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
         ]
 
         /// The block device mappings. This parameter cannot be used to modify the encryption status of existing volumes or snapshots. To create an AMI with encrypted snapshots, use the CopyImage action.
@@ -5592,7 +5577,7 @@ extension EC2 {
 
     public struct CreateInstanceExportTaskRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportToS3Task", location: .body(locationName: "exportToS3"))
+            AWSMemberEncoding(label: "exportToS3Task", location: .body(locationName: "exportToS3"))
         ]
 
         /// A description for the conversion task or the resource being exported. The maximum length is 255 bytes.
@@ -5681,7 +5666,7 @@ extension EC2 {
 
     public struct CreateLaunchTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
@@ -5916,8 +5901,7 @@ extension EC2 {
 
     public struct CreateNetworkAclEntryRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IcmpTypeCode", location: .body(locationName: "Icmp")), 
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
+            AWSMemberEncoding(label: "icmpTypeCode", location: .body(locationName: "Icmp"))
         ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
@@ -6046,9 +6030,9 @@ extension EC2 {
 
     public struct CreateNetworkInterfaceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PrivateIpAddresses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "ipv6Addresses", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "privateIpAddresses", encoding: .list(member:"item"))
         ]
 
         /// A description for the network interface.
@@ -6141,7 +6125,7 @@ extension EC2 {
 
     public struct CreateReservedInstancesListingRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PriceSchedules", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "priceSchedules", encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
@@ -6170,7 +6154,7 @@ extension EC2 {
 
     public struct CreateReservedInstancesListingResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Standard Reserved Instance listing.
@@ -6244,9 +6228,6 @@ extension EC2 {
     }
 
     public struct CreateRouteResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -6294,7 +6275,7 @@ extension EC2 {
 
     public struct CreateSecurityGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Description", location: .body(locationName: "GroupDescription"))
+            AWSMemberEncoding(label: "description", location: .body(locationName: "GroupDescription"))
         ]
 
         /// A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
@@ -6337,7 +6318,7 @@ extension EC2 {
 
     public struct CreateSnapshotRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// A description for the snapshot.
@@ -6366,7 +6347,7 @@ extension EC2 {
 
     public struct CreateSnapshotsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Copies the tags from the specified volume to corresponding snapshot.
@@ -6399,7 +6380,7 @@ extension EC2 {
 
     public struct CreateSnapshotsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Snapshots", location: .body(locationName: "snapshotSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "snapshots", location: .body(locationName: "snapshotSet"), encoding: .list(member:"item"))
         ]
 
         /// List of snapshots.
@@ -6504,8 +6485,8 @@ extension EC2 {
 
     public struct CreateTagsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resources", location: .body(locationName: "ResourceId"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "resources", location: .body(locationName: "ResourceId"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6530,7 +6511,7 @@ extension EC2 {
 
     public struct CreateTrafficMirrorFilterRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -6653,7 +6634,7 @@ extension EC2 {
 
     public struct CreateTrafficMirrorSessionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -6724,7 +6705,7 @@ extension EC2 {
 
     public struct CreateTrafficMirrorTargetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -6779,7 +6760,7 @@ extension EC2 {
 
     public struct CreateTransitGatewayMulticastDomainRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6818,7 +6799,7 @@ extension EC2 {
 
     public struct CreateTransitGatewayPeeringAttachmentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6869,7 +6850,7 @@ extension EC2 {
 
     public struct CreateTransitGatewayRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// A description of the transit gateway.
@@ -6956,7 +6937,7 @@ extension EC2 {
 
     public struct CreateTransitGatewayRouteTableRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecifications"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6995,8 +6976,8 @@ extension EC2 {
 
     public struct CreateTransitGatewayVpcAttachmentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "TagSpecifications", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecifications"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7083,8 +7064,8 @@ extension EC2 {
 
     public struct CreateVolumePermissionModifications: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Add", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Remove", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "add", location: .body(locationName: "Add"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "remove", location: .body(locationName: "Remove"), encoding: .list(member:"item"))
         ]
 
         /// Adds the specified AWS account ID or group to the list.
@@ -7105,7 +7086,7 @@ extension EC2 {
 
     public struct CreateVolumeRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which to create the volume.
@@ -7158,7 +7139,7 @@ extension EC2 {
 
     public struct CreateVpcEndpointConnectionNotificationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionEvents", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "connectionEvents", location: .body(locationName: "ConnectionEvents"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -7213,9 +7194,9 @@ extension EC2 {
 
     public struct CreateVpcEndpointRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RouteTableIds", location: .body(locationName: "RouteTableId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SubnetIds", location: .body(locationName: "SubnetId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "routeTableIds", location: .body(locationName: "RouteTableId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetId"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -7286,7 +7267,7 @@ extension EC2 {
 
     public struct CreateVpcEndpointServiceConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkLoadBalancerArns", location: .body(locationName: "NetworkLoadBalancerArn"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkLoadBalancerArns", location: .body(locationName: "NetworkLoadBalancerArn"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether requests from service consumers to create an endpoint to your service must be accepted. To accept a request, use AcceptVpcEndpointConnections.
@@ -7567,8 +7548,7 @@ extension EC2 {
 
     public struct CustomerGateway: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
@@ -7811,7 +7791,7 @@ extension EC2 {
 
     public struct DeleteFleetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FleetIds", location: .body(locationName: "FleetId"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "fleetIds", location: .body(locationName: "FleetId"), encoding: .list(member:"member"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7836,8 +7816,8 @@ extension EC2 {
 
     public struct DeleteFleetsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SuccessfulFleetDeletions", location: .body(locationName: "successfulFleetDeletionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "UnsuccessfulFleetDeletions", location: .body(locationName: "unsuccessfulFleetDeletionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successfulFleetDeletions", location: .body(locationName: "successfulFleetDeletionSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessfulFleetDeletions", location: .body(locationName: "unsuccessfulFleetDeletionSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the EC2 Fleets that are successfully deleted.
@@ -7858,7 +7838,7 @@ extension EC2 {
 
     public struct DeleteFlowLogsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowLogIds", location: .body(locationName: "FlowLogId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "flowLogIds", location: .body(locationName: "FlowLogId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7879,7 +7859,7 @@ extension EC2 {
 
     public struct DeleteFlowLogsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the flow logs that could not be deleted successfully.
@@ -7913,9 +7893,6 @@ extension EC2 {
     }
 
     public struct DeleteFpgaImageResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -8009,7 +7986,7 @@ extension EC2 {
 
     public struct DeleteLaunchTemplateVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Versions", location: .body(locationName: "LaunchTemplateVersion"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "versions", location: .body(locationName: "LaunchTemplateVersion"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8092,8 +8069,8 @@ extension EC2 {
 
     public struct DeleteLaunchTemplateVersionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SuccessfullyDeletedLaunchTemplateVersions", location: .body(locationName: "successfullyDeletedLaunchTemplateVersionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "UnsuccessfullyDeletedLaunchTemplateVersions", location: .body(locationName: "unsuccessfullyDeletedLaunchTemplateVersionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successfullyDeletedLaunchTemplateVersions", location: .body(locationName: "successfullyDeletedLaunchTemplateVersionSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessfullyDeletedLaunchTemplateVersions", location: .body(locationName: "unsuccessfullyDeletedLaunchTemplateVersionSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the launch template versions that were successfully deleted.
@@ -8275,9 +8252,6 @@ extension EC2 {
     }
 
     public struct DeleteNetworkInterfacePermissionResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds, otherwise returns an error.
         public let `return`: Bool?
@@ -8347,7 +8321,7 @@ extension EC2 {
 
     public struct DeleteQueuedReservedInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8373,8 +8347,8 @@ extension EC2 {
 
     public struct DeleteQueuedReservedInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FailedQueuedPurchaseDeletions", location: .body(locationName: "failedQueuedPurchaseDeletionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SuccessfulQueuedPurchaseDeletions", location: .body(locationName: "successfulQueuedPurchaseDeletionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "failedQueuedPurchaseDeletions", location: .body(locationName: "failedQueuedPurchaseDeletionSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "successfulQueuedPurchaseDeletions", location: .body(locationName: "successfulQueuedPurchaseDeletionSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the queued purchases that could not be deleted.
@@ -8511,8 +8485,8 @@ extension EC2 {
 
     public struct DeleteTagsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resources", location: .body(locationName: "resourceId"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "resources", location: .body(locationName: "resourceId"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8879,7 +8853,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointConnectionNotificationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionNotificationIds", location: .body(locationName: "ConnectionNotificationId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "connectionNotificationIds", location: .body(locationName: "ConnectionNotificationId"), encoding: .list(member:"item"))
         ]
 
         /// One or more notification IDs.
@@ -8900,7 +8874,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointConnectionNotificationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the notifications that could not be deleted successfully.
@@ -8917,7 +8891,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointServiceConfigurationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ServiceIds", location: .body(locationName: "ServiceId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "serviceIds", location: .body(locationName: "ServiceId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8938,7 +8912,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointServiceConfigurationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the service configurations that were not deleted, if applicable.
@@ -8955,7 +8929,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8976,7 +8950,7 @@ extension EC2 {
 
     public struct DeleteVpcEndpointsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the VPC endpoints that were not successfully deleted.
@@ -9010,9 +8984,6 @@ extension EC2 {
     }
 
     public struct DeleteVpcPeeringConnectionResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -9150,7 +9121,7 @@ extension EC2 {
 
     public struct DeregisterTransitGatewayMulticastGroupMembersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9193,7 +9164,7 @@ extension EC2 {
 
     public struct DeregisterTransitGatewayMulticastGroupSourcesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9236,7 +9207,7 @@ extension EC2 {
 
     public struct DescribeAccountAttributesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AttributeNames", location: .body(locationName: "attributeName"), encoding: .list(member:"attributeName"))
+            AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "attributeName"), encoding: .list(member:"attributeName"))
         ]
 
         /// The account attribute names.
@@ -9257,7 +9228,7 @@ extension EC2 {
 
     public struct DescribeAccountAttributesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AccountAttributes", location: .body(locationName: "accountAttributeSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "accountAttributes", location: .body(locationName: "accountAttributeSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the account attributes.
@@ -9274,9 +9245,9 @@ extension EC2 {
 
     public struct DescribeAddressesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AllocationIds", location: .body(locationName: "AllocationId"), encoding: .list(member:"AllocationId")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "PublicIps", location: .body(locationName: "PublicIp"), encoding: .list(member:"PublicIp"))
+            AWSMemberEncoding(label: "allocationIds", location: .body(locationName: "AllocationId"), encoding: .list(member:"AllocationId")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "publicIps", location: .body(locationName: "PublicIp"), encoding: .list(member:"PublicIp"))
         ]
 
         /// [EC2-VPC] Information about the allocation IDs.
@@ -9305,7 +9276,7 @@ extension EC2 {
 
     public struct DescribeAddressesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Addresses", location: .body(locationName: "addressesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "addresses", location: .body(locationName: "addressesSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Elastic IP addresses.
@@ -9336,7 +9307,7 @@ extension EC2 {
 
     public struct DescribeAggregateIdFormatResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about each resource's ID format.
@@ -9357,9 +9328,9 @@ extension EC2 {
 
     public struct DescribeAvailabilityZonesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ZoneIds", location: .body(locationName: "ZoneId"), encoding: .list(member:"ZoneId")), 
-            AWSMemberEncoding(label: "ZoneNames", location: .body(locationName: "ZoneName"), encoding: .list(member:"ZoneName"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "zoneIds", location: .body(locationName: "ZoneId"), encoding: .list(member:"ZoneId")), 
+            AWSMemberEncoding(label: "zoneNames", location: .body(locationName: "ZoneName"), encoding: .list(member:"ZoneName"))
         ]
 
         /// Include all Availability Zones and Local Zones regardless of your opt in status. If you do not use this parameter, the results include only the zones for the Regions where you have chosen the option to opt in.
@@ -9392,7 +9363,7 @@ extension EC2 {
 
     public struct DescribeAvailabilityZonesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", location: .body(locationName: "availabilityZoneInfo"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "availabilityZoneInfo"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Availability Zones and Local Zones.
@@ -9409,8 +9380,8 @@ extension EC2 {
 
     public struct DescribeBundleTasksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BundleIds", location: .body(locationName: "BundleId"), encoding: .list(member:"BundleId")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "bundleIds", location: .body(locationName: "BundleId"), encoding: .list(member:"BundleId")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The bundle task IDs. Default: Describes all your bundle tasks.
@@ -9435,7 +9406,7 @@ extension EC2 {
 
     public struct DescribeBundleTasksResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BundleTasks", location: .body(locationName: "bundleInstanceTasksSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "bundleTasks", location: .body(locationName: "bundleInstanceTasksSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the bundle tasks.
@@ -9479,7 +9450,7 @@ extension EC2 {
 
     public struct DescribeByoipCidrsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ByoipCidrs", location: .body(locationName: "byoipCidrSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "byoipCidrs", location: .body(locationName: "byoipCidrSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about your address ranges.
@@ -9500,8 +9471,8 @@ extension EC2 {
 
     public struct DescribeCapacityReservationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CapacityReservationIds", location: .body(locationName: "CapacityReservationId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "capacityReservationIds", location: .body(locationName: "CapacityReservationId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the Capacity Reservation.
@@ -9539,7 +9510,7 @@ extension EC2 {
 
     public struct DescribeCapacityReservationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CapacityReservations", location: .body(locationName: "capacityReservationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "capacityReservations", location: .body(locationName: "capacityReservationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Capacity Reservations.
@@ -9560,8 +9531,8 @@ extension EC2 {
 
     public struct DescribeClassicLinkInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9599,7 +9570,7 @@ extension EC2 {
 
     public struct DescribeClassicLinkInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more linked EC2-Classic instances.
@@ -9620,7 +9591,7 @@ extension EC2 {
 
     public struct DescribeClientVpnAuthorizationRulesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the Client VPN endpoint.
@@ -9658,7 +9629,7 @@ extension EC2 {
 
     public struct DescribeClientVpnAuthorizationRulesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AuthorizationRules", location: .body(locationName: "authorizationRule"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "authorizationRules", location: .body(locationName: "authorizationRule"), encoding: .list(member:"item"))
         ]
 
         /// Information about the authorization rules.
@@ -9679,7 +9650,7 @@ extension EC2 {
 
     public struct DescribeClientVpnConnectionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the Client VPN endpoint.
@@ -9717,7 +9688,7 @@ extension EC2 {
 
     public struct DescribeClientVpnConnectionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Connections", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "connections", encoding: .list(member:"item"))
         ]
 
         /// Information about the active and terminated client connections.
@@ -9738,8 +9709,8 @@ extension EC2 {
 
     public struct DescribeClientVpnEndpointsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClientVpnEndpointIds", location: .body(locationName: "ClientVpnEndpointId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "clientVpnEndpointIds", location: .body(locationName: "ClientVpnEndpointId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the Client VPN endpoint.
@@ -9777,7 +9748,7 @@ extension EC2 {
 
     public struct DescribeClientVpnEndpointsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClientVpnEndpoints", location: .body(locationName: "clientVpnEndpoint"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "clientVpnEndpoints", location: .body(locationName: "clientVpnEndpoint"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Client VPN endpoints.
@@ -9798,7 +9769,7 @@ extension EC2 {
 
     public struct DescribeClientVpnRoutesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the Client VPN endpoint.
@@ -9836,7 +9807,7 @@ extension EC2 {
 
     public struct DescribeClientVpnRoutesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Routes", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "routes", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9857,8 +9828,8 @@ extension EC2 {
 
     public struct DescribeClientVpnTargetNetworksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssociationIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "associationIds", location: .body(locationName: "AssociationIds"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The IDs of the target network associations.
@@ -9900,7 +9871,7 @@ extension EC2 {
 
     public struct DescribeClientVpnTargetNetworksResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClientVpnTargetNetworks", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "clientVpnTargetNetworks", encoding: .list(member:"item"))
         ]
 
         /// Information about the associated target networks.
@@ -9921,8 +9892,8 @@ extension EC2 {
 
     public struct DescribeCoipPoolsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "PoolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "poolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9960,7 +9931,7 @@ extension EC2 {
 
     public struct DescribeCoipPoolsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CoipPools", location: .body(locationName: "coipPoolSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "coipPools", location: .body(locationName: "coipPoolSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the address pools.
@@ -9981,7 +9952,7 @@ extension EC2 {
 
     public struct DescribeConversionTasksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConversionTaskIds", location: .body(locationName: "conversionTaskId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "conversionTaskIds", location: .body(locationName: "conversionTaskId"), encoding: .list(member:"item"))
         ]
 
         /// The conversion task IDs.
@@ -10002,7 +9973,7 @@ extension EC2 {
 
     public struct DescribeConversionTasksResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConversionTasks", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "conversionTasks", encoding: .list(member:"item"))
         ]
 
         /// Information about the conversion tasks.
@@ -10019,8 +9990,8 @@ extension EC2 {
 
     public struct DescribeCustomerGatewaysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CustomerGatewayIds", location: .body(locationName: "CustomerGatewayId"), encoding: .list(member:"CustomerGatewayId")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "customerGatewayIds", location: .body(locationName: "CustomerGatewayId"), encoding: .list(member:"CustomerGatewayId")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// One or more customer gateway IDs. Default: Describes all your customer gateways.
@@ -10045,7 +10016,7 @@ extension EC2 {
 
     public struct DescribeCustomerGatewaysResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CustomerGateways", location: .body(locationName: "customerGatewaySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "customerGateways", location: .body(locationName: "customerGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more customer gateways.
@@ -10062,8 +10033,8 @@ extension EC2 {
 
     public struct DescribeDhcpOptionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DhcpOptionsIds", location: .body(locationName: "DhcpOptionsId"), encoding: .list(member:"DhcpOptionsId")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "dhcpOptionsIds", location: .body(locationName: "DhcpOptionsId"), encoding: .list(member:"DhcpOptionsId")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The IDs of one or more DHCP options sets. Default: Describes all your DHCP options sets.
@@ -10101,7 +10072,7 @@ extension EC2 {
 
     public struct DescribeDhcpOptionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DhcpOptions", location: .body(locationName: "dhcpOptionsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "dhcpOptions", location: .body(locationName: "dhcpOptionsSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more DHCP options sets.
@@ -10122,8 +10093,8 @@ extension EC2 {
 
     public struct DescribeEgressOnlyInternetGatewaysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EgressOnlyInternetGatewayIds", location: .body(locationName: "EgressOnlyInternetGatewayId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "egressOnlyInternetGatewayIds", location: .body(locationName: "EgressOnlyInternetGatewayId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10161,7 +10132,7 @@ extension EC2 {
 
     public struct DescribeEgressOnlyInternetGatewaysResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EgressOnlyInternetGateways", location: .body(locationName: "egressOnlyInternetGatewaySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "egressOnlyInternetGateways", location: .body(locationName: "egressOnlyInternetGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the egress-only internet gateways.
@@ -10182,8 +10153,8 @@ extension EC2 {
 
     public struct DescribeElasticGpusRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ElasticGpuIds", location: .body(locationName: "ElasticGpuId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "elasticGpuIds", location: .body(locationName: "ElasticGpuId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10221,7 +10192,7 @@ extension EC2 {
 
     public struct DescribeElasticGpusResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ElasticGpuSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "elasticGpuSet", encoding: .list(member:"item"))
         ]
 
         /// Information about the Elastic Graphics accelerators.
@@ -10246,8 +10217,8 @@ extension EC2 {
 
     public struct DescribeExportImageTasksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportImageTaskIds", location: .body(locationName: "ExportImageTaskId"), encoding: .list(member:"ExportImageTaskId")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "exportImageTaskIds", location: .body(locationName: "ExportImageTaskId"), encoding: .list(member:"ExportImageTaskId")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10285,7 +10256,7 @@ extension EC2 {
 
     public struct DescribeExportImageTasksResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportImageTasks", location: .body(locationName: "exportImageTaskSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "exportImageTasks", location: .body(locationName: "exportImageTaskSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the export image tasks.
@@ -10306,8 +10277,8 @@ extension EC2 {
 
     public struct DescribeExportTasksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportTaskIds", location: .body(locationName: "exportTaskId"), encoding: .list(member:"ExportTaskId")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "exportTaskIds", location: .body(locationName: "exportTaskId"), encoding: .list(member:"ExportTaskId")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The export task IDs.
@@ -10328,7 +10299,7 @@ extension EC2 {
 
     public struct DescribeExportTasksResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportTasks", location: .body(locationName: "exportTaskSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "exportTasks", location: .body(locationName: "exportTaskSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the export tasks.
@@ -10399,7 +10370,7 @@ extension EC2 {
 
     public struct DescribeFastSnapshotRestoresRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10433,7 +10404,7 @@ extension EC2 {
 
     public struct DescribeFastSnapshotRestoresResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FastSnapshotRestores", location: .body(locationName: "fastSnapshotRestoreSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "fastSnapshotRestores", location: .body(locationName: "fastSnapshotRestoreSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the state of fast snapshot restores.
@@ -10514,7 +10485,7 @@ extension EC2 {
 
     public struct DescribeFleetHistoryResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HistoryRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "historyRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the EC Fleet.
@@ -10547,7 +10518,7 @@ extension EC2 {
 
     public struct DescribeFleetInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10580,7 +10551,7 @@ extension EC2 {
 
     public struct DescribeFleetInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ActiveInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "activeInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
         ]
 
         /// The running instances. This list is refreshed periodically and might be out of date.
@@ -10605,7 +10576,7 @@ extension EC2 {
 
     public struct DescribeFleetsInstances: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceIds", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the instances.
@@ -10638,8 +10609,8 @@ extension EC2 {
 
     public struct DescribeFleetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "FleetIds", location: .body(locationName: "FleetId"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "fleetIds", location: .body(locationName: "FleetId"), encoding: .list(member:"member"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10672,7 +10643,7 @@ extension EC2 {
 
     public struct DescribeFleetsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Fleets", location: .body(locationName: "fleetSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "fleets", location: .body(locationName: "fleetSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the EC2 Fleets.
@@ -10693,8 +10664,8 @@ extension EC2 {
 
     public struct DescribeFlowLogsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filter", encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "FlowLogIds", location: .body(locationName: "FlowLogId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "flowLogIds", location: .body(locationName: "FlowLogId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10727,7 +10698,7 @@ extension EC2 {
 
     public struct DescribeFlowLogsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowLogs", location: .body(locationName: "flowLogSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "flowLogs", location: .body(locationName: "flowLogSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the flow logs.
@@ -10784,9 +10755,9 @@ extension EC2 {
 
     public struct DescribeFpgaImagesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "FpgaImageIds", location: .body(locationName: "FpgaImageId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Owners", location: .body(locationName: "Owner"), encoding: .list(member:"Owner"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "fpgaImageIds", location: .body(locationName: "FpgaImageId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "owners", location: .body(locationName: "Owner"), encoding: .list(member:"Owner"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10828,7 +10799,7 @@ extension EC2 {
 
     public struct DescribeFpgaImagesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FpgaImages", location: .body(locationName: "fpgaImageSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "fpgaImages", location: .body(locationName: "fpgaImageSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the FPGA images.
@@ -10849,7 +10820,7 @@ extension EC2 {
 
     public struct DescribeHostReservationOfferingsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filter", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The filters.    instance-family - The instance family of the offering (for example, m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).  
@@ -10891,7 +10862,7 @@ extension EC2 {
 
     public struct DescribeHostReservationOfferingsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OfferingSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "offeringSet", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10912,8 +10883,8 @@ extension EC2 {
 
     public struct DescribeHostReservationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filter", encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "HostReservationIdSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "hostReservationIdSet", location: .body(locationName: "HostReservationIdSet"), encoding: .list(member:"item"))
         ]
 
         /// The filters.    instance-family - The instance family (for example, m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).    state - The state of the reservation (payment-pending | payment-failed | active | retired).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -10942,7 +10913,7 @@ extension EC2 {
 
     public struct DescribeHostReservationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostReservationSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostReservationSet", encoding: .list(member:"item"))
         ]
 
         /// Details about the reservation's configuration.
@@ -10963,8 +10934,8 @@ extension EC2 {
 
     public struct DescribeHostsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filter", encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "HostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filter", encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
         ]
 
         /// The filters.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    availability-zone - The Availability Zone of the host.    client-token - The idempotency token that you provided when you allocated the host.    host-reservation-id - The ID of the reservation assigned to this host.    instance-type - The instance type size that the Dedicated Host is configured to support.    state - The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -10993,7 +10964,7 @@ extension EC2 {
 
     public struct DescribeHostsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Hosts", location: .body(locationName: "hostSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hosts", location: .body(locationName: "hostSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Dedicated Hosts.
@@ -11014,8 +10985,8 @@ extension EC2 {
 
     public struct DescribeIamInstanceProfileAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssociationIds", location: .body(locationName: "AssociationId"), encoding: .list(member:"AssociationId")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "associationIds", location: .body(locationName: "AssociationId"), encoding: .list(member:"AssociationId")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The IAM instance profile associations.
@@ -11049,7 +11020,7 @@ extension EC2 {
 
     public struct DescribeIamInstanceProfileAssociationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IamInstanceProfileAssociations", location: .body(locationName: "iamInstanceProfileAssociationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "iamInstanceProfileAssociations", location: .body(locationName: "iamInstanceProfileAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the IAM instance profile associations.
@@ -11084,7 +11055,7 @@ extension EC2 {
 
     public struct DescribeIdFormatResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the ID format for the resource.
@@ -11119,7 +11090,7 @@ extension EC2 {
 
     public struct DescribeIdentityIdFormatResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the ID format for the resources.
@@ -11158,10 +11129,10 @@ extension EC2 {
 
     public struct DescribeImagesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExecutableUsers", location: .body(locationName: "ExecutableBy"), encoding: .list(member:"ExecutableBy")), 
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ImageIds", location: .body(locationName: "ImageId"), encoding: .list(member:"ImageId")), 
-            AWSMemberEncoding(label: "Owners", location: .body(locationName: "Owner"), encoding: .list(member:"Owner"))
+            AWSMemberEncoding(label: "executableUsers", location: .body(locationName: "ExecutableBy"), encoding: .list(member:"ExecutableBy")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "imageIds", location: .body(locationName: "ImageId"), encoding: .list(member:"ImageId")), 
+            AWSMemberEncoding(label: "owners", location: .body(locationName: "Owner"), encoding: .list(member:"Owner"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11194,7 +11165,7 @@ extension EC2 {
 
     public struct DescribeImagesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Images", location: .body(locationName: "imagesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "images", location: .body(locationName: "imagesSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the images.
@@ -11211,8 +11182,8 @@ extension EC2 {
 
     public struct DescribeImportImageTasksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), encoding: .list(member:"ImportTaskId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "importTaskIds", location: .body(locationName: "ImportTaskId"), encoding: .list(member:"ImportTaskId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11245,7 +11216,7 @@ extension EC2 {
 
     public struct DescribeImportImageTasksResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ImportImageTasks", location: .body(locationName: "importImageTaskSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "importImageTasks", location: .body(locationName: "importImageTaskSet"), encoding: .list(member:"item"))
         ]
 
         /// A list of zero or more import image tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -11266,8 +11237,8 @@ extension EC2 {
 
     public struct DescribeImportSnapshotTasksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), encoding: .list(member:"ImportTaskId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "importTaskIds", location: .body(locationName: "ImportTaskId"), encoding: .list(member:"ImportTaskId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11300,7 +11271,7 @@ extension EC2 {
 
     public struct DescribeImportSnapshotTasksResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ImportSnapshotTasks", location: .body(locationName: "importSnapshotTaskSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "importSnapshotTasks", location: .body(locationName: "importSnapshotTaskSet"), encoding: .list(member:"item"))
         ]
 
         /// A list of zero or more import snapshot tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -11343,8 +11314,8 @@ extension EC2 {
 
     public struct DescribeInstanceCreditSpecificationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11382,7 +11353,7 @@ extension EC2 {
 
     public struct DescribeInstanceCreditSpecificationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceCreditSpecifications", location: .body(locationName: "instanceCreditSpecificationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceCreditSpecifications", location: .body(locationName: "instanceCreditSpecificationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the credit option for CPU usage of an instance.
@@ -11403,8 +11374,8 @@ extension EC2 {
 
     public struct DescribeInstanceStatusRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11441,7 +11412,7 @@ extension EC2 {
 
     public struct DescribeInstanceStatusResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceStatuses", location: .body(locationName: "instanceStatusSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceStatuses", location: .body(locationName: "instanceStatusSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the status of the instances.
@@ -11462,7 +11433,7 @@ extension EC2 {
 
     public struct DescribeInstanceTypeOfferingsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11500,7 +11471,7 @@ extension EC2 {
 
     public struct DescribeInstanceTypeOfferingsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceTypeOfferings", location: .body(locationName: "instanceTypeOfferingSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceTypeOfferings", location: .body(locationName: "instanceTypeOfferingSet"), encoding: .list(member:"item"))
         ]
 
         /// The instance types offered.
@@ -11521,8 +11492,8 @@ extension EC2 {
 
     public struct DescribeInstanceTypesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "InstanceTypes", location: .body(locationName: "InstanceType"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "instanceTypes", location: .body(locationName: "InstanceType"), encoding: .list(member:"member"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11561,7 +11532,7 @@ extension EC2 {
 
     public struct DescribeInstanceTypesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceTypes", location: .body(locationName: "instanceTypeSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceTypes", location: .body(locationName: "instanceTypeSet"), encoding: .list(member:"item"))
         ]
 
         /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
@@ -11582,8 +11553,8 @@ extension EC2 {
 
     public struct DescribeInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11616,7 +11587,7 @@ extension EC2 {
 
     public struct DescribeInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Reservations", location: .body(locationName: "reservationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservations", location: .body(locationName: "reservationSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11637,8 +11608,8 @@ extension EC2 {
 
     public struct DescribeInternetGatewaysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "InternetGatewayIds", location: .body(locationName: "internetGatewayId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "internetGatewayIds", location: .body(locationName: "internetGatewayId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11676,7 +11647,7 @@ extension EC2 {
 
     public struct DescribeInternetGatewaysResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InternetGateways", location: .body(locationName: "internetGatewaySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "internetGateways", location: .body(locationName: "internetGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more internet gateways.
@@ -11697,8 +11668,8 @@ extension EC2 {
 
     public struct DescribeIpv6PoolsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "PoolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "poolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11736,7 +11707,7 @@ extension EC2 {
 
     public struct DescribeIpv6PoolsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Ipv6Pools", location: .body(locationName: "ipv6PoolSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipv6Pools", location: .body(locationName: "ipv6PoolSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the IPv6 address pools.
@@ -11757,9 +11728,9 @@ extension EC2 {
 
     public struct DescribeKeyPairsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "KeyNames", location: .body(locationName: "KeyName"), encoding: .list(member:"KeyName")), 
-            AWSMemberEncoding(label: "KeyPairIds", location: .body(locationName: "KeyPairId"), encoding: .list(member:"KeyPairId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "keyNames", location: .body(locationName: "KeyName"), encoding: .list(member:"KeyName")), 
+            AWSMemberEncoding(label: "keyPairIds", location: .body(locationName: "KeyPairId"), encoding: .list(member:"KeyPairId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11788,7 +11759,7 @@ extension EC2 {
 
     public struct DescribeKeyPairsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "KeyPairs", location: .body(locationName: "keySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "keyPairs", location: .body(locationName: "keySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the key pairs.
@@ -11805,8 +11776,8 @@ extension EC2 {
 
     public struct DescribeLaunchTemplateVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "Versions", location: .body(locationName: "LaunchTemplateVersion"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "versions", location: .body(locationName: "LaunchTemplateVersion"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11861,7 +11832,7 @@ extension EC2 {
 
     public struct DescribeLaunchTemplateVersionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LaunchTemplateVersions", location: .body(locationName: "launchTemplateVersionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "launchTemplateVersions", location: .body(locationName: "launchTemplateVersionSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the launch template versions.
@@ -11882,9 +11853,9 @@ extension EC2 {
 
     public struct DescribeLaunchTemplatesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "LaunchTemplateIds", location: .body(locationName: "LaunchTemplateId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "LaunchTemplateNames", location: .body(locationName: "LaunchTemplateName"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "launchTemplateIds", location: .body(locationName: "LaunchTemplateId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "launchTemplateNames", location: .body(locationName: "LaunchTemplateName"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11931,7 +11902,7 @@ extension EC2 {
 
     public struct DescribeLaunchTemplatesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LaunchTemplates", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "launchTemplates", encoding: .list(member:"item"))
         ]
 
         /// Information about the launch templates.
@@ -11952,8 +11923,8 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "LocalGatewayRouteTableVirtualInterfaceGroupAssociationIds", location: .body(locationName: "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "localGatewayRouteTableVirtualInterfaceGroupAssociationIds", location: .body(locationName: "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11991,7 +11962,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LocalGatewayRouteTableVirtualInterfaceGroupAssociations", location: .body(locationName: "localGatewayRouteTableVirtualInterfaceGroupAssociationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "localGatewayRouteTableVirtualInterfaceGroupAssociations", location: .body(locationName: "localGatewayRouteTableVirtualInterfaceGroupAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the associations.
@@ -12012,8 +11983,8 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "LocalGatewayRouteTableVpcAssociationIds", location: .body(locationName: "LocalGatewayRouteTableVpcAssociationId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "localGatewayRouteTableVpcAssociationIds", location: .body(locationName: "LocalGatewayRouteTableVpcAssociationId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12051,7 +12022,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTableVpcAssociationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LocalGatewayRouteTableVpcAssociations", location: .body(locationName: "localGatewayRouteTableVpcAssociationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "localGatewayRouteTableVpcAssociations", location: .body(locationName: "localGatewayRouteTableVpcAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the associations.
@@ -12072,8 +12043,8 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTablesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "LocalGatewayRouteTableIds", location: .body(locationName: "LocalGatewayRouteTableId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "localGatewayRouteTableIds", location: .body(locationName: "LocalGatewayRouteTableId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12111,7 +12082,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayRouteTablesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LocalGatewayRouteTables", location: .body(locationName: "localGatewayRouteTableSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "localGatewayRouteTables", location: .body(locationName: "localGatewayRouteTableSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the local gateway route tables.
@@ -12132,8 +12103,8 @@ extension EC2 {
 
     public struct DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "LocalGatewayVirtualInterfaceGroupIds", location: .body(locationName: "LocalGatewayVirtualInterfaceGroupId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "localGatewayVirtualInterfaceGroupIds", location: .body(locationName: "LocalGatewayVirtualInterfaceGroupId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12171,7 +12142,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayVirtualInterfaceGroupsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LocalGatewayVirtualInterfaceGroups", location: .body(locationName: "localGatewayVirtualInterfaceGroupSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "localGatewayVirtualInterfaceGroups", location: .body(locationName: "localGatewayVirtualInterfaceGroupSet"), encoding: .list(member:"item"))
         ]
 
         /// The virtual interface groups.
@@ -12192,8 +12163,8 @@ extension EC2 {
 
     public struct DescribeLocalGatewayVirtualInterfacesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "LocalGatewayVirtualInterfaceIds", location: .body(locationName: "LocalGatewayVirtualInterfaceId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "localGatewayVirtualInterfaceIds", location: .body(locationName: "LocalGatewayVirtualInterfaceId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12231,7 +12202,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewayVirtualInterfacesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LocalGatewayVirtualInterfaces", location: .body(locationName: "localGatewayVirtualInterfaceSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "localGatewayVirtualInterfaces", location: .body(locationName: "localGatewayVirtualInterfaceSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the virtual interfaces.
@@ -12252,8 +12223,8 @@ extension EC2 {
 
     public struct DescribeLocalGatewaysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "LocalGatewayIds", location: .body(locationName: "LocalGatewayId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "localGatewayIds", location: .body(locationName: "LocalGatewayId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12291,7 +12262,7 @@ extension EC2 {
 
     public struct DescribeLocalGatewaysResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LocalGateways", location: .body(locationName: "localGatewaySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "localGateways", location: .body(locationName: "localGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the local gateways.
@@ -12312,8 +12283,8 @@ extension EC2 {
 
     public struct DescribeMovingAddressesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "PublicIps", location: .body(locationName: "publicIp"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "publicIps", location: .body(locationName: "publicIp"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12351,7 +12322,7 @@ extension EC2 {
 
     public struct DescribeMovingAddressesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MovingAddressStatuses", location: .body(locationName: "movingAddressStatusSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "movingAddressStatuses", location: .body(locationName: "movingAddressStatusSet"), encoding: .list(member:"item"))
         ]
 
         /// The status for each Elastic IP address.
@@ -12372,8 +12343,8 @@ extension EC2 {
 
     public struct DescribeNatGatewaysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filter", encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "NatGatewayIds", location: .body(locationName: "NatGatewayId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "natGatewayIds", location: .body(locationName: "NatGatewayId"), encoding: .list(member:"item"))
         ]
 
         /// One or more filters.    nat-gateway-id - The ID of the NAT gateway.    state - The state of the NAT gateway (pending | failed | available | deleting | deleted).    subnet-id - The ID of the subnet in which the NAT gateway resides.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the NAT gateway resides.  
@@ -12407,7 +12378,7 @@ extension EC2 {
 
     public struct DescribeNatGatewaysResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NatGateways", location: .body(locationName: "natGatewaySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "natGateways", location: .body(locationName: "natGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the NAT gateways.
@@ -12428,8 +12399,8 @@ extension EC2 {
 
     public struct DescribeNetworkAclsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "NetworkAclIds", location: .body(locationName: "NetworkAclId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "networkAclIds", location: .body(locationName: "NetworkAclId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12467,7 +12438,7 @@ extension EC2 {
 
     public struct DescribeNetworkAclsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkAcls", location: .body(locationName: "networkAclSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkAcls", location: .body(locationName: "networkAclSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more network ACLs.
@@ -12510,7 +12481,7 @@ extension EC2 {
 
     public struct DescribeNetworkInterfaceAttributeResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
         ]
 
         /// The attachment (if any) of the network interface.
@@ -12543,8 +12514,8 @@ extension EC2 {
 
     public struct DescribeNetworkInterfacePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "NetworkInterfacePermissionIds", location: .body(locationName: "NetworkInterfacePermissionId"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "networkInterfacePermissionIds", location: .body(locationName: "NetworkInterfacePermissionId"), encoding: .list(member:"member"))
         ]
 
         /// One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the permission.    network-interface-permission.network-interface-id - The ID of the network interface.    network-interface-permission.aws-account-id - The AWS account ID.    network-interface-permission.aws-service - The AWS service.    network-interface-permission.permission - The type of permission (INSTANCE-ATTACH | EIP-ASSOCIATE).  
@@ -12578,7 +12549,7 @@ extension EC2 {
 
     public struct DescribeNetworkInterfacePermissionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkInterfacePermissions", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkInterfacePermissions", encoding: .list(member:"item"))
         ]
 
         /// The network interface permissions.
@@ -12599,8 +12570,8 @@ extension EC2 {
 
     public struct DescribeNetworkInterfacesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "NetworkInterfaceIds", location: .body(locationName: "NetworkInterfaceId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12638,7 +12609,7 @@ extension EC2 {
 
     public struct DescribeNetworkInterfacesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more network interfaces.
@@ -12659,9 +12630,9 @@ extension EC2 {
 
     public struct DescribePlacementGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "GroupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"GroupId")), 
-            AWSMemberEncoding(label: "GroupNames", location: .body(locationName: "groupName"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "groupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"GroupId")), 
+            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "groupName"), encoding: .list(member:"member"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12690,7 +12661,7 @@ extension EC2 {
 
     public struct DescribePlacementGroupsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PlacementGroups", location: .body(locationName: "placementGroupSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "placementGroups", location: .body(locationName: "placementGroupSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the placement groups.
@@ -12707,8 +12678,8 @@ extension EC2 {
 
     public struct DescribePrefixListsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "PrefixListIds", location: .body(locationName: "PrefixListId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "prefixListIds", location: .body(locationName: "PrefixListId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12741,7 +12712,7 @@ extension EC2 {
 
     public struct DescribePrefixListsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PrefixLists", location: .body(locationName: "prefixListSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "prefixLists", location: .body(locationName: "prefixListSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12762,7 +12733,7 @@ extension EC2 {
 
     public struct DescribePrincipalIdFormatRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resources", location: .body(locationName: "Resource"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "resources", location: .body(locationName: "Resource"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12796,7 +12767,7 @@ extension EC2 {
 
     public struct DescribePrincipalIdFormatResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Principals", location: .body(locationName: "principalSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "principals", location: .body(locationName: "principalSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12817,7 +12788,7 @@ extension EC2 {
 
     public struct DescribePublicIpv4PoolsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PoolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "poolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -12847,7 +12818,7 @@ extension EC2 {
 
     public struct DescribePublicIpv4PoolsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PublicIpv4Pools", location: .body(locationName: "publicIpv4PoolSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "publicIpv4Pools", location: .body(locationName: "publicIpv4PoolSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12868,8 +12839,8 @@ extension EC2 {
 
     public struct DescribeRegionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "RegionNames", location: .body(locationName: "RegionName"), encoding: .list(member:"RegionName"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "regionNames", location: .body(locationName: "RegionName"), encoding: .list(member:"RegionName"))
         ]
 
         /// Indicates whether to display all Regions, including Regions that are disabled for your account.
@@ -12898,7 +12869,7 @@ extension EC2 {
 
     public struct DescribeRegionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Regions", location: .body(locationName: "regionInfo"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "regions", location: .body(locationName: "regionInfo"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Regions.
@@ -12915,7 +12886,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesListingsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// One or more filters.    reserved-instances-id - The ID of the Reserved Instances.    reserved-instances-listing-id - The ID of the Reserved Instances listing.    status - The status of the Reserved Instance listing (pending | active | cancelled | closed).    status-message - The reason for the status.  
@@ -12940,7 +12911,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesListingsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Reserved Instance listing.
@@ -12957,8 +12928,8 @@ extension EC2 {
 
     public struct DescribeReservedInstancesModificationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ReservedInstancesModificationIds", location: .body(locationName: "ReservedInstancesModificationId"), encoding: .list(member:"ReservedInstancesModificationId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "reservedInstancesModificationIds", location: .body(locationName: "ReservedInstancesModificationId"), encoding: .list(member:"ReservedInstancesModificationId"))
         ]
 
         /// One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    modification-result.target-configuration.platform - The network platform of the new Reserved Instances (EC2-Classic | EC2-VPC).    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.  
@@ -12983,7 +12954,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesModificationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstancesModifications", location: .body(locationName: "reservedInstancesModificationsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstancesModifications", location: .body(locationName: "reservedInstancesModificationsSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13004,8 +12975,8 @@ extension EC2 {
 
     public struct DescribeReservedInstancesOfferingsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ReservedInstancesOfferingIds", location: .body(locationName: "ReservedInstancesOfferingId"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "reservedInstancesOfferingIds", location: .body(locationName: "ReservedInstancesOfferingId"), encoding: .list(member:"member"))
         ]
 
         /// The Availability Zone in which the Reserved Instance can be used.
@@ -13078,7 +13049,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesOfferingsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstancesOfferings", location: .body(locationName: "reservedInstancesOfferingsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstancesOfferings", location: .body(locationName: "reservedInstancesOfferingsSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13099,8 +13070,8 @@ extension EC2 {
 
     public struct DescribeReservedInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13133,7 +13104,7 @@ extension EC2 {
 
     public struct DescribeReservedInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstances", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstances", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item"))
         ]
 
         /// A list of Reserved Instances.
@@ -13150,8 +13121,8 @@ extension EC2 {
 
     public struct DescribeRouteTablesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "RouteTableIds", location: .body(locationName: "RouteTableId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "routeTableIds", location: .body(locationName: "RouteTableId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13189,7 +13160,7 @@ extension EC2 {
 
     public struct DescribeRouteTablesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RouteTables", location: .body(locationName: "routeTableSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "routeTables", location: .body(locationName: "routeTableSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13210,7 +13181,7 @@ extension EC2 {
 
     public struct DescribeScheduledInstanceAvailabilityRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13260,7 +13231,7 @@ extension EC2 {
 
     public struct DescribeScheduledInstanceAvailabilityResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ScheduledInstanceAvailabilitySet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "scheduledInstanceAvailabilitySet", encoding: .list(member:"item"))
         ]
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -13281,8 +13252,8 @@ extension EC2 {
 
     public struct DescribeScheduledInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ScheduledInstanceIds", location: .body(locationName: "ScheduledInstanceId"), encoding: .list(member:"ScheduledInstanceId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "scheduledInstanceIds", location: .body(locationName: "ScheduledInstanceId"), encoding: .list(member:"ScheduledInstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13319,7 +13290,7 @@ extension EC2 {
 
     public struct DescribeScheduledInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ScheduledInstanceSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "scheduledInstanceSet", encoding: .list(member:"item"))
         ]
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -13340,7 +13311,7 @@ extension EC2 {
 
     public struct DescribeSecurityGroupReferencesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GroupId", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groupId", location: .body(locationName: "GroupId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13361,7 +13332,7 @@ extension EC2 {
 
     public struct DescribeSecurityGroupReferencesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SecurityGroupReferenceSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "securityGroupReferenceSet", encoding: .list(member:"item"))
         ]
 
         /// Information about the VPCs with the referencing security groups.
@@ -13378,9 +13349,9 @@ extension EC2 {
 
     public struct DescribeSecurityGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "GroupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId")), 
-            AWSMemberEncoding(label: "GroupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"GroupName"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "groupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId")), 
+            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"GroupName"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13422,7 +13393,7 @@ extension EC2 {
 
     public struct DescribeSecurityGroupsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "securityGroupInfo"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "securityGroupInfo"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13465,8 +13436,8 @@ extension EC2 {
 
     public struct DescribeSnapshotAttributeResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CreateVolumePermissions", location: .body(locationName: "createVolumePermission"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "createVolumePermissions", location: .body(locationName: "createVolumePermission"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item"))
         ]
 
         /// The users and groups that have the permissions for creating volumes from the snapshot.
@@ -13491,10 +13462,10 @@ extension EC2 {
 
     public struct DescribeSnapshotsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "OwnerIds", location: .body(locationName: "Owner"), encoding: .list(member:"Owner")), 
-            AWSMemberEncoding(label: "RestorableByUserIds", location: .body(locationName: "RestorableBy"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "SnapshotIds", location: .body(locationName: "SnapshotId"), encoding: .list(member:"SnapshotId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "ownerIds", location: .body(locationName: "Owner"), encoding: .list(member:"Owner")), 
+            AWSMemberEncoding(label: "restorableByUserIds", location: .body(locationName: "RestorableBy"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "snapshotIds", location: .body(locationName: "SnapshotId"), encoding: .list(member:"SnapshotId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13535,7 +13506,7 @@ extension EC2 {
 
     public struct DescribeSnapshotsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Snapshots", location: .body(locationName: "snapshotSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "snapshots", location: .body(locationName: "snapshotSet"), encoding: .list(member:"item"))
         ]
 
         /// The NextToken value to include in a future DescribeSnapshots request. When the results of a DescribeSnapshots request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13615,7 +13586,7 @@ extension EC2 {
 
     public struct DescribeSpotFleetInstancesResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ActiveInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "activeInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
         ]
 
         /// The running instances. This list is refreshed periodically and might be out of date.
@@ -13679,7 +13650,7 @@ extension EC2 {
 
     public struct DescribeSpotFleetRequestHistoryResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HistoryRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "historyRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the events in the history of the Spot Fleet request.
@@ -13712,7 +13683,7 @@ extension EC2 {
 
     public struct DescribeSpotFleetRequestsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "spotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13741,7 +13712,7 @@ extension EC2 {
 
     public struct DescribeSpotFleetRequestsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SpotFleetRequestConfigs", location: .body(locationName: "spotFleetRequestConfigSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "spotFleetRequestConfigs", location: .body(locationName: "spotFleetRequestConfigSet"), encoding: .list(member:"item"))
         ]
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -13762,8 +13733,8 @@ extension EC2 {
 
     public struct DescribeSpotInstanceRequestsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "SpotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "spotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13796,7 +13767,7 @@ extension EC2 {
 
     public struct DescribeSpotInstanceRequestsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "spotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next set of results. This value is null when there are no more results to return.
@@ -13817,9 +13788,9 @@ extension EC2 {
 
     public struct DescribeSpotPriceHistoryRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "InstanceTypes", location: .body(locationName: "InstanceType"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ProductDescriptions", location: .body(locationName: "ProductDescription"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "instanceTypes", location: .body(locationName: "InstanceType"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "productDescriptions", location: .body(locationName: "ProductDescription"), encoding: .list(member:"member"))
         ]
 
         /// Filters the results by the specified Availability Zone.
@@ -13868,7 +13839,7 @@ extension EC2 {
 
     public struct DescribeSpotPriceHistoryResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SpotPriceHistory", location: .body(locationName: "spotPriceHistorySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "spotPriceHistory", location: .body(locationName: "spotPriceHistorySet"), encoding: .list(member:"item"))
         ]
 
         /// The token required to retrieve the next set of results. This value is null or an empty string when there are no more results to return.
@@ -13922,7 +13893,7 @@ extension EC2 {
 
     public struct DescribeStaleSecurityGroupsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "StaleSecurityGroupSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "staleSecurityGroupSet", encoding: .list(member:"item"))
         ]
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -13943,8 +13914,8 @@ extension EC2 {
 
     public struct DescribeSubnetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "SubnetIds", location: .body(locationName: "SubnetId"), encoding: .list(member:"SubnetId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetId"), encoding: .list(member:"SubnetId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13982,7 +13953,7 @@ extension EC2 {
 
     public struct DescribeSubnetsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Subnets", location: .body(locationName: "subnetSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "subnets", location: .body(locationName: "subnetSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14003,7 +13974,7 @@ extension EC2 {
 
     public struct DescribeTagsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14032,7 +14003,7 @@ extension EC2 {
 
     public struct DescribeTagsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14053,8 +14024,8 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorFiltersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TrafficMirrorFilterIds", location: .body(locationName: "TrafficMirrorFilterId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "trafficMirrorFilterIds", location: .body(locationName: "TrafficMirrorFilterId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14092,7 +14063,7 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorFiltersResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TrafficMirrorFilters", location: .body(locationName: "trafficMirrorFilterSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "trafficMirrorFilters", location: .body(locationName: "trafficMirrorFilterSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -14113,8 +14084,8 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorSessionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TrafficMirrorSessionIds", location: .body(locationName: "TrafficMirrorSessionId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "trafficMirrorSessionIds", location: .body(locationName: "TrafficMirrorSessionId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14152,7 +14123,7 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorSessionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TrafficMirrorSessions", location: .body(locationName: "trafficMirrorSessionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "trafficMirrorSessions", location: .body(locationName: "trafficMirrorSessionSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -14173,8 +14144,8 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorTargetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TrafficMirrorTargetIds", location: .body(locationName: "TrafficMirrorTargetId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "trafficMirrorTargetIds", location: .body(locationName: "TrafficMirrorTargetId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14212,7 +14183,7 @@ extension EC2 {
 
     public struct DescribeTrafficMirrorTargetsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TrafficMirrorTargets", location: .body(locationName: "trafficMirrorTargetSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "trafficMirrorTargets", location: .body(locationName: "trafficMirrorTargetSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -14233,8 +14204,8 @@ extension EC2 {
 
     public struct DescribeTransitGatewayAttachmentsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TransitGatewayAttachmentIds", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "transitGatewayAttachmentIds", location: .body(locationName: "TransitGatewayAttachmentIds"), encoding: .list(member:"member"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14272,7 +14243,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayAttachmentsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayAttachments", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGatewayAttachments", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14293,8 +14264,8 @@ extension EC2 {
 
     public struct DescribeTransitGatewayMulticastDomainsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TransitGatewayMulticastDomainIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "transitGatewayMulticastDomainIds", location: .body(locationName: "TransitGatewayMulticastDomainIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14332,7 +14303,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayMulticastDomainsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayMulticastDomains", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGatewayMulticastDomains", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14353,8 +14324,8 @@ extension EC2 {
 
     public struct DescribeTransitGatewayPeeringAttachmentsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TransitGatewayAttachmentIds", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "transitGatewayAttachmentIds", location: .body(locationName: "TransitGatewayAttachmentIds"), encoding: .list(member:"member"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14392,7 +14363,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayPeeringAttachmentsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayPeeringAttachments", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGatewayPeeringAttachments", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14413,8 +14384,8 @@ extension EC2 {
 
     public struct DescribeTransitGatewayRouteTablesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TransitGatewayRouteTableIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "transitGatewayRouteTableIds", location: .body(locationName: "TransitGatewayRouteTableIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14452,7 +14423,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayRouteTablesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayRouteTables", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGatewayRouteTables", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14473,8 +14444,8 @@ extension EC2 {
 
     public struct DescribeTransitGatewayVpcAttachmentsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TransitGatewayAttachmentIds", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "transitGatewayAttachmentIds", location: .body(locationName: "TransitGatewayAttachmentIds"), encoding: .list(member:"member"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14512,7 +14483,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewayVpcAttachmentsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayVpcAttachments", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGatewayVpcAttachments", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14533,8 +14504,8 @@ extension EC2 {
 
     public struct DescribeTransitGatewaysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "TransitGatewayIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "transitGatewayIds", location: .body(locationName: "TransitGatewayIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14572,7 +14543,7 @@ extension EC2 {
 
     public struct DescribeTransitGatewaysResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGateways", location: .body(locationName: "transitGatewaySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGateways", location: .body(locationName: "transitGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14615,7 +14586,7 @@ extension EC2 {
 
     public struct DescribeVolumeAttributeResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item"))
         ]
 
         /// The state of autoEnableIO attribute.
@@ -14640,8 +14611,8 @@ extension EC2 {
 
     public struct DescribeVolumeStatusRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VolumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "volumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14674,7 +14645,7 @@ extension EC2 {
 
     public struct DescribeVolumeStatusResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VolumeStatuses", location: .body(locationName: "volumeStatusSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "volumeStatuses", location: .body(locationName: "volumeStatusSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14695,8 +14666,8 @@ extension EC2 {
 
     public struct DescribeVolumesModificationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VolumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "volumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14729,7 +14700,7 @@ extension EC2 {
 
     public struct DescribeVolumesModificationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VolumesModifications", location: .body(locationName: "volumeModificationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "volumesModifications", location: .body(locationName: "volumeModificationSet"), encoding: .list(member:"item"))
         ]
 
         /// Token for pagination, null if there are no more results 
@@ -14750,8 +14721,8 @@ extension EC2 {
 
     public struct DescribeVolumesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VolumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "volumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14784,7 +14755,7 @@ extension EC2 {
 
     public struct DescribeVolumesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Volumes", location: .body(locationName: "volumeSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "volumes", location: .body(locationName: "volumeSet"), encoding: .list(member:"item"))
         ]
 
         /// The NextToken value to include in a future DescribeVolumes request. When the results of a DescribeVolumes request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14849,7 +14820,7 @@ extension EC2 {
 
     public struct DescribeVpcClassicLinkDnsSupportRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcIds", encoding: .list(member:"VpcId"))
+            AWSMemberEncoding(label: "vpcIds", location: .body(locationName: "VpcIds"), encoding: .list(member:"VpcId"))
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -14881,7 +14852,7 @@ extension EC2 {
 
     public struct DescribeVpcClassicLinkDnsSupportResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Vpcs", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcs", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14902,8 +14873,8 @@ extension EC2 {
 
     public struct DescribeVpcClassicLinkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "vpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14928,7 +14899,7 @@ extension EC2 {
 
     public struct DescribeVpcClassicLinkResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Vpcs", location: .body(locationName: "vpcSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcs", location: .body(locationName: "vpcSet"), encoding: .list(member:"item"))
         ]
 
         /// The ClassicLink status of one or more VPCs.
@@ -14945,7 +14916,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointConnectionNotificationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the notification.
@@ -14978,7 +14949,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointConnectionNotificationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionNotificationSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "connectionNotificationSet", encoding: .list(member:"item"))
         ]
 
         /// One or more notifications.
@@ -14999,7 +14970,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointConnectionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15028,7 +14999,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointConnectionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcEndpointConnections", location: .body(locationName: "vpcEndpointConnectionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcEndpointConnections", location: .body(locationName: "vpcEndpointConnectionSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15049,8 +15020,8 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServiceConfigurationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ServiceIds", location: .body(locationName: "ServiceId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "serviceIds", location: .body(locationName: "ServiceId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15083,7 +15054,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServiceConfigurationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ServiceConfigurations", location: .body(locationName: "serviceConfigurationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "serviceConfigurations", location: .body(locationName: "serviceConfigurationSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15104,7 +15075,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServicePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15137,7 +15108,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServicePermissionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AllowedPrincipals", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "allowedPrincipals", encoding: .list(member:"item"))
         ]
 
         /// Information about one or more allowed principals.
@@ -15158,8 +15129,8 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServicesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ServiceNames", location: .body(locationName: "ServiceName"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "serviceNames", location: .body(locationName: "ServiceName"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15192,8 +15163,8 @@ extension EC2 {
 
     public struct DescribeVpcEndpointServicesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ServiceDetails", location: .body(locationName: "serviceDetailSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ServiceNames", location: .body(locationName: "serviceNameSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "serviceDetails", location: .body(locationName: "serviceDetailSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "serviceNames", location: .body(locationName: "serviceNameSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -15218,8 +15189,8 @@ extension EC2 {
 
     public struct DescribeVpcEndpointsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15252,7 +15223,7 @@ extension EC2 {
 
     public struct DescribeVpcEndpointsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcEndpoints", location: .body(locationName: "vpcEndpointSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcEndpoints", location: .body(locationName: "vpcEndpointSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -15273,8 +15244,8 @@ extension EC2 {
 
     public struct DescribeVpcPeeringConnectionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VpcPeeringConnectionIds", location: .body(locationName: "VpcPeeringConnectionId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "vpcPeeringConnectionIds", location: .body(locationName: "VpcPeeringConnectionId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15312,7 +15283,7 @@ extension EC2 {
 
     public struct DescribeVpcPeeringConnectionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcPeeringConnections", location: .body(locationName: "vpcPeeringConnectionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcPeeringConnections", location: .body(locationName: "vpcPeeringConnectionSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15333,8 +15304,8 @@ extension EC2 {
 
     public struct DescribeVpcsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "vpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15372,7 +15343,7 @@ extension EC2 {
 
     public struct DescribeVpcsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Vpcs", location: .body(locationName: "vpcSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcs", location: .body(locationName: "vpcSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15393,8 +15364,8 @@ extension EC2 {
 
     public struct DescribeVpnConnectionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VpnConnectionIds", location: .body(locationName: "VpnConnectionId"), encoding: .list(member:"VpnConnectionId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "vpnConnectionIds", location: .body(locationName: "VpnConnectionId"), encoding: .list(member:"VpnConnectionId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15419,7 +15390,7 @@ extension EC2 {
 
     public struct DescribeVpnConnectionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpnConnections", location: .body(locationName: "vpnConnectionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpnConnections", location: .body(locationName: "vpnConnectionSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more VPN connections.
@@ -15436,8 +15407,8 @@ extension EC2 {
 
     public struct DescribeVpnGatewaysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "VpnGatewayIds", location: .body(locationName: "VpnGatewayId"), encoding: .list(member:"VpnGatewayId"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
+            AWSMemberEncoding(label: "vpnGatewayIds", location: .body(locationName: "VpnGatewayId"), encoding: .list(member:"VpnGatewayId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15462,7 +15433,7 @@ extension EC2 {
 
     public struct DescribeVpnGatewaysResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpnGateways", location: .body(locationName: "vpnGatewaySet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpnGateways", location: .body(locationName: "vpnGatewaySet"), encoding: .list(member:"item"))
         ]
 
         /// Information about one or more virtual private gateways.
@@ -15500,9 +15471,6 @@ extension EC2 {
     }
 
     public struct DetachClassicLinkVpcResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -15614,7 +15582,7 @@ extension EC2 {
 
     public struct DhcpConfiguration: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Values", location: .body(locationName: "valueSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "values", location: .body(locationName: "valueSet"), encoding: .list(member:"item"))
         ]
 
         /// The name of a DHCP option.
@@ -15635,8 +15603,8 @@ extension EC2 {
 
     public struct DhcpOptions: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DhcpConfigurations", location: .body(locationName: "dhcpConfigurationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "dhcpConfigurations", location: .body(locationName: "dhcpConfigurationSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// One or more DHCP options in the set.
@@ -15721,7 +15689,7 @@ extension EC2 {
 
     public struct DisableFastSnapshotRestoreErrorItem: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "fastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
         ]
 
         /// The errors.
@@ -15832,8 +15800,8 @@ extension EC2 {
 
     public struct DisableFastSnapshotRestoresRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", location: .body(locationName: "AvailabilityZone"), encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "SourceSnapshotIds", location: .body(locationName: "SourceSnapshotId"), encoding: .list(member:"SnapshotId"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZone"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "sourceSnapshotIds", location: .body(locationName: "SourceSnapshotId"), encoding: .list(member:"SnapshotId"))
         ]
 
         /// One or more Availability Zones. For example, us-east-2a.
@@ -15858,8 +15826,8 @@ extension EC2 {
 
     public struct DisableFastSnapshotRestoresResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the snapshots for which fast snapshot restores were successfully disabled.
@@ -15947,9 +15915,6 @@ extension EC2 {
     }
 
     public struct DisableVpcClassicLinkDnsSupportResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -15982,9 +15947,6 @@ extension EC2 {
     }
 
     public struct DisableVpcClassicLinkResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -16140,7 +16102,7 @@ extension EC2 {
 
     public struct DisassociateTransitGatewayMulticastDomainRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16342,9 +16304,6 @@ extension EC2 {
     }
 
     public struct DiskInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// The number of disks with this configuration.
         public let count: Int?
@@ -16386,7 +16345,7 @@ extension EC2 {
 
     public struct DnsServersOptionsModifyStructure: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CustomDnsServers", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "customDnsServers", location: .body(locationName: "CustomDnsServers"), encoding: .list(member:"item"))
         ]
 
         /// The IPv4 address range, in CIDR notation, of the DNS servers to be used. You can specify up to two DNS servers. Ensure that the DNS servers can be reached by the clients. The specified values overwrite the existing values.
@@ -16507,8 +16466,8 @@ extension EC2 {
 
     public struct EgressOnlyInternetGateway: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the attachment of the egress-only internet gateway.
@@ -16586,9 +16545,6 @@ extension EC2 {
     }
 
     public struct ElasticGpuSpecificationResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// The elastic GPU type.
         public let `type`: String?
@@ -16604,7 +16560,7 @@ extension EC2 {
 
     public struct ElasticGpus: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in the which the Elastic Graphics accelerator resides.
@@ -16721,7 +16677,7 @@ extension EC2 {
 
     public struct EnableFastSnapshotRestoreErrorItem: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "fastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
         ]
 
         /// The errors.
@@ -16832,8 +16788,8 @@ extension EC2 {
 
     public struct EnableFastSnapshotRestoresRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", location: .body(locationName: "AvailabilityZone"), encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "SourceSnapshotIds", location: .body(locationName: "SourceSnapshotId"), encoding: .list(member:"SnapshotId"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZone"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "sourceSnapshotIds", location: .body(locationName: "SourceSnapshotId"), encoding: .list(member:"SnapshotId"))
         ]
 
         /// One or more Availability Zones. For example, us-east-2a.
@@ -16858,8 +16814,8 @@ extension EC2 {
 
     public struct EnableFastSnapshotRestoresResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the snapshots for which fast snapshot restores were successfully enabled.
@@ -16965,9 +16921,6 @@ extension EC2 {
     }
 
     public struct EnableVpcClassicLinkDnsSupportResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -17000,9 +16953,6 @@ extension EC2 {
     }
 
     public struct EnableVpcClassicLinkResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -17230,9 +17180,9 @@ extension EC2 {
 
     public struct ExportTask: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportToS3Task", location: .body(locationName: "exportToS3")), 
-            AWSMemberEncoding(label: "InstanceExportDetails", location: .body(locationName: "instanceExport")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "exportToS3Task", location: .body(locationName: "exportToS3")), 
+            AWSMemberEncoding(label: "instanceExportDetails", location: .body(locationName: "instanceExport")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A description of the resource being exported.
@@ -17361,7 +17311,7 @@ extension EC2 {
 
     public struct ExportTransitGatewayRoutesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17422,7 +17372,7 @@ extension EC2 {
 
     public struct Filter: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
         ]
 
         /// The name of the filter. Filter names are case-sensitive.
@@ -17443,11 +17393,10 @@ extension EC2 {
 
     public struct FleetData: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "LaunchTemplateConfigs", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
+            AWSMemberEncoding(label: "errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "launchTemplateConfigs", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The progress of the EC2 Fleet. If there is an error, the status is error. After all requests are placed, the status is pending_fulfillment. If the size of the EC2 Fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the EC2 Fleet is decreased, the status is pending_termination while instances are terminating.
@@ -17540,7 +17489,7 @@ extension EC2 {
 
     public struct FleetLaunchTemplateConfig: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Overrides", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "overrides", encoding: .list(member:"item"))
         ]
 
         /// The launch template.
@@ -17561,7 +17510,7 @@ extension EC2 {
 
     public struct FleetLaunchTemplateConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Overrides", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "overrides", location: .body(locationName: "Overrides"), encoding: .list(member:"item"))
         ]
 
         /// The launch template to use. You must specify either the launch template ID or launch template name in the request. 
@@ -17817,9 +17766,8 @@ extension EC2 {
 
     public struct FpgaImage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Public", location: .body(locationName: "public")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", encoding: .list(member:"item"))
         ]
 
         /// The date and time the AFI was created.
@@ -17892,8 +17840,8 @@ extension EC2 {
 
     public struct FpgaImageAttribute: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LoadPermissions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "loadPermissions", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item"))
         ]
 
         /// The description of the AFI.
@@ -17944,7 +17892,7 @@ extension EC2 {
 
     public struct FpgaInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Fpgas", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "fpgas", encoding: .list(member:"item"))
         ]
 
         /// Describes the FPGAs for the instance type.
@@ -17996,7 +17944,7 @@ extension EC2 {
 
     public struct GetAssociatedIpv6PoolCidrsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Ipv6CidrAssociations", location: .body(locationName: "ipv6CidrAssociationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipv6CidrAssociations", location: .body(locationName: "ipv6CidrAssociationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the IPv6 CIDR block associations.
@@ -18048,7 +17996,7 @@ extension EC2 {
 
     public struct GetCapacityReservationUsageResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceUsages", location: .body(locationName: "instanceUsageSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceUsages", location: .body(locationName: "instanceUsageSet"), encoding: .list(member:"item"))
         ]
 
         /// The remaining capacity. Indicates the number of instances that can be launched in the Capacity Reservation.
@@ -18089,7 +18037,7 @@ extension EC2 {
 
     public struct GetCoipPoolUsageRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18127,7 +18075,7 @@ extension EC2 {
 
     public struct GetCoipPoolUsageResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CoipAddressUsages", location: .body(locationName: "coipAddressUsageSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "coipAddressUsages", location: .body(locationName: "coipAddressUsageSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the address usage.
@@ -18324,7 +18272,7 @@ extension EC2 {
 
     public struct GetHostReservationPurchasePreviewRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostIdSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostIdSet", location: .body(locationName: "HostIdSet"), encoding: .list(member:"item"))
         ]
 
         /// The IDs of the Dedicated Hosts with which the reservation is associated.
@@ -18345,7 +18293,7 @@ extension EC2 {
 
     public struct GetHostReservationPurchasePreviewResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Purchase", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "purchase", encoding: .list(member:"item"))
         ]
 
         /// The currency in which the totalUpfrontPrice and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -18446,8 +18394,8 @@ extension EC2 {
 
     public struct GetReservedInstancesExchangeQuoteRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), encoding: .list(member:"ReservedInstanceId")), 
-            AWSMemberEncoding(label: "TargetConfigurations", location: .body(locationName: "TargetConfiguration"), encoding: .list(member:"TargetConfigurationRequest"))
+            AWSMemberEncoding(label: "reservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), encoding: .list(member:"ReservedInstanceId")), 
+            AWSMemberEncoding(label: "targetConfigurations", location: .body(locationName: "TargetConfiguration"), encoding: .list(member:"TargetConfigurationRequest"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18472,8 +18420,8 @@ extension EC2 {
 
     public struct GetReservedInstancesExchangeQuoteResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstanceValueSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "TargetConfigurationValueSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstanceValueSet", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "targetConfigurationValueSet", encoding: .list(member:"item"))
         ]
 
         /// The currency of the transaction.
@@ -18522,7 +18470,7 @@ extension EC2 {
 
     public struct GetTransitGatewayAttachmentPropagationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18560,7 +18508,7 @@ extension EC2 {
 
     public struct GetTransitGatewayAttachmentPropagationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayAttachmentPropagations", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGatewayAttachmentPropagations", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -18581,7 +18529,7 @@ extension EC2 {
 
     public struct GetTransitGatewayMulticastDomainAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18619,7 +18567,7 @@ extension EC2 {
 
     public struct GetTransitGatewayMulticastDomainAssociationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MulticastDomainAssociations", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "multicastDomainAssociations", encoding: .list(member:"item"))
         ]
 
         /// Information about the multicast domain associations.
@@ -18640,7 +18588,7 @@ extension EC2 {
 
     public struct GetTransitGatewayRouteTableAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18678,7 +18626,7 @@ extension EC2 {
 
     public struct GetTransitGatewayRouteTableAssociationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Associations", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "associations", encoding: .list(member:"item"))
         ]
 
         /// Information about the associations.
@@ -18699,7 +18647,7 @@ extension EC2 {
 
     public struct GetTransitGatewayRouteTablePropagationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18737,7 +18685,7 @@ extension EC2 {
 
     public struct GetTransitGatewayRouteTablePropagationsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayRouteTablePropagations", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "transitGatewayRouteTablePropagations", encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -18798,7 +18746,7 @@ extension EC2 {
 
     public struct GpuInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Gpus", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "gpus", encoding: .list(member:"item"))
         ]
 
         /// Describes the GPU accelerators for the instance type.
@@ -18909,8 +18857,8 @@ extension EC2 {
 
     public struct Host: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Instances", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instances", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The time that the Dedicated Host was allocated.
@@ -19081,8 +19029,8 @@ extension EC2 {
 
     public struct HostReservation: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostIdSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostIdSet", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The number of Dedicated Hosts the reservation is associated with.
@@ -19244,9 +19192,6 @@ extension EC2 {
     }
 
     public struct IcmpTypeCode: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// The ICMP code. A value of -1 means all codes for the specified ICMP type.
         public let code: Int?
@@ -19288,12 +19233,12 @@ extension EC2 {
 
     public struct Image: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "OwnerId", location: .body(locationName: "imageOwnerId")), 
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Public", location: .body(locationName: "isPublic")), 
-            AWSMemberEncoding(label: "State", location: .body(locationName: "imageState")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ownerId", location: .body(locationName: "imageOwnerId")), 
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "public", location: .body(locationName: "isPublic")), 
+            AWSMemberEncoding(label: "state", location: .body(locationName: "imageState")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The architecture of the image.
@@ -19402,11 +19347,11 @@ extension EC2 {
 
     public struct ImageAttribute: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "KernelId", location: .body(locationName: "kernel")), 
-            AWSMemberEncoding(label: "LaunchPermissions", location: .body(locationName: "launchPermission"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RamdiskId", location: .body(locationName: "ramdisk"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "kernelId", location: .body(locationName: "kernel")), 
+            AWSMemberEncoding(label: "launchPermissions", location: .body(locationName: "launchPermission"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ramdiskId", location: .body(locationName: "ramdisk"))
         ]
 
         /// The block device mapping entries.
@@ -19506,9 +19451,6 @@ extension EC2 {
     }
 
     public struct ImportClientVpnClientCertificateRevocationListResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -19552,8 +19494,8 @@ extension EC2 {
 
     public struct ImportImageRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DiskContainers", location: .body(locationName: "DiskContainer"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "LicenseSpecifications", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "diskContainers", location: .body(locationName: "DiskContainer"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "LicenseSpecifications"), encoding: .list(member:"item"))
         ]
 
         /// The architecture of the virtual machine. Valid values: i386 | x86_64 | arm64 
@@ -19618,8 +19560,8 @@ extension EC2 {
 
     public struct ImportImageResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LicenseSpecifications", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SnapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "licenseSpecifications", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "snapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item"))
         ]
 
         /// The architecture of the virtual machine.
@@ -19688,9 +19630,9 @@ extension EC2 {
 
     public struct ImportImageTask: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LicenseSpecifications", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SnapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "licenseSpecifications", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "snapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The architecture of the virtual machine. Valid values: i386 | x86_64 | arm64 
@@ -19763,8 +19705,8 @@ extension EC2 {
 
     public struct ImportInstanceLaunchSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GroupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "GroupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"SecurityGroup"))
+            AWSMemberEncoding(label: "groupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"SecurityGroup"))
         ]
 
         /// Reserved.
@@ -19821,7 +19763,7 @@ extension EC2 {
 
     public struct ImportInstanceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DiskImages", location: .body(locationName: "diskImage"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "diskImages", location: .body(locationName: "diskImage"), encoding: .list(member:"member"))
         ]
 
         /// A description for the instance being imported.
@@ -19868,7 +19810,7 @@ extension EC2 {
 
     public struct ImportInstanceTaskDetails: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Volumes", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "volumes", encoding: .list(member:"item"))
         ]
 
         /// A description of the task.
@@ -20039,7 +19981,7 @@ extension EC2 {
 
     public struct ImportSnapshotTask: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A description of the import snapshot task.
@@ -20142,7 +20084,7 @@ extension EC2 {
 
     public struct InferenceAcceleratorInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Accelerators", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "accelerators", encoding: .list(member:"member"))
         ]
 
         /// Describes the Inference accelerators for the instance type.
@@ -20181,18 +20123,18 @@ extension EC2 {
 
     public struct Instance: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ElasticGpuAssociations", location: .body(locationName: "elasticGpuAssociationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ElasticInferenceAcceleratorAssociations", location: .body(locationName: "elasticInferenceAcceleratorAssociationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Licenses", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PublicDnsName", location: .body(locationName: "dnsName")), 
-            AWSMemberEncoding(label: "PublicIpAddress", location: .body(locationName: "ipAddress")), 
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "State", location: .body(locationName: "instanceState")), 
-            AWSMemberEncoding(label: "StateTransitionReason", location: .body(locationName: "reason")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "elasticGpuAssociations", location: .body(locationName: "elasticGpuAssociationSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "elasticInferenceAcceleratorAssociations", location: .body(locationName: "elasticInferenceAcceleratorAssociationSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "licenses", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "publicDnsName", location: .body(locationName: "dnsName")), 
+            AWSMemberEncoding(label: "publicIpAddress", location: .body(locationName: "ipAddress")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "state", location: .body(locationName: "instanceState")), 
+            AWSMemberEncoding(label: "stateTransitionReason", location: .body(locationName: "reason")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The AMI launch index, which can be used to find this instance in the launch group.
@@ -20393,11 +20335,11 @@ extension EC2 {
 
     public struct InstanceAttribute: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "KernelId", location: .body(locationName: "kernel")), 
-            AWSMemberEncoding(label: "ProductCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RamdiskId", location: .body(locationName: "ramdisk"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "kernelId", location: .body(locationName: "kernel")), 
+            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ramdiskId", location: .body(locationName: "ramdisk"))
         ]
 
         /// The block device mapping of the instance.
@@ -20738,9 +20680,9 @@ extension EC2 {
 
     public struct InstanceNetworkInterface: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// The association information for an Elastic IPv4 associated with the network interface.
@@ -20869,9 +20811,9 @@ extension EC2 {
 
     public struct InstanceNetworkInterfaceSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether to assign a public IPv4 address to an instance you launch in a VPC. The public IP address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
@@ -21020,7 +20962,7 @@ extension EC2 {
 
     public struct InstanceStatus: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone of the instance.
@@ -21117,7 +21059,7 @@ extension EC2 {
 
     public struct InstanceStatusSummary: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Details", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "details", encoding: .list(member:"item"))
         ]
 
         /// The system instance health or application instance health.
@@ -21138,7 +21080,7 @@ extension EC2 {
 
     public struct InstanceStorageInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Disks", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "disks", encoding: .list(member:"item"))
         ]
 
         /// Array describing the disks that are available for the instance type.
@@ -21159,8 +21101,8 @@ extension EC2 {
 
     public struct InstanceTypeInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SupportedRootDeviceTypes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SupportedUsageClasses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "supportedRootDeviceTypes", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "supportedUsageClasses", encoding: .list(member:"item"))
         ]
 
         /// Indicates whether auto recovery is supported.
@@ -21301,8 +21243,8 @@ extension EC2 {
 
     public struct InternetGateway: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Any VPCs attached to the internet gateway.
@@ -21349,10 +21291,10 @@ extension EC2 {
 
     public struct IpPermission: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpRanges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Ipv6Ranges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PrefixListIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "UserIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipRanges", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ipv6Ranges", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "prefixListIds", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "userIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
         ]
 
         /// The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types. If you specify all ICMP/ICMPv6 types, you must specify all codes.
@@ -21443,8 +21385,8 @@ extension EC2 {
 
     public struct Ipv6Pool: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PoolCidrBlocks", location: .body(locationName: "poolCidrBlockSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "poolCidrBlocks", location: .body(locationName: "poolCidrBlockSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The description for the address pool.
@@ -21517,7 +21459,7 @@ extension EC2 {
 
     public struct KeyPairInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// If you used CreateKeyPair to create the key pair, this is the SHA-1 digest of the DER encoded private key. If you used ImportKeyPair to provide AWS the public key, this is the MD5 public key fingerprint as specified in section 4 of RFC4716.
@@ -21582,8 +21524,8 @@ extension EC2 {
 
     public struct LaunchPermissionModifications: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Add", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Remove", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "add", location: .body(locationName: "Add"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "remove", location: .body(locationName: "Remove"), encoding: .list(member:"item"))
         ]
 
         /// The AWS account ID to add to the list of launch permissions for the AMI.
@@ -21604,9 +21546,9 @@ extension EC2 {
 
     public struct LaunchSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
         ]
 
         /// Deprecated.
@@ -21678,7 +21620,7 @@ extension EC2 {
 
     public struct LaunchTemplate: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The principal that created the launch template. 
@@ -21825,7 +21767,7 @@ extension EC2 {
 
     public struct LaunchTemplateConfig: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Overrides", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "overrides", encoding: .list(member:"item"))
         ]
 
         /// The launch template.
@@ -21983,9 +21925,6 @@ extension EC2 {
     }
 
     public struct LaunchTemplateElasticInferenceAcceleratorResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
@@ -22153,9 +22092,9 @@ extension EC2 {
 
     public struct LaunchTemplateInstanceNetworkInterfaceSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"groupId")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"groupId")), 
+            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether to associate a public IPv4 address with eth0 for a new network interface.
@@ -22220,9 +22159,9 @@ extension EC2 {
 
     public struct LaunchTemplateInstanceNetworkInterfaceSpecificationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", encoding: .list(member:"InstanceIpv6Address")), 
-            AWSMemberEncoding(label: "PrivateIpAddresses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "Ipv6Addresses"), encoding: .list(member:"InstanceIpv6Address")), 
+            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "PrivateIpAddresses"), encoding: .list(member:"item"))
         ]
 
         /// Associates a public IPv4 address with eth0 for a new network interface.
@@ -22515,7 +22454,7 @@ extension EC2 {
 
     public struct LaunchTemplateTagSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The type of resource.
@@ -22536,7 +22475,7 @@ extension EC2 {
 
     public struct LaunchTemplateTagSpecificationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
         ]
 
         /// The type of resource to tag. Currently, the resource types that support tagging on creation are instance and volume. To tag a resource after it has been created, see CreateTags.
@@ -22696,8 +22635,8 @@ extension EC2 {
 
     public struct LoadPermissionModifications: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Add", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Remove", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "add", location: .body(locationName: "Add"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "remove", location: .body(locationName: "Remove"), encoding: .list(member:"item"))
         ]
 
         /// The load permissions to add.
@@ -22736,7 +22675,7 @@ extension EC2 {
 
     public struct LocalGateway: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
@@ -22768,9 +22707,6 @@ extension EC2 {
     }
 
     public struct LocalGatewayRoute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
@@ -22802,7 +22738,7 @@ extension EC2 {
 
     public struct LocalGatewayRouteTable: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
@@ -22835,7 +22771,7 @@ extension EC2 {
 
     public struct LocalGatewayRouteTableVirtualInterfaceGroupAssociation: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
@@ -22872,7 +22808,7 @@ extension EC2 {
 
     public struct LocalGatewayRouteTableVpcAssociation: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
@@ -22909,7 +22845,7 @@ extension EC2 {
 
     public struct LocalGatewayVirtualInterface: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The local address.
@@ -22954,8 +22890,8 @@ extension EC2 {
 
     public struct LocalGatewayVirtualInterfaceGroup: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LocalGatewayVirtualInterfaceIds", location: .body(locationName: "localGatewayVirtualInterfaceIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "localGatewayVirtualInterfaceIds", location: .body(locationName: "localGatewayVirtualInterfaceIdSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
@@ -23027,9 +22963,6 @@ extension EC2 {
     }
 
     public struct ModifyCapacityReservationResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -23086,9 +23019,6 @@ extension EC2 {
     }
 
     public struct ModifyClientVpnEndpointResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -23197,9 +23127,6 @@ extension EC2 {
     }
 
     public struct ModifyFleetResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -23215,9 +23142,9 @@ extension EC2 {
 
     public struct ModifyFpgaImageAttributeRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProductCodes", location: .body(locationName: "ProductCode"), encoding: .list(member:"ProductCode")), 
-            AWSMemberEncoding(label: "UserGroups", location: .body(locationName: "UserGroup"), encoding: .list(member:"UserGroup")), 
-            AWSMemberEncoding(label: "UserIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
+            AWSMemberEncoding(label: "productCodes", location: .body(locationName: "ProductCode"), encoding: .list(member:"ProductCode")), 
+            AWSMemberEncoding(label: "userGroups", location: .body(locationName: "UserGroup"), encoding: .list(member:"UserGroup")), 
+            AWSMemberEncoding(label: "userIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
         ]
 
         /// The name of the attribute.
@@ -23284,7 +23211,7 @@ extension EC2 {
 
     public struct ModifyHostsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
         ]
 
         /// Specify whether to enable or disable auto-placement.
@@ -23317,8 +23244,8 @@ extension EC2 {
 
     public struct ModifyHostsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the Dedicated Hosts that were successfully modified.
@@ -23379,9 +23306,9 @@ extension EC2 {
 
     public struct ModifyImageAttributeRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProductCodes", location: .body(locationName: "ProductCode"), encoding: .list(member:"ProductCode")), 
-            AWSMemberEncoding(label: "UserGroups", location: .body(locationName: "UserGroup"), encoding: .list(member:"UserGroup")), 
-            AWSMemberEncoding(label: "UserIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
+            AWSMemberEncoding(label: "productCodes", location: .body(locationName: "ProductCode"), encoding: .list(member:"ProductCode")), 
+            AWSMemberEncoding(label: "userGroups", location: .body(locationName: "UserGroup"), encoding: .list(member:"UserGroup")), 
+            AWSMemberEncoding(label: "userIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
         ]
 
         /// The name of the attribute to modify. The valid values are description, launchPermission, and productCodes.
@@ -23434,8 +23361,8 @@ extension EC2 {
 
     public struct ModifyInstanceAttributeRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId"))
         ]
 
         /// The name of the attribute.
@@ -23533,9 +23460,6 @@ extension EC2 {
     }
 
     public struct ModifyInstanceCapacityReservationAttributesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -23551,7 +23475,7 @@ extension EC2 {
 
     public struct ModifyInstanceCreditSpecificationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceCreditSpecifications", location: .body(locationName: "InstanceCreditSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceCreditSpecifications", location: .body(locationName: "InstanceCreditSpecification"), encoding: .list(member:"item"))
         ]
 
         /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
@@ -23576,8 +23500,8 @@ extension EC2 {
 
     public struct ModifyInstanceCreditSpecificationResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SuccessfulInstanceCreditSpecifications", location: .body(locationName: "successfulInstanceCreditSpecificationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "UnsuccessfulInstanceCreditSpecifications", location: .body(locationName: "unsuccessfulInstanceCreditSpecificationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successfulInstanceCreditSpecifications", location: .body(locationName: "successfulInstanceCreditSpecificationSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessfulInstanceCreditSpecifications", location: .body(locationName: "unsuccessfulInstanceCreditSpecificationSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the instances whose credit option for CPU usage was successfully modified.
@@ -23722,9 +23646,6 @@ extension EC2 {
     }
 
     public struct ModifyInstancePlacementResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -23740,7 +23661,7 @@ extension EC2 {
 
     public struct ModifyLaunchTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DefaultVersion", location: .body(locationName: "SetDefaultVersion"))
+            AWSMemberEncoding(label: "defaultVersion", location: .body(locationName: "SetDefaultVersion"))
         ]
 
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
@@ -23793,7 +23714,7 @@ extension EC2 {
 
     public struct ModifyNetworkInterfaceAttributeRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId"))
         ]
 
         /// Information about the interface attachment. If modifying the 'delete on termination' attribute, you must specify the ID of the interface attachment.
@@ -23830,8 +23751,8 @@ extension EC2 {
 
     public struct ModifyReservedInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId")), 
-            AWSMemberEncoding(label: "TargetConfigurations", location: .body(locationName: "ReservedInstancesConfigurationSetItemType"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId")), 
+            AWSMemberEncoding(label: "targetConfigurations", location: .body(locationName: "ReservedInstancesConfigurationSetItemType"), encoding: .list(member:"item"))
         ]
 
         /// A unique, case-sensitive token you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
@@ -23870,8 +23791,8 @@ extension EC2 {
 
     public struct ModifySnapshotAttributeRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GroupNames", location: .body(locationName: "UserGroup"), encoding: .list(member:"GroupName")), 
-            AWSMemberEncoding(label: "UserIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
+            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "UserGroup"), encoding: .list(member:"GroupName")), 
+            AWSMemberEncoding(label: "userIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
         ]
 
         /// The snapshot attribute to modify. Only volume creation permissions can be modified.
@@ -23937,9 +23858,6 @@ extension EC2 {
     }
 
     public struct ModifySpotFleetRequestResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -23977,8 +23895,8 @@ extension EC2 {
 
     public struct ModifyTrafficMirrorFilterNetworkServicesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AddNetworkServices", location: .body(locationName: "AddNetworkService"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RemoveNetworkServices", location: .body(locationName: "RemoveNetworkService"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "addNetworkServices", location: .body(locationName: "AddNetworkService"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "removeNetworkServices", location: .body(locationName: "RemoveNetworkService"), encoding: .list(member:"item"))
         ]
 
         /// The network service, for example Amazon DNS, that you want to mirror.
@@ -24021,7 +23939,7 @@ extension EC2 {
 
     public struct ModifyTrafficMirrorFilterRuleRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RemoveFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "removeFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
         ]
 
         /// The description to assign to the Traffic Mirror rule.
@@ -24096,7 +24014,7 @@ extension EC2 {
 
     public struct ModifyTrafficMirrorSessionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RemoveFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "removeFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
         ]
 
         /// The description to assign to the Traffic Mirror session.
@@ -24159,8 +24077,8 @@ extension EC2 {
 
     public struct ModifyTransitGatewayVpcAttachmentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AddSubnetIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RemoveSubnetIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "addSubnetIds", location: .body(locationName: "AddSubnetIds"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "removeSubnetIds", location: .body(locationName: "RemoveSubnetIds"), encoding: .list(member:"item"))
         ]
 
         /// The IDs of one or more subnets to add. You can specify at most one subnet per Availability Zone.
@@ -24313,7 +24231,7 @@ extension EC2 {
 
     public struct ModifyVpcEndpointConnectionNotificationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionEvents", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "connectionEvents", location: .body(locationName: "ConnectionEvents"), encoding: .list(member:"item"))
         ]
 
         /// One or more events for the endpoint. Valid values are Accept, Connect, Delete, and Reject.
@@ -24342,7 +24260,7 @@ extension EC2 {
 
     public struct ModifyVpcEndpointConnectionNotificationResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReturnValue", location: .body(locationName: "return"))
+            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
         ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -24359,12 +24277,12 @@ extension EC2 {
 
     public struct ModifyVpcEndpointRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AddRouteTableIds", location: .body(locationName: "AddRouteTableId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "AddSecurityGroupIds", location: .body(locationName: "AddSecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "AddSubnetIds", location: .body(locationName: "AddSubnetId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RemoveRouteTableIds", location: .body(locationName: "RemoveRouteTableId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RemoveSecurityGroupIds", location: .body(locationName: "RemoveSecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RemoveSubnetIds", location: .body(locationName: "RemoveSubnetId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "addRouteTableIds", location: .body(locationName: "AddRouteTableId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "addSecurityGroupIds", location: .body(locationName: "AddSecurityGroupId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "addSubnetIds", location: .body(locationName: "AddSubnetId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "removeRouteTableIds", location: .body(locationName: "RemoveRouteTableId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "removeSecurityGroupIds", location: .body(locationName: "RemoveSecurityGroupId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "removeSubnetIds", location: .body(locationName: "RemoveSubnetId"), encoding: .list(member:"item"))
         ]
 
         /// (Gateway endpoint) One or more route tables IDs to associate with the endpoint.
@@ -24420,9 +24338,6 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -24438,8 +24353,8 @@ extension EC2 {
 
     public struct ModifyVpcEndpointServiceConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AddNetworkLoadBalancerArns", location: .body(locationName: "AddNetworkLoadBalancerArn"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RemoveNetworkLoadBalancerArns", location: .body(locationName: "RemoveNetworkLoadBalancerArn"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "addNetworkLoadBalancerArns", location: .body(locationName: "AddNetworkLoadBalancerArn"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "removeNetworkLoadBalancerArns", location: .body(locationName: "RemoveNetworkLoadBalancerArn"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether requests to create an endpoint to your service must be accepted.
@@ -24479,9 +24394,6 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointServiceConfigurationResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -24497,8 +24409,8 @@ extension EC2 {
 
     public struct ModifyVpcEndpointServicePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AddAllowedPrincipals", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RemoveAllowedPrincipals", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "addAllowedPrincipals", location: .body(locationName: "AddAllowedPrincipals"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "removeAllowedPrincipals", location: .body(locationName: "RemoveAllowedPrincipals"), encoding: .list(member:"item"))
         ]
 
         /// The Amazon Resource Names (ARN) of one or more principals. Permissions are granted to the principals in this list. To grant permissions to all principals, specify an asterisk (*).
@@ -24527,7 +24439,7 @@ extension EC2 {
 
     public struct ModifyVpcEndpointServicePermissionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReturnValue", location: .body(locationName: "return"))
+            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
         ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -24610,7 +24522,7 @@ extension EC2 {
 
     public struct ModifyVpcTenancyResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReturnValue", location: .body(locationName: "return"))
+            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
         ]
 
         /// Returns true if the request succeeds; otherwise, returns an error.
@@ -24744,13 +24656,13 @@ extension EC2 {
 
     public struct ModifyVpnTunnelOptionsSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IKEVersions", location: .body(locationName: "IKEVersion"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1DHGroupNumbers", location: .body(locationName: "Phase1DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1EncryptionAlgorithms", location: .body(locationName: "Phase1EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1IntegrityAlgorithms", location: .body(locationName: "Phase1IntegrityAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2DHGroupNumbers", location: .body(locationName: "Phase2DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2EncryptionAlgorithms", location: .body(locationName: "Phase2EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2IntegrityAlgorithms", location: .body(locationName: "Phase2IntegrityAlgorithm"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "iKEVersions", location: .body(locationName: "IKEVersion"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1DHGroupNumbers", location: .body(locationName: "Phase1DHGroupNumber"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1EncryptionAlgorithms", location: .body(locationName: "Phase1EncryptionAlgorithm"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1IntegrityAlgorithms", location: .body(locationName: "Phase1IntegrityAlgorithm"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2DHGroupNumbers", location: .body(locationName: "Phase2DHGroupNumber"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2EncryptionAlgorithms", location: .body(locationName: "Phase2EncryptionAlgorithm"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2IntegrityAlgorithms", location: .body(locationName: "Phase2IntegrityAlgorithm"), encoding: .list(member:"item"))
         ]
 
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30 
@@ -24823,7 +24735,7 @@ extension EC2 {
 
     public struct MonitorInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -24844,7 +24756,7 @@ extension EC2 {
 
     public struct MonitorInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceMonitorings", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceMonitorings", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// The monitoring information.
@@ -24929,8 +24841,8 @@ extension EC2 {
 
     public struct NatGateway: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NatGatewayAddresses", location: .body(locationName: "natGatewayAddressSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "natGatewayAddresses", location: .body(locationName: "natGatewayAddressSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The date and time the NAT gateway was created.
@@ -25013,10 +24925,10 @@ extension EC2 {
 
     public struct NetworkAcl: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Entries", location: .body(locationName: "entrySet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "IsDefault", location: .body(locationName: "default")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "entries", location: .body(locationName: "entrySet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "isDefault", location: .body(locationName: "default")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Any associations between the network ACL and one or more subnets
@@ -25078,9 +24990,6 @@ extension EC2 {
     }
 
     public struct NetworkAclEntry: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
-        ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation.
         public let cidrBlock: String?
@@ -25158,10 +25067,10 @@ extension EC2 {
 
     public struct NetworkInterface: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "TagSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tagSet", encoding: .list(member:"item"))
         ]
 
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
@@ -25436,7 +25345,7 @@ extension EC2 {
 
     public struct NewDhcpConfiguration: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
         ]
 
         public let key: String?
@@ -25843,7 +25752,7 @@ extension EC2 {
 
     public struct PlacementGroup: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The ID of the placement group.
@@ -25880,7 +25789,7 @@ extension EC2 {
 
     public struct PlacementGroupInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SupportedStrategies", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "supportedStrategies", encoding: .list(member:"item"))
         ]
 
         /// A list of supported placement groups types.
@@ -25911,7 +25820,7 @@ extension EC2 {
 
     public struct PoolCidrBlock: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Cidr", location: .body(locationName: "poolCidrBlock"))
+            AWSMemberEncoding(label: "cidr", location: .body(locationName: "poolCidrBlock"))
         ]
 
         /// The CIDR block.
@@ -25946,7 +25855,7 @@ extension EC2 {
 
     public struct PrefixList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Cidrs", location: .body(locationName: "cidrSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "cidrs", location: .body(locationName: "cidrSet"), encoding: .list(member:"item"))
         ]
 
         /// The IP address range of the AWS service.
@@ -26055,7 +25964,7 @@ extension EC2 {
 
     public struct PrincipalIdFormat: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
         ]
 
         /// PrincipalIdFormatARN description
@@ -26075,9 +25984,6 @@ extension EC2 {
     }
 
     public struct PrivateDnsNameConfiguration: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// The name of the record subdomain the service provider needs to create. The service provider adds the value text to the name.
         public let name: String?
@@ -26123,7 +26029,7 @@ extension EC2 {
 
     public struct ProcessorInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SupportedArchitectures", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "supportedArchitectures", encoding: .list(member:"item"))
         ]
 
         /// A list of architectures supported by the instance type.
@@ -26144,8 +26050,8 @@ extension EC2 {
 
     public struct ProductCode: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProductCodeId", location: .body(locationName: "productCode")), 
-            AWSMemberEncoding(label: "ProductCodeType", location: .body(locationName: "type"))
+            AWSMemberEncoding(label: "productCodeId", location: .body(locationName: "productCode")), 
+            AWSMemberEncoding(label: "productCodeType", location: .body(locationName: "type"))
         ]
 
         /// The product code.
@@ -26254,7 +26160,7 @@ extension EC2 {
 
     public struct PublicIpv4Pool: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PoolAddressRanges", location: .body(locationName: "poolAddressRangeSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "poolAddressRanges", location: .body(locationName: "poolAddressRangeSet"), encoding: .list(member:"item"))
         ]
 
         /// A description of the address pool.
@@ -26313,7 +26219,7 @@ extension EC2 {
 
     public struct Purchase: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostIdSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostIdSet", encoding: .list(member:"item"))
         ]
 
         /// The currency in which the UpfrontPrice and HourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -26358,7 +26264,7 @@ extension EC2 {
 
     public struct PurchaseHostReservationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostIdSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostIdSet", location: .body(locationName: "HostIdSet"), encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -26391,7 +26297,7 @@ extension EC2 {
 
     public struct PurchaseHostReservationResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Purchase", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "purchase", encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -26486,7 +26392,7 @@ extension EC2 {
 
     public struct PurchaseScheduledInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PurchaseRequests", location: .body(locationName: "PurchaseRequest"), encoding: .list(member:"PurchaseRequest"))
+            AWSMemberEncoding(label: "purchaseRequests", location: .body(locationName: "PurchaseRequest"), encoding: .list(member:"PurchaseRequest"))
         ]
 
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
@@ -26515,7 +26421,7 @@ extension EC2 {
 
     public struct PurchaseScheduledInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ScheduledInstanceSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "scheduledInstanceSet", encoding: .list(member:"item"))
         ]
 
         /// Information about the Scheduled Instances.
@@ -26532,7 +26438,7 @@ extension EC2 {
 
     public struct RebootInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -26571,7 +26477,7 @@ extension EC2 {
 
     public struct Region: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Endpoint", location: .body(locationName: "regionEndpoint"))
+            AWSMemberEncoding(label: "endpoint", location: .body(locationName: "regionEndpoint"))
         ]
 
         /// The Region service endpoint.
@@ -26596,8 +26502,8 @@ extension EC2 {
 
     public struct RegisterImageRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BillingProducts", location: .body(locationName: "BillingProduct"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
+            AWSMemberEncoding(label: "billingProducts", location: .body(locationName: "BillingProduct"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
         ]
 
         /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
@@ -26676,7 +26582,7 @@ extension EC2 {
 
     public struct RegisterTransitGatewayMulticastGroupMembersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -26719,7 +26625,7 @@ extension EC2 {
 
     public struct RegisterTransitGatewayMulticastGroupSourcesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -26826,7 +26732,7 @@ extension EC2 {
 
     public struct RejectVpcEndpointConnectionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -26851,7 +26757,7 @@ extension EC2 {
 
     public struct RejectVpcEndpointConnectionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// Information about the endpoints that were not rejected, if applicable.
@@ -26885,9 +26791,6 @@ extension EC2 {
     }
 
     public struct RejectVpcPeeringConnectionResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -26929,7 +26832,7 @@ extension EC2 {
 
     public struct ReleaseHostsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
         ]
 
         /// The IDs of the Dedicated Hosts to release.
@@ -26946,8 +26849,8 @@ extension EC2 {
 
     public struct ReleaseHostsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Unsuccessful", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the Dedicated Hosts that were successfully released.
@@ -27036,8 +26939,7 @@ extension EC2 {
 
     public struct ReplaceNetworkAclEntryRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IcmpTypeCode", location: .body(locationName: "Icmp")), 
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
+            AWSMemberEncoding(label: "icmpTypeCode", location: .body(locationName: "Icmp"))
         ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
@@ -27236,8 +27138,8 @@ extension EC2 {
 
     public struct ReportInstanceStatusRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Instances", location: .body(locationName: "instanceId"), encoding: .list(member:"InstanceId")), 
-            AWSMemberEncoding(label: "ReasonCodes", location: .body(locationName: "reasonCode"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instances", location: .body(locationName: "instanceId"), encoding: .list(member:"InstanceId")), 
+            AWSMemberEncoding(label: "reasonCodes", location: .body(locationName: "reasonCode"), encoding: .list(member:"item"))
         ]
 
         /// Descriptive text about the health state of your instance.
@@ -27278,14 +27180,14 @@ extension EC2 {
 
     public struct RequestLaunchTemplateData: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSMemberEncoding(label: "ElasticGpuSpecifications", location: .body(locationName: "ElasticGpuSpecification"), encoding: .list(member:"ElasticGpuSpecification")), 
-            AWSMemberEncoding(label: "ElasticInferenceAccelerators", location: .body(locationName: "ElasticInferenceAccelerator"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "LicenseSpecifications", location: .body(locationName: "LicenseSpecification"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"InstanceNetworkInterfaceSpecification")), 
-            AWSMemberEncoding(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"SecurityGroup")), 
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"LaunchTemplateTagSpecificationRequest"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
+            AWSMemberEncoding(label: "elasticGpuSpecifications", location: .body(locationName: "ElasticGpuSpecification"), encoding: .list(member:"ElasticGpuSpecification")), 
+            AWSMemberEncoding(label: "elasticInferenceAccelerators", location: .body(locationName: "ElasticInferenceAccelerator"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "LicenseSpecification"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"InstanceNetworkInterfaceSpecification")), 
+            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"SecurityGroup")), 
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"LaunchTemplateTagSpecificationRequest"))
         ]
 
         /// The block device mapping.
@@ -27443,9 +27345,6 @@ extension EC2 {
     }
 
     public struct RequestSpotInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// The user-specified name for a logical grouping of requests. When you specify an Availability Zone group in a Spot Instance request, all Spot Instances in the request are launched in the same Availability Zone. Instance proximity is maintained with this parameter, but the choice of Availability Zone is not. The group applies only to requests for Spot Instances of the same instance type. Any additional Spot Instance requests that are specified with the same Availability Zone group name are launched in that same Availability Zone, as long as at least one instance from the group is still active. If there is no active instance running in the Availability Zone group that you specify for a new Spot Instance request (all instances are terminated, the request is expired, or the maximum price you specified falls below current Spot price), then Amazon EC2 launches the instance in any Availability Zone where the constraint can be met. Consequently, the subsequent set of Spot Instances could be placed in a different zone from the original request, even if you specified the same Availability Zone group. Default: Instances are launched in any available Availability Zone.
         public let availabilityZoneGroup: String?
@@ -27505,7 +27404,7 @@ extension EC2 {
 
     public struct RequestSpotInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "spotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
         ]
 
         /// One or more Spot Instance requests.
@@ -27522,10 +27421,10 @@ extension EC2 {
 
     public struct RequestSpotLaunchSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"item"))
         ]
 
         /// Deprecated.
@@ -27602,8 +27501,8 @@ extension EC2 {
 
     public struct Reservation: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// [EC2-Classic only] The security groups.
@@ -27694,8 +27593,8 @@ extension EC2 {
 
     public struct ReservedInstances: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RecurringCharges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "recurringCharges", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which the Reserved Instance can be used.
@@ -27824,9 +27723,9 @@ extension EC2 {
 
     public struct ReservedInstancesListing: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceCounts", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PriceSchedules", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceCounts", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "priceSchedules", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
@@ -27879,8 +27778,8 @@ extension EC2 {
 
     public struct ReservedInstancesModification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ModificationResults", location: .body(locationName: "modificationResultSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ReservedInstancesIds", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "modificationResults", location: .body(locationName: "modificationResultSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item"))
         ]
 
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
@@ -27947,8 +27846,8 @@ extension EC2 {
 
     public struct ReservedInstancesOffering: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PricingDetails", location: .body(locationName: "pricingDetailsSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RecurringCharges", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "pricingDetails", location: .body(locationName: "pricingDetailsSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "recurringCharges", encoding: .list(member:"item"))
         ]
 
         /// The Availability Zone in which the Reserved Instance can be used.
@@ -28070,9 +27969,6 @@ extension EC2 {
     }
 
     public struct ResetFpgaImageAttributeResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -28194,14 +28090,14 @@ extension EC2 {
 
     public struct ResponseLaunchTemplateData: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMappingSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ElasticGpuSpecifications", location: .body(locationName: "elasticGpuSpecificationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ElasticInferenceAccelerators", location: .body(locationName: "elasticInferenceAcceleratorSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "LicenseSpecifications", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "securityGroupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMappingSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "elasticGpuSpecifications", location: .body(locationName: "elasticGpuSpecificationSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "elasticInferenceAccelerators", location: .body(locationName: "elasticInferenceAcceleratorSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "securityGroupIdSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "securityGroupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
         ]
 
         /// The block device mappings.
@@ -28398,7 +28294,7 @@ extension EC2 {
 
     public struct RevokeSecurityGroupEgressRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpPermissions", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipPermissions", encoding: .list(member:"item"))
         ]
 
         /// Not supported. Use a set of IP permissions to specify the CIDR.
@@ -28447,7 +28343,7 @@ extension EC2 {
 
     public struct RevokeSecurityGroupIngressRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpPermissions", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
         ]
 
         /// The CIDR IP address range. You can't specify this parameter when specifying a source security group.
@@ -28566,10 +28462,10 @@ extension EC2 {
 
     public struct RouteTable: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PropagatingVgws", location: .body(locationName: "propagatingVgwSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "propagatingVgws", location: .body(locationName: "propagatingVgwSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The associations between the route table and one or more subnets or a gateway.
@@ -28676,15 +28572,15 @@ extension EC2 {
 
     public struct RunInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSMemberEncoding(label: "ElasticGpuSpecification", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ElasticInferenceAccelerators", location: .body(locationName: "ElasticInferenceAccelerator"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", location: .body(locationName: "Ipv6Address"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "LicenseSpecifications", location: .body(locationName: "LicenseSpecification"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "networkInterface"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"SecurityGroup")), 
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
+            AWSMemberEncoding(label: "elasticGpuSpecification", location: .body(locationName: "ElasticGpuSpecification"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "elasticInferenceAccelerators", location: .body(locationName: "ElasticInferenceAccelerator"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "Ipv6Address"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "LicenseSpecification"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterface"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"SecurityGroup")), 
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
         /// Reserved.
@@ -28877,7 +28773,7 @@ extension EC2 {
 
     public struct RunScheduledInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIdSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceIdSet", encoding: .list(member:"item"))
         ]
 
         /// The IDs of the newly launched instances.
@@ -29056,7 +28952,7 @@ extension EC2 {
 
     public struct ScheduledInstanceRecurrence: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OccurrenceDaySet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "occurrenceDaySet", encoding: .list(member:"item"))
         ]
 
         /// The frequency (Daily, Weekly, or Monthly).
@@ -29089,7 +28985,7 @@ extension EC2 {
 
     public struct ScheduledInstanceRecurrenceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OccurrenceDays", location: .body(locationName: "OccurrenceDay"), encoding: .list(member:"OccurenceDay"))
+            AWSMemberEncoding(label: "occurrenceDays", location: .body(locationName: "OccurrenceDay"), encoding: .list(member:"OccurenceDay"))
         ]
 
         /// The frequency (Daily, Weekly, or Monthly).
@@ -29214,9 +29110,9 @@ extension EC2 {
 
     public struct ScheduledInstancesLaunchSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"NetworkInterface")), 
-            AWSMemberEncoding(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"NetworkInterface")), 
+            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId"))
         ]
 
         /// The block device mapping entries.
@@ -29299,9 +29195,9 @@ extension EC2 {
 
     public struct ScheduledInstancesNetworkInterface: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "Group"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "Ipv6Addresses", location: .body(locationName: "Ipv6Address"), encoding: .list(member:"Ipv6Address")), 
-            AWSMemberEncoding(label: "PrivateIpAddressConfigs", location: .body(locationName: "PrivateIpAddressConfig"), encoding: .list(member:"PrivateIpAddressConfigSet"))
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "Group"), encoding: .list(member:"SecurityGroupId")), 
+            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "Ipv6Address"), encoding: .list(member:"Ipv6Address")), 
+            AWSMemberEncoding(label: "privateIpAddressConfigs", location: .body(locationName: "PrivateIpAddressConfig"), encoding: .list(member:"PrivateIpAddressConfigSet"))
         ]
 
         /// Indicates whether to assign a public IPv4 address to instances launched in a VPC. The public IPv4 address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
@@ -29398,7 +29294,7 @@ extension EC2 {
 
     public struct SearchLocalGatewayRoutesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -29431,7 +29327,7 @@ extension EC2 {
 
     public struct SearchLocalGatewayRoutesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
         ]
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -29452,7 +29348,7 @@ extension EC2 {
 
     public struct SearchTransitGatewayMulticastGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -29490,7 +29386,7 @@ extension EC2 {
 
     public struct SearchTransitGatewayMulticastGroupsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MulticastGroups", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "multicastGroups", encoding: .list(member:"item"))
         ]
 
         /// Information about the transit gateway multicast group.
@@ -29511,7 +29407,7 @@ extension EC2 {
 
     public struct SearchTransitGatewayRoutesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -29545,7 +29441,7 @@ extension EC2 {
 
     public struct SearchTransitGatewayRoutesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether there are additional routes available.
@@ -29566,10 +29462,10 @@ extension EC2 {
 
     public struct SecurityGroup: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Description", location: .body(locationName: "groupDescription")), 
-            AWSMemberEncoding(label: "IpPermissions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "IpPermissionsEgress", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "description", location: .body(locationName: "groupDescription")), 
+            AWSMemberEncoding(label: "ipPermissions", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ipPermissionsEgress", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// A description of the security group.
@@ -29672,11 +29568,11 @@ extension EC2 {
 
     public struct ServiceConfiguration: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "BaseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ServiceType", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "baseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "serviceType", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether requests from other AWS accounts to create an endpoint to the service must first be accepted.
@@ -29737,10 +29633,10 @@ extension EC2 {
 
     public struct ServiceDetail: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "BaseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ServiceType", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "baseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "serviceType", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether VPC endpoint connection requests to the service must be accepted by the service owner.
@@ -29851,9 +29747,9 @@ extension EC2 {
 
     public struct Snapshot: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "State", location: .body(locationName: "status")), 
-            AWSMemberEncoding(label: "StateMessage", location: .body(locationName: "statusMessage")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "state", location: .body(locationName: "status")), 
+            AWSMemberEncoding(label: "stateMessage", location: .body(locationName: "statusMessage")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The data encryption key identifier for the snapshot. This value is a unique identifier that corresponds to the data encryption key that was used to encrypt the original volume or snapshot copy. Because data encryption keys are inherited by volumes created from snapshots, and vice versa, if snapshots share the same data encryption key identifier, then they belong to the same volume/snapshot lineage. This parameter is only returned by DescribeSnapshots.
@@ -29998,7 +29894,7 @@ extension EC2 {
 
     public struct SnapshotInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Description specified by the CreateSnapshotRequest that has been applied to all snapshots.
@@ -30135,10 +30031,10 @@ extension EC2 {
 
     public struct SpotFleetLaunchSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SecurityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "TagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
         ]
 
         /// Deprecated.
@@ -30267,9 +30163,8 @@ extension EC2 {
 
     public struct SpotFleetRequestConfigData: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LaunchSpecifications", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "LaunchTemplateConfigs", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
+            AWSMemberEncoding(label: "launchSpecifications", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "launchTemplateConfigs", encoding: .list(member:"item"))
         ]
 
         /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the Spot Fleet request. If the allocation strategy is lowestPrice, Spot Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, Spot Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacityOptimized, Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
@@ -30377,7 +30272,7 @@ extension EC2 {
 
     public struct SpotFleetTagSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
         ]
 
         /// The type of resource. Currently, the only resource type that is supported is instance.
@@ -30398,8 +30293,7 @@ extension EC2 {
 
     public struct SpotInstanceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// If you specified a duration and your Spot Instance request was fulfilled, this is the fixed hourly price in effect for the Spot Instance while it runs.
@@ -30686,9 +30580,9 @@ extension EC2 {
 
     public struct StaleIpPermission: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpRanges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "PrefixListIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "UserIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipRanges", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "prefixListIds", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "userIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
         ]
 
         /// The start of the port range for the TCP and UDP protocols, or an ICMP type number. A value of -1 indicates all ICMP types. 
@@ -30725,8 +30619,8 @@ extension EC2 {
 
     public struct StaleSecurityGroup: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "StaleIpPermissions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "StaleIpPermissionsEgress", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "staleIpPermissions", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "staleIpPermissionsEgress", encoding: .list(member:"item"))
         ]
 
         /// The description of the security group.
@@ -30763,7 +30657,7 @@ extension EC2 {
 
     public struct StartInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Reserved.
@@ -30788,7 +30682,7 @@ extension EC2 {
 
     public struct StartInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "StartingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "startingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the started instances.
@@ -30823,7 +30717,7 @@ extension EC2 {
 
     public struct StartVpcEndpointServicePrivateDnsVerificationResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReturnValue", location: .body(locationName: "return"))
+            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
         ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -30858,7 +30752,7 @@ extension EC2 {
 
     public struct StopInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -30887,7 +30781,7 @@ extension EC2 {
 
     public struct StopInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "StoppingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "stoppingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the stopped instances.
@@ -30936,8 +30830,8 @@ extension EC2 {
 
     public struct Subnet: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether a network interface created in this subnet (including a network interface created by RunInstances) receives an IPv6 address.
@@ -31140,7 +31034,7 @@ extension EC2 {
 
     public struct TagSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
         ]
 
         /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | client-vpn-endpoint | dedicated-host | fleet | fpga-image | instance | key-pair | launch-template | placement-group | snapshot | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-route-table | volume. To tag a resource after it has been created, see CreateTags.
@@ -31263,7 +31157,7 @@ extension EC2 {
 
     public struct TargetGroupsConfig: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TargetGroups", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "targetGroups", encoding: .list(member:"item"))
         ]
 
         /// One or more target groups.
@@ -31285,7 +31179,7 @@ extension EC2 {
 
     public struct TargetNetwork: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SecurityGroups", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "securityGroups", encoding: .list(member:"item"))
         ]
 
         /// The ID of the association.
@@ -31366,7 +31260,7 @@ extension EC2 {
 
     public struct TerminateClientVpnConnectionsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionStatuses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "connectionStatuses", encoding: .list(member:"item"))
         ]
 
         /// The ID of the Client VPN endpoint.
@@ -31413,7 +31307,7 @@ extension EC2 {
 
     public struct TerminateInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -31434,7 +31328,7 @@ extension EC2 {
 
     public struct TerminateInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TerminatingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "terminatingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the terminated instances.
@@ -31451,10 +31345,10 @@ extension EC2 {
 
     public struct TrafficMirrorFilter: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EgressFilterRules", location: .body(locationName: "egressFilterRuleSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "IngressFilterRules", location: .body(locationName: "ingressFilterRuleSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkServices", location: .body(locationName: "networkServiceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "egressFilterRules", location: .body(locationName: "egressFilterRuleSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ingressFilterRules", location: .body(locationName: "ingressFilterRuleSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkServices", location: .body(locationName: "networkServiceSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The description of the Traffic Mirror filter.
@@ -31490,9 +31384,6 @@ extension EC2 {
     }
 
     public struct TrafficMirrorFilterRule: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
-        ]
 
         /// The description of the Traffic Mirror rule.
         public let description: String?
@@ -31584,7 +31475,7 @@ extension EC2 {
 
     public struct TrafficMirrorSession: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The description of the Traffic Mirror session.
@@ -31637,8 +31528,7 @@ extension EC2 {
 
     public struct TrafficMirrorTarget: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the Traffic Mirror target.
@@ -31679,7 +31569,7 @@ extension EC2 {
 
     public struct TransitGateway: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The creation time.
@@ -31754,7 +31644,7 @@ extension EC2 {
 
     public struct TransitGatewayAttachment: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The association.
@@ -31843,7 +31733,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDeregisteredGroupMembers: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DeregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "deregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The network interface IDs of the deregistered members.
@@ -31868,7 +31758,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDeregisteredGroupSources: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DeregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "deregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The network interface IDs of the non-registered members.
@@ -31893,7 +31783,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDomain: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The time the transit gateway multicast domain was created.
@@ -31952,7 +31842,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastDomainAssociations: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Subnets", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "subnets", encoding: .list(member:"item"))
         ]
 
         /// The ID of the resource.
@@ -32035,7 +31925,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastRegisteredGroupMembers: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RegisteredNetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "registeredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The IP address assigned to the transit gateway multicast group.
@@ -32060,7 +31950,7 @@ extension EC2 {
 
     public struct TransitGatewayMulticastRegisteredGroupSources: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RegisteredNetworkInterfaceIds", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "registeredNetworkInterfaceIds", encoding: .list(member:"item"))
         ]
 
         /// The IP address assigned to the transit gateway multicast group.
@@ -32131,7 +32021,7 @@ extension EC2 {
 
     public struct TransitGatewayPeeringAttachment: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the accepter transit gateway.
@@ -32240,8 +32130,7 @@ extension EC2 {
 
     public struct TransitGatewayRoute: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TransitGatewayAttachments", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
+            AWSMemberEncoding(label: "transitGatewayAttachments", encoding: .list(member:"item"))
         ]
 
         /// The CIDR block used for destination matches.
@@ -32292,7 +32181,7 @@ extension EC2 {
 
     public struct TransitGatewayRouteTable: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The creation time.
@@ -32385,8 +32274,8 @@ extension EC2 {
 
     public struct TransitGatewayVpcAttachment: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "subnetIds", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The creation time.
@@ -32453,13 +32342,13 @@ extension EC2 {
 
     public struct TunnelOption: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IkeVersions", location: .body(locationName: "ikeVersionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1DHGroupNumbers", location: .body(locationName: "phase1DHGroupNumberSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1EncryptionAlgorithms", location: .body(locationName: "phase1EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1IntegrityAlgorithms", location: .body(locationName: "phase1IntegrityAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2DHGroupNumbers", location: .body(locationName: "phase2DHGroupNumberSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2EncryptionAlgorithms", location: .body(locationName: "phase2EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2IntegrityAlgorithms", location: .body(locationName: "phase2IntegrityAlgorithmSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ikeVersions", location: .body(locationName: "ikeVersionSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1DHGroupNumbers", location: .body(locationName: "phase1DHGroupNumberSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1EncryptionAlgorithms", location: .body(locationName: "phase1EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1IntegrityAlgorithms", location: .body(locationName: "phase1IntegrityAlgorithmSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2DHGroupNumbers", location: .body(locationName: "phase2DHGroupNumberSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2EncryptionAlgorithms", location: .body(locationName: "phase2EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2IntegrityAlgorithms", location: .body(locationName: "phase2IntegrityAlgorithmSet"), encoding: .list(member:"item"))
         ]
 
         /// The number of seconds after which a DPD timeout occurs.
@@ -32536,7 +32425,7 @@ extension EC2 {
 
     public struct UnassignIpv6AddressesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Ipv6Addresses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The IPv6 addresses to unassign from the network interface.
@@ -32557,7 +32446,7 @@ extension EC2 {
 
     public struct UnassignIpv6AddressesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "UnassignedIpv6Addresses", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "unassignedIpv6Addresses", encoding: .list(member:"item"))
         ]
 
         /// The ID of the network interface.
@@ -32578,7 +32467,7 @@ extension EC2 {
 
     public struct UnassignPrivateIpAddressesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
+            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
         ]
 
         /// The ID of the network interface.
@@ -32599,7 +32488,7 @@ extension EC2 {
 
     public struct UnmonitorInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
+            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -32620,7 +32509,7 @@ extension EC2 {
 
     public struct UnmonitorInstancesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceMonitorings", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "instanceMonitorings", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
         ]
 
         /// The monitoring information.
@@ -32709,7 +32598,7 @@ extension EC2 {
 
     public struct UpdateSecurityGroupRuleDescriptionsEgressRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpPermissions", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -32737,9 +32626,6 @@ extension EC2 {
     }
 
     public struct UpdateSecurityGroupRuleDescriptionsEgressResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let `return`: Bool?
@@ -32755,7 +32641,7 @@ extension EC2 {
 
     public struct UpdateSecurityGroupRuleDescriptionsIngressRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IpPermissions", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
         ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -32783,9 +32669,6 @@ extension EC2 {
     }
 
     public struct UpdateSecurityGroupRuleDescriptionsIngressResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Return", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let `return`: Bool?
@@ -32889,8 +32772,8 @@ extension EC2 {
 
     public struct VCpuInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ValidCores", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ValidThreadsPerCore", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "validCores", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "validThreadsPerCore", encoding: .list(member:"item"))
         ]
 
         /// The default number of cores for the instance type.
@@ -32957,9 +32840,9 @@ extension EC2 {
 
     public struct Volume: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "State", location: .body(locationName: "status")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "state", location: .body(locationName: "status")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the volume attachments.
@@ -33028,7 +32911,7 @@ extension EC2 {
 
     public struct VolumeAttachment: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "State", location: .body(locationName: "status"))
+            AWSMemberEncoding(label: "state", location: .body(locationName: "status"))
         ]
 
         /// The time stamp when the attachment initiated.
@@ -33211,7 +33094,7 @@ extension EC2 {
 
     public struct VolumeStatusInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Details", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "details", encoding: .list(member:"item"))
         ]
 
         /// The details of the volume status.
@@ -33232,8 +33115,8 @@ extension EC2 {
 
     public struct VolumeStatusItem: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Actions", location: .body(locationName: "actionsSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "actions", location: .body(locationName: "actionsSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
         ]
 
         /// The details of the operation.
@@ -33270,9 +33153,9 @@ extension EC2 {
 
     public struct Vpc: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CidrBlockAssociationSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "cidrBlockAssociationSet", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The primary IPv4 CIDR block for the VPC.
@@ -33383,7 +33266,7 @@ extension EC2 {
 
     public struct VpcClassicLink: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether the VPC is enabled for ClassicLink.
@@ -33408,12 +33291,12 @@ extension EC2 {
 
     public struct VpcEndpoint: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkInterfaceIds", location: .body(locationName: "networkInterfaceIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "RouteTableIds", location: .body(locationName: "routeTableIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "SubnetIds", location: .body(locationName: "subnetIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "dnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "networkInterfaceIdSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "routeTableIds", location: .body(locationName: "routeTableIdSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "subnetIdSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// The date and time that the VPC endpoint was created.
@@ -33494,8 +33377,8 @@ extension EC2 {
 
     public struct VpcEndpointConnection: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "NetworkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "dnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "networkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item"))
         ]
 
         /// The date and time that the VPC endpoint was created.
@@ -33566,7 +33449,7 @@ extension EC2 {
 
     public struct VpcPeeringConnection: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
         ]
 
         /// Information about the accepter VPC. CIDR block information is only returned when describing an active VPC peering connection.
@@ -33643,8 +33526,8 @@ extension EC2 {
 
     public struct VpcPeeringConnectionVpcInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CidrBlockSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Ipv6CidrBlockSet", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "cidrBlockSet", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "ipv6CidrBlockSet", encoding: .list(member:"item"))
         ]
 
         /// The IPv4 CIDR block for the VPC.
@@ -33685,10 +33568,9 @@ extension EC2 {
 
     public struct VpnConnection: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Routes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type")), 
-            AWSMemberEncoding(label: "VgwTelemetry", encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "routes", encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "vgwTelemetry", encoding: .list(member:"item"))
         ]
 
         /// The category of the VPN connection. A value of VPN indicates an AWS VPN connection. A value of VPN-Classic indicates an AWS Classic VPN connection.
@@ -33749,7 +33631,7 @@ extension EC2 {
 
     public struct VpnConnectionOptions: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TunnelOptions", location: .body(locationName: "tunnelOptionSet"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tunnelOptions", location: .body(locationName: "tunnelOptionSet"), encoding: .list(member:"item"))
         ]
 
         /// Indicates whether acceleration is enabled for the VPN connection.
@@ -33774,7 +33656,7 @@ extension EC2 {
 
     public struct VpnConnectionOptionsSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TunnelOptions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "tunnelOptions", location: .body(locationName: "TunnelOptions"), encoding: .list(member:"member"))
         ]
 
         /// Indicate whether to enable acceleration for the VPN connection. Default: false 
@@ -33799,9 +33681,8 @@ extension EC2 {
 
     public struct VpnGateway: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type")), 
-            AWSMemberEncoding(label: "VpcAttachments", location: .body(locationName: "attachments"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "vpcAttachments", location: .body(locationName: "attachments"), encoding: .list(member:"item"))
         ]
 
         /// The private Autonomous System Number (ASN) for the Amazon side of a BGP session.
@@ -33864,13 +33745,13 @@ extension EC2 {
 
     public struct VpnTunnelOptionsSpecification: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IKEVersions", location: .body(locationName: "IKEVersion"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1DHGroupNumbers", location: .body(locationName: "Phase1DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1EncryptionAlgorithms", location: .body(locationName: "Phase1EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase1IntegrityAlgorithms", location: .body(locationName: "Phase1IntegrityAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2DHGroupNumbers", location: .body(locationName: "Phase2DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2EncryptionAlgorithms", location: .body(locationName: "Phase2EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "Phase2IntegrityAlgorithms", location: .body(locationName: "Phase2IntegrityAlgorithm"), encoding: .list(member:"item"))
+            AWSMemberEncoding(label: "iKEVersions", location: .body(locationName: "IKEVersion"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1DHGroupNumbers", location: .body(locationName: "Phase1DHGroupNumber"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1EncryptionAlgorithms", location: .body(locationName: "Phase1EncryptionAlgorithm"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase1IntegrityAlgorithms", location: .body(locationName: "Phase1IntegrityAlgorithm"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2DHGroupNumbers", location: .body(locationName: "Phase2DHGroupNumber"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2EncryptionAlgorithms", location: .body(locationName: "Phase2EncryptionAlgorithm"), encoding: .list(member:"item")), 
+            AWSMemberEncoding(label: "phase2IntegrityAlgorithms", location: .body(locationName: "Phase2IntegrityAlgorithm"), encoding: .list(member:"item"))
         ]
 
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30 

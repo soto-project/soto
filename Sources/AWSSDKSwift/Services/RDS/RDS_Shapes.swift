@@ -73,7 +73,7 @@ extension RDS {
 
     public struct AccountAttributesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AccountQuotas", encoding: .list(member:"AccountQuota"))
+            AWSMemberEncoding(label: "accountQuotas", location: .body(locationName: "AccountQuotas"), encoding: .list(member:"AccountQuota"))
         ]
 
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
@@ -187,7 +187,7 @@ extension RDS {
 
     public struct AddTagsToResourceMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The Amazon RDS resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
@@ -404,7 +404,7 @@ extension RDS {
 
     public struct CertificateMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Certificates", encoding: .list(member:"Certificate"))
+            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"Certificate"))
         ]
 
         /// The list of Certificate objects for the AWS account.
@@ -443,8 +443,8 @@ extension RDS {
 
     public struct CloudwatchLogsExportConfiguration: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DisableLogTypes", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "EnableLogTypes", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "disableLogTypes", location: .body(locationName: "DisableLogTypes"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
         ]
 
         /// The list of log types to disable.
@@ -465,7 +465,7 @@ extension RDS {
 
     public struct ConnectionPoolConfiguration: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SessionPinningFilters", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "sessionPinningFilters", location: .body(locationName: "SessionPinningFilters"), encoding: .list(member:"member"))
         ]
 
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
@@ -498,7 +498,7 @@ extension RDS {
 
     public struct ConnectionPoolConfigurationInfo: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SessionPinningFilters", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "sessionPinningFilters", location: .body(locationName: "SessionPinningFilters"), encoding: .list(member:"member"))
         ]
 
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
@@ -531,7 +531,7 @@ extension RDS {
 
     public struct CopyDBClusterParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide.  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
@@ -572,7 +572,7 @@ extension RDS {
 
     public struct CopyDBClusterSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// A value that indicates whether to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot. By default, tags are not copied.
@@ -621,7 +621,7 @@ extension RDS {
 
     public struct CopyDBParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
@@ -662,7 +662,7 @@ extension RDS {
 
     public struct CopyDBSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// A value that indicates whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags are not copied.
@@ -715,7 +715,7 @@ extension RDS {
 
     public struct CopyOptionGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid option group.   If the source option group is in the same AWS Region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different AWS Region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
@@ -795,9 +795,9 @@ extension RDS {
 
     public struct CreateDBClusterEndpointMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExcludedMembers", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "StaticMembers", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "excludedMembers", location: .body(locationName: "ExcludedMembers"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "staticMembers", location: .body(locationName: "StaticMembers"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
@@ -834,10 +834,10 @@ extension RDS {
 
     public struct CreateDBClusterMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A list of Availability Zones (AZs) where instances in the DB cluster can be created. For information on AWS Regions and Availability Zones, see Choosing the Regions and Availability Zones in the Amazon Aurora User Guide. 
@@ -970,7 +970,7 @@ extension RDS {
 
     public struct CreateDBClusterParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DB cluster parameter group.    This value is stored as a lowercase string. 
@@ -1025,7 +1025,7 @@ extension RDS {
 
     public struct CreateDBClusterSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier of the DB cluster to create a snapshot for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1 
@@ -1063,11 +1063,11 @@ extension RDS {
 
     public struct CreateDBInstanceMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroupName")), 
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    Oracle  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 200 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.    
@@ -1264,10 +1264,10 @@ extension RDS {
 
     public struct CreateDBInstanceReadReplicaMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether minor engine upgrades are applied automatically to the Read Replica during the maintenance window. Default: Inherits from the source DB instance
@@ -1425,7 +1425,7 @@ extension RDS {
 
     public struct CreateDBParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families, use the following command:  aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily"   The output contains duplicates. 
@@ -1467,10 +1467,10 @@ extension RDS {
 
     public struct CreateDBProxyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Auth", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "VpcSubnetIds", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "auth", location: .body(locationName: "Auth"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "vpcSubnetIds", location: .body(locationName: "VpcSubnetIds"), encoding: .list(member:"member"))
         ]
 
         /// The authorization mechanism that the proxy uses.
@@ -1537,7 +1537,7 @@ extension RDS {
 
     public struct CreateDBSecurityGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The description for the DB security group.
@@ -1575,7 +1575,7 @@ extension RDS {
 
     public struct CreateDBSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier of the DB instance that you want to create the snapshot of. Constraints:   Must match the identifier of an existing DBInstance.  
@@ -1612,8 +1612,8 @@ extension RDS {
 
     public struct CreateDBSubnetGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The description for the DB subnet group.
@@ -1655,9 +1655,9 @@ extension RDS {
 
     public struct CreateEventSubscriptionMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventCategories", encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "SourceIds", encoding: .list(member:"SourceId")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
+            AWSMemberEncoding(label: "sourceIds", location: .body(locationName: "SourceIds"), encoding: .list(member:"SourceId")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         ///  A value that indicates whether to activate the subscription. If the event notification subscription isn't activated, the subscription is created but not active. 
@@ -1761,7 +1761,7 @@ extension RDS {
 
     public struct CreateOptionGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// Specifies the name of the engine that this option group should be associated with.
@@ -1833,7 +1833,7 @@ extension RDS {
 
     public struct CustomAvailabilityZoneMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CustomAvailabilityZones", encoding: .list(member:"CustomAvailabilityZone"))
+            AWSMemberEncoding(label: "customAvailabilityZones", location: .body(locationName: "CustomAvailabilityZones"), encoding: .list(member:"CustomAvailabilityZone"))
         ]
 
         /// The list of CustomAvailabilityZone objects for the AWS account.
@@ -1854,14 +1854,14 @@ extension RDS {
 
     public struct DBCluster: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssociatedRoles", encoding: .list(member:"DBClusterRole")), 
-            AWSMemberEncoding(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "CustomEndpoints", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "DBClusterMembers", encoding: .list(member:"DBClusterMember")), 
-            AWSMemberEncoding(label: "DBClusterOptionGroupMemberships", encoding: .list(member:"DBClusterOptionGroup")), 
-            AWSMemberEncoding(label: "EnabledCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ReadReplicaIdentifiers", encoding: .list(member:"ReadReplicaIdentifier")), 
-            AWSMemberEncoding(label: "VpcSecurityGroups", encoding: .list(member:"VpcSecurityGroupMembership"))
+            AWSMemberEncoding(label: "associatedRoles", location: .body(locationName: "AssociatedRoles"), encoding: .list(member:"DBClusterRole")), 
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "customEndpoints", location: .body(locationName: "CustomEndpoints"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "dBClusterMembers", location: .body(locationName: "DBClusterMembers"), encoding: .list(member:"DBClusterMember")), 
+            AWSMemberEncoding(label: "dBClusterOptionGroupMemberships", location: .body(locationName: "DBClusterOptionGroupMemberships"), encoding: .list(member:"DBClusterOptionGroup")), 
+            AWSMemberEncoding(label: "enabledCloudwatchLogsExports", location: .body(locationName: "EnabledCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "readReplicaIdentifiers", location: .body(locationName: "ReadReplicaIdentifiers"), encoding: .list(member:"ReadReplicaIdentifier")), 
+            AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
@@ -2111,7 +2111,7 @@ extension RDS {
 
     public struct DBClusterBacktrackMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusterBacktracks", encoding: .list(member:"DBClusterBacktrack"))
+            AWSMemberEncoding(label: "dBClusterBacktracks", location: .body(locationName: "DBClusterBacktracks"), encoding: .list(member:"DBClusterBacktrack"))
         ]
 
         /// Contains a list of backtracks for the user.
@@ -2162,8 +2162,8 @@ extension RDS {
 
     public struct DBClusterEndpoint: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExcludedMembers", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "StaticMembers", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "excludedMembers", location: .body(locationName: "ExcludedMembers"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "staticMembers", location: .body(locationName: "StaticMembers"), encoding: .list(member:"member"))
         ]
 
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
@@ -2216,7 +2216,7 @@ extension RDS {
 
     public struct DBClusterEndpointMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusterEndpoints", encoding: .list(member:"DBClusterEndpointList"))
+            AWSMemberEncoding(label: "dBClusterEndpoints", location: .body(locationName: "DBClusterEndpoints"), encoding: .list(member:"DBClusterEndpointList"))
         ]
 
         /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
@@ -2263,7 +2263,7 @@ extension RDS {
 
     public struct DBClusterMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusters", encoding: .list(member:"DBCluster"))
+            AWSMemberEncoding(label: "dBClusters", location: .body(locationName: "DBClusters"), encoding: .list(member:"DBCluster"))
         ]
 
         /// Contains a list of DB clusters for the user.
@@ -2328,7 +2328,7 @@ extension RDS {
 
     public struct DBClusterParameterGroupDetails: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
@@ -2363,7 +2363,7 @@ extension RDS {
 
     public struct DBClusterParameterGroupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusterParameterGroups", encoding: .list(member:"DBClusterParameterGroup"))
+            AWSMemberEncoding(label: "dBClusterParameterGroups", location: .body(locationName: "DBClusterParameterGroups"), encoding: .list(member:"DBClusterParameterGroup"))
         ]
 
         /// A list of DB cluster parameter groups.
@@ -2406,7 +2406,7 @@ extension RDS {
 
     public struct DBClusterSnapshot: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
         ]
 
         /// Specifies the allocated storage size in gibibytes (GiB).
@@ -2499,7 +2499,7 @@ extension RDS {
 
     public struct DBClusterSnapshotAttribute: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AttributeValues", encoding: .list(member:"AttributeValue"))
+            AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "AttributeValues"), encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
@@ -2520,7 +2520,7 @@ extension RDS {
 
     public struct DBClusterSnapshotAttributesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusterSnapshotAttributes", encoding: .list(member:"DBClusterSnapshotAttribute"))
+            AWSMemberEncoding(label: "dBClusterSnapshotAttributes", location: .body(locationName: "DBClusterSnapshotAttributes"), encoding: .list(member:"DBClusterSnapshotAttribute"))
         ]
 
         /// The list of attributes and values for the manual DB cluster snapshot.
@@ -2541,7 +2541,7 @@ extension RDS {
 
     public struct DBClusterSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusterSnapshots", encoding: .list(member:"DBClusterSnapshot"))
+            AWSMemberEncoding(label: "dBClusterSnapshots", location: .body(locationName: "DBClusterSnapshots"), encoding: .list(member:"DBClusterSnapshot"))
         ]
 
         /// Provides a list of DB cluster snapshots for the user.
@@ -2562,12 +2562,12 @@ extension RDS {
 
     public struct DBEngineVersion: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportableLogTypes", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "SupportedCharacterSets", encoding: .list(member:"CharacterSet")), 
-            AWSMemberEncoding(label: "SupportedEngineModes", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "SupportedFeatureNames", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "SupportedTimezones", encoding: .list(member:"Timezone")), 
-            AWSMemberEncoding(label: "ValidUpgradeTarget", encoding: .list(member:"UpgradeTarget"))
+            AWSMemberEncoding(label: "exportableLogTypes", location: .body(locationName: "ExportableLogTypes"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "supportedCharacterSets", location: .body(locationName: "SupportedCharacterSets"), encoding: .list(member:"CharacterSet")), 
+            AWSMemberEncoding(label: "supportedEngineModes", location: .body(locationName: "SupportedEngineModes"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "supportedFeatureNames", location: .body(locationName: "SupportedFeatureNames"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "supportedTimezones", location: .body(locationName: "SupportedTimezones"), encoding: .list(member:"Timezone")), 
+            AWSMemberEncoding(label: "validUpgradeTarget", location: .body(locationName: "ValidUpgradeTarget"), encoding: .list(member:"UpgradeTarget"))
         ]
 
         /// The description of the database engine.
@@ -2640,7 +2640,7 @@ extension RDS {
 
     public struct DBEngineVersionMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBEngineVersions", encoding: .list(member:"DBEngineVersion"))
+            AWSMemberEncoding(label: "dBEngineVersions", location: .body(locationName: "DBEngineVersions"), encoding: .list(member:"DBEngineVersion"))
         ]
 
         ///  A list of DBEngineVersion elements. 
@@ -2661,17 +2661,17 @@ extension RDS {
 
     public struct DBInstance: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssociatedRoles", encoding: .list(member:"DBInstanceRole")), 
-            AWSMemberEncoding(label: "DBParameterGroups", encoding: .list(member:"DBParameterGroup")), 
-            AWSMemberEncoding(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroup")), 
-            AWSMemberEncoding(label: "DomainMemberships", encoding: .list(member:"DomainMembership")), 
-            AWSMemberEncoding(label: "EnabledCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "OptionGroupMemberships", encoding: .list(member:"OptionGroupMembership")), 
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
-            AWSMemberEncoding(label: "ReadReplicaDBClusterIdentifiers", encoding: .list(member:"ReadReplicaDBClusterIdentifier")), 
-            AWSMemberEncoding(label: "ReadReplicaDBInstanceIdentifiers", encoding: .list(member:"ReadReplicaDBInstanceIdentifier")), 
-            AWSMemberEncoding(label: "StatusInfos", encoding: .list(member:"DBInstanceStatusInfo")), 
-            AWSMemberEncoding(label: "VpcSecurityGroups", encoding: .list(member:"VpcSecurityGroupMembership"))
+            AWSMemberEncoding(label: "associatedRoles", location: .body(locationName: "AssociatedRoles"), encoding: .list(member:"DBInstanceRole")), 
+            AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup")), 
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroup")), 
+            AWSMemberEncoding(label: "domainMemberships", location: .body(locationName: "DomainMemberships"), encoding: .list(member:"DomainMembership")), 
+            AWSMemberEncoding(label: "enabledCloudwatchLogsExports", location: .body(locationName: "EnabledCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "optionGroupMemberships", location: .body(locationName: "OptionGroupMemberships"), encoding: .list(member:"OptionGroupMembership")), 
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature")), 
+            AWSMemberEncoding(label: "readReplicaDBClusterIdentifiers", location: .body(locationName: "ReadReplicaDBClusterIdentifiers"), encoding: .list(member:"ReadReplicaDBClusterIdentifier")), 
+            AWSMemberEncoding(label: "readReplicaDBInstanceIdentifiers", location: .body(locationName: "ReadReplicaDBInstanceIdentifiers"), encoding: .list(member:"ReadReplicaDBInstanceIdentifier")), 
+            AWSMemberEncoding(label: "statusInfos", location: .body(locationName: "StatusInfos"), encoding: .list(member:"DBInstanceStatusInfo")), 
+            AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         /// Specifies the allocated storage size specified in gibibytes.
@@ -3018,7 +3018,7 @@ extension RDS {
 
     public struct DBInstanceAutomatedBackupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBInstanceAutomatedBackups", encoding: .list(member:"DBInstanceAutomatedBackup"))
+            AWSMemberEncoding(label: "dBInstanceAutomatedBackups", location: .body(locationName: "DBInstanceAutomatedBackups"), encoding: .list(member:"DBInstanceAutomatedBackup"))
         ]
 
         ///  A list of DBInstanceAutomatedBackup instances. 
@@ -3039,7 +3039,7 @@ extension RDS {
 
     public struct DBInstanceMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBInstances", encoding: .list(member:"DBInstance"))
+            AWSMemberEncoding(label: "dBInstances", location: .body(locationName: "DBInstances"), encoding: .list(member:"DBInstance"))
         ]
 
         ///  A list of DBInstance instances. 
@@ -3134,7 +3134,7 @@ extension RDS {
 
     public struct DBParameterGroupDetails: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -3187,7 +3187,7 @@ extension RDS {
 
     public struct DBParameterGroupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBParameterGroups", encoding: .list(member:"DBParameterGroup"))
+            AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup"))
         ]
 
         ///  A list of DBParameterGroup instances. 
@@ -3208,9 +3208,9 @@ extension RDS {
 
     public struct DBProxy: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Auth", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "VpcSubnetIds", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "auth", location: .body(locationName: "Auth"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "vpcSubnetIds", location: .body(locationName: "VpcSubnetIds"), encoding: .list(member:"member"))
         ]
 
         /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
@@ -3355,8 +3355,8 @@ extension RDS {
 
     public struct DBSecurityGroup: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EC2SecurityGroups", encoding: .list(member:"EC2SecurityGroup")), 
-            AWSMemberEncoding(label: "IPRanges", encoding: .list(member:"IPRange"))
+            AWSMemberEncoding(label: "eC2SecurityGroups", location: .body(locationName: "EC2SecurityGroups"), encoding: .list(member:"EC2SecurityGroup")), 
+            AWSMemberEncoding(label: "iPRanges", location: .body(locationName: "IPRanges"), encoding: .list(member:"IPRange"))
         ]
 
         /// The Amazon Resource Name (ARN) for the DB security group.
@@ -3415,7 +3415,7 @@ extension RDS {
 
     public struct DBSecurityGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroup"))
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroup"))
         ]
 
         ///  A list of DBSecurityGroup instances. 
@@ -3436,7 +3436,7 @@ extension RDS {
 
     public struct DBSnapshot: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature"))
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature"))
         ]
 
         /// Specifies the allocated storage size in gibibytes (GiB).
@@ -3561,7 +3561,7 @@ extension RDS {
 
     public struct DBSnapshotAttribute: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AttributeValues", encoding: .list(member:"AttributeValue"))
+            AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "AttributeValues"), encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
@@ -3582,7 +3582,7 @@ extension RDS {
 
     public struct DBSnapshotAttributesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSnapshotAttributes", encoding: .list(member:"DBSnapshotAttribute"))
+            AWSMemberEncoding(label: "dBSnapshotAttributes", location: .body(locationName: "DBSnapshotAttributes"), encoding: .list(member:"DBSnapshotAttribute"))
         ]
 
         /// The list of attributes and values for the manual DB snapshot.
@@ -3603,7 +3603,7 @@ extension RDS {
 
     public struct DBSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSnapshots", encoding: .list(member:"DBSnapshot"))
+            AWSMemberEncoding(label: "dBSnapshots", location: .body(locationName: "DBSnapshots"), encoding: .list(member:"DBSnapshot"))
         ]
 
         ///  A list of DBSnapshot instances. 
@@ -3624,7 +3624,7 @@ extension RDS {
 
     public struct DBSubnetGroup: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Subnets", encoding: .list(member:"Subnet"))
+            AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"Subnet"))
         ]
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
@@ -3661,7 +3661,7 @@ extension RDS {
 
     public struct DBSubnetGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSubnetGroups", encoding: .list(member:"DBSubnetGroup"))
+            AWSMemberEncoding(label: "dBSubnetGroups", location: .body(locationName: "DBSubnetGroups"), encoding: .list(member:"DBSubnetGroup"))
         ]
 
         ///  A list of DBSubnetGroup instances. 
@@ -4044,8 +4044,8 @@ extension RDS {
 
     public struct DeregisterDBProxyTargetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusterIdentifiers", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "DBInstanceIdentifiers", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dBClusterIdentifiers", location: .body(locationName: "DBClusterIdentifiers"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "dBInstanceIdentifiers", location: .body(locationName: "DBInstanceIdentifiers"), encoding: .list(member:"member"))
         ]
 
         /// One or more DB cluster identifiers.
@@ -4090,7 +4090,7 @@ extension RDS {
 
     public struct DescribeCertificatesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must match an existing CertificateIdentifier.  
@@ -4119,7 +4119,7 @@ extension RDS {
 
     public struct DescribeCustomAvailabilityZonesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The custom AZ identifier. If this parameter is specified, information from only the specific custom AZ is returned.
@@ -4148,7 +4148,7 @@ extension RDS {
 
     public struct DescribeDBClusterBacktracksMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// If specified, this value is the backtrack identifier of the backtrack to be described. Constraints:   Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see A Universally Unique Identifier (UUID) URN Namespace.   Example: 123e4567-e89b-12d3-a456-426655440000 
@@ -4181,7 +4181,7 @@ extension RDS {
 
     public struct DescribeDBClusterEndpointsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
@@ -4214,7 +4214,7 @@ extension RDS {
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -4243,7 +4243,7 @@ extension RDS {
 
     public struct DescribeDBClusterParametersMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -4303,7 +4303,7 @@ extension RDS {
 
     public struct DescribeDBClusterSnapshotsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBCluster.  
@@ -4348,7 +4348,7 @@ extension RDS {
 
     public struct DescribeDBClustersMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
@@ -4381,7 +4381,7 @@ extension RDS {
 
     public struct DescribeDBEngineVersionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.  
@@ -4434,7 +4434,7 @@ extension RDS {
 
     public struct DescribeDBInstanceAutomatedBackupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance' automated backup. This parameter isn't case-sensitive. 
@@ -4467,7 +4467,7 @@ extension RDS {
 
     public struct DescribeDBInstancesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
@@ -4518,7 +4518,7 @@ extension RDS {
 
     public struct DescribeDBLogFilesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.  
@@ -4559,7 +4559,7 @@ extension RDS {
 
     public struct DescribeDBLogFilesResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DescribeDBLogFiles", encoding: .list(member:"DescribeDBLogFilesDetails"))
+            AWSMemberEncoding(label: "describeDBLogFiles", location: .body(locationName: "DescribeDBLogFiles"), encoding: .list(member:"DescribeDBLogFilesDetails"))
         ]
 
         /// The DB log files returned.
@@ -4580,7 +4580,7 @@ extension RDS {
 
     public struct DescribeDBParameterGroupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -4609,7 +4609,7 @@ extension RDS {
 
     public struct DescribeDBParametersMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
@@ -4642,7 +4642,7 @@ extension RDS {
 
     public struct DescribeDBProxiesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB proxy.
@@ -4676,7 +4676,7 @@ extension RDS {
 
     public struct DescribeDBProxiesResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBProxies", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dBProxies", location: .body(locationName: "DBProxies"), encoding: .list(member:"member"))
         ]
 
         /// A return value representing an arbitrary number of DBProxy data structures.
@@ -4697,7 +4697,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the DBProxy associated with the target group.
@@ -4735,7 +4735,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetGroupsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TargetGroups", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -4756,7 +4756,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the DBProxyTarget to describe.
@@ -4794,7 +4794,7 @@ extension RDS {
 
     public struct DescribeDBProxyTargetsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Targets", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -4815,7 +4815,7 @@ extension RDS {
 
     public struct DescribeDBSecurityGroupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB security group to return details for.
@@ -4871,7 +4871,7 @@ extension RDS {
 
     public struct DescribeDBSnapshotsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter can't be used in conjunction with DBSnapshotIdentifier. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBInstance.  
@@ -4920,7 +4920,7 @@ extension RDS {
 
     public struct DescribeDBSubnetGroupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB subnet group to return details for.
@@ -4949,7 +4949,7 @@ extension RDS {
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB cluster parameter group family to return engine parameter information for.
@@ -4991,7 +4991,7 @@ extension RDS {
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB parameter group family.
@@ -5033,7 +5033,7 @@ extension RDS {
 
     public struct DescribeEventCategoriesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -5054,7 +5054,7 @@ extension RDS {
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -5083,8 +5083,8 @@ extension RDS {
 
     public struct DescribeEventsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventCategories", encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The number of minutes to retrieve events for. Default: 60
@@ -5133,7 +5133,7 @@ extension RDS {
 
     public struct DescribeExportTasksMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The identifier of the snapshot export task to be described.
@@ -5166,7 +5166,7 @@ extension RDS {
 
     public struct DescribeGlobalClustersMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// A filter that specifies one or more global DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
@@ -5195,7 +5195,7 @@ extension RDS {
 
     public struct DescribeInstallationMediaMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// A filter that specifies one or more installation media to describe. Supported filters include the following:    custom-availability-zone-id - Accepts custom Availability Zone (AZ) identifiers. The results list includes information about only the custom AZs identified by these identifiers.    engine - Accepts database engines. The results list includes information about only the database engines identified by these identifiers. For more information about the valid engines for installation media, see ImportInstallationMedia.  
@@ -5224,7 +5224,7 @@ extension RDS {
 
     public struct DescribeOptionGroupOptionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// A required parameter. Options available for the given engine name are described.
@@ -5257,7 +5257,7 @@ extension RDS {
 
     public struct DescribeOptionGroupsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// Filters the list of option groups to only include groups associated with a specific database engine.
@@ -5294,7 +5294,7 @@ extension RDS {
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
@@ -5339,7 +5339,7 @@ extension RDS {
 
     public struct DescribePendingMaintenanceActionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
@@ -5368,7 +5368,7 @@ extension RDS {
 
     public struct DescribeReservedDBInstancesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The DB instance class filter value. Specify this parameter to show only those reservations matching the specified DB instances class.
@@ -5425,7 +5425,7 @@ extension RDS {
 
     public struct DescribeReservedDBInstancesOfferingsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
@@ -5474,7 +5474,7 @@ extension RDS {
 
     public struct DescribeSourceRegionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -5670,7 +5670,7 @@ extension RDS {
 
     public struct EngineDefaults: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
@@ -5695,7 +5695,7 @@ extension RDS {
 
     public struct Event: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventCategories", encoding: .list(member:"EventCategory"))
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
 
         /// Specifies the date and time of the event.
@@ -5732,7 +5732,7 @@ extension RDS {
 
     public struct EventCategoriesMap: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventCategories", encoding: .list(member:"EventCategory"))
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
 
         /// The event categories for the specified source type
@@ -5753,7 +5753,7 @@ extension RDS {
 
     public struct EventCategoriesMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventCategoriesMapList", encoding: .list(member:"EventCategoriesMap"))
+            AWSMemberEncoding(label: "eventCategoriesMapList", location: .body(locationName: "EventCategoriesMapList"), encoding: .list(member:"EventCategoriesMap"))
         ]
 
         /// A list of EventCategoriesMap data types.
@@ -5770,8 +5770,8 @@ extension RDS {
 
     public struct EventSubscription: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventCategoriesList", encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "SourceIdsList", encoding: .list(member:"SourceId"))
+            AWSMemberEncoding(label: "eventCategoriesList", location: .body(locationName: "EventCategoriesList"), encoding: .list(member:"EventCategory")), 
+            AWSMemberEncoding(label: "sourceIdsList", location: .body(locationName: "SourceIdsList"), encoding: .list(member:"SourceId"))
         ]
 
         /// The AWS customer account associated with the RDS event notification subscription.
@@ -5824,7 +5824,7 @@ extension RDS {
 
     public struct EventSubscriptionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventSubscriptionsList", encoding: .list(member:"EventSubscription"))
+            AWSMemberEncoding(label: "eventSubscriptionsList", location: .body(locationName: "EventSubscriptionsList"), encoding: .list(member:"EventSubscription"))
         ]
 
         /// A list of EventSubscriptions data types.
@@ -5845,7 +5845,7 @@ extension RDS {
 
     public struct EventsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Events", encoding: .list(member:"Event"))
+            AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"Event"))
         ]
 
         ///  A list of Event instances. 
@@ -5866,7 +5866,7 @@ extension RDS {
 
     public struct ExportTask: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportOnly", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "exportOnly", location: .body(locationName: "ExportOnly"), encoding: .list(member:"member"))
         ]
 
         /// The data exported from the snapshot. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
@@ -5939,7 +5939,7 @@ extension RDS {
 
     public struct ExportTasksMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportTasks", encoding: .list(member:"ExportTask"))
+            AWSMemberEncoding(label: "exportTasks", location: .body(locationName: "ExportTasks"), encoding: .list(member:"ExportTask"))
         ]
 
         /// Information about an export of a snapshot to Amazon S3.
@@ -5991,7 +5991,7 @@ extension RDS {
 
     public struct Filter: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Values", encoding: .list(member:"Value"))
+            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"Value"))
         ]
 
         /// The name of the filter. Filter names are case-sensitive.
@@ -6012,7 +6012,7 @@ extension RDS {
 
     public struct GlobalCluster: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalClusterMembers", encoding: .list(member:"GlobalClusterMember"))
+            AWSMemberEncoding(label: "globalClusterMembers", location: .body(locationName: "GlobalClusterMembers"), encoding: .list(member:"GlobalClusterMember"))
         ]
 
         ///  The default database name within the new global database cluster. 
@@ -6065,7 +6065,7 @@ extension RDS {
 
     public struct GlobalClusterMember: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Readers", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "readers", location: .body(locationName: "Readers"), encoding: .list(member:"member"))
         ]
 
         ///  The Amazon Resource Name (ARN) for each Aurora cluster. 
@@ -6090,7 +6090,7 @@ extension RDS {
 
     public struct GlobalClustersMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalClusters", encoding: .list(member:"GlobalClusterMember"))
+            AWSMemberEncoding(label: "globalClusters", location: .body(locationName: "GlobalClusters"), encoding: .list(member:"GlobalClusterMember"))
         ]
 
         ///  The list of global clusters returned by this request. 
@@ -6215,7 +6215,7 @@ extension RDS {
 
     public struct InstallationMediaMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstallationMedia", encoding: .list(member:"InstallationMedia"))
+            AWSMemberEncoding(label: "installationMedia", location: .body(locationName: "InstallationMedia"), encoding: .list(member:"InstallationMedia"))
         ]
 
         /// The list of InstallationMedia objects for the AWS account.
@@ -6236,7 +6236,7 @@ extension RDS {
 
     public struct ListTagsForResourceMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Filters", encoding: .list(member:"Filter"))
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// This parameter isn't currently supported.
@@ -6332,8 +6332,8 @@ extension RDS {
 
     public struct ModifyDBClusterEndpointMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExcludedMembers", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "StaticMembers", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "excludedMembers", location: .body(locationName: "ExcludedMembers"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "staticMembers", location: .body(locationName: "StaticMembers"), encoding: .list(member:"member"))
         ]
 
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
@@ -6362,7 +6362,7 @@ extension RDS {
 
     public struct ModifyDBClusterMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
@@ -6459,7 +6459,7 @@ extension RDS {
 
     public struct ModifyDBClusterParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB cluster parameter group to modify.
@@ -6493,8 +6493,8 @@ extension RDS {
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ValuesToAdd", encoding: .list(member:"AttributeValue")), 
-            AWSMemberEncoding(label: "ValuesToRemove", encoding: .list(member:"AttributeValue"))
+            AWSMemberEncoding(label: "valuesToAdd", location: .body(locationName: "ValuesToAdd"), encoding: .list(member:"AttributeValue")), 
+            AWSMemberEncoding(label: "valuesToRemove", location: .body(locationName: "ValuesToRemove"), encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
@@ -6536,9 +6536,9 @@ extension RDS {
 
     public struct ModifyDBInstanceMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroupName")), 
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The new amount of storage (in gibibytes) to allocate for the DB instance.  For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  For the valid values for allocated storage for each engine, see CreateDBInstance. 
@@ -6732,7 +6732,7 @@ extension RDS {
 
     public struct ModifyDBParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
@@ -6753,8 +6753,8 @@ extension RDS {
 
     public struct ModifyDBProxyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Auth", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "SecurityGroups", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "auth", location: .body(locationName: "Auth"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
 
         /// The new authentication settings for the DBProxy.
@@ -6853,8 +6853,8 @@ extension RDS {
 
     public struct ModifyDBSnapshotAttributeMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ValuesToAdd", encoding: .list(member:"AttributeValue")), 
-            AWSMemberEncoding(label: "ValuesToRemove", encoding: .list(member:"AttributeValue"))
+            AWSMemberEncoding(label: "valuesToAdd", location: .body(locationName: "ValuesToAdd"), encoding: .list(member:"AttributeValue")), 
+            AWSMemberEncoding(label: "valuesToRemove", location: .body(locationName: "ValuesToRemove"), encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the DB snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB snapshot, set this value to restore.
@@ -6931,7 +6931,7 @@ extension RDS {
 
     public struct ModifyDBSubnetGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SubnetIds", encoding: .list(member:"SubnetIdentifier"))
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier"))
         ]
 
         /// The description for the DB subnet group.
@@ -6969,7 +6969,7 @@ extension RDS {
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventCategories", encoding: .list(member:"EventCategory"))
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
 
         ///  A value that indicates whether to activate the subscription. 
@@ -7050,8 +7050,8 @@ extension RDS {
 
     public struct ModifyOptionGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OptionsToInclude", encoding: .list(member:"OptionConfiguration")), 
-            AWSMemberEncoding(label: "OptionsToRemove", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "optionsToInclude", location: .body(locationName: "OptionsToInclude"), encoding: .list(member:"OptionConfiguration")), 
+            AWSMemberEncoding(label: "optionsToRemove", location: .body(locationName: "OptionsToRemove"), encoding: .list(member:"member"))
         ]
 
         /// A value that indicates whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
@@ -7093,9 +7093,9 @@ extension RDS {
 
     public struct Option: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSecurityGroupMemberships", encoding: .list(member:"DBSecurityGroup")), 
-            AWSMemberEncoding(label: "OptionSettings", encoding: .list(member:"OptionSetting")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupMemberships", encoding: .list(member:"VpcSecurityGroupMembership"))
+            AWSMemberEncoding(label: "dBSecurityGroupMemberships", location: .body(locationName: "DBSecurityGroupMemberships"), encoding: .list(member:"DBSecurityGroup")), 
+            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"OptionSetting")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupMemberships", location: .body(locationName: "VpcSecurityGroupMemberships"), encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         /// If the option requires access to a port, then this DB security group allows access to the port.
@@ -7144,9 +7144,9 @@ extension RDS {
 
     public struct OptionConfiguration: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSecurityGroupMemberships", encoding: .list(member:"DBSecurityGroupName")), 
-            AWSMemberEncoding(label: "OptionSettings", encoding: .list(member:"OptionSetting")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupMemberships", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "dBSecurityGroupMemberships", location: .body(locationName: "DBSecurityGroupMemberships"), encoding: .list(member:"DBSecurityGroupName")), 
+            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"OptionSetting")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupMemberships", location: .body(locationName: "VpcSecurityGroupMemberships"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A list of DBSecurityGroupMembership name strings used for this option.
@@ -7183,7 +7183,7 @@ extension RDS {
 
     public struct OptionGroup: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Options", encoding: .list(member:"Option"))
+            AWSMemberEncoding(label: "options", location: .body(locationName: "Options"), encoding: .list(member:"Option"))
         ]
 
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances. 
@@ -7246,10 +7246,10 @@ extension RDS {
 
     public struct OptionGroupOption: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OptionGroupOptionSettings", encoding: .list(member:"OptionGroupOptionSetting")), 
-            AWSMemberEncoding(label: "OptionGroupOptionVersions", encoding: .list(member:"OptionVersion")), 
-            AWSMemberEncoding(label: "OptionsConflictsWith", encoding: .list(member:"OptionConflictName")), 
-            AWSMemberEncoding(label: "OptionsDependedOn", encoding: .list(member:"OptionName"))
+            AWSMemberEncoding(label: "optionGroupOptionSettings", location: .body(locationName: "OptionGroupOptionSettings"), encoding: .list(member:"OptionGroupOptionSetting")), 
+            AWSMemberEncoding(label: "optionGroupOptionVersions", location: .body(locationName: "OptionGroupOptionVersions"), encoding: .list(member:"OptionVersion")), 
+            AWSMemberEncoding(label: "optionsConflictsWith", location: .body(locationName: "OptionsConflictsWith"), encoding: .list(member:"OptionConflictName")), 
+            AWSMemberEncoding(label: "optionsDependedOn", location: .body(locationName: "OptionsDependedOn"), encoding: .list(member:"OptionName"))
         ]
 
         /// If the option requires a port, specifies the default port for the option.
@@ -7326,7 +7326,7 @@ extension RDS {
 
     public struct OptionGroupOptionSetting: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MinimumEngineVersionPerAllowedValue", encoding: .list(member:"MinimumEngineVersionPerAllowedValue"))
+            AWSMemberEncoding(label: "minimumEngineVersionPerAllowedValue", location: .body(locationName: "MinimumEngineVersionPerAllowedValue"), encoding: .list(member:"MinimumEngineVersionPerAllowedValue"))
         ]
 
         /// Indicates the acceptable values for the option group option.
@@ -7371,7 +7371,7 @@ extension RDS {
 
     public struct OptionGroupOptionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OptionGroupOptions", encoding: .list(member:"OptionGroupOption"))
+            AWSMemberEncoding(label: "optionGroupOptions", location: .body(locationName: "OptionGroupOptions"), encoding: .list(member:"OptionGroupOption"))
         ]
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7391,7 +7391,7 @@ extension RDS {
 
     public struct OptionGroups: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OptionGroupsList", encoding: .list(member:"OptionGroup"))
+            AWSMemberEncoding(label: "optionGroupsList", location: .body(locationName: "OptionGroupsList"), encoding: .list(member:"OptionGroup"))
         ]
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -7476,9 +7476,9 @@ extension RDS {
 
     public struct OrderableDBInstanceOption: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "AvailableProcessorFeatures", encoding: .list(member:"AvailableProcessorFeature")), 
-            AWSMemberEncoding(label: "SupportedEngineModes", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "availableProcessorFeatures", location: .body(locationName: "AvailableProcessorFeatures"), encoding: .list(member:"AvailableProcessorFeature")), 
+            AWSMemberEncoding(label: "supportedEngineModes", location: .body(locationName: "SupportedEngineModes"), encoding: .list(member:"member"))
         ]
 
         /// A list of Availability Zones for a DB instance.
@@ -7587,7 +7587,7 @@ extension RDS {
 
     public struct OrderableDBInstanceOptionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OrderableDBInstanceOptions", encoding: .list(member:"OrderableDBInstanceOption"))
+            AWSMemberEncoding(label: "orderableDBInstanceOptions", location: .body(locationName: "OrderableDBInstanceOptions"), encoding: .list(member:"OrderableDBInstanceOption"))
         ]
 
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
@@ -7608,7 +7608,7 @@ extension RDS {
 
     public struct Parameter: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SupportedEngineModes", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "supportedEngineModes", location: .body(locationName: "SupportedEngineModes"), encoding: .list(member:"member"))
         ]
 
         /// Specifies the valid range of values for the parameter.
@@ -7665,8 +7665,8 @@ extension RDS {
 
     public struct PendingCloudwatchLogsExports: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LogTypesToDisable", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "LogTypesToEnable", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "logTypesToDisable", location: .body(locationName: "LogTypesToDisable"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
         ]
 
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
@@ -7721,7 +7721,7 @@ extension RDS {
 
     public struct PendingMaintenanceActionsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PendingMaintenanceActions", encoding: .list(member:"ResourcePendingMaintenanceActions"))
+            AWSMemberEncoding(label: "pendingMaintenanceActions", location: .body(locationName: "PendingMaintenanceActions"), encoding: .list(member:"ResourcePendingMaintenanceActions"))
         ]
 
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
@@ -7742,7 +7742,7 @@ extension RDS {
 
     public struct PendingModifiedValues: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature"))
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature"))
         ]
 
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied. 
@@ -7894,7 +7894,7 @@ extension RDS {
 
     public struct PurchaseReservedDBInstancesOfferingMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The number of instances to reserve. Default: 1 
@@ -8006,8 +8006,8 @@ extension RDS {
 
     public struct RegisterDBProxyTargetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBClusterIdentifiers", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "DBInstanceIdentifiers", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dBClusterIdentifiers", location: .body(locationName: "DBClusterIdentifiers"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "dBInstanceIdentifiers", location: .body(locationName: "DBInstanceIdentifiers"), encoding: .list(member:"member"))
         ]
 
         /// One or more DB cluster identifiers.
@@ -8036,7 +8036,7 @@ extension RDS {
 
     public struct RegisterDBProxyTargetsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBProxyTargets", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dBProxyTargets", location: .body(locationName: "DBProxyTargets"), encoding: .list(member:"member"))
         ]
 
         /// One or more DBProxyTarget objects that are created when you register targets with a target group.
@@ -8159,7 +8159,7 @@ extension RDS {
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagKeys", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
         /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide. 
@@ -8180,7 +8180,7 @@ extension RDS {
 
     public struct ReservedDBInstance: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
+            AWSMemberEncoding(label: "recurringCharges", location: .body(locationName: "RecurringCharges"), encoding: .list(member:"RecurringCharge"))
         ]
 
         /// The currency code for the reserved DB instance.
@@ -8257,7 +8257,7 @@ extension RDS {
 
     public struct ReservedDBInstanceMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedDBInstances", encoding: .list(member:"ReservedDBInstance"))
+            AWSMemberEncoding(label: "reservedDBInstances", location: .body(locationName: "ReservedDBInstances"), encoding: .list(member:"ReservedDBInstance"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -8278,7 +8278,7 @@ extension RDS {
 
     public struct ReservedDBInstancesOffering: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RecurringCharges", encoding: .list(member:"RecurringCharge"))
+            AWSMemberEncoding(label: "recurringCharges", location: .body(locationName: "RecurringCharges"), encoding: .list(member:"RecurringCharge"))
         ]
 
         /// The currency code for the reserved DB instance offering.
@@ -8331,7 +8331,7 @@ extension RDS {
 
     public struct ReservedDBInstancesOfferingMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ReservedDBInstancesOfferings", encoding: .list(member:"ReservedDBInstancesOffering"))
+            AWSMemberEncoding(label: "reservedDBInstancesOfferings", location: .body(locationName: "ReservedDBInstancesOfferings"), encoding: .list(member:"ReservedDBInstancesOffering"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -8352,7 +8352,7 @@ extension RDS {
 
     public struct ResetDBClusterParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB cluster parameter group to reset.
@@ -8377,7 +8377,7 @@ extension RDS {
 
     public struct ResetDBParameterGroupMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Parameters", encoding: .list(member:"Parameter"))
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
@@ -8402,7 +8402,7 @@ extension RDS {
 
     public struct ResourcePendingMaintenanceActions: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PendingMaintenanceActionDetails", encoding: .list(member:"PendingMaintenanceAction"))
+            AWSMemberEncoding(label: "pendingMaintenanceActionDetails", location: .body(locationName: "PendingMaintenanceActionDetails"), encoding: .list(member:"PendingMaintenanceAction"))
         ]
 
         /// A list that provides details about the pending maintenance actions for the resource.
@@ -8423,10 +8423,10 @@ extension RDS {
 
     public struct RestoreDBClusterFromS3Message: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
@@ -8567,10 +8567,10 @@ extension RDS {
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AvailabilityZones", encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// Provides the list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
@@ -8676,9 +8676,9 @@ extension RDS {
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
@@ -8771,10 +8771,10 @@ extension RDS {
 
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
@@ -8911,11 +8911,11 @@ extension RDS {
 
     public struct RestoreDBInstanceFromS3Message: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DBSecurityGroups", encoding: .list(member:"DBSecurityGroupName")), 
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.   Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.  
@@ -9113,10 +9113,10 @@ extension RDS {
 
     public struct RestoreDBInstanceToPointInTimeMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EnableCloudwatchLogsExports", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ProcessorFeatures", encoding: .list(member:"ProcessorFeature")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "VpcSecurityGroupIds", encoding: .list(member:"VpcSecurityGroupId"))
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "processorFeatures", location: .body(locationName: "ProcessorFeatures"), encoding: .list(member:"ProcessorFeature")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
@@ -9408,7 +9408,7 @@ extension RDS {
 
     public struct SourceRegionMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SourceRegions", encoding: .list(member:"SourceRegion"))
+            AWSMemberEncoding(label: "sourceRegions", location: .body(locationName: "SourceRegions"), encoding: .list(member:"SourceRegion"))
         ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -9539,7 +9539,7 @@ extension RDS {
 
     public struct StartExportTaskMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportOnly", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "exportOnly", location: .body(locationName: "ExportOnly"), encoding: .list(member:"member"))
         ]
 
         /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
@@ -9717,7 +9717,7 @@ extension RDS {
 
     public struct TagListMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagList", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "tagList", location: .body(locationName: "TagList"), encoding: .list(member:"Tag"))
         ]
 
         /// List of tags returned by the ListTagsForResource operation.
@@ -9838,8 +9838,8 @@ extension RDS {
 
     public struct ValidDBInstanceModificationsMessage: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Storage", encoding: .list(member:"ValidStorageOptions")), 
-            AWSMemberEncoding(label: "ValidProcessorFeatures", encoding: .list(member:"AvailableProcessorFeature"))
+            AWSMemberEncoding(label: "storage", location: .body(locationName: "Storage"), encoding: .list(member:"ValidStorageOptions")), 
+            AWSMemberEncoding(label: "validProcessorFeatures", location: .body(locationName: "ValidProcessorFeatures"), encoding: .list(member:"AvailableProcessorFeature"))
         ]
 
         /// Valid storage options for your DB instance. 
@@ -9860,9 +9860,9 @@ extension RDS {
 
     public struct ValidStorageOptions: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IopsToStorageRatio", encoding: .list(member:"DoubleRange")), 
-            AWSMemberEncoding(label: "ProvisionedIops", encoding: .list(member:"Range")), 
-            AWSMemberEncoding(label: "StorageSize", encoding: .list(member:"Range"))
+            AWSMemberEncoding(label: "iopsToStorageRatio", location: .body(locationName: "IopsToStorageRatio"), encoding: .list(member:"DoubleRange")), 
+            AWSMemberEncoding(label: "provisionedIops", location: .body(locationName: "ProvisionedIops"), encoding: .list(member:"Range")), 
+            AWSMemberEncoding(label: "storageSize", location: .body(locationName: "StorageSize"), encoding: .list(member:"Range"))
         ]
 
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage. 

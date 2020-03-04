@@ -404,7 +404,7 @@ extension ElasticsearchService {
 
     public struct DeleteElasticsearchDomainRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// The name of the Elasticsearch domain that you want to permanently delete.
@@ -441,7 +441,7 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchDomainConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// The Elasticsearch domain that you want to get information about.
@@ -478,7 +478,7 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchDomainRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// The name of the Elasticsearch domain for which you want information.
@@ -551,9 +551,9 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .querystring(locationName: "domainName")), 
-            AWSMemberEncoding(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
-            AWSMemberEncoding(label: "InstanceType", location: .uri(locationName: "InstanceType"))
+            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")), 
+            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
+            AWSMemberEncoding(label: "instanceType", location: .uri(locationName: "InstanceType"))
         ]
 
         ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. 
@@ -597,9 +597,9 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "ReservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "reservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -647,9 +647,9 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstancesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "ReservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "reservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"))
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
@@ -1073,7 +1073,7 @@ extension ElasticsearchService {
 
     public struct GetCompatibleElasticsearchVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .querystring(locationName: "domainName"))
+            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName"))
         ]
 
         public let domainName: String?
@@ -1109,9 +1109,9 @@ extension ElasticsearchService {
 
     public struct GetUpgradeHistoryRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "DomainName")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let domainName: String
@@ -1158,7 +1158,7 @@ extension ElasticsearchService {
 
     public struct GetUpgradeStatusRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
 
         public let domainName: String
@@ -1266,10 +1266,10 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchInstanceTypesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .querystring(locationName: "domainName")), 
-            AWSMemberEncoding(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")), 
+            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain. 
@@ -1323,8 +1323,8 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
@@ -1364,7 +1364,7 @@ extension ElasticsearchService {
 
     public struct ListTagsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ARN", location: .querystring(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
         ]
 
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
@@ -1846,7 +1846,7 @@ extension ElasticsearchService {
 
     public struct UpdateElasticsearchDomainConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainName", location: .uri(locationName: "DomainName"))
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
 
         /// IAM access policy as a JSON-formatted string.

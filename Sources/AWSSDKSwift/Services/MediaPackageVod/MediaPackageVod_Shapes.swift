@@ -319,7 +319,7 @@ extension MediaPackageVod {
 
     public struct DeleteAssetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -343,7 +343,7 @@ extension MediaPackageVod {
 
     public struct DeletePackagingConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -367,7 +367,7 @@ extension MediaPackageVod {
 
     public struct DeletePackagingGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -391,7 +391,7 @@ extension MediaPackageVod {
 
     public struct DescribeAssetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -441,7 +441,7 @@ extension MediaPackageVod {
 
     public struct DescribePackagingConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -488,7 +488,7 @@ extension MediaPackageVod {
 
     public struct DescribePackagingGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         public let id: String
@@ -635,9 +635,9 @@ extension MediaPackageVod {
 
     public struct ListAssetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "PackagingGroupId", location: .querystring(locationName: "packagingGroupId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "packagingGroupId", location: .querystring(locationName: "packagingGroupId"))
         ]
 
         public let maxResults: Int?
@@ -680,9 +680,9 @@ extension MediaPackageVod {
 
     public struct ListPackagingConfigurationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "PackagingGroupId", location: .querystring(locationName: "packagingGroupId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "packagingGroupId", location: .querystring(locationName: "packagingGroupId"))
         ]
 
         public let maxResults: Int?
@@ -725,8 +725,8 @@ extension MediaPackageVod {
 
     public struct ListPackagingGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?

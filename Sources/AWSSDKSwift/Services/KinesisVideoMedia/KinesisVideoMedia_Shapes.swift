@@ -52,10 +52,10 @@ extension KinesisVideoMedia {
 
     public struct GetMediaOutput: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Payload"
+        public static let payloadPath: String? = "payload"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ContentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "Payload", encoding: .blob)
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob)
         ]
 
         /// The content type of the requested media.

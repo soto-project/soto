@@ -105,7 +105,7 @@ extension CloudFront {
 
     public struct ActiveTrustedSigners: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Signer"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Signer"))
         ]
 
         /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this distribution have active CloudFront key pairs. If not, Enabled is false.
@@ -148,7 +148,7 @@ extension CloudFront {
 
     public struct Aliases: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"CNAME"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CNAME"))
         ]
 
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
@@ -169,7 +169,7 @@ extension CloudFront {
 
     public struct AllowedMethods: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Method"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Method"))
         ]
 
         public let cachedMethods: CachedMethods?
@@ -254,7 +254,7 @@ extension CloudFront {
 
     public struct CacheBehaviors: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"CacheBehavior"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CacheBehavior"))
         ]
 
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
@@ -275,7 +275,7 @@ extension CloudFront {
 
     public struct CachedMethods: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Method"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Method"))
         ]
 
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
@@ -336,7 +336,7 @@ extension CloudFront {
 
     public struct CloudFrontOriginAccessIdentityList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"CloudFrontOriginAccessIdentitySummary"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CloudFrontOriginAccessIdentitySummary"))
         ]
 
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
@@ -435,7 +435,7 @@ extension CloudFront {
 
     public struct ContentTypeProfiles: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"ContentTypeProfile"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"ContentTypeProfile"))
         ]
 
         /// Items in a field-level encryption content type-profile mapping. 
@@ -456,7 +456,7 @@ extension CloudFront {
 
     public struct CookieNames: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Name"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
         ]
 
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
@@ -495,10 +495,10 @@ extension CloudFront {
 
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"))
+            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"))
         ]
 
         /// The current configuration information for the identity.
@@ -515,10 +515,10 @@ extension CloudFront {
 
     public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The origin access identity's information.
@@ -543,10 +543,10 @@ extension CloudFront {
 
     public struct CreateDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfig"
+        public static let payloadPath: String? = "distributionConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"))
+            AWSMemberEncoding(label: "distributionConfig", location: .body(locationName: "DistributionConfig"))
         ]
 
         /// The distribution's configuration information.
@@ -567,10 +567,10 @@ extension CloudFront {
 
     public struct CreateDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Distribution"
+        public static let payloadPath: String? = "distribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The distribution's information.
@@ -595,10 +595,10 @@ extension CloudFront {
 
     public struct CreateDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfigWithTags"
+        public static let payloadPath: String? = "distributionConfigWithTags"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"))
+            AWSMemberEncoding(label: "distributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"))
         ]
 
         /// The distribution's configuration information. 
@@ -619,10 +619,10 @@ extension CloudFront {
 
     public struct CreateDistributionWithTagsResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Distribution"
+        public static let payloadPath: String? = "distribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The distribution's information. 
@@ -647,10 +647,10 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionConfig"
+        public static let payloadPath: String? = "fieldLevelEncryptionConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"))
+            AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"))
         ]
 
         /// The request to create a new field-level encryption configuration.
@@ -667,10 +667,10 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryption"
+        public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
@@ -695,10 +695,10 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
+        public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"))
+            AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"))
         ]
 
         /// The request to create a field-level encryption profile.
@@ -715,10 +715,10 @@ extension CloudFront {
 
     public struct CreateFieldLevelEncryptionProfileResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfile"
+        public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
@@ -743,11 +743,11 @@ extension CloudFront {
 
     public struct CreateInvalidationRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "InvalidationBatch"
+        public static let payloadPath: String? = "invalidationBatch"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "DistributionId", location: .uri(locationName: "DistributionId")), 
-            AWSMemberEncoding(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"))
+            AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")), 
+            AWSMemberEncoding(label: "invalidationBatch", location: .body(locationName: "InvalidationBatch"))
         ]
 
         /// The distribution's id.
@@ -768,9 +768,9 @@ extension CloudFront {
 
     public struct CreateInvalidationResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Invalidation"
+        public static let payloadPath: String? = "invalidation"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The invalidation's information.
@@ -791,10 +791,10 @@ extension CloudFront {
 
     public struct CreatePublicKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyConfig"
+        public static let payloadPath: String? = "publicKeyConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"))
+            AWSMemberEncoding(label: "publicKeyConfig", location: .body(locationName: "PublicKeyConfig"))
         ]
 
         /// The request to add a public key to CloudFront.
@@ -811,10 +811,10 @@ extension CloudFront {
 
     public struct CreatePublicKeyResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKey"
+        public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The current version of the public key. For example: E2QWRUHAPOMQZL.
@@ -839,10 +839,10 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static let payloadPath: String? = "streamingDistributionConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"))
+            AWSMemberEncoding(label: "streamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"))
         ]
 
         /// The streaming distribution's configuration information.
@@ -859,10 +859,10 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
+        public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The current version of the streaming distribution created.
@@ -887,10 +887,10 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfigWithTags"
+        public static let payloadPath: String? = "streamingDistributionConfigWithTags"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"))
+            AWSMemberEncoding(label: "streamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"))
         ]
 
         ///  The streaming distribution's configuration information. 
@@ -911,10 +911,10 @@ extension CloudFront {
 
     public struct CreateStreamingDistributionWithTagsResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
+        public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "Location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The current version of the distribution created.
@@ -965,7 +965,7 @@ extension CloudFront {
 
     public struct CustomErrorResponses: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"CustomErrorResponse"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CustomErrorResponse"))
         ]
 
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
@@ -986,7 +986,7 @@ extension CloudFront {
 
     public struct CustomHeaders: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"OriginCustomHeader"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginCustomHeader"))
         ]
 
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
@@ -1098,8 +1098,8 @@ extension CloudFront {
 
     public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// The origin access identity's ID.
@@ -1120,8 +1120,8 @@ extension CloudFront {
 
     public struct DeleteDistributionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// The distribution ID. 
@@ -1142,8 +1142,8 @@ extension CloudFront {
 
     public struct DeleteFieldLevelEncryptionConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// The ID of the configuration you want to delete from CloudFront.
@@ -1164,8 +1164,8 @@ extension CloudFront {
 
     public struct DeleteFieldLevelEncryptionProfileRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// Request the ID of the profile you want to delete from CloudFront.
@@ -1186,8 +1186,8 @@ extension CloudFront {
 
     public struct DeletePublicKeyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// The ID of the public key you want to remove from CloudFront.
@@ -1208,8 +1208,8 @@ extension CloudFront {
 
     public struct DeleteStreamingDistributionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// The distribution ID. 
@@ -1230,7 +1230,7 @@ extension CloudFront {
 
     public struct Distribution: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasICPRecordals", encoding: .list(member:"AliasICPRecordal"))
+            AWSMemberEncoding(label: "aliasICPRecordals", location: .body(locationName: "AliasICPRecordals"), encoding: .list(member:"AliasICPRecordal"))
         ]
 
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
@@ -1385,7 +1385,7 @@ extension CloudFront {
 
     public struct DistributionList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"DistributionSummary"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"DistributionSummary"))
         ]
 
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
@@ -1422,7 +1422,7 @@ extension CloudFront {
 
     public struct DistributionSummary: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasICPRecordals", encoding: .list(member:"AliasICPRecordal"))
+            AWSMemberEncoding(label: "aliasICPRecordals", location: .body(locationName: "AliasICPRecordals"), encoding: .list(member:"AliasICPRecordal"))
         ]
 
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
@@ -1515,7 +1515,7 @@ extension CloudFront {
 
     public struct EncryptionEntities: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"EncryptionEntity"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"EncryptionEntity"))
         ]
 
         /// An array of field patterns in a field-level encryption content type-profile mapping. 
@@ -1606,7 +1606,7 @@ extension CloudFront {
 
     public struct FieldLevelEncryptionList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"FieldLevelEncryptionSummary"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldLevelEncryptionSummary"))
         ]
 
         /// An array of field-level encryption items.
@@ -1683,7 +1683,7 @@ extension CloudFront {
 
     public struct FieldLevelEncryptionProfileList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"FieldLevelEncryptionProfileSummary"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldLevelEncryptionProfileSummary"))
         ]
 
         /// The field-level encryption profile items.
@@ -1772,7 +1772,7 @@ extension CloudFront {
 
     public struct FieldPatterns: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"FieldPattern"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldPattern"))
         ]
 
         /// An array of the field-level encryption field patterns.
@@ -1819,7 +1819,7 @@ extension CloudFront {
 
     public struct GeoRestriction: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Location"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Location"))
         ]
 
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
@@ -1844,7 +1844,7 @@ extension CloudFront {
 
     public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The identity's ID. 
@@ -1861,9 +1861,9 @@ extension CloudFront {
 
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The origin access identity's configuration information. 
@@ -1884,7 +1884,7 @@ extension CloudFront {
 
     public struct GetCloudFrontOriginAccessIdentityRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The identity's ID.
@@ -1901,9 +1901,9 @@ extension CloudFront {
 
     public struct GetCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The origin access identity's information.
@@ -1924,7 +1924,7 @@ extension CloudFront {
 
     public struct GetDistributionConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
@@ -1941,9 +1941,9 @@ extension CloudFront {
 
     public struct GetDistributionConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfig"
+        public static let payloadPath: String? = "distributionConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The distribution's configuration information.
@@ -1964,7 +1964,7 @@ extension CloudFront {
 
     public struct GetDistributionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
@@ -1981,9 +1981,9 @@ extension CloudFront {
 
     public struct GetDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Distribution"
+        public static let payloadPath: String? = "distribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The distribution's information.
@@ -2004,7 +2004,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// Request the ID for the field-level encryption configuration information.
@@ -2021,9 +2021,9 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionConfig"
+        public static let payloadPath: String? = "fieldLevelEncryptionConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
@@ -2044,7 +2044,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionProfileConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// Get the ID for the field-level encryption profile configuration information.
@@ -2061,9 +2061,9 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionProfileConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
+        public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the field-level encryption profile configuration result. For example: E2QWRUHAPOMQZL.
@@ -2084,7 +2084,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionProfileRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// Get the ID for the field-level encryption profile information.
@@ -2101,9 +2101,9 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionProfileResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfile"
+        public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
@@ -2124,7 +2124,7 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// Request the ID for the field-level encryption configuration information.
@@ -2141,9 +2141,9 @@ extension CloudFront {
 
     public struct GetFieldLevelEncryptionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryption"
+        public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
@@ -2164,8 +2164,8 @@ extension CloudFront {
 
     public struct GetInvalidationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DistributionId", location: .uri(locationName: "DistributionId")), 
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The distribution's ID.
@@ -2186,7 +2186,7 @@ extension CloudFront {
 
     public struct GetInvalidationResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Invalidation"
+        public static let payloadPath: String? = "invalidation"
 
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
         public let invalidation: Invalidation?
@@ -2202,7 +2202,7 @@ extension CloudFront {
 
     public struct GetPublicKeyConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// Request the ID for the public key configuration.
@@ -2219,9 +2219,9 @@ extension CloudFront {
 
     public struct GetPublicKeyConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyConfig"
+        public static let payloadPath: String? = "publicKeyConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the public key configuration. For example: E2QWRUHAPOMQZL.
@@ -2242,7 +2242,7 @@ extension CloudFront {
 
     public struct GetPublicKeyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// Request the ID for the public key.
@@ -2259,9 +2259,9 @@ extension CloudFront {
 
     public struct GetPublicKeyResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKey"
+        public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the public key. For example: E2QWRUHAPOMQZL.
@@ -2282,7 +2282,7 @@ extension CloudFront {
 
     public struct GetStreamingDistributionConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The streaming distribution's ID.
@@ -2299,9 +2299,9 @@ extension CloudFront {
 
     public struct GetStreamingDistributionConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static let payloadPath: String? = "streamingDistributionConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL. 
@@ -2322,7 +2322,7 @@ extension CloudFront {
 
     public struct GetStreamingDistributionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The streaming distribution's ID.
@@ -2339,9 +2339,9 @@ extension CloudFront {
 
     public struct GetStreamingDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
+        public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
@@ -2362,7 +2362,7 @@ extension CloudFront {
 
     public struct Headers: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Name"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
         ]
 
         /// A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0, omit Items.
@@ -2427,7 +2427,7 @@ extension CloudFront {
 
     public struct InvalidationList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"InvalidationSummary"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"InvalidationSummary"))
         ]
 
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
@@ -2486,7 +2486,7 @@ extension CloudFront {
 
     public struct KeyPairIds: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"KeyPairId"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"KeyPairId"))
         ]
 
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
@@ -2529,7 +2529,7 @@ extension CloudFront {
 
     public struct LambdaFunctionAssociations: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"LambdaFunctionAssociation"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"LambdaFunctionAssociation"))
         ]
 
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
@@ -2550,8 +2550,8 @@ extension CloudFront {
 
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
@@ -2572,7 +2572,7 @@ extension CloudFront {
 
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityList"
+        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityList"
 
         /// The CloudFrontOriginAccessIdentityList type. 
         public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
@@ -2588,9 +2588,9 @@ extension CloudFront {
 
     public struct ListDistributionsByWebACLIdRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems")), 
-            AWSMemberEncoding(label: "WebACLId", location: .uri(locationName: "WebACLId"))
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")), 
+            AWSMemberEncoding(label: "webACLId", location: .uri(locationName: "WebACLId"))
         ]
 
         /// Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
@@ -2615,7 +2615,7 @@ extension CloudFront {
 
     public struct ListDistributionsByWebACLIdResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "DistributionList"
+        public static let payloadPath: String? = "distributionList"
 
         /// The DistributionList type. 
         public let distributionList: DistributionList?
@@ -2631,8 +2631,8 @@ extension CloudFront {
 
     public struct ListDistributionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
@@ -2653,7 +2653,7 @@ extension CloudFront {
 
     public struct ListDistributionsResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "DistributionList"
+        public static let payloadPath: String? = "distributionList"
 
         /// The DistributionList type. 
         public let distributionList: DistributionList?
@@ -2669,8 +2669,8 @@ extension CloudFront {
 
     public struct ListFieldLevelEncryptionConfigsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page). 
@@ -2691,7 +2691,7 @@ extension CloudFront {
 
     public struct ListFieldLevelEncryptionConfigsResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionList"
+        public static let payloadPath: String? = "fieldLevelEncryptionList"
 
         /// Returns a list of all field-level encryption configurations that have been created in CloudFront for this account.
         public let fieldLevelEncryptionList: FieldLevelEncryptionList?
@@ -2707,8 +2707,8 @@ extension CloudFront {
 
     public struct ListFieldLevelEncryptionProfilesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page). 
@@ -2729,7 +2729,7 @@ extension CloudFront {
 
     public struct ListFieldLevelEncryptionProfilesResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileList"
+        public static let payloadPath: String? = "fieldLevelEncryptionProfileList"
 
         /// Returns a list of the field-level encryption profiles that have been created in CloudFront for this account.
         public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList?
@@ -2745,9 +2745,9 @@ extension CloudFront {
 
     public struct ListInvalidationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DistributionId", location: .uri(locationName: "DistributionId")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The distribution's ID.
@@ -2772,7 +2772,7 @@ extension CloudFront {
 
     public struct ListInvalidationsResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "InvalidationList"
+        public static let payloadPath: String? = "invalidationList"
 
         /// Information about invalidation batches. 
         public let invalidationList: InvalidationList?
@@ -2788,8 +2788,8 @@ extension CloudFront {
 
     public struct ListPublicKeysRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page). 
@@ -2810,7 +2810,7 @@ extension CloudFront {
 
     public struct ListPublicKeysResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyList"
+        public static let payloadPath: String? = "publicKeyList"
 
         /// Returns a list of all public keys that have been added to CloudFront for this account.
         public let publicKeyList: PublicKeyList?
@@ -2826,8 +2826,8 @@ extension CloudFront {
 
     public struct ListStreamingDistributionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The value that you provided for the Marker request parameter.
@@ -2848,7 +2848,7 @@ extension CloudFront {
 
     public struct ListStreamingDistributionsResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionList"
+        public static let payloadPath: String? = "streamingDistributionList"
 
         /// The StreamingDistributionList type. 
         public let streamingDistributionList: StreamingDistributionList?
@@ -2864,7 +2864,7 @@ extension CloudFront {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resource", location: .querystring(locationName: "Resource"))
+            AWSMemberEncoding(label: "resource", location: .querystring(locationName: "Resource"))
         ]
 
         ///  An ARN of a CloudFront resource.
@@ -2885,7 +2885,7 @@ extension CloudFront {
 
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Tags"
+        public static let payloadPath: String? = "tags"
 
         ///  A complex type that contains zero or more Tag elements.
         public let tags: Tags
@@ -3038,7 +3038,7 @@ extension CloudFront {
 
     public struct OriginGroupMembers: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"OriginGroupMember"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginGroupMember"))
         ]
 
         /// Items (origins) in an origin group.
@@ -3064,7 +3064,7 @@ extension CloudFront {
 
     public struct OriginGroups: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"OriginGroup"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginGroup"))
         ]
 
         /// The items (origin groups) in a distribution.
@@ -3091,7 +3091,7 @@ extension CloudFront {
 
     public struct OriginSslProtocols: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"SslProtocol"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"SslProtocol"))
         ]
 
         /// A list that contains allowed SSL/TLS protocols for this distribution.
@@ -3112,7 +3112,7 @@ extension CloudFront {
 
     public struct Origins: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Origin"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Origin"))
         ]
 
         /// A complex type that contains origins or origin groups for this distribution.
@@ -3137,7 +3137,7 @@ extension CloudFront {
 
     public struct Paths: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Path"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Path"))
         ]
 
         /// A complex type that contains a list of the paths that you want to invalidate.
@@ -3206,7 +3206,7 @@ extension CloudFront {
 
     public struct PublicKeyList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"PublicKeySummary"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"PublicKeySummary"))
         ]
 
         /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
@@ -3301,7 +3301,7 @@ extension CloudFront {
 
     public struct QueryArgProfiles: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"QueryArgProfile"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"QueryArgProfile"))
         ]
 
         /// Number of items for query argument-profile mapping for field-level encryption.
@@ -3322,7 +3322,7 @@ extension CloudFront {
 
     public struct QueryStringCacheKeys: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Name"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
         ]
 
         /// A list that contains the query string parameters that you want CloudFront to use as a basis for caching for a cache behavior. If Quantity is 0, you can omit Items. 
@@ -3407,7 +3407,7 @@ extension CloudFront {
 
     public struct StatusCodes: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"StatusCode"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"StatusCode"))
         ]
 
         /// The items (status codes) for an origin group.
@@ -3534,7 +3534,7 @@ extension CloudFront {
 
     public struct StreamingDistributionList: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"StreamingDistributionSummary"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"StreamingDistributionSummary"))
         ]
 
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list. 
@@ -3674,7 +3674,7 @@ extension CloudFront {
 
     public struct TagKeys: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Key"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Key"))
         ]
 
         ///  A complex type that contains Tag key elements.
@@ -3699,11 +3699,11 @@ extension CloudFront {
 
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Tags"
+        public static let payloadPath: String? = "tags"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resource", location: .querystring(locationName: "Resource")), 
-            AWSMemberEncoding(label: "Tags", location: .body(locationName: "Tags"))
+            AWSMemberEncoding(label: "resource", location: .querystring(locationName: "Resource")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"))
         ]
 
         ///  An ARN of a CloudFront resource.
@@ -3729,7 +3729,7 @@ extension CloudFront {
 
     public struct Tags: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"Tag"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Tag"))
         ]
 
         ///  A complex type that contains Tag elements.
@@ -3752,7 +3752,7 @@ extension CloudFront {
 
     public struct TrustedSigners: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", encoding: .list(member:"AwsAccountNumber"))
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"AwsAccountNumber"))
         ]
 
         /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
@@ -3777,11 +3777,11 @@ extension CloudFront {
 
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "TagKeys"
+        public static let payloadPath: String? = "tagKeys"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resource", location: .querystring(locationName: "Resource")), 
-            AWSMemberEncoding(label: "TagKeys", location: .body(locationName: "TagKeys"))
+            AWSMemberEncoding(label: "resource", location: .querystring(locationName: "Resource")), 
+            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"))
         ]
 
         ///  An ARN of a CloudFront resource.
@@ -3807,12 +3807,12 @@ extension CloudFront {
 
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig")), 
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// The identity's configuration information.
@@ -3837,9 +3837,9 @@ extension CloudFront {
 
     public struct UpdateCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The origin access identity's information.
@@ -3860,12 +3860,12 @@ extension CloudFront {
 
     public struct UpdateDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfig"
+        public static let payloadPath: String? = "distributionConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "DistributionConfig", location: .body(locationName: "DistributionConfig")), 
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "distributionConfig", location: .body(locationName: "DistributionConfig")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// The distribution's configuration information.
@@ -3894,9 +3894,9 @@ extension CloudFront {
 
     public struct UpdateDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Distribution"
+        public static let payloadPath: String? = "distribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The distribution's information.
@@ -3917,12 +3917,12 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionConfig"
+        public static let payloadPath: String? = "fieldLevelEncryptionConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig")), 
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// Request to update a field-level encryption configuration. 
@@ -3947,9 +3947,9 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionConfigResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryption"
+        public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The value of the ETag header that you received when updating the configuration. For example: E2QWRUHAPOMQZL.
@@ -3970,12 +3970,12 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
+        public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig")), 
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match"))
+            AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig")), 
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
         ]
 
         /// Request to update a field-level encryption profile. 
@@ -4000,9 +4000,9 @@ extension CloudFront {
 
     public struct UpdateFieldLevelEncryptionProfileResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfile"
+        public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The result of the field-level encryption profile request. 
@@ -4023,12 +4023,12 @@ extension CloudFront {
 
     public struct UpdatePublicKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyConfig"
+        public static let payloadPath: String? = "publicKeyConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match")), 
-            AWSMemberEncoding(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
+            AWSMemberEncoding(label: "publicKeyConfig", location: .body(locationName: "PublicKeyConfig"))
         ]
 
         /// ID of the public key to be updated.
@@ -4053,9 +4053,9 @@ extension CloudFront {
 
     public struct UpdatePublicKeyResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKey"
+        public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the update public key result. For example: E2QWRUHAPOMQZL.
@@ -4076,12 +4076,12 @@ extension CloudFront {
 
     public struct UpdateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static let payloadPath: String? = "streamingDistributionConfig"
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "Id")), 
-            AWSMemberEncoding(label: "IfMatch", location: .header(locationName: "If-Match")), 
-            AWSMemberEncoding(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
+            AWSMemberEncoding(label: "streamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"))
         ]
 
         /// The streaming distribution's id.
@@ -4106,9 +4106,9 @@ extension CloudFront {
 
     public struct UpdateStreamingDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
+        public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.

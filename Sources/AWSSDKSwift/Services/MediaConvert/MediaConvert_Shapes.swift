@@ -2607,7 +2607,7 @@ extension MediaConvert {
 
     public struct CancelJobRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         /// The Job ID of the job to be cancelled.
@@ -2868,9 +2868,6 @@ extension MediaConvert {
     }
 
     public struct CmafEncryptionSettings: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
@@ -3509,7 +3506,7 @@ extension MediaConvert {
 
     public struct DeleteJobTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the job template to be deleted.
@@ -3534,7 +3531,7 @@ extension MediaConvert {
 
     public struct DeletePresetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the preset to be deleted.
@@ -3559,7 +3556,7 @@ extension MediaConvert {
 
     public struct DeleteQueueRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the queue that you want to delete.
@@ -3642,7 +3639,7 @@ extension MediaConvert {
 
     public struct DisassociateCertificateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
 
         /// The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource.
@@ -4357,7 +4354,7 @@ extension MediaConvert {
 
     public struct GetJobRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Id", location: .uri(locationName: "id"))
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
         /// the job ID of the job.
@@ -4388,7 +4385,7 @@ extension MediaConvert {
 
     public struct GetJobTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the job template.
@@ -4419,7 +4416,7 @@ extension MediaConvert {
 
     public struct GetPresetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the preset.
@@ -4450,7 +4447,7 @@ extension MediaConvert {
 
     public struct GetQueueRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the queue that you want information about.
@@ -5070,9 +5067,6 @@ extension MediaConvert {
     }
 
     public struct HlsEncryptionSettings: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
@@ -5883,9 +5877,6 @@ extension MediaConvert {
     }
 
     public struct JobTemplate: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public let accelerationSettings: AccelerationSettings?
@@ -6008,11 +5999,11 @@ extension MediaConvert {
 
     public struct ListJobTemplatesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Category", location: .querystring(locationName: "category")), 
-            AWSMemberEncoding(label: "ListBy", location: .querystring(locationName: "listBy")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "Order", location: .querystring(locationName: "order"))
+            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")), 
+            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
         ]
 
         /// Optionally, specify a job template category to limit responses to only job templates from that category.
@@ -6068,11 +6059,11 @@ extension MediaConvert {
 
     public struct ListJobsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "Order", location: .querystring(locationName: "order")), 
-            AWSMemberEncoding(label: "Queue", location: .querystring(locationName: "queue")), 
-            AWSMemberEncoding(label: "Status", location: .querystring(locationName: "status"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")), 
+            AWSMemberEncoding(label: "queue", location: .querystring(locationName: "queue")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// Optional. Number of jobs, up to twenty, that will be returned at one time.
@@ -6128,11 +6119,11 @@ extension MediaConvert {
 
     public struct ListPresetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Category", location: .querystring(locationName: "category")), 
-            AWSMemberEncoding(label: "ListBy", location: .querystring(locationName: "listBy")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "Order", location: .querystring(locationName: "order"))
+            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")), 
+            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
         ]
 
         /// Optionally, specify a preset category to limit responses to only presets from that category.
@@ -6188,10 +6179,10 @@ extension MediaConvert {
 
     public struct ListQueuesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ListBy", location: .querystring(locationName: "listBy")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "Order", location: .querystring(locationName: "order"))
+            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
         ]
 
         /// Optional. When you request a list of queues, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by creation date.
@@ -6243,7 +6234,7 @@ extension MediaConvert {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name.
@@ -7239,9 +7230,6 @@ extension MediaConvert {
     }
 
     public struct Output: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Extension", location: .body(locationName: "extension"))
-        ]
 
         /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
         public let audioDescriptions: [AudioDescription]?
@@ -7383,9 +7371,6 @@ extension MediaConvert {
     }
 
     public struct OutputGroupSettings: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to CMAF_GROUP_SETTINGS. Each output in a CMAF Output Group may only contain a single video, audio, or caption output.
         public let cmafGroupSettings: CmafGroupSettings?
@@ -7442,9 +7427,6 @@ extension MediaConvert {
     }
 
     public struct Preset: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
@@ -7591,9 +7573,6 @@ extension MediaConvert {
     }
 
     public struct Queue: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
@@ -8180,7 +8159,7 @@ extension MediaConvert {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. To get the ARN, send a GET request with the resource name.
@@ -8209,7 +8188,7 @@ extension MediaConvert {
 
     public struct UpdateJobTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
@@ -8274,7 +8253,7 @@ extension MediaConvert {
 
     public struct UpdatePresetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The new category for the preset, if you are changing it.
@@ -8321,7 +8300,7 @@ extension MediaConvert {
 
     public struct UpdateQueueRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The new description for the queue, if you are changing it.

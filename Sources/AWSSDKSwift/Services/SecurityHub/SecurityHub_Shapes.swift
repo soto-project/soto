@@ -2121,7 +2121,7 @@ extension SecurityHub {
 
     public struct DeleteActionTargetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"))
+            AWSMemberEncoding(label: "actionTargetArn", location: .uri(locationName: "ActionTargetArn"))
         ]
 
         /// The ARN of the custom action target to delete.
@@ -2156,7 +2156,7 @@ extension SecurityHub {
 
     public struct DeleteInsightRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InsightArn", location: .uri(locationName: "InsightArn"))
+            AWSMemberEncoding(label: "insightArn", location: .uri(locationName: "InsightArn"))
         ]
 
         /// The ARN of the insight to delete.
@@ -2307,7 +2307,7 @@ extension SecurityHub {
 
     public struct DescribeHubRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HubArn", location: .querystring(locationName: "HubArn"))
+            AWSMemberEncoding(label: "hubArn", location: .querystring(locationName: "HubArn"))
         ]
 
         /// The ARN of the Hub resource to retrieve.
@@ -2346,8 +2346,8 @@ extension SecurityHub {
 
     public struct DescribeProductsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// The maximum number of results to return.
@@ -2391,9 +2391,9 @@ extension SecurityHub {
 
     public struct DescribeStandardsControlsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSMemberEncoding(label: "StandardsSubscriptionArn", location: .uri(locationName: "StandardsSubscriptionArn"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "standardsSubscriptionArn", location: .uri(locationName: "StandardsSubscriptionArn"))
         ]
 
         /// The maximum number of compliance standard controls to return.
@@ -2442,7 +2442,7 @@ extension SecurityHub {
 
     public struct DisableImportFindingsForProductRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ProductSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"))
+            AWSMemberEncoding(label: "productSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"))
         ]
 
         /// The ARN of the integrated product to disable the integration for.
@@ -2697,7 +2697,7 @@ extension SecurityHub {
 
     public struct GetInsightResultsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InsightArn", location: .uri(locationName: "InsightArn"))
+            AWSMemberEncoding(label: "insightArn", location: .uri(locationName: "InsightArn"))
         ]
 
         /// The ARN of the insight whose results you want to see.
@@ -3046,8 +3046,8 @@ extension SecurityHub {
 
     public struct ListEnabledProductsForImportRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// The maximum number of items that you want in the response.
@@ -3091,8 +3091,8 @@ extension SecurityHub {
 
     public struct ListInvitationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// The maximum number of items that you want in the response. 
@@ -3136,9 +3136,9 @@ extension SecurityHub {
 
     public struct ListMembersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSMemberEncoding(label: "OnlyAssociated", location: .querystring(locationName: "OnlyAssociated"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "onlyAssociated", location: .querystring(locationName: "OnlyAssociated"))
         ]
 
         /// The maximum number of items that you want in the response. 
@@ -3186,7 +3186,7 @@ extension SecurityHub {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The ARN of the resource to retrieve tags for.
@@ -3920,7 +3920,7 @@ extension SecurityHub {
 
     public struct TagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The ARN of the resource to apply the tags to.
@@ -4000,8 +4000,8 @@ extension SecurityHub {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn")), 
-            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The ARN of the resource to remove the tags from.
@@ -4041,7 +4041,7 @@ extension SecurityHub {
 
     public struct UpdateActionTargetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"))
+            AWSMemberEncoding(label: "actionTargetArn", location: .uri(locationName: "ActionTargetArn"))
         ]
 
         /// The ARN of the custom action target to update.
@@ -4115,7 +4115,7 @@ extension SecurityHub {
 
     public struct UpdateInsightRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InsightArn", location: .uri(locationName: "InsightArn"))
+            AWSMemberEncoding(label: "insightArn", location: .uri(locationName: "InsightArn"))
         ]
 
         /// The updated filters that define this insight.
@@ -4159,7 +4159,7 @@ extension SecurityHub {
 
     public struct UpdateStandardsControlRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "StandardsControlArn", location: .uri(locationName: "StandardsControlArn"))
+            AWSMemberEncoding(label: "standardsControlArn", location: .uri(locationName: "StandardsControlArn"))
         ]
 
         /// The updated status of the compliance standard control.

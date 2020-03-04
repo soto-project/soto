@@ -86,7 +86,7 @@ extension ImportExport {
 
     public struct CreateJobOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ArtifactList", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
 
         public let artifactList: [Artifact]?
@@ -198,7 +198,7 @@ extension ImportExport {
 
     public struct GetStatusOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ArtifactList", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
 
         public let artifactList: [Artifact]?
@@ -300,7 +300,7 @@ extension ImportExport {
 
     public struct ListJobsOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Jobs", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
         ]
 
         public let isTruncated: Bool?
@@ -344,7 +344,7 @@ extension ImportExport {
 
     public struct UpdateJobOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ArtifactList", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
 
         public let artifactList: [Artifact]?

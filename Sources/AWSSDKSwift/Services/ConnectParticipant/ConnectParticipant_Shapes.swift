@@ -60,7 +60,7 @@ extension ConnectParticipant {
 
     public struct CreateParticipantConnectionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ParticipantToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "participantToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// Participant Token as obtained from StartChatContact API response.
@@ -105,7 +105,7 @@ extension ConnectParticipant {
 
     public struct DisconnectParticipantRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -140,7 +140,7 @@ extension ConnectParticipant {
 
     public struct GetTranscriptRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// The authentication token associated with the participant's connection.
@@ -257,7 +257,7 @@ extension ConnectParticipant {
 
     public struct SendEventRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -314,7 +314,7 @@ extension ConnectParticipant {
 
     public struct SendMessageRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"))
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.

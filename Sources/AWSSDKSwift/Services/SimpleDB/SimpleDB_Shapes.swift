@@ -34,7 +34,7 @@ extension SimpleDB {
 
     public struct BatchDeleteAttributesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", location: .body(locationName: "Item"), encoding: .flatList)
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Item"), encoding: .flatList)
         ]
 
         /// The name of the domain in which the attributes are being deleted.
@@ -55,7 +55,7 @@ extension SimpleDB {
 
     public struct BatchPutAttributesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", location: .body(locationName: "Item"), encoding: .flatList)
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Item"), encoding: .flatList)
         ]
 
         /// The name of the domain in which the attributes are being stored.
@@ -108,8 +108,8 @@ extension SimpleDB {
 
     public struct DeletableItem: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attributes", location: .body(locationName: "Attribute"), encoding: .flatList), 
-            AWSMemberEncoding(label: "Name", location: .body(locationName: "ItemName"))
+            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList), 
+            AWSMemberEncoding(label: "name", location: .body(locationName: "ItemName"))
         ]
 
         public let attributes: [DeletableAttribute]?
@@ -128,7 +128,7 @@ extension SimpleDB {
 
     public struct DeleteAttributesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
+            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
         ]
 
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
@@ -223,7 +223,7 @@ extension SimpleDB {
 
     public struct GetAttributesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AttributeNames", location: .body(locationName: "AttributeName"), encoding: .flatList)
+            AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeName"), encoding: .flatList)
         ]
 
         /// The names of the attributes.
@@ -252,7 +252,7 @@ extension SimpleDB {
 
     public struct GetAttributesResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
+            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
         ]
 
         /// The list of attributes returned by the operation.
@@ -269,7 +269,7 @@ extension SimpleDB {
 
     public struct Item: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
+            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
         ]
 
         public let alternateNameEncoding: String?
@@ -311,7 +311,7 @@ extension SimpleDB {
 
     public struct ListDomainsResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainNames", location: .body(locationName: "DomainName"), encoding: .flatList)
+            AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainName"), encoding: .flatList)
         ]
 
         /// A list of domain names that match the expression.
@@ -332,7 +332,7 @@ extension SimpleDB {
 
     public struct PutAttributesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
+            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList)
         ]
 
         /// The list of attributes.
@@ -383,8 +383,8 @@ extension SimpleDB {
 
     public struct ReplaceableItem: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Attributes", location: .body(locationName: "Attribute"), encoding: .flatList), 
-            AWSMemberEncoding(label: "Name", location: .body(locationName: "ItemName"))
+            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatList), 
+            AWSMemberEncoding(label: "name", location: .body(locationName: "ItemName"))
         ]
 
         /// The list of attributes for a replaceable item.
@@ -427,7 +427,7 @@ extension SimpleDB {
 
     public struct SelectResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Items", location: .body(locationName: "Item"), encoding: .flatList)
+            AWSMemberEncoding(label: "items", location: .body(locationName: "Item"), encoding: .flatList)
         ]
 
         /// A list of items that match the select expression.

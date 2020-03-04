@@ -67,7 +67,7 @@ extension NetworkManager {
 
     public struct AssociateCustomerGatewayRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
@@ -110,7 +110,7 @@ extension NetworkManager {
 
     public struct AssociateLinkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the device.
@@ -167,7 +167,7 @@ extension NetworkManager {
 
     public struct CreateDeviceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of the device. Length Constraints: Maximum length of 256 characters.
@@ -262,7 +262,7 @@ extension NetworkManager {
 
     public struct CreateLinkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         ///  The upload speed and download speed in Mbps. 
@@ -317,7 +317,7 @@ extension NetworkManager {
 
     public struct CreateSiteRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of your site. Length Constraints: Maximum length of 256 characters.
@@ -390,8 +390,8 @@ extension NetworkManager {
 
     public struct DeleteDeviceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId")), 
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the device.
@@ -426,7 +426,7 @@ extension NetworkManager {
 
     public struct DeleteGlobalNetworkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the global network.
@@ -457,8 +457,8 @@ extension NetworkManager {
 
     public struct DeleteLinkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "LinkId", location: .uri(locationName: "linkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
         ]
 
         /// The ID of the global network.
@@ -493,8 +493,8 @@ extension NetworkManager {
 
     public struct DeleteSiteRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "SiteId", location: .uri(locationName: "siteId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
         ]
 
         /// The ID of the global network.
@@ -529,8 +529,8 @@ extension NetworkManager {
 
     public struct DeregisterTransitGatewayRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "TransitGatewayArn", location: .uri(locationName: "transitGatewayArn"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "transitGatewayArn", location: .uri(locationName: "transitGatewayArn"))
         ]
 
         /// The ID of the global network.
@@ -565,9 +565,9 @@ extension NetworkManager {
 
     public struct DescribeGlobalNetworksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkIds", location: .querystring(locationName: "globalNetworkIds")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "globalNetworkIds", location: .querystring(locationName: "globalNetworkIds")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The IDs of one or more global networks. The maximum is 10.
@@ -677,8 +677,8 @@ extension NetworkManager {
 
     public struct DisassociateCustomerGatewayRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CustomerGatewayArn", location: .uri(locationName: "customerGatewayArn")), 
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "customerGatewayArn", location: .uri(locationName: "customerGatewayArn")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
@@ -713,9 +713,9 @@ extension NetworkManager {
 
     public struct DisassociateLinkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DeviceId", location: .querystring(locationName: "deviceId")), 
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "LinkId", location: .querystring(locationName: "linkId"))
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .querystring(locationName: "linkId"))
         ]
 
         /// The ID of the device.
@@ -754,10 +754,10 @@ extension NetworkManager {
 
     public struct GetCustomerGatewayAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CustomerGatewayArns", location: .querystring(locationName: "customerGatewayArns")), 
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "customerGatewayArns", location: .querystring(locationName: "customerGatewayArns")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// One or more customer gateway Amazon Resource Names (ARNs). For more information, see Resources Defined by Amazon EC2. The maximum is 10.
@@ -809,11 +809,11 @@ extension NetworkManager {
 
     public struct GetDevicesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DeviceIds", location: .querystring(locationName: "deviceIds")), 
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "SiteId", location: .querystring(locationName: "siteId"))
+            AWSMemberEncoding(label: "deviceIds", location: .querystring(locationName: "deviceIds")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "siteId", location: .querystring(locationName: "siteId"))
         ]
 
         /// One or more device IDs. The maximum is 10.
@@ -869,11 +869,11 @@ extension NetworkManager {
 
     public struct GetLinkAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DeviceId", location: .querystring(locationName: "deviceId")), 
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "LinkId", location: .querystring(locationName: "linkId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .querystring(locationName: "linkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The ID of the device.
@@ -929,13 +929,13 @@ extension NetworkManager {
 
     public struct GetLinksRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "LinkIds", location: .querystring(locationName: "linkIds")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "Provider", location: .querystring(locationName: "provider")), 
-            AWSMemberEncoding(label: "SiteId", location: .querystring(locationName: "siteId")), 
-            AWSMemberEncoding(label: "Type", location: .querystring(locationName: "type"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkIds", location: .querystring(locationName: "linkIds")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "provider", location: .querystring(locationName: "provider")), 
+            AWSMemberEncoding(label: "siteId", location: .querystring(locationName: "siteId")), 
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
         /// The ID of the global network.
@@ -999,10 +999,10 @@ extension NetworkManager {
 
     public struct GetSitesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "SiteIds", location: .querystring(locationName: "siteIds"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "siteIds", location: .querystring(locationName: "siteIds"))
         ]
 
         /// The ID of the global network.
@@ -1054,10 +1054,10 @@ extension NetworkManager {
 
     public struct GetTransitGatewayRegistrationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "TransitGatewayArns", location: .querystring(locationName: "transitGatewayArns"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "transitGatewayArns", location: .querystring(locationName: "transitGatewayArns"))
         ]
 
         /// The ID of the global network.
@@ -1223,7 +1223,7 @@ extension NetworkManager {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1276,7 +1276,7 @@ extension NetworkManager {
 
     public struct RegisterTransitGatewayRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the global network.
@@ -1371,7 +1371,7 @@ extension NetworkManager {
 
     public struct TagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1440,8 +1440,8 @@ extension NetworkManager {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1470,8 +1470,8 @@ extension NetworkManager {
 
     public struct UpdateDeviceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DeviceId", location: .uri(locationName: "deviceId")), 
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of the device. Length Constraints: Maximum length of 256 characters.
@@ -1533,7 +1533,7 @@ extension NetworkManager {
 
     public struct UpdateGlobalNetworkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of the global network. Length Constraints: Maximum length of 256 characters.
@@ -1568,8 +1568,8 @@ extension NetworkManager {
 
     public struct UpdateLinkRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "LinkId", location: .uri(locationName: "linkId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
         ]
 
         /// The upload and download speed in Mbps. 
@@ -1620,8 +1620,8 @@ extension NetworkManager {
 
     public struct UpdateSiteRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId")), 
-            AWSMemberEncoding(label: "SiteId", location: .uri(locationName: "siteId"))
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
         ]
 
         /// A description of your site. Length Constraints: Maximum length of 256 characters.

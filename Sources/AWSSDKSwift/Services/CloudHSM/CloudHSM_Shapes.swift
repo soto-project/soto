@@ -110,14 +110,14 @@ extension CloudHSM {
 
     public struct CreateHsmRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClientToken", location: .body(locationName: "ClientToken")), 
-            AWSMemberEncoding(label: "EniIp", location: .body(locationName: "EniIp")), 
-            AWSMemberEncoding(label: "ExternalId", location: .body(locationName: "ExternalId")), 
-            AWSMemberEncoding(label: "IamRoleArn", location: .body(locationName: "IamRoleArn")), 
-            AWSMemberEncoding(label: "SshKey", location: .body(locationName: "SshKey")), 
-            AWSMemberEncoding(label: "SubnetId", location: .body(locationName: "SubnetId")), 
-            AWSMemberEncoding(label: "SubscriptionType", location: .body(locationName: "SubscriptionType")), 
-            AWSMemberEncoding(label: "SyslogIp", location: .body(locationName: "SyslogIp"))
+            AWSMemberEncoding(label: "clientToken", location: .body(locationName: "ClientToken")), 
+            AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
+            AWSMemberEncoding(label: "externalId", location: .body(locationName: "ExternalId")), 
+            AWSMemberEncoding(label: "iamRoleArn", location: .body(locationName: "IamRoleArn")), 
+            AWSMemberEncoding(label: "sshKey", location: .body(locationName: "SshKey")), 
+            AWSMemberEncoding(label: "subnetId", location: .body(locationName: "SubnetId")), 
+            AWSMemberEncoding(label: "subscriptionType", location: .body(locationName: "SubscriptionType")), 
+            AWSMemberEncoding(label: "syslogIp", location: .body(locationName: "SyslogIp"))
         ]
 
         /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
@@ -256,7 +256,7 @@ extension CloudHSM {
 
     public struct DeleteHsmRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HsmArn", location: .body(locationName: "HsmArn"))
+            AWSMemberEncoding(label: "hsmArn", location: .body(locationName: "HsmArn"))
         ]
 
         /// The ARN of the HSM to delete.
@@ -810,12 +810,12 @@ extension CloudHSM {
 
     public struct ModifyHsmRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EniIp", location: .body(locationName: "EniIp")), 
-            AWSMemberEncoding(label: "ExternalId", location: .body(locationName: "ExternalId")), 
-            AWSMemberEncoding(label: "HsmArn", location: .body(locationName: "HsmArn")), 
-            AWSMemberEncoding(label: "IamRoleArn", location: .body(locationName: "IamRoleArn")), 
-            AWSMemberEncoding(label: "SubnetId", location: .body(locationName: "SubnetId")), 
-            AWSMemberEncoding(label: "SyslogIp", location: .body(locationName: "SyslogIp"))
+            AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
+            AWSMemberEncoding(label: "externalId", location: .body(locationName: "ExternalId")), 
+            AWSMemberEncoding(label: "hsmArn", location: .body(locationName: "HsmArn")), 
+            AWSMemberEncoding(label: "iamRoleArn", location: .body(locationName: "IamRoleArn")), 
+            AWSMemberEncoding(label: "subnetId", location: .body(locationName: "SubnetId")), 
+            AWSMemberEncoding(label: "syslogIp", location: .body(locationName: "SyslogIp"))
         ]
 
         /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.

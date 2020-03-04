@@ -10,9 +10,9 @@ extension STS {
 
     public struct AssumeRoleRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PolicyArns", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "TransitiveTagKeys", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "transitiveTagKeys", location: .body(locationName: "TransitiveTagKeys"), encoding: .list(member:"member"))
         ]
 
         /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
@@ -123,7 +123,7 @@ extension STS {
 
     public struct AssumeRoleWithSAMLRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PolicyArns", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member"))
         ]
 
         /// The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
@@ -221,7 +221,7 @@ extension STS {
 
     public struct AssumeRoleWithWebIdentityRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PolicyArns", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member"))
         ]
 
         /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
@@ -476,8 +476,8 @@ extension STS {
 
     public struct GetFederationTokenRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "PolicyArns", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
         /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using AWS account root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.

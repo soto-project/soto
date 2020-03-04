@@ -105,7 +105,7 @@ extension QLDB {
 
     public struct DeleteLedgerRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the ledger that you want to delete.
@@ -128,8 +128,8 @@ extension QLDB {
 
     public struct DescribeJournalS3ExportRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExportId", location: .uri(locationName: "exportId")), 
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The unique ID of the journal export job that you want to describe.
@@ -173,7 +173,7 @@ extension QLDB {
 
     public struct DescribeLedgerRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the ledger that you want to describe.
@@ -226,7 +226,7 @@ extension QLDB {
 
     public struct ExportJournalToS3Request: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The exclusive end date and time for the range of journal contents that you want to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The ExclusiveEndTime must be less than or equal to the current UTC date and time.
@@ -282,7 +282,7 @@ extension QLDB {
 
     public struct GetBlockRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14} 
@@ -333,7 +333,7 @@ extension QLDB {
 
     public struct GetDigestRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The name of the ledger.
@@ -374,7 +374,7 @@ extension QLDB {
 
     public struct GetRevisionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14} 
@@ -495,9 +495,9 @@ extension QLDB {
 
     public struct ListJournalS3ExportsForLedgerRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max_results")), 
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of results to return in a single ListJournalS3ExportsForLedger request. (The actual number of results returned might be fewer.)
@@ -551,8 +551,8 @@ extension QLDB {
 
     public struct ListJournalS3ExportsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max_results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of results to return in a single ListJournalS3Exports request. (The actual number of results returned might be fewer.)
@@ -599,8 +599,8 @@ extension QLDB {
 
     public struct ListLedgersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max_results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next_token"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
         /// The maximum number of results to return in a single ListLedgers request. (The actual number of results returned might be fewer.)
@@ -647,7 +647,7 @@ extension QLDB {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for which you want to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
@@ -737,7 +737,7 @@ extension QLDB {
 
     public struct TagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) to which you want to add the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
@@ -777,8 +777,8 @@ extension QLDB {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) from which you want to remove the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
@@ -818,7 +818,7 @@ extension QLDB {
 
     public struct UpdateLedgerRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "name"))
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.

@@ -66,7 +66,7 @@ extension Outposts {
 
     public struct GetOutpostInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "OutpostId", location: .uri(locationName: "OutpostId"))
+            AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
         ]
 
         public let outpostId: String
@@ -88,9 +88,9 @@ extension Outposts {
 
     public struct GetOutpostInstanceTypesInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSMemberEncoding(label: "OutpostId", location: .uri(locationName: "OutpostId"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
         ]
 
         public let maxResults: Int?
@@ -171,8 +171,8 @@ extension Outposts {
 
     public struct ListOutpostsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         public let maxResults: Int?
@@ -215,8 +215,8 @@ extension Outposts {
 
     public struct ListSitesInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         public let maxResults: Int?

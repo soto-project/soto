@@ -228,7 +228,7 @@ extension CloudSearch {
 
     public struct BuildSuggestersResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FieldNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
         ]
 
         public let fieldNames: [String]?
@@ -692,7 +692,7 @@ extension CloudSearch {
 
     public struct DescribeAnalysisSchemesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AnalysisSchemeNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "analysisSchemeNames", location: .body(locationName: "AnalysisSchemeNames"), encoding: .list(member:"member"))
         ]
 
         /// The analysis schemes you want to describe.
@@ -728,7 +728,7 @@ extension CloudSearch {
 
     public struct DescribeAnalysisSchemesResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AnalysisSchemes", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "analysisSchemes", location: .body(locationName: "AnalysisSchemes"), encoding: .list(member:"member"))
         ]
 
         /// The analysis scheme descriptions.
@@ -821,7 +821,7 @@ extension CloudSearch {
 
     public struct DescribeDomainsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainNames"), encoding: .list(member:"member"))
         ]
 
         /// The names of the domains you want to include in the response.
@@ -846,7 +846,7 @@ extension CloudSearch {
 
     public struct DescribeDomainsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainStatusList", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "domainStatusList", location: .body(locationName: "DomainStatusList"), encoding: .list(member:"member"))
         ]
 
         public let domainStatusList: [DomainStatus]
@@ -862,7 +862,7 @@ extension CloudSearch {
 
     public struct DescribeExpressionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExpressionNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "expressionNames", location: .body(locationName: "ExpressionNames"), encoding: .list(member:"member"))
         ]
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
@@ -898,7 +898,7 @@ extension CloudSearch {
 
     public struct DescribeExpressionsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Expressions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "expressions", location: .body(locationName: "Expressions"), encoding: .list(member:"member"))
         ]
 
         /// The expressions configured for the domain.
@@ -915,7 +915,7 @@ extension CloudSearch {
 
     public struct DescribeIndexFieldsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FieldNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
         ]
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
@@ -951,7 +951,7 @@ extension CloudSearch {
 
     public struct DescribeIndexFieldsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "IndexFields", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "indexFields", location: .body(locationName: "IndexFields"), encoding: .list(member:"member"))
         ]
 
         /// The index fields configured for the domain.
@@ -1038,7 +1038,7 @@ extension CloudSearch {
 
     public struct DescribeSuggestersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "SuggesterNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "suggesterNames", location: .body(locationName: "SuggesterNames"), encoding: .list(member:"member"))
         ]
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
@@ -1074,7 +1074,7 @@ extension CloudSearch {
 
     public struct DescribeSuggestersResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Suggesters", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "suggesters", location: .body(locationName: "Suggesters"), encoding: .list(member:"member"))
         ]
 
         /// The suggesters configured for the domain specified in the request.
@@ -1347,7 +1347,7 @@ extension CloudSearch {
 
     public struct IndexDocumentsResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FieldNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
         ]
 
         /// The names of the fields that are currently being indexed.
@@ -1578,7 +1578,7 @@ extension CloudSearch {
 
     public struct ListDomainNamesResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DomainNames", encoding: .map(entry:"entry", key: "key", value: "value"))
+            AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainNames"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// The names of the search domains owned by an account.

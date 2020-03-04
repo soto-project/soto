@@ -82,7 +82,7 @@ extension CodeGuruReviewer {
 
     public struct DescribeRepositoryAssociationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssociationArn", location: .uri(locationName: "AssociationArn"))
+            AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) identifying the association.
@@ -119,7 +119,7 @@ extension CodeGuruReviewer {
 
     public struct DisassociateRepositoryRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssociationArn", location: .uri(locationName: "AssociationArn"))
+            AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
 
         /// The Amazon Resource Name (ARN) identifying the association.
@@ -156,12 +156,12 @@ extension CodeGuruReviewer {
 
     public struct ListRepositoryAssociationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "Names", location: .querystring(locationName: "Name")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSMemberEncoding(label: "Owners", location: .querystring(locationName: "Owner")), 
-            AWSMemberEncoding(label: "ProviderTypes", location: .querystring(locationName: "ProviderType")), 
-            AWSMemberEncoding(label: "States", location: .querystring(locationName: "State"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "names", location: .querystring(locationName: "Name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "owners", location: .querystring(locationName: "Owner")), 
+            AWSMemberEncoding(label: "providerTypes", location: .querystring(locationName: "ProviderType")), 
+            AWSMemberEncoding(label: "states", location: .querystring(locationName: "State"))
         ]
 
         /// The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRepositoryAssociations returns up to 100 results and a nextToken value if applicable. 

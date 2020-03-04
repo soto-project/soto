@@ -27,7 +27,7 @@ extension MediaStoreData {
 
     public struct DeleteObjectRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Path", location: .uri(locationName: "Path"))
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path"))
         ]
 
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
@@ -58,7 +58,7 @@ extension MediaStoreData {
 
     public struct DescribeObjectRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Path", location: .uri(locationName: "Path"))
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path"))
         ]
 
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
@@ -81,11 +81,11 @@ extension MediaStoreData {
 
     public struct DescribeObjectResponse: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CacheControl", location: .header(locationName: "Cache-Control")), 
-            AWSMemberEncoding(label: "ContentLength", location: .header(locationName: "Content-Length")), 
-            AWSMemberEncoding(label: "ContentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "LastModified", location: .header(locationName: "Last-Modified"))
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified"))
         ]
 
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
@@ -118,8 +118,8 @@ extension MediaStoreData {
 
     public struct GetObjectRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Path", location: .uri(locationName: "Path")), 
-            AWSMemberEncoding(label: "Range", location: .header(locationName: "Range"))
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 
+            AWSMemberEncoding(label: "range", location: .header(locationName: "Range"))
         ]
 
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
@@ -147,15 +147,15 @@ extension MediaStoreData {
 
     public struct GetObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Body"
+        public static let payloadPath: String? = "body"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Body", encoding: .blob), 
-            AWSMemberEncoding(label: "CacheControl", location: .header(locationName: "Cache-Control")), 
-            AWSMemberEncoding(label: "ContentLength", location: .header(locationName: "Content-Length")), 
-            AWSMemberEncoding(label: "ContentRange", location: .header(locationName: "Content-Range")), 
-            AWSMemberEncoding(label: "ContentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "ETag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "LastModified", location: .header(locationName: "Last-Modified"))
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified"))
         ]
 
         /// The bytes of the object. 
@@ -234,9 +234,9 @@ extension MediaStoreData {
 
     public struct ListItemsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSMemberEncoding(label: "Path", location: .querystring(locationName: "Path"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "path", location: .querystring(locationName: "Path"))
         ]
 
         /// The maximum number of results to return per API request. For example, you submit a ListItems request with MaxResults set at 500. Although 2,000 items match your request, the service returns no more than the first 500 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 1,000 results per page.
@@ -287,14 +287,14 @@ extension MediaStoreData {
 
     public struct PutObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Body"
+        public static let payloadPath: String? = "body"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Body", encoding: .blob), 
-            AWSMemberEncoding(label: "CacheControl", location: .header(locationName: "Cache-Control")), 
-            AWSMemberEncoding(label: "ContentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "Path", location: .uri(locationName: "Path")), 
-            AWSMemberEncoding(label: "StorageClass", location: .header(locationName: "x-amz-storage-class")), 
-            AWSMemberEncoding(label: "UploadAvailability", location: .header(locationName: "x-amz-upload-availability"))
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSMemberEncoding(label: "uploadAvailability", location: .header(locationName: "x-amz-upload-availability"))
         ]
 
         /// The bytes to be stored. 

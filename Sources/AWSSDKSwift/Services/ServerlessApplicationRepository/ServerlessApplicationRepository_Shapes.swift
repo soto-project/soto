@@ -212,8 +212,8 @@ extension ServerlessApplicationRepository {
 
     public struct CreateApplicationVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId")), 
-            AWSMemberEncoding(label: "SemanticVersion", location: .uri(locationName: "semanticVersion"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "semanticVersion", location: .uri(locationName: "semanticVersion"))
         ]
 
         public let applicationId: String
@@ -281,7 +281,7 @@ extension ServerlessApplicationRepository {
 
     public struct CreateCloudFormationChangeSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -355,7 +355,7 @@ extension ServerlessApplicationRepository {
 
     public struct CreateCloudFormationTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -405,7 +405,7 @@ extension ServerlessApplicationRepository {
 
     public struct DeleteApplicationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -421,7 +421,7 @@ extension ServerlessApplicationRepository {
 
     public struct GetApplicationPolicyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -450,8 +450,8 @@ extension ServerlessApplicationRepository {
 
     public struct GetApplicationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId")), 
-            AWSMemberEncoding(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
         ]
 
         public let applicationId: String
@@ -519,8 +519,8 @@ extension ServerlessApplicationRepository {
 
     public struct GetCloudFormationTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "templateId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "templateId"))
         ]
 
         public let applicationId: String
@@ -570,10 +570,10 @@ extension ServerlessApplicationRepository {
 
     public struct ListApplicationDependenciesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "maxItems")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
         ]
 
         public let applicationId: String
@@ -619,9 +619,9 @@ extension ServerlessApplicationRepository {
 
     public struct ListApplicationVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "maxItems")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let applicationId: String
@@ -664,8 +664,8 @@ extension ServerlessApplicationRepository {
 
     public struct ListApplicationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "maxItems")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxItems: Int?
@@ -704,9 +704,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ParameterDefinition: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// A regular expression that represents the patterns to allow for String types.
         public let allowedPattern: String?
@@ -806,7 +803,7 @@ extension ServerlessApplicationRepository {
 
     public struct PutApplicationPolicyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -857,9 +854,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct RollbackTrigger: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Type", location: .body(locationName: "type"))
-        ]
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
         ///   Data Type.
@@ -903,7 +897,7 @@ extension ServerlessApplicationRepository {
 
     public struct UpdateApplicationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ApplicationId", location: .uri(locationName: "applicationId"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String

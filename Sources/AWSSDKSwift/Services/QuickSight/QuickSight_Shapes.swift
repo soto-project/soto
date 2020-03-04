@@ -428,9 +428,9 @@ extension QuickSight {
 
     public struct CancelIngestionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSMemberEncoding(label: "IngestionId", location: .uri(locationName: "IngestionId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
         /// The AWS account ID.
@@ -626,8 +626,8 @@ extension QuickSight {
 
     public struct CreateDashboardRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account where you want to create the dashboard.
@@ -736,7 +736,7 @@ extension QuickSight {
 
     public struct CreateDataSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
         /// The AWS account ID.
@@ -858,7 +858,7 @@ extension QuickSight {
 
     public struct CreateDataSourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
         /// The AWS account ID.
@@ -961,10 +961,10 @@ extension QuickSight {
 
     public struct CreateGroupMembershipRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName")), 
-            AWSMemberEncoding(label: "MemberName", location: .uri(locationName: "MemberName")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "memberName", location: .uri(locationName: "MemberName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -1028,8 +1028,8 @@ extension QuickSight {
 
     public struct CreateGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -1092,8 +1092,8 @@ extension QuickSight {
 
     public struct CreateIAMPolicyAssignmentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. It must be unique within an AWS account.
@@ -1178,9 +1178,9 @@ extension QuickSight {
 
     public struct CreateIngestionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSMemberEncoding(label: "IngestionId", location: .uri(locationName: "IngestionId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
         /// The AWS account ID.
@@ -1244,9 +1244,9 @@ extension QuickSight {
 
     public struct CreateTemplateAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasName", location: .uri(locationName: "AliasName")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by QuickSight. 
@@ -1310,8 +1310,8 @@ extension QuickSight {
 
     public struct CreateTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2101,9 +2101,9 @@ extension QuickSight {
 
     public struct DeleteDashboardRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .querystring(locationName: "version-number"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're deleting.
@@ -2164,8 +2164,8 @@ extension QuickSight {
 
     public struct DeleteDataSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -2218,8 +2218,8 @@ extension QuickSight {
 
     public struct DeleteDataSourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSourceId", location: .uri(locationName: "DataSourceId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -2272,10 +2272,10 @@ extension QuickSight {
 
     public struct DeleteGroupMembershipRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName")), 
-            AWSMemberEncoding(label: "MemberName", location: .uri(locationName: "MemberName")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "memberName", location: .uri(locationName: "MemberName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2335,9 +2335,9 @@ extension QuickSight {
 
     public struct DeleteGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2390,9 +2390,9 @@ extension QuickSight {
 
     public struct DeleteIAMPolicyAssignmentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssignmentName", location: .uri(locationName: "AssignmentName")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "assignmentName", location: .uri(locationName: "AssignmentName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. 
@@ -2449,9 +2449,9 @@ extension QuickSight {
 
     public struct DeleteTemplateAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasName", location: .uri(locationName: "AliasName")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The name for the template alias. If you name a specific alias, you delete the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. 
@@ -2518,9 +2518,9 @@ extension QuickSight {
 
     public struct DeleteTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .querystring(locationName: "version-number"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The ID of the AWS account that contains the template that you're deleting.
@@ -2581,9 +2581,9 @@ extension QuickSight {
 
     public struct DeleteUserByPrincipalIdRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "PrincipalId", location: .uri(locationName: "PrincipalId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "PrincipalId"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2634,9 +2634,9 @@ extension QuickSight {
 
     public struct DeleteUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "UserName", location: .uri(locationName: "UserName"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2689,8 +2689,8 @@ extension QuickSight {
 
     public struct DescribeDashboardPermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're describing permissions for.
@@ -2750,10 +2750,10 @@ extension QuickSight {
 
     public struct DescribeDashboardRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasName", location: .querystring(locationName: "alias-name")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .querystring(locationName: "version-number"))
+            AWSMemberEncoding(label: "aliasName", location: .querystring(locationName: "alias-name")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The alias name.
@@ -2817,8 +2817,8 @@ extension QuickSight {
 
     public struct DescribeDataSetPermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -2875,8 +2875,8 @@ extension QuickSight {
 
     public struct DescribeDataSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -2925,8 +2925,8 @@ extension QuickSight {
 
     public struct DescribeDataSourcePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSourceId", location: .uri(locationName: "DataSourceId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -2983,8 +2983,8 @@ extension QuickSight {
 
     public struct DescribeDataSourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSourceId", location: .uri(locationName: "DataSourceId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -3033,9 +3033,9 @@ extension QuickSight {
 
     public struct DescribeGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -3092,9 +3092,9 @@ extension QuickSight {
 
     public struct DescribeIAMPolicyAssignmentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssignmentName", location: .uri(locationName: "AssignmentName")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "assignmentName", location: .uri(locationName: "AssignmentName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. 
@@ -3151,9 +3151,9 @@ extension QuickSight {
 
     public struct DescribeIngestionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSMemberEncoding(label: "IngestionId", location: .uri(locationName: "IngestionId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
         /// The AWS account ID.
@@ -3209,9 +3209,9 @@ extension QuickSight {
 
     public struct DescribeTemplateAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasName", location: .uri(locationName: "AliasName")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The name of the template alias that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
@@ -3270,8 +3270,8 @@ extension QuickSight {
 
     public struct DescribeTemplatePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template that you're describing.
@@ -3331,10 +3331,10 @@ extension QuickSight {
 
     public struct DescribeTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasName", location: .querystring(locationName: "alias-name")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .querystring(locationName: "version-number"))
+            AWSMemberEncoding(label: "aliasName", location: .querystring(locationName: "alias-name")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
@@ -3394,9 +3394,9 @@ extension QuickSight {
 
     public struct DescribeUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "UserName", location: .uri(locationName: "UserName"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -3537,13 +3537,13 @@ extension QuickSight {
 
     public struct GetDashboardEmbedUrlRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId")), 
-            AWSMemberEncoding(label: "IdentityType", location: .querystring(locationName: "creds-type")), 
-            AWSMemberEncoding(label: "ResetDisabled", location: .querystring(locationName: "reset-disabled")), 
-            AWSMemberEncoding(label: "SessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime")), 
-            AWSMemberEncoding(label: "UndoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled")), 
-            AWSMemberEncoding(label: "UserArn", location: .querystring(locationName: "user-arn"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "identityType", location: .querystring(locationName: "creds-type")), 
+            AWSMemberEncoding(label: "resetDisabled", location: .querystring(locationName: "reset-disabled")), 
+            AWSMemberEncoding(label: "sessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime")), 
+            AWSMemberEncoding(label: "undoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled")), 
+            AWSMemberEncoding(label: "userArn", location: .querystring(locationName: "user-arn"))
         ]
 
         /// The ID for the AWS account that contains the dashboard that you're embedding.
@@ -3866,10 +3866,10 @@ extension QuickSight {
 
     public struct ListDashboardVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're listing versions for.
@@ -3935,9 +3935,9 @@ extension QuickSight {
 
     public struct ListDashboardsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID of the AWS account that contains the dashboards that you're listing.
@@ -3996,9 +3996,9 @@ extension QuickSight {
 
     public struct ListDataSetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The AWS account ID.
@@ -4057,9 +4057,9 @@ extension QuickSight {
 
     public struct ListDataSourcesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The AWS account ID.
@@ -4118,11 +4118,11 @@ extension QuickSight {
 
     public struct ListGroupMembershipsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -4193,10 +4193,10 @@ extension QuickSight {
 
     public struct ListGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -4261,11 +4261,11 @@ extension QuickSight {
 
     public struct ListIAMPolicyAssignmentsForUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token")), 
-            AWSMemberEncoding(label: "UserName", location: .uri(locationName: "UserName"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID of the AWS account that contains the assignments.
@@ -4336,10 +4336,10 @@ extension QuickSight {
 
     public struct ListIAMPolicyAssignmentsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The status of the assignments.
@@ -4408,10 +4408,10 @@ extension QuickSight {
 
     public struct ListIngestionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The AWS account ID.
@@ -4474,7 +4474,7 @@ extension QuickSight {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
@@ -4513,10 +4513,10 @@ extension QuickSight {
 
     public struct ListTemplateAliasesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-result")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-result")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template aliases that you're listing.
@@ -4582,10 +4582,10 @@ extension QuickSight {
 
     public struct ListTemplateVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the templates that you're listing.
@@ -4651,9 +4651,9 @@ extension QuickSight {
 
     public struct ListTemplatesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-result")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-result")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID of the AWS account that contains the templates that you're listing.
@@ -4712,11 +4712,11 @@ extension QuickSight {
 
     public struct ListUserGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token")), 
-            AWSMemberEncoding(label: "UserName", location: .uri(locationName: "UserName"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The AWS account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -4787,10 +4787,10 @@ extension QuickSight {
 
     public struct ListUsersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "max-results")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "next-token"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -5251,8 +5251,8 @@ extension QuickSight {
 
     public struct RegisterUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -5713,7 +5713,7 @@ extension QuickSight {
 
     public struct TagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -6095,8 +6095,8 @@ extension QuickSight {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "ResourceArn")), 
-            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "keys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "keys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to untag.
@@ -6144,8 +6144,8 @@ extension QuickSight {
 
     public struct UpdateDashboardPermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account that contains the dashboard whose permissions you're updating.
@@ -6223,9 +6223,9 @@ extension QuickSight {
 
     public struct UpdateDashboardPublishedVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're updating.
@@ -6286,8 +6286,8 @@ extension QuickSight {
 
     public struct UpdateDashboardRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DashboardId", location: .uri(locationName: "DashboardId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're updating.
@@ -6378,8 +6378,8 @@ extension QuickSight {
 
     public struct UpdateDataSetPermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -6450,8 +6450,8 @@ extension QuickSight {
 
     public struct UpdateDataSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSetId", location: .uri(locationName: "DataSetId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -6555,8 +6555,8 @@ extension QuickSight {
 
     public struct UpdateDataSourcePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSourceId", location: .uri(locationName: "DataSourceId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -6627,8 +6627,8 @@ extension QuickSight {
 
     public struct UpdateDataSourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "DataSourceId", location: .uri(locationName: "DataSourceId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -6709,9 +6709,9 @@ extension QuickSight {
 
     public struct UpdateGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "GroupName", location: .uri(locationName: "GroupName")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -6774,9 +6774,9 @@ extension QuickSight {
 
     public struct UpdateIAMPolicyAssignmentRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AssignmentName", location: .uri(locationName: "AssignmentName")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace"))
+            AWSMemberEncoding(label: "assignmentName", location: .uri(locationName: "AssignmentName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. This name must be unique within an AWS account.
@@ -6861,9 +6861,9 @@ extension QuickSight {
 
     public struct UpdateTemplateAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AliasName", location: .uri(locationName: "AliasName")), 
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
@@ -6927,8 +6927,8 @@ extension QuickSight {
 
     public struct UpdateTemplatePermissionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template.
@@ -7006,8 +7006,8 @@ extension QuickSight {
 
     public struct UpdateTemplateRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "TemplateId", location: .uri(locationName: "TemplateId"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template that you're updating.
@@ -7089,9 +7089,9 @@ extension QuickSight {
 
     public struct UpdateUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId")), 
-            AWSMemberEncoding(label: "Namespace", location: .uri(locationName: "Namespace")), 
-            AWSMemberEncoding(label: "UserName", location: .uri(locationName: "UserName"))
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.

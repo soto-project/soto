@@ -53,7 +53,7 @@ extension PinpointSMSVoice {
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -106,8 +106,8 @@ extension PinpointSMSVoice {
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
-            AWSMemberEncoding(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         public let configurationSetName: String
@@ -134,7 +134,7 @@ extension PinpointSMSVoice {
 
     public struct DeleteConfigurationSetRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -214,7 +214,7 @@ extension PinpointSMSVoice {
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -261,8 +261,8 @@ extension PinpointSMSVoice {
 
     public struct ListConfigurationSetsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSMemberEncoding(label: "PageSize", location: .querystring(locationName: "PageSize"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         public let nextToken: String?
@@ -400,8 +400,8 @@ extension PinpointSMSVoice {
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
-            AWSMemberEncoding(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"))
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         public let configurationSetName: String

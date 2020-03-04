@@ -496,8 +496,8 @@ extension Kafka {
 
     public struct DeleteClusterRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn")), 
-            AWSMemberEncoding(label: "CurrentVersion", location: .querystring(locationName: "currentVersion"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn")), 
+            AWSMemberEncoding(label: "currentVersion", location: .querystring(locationName: "currentVersion"))
         ]
 
         public let clusterArn: String
@@ -534,7 +534,7 @@ extension Kafka {
 
     public struct DescribeClusterOperationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterOperationArn", location: .uri(locationName: "clusterOperationArn"))
+            AWSMemberEncoding(label: "clusterOperationArn", location: .uri(locationName: "clusterOperationArn"))
         ]
 
         public let clusterOperationArn: String
@@ -564,7 +564,7 @@ extension Kafka {
 
     public struct DescribeClusterRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
 
         public let clusterArn: String
@@ -594,7 +594,7 @@ extension Kafka {
 
     public struct DescribeConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "arn"))
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
 
         public let arn: String
@@ -644,8 +644,8 @@ extension Kafka {
 
     public struct DescribeConfigurationRevisionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "arn")), 
-            AWSMemberEncoding(label: "Revision", location: .uri(locationName: "revision"))
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn")), 
+            AWSMemberEncoding(label: "revision", location: .uri(locationName: "revision"))
         ]
 
         public let arn: String
@@ -780,7 +780,7 @@ extension Kafka {
 
     public struct GetBootstrapBrokersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
 
         public let clusterArn: String
@@ -844,9 +844,9 @@ extension Kafka {
 
     public struct ListClusterOperationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let clusterArn: String
@@ -891,9 +891,9 @@ extension Kafka {
 
     public struct ListClustersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterNameFilter", location: .querystring(locationName: "clusterNameFilter")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterNameFilter", location: .querystring(locationName: "clusterNameFilter")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let clusterNameFilter: String?
@@ -938,9 +938,9 @@ extension Kafka {
 
     public struct ListConfigurationRevisionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Arn", location: .uri(locationName: "arn")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let arn: String
@@ -985,8 +985,8 @@ extension Kafka {
 
     public struct ListConfigurationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -1028,9 +1028,9 @@ extension Kafka {
 
     public struct ListNodesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let clusterArn: String
@@ -1075,7 +1075,7 @@ extension Kafka {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         public let resourceArn: String
@@ -1280,7 +1280,7 @@ extension Kafka {
 
     public struct TagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         public let resourceArn: String
@@ -1314,8 +1314,8 @@ extension Kafka {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -1334,7 +1334,7 @@ extension Kafka {
 
     public struct UpdateBrokerCountRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
 
         public let clusterArn: String
@@ -1381,7 +1381,7 @@ extension Kafka {
 
     public struct UpdateBrokerStorageRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
 
         public let clusterArn: String
@@ -1423,7 +1423,7 @@ extension Kafka {
 
     public struct UpdateClusterConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
 
         public let clusterArn: String
@@ -1465,7 +1465,7 @@ extension Kafka {
 
     public struct UpdateMonitoringRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClusterArn", location: .uri(locationName: "clusterArn"))
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
 
         public let clusterArn: String

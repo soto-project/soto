@@ -49,7 +49,7 @@ extension MediaConnect {
 
     public struct AddFlowOutputsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         public let flowArn: String
@@ -86,9 +86,6 @@ extension MediaConnect {
     }
 
     public struct AddOutputRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
-        ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
@@ -186,7 +183,7 @@ extension MediaConnect {
 
     public struct DeleteFlowRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         public let flowArn: String
@@ -220,7 +217,7 @@ extension MediaConnect {
 
     public struct DescribeFlowRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         public let flowArn: String
@@ -407,7 +404,7 @@ extension MediaConnect {
 
     public struct GrantFlowEntitlementsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         /// The list of entitlements that you want to grant.
@@ -445,8 +442,8 @@ extension MediaConnect {
 
     public struct ListEntitlementsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -488,8 +485,8 @@ extension MediaConnect {
 
     public struct ListFlowsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -531,7 +528,7 @@ extension MediaConnect {
 
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         public let resourceArn: String
@@ -681,8 +678,8 @@ extension MediaConnect {
 
     public struct RemoveFlowOutputRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn")), 
-            AWSMemberEncoding(label: "OutputArn", location: .uri(locationName: "outputArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
+            AWSMemberEncoding(label: "outputArn", location: .uri(locationName: "outputArn"))
         ]
 
         public let flowArn: String
@@ -719,8 +716,8 @@ extension MediaConnect {
 
     public struct RevokeFlowEntitlementRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EntitlementArn", location: .uri(locationName: "entitlementArn")), 
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "entitlementArn")), 
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         public let entitlementArn: String
@@ -756,9 +753,6 @@ extension MediaConnect {
     }
 
     public struct SetSourceRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
-        ]
 
         /// The type of encryption that is used on the content ingested from this source.
         public let decryption: Encryption?
@@ -860,7 +854,7 @@ extension MediaConnect {
 
     public struct StartFlowRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         public let flowArn: String
@@ -894,7 +888,7 @@ extension MediaConnect {
 
     public struct StopFlowRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         public let flowArn: String
@@ -928,7 +922,7 @@ extension MediaConnect {
 
     public struct TagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         public let resourceArn: String
@@ -947,9 +941,6 @@ extension MediaConnect {
     }
 
     public struct Transport: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
-        ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
@@ -989,8 +980,8 @@ extension MediaConnect {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ResourceArn", location: .uri(locationName: "resourceArn")), 
-            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -1055,8 +1046,8 @@ extension MediaConnect {
 
     public struct UpdateFlowEntitlementRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EntitlementArn", location: .uri(locationName: "entitlementArn")), 
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn"))
+            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "entitlementArn")), 
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
@@ -1104,9 +1095,8 @@ extension MediaConnect {
 
     public struct UpdateFlowOutputRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn")), 
-            AWSMemberEncoding(label: "OutputArn", location: .uri(locationName: "outputArn")), 
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
+            AWSMemberEncoding(label: "outputArn", location: .uri(locationName: "outputArn"))
         ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -1182,9 +1172,8 @@ extension MediaConnect {
 
     public struct UpdateFlowSourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FlowArn", location: .uri(locationName: "flowArn")), 
-            AWSMemberEncoding(label: "Protocol", location: .body(locationName: "protocol")), 
-            AWSMemberEncoding(label: "SourceArn", location: .uri(locationName: "sourceArn"))
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
+            AWSMemberEncoding(label: "sourceArn", location: .uri(locationName: "sourceArn"))
         ]
 
         /// The type of encryption used on the content ingested from this source.

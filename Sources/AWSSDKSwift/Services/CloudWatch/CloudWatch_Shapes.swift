@@ -125,7 +125,7 @@ extension CloudWatch {
 
     public struct AnomalyDetector: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
@@ -162,7 +162,7 @@ extension CloudWatch {
 
     public struct AnomalyDetectorConfiguration: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExcludedTimeRanges", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "excludedTimeRanges", location: .body(locationName: "ExcludedTimeRanges"), encoding: .list(member:"member"))
         ]
 
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
@@ -227,7 +227,7 @@ extension CloudWatch {
 
     public struct Datapoint: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExtendedStatistics", encoding: .map(entry:"entry", key: "key", value: "value"))
+            AWSMemberEncoding(label: "extendedStatistics", location: .body(locationName: "ExtendedStatistics"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// The average of the metric values that correspond to the data point.
@@ -272,7 +272,7 @@ extension CloudWatch {
 
     public struct DeleteAlarmsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AlarmNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
         /// The alarms to be deleted.
@@ -297,7 +297,7 @@ extension CloudWatch {
 
     public struct DeleteAnomalyDetectorInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
         /// The metric dimensions associated with the anomaly detection model to delete.
@@ -346,7 +346,7 @@ extension CloudWatch {
 
     public struct DeleteDashboardsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DashboardNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dashboardNames", location: .body(locationName: "DashboardNames"), encoding: .list(member:"member"))
         ]
 
         /// The dashboards to be deleted. This parameter is required.
@@ -371,7 +371,7 @@ extension CloudWatch {
 
     public struct DeleteInsightRulesInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RuleNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
 
         /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules.
@@ -396,7 +396,7 @@ extension CloudWatch {
 
     public struct DeleteInsightRulesOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Failures", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
 
         /// An array listing the rules that could not be deleted. You cannot delete built-in rules.
@@ -454,7 +454,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmHistoryOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AlarmHistoryItems", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "alarmHistoryItems", location: .body(locationName: "AlarmHistoryItems"), encoding: .list(member:"member"))
         ]
 
         /// The alarm histories, in JSON format.
@@ -475,7 +475,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsForMetricInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
         /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
@@ -530,7 +530,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsForMetricOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MetricAlarms", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "metricAlarms", location: .body(locationName: "MetricAlarms"), encoding: .list(member:"member"))
         ]
 
         /// The information for each alarm with the specified metric.
@@ -547,7 +547,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AlarmNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
         /// The action name prefix.
@@ -598,7 +598,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MetricAlarms", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "metricAlarms", location: .body(locationName: "MetricAlarms"), encoding: .list(member:"member"))
         ]
 
         /// The information for the specified alarms.
@@ -619,7 +619,7 @@ extension CloudWatch {
 
     public struct DescribeAnomalyDetectorsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
         /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
@@ -665,7 +665,7 @@ extension CloudWatch {
 
     public struct DescribeAnomalyDetectorsOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AnomalyDetectors", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "anomalyDetectors", location: .body(locationName: "AnomalyDetectors"), encoding: .list(member:"member"))
         ]
 
         /// The list of anomaly detection models returned by the operation.
@@ -709,7 +709,7 @@ extension CloudWatch {
 
     public struct DescribeInsightRulesOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InsightRules", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "insightRules", location: .body(locationName: "InsightRules"), encoding: .list(member:"member"))
         ]
 
         /// The rules returned by the operation.
@@ -780,7 +780,7 @@ extension CloudWatch {
 
     public struct DisableAlarmActionsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AlarmNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
         /// The names of the alarms.
@@ -805,7 +805,7 @@ extension CloudWatch {
 
     public struct DisableInsightRulesInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RuleNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
 
         /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules.
@@ -830,7 +830,7 @@ extension CloudWatch {
 
     public struct DisableInsightRulesOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Failures", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
 
         /// An array listing the rules that could not be disabled. You cannot disable built-in rules.
@@ -847,7 +847,7 @@ extension CloudWatch {
 
     public struct EnableAlarmActionsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AlarmNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
         /// The names of the alarms.
@@ -872,7 +872,7 @@ extension CloudWatch {
 
     public struct EnableInsightRulesInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "RuleNames", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
 
         /// An array of the rule names to enable. If you need to find out the names of your rules, use DescribeInsightRules.
@@ -897,7 +897,7 @@ extension CloudWatch {
 
     public struct EnableInsightRulesOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Failures", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
 
         /// An array listing the rules that could not be enabled. You cannot disable or enable built-in rules.
@@ -950,7 +950,7 @@ extension CloudWatch {
 
     public struct GetInsightRuleReportInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Metrics", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
 
         /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
@@ -1006,9 +1006,9 @@ extension CloudWatch {
 
     public struct GetInsightRuleReportOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Contributors", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "KeyLabels", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "MetricDatapoints", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "contributors", location: .body(locationName: "Contributors"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "keyLabels", location: .body(locationName: "KeyLabels"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "metricDatapoints", location: .body(locationName: "MetricDatapoints"), encoding: .list(member:"member"))
         ]
 
         /// The sum of the values from all individual contributors that match the rule.
@@ -1045,7 +1045,7 @@ extension CloudWatch {
 
     public struct GetMetricDataInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MetricDataQueries", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "metricDataQueries", location: .body(locationName: "MetricDataQueries"), encoding: .list(member:"member"))
         ]
 
         /// The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
@@ -1088,8 +1088,8 @@ extension CloudWatch {
 
     public struct GetMetricDataOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Messages", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "MetricDataResults", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "messages", location: .body(locationName: "Messages"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "metricDataResults", location: .body(locationName: "MetricDataResults"), encoding: .list(member:"member"))
         ]
 
         /// Contains a message about this GetMetricData operation, if the operation results in such a message. An example of a message that may be returned is Maximum number of allowed metrics exceeded. If there is a message, as much of the operation as possible is still executed. A message appears here only if it is related to the global GetMetricData operation. Any message about a specific metric returned by the operation appears in the MetricDataResult object returned for that metric.
@@ -1114,9 +1114,9 @@ extension CloudWatch {
 
     public struct GetMetricStatisticsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ExtendedStatistics", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Statistics", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "extendedStatistics", location: .body(locationName: "ExtendedStatistics"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "statistics", location: .body(locationName: "Statistics"), encoding: .list(member:"member"))
         ]
 
         /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
@@ -1185,7 +1185,7 @@ extension CloudWatch {
 
     public struct GetMetricStatisticsOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Datapoints", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "datapoints", location: .body(locationName: "Datapoints"), encoding: .list(member:"member"))
         ]
 
         /// The data points for the specified metric.
@@ -1264,8 +1264,8 @@ extension CloudWatch {
 
     public struct InsightRuleContributor: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Datapoints", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Keys", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "datapoints", location: .body(locationName: "Datapoints"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "keys", location: .body(locationName: "Keys"), encoding: .list(member:"member"))
         ]
 
         /// An approximation of the aggregate value that comes from this contributor.
@@ -1368,7 +1368,7 @@ extension CloudWatch {
 
     public struct ListDashboardsOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DashboardEntries", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dashboardEntries", location: .body(locationName: "DashboardEntries"), encoding: .list(member:"member"))
         ]
 
         /// The list of matching dashboards.
@@ -1389,7 +1389,7 @@ extension CloudWatch {
 
     public struct ListMetricsInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
         /// The dimensions to filter against.
@@ -1430,7 +1430,7 @@ extension CloudWatch {
 
     public struct ListMetricsOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Metrics", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
 
         /// The metrics.
@@ -1470,7 +1470,7 @@ extension CloudWatch {
 
     public struct ListTagsForResourceOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
         /// The list of tag keys and values associated with the resource you specified.
@@ -1505,7 +1505,7 @@ extension CloudWatch {
 
     public struct Metric: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
         /// The dimensions for the metric.
@@ -1542,11 +1542,11 @@ extension CloudWatch {
 
     public struct MetricAlarm: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AlarmActions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "InsufficientDataActions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Metrics", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "OKActions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "alarmActions", location: .body(locationName: "AlarmActions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "insufficientDataActions", location: .body(locationName: "InsufficientDataActions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "oKActions", location: .body(locationName: "OKActions"), encoding: .list(member:"member"))
         ]
 
         /// Indicates whether actions should be executed during any changes to the alarm state.
@@ -1710,9 +1710,9 @@ extension CloudWatch {
 
     public struct MetricDataResult: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Messages", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Timestamps", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Values", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "messages", location: .body(locationName: "Messages"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "timestamps", location: .body(locationName: "Timestamps"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
         /// The short name you specified to represent this metric.
@@ -1749,9 +1749,9 @@ extension CloudWatch {
 
     public struct MetricDatum: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Counts", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Values", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "counts", location: .body(locationName: "Counts"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
         /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period.  If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
@@ -1867,7 +1867,7 @@ extension CloudWatch {
 
     public struct PutAnomalyDetectorInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric. You can in
@@ -1938,7 +1938,7 @@ extension CloudWatch {
 
     public struct PutDashboardOutput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "DashboardValidationMessages", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "dashboardValidationMessages", location: .body(locationName: "DashboardValidationMessages"), encoding: .list(member:"member"))
         ]
 
         /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard may not render. If this result includes error messages, the input was not valid and the operation failed.
@@ -1997,12 +1997,12 @@ extension CloudWatch {
 
     public struct PutMetricAlarmInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "AlarmActions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Dimensions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "InsufficientDataActions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Metrics", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "OKActions", encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "alarmActions", location: .body(locationName: "AlarmActions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "insufficientDataActions", location: .body(locationName: "InsufficientDataActions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "oKActions", location: .body(locationName: "OKActions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
@@ -2150,7 +2150,7 @@ extension CloudWatch {
 
     public struct PutMetricDataInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "MetricData", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "metricData", location: .body(locationName: "MetricData"), encoding: .list(member:"member"))
         ]
 
         /// The data for the metric. The array can include no more than 20 metrics per call.
@@ -2284,7 +2284,7 @@ extension CloudWatch {
 
     public struct TagResourceInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Tags", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
         /// The ARN of the CloudWatch alarm that you're adding tags to. The ARN format is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  
@@ -2321,7 +2321,7 @@ extension CloudWatch {
 
     public struct UntagResourceInput: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "TagKeys", encoding: .list(member:"member"))
+            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
         /// The ARN of the CloudWatch resource that you're removing tags from. For more information on ARN format, see Example ARNs in the Amazon Web Services General Reference.

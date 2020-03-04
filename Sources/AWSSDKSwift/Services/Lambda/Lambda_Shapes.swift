@@ -159,9 +159,9 @@ extension Lambda {
 
     public struct AddLayerVersionPermissionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LayerName", location: .uri(locationName: "LayerName")), 
-            AWSMemberEncoding(label: "RevisionId", location: .querystring(locationName: "RevisionId")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
         /// The API action that grants access to the layer. For example, lambda:GetLayerVersion.
@@ -232,8 +232,8 @@ extension Lambda {
 
     public struct AddPermissionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction.
@@ -387,7 +387,7 @@ extension Lambda {
 
     public struct CreateAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
         /// A description of the alias.
@@ -627,8 +627,8 @@ extension Lambda {
 
     public struct DeleteAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -658,7 +658,7 @@ extension Lambda {
 
     public struct DeleteEventSourceMappingRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "UUID", location: .uri(locationName: "UUID"))
+            AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
         ]
 
         /// The identifier of the event source mapping.
@@ -675,7 +675,7 @@ extension Lambda {
 
     public struct DeleteFunctionConcurrencyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -698,8 +698,8 @@ extension Lambda {
 
     public struct DeleteFunctionEventInvokeConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -729,8 +729,8 @@ extension Lambda {
 
     public struct DeleteFunctionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function or version.  Name formats     Function name - my-function (name-only), my-function:1 (with version).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -760,8 +760,8 @@ extension Lambda {
 
     public struct DeleteLayerVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LayerName", location: .uri(locationName: "LayerName")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -788,8 +788,8 @@ extension Lambda {
 
     public struct DeleteProvisionedConcurrencyConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1188,8 +1188,8 @@ extension Lambda {
 
     public struct GetAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1219,7 +1219,7 @@ extension Lambda {
 
     public struct GetEventSourceMappingRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "UUID", location: .uri(locationName: "UUID"))
+            AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
         ]
 
         /// The identifier of the event source mapping.
@@ -1236,7 +1236,7 @@ extension Lambda {
 
     public struct GetFunctionConcurrencyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1273,8 +1273,8 @@ extension Lambda {
 
     public struct GetFunctionConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1304,8 +1304,8 @@ extension Lambda {
 
     public struct GetFunctionEventInvokeConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1335,8 +1335,8 @@ extension Lambda {
 
     public struct GetFunctionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1392,7 +1392,7 @@ extension Lambda {
 
     public struct GetLayerVersionByArnRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Arn", location: .querystring(locationName: "Arn"))
+            AWSMemberEncoding(label: "arn", location: .querystring(locationName: "Arn"))
         ]
 
         /// The ARN of the layer version.
@@ -1415,8 +1415,8 @@ extension Lambda {
 
     public struct GetLayerVersionPolicyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LayerName", location: .uri(locationName: "LayerName")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -1461,8 +1461,8 @@ extension Lambda {
 
     public struct GetLayerVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LayerName", location: .uri(locationName: "LayerName")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -1531,8 +1531,8 @@ extension Lambda {
 
     public struct GetPolicyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1580,8 +1580,8 @@ extension Lambda {
 
     public struct GetProvisionedConcurrencyConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1645,14 +1645,14 @@ extension Lambda {
 
     public struct InvocationRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Payload"
+        public static let payloadPath: String? = "payload"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ClientContext", location: .header(locationName: "X-Amz-Client-Context")), 
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "InvocationType", location: .header(locationName: "X-Amz-Invocation-Type")), 
-            AWSMemberEncoding(label: "LogType", location: .header(locationName: "X-Amz-Log-Type")), 
-            AWSMemberEncoding(label: "Payload", encoding: .blob), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "clientContext", location: .header(locationName: "X-Amz-Client-Context")), 
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "invocationType", location: .header(locationName: "X-Amz-Invocation-Type")), 
+            AWSMemberEncoding(label: "logType", location: .header(locationName: "X-Amz-Log-Type")), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// Up to 3583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
@@ -1698,12 +1698,12 @@ extension Lambda {
 
     public struct InvocationResponse: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Payload"
+        public static let payloadPath: String? = "payload"
         public static var _encoding = [
-            AWSMemberEncoding(label: "ExecutedVersion", location: .header(locationName: "X-Amz-Executed-Version")), 
-            AWSMemberEncoding(label: "FunctionError", location: .header(locationName: "X-Amz-Function-Error")), 
-            AWSMemberEncoding(label: "LogResult", location: .header(locationName: "X-Amz-Log-Result")), 
-            AWSMemberEncoding(label: "Payload", encoding: .blob)
+            AWSMemberEncoding(label: "executedVersion", location: .header(locationName: "X-Amz-Executed-Version")), 
+            AWSMemberEncoding(label: "functionError", location: .header(locationName: "X-Amz-Function-Error")), 
+            AWSMemberEncoding(label: "logResult", location: .header(locationName: "X-Amz-Log-Result")), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob)
         ]
 
         /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
@@ -1736,10 +1736,10 @@ extension Lambda {
 
     public struct InvokeAsyncRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "InvokeArgs"
+        public static let payloadPath: String? = "invokeArgs"
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "InvokeArgs", encoding: .blob)
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "invokeArgs", location: .body(locationName: "InvokeArgs"), encoding: .blob)
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1912,10 +1912,10 @@ extension Lambda {
 
     public struct ListAliasesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "functionVersion", location: .querystring(locationName: "FunctionVersion")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1973,10 +1973,10 @@ extension Lambda {
 
     public struct ListEventSourceMappingsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "EventSourceArn", location: .querystring(locationName: "EventSourceArn")), 
-            AWSMemberEncoding(label: "FunctionName", location: .querystring(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "eventSourceArn", location: .querystring(locationName: "EventSourceArn")), 
+            AWSMemberEncoding(label: "functionName", location: .querystring(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.  
@@ -2032,9 +2032,9 @@ extension Lambda {
 
     public struct ListFunctionEventInvokeConfigsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2085,10 +2085,10 @@ extension Lambda {
 
     public struct ListFunctionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MasterRegion", location: .querystring(locationName: "MasterRegion")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "functionVersion", location: .querystring(locationName: "FunctionVersion")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "masterRegion", location: .querystring(locationName: "MasterRegion")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// Set to ALL to include entries for all published versions of each function.
@@ -2141,10 +2141,10 @@ extension Lambda {
 
     public struct ListLayerVersionsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CompatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")), 
-            AWSMemberEncoding(label: "LayerName", location: .uri(locationName: "LayerName")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")), 
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// A runtime identifier. For example, go1.x.
@@ -2199,9 +2199,9 @@ extension Lambda {
 
     public struct ListLayersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CompatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// A runtime identifier. For example, go1.x.
@@ -2249,9 +2249,9 @@ extension Lambda {
 
     public struct ListProvisionedConcurrencyConfigsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2302,7 +2302,7 @@ extension Lambda {
 
     public struct ListTagsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resource", location: .uri(locationName: "ARN"))
+            AWSMemberEncoding(label: "resource", location: .uri(locationName: "ARN"))
         ]
 
         /// The function's Amazon Resource Name (ARN).
@@ -2337,9 +2337,9 @@ extension Lambda {
 
     public struct ListVersionsByFunctionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "MaxItems", location: .querystring(locationName: "MaxItems"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2468,7 +2468,7 @@ extension Lambda {
 
     public struct PublishLayerVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LayerName", location: .uri(locationName: "LayerName"))
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName"))
         ]
 
         /// A list of compatible function runtimes. Used for filtering with ListLayers and ListLayerVersions.
@@ -2554,7 +2554,7 @@ extension Lambda {
 
     public struct PublishVersionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
         /// Only publish a version if the hash value matches the value that's specified. Use this option to avoid publishing a version if the function code has changed since you last updated it. You can get the hash for the version that you uploaded from the output of UpdateFunctionCode.
@@ -2591,7 +2591,7 @@ extension Lambda {
 
     public struct PutFunctionConcurrencyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2619,8 +2619,8 @@ extension Lambda {
 
     public struct PutFunctionEventInvokeConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.  
@@ -2667,8 +2667,8 @@ extension Lambda {
 
     public struct PutProvisionedConcurrencyConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2737,10 +2737,10 @@ extension Lambda {
 
     public struct RemoveLayerVersionPermissionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "LayerName", location: .uri(locationName: "LayerName")), 
-            AWSMemberEncoding(label: "RevisionId", location: .querystring(locationName: "RevisionId")), 
-            AWSMemberEncoding(label: "StatementId", location: .uri(locationName: "StatementId")), 
-            AWSMemberEncoding(label: "VersionNumber", location: .uri(locationName: "VersionNumber"))
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")), 
+            AWSMemberEncoding(label: "statementId", location: .uri(locationName: "StatementId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -2778,10 +2778,10 @@ extension Lambda {
 
     public struct RemovePermissionRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier")), 
-            AWSMemberEncoding(label: "RevisionId", location: .querystring(locationName: "RevisionId")), 
-            AWSMemberEncoding(label: "StatementId", location: .uri(locationName: "StatementId"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")), 
+            AWSMemberEncoding(label: "statementId", location: .uri(locationName: "StatementId"))
         ]
 
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2822,7 +2822,7 @@ extension Lambda {
 
     public struct TagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resource", location: .uri(locationName: "ARN"))
+            AWSMemberEncoding(label: "resource", location: .uri(locationName: "ARN"))
         ]
 
         /// The function's Amazon Resource Name (ARN).
@@ -2875,8 +2875,8 @@ extension Lambda {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "Resource", location: .uri(locationName: "ARN")), 
-            AWSMemberEncoding(label: "TagKeys", location: .querystring(locationName: "tagKeys"))
+            AWSMemberEncoding(label: "resource", location: .uri(locationName: "ARN")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The function's Amazon Resource Name (ARN).
@@ -2901,8 +2901,8 @@ extension Lambda {
 
     public struct UpdateAliasRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Name", location: .uri(locationName: "Name"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
         ]
 
         /// A description of the alias.
@@ -2954,7 +2954,7 @@ extension Lambda {
 
     public struct UpdateEventSourceMappingRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "UUID", location: .uri(locationName: "UUID"))
+            AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
         ]
 
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
@@ -3024,7 +3024,7 @@ extension Lambda {
 
     public struct UpdateFunctionCodeRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
         /// Set to true to validate the request parameters and access permissions without modifying the function code.
@@ -3082,7 +3082,7 @@ extension Lambda {
 
     public struct UpdateFunctionConfigurationRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
         /// A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
@@ -3174,8 +3174,8 @@ extension Lambda {
 
     public struct UpdateFunctionEventInvokeConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "FunctionName", location: .uri(locationName: "FunctionName")), 
-            AWSMemberEncoding(label: "Qualifier", location: .querystring(locationName: "Qualifier"))
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
         /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.  

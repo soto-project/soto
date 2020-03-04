@@ -410,7 +410,7 @@ extension Connect {
 
     public struct CreateUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
@@ -579,8 +579,8 @@ extension Connect {
 
     public struct DeleteUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -606,8 +606,8 @@ extension Connect {
 
     public struct DescribeUserHierarchyGroupRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")), 
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")), 
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -647,7 +647,7 @@ extension Connect {
 
     public struct DescribeUserHierarchyStructureRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -683,8 +683,8 @@ extension Connect {
 
     public struct DescribeUserRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -766,8 +766,8 @@ extension Connect {
 
     public struct GetContactAttributesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InitialContactId", location: .uri(locationName: "InitialContactId")), 
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "initialContactId", location: .uri(locationName: "InitialContactId")), 
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the initial contact.
@@ -809,7 +809,7 @@ extension Connect {
 
     public struct GetCurrentMetricDataRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available:  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ON_CONTACT  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  SLOTS_ACTIVE  Unit: COUNT  SLOTS_AVAILABLE  Unit: COUNT  
@@ -877,7 +877,7 @@ extension Connect {
 
     public struct GetFederationTokenRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -913,7 +913,7 @@ extension Connect {
 
     public struct GetMetricDataRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
@@ -1203,10 +1203,10 @@ extension Connect {
 
     public struct ListContactFlowsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ContactFlowTypes", location: .querystring(locationName: "contactFlowTypes")), 
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "contactFlowTypes", location: .querystring(locationName: "contactFlowTypes")), 
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The type of contact flow.
@@ -1261,9 +1261,9 @@ extension Connect {
 
     public struct ListHoursOfOperationsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1313,11 +1313,11 @@ extension Connect {
 
     public struct ListPhoneNumbersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "PhoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes")), 
-            AWSMemberEncoding(label: "PhoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "phoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes")), 
+            AWSMemberEncoding(label: "phoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1377,10 +1377,10 @@ extension Connect {
 
     public struct ListQueuesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "QueueTypes", location: .querystring(locationName: "queueTypes"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "queueTypes", location: .querystring(locationName: "queueTypes"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1435,9 +1435,9 @@ extension Connect {
 
     public struct ListRoutingProfilesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1487,9 +1487,9 @@ extension Connect {
 
     public struct ListSecurityProfilesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1570,9 +1570,9 @@ extension Connect {
 
     public struct ListUserHierarchyGroupsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -1622,9 +1622,9 @@ extension Connect {
 
     public struct ListUsersRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "nextToken"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -2103,8 +2103,8 @@ extension Connect {
 
     public struct UpdateUserHierarchyRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the hierarchy group.
@@ -2134,8 +2134,8 @@ extension Connect {
 
     public struct UpdateUserIdentityInfoRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identity information for the user.
@@ -2166,8 +2166,8 @@ extension Connect {
 
     public struct UpdateUserPhoneConfigRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -2198,8 +2198,8 @@ extension Connect {
 
     public struct UpdateUserRoutingProfileRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.
@@ -2229,8 +2229,8 @@ extension Connect {
 
     public struct UpdateUserSecurityProfilesRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "InstanceId", location: .uri(locationName: "InstanceId")), 
-            AWSMemberEncoding(label: "UserId", location: .uri(locationName: "UserId"))
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
         /// The identifier of the Amazon Connect instance.

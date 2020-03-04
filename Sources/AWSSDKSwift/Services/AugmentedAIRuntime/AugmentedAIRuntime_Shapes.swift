@@ -31,7 +31,7 @@ extension AugmentedAIRuntime {
 
     public struct DeleteHumanLoopRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"))
+            AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
         /// The name of the human loop you want to delete.
@@ -62,7 +62,7 @@ extension AugmentedAIRuntime {
 
     public struct DescribeHumanLoopRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"))
+            AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
         /// The name of the human loop.
@@ -243,11 +243,11 @@ extension AugmentedAIRuntime {
 
     public struct ListHumanLoopsRequest: AWSShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "CreationTimeAfter", location: .querystring(locationName: "CreationTimeAfter")), 
-            AWSMemberEncoding(label: "CreationTimeBefore", location: .querystring(locationName: "CreationTimeBefore")), 
-            AWSMemberEncoding(label: "MaxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "NextToken", location: .querystring(locationName: "NextToken")), 
-            AWSMemberEncoding(label: "SortOrder", location: .querystring(locationName: "SortOrder"))
+            AWSMemberEncoding(label: "creationTimeAfter", location: .querystring(locationName: "CreationTimeAfter")), 
+            AWSMemberEncoding(label: "creationTimeBefore", location: .querystring(locationName: "CreationTimeBefore")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "sortOrder", location: .querystring(locationName: "SortOrder"))
         ]
 
         /// (Optional) The timestamp of the date when you want the human loops to begin. For example, 1551000000.

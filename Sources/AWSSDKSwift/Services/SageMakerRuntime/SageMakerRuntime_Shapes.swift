@@ -10,14 +10,14 @@ extension SageMakerRuntime {
 
     public struct InvokeEndpointInput: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Body"
+        public static let payloadPath: String? = "body"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Accept", location: .header(locationName: "Accept")), 
-            AWSMemberEncoding(label: "Body", encoding: .blob), 
-            AWSMemberEncoding(label: "ContentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
-            AWSMemberEncoding(label: "EndpointName", location: .uri(locationName: "EndpointName")), 
-            AWSMemberEncoding(label: "TargetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model"))
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
+            AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")), 
+            AWSMemberEncoding(label: "targetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model"))
         ]
 
         /// The desired MIME type of the inference in the response.
@@ -69,12 +69,12 @@ extension SageMakerRuntime {
 
     public struct InvokeEndpointOutput: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "Body"
+        public static let payloadPath: String? = "body"
         public static var _encoding = [
-            AWSMemberEncoding(label: "Body", encoding: .blob), 
-            AWSMemberEncoding(label: "ContentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
-            AWSMemberEncoding(label: "InvokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"))
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body"), encoding: .blob), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
+            AWSMemberEncoding(label: "invokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"))
         ]
 
         /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats—Inference.
