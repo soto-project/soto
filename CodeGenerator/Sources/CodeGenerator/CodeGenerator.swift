@@ -385,7 +385,7 @@ extension AWSService {
     }
 
     /// Generate the context information for outputting a member variable
-    func generateAWSShapeMemberContext(_ member: Member, shape: Shape) -> AWSShapeMemberContext? {
+    func generateAWSShapeMemberContext(_ member: Member, shape: Shape, forceOutput: Bool) -> AWSShapeMemberContext? {
         let encoding = member.shapeEncoding?.enumStyleDescription()
         var location = member.location
         // if member has collection encoding ie the codingkey will be needed, then add a Location.body
@@ -394,7 +394,10 @@ extension AWSService {
         }
         // remove location if equal to body and name is same as variable name
         if case .body(let name) = location, name == member.name.toSwiftLabelCase() {
-            location = nil
+            // if not forcing output or encoding isn't set clear the location
+            if forceOutput == false || encoding != nil {
+                location = nil
+            }
         }
         guard location != nil || encoding != nil else { return nil }
         return AWSShapeMemberContext(
@@ -477,7 +480,7 @@ extension AWSService {
 
             memberContexts.append(memberContext)
 
-            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape) {
+            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape, forceOutput: type.payload == member.name) {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
             }
 
