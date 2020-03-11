@@ -14,7 +14,7 @@ public enum ShapeTypeError: Error {
 
 public class Shape {
     public let name: String
-    public let type: ShapeType
+    public var type: ShapeType
     public var usedInInput : Bool = false
     public var usedInOutput : Bool = false
 

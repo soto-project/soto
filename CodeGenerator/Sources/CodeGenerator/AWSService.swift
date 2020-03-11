@@ -115,7 +115,7 @@ struct AWSService {
         self.docJSON = docJSON
         self.endpointJSON = endpointJSON
         self.shapes = try parseShapes()
-        (self.operations, self.errors) = try parseOperation(shapes: shapes)
+        (self.operations, self.errors) = try parseOperation(shapes: &self.shapes)
         self.paginators = try parsePaginators()
         self.shapeDoc = parseDoc()
     }
@@ -377,7 +377,7 @@ struct AWSService {
         }
     }
 
-    private func parseOperation(shapes: [Shape]) throws -> ([Operation], [ErrorShape])  {
+    private func parseOperation(shapes: inout [Shape]) throws -> ([Operation], [ErrorShape])  {
         var operations: [Operation] = []
         var errorShapeNames: [String] = []
         for (name, json) in apiJSON["operations"].dictionaryValue {
@@ -400,11 +400,22 @@ struct AWSService {
             var inputShape: Shape?
             if let inputShapeName = json["input"]["shape"].string {
                 if let index = shapes.firstIndex(where: { inputShapeName == $0.name }) {
+                    if let xmlNamespace = json["input"]["xmlNamespace"]["uri"].string {
+                        if case .structure(let shapeStructure) = shapes[index].type {
+                            shapes[index].type = .structure(
+                                StructureShape(
+                                    members: shapeStructure.members,
+                                    payload: shapeStructure.payload,
+                                    xmlNamespace: xmlNamespace
+                                )
+                            )
+                        }
+                    }
                     setShapeUsed(shape: shapes[index], inInput: true)
                     inputShape = shapes[index]
                 }
             }
-
+            
             var outputShape: Shape?
             if let outputShapeName = json["output"]["shape"].string {
                 if let index = shapes.firstIndex(where: { outputShapeName == $0.name }) {
