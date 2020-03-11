@@ -12,7 +12,10 @@ import NIO
 @testable import AWSSDKSwiftCore
 @testable import AWSS3
 
-// testing xml service
+// testing S3 service
+enum S3TestErrors: Error {
+    case error(String)
+}
 
 class S3Tests: XCTestCase {
 
@@ -139,7 +142,6 @@ class S3Tests: XCTestCase {
                 ).wait()
                 XCTFail("testMultiPartDownloadFailure: should have failed")
             } catch is AWSError {
-                // expected case
             } catch {
                 XCTFail("testMultiPartDownloadFailure: Unexpected error")
             }
@@ -312,8 +314,8 @@ class S3Tests: XCTestCase {
                     }
                     .flatMapThrowing { response in
                         print("Get \(objectName)")
-                        guard let body = response.body else {throw AWSError(message: "Get \(objectName) failed", rawBody: "") }
-                        guard text == String(data: body, encoding: .utf8) else {throw AWSError(message: "Get \(objectName) contents is incorrect", rawBody: "") }
+                        guard let body = response.body else {throw S3TestErrors.error("Get \(objectName) failed") }
+                        guard text == String(data: body, encoding: .utf8) else {throw S3TestErrors.error("Get \(objectName) contents is incorrect") }
                         return
                 }
                 responses.append(response)
