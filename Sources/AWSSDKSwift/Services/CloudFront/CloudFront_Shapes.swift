@@ -348,6 +348,7 @@ extension CloudFront {
     }
 
     public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: true, type: .string)
@@ -556,7 +557,6 @@ extension CloudFront {
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
         ]
@@ -605,7 +605,6 @@ extension CloudFront {
     public struct CreateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
         ]
@@ -658,7 +657,6 @@ extension CloudFront {
     public struct CreateDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfigWithTags"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"), required: true, type: .structure)
         ]
@@ -711,7 +709,6 @@ extension CloudFront {
     public struct CreateFieldLevelEncryptionConfigRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure)
         ]
@@ -760,7 +757,6 @@ extension CloudFront {
     public struct CreateFieldLevelEncryptionProfileRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure)
         ]
@@ -809,7 +805,6 @@ extension CloudFront {
     public struct CreateInvalidationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InvalidationBatch"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string), 
             AWSShapeMember(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"), required: true, type: .structure)
@@ -858,7 +853,6 @@ extension CloudFront {
     public struct CreatePublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicKeyConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure)
         ]
@@ -907,7 +901,6 @@ extension CloudFront {
     public struct CreateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure)
         ]
@@ -956,7 +949,6 @@ extension CloudFront {
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfigWithTags"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"), required: true, type: .structure)
         ]
@@ -1385,6 +1377,7 @@ extension CloudFront {
     }
 
     public struct DistributionConfig: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Aliases", required: false, type: .structure), 
             AWSShapeMember(label: "CacheBehaviors", required: false, type: .structure), 
@@ -1487,6 +1480,7 @@ extension CloudFront {
     }
 
     public struct DistributionConfigWithTags: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
             AWSShapeMember(label: "Tags", required: true, type: .structure)
@@ -1744,6 +1738,7 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionConfig: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: false, type: .string), 
@@ -1835,6 +1830,7 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionProfileConfig: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: false, type: .string), 
@@ -2641,6 +2637,7 @@ extension CloudFront {
     }
 
     public struct InvalidationBatch: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Paths", required: true, type: .structure)
@@ -3499,6 +3496,7 @@ extension CloudFront {
     }
 
     public struct PublicKeyConfig: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: false, type: .string), 
@@ -3839,6 +3837,7 @@ extension CloudFront {
     }
 
     public struct StreamingDistributionConfig: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Aliases", required: false, type: .structure), 
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
@@ -3891,6 +3890,7 @@ extension CloudFront {
     }
 
     public struct StreamingDistributionConfigWithTags: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure), 
             AWSShapeMember(label: "Tags", required: true, type: .structure)
@@ -4084,6 +4084,7 @@ extension CloudFront {
     }
 
     public struct TagKeys: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Key"))
         ]
@@ -4111,7 +4112,6 @@ extension CloudFront {
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tags"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tags"), required: true, type: .structure)
@@ -4139,6 +4139,7 @@ extension CloudFront {
     }
 
     public struct Tags: AWSShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
@@ -4191,7 +4192,6 @@ extension CloudFront {
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "TagKeys"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .body(locationName: "TagKeys"), required: true, type: .structure)
@@ -4221,7 +4221,6 @@ extension CloudFront {
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4275,7 +4274,6 @@ extension CloudFront {
     public struct UpdateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4333,7 +4331,6 @@ extension CloudFront {
     public struct UpdateFieldLevelEncryptionConfigRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4387,7 +4384,6 @@ extension CloudFront {
     public struct UpdateFieldLevelEncryptionProfileRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4441,7 +4437,6 @@ extension CloudFront {
     public struct UpdatePublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicKeyConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
@@ -4495,7 +4490,6 @@ extension CloudFront {
     public struct UpdateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
