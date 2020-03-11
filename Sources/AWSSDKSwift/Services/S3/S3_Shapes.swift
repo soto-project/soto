@@ -7733,6 +7733,7 @@ extension S3 {
     }
 
     public struct SelectObjectContentRequest: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Expression", required: true, type: .string), 
