@@ -172,6 +172,7 @@ struct AWSService {
                 structure[_struct["shape"].stringValue] = try shapeType(from: shapeJSON, level: level+1)
             }
 
+            var xmlNamespace: String? = nil
             let members: [Member] = json["members"].dictionaryValue.compactMap { name, memberJSON in
                 if memberJSON["deprecated"].bool == true {
                     return nil
@@ -218,8 +219,8 @@ struct AWSService {
                 if memberJSON["idempotencyToken"].bool == true {
                     options.insert(.idempotencyToken)
                 }
-                if let xmlNamespace = memberJSON["xmlNamespace"]["uri"].string {
-                    addShapeOperation(shapeName: shape.name, operation: SetXMLNamespaceOperation(xmlNamespace: xmlNamespace))
+                if let memberXMLNamespace = memberJSON["xmlNamespace"]["uri"].string {
+                    xmlNamespace = memberXMLNamespace
                 }
                 
                 return Member(
@@ -232,7 +233,7 @@ struct AWSService {
                 )
             }.sorted{ $0.name.lowercased() < $1.name.lowercased() }
 
-            let shape = StructureShape(members: members, payload: json["payload"].string)
+            let shape = StructureShape(members: members, payload: json["payload"].string, xmlNamespace: xmlNamespace)
             type = .structure(shape)
 
         case "map":
