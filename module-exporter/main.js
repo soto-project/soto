@@ -81,16 +81,17 @@ co(function *() {
   const middlewarePath = __dirname + "/../Sources/AWSSDKSwift/Middlewares";
   //const entries = yield fs.readdir(servicePath);
   const entries = [
-      "Kinesis",
-      "S3",
-      "EC2",
       "APIGateway",
-      "Lambda",
-      "ECS",
-      "DynamoDB",
-      "ECR",
       "CloudFront",
+      "CloudWatch",
+      "DynamoDB",
+      "EC2",
+      "ECR",
+      "ECS",
       "IAM",
+      "Kinesis",
+      "Lambda",
+      "S3",
       "SES"
   ]
   for(var index in entries){

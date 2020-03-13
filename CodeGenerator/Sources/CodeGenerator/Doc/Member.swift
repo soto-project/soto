@@ -34,16 +34,14 @@ public struct Member {
     public let shape: Shape
     public let location: Location?
     public let shapeEncoding: ShapeEncoding?
-    public let xmlNamespace: XMLNamespace?
     public let options: Options
     
-    public init(name: String, required: Bool, shape: Shape, location: Location?, shapeEncoding: ShapeEncoding?, xmlNamespace: XMLNamespace?, options: Options){
+    public init(name: String, required: Bool, shape: Shape, location: Location?, shapeEncoding: ShapeEncoding?, options: Options){
         self.name = name
         self.required = required
         self.shape = shape
         self.location = location
         self.shapeEncoding = shapeEncoding
-        self.xmlNamespace = xmlNamespace
         self.options = options
     }
 }

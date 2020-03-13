@@ -280,6 +280,7 @@ extension Route53 {
     }
 
     public struct AssociateVPCWithHostedZoneRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -417,6 +418,7 @@ extension Route53 {
     }
 
     public struct ChangeResourceRecordSetsRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeBatch", required: true, type: .structure), 
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
@@ -461,6 +463,7 @@ extension Route53 {
     }
 
     public struct ChangeTagsForResourceRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddTags", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "RemoveTagKeys", required: false, type: .list, encoding: .list(member:"Key")), 
@@ -567,6 +570,7 @@ extension Route53 {
     }
 
     public struct CreateHealthCheckRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "HealthCheckConfig", required: true, type: .structure)
@@ -617,6 +621,7 @@ extension Route53 {
     }
 
     public struct CreateHostedZoneRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "DelegationSetId", required: false, type: .string), 
@@ -700,6 +705,7 @@ extension Route53 {
     }
 
     public struct CreateQueryLoggingConfigRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: true, type: .string), 
             AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
@@ -748,6 +754,7 @@ extension Route53 {
     }
 
     public struct CreateReusableDelegationSetRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "HostedZoneId", required: false, type: .string)
@@ -798,6 +805,7 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyInstanceRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -868,6 +876,7 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "Document", required: true, type: .string), 
@@ -923,6 +932,7 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyVersionRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "Document", required: true, type: .string), 
@@ -979,6 +989,7 @@ extension Route53 {
     }
 
     public struct CreateVPCAssociationAuthorizationRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: true, type: .structure)
@@ -1248,6 +1259,7 @@ extension Route53 {
     }
 
     public struct DeleteVPCAssociationAuthorizationRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "VPC", required: true, type: .structure)
@@ -1305,6 +1317,7 @@ extension Route53 {
     }
 
     public struct DisassociateVPCFromHostedZoneRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -2923,6 +2936,7 @@ extension Route53 {
     }
 
     public struct ListTagsForResourcesRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceIds", required: true, type: .list, encoding: .list(member:"ResourceId")), 
             AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
@@ -3872,6 +3886,7 @@ extension Route53 {
     }
 
     public struct UpdateHealthCheckRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlarmIdentifier", required: false, type: .structure), 
             AWSShapeMember(label: "ChildHealthChecks", required: false, type: .list, encoding: .list(member:"ChildHealthCheck")), 
@@ -4010,6 +4025,7 @@ extension Route53 {
     }
 
     public struct UpdateHostedZoneCommentRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
@@ -4054,6 +4070,7 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyCommentRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
@@ -4106,6 +4123,7 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 

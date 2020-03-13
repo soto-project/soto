@@ -13,6 +13,7 @@ import XCTest
 @testable import AWSCloudFront
 @testable import AWSEC2
 @testable import AWSIAM
+@testable import AWSRoute53
 @testable import AWSS3
 @testable import AWSSES
 @testable import AWSSNS
@@ -125,6 +126,20 @@ class AWSRequestTests: XCTestCase {
         testAWSShapeRequest(client: IAM().client, operation: "SimulateCustomPolicy", input: request, expected: expectedResult)
     }
 
+    func testRoute53ChangeResourceRecordSetsRequest() {
+        let expectedResult = """
+            <?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/"><ChangeBatch><Changes><Change><Action>CREATE</Action><ResourceRecordSet><Name>www</Name><Type>CNAME</Type></ResourceRecordSet></Change><Change><Action>UPSERT</Action><ResourceRecordSet><Name>dev</Name><Type>CNAME</Type></ResourceRecordSet></Change></Changes></ChangeBatch><Id>Zone</Id></ChangeResourceRecordSetsRequest>
+            """
+        let changes: [Route53.Change] = [
+            .init(action: .create, resourceRecordSet: .init(name: "www", type: .cname)),
+            .init(action: .upsert, resourceRecordSet: .init(name: "dev", type: .cname))
+        ]
+        let changeBatch = Route53.ChangeBatch(changes: changes)
+        let request = Route53.ChangeResourceRecordSetsRequest(changeBatch: changeBatch, hostedZoneId: "Zone")
+        
+        testAWSShapeRequest(client: Route53().client, operation: "ChangeResourceRecordSets", input: request, expected: expectedResult)
+    }
+    
     func testSESSendEmail() {
         let expectedResult = "Action=SendEmail&Destination.ToAddresses.member.1=them%40gmail.com&Message.Body.Text.Data=Testing%201%2C2%2C1%2C2&Message.Subject.Data=Testing&Source=me%40gmail.com&Version=2010-12-01"
         let destination = SES.Destination(toAddresses: ["them@gmail.com"])

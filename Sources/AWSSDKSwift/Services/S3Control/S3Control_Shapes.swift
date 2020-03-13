@@ -171,6 +171,7 @@ extension S3Control {
     }
 
     public struct CreateAccessPointRequest: AWSShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
@@ -216,6 +217,7 @@ extension S3Control {
     }
 
     public struct CreateJobRequest: AWSShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
             AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
@@ -1186,6 +1188,7 @@ extension S3Control {
     }
 
     public struct PutAccessPointPolicyRequest: AWSShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
