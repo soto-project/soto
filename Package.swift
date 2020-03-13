@@ -453,6 +453,19 @@ let package = Package(
         .target(name: "AWSWorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "AWSXRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
 
-        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["AWSACM","AWSAPIGateway","AWSCloudFront","AWSDynamoDB","AWSEC2","AWSIAM","AWSS3","AWSSES","AWSSNS","AWSSQS","AWSSSM"])
+        .testTarget(name: "AWSSDKSwiftTests", dependencies: [
+            "AWSACM",
+            "AWSAPIGateway",
+            "AWSCloudFront",
+            "AWSDynamoDB",
+            "AWSEC2",
+            "AWSIAM",
+            "AWSRoute53",
+            "AWSS3",
+            "AWSSES",
+            "AWSSNS",
+            "AWSSQS",
+            "AWSSSM"
+        ])
     ]
 )

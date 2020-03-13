@@ -43,6 +43,7 @@ testsSet.insert("ACM")
 testsSet.insert("CloudFront")
 testsSet.insert("EC2")
 testsSet.insert("IAM")
+testsSet.insert("Route53")
 testsSet.insert("S3")
 testsSet.insert("SES")
 testsSet.insert("SNS")
@@ -61,7 +62,7 @@ let serviceTargets = services.map { (serviceName) -> String in
 }.sorted().joined(separator: ",\n")
 
 // test dependencies
-let testDependencies = testsSet.map { "\"AWS\($0)\"" }.sorted().joined(separator: ",")
+let testDependencies = testsSet.map { "\n            \"AWS\($0)\"" }.sorted().joined(separator: ",")
 
 // Output the Package.swift
 print("""
@@ -85,7 +86,8 @@ print("""
 print("\(serviceTargets),\n")
 
 print("""
-              .testTarget(name: "AWSSDKSwiftTests", dependencies: [\(testDependencies)])
+              .testTarget(name: "AWSSDKSwiftTests", dependencies: [\(testDependencies)
+              ])
           ]
       )
       """)
