@@ -54,29 +54,6 @@ extension Amplify {
     //MARK: Shapes
 
     public struct App: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appArn", required: true, type: .string), 
-            AWSShapeMember(label: "appId", required: true, type: .string), 
-            AWSShapeMember(label: "autoBranchCreationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "autoBranchCreationPatterns", required: false, type: .list), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "customRules", required: false, type: .list), 
-            AWSShapeMember(label: "defaultDomain", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "enableAutoBranchCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
-            AWSShapeMember(label: "enableBranchAutoBuild", required: true, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
-            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "platform", required: true, type: .enum), 
-            AWSShapeMember(label: "productionBranch", required: false, type: .structure), 
-            AWSShapeMember(label: "repository", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "updateTime", required: true, type: .timestamp)
-        ]
 
         ///  ARN for the Amplify App. 
         public let appArn: String
@@ -171,10 +148,6 @@ extension Amplify {
     }
 
     public struct Artifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactFileName", required: true, type: .string), 
-            AWSShapeMember(label: "artifactId", required: true, type: .string)
-        ]
 
         ///  File name for the artifact. 
         public let artifactFileName: String
@@ -193,17 +166,6 @@ extension Amplify {
     }
 
     public struct AutoBranchCreationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "framework", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .enum)
-        ]
 
         ///  Basic Authorization credentials for the auto created branch. 
         public let basicAuthCredentials: String?
@@ -262,14 +224,6 @@ extension Amplify {
     }
 
     public struct BackendEnvironment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backendEnvironmentArn", required: true, type: .string), 
-            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "deploymentArtifacts", required: false, type: .string), 
-            AWSShapeMember(label: "environmentName", required: true, type: .string), 
-            AWSShapeMember(label: "stackName", required: false, type: .string), 
-            AWSShapeMember(label: "updateTime", required: true, type: .timestamp)
-        ]
 
         ///  Arn for a backend environment, part of an Amplify App. 
         public let backendEnvironmentArn: String
@@ -304,34 +258,6 @@ extension Amplify {
     }
 
     public struct Branch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activeJobId", required: true, type: .string), 
-            AWSShapeMember(label: "associatedResources", required: false, type: .list), 
-            AWSShapeMember(label: "backendEnvironmentArn", required: false, type: .string), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "branchArn", required: true, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "customDomains", required: true, type: .list), 
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "destinationBranch", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: true, type: .string), 
-            AWSShapeMember(label: "enableAutoBuild", required: true, type: .boolean), 
-            AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
-            AWSShapeMember(label: "enableNotification", required: true, type: .boolean), 
-            AWSShapeMember(label: "enablePullRequestPreview", required: true, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
-            AWSShapeMember(label: "framework", required: true, type: .string), 
-            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "sourceBranch", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: true, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "thumbnailUrl", required: false, type: .string), 
-            AWSShapeMember(label: "totalNumberOfJobs", required: true, type: .string), 
-            AWSShapeMember(label: "ttl", required: true, type: .string), 
-            AWSShapeMember(label: "updateTime", required: true, type: .timestamp)
-        ]
 
         ///  Id of the active job for a branch, part of an Amplify App. 
         public let activeJobId: String
@@ -446,25 +372,6 @@ extension Amplify {
     }
 
     public struct CreateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", required: false, type: .string), 
-            AWSShapeMember(label: "autoBranchCreationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "autoBranchCreationPatterns", required: false, type: .list), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "customRules", required: false, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enableAutoBranchCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBranchAutoBuild", required: false, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "oauthToken", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "repository", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         ///  Personal Access token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. Token is not stored. 
         public let accessToken: String?
@@ -576,9 +483,6 @@ extension Amplify {
     }
 
     public struct CreateAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "app", required: true, type: .structure)
-        ]
 
         public let app: App
 
@@ -592,11 +496,8 @@ extension Amplify {
     }
 
     public struct CreateBackendEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "deploymentArtifacts", required: false, type: .string), 
-            AWSShapeMember(label: "environmentName", required: true, type: .string), 
-            AWSShapeMember(label: "stackName", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -635,9 +536,6 @@ extension Amplify {
     }
 
     public struct CreateBackendEnvironmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backendEnvironment", required: true, type: .structure)
-        ]
 
         ///  Backend environment structure for an amplify App. 
         public let backendEnvironment: BackendEnvironment
@@ -652,24 +550,8 @@ extension Amplify {
     }
 
     public struct CreateBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "backendEnvironmentArn", required: false, type: .string), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
-            AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "framework", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "ttl", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -775,9 +657,6 @@ extension Amplify {
     }
 
     public struct CreateBranchResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: true, type: .structure)
-        ]
 
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
@@ -792,10 +671,9 @@ extension Amplify {
     }
 
     public struct CreateDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "fileMap", required: false, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -830,11 +708,6 @@ extension Amplify {
     }
 
     public struct CreateDeploymentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileUploadUrls", required: true, type: .map), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "zipUploadUrl", required: true, type: .string)
-        ]
 
         ///  When the fileMap argument is provided in the request, the fileUploadUrls will contain a map of file names to upload url. 
         public let fileUploadUrls: [String: String]
@@ -857,11 +730,8 @@ extension Amplify {
     }
 
     public struct CreateDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", required: true, type: .string), 
-            AWSShapeMember(label: "enableAutoSubDomain", required: false, type: .boolean), 
-            AWSShapeMember(label: "subDomainSettings", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -899,9 +769,6 @@ extension Amplify {
     }
 
     public struct CreateDomainAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
-        ]
 
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
@@ -916,10 +783,8 @@ extension Amplify {
     }
 
     public struct CreateWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -951,9 +816,6 @@ extension Amplify {
     }
 
     public struct CreateWebhookResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: true, type: .structure)
-        ]
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -968,12 +830,6 @@ extension Amplify {
     }
 
     public struct CustomRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "condition", required: false, type: .string), 
-            AWSShapeMember(label: "source", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "target", required: true, type: .string)
-        ]
 
         ///  The condition for a URL rewrite or redirect rule, e.g. country code. 
         public let condition: String?
@@ -1011,8 +867,8 @@ extension Amplify {
     }
 
     public struct DeleteAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1033,9 +889,6 @@ extension Amplify {
     }
 
     public struct DeleteAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "app", required: true, type: .structure)
-        ]
 
         public let app: App
 
@@ -1049,9 +902,9 @@ extension Amplify {
     }
 
     public struct DeleteBackendEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "environmentName", location: .uri(locationName: "environmentName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
         ///  Unique Id of an Amplify App. 
@@ -1078,9 +931,6 @@ extension Amplify {
     }
 
     public struct DeleteBackendEnvironmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backendEnvironment", required: true, type: .structure)
-        ]
 
         ///  Backend environment structure for an Amplify App. 
         public let backendEnvironment: BackendEnvironment
@@ -1095,9 +945,9 @@ extension Amplify {
     }
 
     public struct DeleteBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1124,9 +974,6 @@ extension Amplify {
     }
 
     public struct DeleteBranchResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: true, type: .structure)
-        ]
 
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
@@ -1141,9 +988,9 @@ extension Amplify {
     }
 
     public struct DeleteDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1169,9 +1016,6 @@ extension Amplify {
     }
 
     public struct DeleteDomainAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
-        ]
 
         public let domainAssociation: DomainAssociation
 
@@ -1185,10 +1029,10 @@ extension Amplify {
     }
 
     public struct DeleteJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1220,9 +1064,6 @@ extension Amplify {
     }
 
     public struct DeleteJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
-        ]
 
         public let jobSummary: JobSummary
 
@@ -1236,8 +1077,8 @@ extension Amplify {
     }
 
     public struct DeleteWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookId", location: .uri(locationName: "webhookId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
         ///  Unique Id for a webhook. 
@@ -1257,9 +1098,6 @@ extension Amplify {
     }
 
     public struct DeleteWebhookResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: true, type: .structure)
-        ]
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -1274,15 +1112,6 @@ extension Amplify {
     }
 
     public struct DomainAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateVerificationDNSRecord", required: false, type: .string), 
-            AWSShapeMember(label: "domainAssociationArn", required: true, type: .string), 
-            AWSShapeMember(label: "domainName", required: true, type: .string), 
-            AWSShapeMember(label: "domainStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "enableAutoSubDomain", required: true, type: .boolean), 
-            AWSShapeMember(label: "statusReason", required: true, type: .string), 
-            AWSShapeMember(label: "subDomains", required: true, type: .list)
-        ]
 
         ///  DNS Record for certificate verification. 
         public let certificateVerificationDNSRecord: String?
@@ -1321,11 +1150,8 @@ extension Amplify {
     }
 
     public struct GenerateAccessLogsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", required: true, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1359,9 +1185,6 @@ extension Amplify {
     }
 
     public struct GenerateAccessLogsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logUrl", required: false, type: .string)
-        ]
 
         ///  Pre-signed URL for the requested access logs. 
         public let logUrl: String?
@@ -1376,8 +1199,8 @@ extension Amplify {
     }
 
     public struct GetAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1398,9 +1221,6 @@ extension Amplify {
     }
 
     public struct GetAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "app", required: true, type: .structure)
-        ]
 
         public let app: App
 
@@ -1414,8 +1234,8 @@ extension Amplify {
     }
 
     public struct GetArtifactUrlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactId", location: .uri(locationName: "artifactId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "artifactId", location: .uri(locationName: "artifactId"))
         ]
 
         ///  Unique Id for a artifact. 
@@ -1435,10 +1255,6 @@ extension Amplify {
     }
 
     public struct GetArtifactUrlResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactId", required: true, type: .string), 
-            AWSShapeMember(label: "artifactUrl", required: true, type: .string)
-        ]
 
         ///  Unique Id for a artifact. 
         public let artifactId: String
@@ -1457,9 +1273,9 @@ extension Amplify {
     }
 
     public struct GetBackendEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "environmentName", location: .uri(locationName: "environmentName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1486,9 +1302,6 @@ extension Amplify {
     }
 
     public struct GetBackendEnvironmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backendEnvironment", required: true, type: .structure)
-        ]
 
         ///  Backend environment structure for an an Amplify App. 
         public let backendEnvironment: BackendEnvironment
@@ -1503,9 +1316,9 @@ extension Amplify {
     }
 
     public struct GetBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1532,9 +1345,6 @@ extension Amplify {
     }
 
     public struct GetBranchResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: true, type: .structure)
-        ]
 
         public let branch: Branch
 
@@ -1548,9 +1358,9 @@ extension Amplify {
     }
 
     public struct GetDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1576,9 +1386,6 @@ extension Amplify {
     }
 
     public struct GetDomainAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
-        ]
 
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
@@ -1593,10 +1400,10 @@ extension Amplify {
     }
 
     public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1628,9 +1435,6 @@ extension Amplify {
     }
 
     public struct GetJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .structure)
-        ]
 
         public let job: Job
 
@@ -1644,8 +1448,8 @@ extension Amplify {
     }
 
     public struct GetWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookId", location: .uri(locationName: "webhookId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
         ///  Unique Id for a webhook. 
@@ -1665,9 +1469,6 @@ extension Amplify {
     }
 
     public struct GetWebhookResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: true, type: .structure)
-        ]
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -1682,10 +1483,6 @@ extension Amplify {
     }
 
     public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "steps", required: true, type: .list), 
-            AWSShapeMember(label: "summary", required: true, type: .structure)
-        ]
 
         ///  Execution steps for an execution job, for an Amplify App. 
         public let steps: [Step]
@@ -1704,17 +1501,6 @@ extension Amplify {
     }
 
     public struct JobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: true, type: .string), 
-            AWSShapeMember(label: "commitTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobArn", required: true, type: .string), 
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "jobType", required: true, type: .enum), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         ///  Commit Id from 3rd party repository provider for the Job. 
         public let commitId: String
@@ -1761,9 +1547,9 @@ extension Amplify {
     }
 
     public struct ListAppsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response. 
@@ -1789,10 +1575,6 @@ extension Amplify {
     }
 
     public struct ListAppsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apps", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  List of Amplify Apps. 
         public let apps: [App]
@@ -1811,12 +1593,12 @@ extension Amplify {
     }
 
     public struct ListArtifactsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1859,10 +1641,6 @@ extension Amplify {
     }
 
     public struct ListArtifactsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifacts", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  List of artifacts. 
         public let artifacts: [Artifact]
@@ -1881,11 +1659,10 @@ extension Amplify {
     }
 
     public struct ListBackendEnvironmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "environmentName", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an amplify App. 
@@ -1923,10 +1700,6 @@ extension Amplify {
     }
 
     public struct ListBackendEnvironmentsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backendEnvironments", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  List of backend environments for an Amplify App. 
         public let backendEnvironments: [BackendEnvironment]
@@ -1945,10 +1718,10 @@ extension Amplify {
     }
 
     public struct ListBranchesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -1980,10 +1753,6 @@ extension Amplify {
     }
 
     public struct ListBranchesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branches", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  List of branches for an Amplify App. 
         public let branches: [Branch]
@@ -2002,10 +1771,10 @@ extension Amplify {
     }
 
     public struct ListDomainAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2037,10 +1806,6 @@ extension Amplify {
     }
 
     public struct ListDomainAssociationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociations", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  List of Domain Associations. 
         public let domainAssociations: [DomainAssociation]
@@ -2059,11 +1824,11 @@ extension Amplify {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2101,10 +1866,6 @@ extension Amplify {
     }
 
     public struct ListJobsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  Result structure for list job result request. 
         public let jobSummaries: [JobSummary]
@@ -2123,8 +1884,8 @@ extension Amplify {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  Resource arn used to list tags. 
@@ -2144,9 +1905,6 @@ extension Amplify {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         ///  Tags result for response. 
         public let tags: [String: String]?
@@ -2161,10 +1919,10 @@ extension Amplify {
     }
 
     public struct ListWebhooksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2196,10 +1954,6 @@ extension Amplify {
     }
 
     public struct ListWebhooksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "webhooks", required: true, type: .list)
-        ]
 
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
@@ -2218,12 +1972,6 @@ extension Amplify {
     }
 
     public struct ProductionBranch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeployTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "thumbnailUrl", required: false, type: .string)
-        ]
 
         ///  Branch Name for Production Branch. 
         public let branchName: String?
@@ -2250,11 +1998,9 @@ extension Amplify {
     }
 
     public struct StartDeploymentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "sourceUrl", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2291,9 +2037,6 @@ extension Amplify {
     }
 
     public struct StartDeploymentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
-        ]
 
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
@@ -2308,15 +2051,9 @@ extension Amplify {
     }
 
     public struct StartJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "commitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "jobReason", required: false, type: .string), 
-            AWSShapeMember(label: "jobType", required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2371,9 +2108,6 @@ extension Amplify {
     }
 
     public struct StartJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
-        ]
 
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
@@ -2388,19 +2122,6 @@ extension Amplify {
     }
 
     public struct Step: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactsUrl", required: false, type: .string), 
-            AWSShapeMember(label: "context", required: false, type: .string), 
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "logUrl", required: false, type: .string), 
-            AWSShapeMember(label: "screenshots", required: false, type: .map), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string), 
-            AWSShapeMember(label: "stepName", required: true, type: .string), 
-            AWSShapeMember(label: "testArtifactsUrl", required: false, type: .string), 
-            AWSShapeMember(label: "testConfigUrl", required: false, type: .string)
-        ]
 
         ///  URL to the artifact for the execution step. 
         public let artifactsUrl: String?
@@ -2455,10 +2176,10 @@ extension Amplify {
     }
 
     public struct StopJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2490,9 +2211,6 @@ extension Amplify {
     }
 
     public struct StopJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
-        ]
 
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
@@ -2507,11 +2225,6 @@ extension Amplify {
     }
 
     public struct SubDomain: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dnsRecord", required: true, type: .string), 
-            AWSShapeMember(label: "subDomainSetting", required: true, type: .structure), 
-            AWSShapeMember(label: "verified", required: true, type: .boolean)
-        ]
 
         ///  DNS record for the Subdomain. 
         public let dnsRecord: String
@@ -2534,10 +2247,6 @@ extension Amplify {
     }
 
     public struct SubDomainSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "prefix", required: true, type: .string)
-        ]
 
         ///  Branch name setting for the Subdomain. 
         public let branchName: String
@@ -2562,9 +2271,8 @@ extension Amplify {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         ///  Resource arn used to tag resource. 
@@ -2602,9 +2310,9 @@ extension Amplify {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         ///  Resource arn used to untag resource. 
@@ -2643,24 +2351,8 @@ extension Amplify {
     }
 
     public struct UpdateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", required: false, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "autoBranchCreationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "autoBranchCreationPatterns", required: false, type: .list), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "customRules", required: false, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enableAutoBranchCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBranchAutoBuild", required: false, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "oauthToken", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "repository", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
         ///  Personal Access token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. Token is not stored. 
@@ -2769,9 +2461,6 @@ extension Amplify {
     }
 
     public struct UpdateAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "app", required: true, type: .structure)
-        ]
 
         ///  App structure for the updated App. 
         public let app: App
@@ -2786,23 +2475,9 @@ extension Amplify {
     }
 
     public struct UpdateBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "backendEnvironmentArn", required: false, type: .string), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
-            AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "framework", required: false, type: .string), 
-            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .enum), 
-            AWSShapeMember(label: "ttl", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2898,9 +2573,6 @@ extension Amplify {
     }
 
     public struct UpdateBranchResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: true, type: .structure)
-        ]
 
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
@@ -2915,11 +2587,9 @@ extension Amplify {
     }
 
     public struct UpdateDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "enableAutoSubDomain", required: false, type: .boolean), 
-            AWSShapeMember(label: "subDomainSettings", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
         ///  Unique Id for an Amplify App. 
@@ -2957,9 +2627,6 @@ extension Amplify {
     }
 
     public struct UpdateDomainAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
-        ]
 
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
@@ -2974,10 +2641,8 @@ extension Amplify {
     }
 
     public struct UpdateWebhookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "webhookId", location: .uri(locationName: "webhookId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
 
         ///  Name for a branch, part of an Amplify App. 
@@ -3008,9 +2673,6 @@ extension Amplify {
     }
 
     public struct UpdateWebhookResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: true, type: .structure)
-        ]
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -3025,15 +2687,6 @@ extension Amplify {
     }
 
     public struct Webhook: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "updateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "webhookArn", required: true, type: .string), 
-            AWSShapeMember(label: "webhookId", required: true, type: .string), 
-            AWSShapeMember(label: "webhookUrl", required: true, type: .string)
-        ]
 
         ///  Name for a branch, part of an Amplify App. 
         public let branchName: String

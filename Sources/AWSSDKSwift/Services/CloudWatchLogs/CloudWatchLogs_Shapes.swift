@@ -40,10 +40,6 @@ extension CloudWatchLogs {
     //MARK: Shapes
 
     public struct AssociateKmsKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "kmsKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) and Using Symmetric and Asymmetric Keys.
         public let kmsKeyId: String
@@ -69,9 +65,6 @@ extension CloudWatchLogs {
     }
 
     public struct CancelExportTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: true, type: .string)
-        ]
 
         /// The ID of the export task.
         public let taskId: String
@@ -91,15 +84,6 @@ extension CloudWatchLogs {
     }
 
     public struct CreateExportTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: true, type: .string), 
-            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "from", required: true, type: .long), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "taskName", required: false, type: .string), 
-            AWSShapeMember(label: "to", required: true, type: .long)
-        ]
 
         /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
         public let destination: String
@@ -153,9 +137,6 @@ extension CloudWatchLogs {
     }
 
     public struct CreateExportTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
 
         /// The ID of the export task.
         public let taskId: String?
@@ -170,11 +151,6 @@ extension CloudWatchLogs {
     }
 
     public struct CreateLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
         public let kmsKeyId: String?
@@ -211,10 +187,6 @@ extension CloudWatchLogs {
     }
 
     public struct CreateLogStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -242,9 +214,6 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationName", required: true, type: .string)
-        ]
 
         /// The name of the destination.
         public let destinationName: String
@@ -265,9 +234,6 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -288,10 +254,6 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteLogStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -319,10 +281,6 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteMetricFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterName", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
 
         /// The name of the metric filter.
         public let filterName: String
@@ -350,9 +308,6 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", required: false, type: .string)
-        ]
 
         /// The name of the policy to be revoked. This parameter is required.
         public let policyName: String?
@@ -367,9 +322,6 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteRetentionPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -390,10 +342,6 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteSubscriptionFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterName", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
 
         /// The name of the subscription filter.
         public let filterName: String
@@ -421,11 +369,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let destinationNamePrefix: String?
@@ -457,10 +400,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinations", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The destinations.
         public let destinations: [Destination]?
@@ -478,12 +417,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeExportTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
 
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
@@ -518,10 +451,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeExportTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportTasks", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The export tasks.
         public let exportTasks: [ExportTask]?
@@ -539,11 +468,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
@@ -575,10 +499,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroups", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The log groups.
         public let logGroups: [LogGroup]?
@@ -596,14 +516,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogStreamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "descending", required: false, type: .boolean), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "orderBy", required: false, type: .enum)
-        ]
 
         /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
         public let descending: Bool?
@@ -650,10 +562,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogStreamsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logStreams", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The log streams.
         public let logStreams: [LogStream]?
@@ -671,14 +579,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeMetricFiltersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "metricName", required: false, type: .string), 
-            AWSShapeMember(label: "metricNamespace", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The prefix to match.
         public let filterNamePrefix: String?
@@ -729,10 +629,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeMetricFiltersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricFilters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The metric filters.
         public let metricFilters: [MetricFilter]?
@@ -750,12 +646,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeQueriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// Limits the returned queries to only those for the specified log group.
         public let logGroupName: String?
@@ -790,10 +680,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeQueriesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "queries", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         /// The list of queries that match the request.
@@ -811,10 +697,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeResourcePoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of resource policies to be displayed with one call of this API.
         public let limit: Int?
@@ -838,10 +720,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeResourcePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourcePolicies", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         /// The resource policies that exist in this account.
@@ -859,12 +737,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeSubscriptionFiltersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let filterNamePrefix: String?
@@ -903,10 +775,6 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeSubscriptionFiltersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "subscriptionFilters", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         /// The subscription filters.
@@ -924,14 +792,6 @@ extension CloudWatchLogs {
     }
 
     public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessPolicy", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "destinationName", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "targetArn", required: false, type: .string)
-        ]
 
         /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
         public let accessPolicy: String?
@@ -966,9 +826,6 @@ extension CloudWatchLogs {
     }
 
     public struct DisassociateKmsKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -989,17 +846,6 @@ extension CloudWatchLogs {
     }
 
     public struct ExportTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: false, type: .string), 
-            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "executionInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "from", required: false, type: .long), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .structure), 
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "taskName", required: false, type: .string), 
-            AWSShapeMember(label: "to", required: false, type: .long)
-        ]
 
         /// The name of Amazon S3 bucket to which the log data was exported.
         public let destination: String?
@@ -1046,10 +892,6 @@ extension CloudWatchLogs {
     }
 
     public struct ExportTaskExecutionInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "completionTime", required: false, type: .long), 
-            AWSShapeMember(label: "creationTime", required: false, type: .long)
-        ]
 
         /// The completion time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let completionTime: Int64?
@@ -1068,10 +910,6 @@ extension CloudWatchLogs {
     }
 
     public struct ExportTaskStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .enum), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
 
         /// The status code of the export task.
         public let code: ExportTaskStatusCode?
@@ -1090,16 +928,6 @@ extension CloudWatchLogs {
     }
 
     public struct FilterLogEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: false, type: .long), 
-            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "logStreamNames", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .long)
-        ]
 
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
         public let endTime: Int64?
@@ -1165,11 +993,6 @@ extension CloudWatchLogs {
     }
 
     public struct FilterLogEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "events", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "searchedLogStreams", required: false, type: .list)
-        ]
 
         /// The matched events.
         public let events: [FilteredLogEvent]?
@@ -1192,13 +1015,6 @@ extension CloudWatchLogs {
     }
 
     public struct FilteredLogEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventId", required: false, type: .string), 
-            AWSShapeMember(label: "ingestionTime", required: false, type: .long), 
-            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "timestamp", required: false, type: .long)
-        ]
 
         /// The ID of the event.
         public let eventId: String?
@@ -1229,15 +1045,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: false, type: .long), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "startFromHead", required: false, type: .boolean), 
-            AWSShapeMember(label: "startTime", required: false, type: .long)
-        ]
 
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
         public let endTime: Int64?
@@ -1290,11 +1097,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "events", required: false, type: .list), 
-            AWSShapeMember(label: "nextBackwardToken", required: false, type: .string), 
-            AWSShapeMember(label: "nextForwardToken", required: false, type: .string)
-        ]
 
         /// The events.
         public let events: [OutputLogEvent]?
@@ -1317,10 +1119,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogGroupFieldsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "time", required: false, type: .long)
-        ]
 
         /// The name of the log group to search.
         public let logGroupName: String
@@ -1346,9 +1144,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogGroupFieldsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupFields", required: false, type: .list)
-        ]
 
         /// The array of fields found in the query. Each object in the array contains the name of the field, along with the percentage of time it appeared in the log events that were queried.
         public let logGroupFields: [LogGroupField]?
@@ -1363,9 +1158,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogRecordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logRecordPointer", required: true, type: .string)
-        ]
 
         /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
         public let logRecordPointer: String
@@ -1380,9 +1172,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogRecordResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logRecord", required: false, type: .map)
-        ]
 
         /// The requested log event, as a JSON string.
         public let logRecord: [String: String]?
@@ -1397,9 +1186,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetQueryResultsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryId", required: true, type: .string)
-        ]
 
         /// The ID number of the query.
         public let queryId: String
@@ -1419,11 +1205,6 @@ extension CloudWatchLogs {
     }
 
     public struct GetQueryResultsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "results", required: false, type: .list), 
-            AWSShapeMember(label: "statistics", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
         public let results: [[ResultField]]?
@@ -1446,10 +1227,6 @@ extension CloudWatchLogs {
     }
 
     public struct InputLogEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: true, type: .string), 
-            AWSShapeMember(label: "timestamp", required: true, type: .long)
-        ]
 
         /// The raw event message.
         public let message: String
@@ -1473,9 +1250,6 @@ extension CloudWatchLogs {
     }
 
     public struct ListTagsLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -1496,9 +1270,6 @@ extension CloudWatchLogs {
     }
 
     public struct ListTagsLogGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The tags for the log group.
         public let tags: [String: String]?
@@ -1513,15 +1284,6 @@ extension CloudWatchLogs {
     }
 
     public struct LogGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "metricFilterCount", required: false, type: .integer), 
-            AWSShapeMember(label: "retentionInDays", required: false, type: .integer), 
-            AWSShapeMember(label: "storedBytes", required: false, type: .long)
-        ]
 
         /// The Amazon Resource Name (ARN) of the log group.
         public let arn: String?
@@ -1559,10 +1321,6 @@ extension CloudWatchLogs {
     }
 
     public struct LogGroupField: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "percent", required: false, type: .integer)
-        ]
 
         /// The name of a log field.
         public let name: String?
@@ -1581,15 +1339,6 @@ extension CloudWatchLogs {
     }
 
     public struct LogStream: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "firstEventTimestamp", required: false, type: .long), 
-            AWSShapeMember(label: "lastEventTimestamp", required: false, type: .long), 
-            AWSShapeMember(label: "lastIngestionTime", required: false, type: .long), 
-            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "uploadSequenceToken", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the log stream.
         public let arn: String?
@@ -1628,13 +1377,6 @@ extension CloudWatchLogs {
     }
 
     public struct MetricFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "filterName", required: false, type: .string), 
-            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "metricTransformations", required: false, type: .list)
-        ]
 
         /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
@@ -1664,11 +1406,6 @@ extension CloudWatchLogs {
     }
 
     public struct MetricFilterMatchRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventMessage", required: false, type: .string), 
-            AWSShapeMember(label: "eventNumber", required: false, type: .long), 
-            AWSShapeMember(label: "extractedValues", required: false, type: .map)
-        ]
 
         /// The raw event data.
         public let eventMessage: String?
@@ -1691,12 +1428,6 @@ extension CloudWatchLogs {
     }
 
     public struct MetricTransformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultValue", required: false, type: .double), 
-            AWSShapeMember(label: "metricName", required: true, type: .string), 
-            AWSShapeMember(label: "metricNamespace", required: true, type: .string), 
-            AWSShapeMember(label: "metricValue", required: true, type: .string)
-        ]
 
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
         public let defaultValue: Double?
@@ -1731,11 +1462,6 @@ extension CloudWatchLogs {
     }
 
     public struct OutputLogEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ingestionTime", required: false, type: .long), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "timestamp", required: false, type: .long)
-        ]
 
         /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let ingestionTime: Int64?
@@ -1758,10 +1484,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutDestinationPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessPolicy", required: true, type: .string), 
-            AWSShapeMember(label: "destinationName", required: true, type: .string)
-        ]
 
         /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
         public let accessPolicy: String
@@ -1787,11 +1509,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "targetArn", required: true, type: .string)
-        ]
 
         /// A name for the destination.
         public let destinationName: String
@@ -1822,9 +1539,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutDestinationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: false, type: .structure)
-        ]
 
         /// The destination.
         public let destination: Destination?
@@ -1839,12 +1553,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutLogEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logEvents", required: true, type: .list), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "sequenceToken", required: false, type: .string)
-        ]
 
         /// The log events.
         public let logEvents: [InputLogEvent]
@@ -1886,10 +1594,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutLogEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextSequenceToken", required: false, type: .string), 
-            AWSShapeMember(label: "rejectedLogEventsInfo", required: false, type: .structure)
-        ]
 
         /// The next sequence token.
         public let nextSequenceToken: String?
@@ -1908,12 +1612,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutMetricFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterName", required: true, type: .string), 
-            AWSShapeMember(label: "filterPattern", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "metricTransformations", required: true, type: .list)
-        ]
 
         /// A name for the metric filter.
         public let filterName: String
@@ -1956,10 +1654,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string)
-        ]
 
         /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
         public let policyDocument: String?
@@ -1983,9 +1677,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourcePolicy", required: false, type: .structure)
-        ]
 
         /// The new policy.
         public let resourcePolicy: ResourcePolicy?
@@ -2000,10 +1691,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutRetentionPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "retentionInDays", required: true, type: .integer)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -2027,14 +1714,6 @@ extension CloudWatchLogs {
     }
 
     public struct PutSubscriptionFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationArn", required: true, type: .string), 
-            AWSShapeMember(label: "distribution", required: false, type: .enum), 
-            AWSShapeMember(label: "filterName", required: true, type: .string), 
-            AWSShapeMember(label: "filterPattern", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
         public let destinationArn: String
@@ -2082,13 +1761,6 @@ extension CloudWatchLogs {
     }
 
     public struct QueryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createTime", required: false, type: .long), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "queryId", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The date and time that this query was created.
         public let createTime: Int64?
@@ -2119,11 +1791,6 @@ extension CloudWatchLogs {
     }
 
     public struct QueryStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bytesScanned", required: false, type: .double), 
-            AWSShapeMember(label: "recordsMatched", required: false, type: .double), 
-            AWSShapeMember(label: "recordsScanned", required: false, type: .double)
-        ]
 
         /// The total number of bytes in the log events scanned during the query.
         public let bytesScanned: Double?
@@ -2146,11 +1813,6 @@ extension CloudWatchLogs {
     }
 
     public struct RejectedLogEventsInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expiredLogEventEndIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "tooNewLogEventStartIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "tooOldLogEventEndIndex", required: false, type: .integer)
-        ]
 
         /// The expired log events.
         public let expiredLogEventEndIndex: Int?
@@ -2173,11 +1835,6 @@ extension CloudWatchLogs {
     }
 
     public struct ResourcePolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .long), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string)
-        ]
 
         /// Timestamp showing when this policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let lastUpdatedTime: Int64?
@@ -2200,10 +1857,6 @@ extension CloudWatchLogs {
     }
 
     public struct ResultField: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "field", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The log event field.
         public let field: String?
@@ -2222,10 +1875,6 @@ extension CloudWatchLogs {
     }
 
     public struct SearchedLogStream: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "searchedCompletely", required: false, type: .boolean)
-        ]
 
         /// The name of the log stream.
         public let logStreamName: String?
@@ -2244,14 +1893,6 @@ extension CloudWatchLogs {
     }
 
     public struct StartQueryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: true, type: .long), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "startTime", required: true, type: .long)
-        ]
 
         /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
@@ -2303,9 +1944,6 @@ extension CloudWatchLogs {
     }
 
     public struct StartQueryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryId", required: false, type: .string)
-        ]
 
         /// The unique ID of the query. 
         public let queryId: String?
@@ -2320,9 +1958,6 @@ extension CloudWatchLogs {
     }
 
     public struct StopQueryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryId", required: true, type: .string)
-        ]
 
         /// The ID number of the query to stop. If necessary, you can use DescribeQueries to find this ID number.
         public let queryId: String
@@ -2342,9 +1977,6 @@ extension CloudWatchLogs {
     }
 
     public struct StopQueryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "success", required: false, type: .boolean)
-        ]
 
         /// This is true if the query was stopped by the StopQuery operation.
         public let success: Bool?
@@ -2359,15 +1991,6 @@ extension CloudWatchLogs {
     }
 
     public struct SubscriptionFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "destinationArn", required: false, type: .string), 
-            AWSShapeMember(label: "distribution", required: false, type: .enum), 
-            AWSShapeMember(label: "filterName", required: false, type: .string), 
-            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The creation time of the subscription filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
@@ -2403,10 +2026,6 @@ extension CloudWatchLogs {
     }
 
     public struct TagLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String
@@ -2438,10 +2057,6 @@ extension CloudWatchLogs {
     }
 
     public struct TestMetricFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterPattern", required: true, type: .string), 
-            AWSShapeMember(label: "logEventMessages", required: true, type: .list)
-        ]
 
         public let filterPattern: String
         /// The log event messages to test.
@@ -2469,9 +2084,6 @@ extension CloudWatchLogs {
     }
 
     public struct TestMetricFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "matches", required: false, type: .list)
-        ]
 
         /// The matched events.
         public let matches: [MetricFilterMatchRecord]?
@@ -2486,10 +2098,6 @@ extension CloudWatchLogs {
     }
 
     public struct UntagLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The name of the log group.
         public let logGroupName: String

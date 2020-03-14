@@ -38,15 +38,6 @@ extension Transfer {
     //MARK: Shapes
 
     public struct CreateServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "HostKey", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The virtual private cloud (VPC) endpoint settings that are configured for your SFTP server. With a VPC endpoint, you can restrict access to your SFTP server to resources only within your VPC. To control incoming internet traffic, you will need to invoke the UpdateServer API and attach an Elastic IP to your server's endpoint. 
         public let endpointDetails: EndpointDetails?
@@ -99,9 +90,6 @@ extension Transfer {
     }
 
     public struct CreateServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// The service-assigned ID of the SFTP server that is created.
         public let serverId: String
@@ -116,17 +104,6 @@ extension Transfer {
     }
 
     public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "HomeDirectoryMappings", required: false, type: .list), 
-            AWSShapeMember(label: "HomeDirectoryType", required: false, type: .enum), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyBody", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// The landing directory (folder) for a user when they log in to the server using their SFTP client.  An example is &lt;your-Amazon-S3-bucket-name&gt;/home/username.
         public let homeDirectory: String?
@@ -200,10 +177,6 @@ extension Transfer {
     }
 
     public struct CreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// The ID of the SFTP server that the user is attached to.
         public let serverId: String
@@ -222,9 +195,6 @@ extension Transfer {
     }
 
     public struct DeleteServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// A unique system-assigned identifier for an SFTP server instance.
         public let serverId: String
@@ -245,11 +215,6 @@ extension Transfer {
     }
 
     public struct DeleteSshPublicKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server instance that has the user assigned to it.
         public let serverId: String
@@ -284,10 +249,6 @@ extension Transfer {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server instance that has the user assigned to it.
         public let serverId: String
@@ -315,9 +276,6 @@ extension Transfer {
     }
 
     public struct DescribeServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server.
         public let serverId: String
@@ -338,9 +296,6 @@ extension Transfer {
     }
 
     public struct DescribeServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: true, type: .structure)
-        ]
 
         /// An array containing the properties of the server with the ServerID you specified.
         public let server: DescribedServer
@@ -355,10 +310,6 @@ extension Transfer {
     }
 
     public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server that has this user assigned.
         public let serverId: String
@@ -386,10 +337,6 @@ extension Transfer {
     }
 
     public struct DescribeUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "User", required: true, type: .structure)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server that has this user assigned.
         public let serverId: String
@@ -408,19 +355,6 @@ extension Transfer {
     }
 
     public struct DescribedServer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "HostKeyFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
-            AWSShapeMember(label: "ServerId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserCount", required: false, type: .integer)
-        ]
 
         /// Specifies the unique Amazon Resource Name (ARN) for the server to be described.
         public let arn: String
@@ -475,17 +409,6 @@ extension Transfer {
     }
 
     public struct DescribedUser: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "HomeDirectoryMappings", required: false, type: .list), 
-            AWSShapeMember(label: "HomeDirectoryType", required: false, type: .enum), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKeys", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// This property contains the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         public let arn: String
@@ -532,12 +455,6 @@ extension Transfer {
     }
 
     public struct EndpointDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressAllocationIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "VpcEndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// A list of address allocation IDs that are required to attach an Elastic IP address to your SFTP server's endpoint. This is only valid in the UpdateServer API.  This property can only be use when EndpointType is set to VPC. 
         public let addressAllocationIds: [String]?
@@ -570,10 +487,6 @@ extension Transfer {
     }
 
     public struct HomeDirectoryMapEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entry", required: true, type: .string), 
-            AWSShapeMember(label: "Target", required: true, type: .string)
-        ]
 
         /// Represents an entry and a target for HomeDirectoryMappings.
         public let entry: String
@@ -599,10 +512,6 @@ extension Transfer {
     }
 
     public struct IdentityProviderDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvocationRole", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// The InvocationRole parameter provides the type of InvocationRole used to authenticate the user account.
         public let invocationRole: String?
@@ -628,11 +537,6 @@ extension Transfer {
     }
 
     public struct ImportSshPublicKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyBody", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server.
         public let serverId: String
@@ -666,11 +570,6 @@ extension Transfer {
     }
 
     public struct ImportSshPublicKeyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server.
         public let serverId: String
@@ -693,10 +592,6 @@ extension Transfer {
     }
 
     public struct ListServersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Specifies the number of servers to return as a response to the ListServers query.
         public let maxResults: Int?
@@ -722,10 +617,6 @@ extension Transfer {
     }
 
     public struct ListServersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Servers", required: true, type: .list)
-        ]
 
         /// When you can get additional results from the ListServers operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing additional servers.
         public let nextToken: String?
@@ -744,11 +635,6 @@ extension Transfer {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
@@ -781,11 +667,6 @@ extension Transfer {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// This value is the ARN you specified to list the tags of.
         public let arn: String?
@@ -808,11 +689,6 @@ extension Transfer {
     }
 
     public struct ListUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// Specifies the number of users to return as a response to the ListUsers request.
         public let maxResults: Int?
@@ -845,11 +721,6 @@ extension Transfer {
     }
 
     public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "Users", required: true, type: .list)
-        ]
 
         /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional users.
         public let nextToken: String?
@@ -872,15 +743,6 @@ extension Transfer {
     }
 
     public struct ListedServer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
-            AWSShapeMember(label: "ServerId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "UserCount", required: false, type: .integer)
-        ]
 
         /// The unique Amazon Resource Name (ARN) for the server to be listed.
         public let arn: String
@@ -919,14 +781,6 @@ extension Transfer {
     }
 
     public struct ListedUser: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "HomeDirectoryType", required: false, type: .enum), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyCount", required: false, type: .integer), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// This property is the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         public let arn: String
@@ -961,11 +815,6 @@ extension Transfer {
     }
 
     public struct SshPublicKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateImported", required: true, type: .timestamp), 
-            AWSShapeMember(label: "SshPublicKeyBody", required: true, type: .string), 
-            AWSShapeMember(label: "SshPublicKeyId", required: true, type: .string)
-        ]
 
         /// The date that the public key was added to the user account.
         public let dateImported: TimeStamp
@@ -988,9 +837,6 @@ extension Transfer {
     }
 
     public struct StartServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server that you start.
         public let serverId: String
@@ -1011,9 +857,6 @@ extension Transfer {
     }
 
     public struct StopServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server that you stopped.
         public let serverId: String
@@ -1034,10 +877,6 @@ extension Transfer {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name assigned to the tag that you create.
         public let key: String
@@ -1061,10 +900,6 @@ extension Transfer {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// An Amazon Resource Name (ARN) for a specific AWS resource, such as a server, user, or role.
         public let arn: String
@@ -1094,11 +929,6 @@ extension Transfer {
     }
 
     public struct TestIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPassword", required: false, type: .string)
-        ]
 
         /// A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password.
         public let serverId: String
@@ -1131,12 +961,6 @@ extension Transfer {
     }
 
     public struct TestIdentityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Response", required: false, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .integer), 
-            AWSShapeMember(label: "Url", required: true, type: .string)
-        ]
 
         /// A message that indicates whether the test was successful or not. 
         public let message: String?
@@ -1163,10 +987,6 @@ extension Transfer {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// This is the value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
@@ -1196,14 +1016,6 @@ extension Transfer {
     }
 
     public struct UpdateServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "HostKey", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityProviderDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "LoggingRole", required: false, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// The virtual private cloud (VPC) endpoint settings that are configured for your SFTP server. With a VPC endpoint, you can restrict access to your SFTP server to resources only within your VPC. To control incoming internet traffic, you will need to associate one or more Elastic IP addresses with your server's endpoint. 
         public let endpointDetails: EndpointDetails?
@@ -1249,9 +1061,6 @@ extension Transfer {
     }
 
     public struct UpdateServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server that the user account is assigned to.
         public let serverId: String
@@ -1266,15 +1075,6 @@ extension Transfer {
     }
 
     public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeDirectory", required: false, type: .string), 
-            AWSShapeMember(label: "HomeDirectoryMappings", required: false, type: .list), 
-            AWSShapeMember(label: "HomeDirectoryType", required: false, type: .enum), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A parameter that specifies the landing directory (folder) for a user when they log in to the server using their client.  An example is &lt;your-Amazon-S3-bucket-name&gt;/home/username.
         public let homeDirectory: String?
@@ -1333,10 +1133,6 @@ extension Transfer {
     }
 
     public struct UpdateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
         public let serverId: String

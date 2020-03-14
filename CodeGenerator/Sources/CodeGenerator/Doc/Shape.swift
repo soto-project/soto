@@ -14,7 +14,7 @@ public enum ShapeTypeError: Error {
 
 public class Shape {
     public let name: String
-    public let type: ShapeType
+    public var type: ShapeType
     public var usedInInput : Bool = false
     public var usedInOutput : Bool = false
 
@@ -36,19 +36,8 @@ public class StructureShape {
     }
 }
 
-public typealias XMLAttribute = [String: [String: String]] // ["elementName": ["key": "value", ...]]
-
 public struct XMLNamespace {
-    public let locationName: String
     public let attributeMap: [String: Any]
-    
-    public var attributes: XMLAttribute {
-        var dict: [String: String] = [:]
-        attributeMap.forEach {
-            dict[$0.key] = "\($0.value)"
-        }
-        return [locationName: dict]
-    }
     
     public init?(dictionary: [String: Any]) {
         if let attributeMap = dictionary["xmlNamespace"] as? [String: Any] {
@@ -57,12 +46,6 @@ public struct XMLNamespace {
         else {
             return nil
         }
-        
-        guard let name = dictionary["locationName"] as? String else {
-            return nil
-        }
-        
-        self.locationName = name
     }
 }
 
@@ -100,4 +83,29 @@ public indirect enum ShapeType {
     case timestamp
     case `enum`([String])
     case unhandledType
+}
+
+/// Operation to be applied to shapes after everything has loaded
+protocol ShapeOperation {
+    func process(_ shape: Shape) -> Shape
+}
+
+/// SetXMLNamespace post process operation to be applied to shapes after everything has loaded
+struct SetXMLNamespaceOperation: ShapeOperation {
+    let xmlNamespace: String
+
+    func process(_ shape: Shape) -> Shape {
+        if case .structure(let shapeStructure) = shape.type {
+            precondition(shapeStructure.xmlNamespace == nil || shapeStructure.xmlNamespace == xmlNamespace,
+                         "Two different XML namespaces being applied to the same shape")
+            shape.type = .structure(
+                StructureShape(
+                    members: shapeStructure.members,
+                    payload: shapeStructure.payload,
+                    xmlNamespace: xmlNamespace
+                )
+            )
+        }
+        return shape
+    }
 }

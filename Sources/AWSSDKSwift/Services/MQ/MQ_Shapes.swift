@@ -60,9 +60,6 @@ extension MQ {
     //MARK: Shapes
 
     public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
 
         /// Id for the availability zone.
         public let name: String?
@@ -77,10 +74,6 @@ extension MQ {
     }
 
     public struct BrokerEngineType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersions", location: .body(locationName: "engineVersions"), required: false, type: .list)
-        ]
 
         /// The type of broker engine.
         public let engineType: EngineType?
@@ -99,11 +92,6 @@ extension MQ {
     }
 
     public struct BrokerInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsoleURL", location: .body(locationName: "consoleURL"), required: false, type: .string), 
-            AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list), 
-            AWSShapeMember(label: "IpAddress", location: .body(locationName: "ipAddress"), required: false, type: .string)
-        ]
 
         /// The URL of the broker's ActiveMQ Web Console.
         public let consoleURL: String?
@@ -126,14 +114,6 @@ extension MQ {
     }
 
     public struct BrokerInstanceOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", location: .body(locationName: "storageType"), required: false, type: .enum), 
-            AWSShapeMember(label: "SupportedDeploymentModes", location: .body(locationName: "supportedDeploymentModes"), required: false, type: .list), 
-            AWSShapeMember(label: "SupportedEngineVersions", location: .body(locationName: "supportedEngineVersions"), required: false, type: .list)
-        ]
 
         /// The list of available az.
         public let availabilityZones: [AvailabilityZone]?
@@ -168,15 +148,6 @@ extension MQ {
     }
 
     public struct BrokerSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the broker.
         public let brokerArn: String?
@@ -215,17 +186,6 @@ extension MQ {
     }
 
     public struct Configuration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
 
         /// Required. The ARN of the configuration.
         public let arn: String?
@@ -272,10 +232,6 @@ extension MQ {
     }
 
     public struct ConfigurationId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .integer)
-        ]
 
         /// Required. The unique ID that Amazon MQ generates for the configuration.
         public let id: String?
@@ -294,11 +250,6 @@ extension MQ {
     }
 
     public struct ConfigurationRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .integer)
-        ]
 
         /// Required. The date and time of the configuration revision.
         public let created: TimeStamp?
@@ -321,11 +272,6 @@ extension MQ {
     }
 
     public struct Configurations: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Current", location: .body(locationName: "current"), required: false, type: .structure), 
-            AWSShapeMember(label: "History", location: .body(locationName: "history"), required: false, type: .list), 
-            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure)
-        ]
 
         /// The current configuration of the broker.
         public let current: ConfigurationId?
@@ -348,25 +294,6 @@ extension MQ {
     }
 
     public struct CreateBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "CreatorRequestId", location: .body(locationName: "creatorRequestId"), required: false, type: .string), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionOptions", location: .body(locationName: "encryptionOptions"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
-            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "StorageType", location: .body(locationName: "storageType"), required: false, type: .enum), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
-        ]
 
         public let autoMinorVersionUpgrade: Bool?
         public let brokerName: String?
@@ -428,10 +355,6 @@ extension MQ {
     }
 
     public struct CreateBrokerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
-        ]
 
         public let brokerArn: String?
         public let brokerId: String?
@@ -448,12 +371,6 @@ extension MQ {
     }
 
     public struct CreateConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
 
         public let engineType: EngineType?
         public let engineVersion: String?
@@ -476,13 +393,6 @@ extension MQ {
     }
 
     public struct CreateConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
 
         public let arn: String?
         public let created: TimeStamp?
@@ -508,9 +418,8 @@ extension MQ {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -528,12 +437,9 @@ extension MQ {
     }
 
     public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String
@@ -568,8 +474,8 @@ extension MQ {
     }
 
     public struct DeleteBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let brokerId: String
@@ -584,9 +490,6 @@ extension MQ {
     }
 
     public struct DeleteBrokerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
-        ]
 
         public let brokerId: String?
 
@@ -600,9 +503,9 @@ extension MQ {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -620,9 +523,9 @@ extension MQ {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String
@@ -648,10 +551,10 @@ extension MQ {
     }
 
     public struct DescribeBrokerEngineTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineType", location: .querystring(locationName: "engineType"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let engineType: String?
@@ -677,11 +580,6 @@ extension MQ {
     }
 
     public struct DescribeBrokerEngineTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerEngineTypes", location: .body(locationName: "brokerEngineTypes"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
 
         public let brokerEngineTypes: [BrokerEngineType]?
         public let maxResults: Int?
@@ -701,12 +599,12 @@ extension MQ {
     }
 
     public struct DescribeBrokerInstanceOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineType", location: .querystring(locationName: "engineType"), required: false, type: .string), 
-            AWSShapeMember(label: "HostInstanceType", location: .querystring(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", location: .querystring(locationName: "storageType"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType")), 
+            AWSMemberEncoding(label: "hostInstanceType", location: .querystring(locationName: "hostInstanceType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "storageType", location: .querystring(locationName: "storageType"))
         ]
 
         public let engineType: String?
@@ -738,11 +636,6 @@ extension MQ {
     }
 
     public struct DescribeBrokerInstanceOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerInstanceOptions", location: .body(locationName: "brokerInstanceOptions"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
 
         public let brokerInstanceOptions: [BrokerInstanceOption]?
         public let maxResults: Int?
@@ -762,8 +655,8 @@ extension MQ {
     }
 
     public struct DescribeBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let brokerId: String
@@ -778,32 +671,6 @@ extension MQ {
     }
 
     public struct DescribeBrokerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerInstances", location: .body(locationName: "brokerInstances"), required: false, type: .list), 
-            AWSShapeMember(label: "BrokerName", location: .body(locationName: "brokerName"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerState", location: .body(locationName: "brokerState"), required: false, type: .enum), 
-            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .structure), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionOptions", location: .body(locationName: "encryptionOptions"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
-            AWSShapeMember(label: "PendingEngineVersion", location: .body(locationName: "pendingEngineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "PendingHostInstanceType", location: .body(locationName: "pendingHostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "PendingSecurityGroups", location: .body(locationName: "pendingSecurityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "StorageType", location: .body(locationName: "storageType"), required: false, type: .enum), 
-            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
-        ]
 
         public let autoMinorVersionUpgrade: Bool?
         public let brokerArn: String?
@@ -886,8 +753,8 @@ extension MQ {
     }
 
     public struct DescribeConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id"))
         ]
 
         public let configurationId: String
@@ -902,17 +769,6 @@ extension MQ {
     }
 
     public struct DescribeConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
 
         public let arn: String?
         public let created: TimeStamp?
@@ -950,9 +806,9 @@ extension MQ {
     }
 
     public struct DescribeConfigurationRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationRevision", location: .uri(locationName: "configuration-revision"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id")), 
+            AWSMemberEncoding(label: "configurationRevision", location: .uri(locationName: "configuration-revision"))
         ]
 
         public let configurationId: String
@@ -970,12 +826,6 @@ extension MQ {
     }
 
     public struct DescribeConfigurationRevisionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
-        ]
 
         public let configurationId: String?
         public let created: TimeStamp?
@@ -998,9 +848,9 @@ extension MQ {
     }
 
     public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String
@@ -1018,13 +868,6 @@ extension MQ {
     }
 
     public struct DescribeUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
-        ]
 
         public let brokerId: String?
         public let consoleAccess: Bool?
@@ -1050,10 +893,6 @@ extension MQ {
     }
 
     public struct EncryptionOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string), 
-            AWSShapeMember(label: "UseAwsOwnedKey", location: .body(locationName: "useAwsOwnedKey"), required: true, type: .boolean)
-        ]
 
         /// The customer master key (CMK) to use for the AWS Key Management Service (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
         public let kmsKeyId: String?
@@ -1072,9 +911,6 @@ extension MQ {
     }
 
     public struct EngineVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
 
         /// Id for the version.
         public let name: String?
@@ -1089,9 +925,9 @@ extension MQ {
     }
 
     public struct ListBrokersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -1114,10 +950,6 @@ extension MQ {
     }
 
     public struct ListBrokersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerSummaries", location: .body(locationName: "brokerSummaries"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
 
         public let brokerSummaries: [BrokerSummary]?
         public let nextToken: String?
@@ -1134,10 +966,10 @@ extension MQ {
     }
 
     public struct ListConfigurationRevisionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let configurationId: String
@@ -1163,12 +995,6 @@ extension MQ {
     }
 
     public struct ListConfigurationRevisionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .body(locationName: "configurationId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
-        ]
 
         public let configurationId: String?
         public let maxResults: Int?
@@ -1191,9 +1017,9 @@ extension MQ {
     }
 
     public struct ListConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxResults: Int?
@@ -1216,11 +1042,6 @@ extension MQ {
     }
 
     public struct ListConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
 
         public let configurations: [Configuration]?
         public let maxResults: Int?
@@ -1240,8 +1061,8 @@ extension MQ {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1256,9 +1077,6 @@ extension MQ {
     }
 
     public struct ListTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
 
         public let tags: [String: String]?
 
@@ -1272,10 +1090,10 @@ extension MQ {
     }
 
     public struct ListUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let brokerId: String
@@ -1301,12 +1119,6 @@ extension MQ {
     }
 
     public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
-        ]
 
         public let brokerId: String?
         public let maxResults: Int?
@@ -1329,10 +1141,6 @@ extension MQ {
     }
 
     public struct Logs: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
-            AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean)
-        ]
 
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
@@ -1351,13 +1159,6 @@ extension MQ {
     }
 
     public struct LogsSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
-            AWSShapeMember(label: "AuditLogGroup", location: .body(locationName: "auditLogGroup"), required: false, type: .string), 
-            AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean), 
-            AWSShapeMember(label: "GeneralLogGroup", location: .body(locationName: "generalLogGroup"), required: false, type: .string), 
-            AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure)
-        ]
 
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
@@ -1388,10 +1189,6 @@ extension MQ {
     }
 
     public struct PendingLogs: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
-            AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean)
-        ]
 
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
@@ -1410,8 +1207,8 @@ extension MQ {
     }
 
     public struct RebootBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let brokerId: String
@@ -1434,11 +1231,6 @@ extension MQ {
     }
 
     public struct SanitizationWarning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", location: .body(locationName: "attributeName"), required: false, type: .string), 
-            AWSShapeMember(label: "ElementName", location: .body(locationName: "elementName"), required: false, type: .string), 
-            AWSShapeMember(label: "Reason", location: .body(locationName: "reason"), required: false, type: .enum)
-        ]
 
         /// The name of the XML attribute that has been sanitized.
         public let attributeName: String?
@@ -1461,14 +1253,8 @@ extension MQ {
     }
 
     public struct UpdateBrokerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
 
         public let autoMinorVersionUpgrade: Bool?
@@ -1501,15 +1287,6 @@ extension MQ {
     }
 
     public struct UpdateBrokerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
-            AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
-            AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
-        ]
 
         public let autoMinorVersionUpgrade: Bool?
         public let brokerId: String?
@@ -1541,10 +1318,8 @@ extension MQ {
     }
 
     public struct UpdateConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
-            AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id"))
         ]
 
         public let configurationId: String
@@ -1565,14 +1340,6 @@ extension MQ {
     }
 
     public struct UpdateConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
-        ]
 
         public let arn: String?
         public let created: TimeStamp?
@@ -1601,12 +1368,9 @@ extension MQ {
     }
 
     public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
-            AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
+            AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
         ]
 
         public let brokerId: String
@@ -1641,12 +1405,6 @@ extension MQ {
     }
 
     public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
-        ]
 
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
@@ -1673,11 +1431,6 @@ extension MQ {
     }
 
     public struct UserPendingChanges: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsoleAccess", location: .body(locationName: "consoleAccess"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
-            AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum)
-        ]
 
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
@@ -1700,10 +1453,6 @@ extension MQ {
     }
 
     public struct UserSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum), 
-            AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
-        ]
 
         /// The type of change pending for the ActiveMQ user.
         public let pendingChange: ChangeType?
@@ -1722,11 +1471,6 @@ extension MQ {
     }
 
     public struct WeeklyStartTime: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DayOfWeek", location: .body(locationName: "dayOfWeek"), required: false, type: .enum), 
-            AWSShapeMember(label: "TimeOfDay", location: .body(locationName: "timeOfDay"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeZone", location: .body(locationName: "timeZone"), required: false, type: .string)
-        ]
 
         /// Required. The day of the week.
         public let dayOfWeek: DayOfWeek?

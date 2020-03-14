@@ -21,11 +21,11 @@ extension IoTJobsDataPlane {
     //MARK: Shapes
 
     public struct DescribeJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNumber", location: .querystring(locationName: "executionNumber"), required: false, type: .long), 
-            AWSShapeMember(label: "includeJobDocument", location: .querystring(locationName: "includeJobDocument"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")), 
+            AWSMemberEncoding(label: "includeJobDocument", location: .querystring(locationName: "includeJobDocument")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
@@ -60,9 +60,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct DescribeJobExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "execution", required: false, type: .structure)
-        ]
 
         /// Contains data about a job execution.
         public let execution: JobExecution?
@@ -77,8 +74,8 @@ extension IoTJobsDataPlane {
     }
 
     public struct GetPendingJobExecutionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The name of the thing that is executing the job.
@@ -100,10 +97,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct GetPendingJobExecutionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inProgressJobs", required: false, type: .list), 
-            AWSShapeMember(label: "queuedJobs", required: false, type: .list)
-        ]
 
         /// A list of JobExecutionSummary objects with status IN_PROGRESS.
         public let inProgressJobs: [JobExecutionSummary]?
@@ -122,19 +115,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct JobExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approximateSecondsBeforeTimedOut", required: false, type: .long), 
-            AWSShapeMember(label: "executionNumber", required: false, type: .long), 
-            AWSShapeMember(label: "jobDocument", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .long), 
-            AWSShapeMember(label: "queuedAt", required: false, type: .long), 
-            AWSShapeMember(label: "startedAt", required: false, type: .long), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusDetails", required: false, type: .map), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "versionNumber", required: false, type: .long)
-        ]
 
         /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT.
         public let approximateSecondsBeforeTimedOut: Int64?
@@ -189,11 +169,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct JobExecutionState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusDetails", required: false, type: .map), 
-            AWSShapeMember(label: "versionNumber", required: false, type: .long)
-        ]
 
         /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
         public let status: JobExecutionStatus?
@@ -216,14 +191,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct JobExecutionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNumber", required: false, type: .long), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .long), 
-            AWSShapeMember(label: "queuedAt", required: false, type: .long), 
-            AWSShapeMember(label: "startedAt", required: false, type: .long), 
-            AWSShapeMember(label: "versionNumber", required: false, type: .long)
-        ]
 
         /// A number that identifies a particular job execution on a particular device.
         public let executionNumber: Int64?
@@ -258,10 +225,8 @@ extension IoTJobsDataPlane {
     }
 
     public struct StartNextPendingJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statusDetails", required: false, type: .map), 
-            AWSShapeMember(label: "stepTimeoutInMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
@@ -299,9 +264,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct StartNextPendingJobExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "execution", required: false, type: .structure)
-        ]
 
         /// A JobExecution object.
         public let execution: JobExecution?
@@ -316,16 +278,9 @@ extension IoTJobsDataPlane {
     }
 
     public struct UpdateJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNumber", required: false, type: .long), 
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "includeJobDocument", required: false, type: .boolean), 
-            AWSShapeMember(label: "includeJobExecutionState", required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "statusDetails", required: false, type: .map), 
-            AWSShapeMember(label: "stepTimeoutInMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// Optional. A number that identifies a particular job execution on a particular device.
@@ -390,10 +345,6 @@ extension IoTJobsDataPlane {
     }
 
     public struct UpdateJobExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionState", required: false, type: .structure), 
-            AWSShapeMember(label: "jobDocument", required: false, type: .string)
-        ]
 
         /// A JobExecutionState object.
         public let executionState: JobExecutionState?

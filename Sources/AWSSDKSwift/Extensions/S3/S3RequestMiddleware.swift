@@ -1,5 +1,6 @@
 import Foundation
 import AWSSDKSwiftCore
+import AWSCrypto
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
 
@@ -87,7 +88,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         if let byteBuffer = request.body.asByteBuffer() {
             let byteBufferView = byteBuffer.readableBytesView
             if let encoded = byteBufferView.withContiguousStorageIfAvailable({ bytes in
-                return Data(md5(bytes)).base64EncodedString()
+                return Data(Insecure.MD5.hash(data: bytes)).base64EncodedString()
             }) {
                 request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
             }

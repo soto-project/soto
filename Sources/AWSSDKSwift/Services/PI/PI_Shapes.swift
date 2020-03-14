@@ -14,10 +14,6 @@ extension PI {
     //MARK: Shapes
 
     public struct DataPoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Value", required: true, type: .double)
-        ]
 
         /// The time, in epoch format, associated with a particular Value.
         public let timestamp: TimeStamp
@@ -36,19 +32,6 @@ extension PI {
     }
 
     public struct DescribeDimensionKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Filter", required: false, type: .map), 
-            AWSShapeMember(label: "GroupBy", required: true, type: .structure), 
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Metric", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionBy", required: false, type: .structure), 
-            AWSShapeMember(label: "PeriodInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceType", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
-        ]
 
         /// The date and time specifying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: TimeStamp
@@ -110,13 +93,6 @@ extension PI {
     }
 
     public struct DescribeDimensionKeysResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlignedEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AlignedStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Keys", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionKeys", required: false, type: .list)
-        ]
 
         /// The end time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
         public let alignedEndTime: TimeStamp?
@@ -147,11 +123,6 @@ extension PI {
     }
 
     public struct DimensionGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "Group", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
 
         /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested, or are present in the response. Valid values for elements in the Dimensions array are:   db.user.id   db.user.name   db.host.id   db.host.name   db.sql.id   db.sql.db_id   db.sql.statement   db.sql.tokenized_id   db.sql_tokenized.id   db.sql_tokenized.db_id   db.sql_tokenized.statement   db.wait_event.name   db.wait_event.type   db.wait_event_type.name  
         public let dimensions: [String]?
@@ -181,11 +152,6 @@ extension PI {
     }
 
     public struct DimensionKeyDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .map), 
-            AWSShapeMember(label: "Partitions", required: false, type: .list), 
-            AWSShapeMember(label: "Total", required: false, type: .double)
-        ]
 
         /// A map of name-value pairs for the dimensions in the group.
         public let dimensions: [String: String]?
@@ -208,16 +174,6 @@ extension PI {
     }
 
     public struct GetResourceMetricsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "MetricQueries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PeriodInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceType", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
-        ]
 
         /// The date and time specifiying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: TimeStamp
@@ -270,13 +226,6 @@ extension PI {
     }
 
     public struct GetResourceMetricsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlignedEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AlignedStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Identifier", required: false, type: .string), 
-            AWSShapeMember(label: "MetricList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
         public let alignedEndTime: TimeStamp?
@@ -307,10 +256,6 @@ extension PI {
     }
 
     public struct MetricKeyDataPoints: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataPoints", required: false, type: .list), 
-            AWSShapeMember(label: "Key", required: false, type: .structure)
-        ]
 
         /// An array of timestamp-value pairs, representing measurements over a period of time.
         public let dataPoints: [DataPoint]?
@@ -329,11 +274,6 @@ extension PI {
     }
 
     public struct MetricQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .map), 
-            AWSShapeMember(label: "GroupBy", required: false, type: .structure), 
-            AWSShapeMember(label: "Metric", required: true, type: .string)
-        ]
 
         /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy parameter.   A single filter for any other dimension in this dimension group.  
         public let filter: [String: String]?
@@ -360,9 +300,6 @@ extension PI {
     }
 
     public struct ResponsePartitionKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: true, type: .map)
-        ]
 
         /// A dimension map that contains the dimension(s) for this partition.
         public let dimensions: [String: String]
@@ -377,10 +314,6 @@ extension PI {
     }
 
     public struct ResponseResourceMetricKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .map), 
-            AWSShapeMember(label: "Metric", required: true, type: .string)
-        ]
 
         /// The valid dimensions for the metric.
         public let dimensions: [String: String]?

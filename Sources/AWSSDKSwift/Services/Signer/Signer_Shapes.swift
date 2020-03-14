@@ -44,8 +44,8 @@ extension Signer {
     //MARK: Shapes
 
     public struct CancelSigningProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
         ]
 
         /// The name of the signing profile to be canceled.
@@ -67,8 +67,8 @@ extension Signer {
     }
 
     public struct DescribeSigningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// The ID of the signing job on input.
@@ -84,21 +84,6 @@ extension Signer {
     }
 
     public struct DescribeSigningJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "requestedBy", required: false, type: .string), 
-            AWSShapeMember(label: "signedObject", required: false, type: .structure), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
-        ]
 
         /// Date and time that the signing job was completed.
         public let completedAt: TimeStamp?
@@ -161,9 +146,6 @@ extension Signer {
     }
 
     public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3", required: false, type: .structure)
-        ]
 
         /// The S3Destination object.
         public let s3: S3Destination?
@@ -178,10 +160,6 @@ extension Signer {
     }
 
     public struct EncryptionAlgorithmOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowedValues", required: true, type: .list), 
-            AWSShapeMember(label: "defaultValue", required: true, type: .enum)
-        ]
 
         /// The set of accepted encryption algorithms that are allowed in a code signing job.
         public let allowedValues: [EncryptionAlgorithm]
@@ -200,8 +178,8 @@ extension Signer {
     }
 
     public struct GetSigningPlatformRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platformId", location: .uri(locationName: "platformId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "platformId", location: .uri(locationName: "platformId"))
         ]
 
         /// The ID of the target signing platform.
@@ -217,16 +195,6 @@ extension Signer {
     }
 
     public struct GetSigningPlatformResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: false, type: .enum), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "maxSizeInMB", required: false, type: .integer), 
-            AWSShapeMember(label: "partner", required: false, type: .string), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "signingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "signingImageFormat", required: false, type: .structure), 
-            AWSShapeMember(label: "target", required: false, type: .string)
-        ]
 
         /// The category type of the target signing platform.
         public let category: Category?
@@ -269,8 +237,8 @@ extension Signer {
     }
 
     public struct GetSigningProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
         ]
 
         /// The name of the target signing profile.
@@ -292,16 +260,6 @@ extension Signer {
     }
 
     public struct GetSigningProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) for the signing profile.
         public let arn: String?
@@ -344,10 +302,6 @@ extension Signer {
     }
 
     public struct HashAlgorithmOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowedValues", required: true, type: .list), 
-            AWSShapeMember(label: "defaultValue", required: true, type: .enum)
-        ]
 
         /// The set of accepted hash algorithms allowed in a code signing job.
         public let allowedValues: [HashAlgorithm]
@@ -366,12 +320,12 @@ extension Signer {
     }
 
     public struct ListSigningJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "platformId", location: .querystring(locationName: "platformId"), required: false, type: .string), 
-            AWSShapeMember(label: "requestedBy", location: .querystring(locationName: "requestedBy"), required: false, type: .string), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "platformId", location: .querystring(locationName: "platformId")), 
+            AWSMemberEncoding(label: "requestedBy", location: .querystring(locationName: "requestedBy")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// Specifies the maximum number of items to return in the response. Use this parameter when paginating results. If additional items exist beyond the number you specify, the nextToken element is set in the response. Use the nextToken value in a subsequent request to retrieve additional items. 
@@ -408,10 +362,6 @@ extension Signer {
     }
 
     public struct ListSigningJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of your signing jobs.
         public let jobs: [SigningJob]?
@@ -430,12 +380,12 @@ extension Signer {
     }
 
     public struct ListSigningPlatformsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", location: .querystring(locationName: "category"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "partner", location: .querystring(locationName: "partner"), required: false, type: .string), 
-            AWSShapeMember(label: "target", location: .querystring(locationName: "target"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "partner", location: .querystring(locationName: "partner")), 
+            AWSMemberEncoding(label: "target", location: .querystring(locationName: "target"))
         ]
 
         /// The category type of a signing platform.
@@ -472,10 +422,6 @@ extension Signer {
     }
 
     public struct ListSigningPlatformsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "platforms", required: false, type: .list)
-        ]
 
         /// Value for specifying the next set of paginated results to return.
         public let nextToken: String?
@@ -494,10 +440,10 @@ extension Signer {
     }
 
     public struct ListSigningProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeCanceled", location: .querystring(locationName: "includeCanceled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "includeCanceled", location: .querystring(locationName: "includeCanceled")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Designates whether to include profiles with the status of CANCELED.
@@ -526,10 +472,6 @@ extension Signer {
     }
 
     public struct ListSigningProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "profiles", required: false, type: .list)
-        ]
 
         /// Value for specifying the next set of paginated results to return.
         public let nextToken: String?
@@ -548,8 +490,8 @@ extension Signer {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) for the signing profile.
@@ -565,9 +507,6 @@ extension Signer {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// A list of tags associated with the signing profile.
         public let tags: [String: String]?
@@ -582,13 +521,8 @@ extension Signer {
     }
 
     public struct PutSigningProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
-            AWSShapeMember(label: "platformId", required: true, type: .string), 
-            AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string), 
-            AWSShapeMember(label: "signingMaterial", required: true, type: .structure), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profileName", location: .uri(locationName: "profileName"))
         ]
 
         /// A subfield of platform. This specifies any different configuration options that you want to apply to the chosen platform (such as a different hash-algorithm or signing-algorithm).
@@ -636,9 +570,6 @@ extension Signer {
     }
 
     public struct PutSigningProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the signing profile created.
         public let arn: String?
@@ -653,10 +584,6 @@ extension Signer {
     }
 
     public struct S3Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: false, type: .string), 
-            AWSShapeMember(label: "prefix", required: false, type: .string)
-        ]
 
         /// Name of the S3 bucket.
         public let bucketName: String?
@@ -675,10 +602,6 @@ extension Signer {
     }
 
     public struct S3SignedObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: false, type: .string), 
-            AWSShapeMember(label: "key", required: false, type: .string)
-        ]
 
         /// Name of the S3 bucket.
         public let bucketName: String?
@@ -697,11 +620,6 @@ extension Signer {
     }
 
     public struct S3Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: true, type: .string)
-        ]
 
         /// Name of the S3 bucket.
         public let bucketName: String
@@ -724,9 +642,6 @@ extension Signer {
     }
 
     public struct SignedObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3", required: false, type: .structure)
-        ]
 
         /// The S3SignedObject.
         public let s3: S3SignedObject?
@@ -741,10 +656,6 @@ extension Signer {
     }
 
     public struct SigningConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "encryptionAlgorithmOptions", required: true, type: .structure), 
-            AWSShapeMember(label: "hashAlgorithmOptions", required: true, type: .structure)
-        ]
 
         /// The encryption algorithm options that are available for a code signing job.
         public let encryptionAlgorithmOptions: EncryptionAlgorithmOptions
@@ -763,10 +674,6 @@ extension Signer {
     }
 
     public struct SigningConfigurationOverrides: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "encryptionAlgorithm", required: false, type: .enum), 
-            AWSShapeMember(label: "hashAlgorithm", required: false, type: .enum)
-        ]
 
         /// A specified override of the default encryption algorithm that is used in a code signing job.
         public let encryptionAlgorithm: EncryptionAlgorithm?
@@ -785,10 +692,6 @@ extension Signer {
     }
 
     public struct SigningImageFormat: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultFormat", required: true, type: .enum), 
-            AWSShapeMember(label: "supportedFormats", required: true, type: .list)
-        ]
 
         /// The default format of a code signing signing image.
         public let defaultFormat: ImageFormat
@@ -807,14 +710,6 @@ extension Signer {
     }
 
     public struct SigningJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "signedObject", required: false, type: .structure), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
-            AWSShapeMember(label: "source", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The date and time that the signing job was created.
         public let createdAt: TimeStamp?
@@ -849,9 +744,6 @@ extension Signer {
     }
 
     public struct SigningMaterial: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the certificates that is used to sign your code.
         public let certificateArn: String
@@ -866,16 +758,6 @@ extension Signer {
     }
 
     public struct SigningPlatform: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: false, type: .enum), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "maxSizeInMB", required: false, type: .integer), 
-            AWSShapeMember(label: "partner", required: false, type: .string), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "signingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "signingImageFormat", required: false, type: .structure), 
-            AWSShapeMember(label: "target", required: false, type: .string)
-        ]
 
         /// The category of a code signing platform.
         public let category: Category?
@@ -917,9 +799,6 @@ extension Signer {
     }
 
     public struct SigningPlatformOverrides: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signingConfiguration", required: false, type: .structure)
-        ]
 
         /// A signing configuration that overrides the default encryption or hash algorithm of a signing job.
         public let signingConfiguration: SigningConfigurationOverrides?
@@ -934,15 +813,6 @@ extension Signer {
     }
 
     public struct SigningProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "platformId", required: false, type: .string), 
-            AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
-        ]
 
         /// Amazon Resource Name (ARN) for the signing profile.
         public let arn: String?
@@ -981,9 +851,6 @@ extension Signer {
     }
 
     public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3", required: false, type: .structure)
-        ]
 
         /// The S3Source object.
         public let s3: S3Source?
@@ -998,12 +865,6 @@ extension Signer {
     }
 
     public struct StartSigningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "destination", required: true, type: .structure), 
-            AWSShapeMember(label: "profileName", required: false, type: .string), 
-            AWSShapeMember(label: "source", required: true, type: .structure)
-        ]
 
         /// String that identifies the signing request. All calls after the first that use this token return the same response as the first call.
         public let clientRequestToken: String
@@ -1036,9 +897,6 @@ extension Signer {
     }
 
     public struct StartSigningJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string)
-        ]
 
         /// The ID of your signing job.
         public let jobId: String?
@@ -1053,9 +911,8 @@ extension Signer {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// Amazon Resource Name (ARN) for the signing profile.
@@ -1092,9 +949,9 @@ extension Signer {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// Amazon Resource Name (ARN) for the signing profile .

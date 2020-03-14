@@ -97,10 +97,6 @@ extension ApplicationAutoScaling {
     //MARK: Shapes
 
     public struct Alarm: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmARN", required: true, type: .string), 
-            AWSShapeMember(label: "AlarmName", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmARN: String
@@ -119,13 +115,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct CustomizedMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Unit", required: false, type: .string)
-        ]
 
         /// The dimensions of the metric.  Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public let dimensions: [MetricDimension]?
@@ -156,12 +145,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DeleteScalingPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The name of the scaling policy.
         public let policyName: String
@@ -205,12 +188,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DeleteScheduledActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST. Example: function:my-function:prod or function:my-function:1.  
         public let resourceId: String
@@ -254,11 +231,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DeregisterScalableTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST. Example: function:my-function:prod or function:my-function:1.  
         public let resourceId: String
@@ -295,13 +267,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScalableTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceIds", required: false, type: .list), 
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
         public let maxResults: Int?
@@ -341,10 +306,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScalableTargetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalableTargets", required: false, type: .list)
-        ]
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -363,13 +324,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScalingActivitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
         public let maxResults: Int?
@@ -407,10 +361,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScalingActivitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingActivities", required: false, type: .list)
-        ]
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -429,14 +379,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScalingPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
         public let maxResults: Int?
@@ -483,10 +425,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScalingPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
-        ]
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -505,14 +443,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScheduledActionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
-        ]
 
         /// The maximum number of scheduled action results. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
         public let maxResults: Int?
@@ -559,10 +489,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct DescribeScheduledActionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduledActions", required: false, type: .list)
-        ]
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -581,10 +507,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct MetricDimension: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the dimension.
         public let name: String
@@ -603,10 +525,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct PredefinedMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredefinedMetricType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
-        ]
 
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleet requests and ECS services.
         public let predefinedMetricType: MetricType
@@ -630,15 +548,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct PutScalingPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure)
-        ]
 
         /// The name of the scaling policy.
         public let policyName: String
@@ -687,10 +596,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct PutScalingPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alarms", required: false, type: .list), 
-            AWSShapeMember(label: "PolicyARN", required: true, type: .string)
-        ]
 
         /// The CloudWatch alarms created for the target tracking scaling policy.
         public let alarms: [Alarm]?
@@ -709,16 +614,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct PutScheduledActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ScalableTargetAction", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The date and time for the scheduled action to end.
         public let endTime: TimeStamp?
@@ -781,15 +676,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct RegisterScalableTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "MinCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "SuspendedState", required: false, type: .structure)
-        ]
 
         /// The maximum value to scale to in response to a scale-out event. MaxCapacity is required to register a scalable target.
         public let maxCapacity: Int?
@@ -845,16 +731,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct ScalableTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "MinCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "SuspendedState", required: false, type: .structure)
-        ]
 
         /// The Unix timestamp for when the scalable target was created.
         public let creationTime: TimeStamp
@@ -896,10 +772,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct ScalableTargetAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "MinCapacity", required: false, type: .integer)
-        ]
 
         /// The maximum capacity.
         public let maxCapacity: Int?
@@ -918,19 +790,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct ScalingActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivityId", required: true, type: .string), 
-            AWSShapeMember(label: "Cause", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Details", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// The unique identifier of the scaling activity.
         public let activityId: String
@@ -985,18 +844,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct ScalingPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alarms", required: false, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "PolicyARN", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure)
-        ]
 
         /// The CloudWatch alarms associated with the scaling policy.
         public let alarms: [Alarm]?
@@ -1047,18 +894,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct ScheduledAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeMember(label: "ScalableTargetAction", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: true, type: .string), 
-            AWSShapeMember(label: "ScheduledActionARN", required: true, type: .string), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The date and time that the scheduled action was created.
         public let creationTime: TimeStamp
@@ -1109,11 +944,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct StepAdjustment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricIntervalLowerBound", required: false, type: .double), 
-            AWSShapeMember(label: "MetricIntervalUpperBound", required: false, type: .double), 
-            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer)
-        ]
 
         /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public let metricIntervalLowerBound: Double?
@@ -1136,13 +966,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct StepScalingPolicyConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdjustmentType", required: false, type: .enum), 
-            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "MetricAggregationType", required: false, type: .enum), 
-            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeMember(label: "StepAdjustments", required: false, type: .list)
-        ]
 
         /// Specifies whether the ScalingAdjustment value in a StepAdjustment is an absolute number or a percentage of the current capacity. 
         public let adjustmentType: AdjustmentType?
@@ -1173,11 +996,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct SuspendedState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DynamicScalingInSuspended", required: false, type: .boolean), 
-            AWSShapeMember(label: "DynamicScalingOutSuspended", required: false, type: .boolean), 
-            AWSShapeMember(label: "ScheduledScalingSuspended", required: false, type: .boolean)
-        ]
 
         /// Whether scale in by a target tracking scaling policy or a step scaling policy is suspended. Set the value to true if you don't want Application Auto Scaling to remove capacity when a scaling policy is triggered. The default is false. 
         public let dynamicScalingInSuspended: Bool?
@@ -1200,14 +1018,6 @@ extension ApplicationAutoScaling {
     }
 
     public struct TargetTrackingScalingPolicyConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomizedMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "PredefinedMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetValue", required: true, type: .double)
-        ]
 
         /// A customized metric. You can specify either a predefined metric or a customized metric.
         public let customizedMetricSpecification: CustomizedMetricSpecification?

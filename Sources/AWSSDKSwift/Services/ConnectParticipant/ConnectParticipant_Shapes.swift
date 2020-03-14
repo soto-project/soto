@@ -41,10 +41,6 @@ extension ConnectParticipant {
     //MARK: Shapes
 
     public struct ConnectionCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionToken", required: false, type: .string), 
-            AWSShapeMember(label: "Expiry", required: false, type: .string)
-        ]
 
         /// The connection token.
         public let connectionToken: String?
@@ -63,9 +59,8 @@ extension ConnectParticipant {
     }
 
     public struct CreateParticipantConnectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParticipantToken", location: .header(locationName: "X-Amz-Bearer"), required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "participantToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// Participant Token as obtained from StartChatContact API response.
@@ -91,10 +86,6 @@ extension ConnectParticipant {
     }
 
     public struct CreateParticipantConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionCredentials", required: false, type: .structure), 
-            AWSShapeMember(label: "Websocket", required: false, type: .structure)
-        ]
 
         /// Creates the participant's connection credentials. The authentication token associated with the participant's connection.
         public let connectionCredentials: ConnectionCredentials?
@@ -113,9 +104,8 @@ extension ConnectParticipant {
     }
 
     public struct DisconnectParticipantRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -149,14 +139,8 @@ extension ConnectParticipant {
     }
 
     public struct GetTranscriptRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"), required: true, type: .string), 
-            AWSShapeMember(label: "ContactId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScanDirection", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StartPosition", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// The authentication token associated with the participant's connection.
@@ -208,11 +192,6 @@ extension ConnectParticipant {
     }
 
     public struct GetTranscriptResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialContactId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Transcript", required: false, type: .list)
-        ]
 
         /// The initial contact ID for the contact. 
         public let initialContactId: String?
@@ -235,16 +214,6 @@ extension ConnectParticipant {
     }
 
     public struct Item: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AbsoluteTime", required: false, type: .string), 
-            AWSShapeMember(label: "Content", required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ParticipantId", required: false, type: .string), 
-            AWSShapeMember(label: "ParticipantRole", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The time when the message or event was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -287,11 +256,8 @@ extension ConnectParticipant {
     }
 
     public struct SendEventRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"), required: true, type: .string), 
-            AWSShapeMember(label: "Content", required: false, type: .string), 
-            AWSShapeMember(label: "ContentType", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -329,10 +295,6 @@ extension ConnectParticipant {
     }
 
     public struct SendEventResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AbsoluteTime", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The time when the event was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -351,11 +313,8 @@ extension ConnectParticipant {
     }
 
     public struct SendMessageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionToken", location: .header(locationName: "X-Amz-Bearer"), required: true, type: .string), 
-            AWSShapeMember(label: "Content", required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -393,10 +352,6 @@ extension ConnectParticipant {
     }
 
     public struct SendMessageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AbsoluteTime", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
 
         /// The time when the message was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -415,11 +370,6 @@ extension ConnectParticipant {
     }
 
     public struct StartPosition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AbsoluteTime", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "MostRecent", required: false, type: .integer)
-        ]
 
         /// The time in ISO format where to start. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -451,10 +401,6 @@ extension ConnectParticipant {
     }
 
     public struct Websocket: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionExpiry", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// The URL expiration timestamp in ISO date format. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let connectionExpiry: String?

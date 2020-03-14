@@ -199,10 +199,6 @@ extension Route53 {
     //MARK: Shapes
 
     public struct AccountLimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .long)
-        ]
 
         /// The limit that you requested. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)  
         public let `type`: AccountLimitType
@@ -221,10 +217,6 @@ extension Route53 {
     }
 
     public struct AlarmIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Region", required: true, type: .enum)
-        ]
 
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.  Route 53 supports CloudWatch alarms with the following features:   Standard-resolution metrics. High-resolution metrics aren't supported. For more information, see High-Resolution Metrics in the Amazon CloudWatch User Guide.   Statistics: Average, Minimum, Maximum, Sum, and SampleCount. Extended statistics aren't supported.   
         public let name: String
@@ -248,11 +240,6 @@ extension Route53 {
     }
 
     public struct AliasTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DNSName", required: true, type: .string), 
-            AWSShapeMember(label: "EvaluateTargetHealth", required: true, type: .boolean), 
-            AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
-        ]
 
         ///  Alias resource record sets only: The value that you specify depends on where you want to route queries:  Amazon API Gateway custom regional APIs and edge-optimized APIs  Specify the applicable domain name for your API. You can get the applicable value using the AWS CLI command get-domain-names:   For regional APIs, specify the value of regionalDomainName.   For edge-optimized APIs, specify the value of distributionDomainName. This is the name of the associated CloudFront distribution, such as da1b2c3d4e5.cloudfront.net.    The name of the record that you're creating must match a custom domain name for your API, such as api.example.com.   Amazon Virtual Private Cloud interface VPC endpoint  Enter the API endpoint for the interface endpoint, such as vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com. For edge-optimized APIs, this is the domain name for the corresponding CloudFront distribution. You can get the value of DnsName using the AWS CLI command describe-vpc-endpoints.  CloudFront distribution  Specify the domain name that CloudFront assigned when you created your distribution. Your CloudFront distribution must include an alternate domain name that matches the name of the resource record set. For example, if the name of the resource record set is acme.example.com, your CloudFront distribution must include acme.example.com as one of the alternate domain names. For more information, see Using Alternate Domain Names (CNAMEs) in the Amazon CloudFront Developer Guide. You can't create a resource record set in a private hosted zone to route traffic to a CloudFront distribution.  For failover alias records, you can't specify a CloudFront distribution for both the primary and secondary records. A distribution must include an alternate domain name that matches the name of the record. However, the primary and secondary records have the same name, and you can't include the same alternate domain name in more than one distribution.    Elastic Beanstalk environment  If the domain name for your Elastic Beanstalk environment includes the region that you deployed the environment in, you can create an alias record that routes traffic to the environment. For example, the domain name my-environment.us-west-2.elasticbeanstalk.com is a regionalized domain name.   For environments that were created before early 2016, the domain name doesn't include the region. To route traffic to these environments, you must create a CNAME record instead of an alias record. Note that you can't create a CNAME record for the root domain name. For example, if your domain name is example.com, you can create a record that routes traffic for acme.example.com to your Elastic Beanstalk environment, but you can't create a record that routes traffic for example.com to your Elastic Beanstalk environment.  For Elastic Beanstalk environments that have regionalized subdomains, specify the CNAME attribute for the environment. You can use the following methods to get the value of the CNAME attribute:    AWS Management Console: For information about how to get the value by using the console, see Using Custom Domains with AWS Elastic Beanstalk in the AWS Elastic Beanstalk Developer Guide.    Elastic Beanstalk API: Use the DescribeEnvironments action to get the value of the CNAME attribute. For more information, see DescribeEnvironments in the AWS Elastic Beanstalk API Reference.    AWS CLI: Use the describe-environments command to get the value of the CNAME attribute. For more information, see describe-environments in the AWS Command Line Interface Reference.    ELB load balancer  Specify the DNS name that is associated with the load balancer. Get the DNS name by using the AWS Management Console, the ELB API, or the AWS CLI.     AWS Management Console: Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field.  If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack. If you're routing traffic to another type of load balancer, get the value that applies to the record type, A or AAAA.    Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancers: DescribeLoadBalancers    Application and Network Load Balancers: DescribeLoadBalancers       AWS CLI: Use describe-load-balancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancers: describe-load-balancers    Application and Network Load Balancers: describe-load-balancers       Amazon S3 bucket that is configured as a static website  Specify the domain name of the Amazon S3 website endpoint that you created the bucket in, for example, s3-website.us-east-2.amazonaws.com. For more information about valid values, see the table Amazon Simple Storage Service (S3) Website Endpoints in the Amazon Web Services General Reference. For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.   Another Route 53 resource record set  Specify the value of the Name element for a resource record set in the current hosted zone.  If you're creating an alias record that has the same name as the hosted zone (known as the zone apex), you can't specify the domain name for a record for which the value of Type is CNAME. This is because the alias record must have the same type as the record that you're routing traffic to, and creating a CNAME record for the zone apex isn't supported even for an alias record.   
         public let dNSName: String
@@ -280,10 +267,9 @@ extension Route53 {
     }
 
     public struct AssociateVPCWithHostedZoneRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "VPC", required: true, type: .structure)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
         ]
 
         ///  Optional: A comment about the association request.
@@ -312,9 +298,6 @@ extension Route53 {
     }
 
     public struct AssociateVPCWithHostedZoneResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
-        ]
 
         /// A complex type that describes the changes made to your hosted zone.
         public let changeInfo: ChangeInfo
@@ -329,10 +312,6 @@ extension Route53 {
     }
 
     public struct Change: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceRecordSet", required: true, type: .structure)
-        ]
 
         /// The action to perform:    CREATE: Creates a resource record set that has the specified values.    DELETE: Deletes a existing resource record set.  To delete the resource record set that is associated with a traffic policy instance, use DeleteTrafficPolicyInstance. Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.      UPSERT: If a resource record set doesn't already exist, Route 53 creates it. If a resource record set does exist, Route 53 updates it with the values in the request.  
         public let action: ChangeAction
@@ -355,9 +334,8 @@ extension Route53 {
     }
 
     public struct ChangeBatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Changes", required: true, type: .list, encoding: .list(member:"Change")), 
-            AWSShapeMember(label: "Comment", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "changes", location: .body(locationName: "Changes"), encoding: .list(member:"Change"))
         ]
 
         /// Information about the changes to make to the record sets.
@@ -385,12 +363,6 @@ extension Route53 {
     }
 
     public struct ChangeInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "SubmittedAt", required: true, type: .timestamp)
-        ]
 
         /// A complex type that describes change information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let comment: String?
@@ -417,9 +389,9 @@ extension Route53 {
     }
 
     public struct ChangeResourceRecordSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeBatch", required: true, type: .structure), 
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
         ]
 
         /// A complex type that contains an optional comment and the Changes element.
@@ -444,9 +416,6 @@ extension Route53 {
     }
 
     public struct ChangeResourceRecordSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
-        ]
 
         /// A complex type that contains information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let changeInfo: ChangeInfo
@@ -461,11 +430,12 @@ extension Route53 {
     }
 
     public struct ChangeTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddTags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "RemoveTagKeys", required: false, type: .list, encoding: .list(member:"Key")), 
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "addTags", location: .body(locationName: "AddTags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "removeTagKeys", location: .body(locationName: "RemoveTagKeys"), encoding: .list(member:"Key")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
         ]
 
         /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
@@ -515,15 +485,8 @@ extension Route53 {
     }
 
     public struct CloudWatchAlarmConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"Dimension")), 
-            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Period", required: true, type: .integer), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Threshold", required: true, type: .double)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"Dimension"))
         ]
 
         /// For the metric that the CloudWatch alarm is associated with, the arithmetic operation that is used for the comparison.
@@ -567,10 +530,7 @@ extension Route53 {
     }
 
     public struct CreateHealthCheckRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckConfig", required: true, type: .structure)
-        ]
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// A unique string that identifies the request and that allows you to retry a failed CreateHealthCheck request without the risk of creating two identical health checks:   If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the settings for the existing health check.   If you send a CreateHealthCheck request with the same CallerReference as a deleted health check, regardless of the settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with the same CallerReference as an existing health check but with different settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with a unique CallerReference but settings identical to an existing health check, Route 53 creates the health check.  
         public let callerReference: String
@@ -595,9 +555,8 @@ extension Route53 {
     }
 
     public struct CreateHealthCheckResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheck", required: true, type: .structure), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// A complex type that contains identifying information about the health check.
@@ -617,13 +576,7 @@ extension Route53 {
     }
 
     public struct CreateHostedZoneRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "DelegationSetId", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "VPC", required: false, type: .structure)
-        ]
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
         public let callerReference: String
@@ -663,12 +616,8 @@ extension Route53 {
     }
 
     public struct CreateHostedZoneResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure), 
-            AWSShapeMember(label: "DelegationSet", required: true, type: .structure), 
-            AWSShapeMember(label: "HostedZone", required: true, type: .structure), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeMember(label: "VPC", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// A complex type that contains information about the CreateHostedZone request.
@@ -700,10 +649,7 @@ extension Route53 {
     }
 
     public struct CreateQueryLoggingConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
-        ]
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN: arn:aws:logs:region:account-id:log-group:log_group_name  To get the ARN for a log group, you can use the CloudWatch console, the DescribeLogGroups API action, the describe-log-groups command, or the applicable command in one of the AWS SDKs.
         public let cloudWatchLogsLogGroupArn: String
@@ -726,9 +672,8 @@ extension Route53 {
     }
 
     public struct CreateQueryLoggingConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeMember(label: "QueryLoggingConfig", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// The unique URL representing the new query logging configuration.
@@ -748,10 +693,7 @@ extension Route53 {
     }
 
     public struct CreateReusableDelegationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: false, type: .string)
-        ]
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
         public let callerReference: String
@@ -776,9 +718,8 @@ extension Route53 {
     }
 
     public struct CreateReusableDelegationSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DelegationSet", required: true, type: .structure), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// A complex type that contains name server information.
@@ -798,13 +739,7 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
-            AWSShapeMember(label: "TTL", required: true, type: .long)
-        ]
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic policy.
         public let hostedZoneId: String
@@ -846,9 +781,8 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// A unique URL that represents a new traffic policy instance.
@@ -868,11 +802,7 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "Document", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// (Optional) Any comments that you want to include about the traffic policy.
         public let comment: String?
@@ -901,9 +831,8 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// A unique URL that represents a new traffic policy.
@@ -923,10 +852,9 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "Document", required: true, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The comment that you specified in the CreateTrafficPolicyVersion request, if any.
@@ -957,9 +885,8 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
         /// A unique URL that represents a new traffic policy version.
@@ -979,9 +906,9 @@ extension Route53 {
     }
 
     public struct CreateVPCAssociationAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "VPC", required: true, type: .structure)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the private hosted zone that you want to authorize associating a VPC with.
@@ -1006,10 +933,6 @@ extension Route53 {
     }
 
     public struct CreateVPCAssociationAuthorizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
-            AWSShapeMember(label: "VPC", required: true, type: .structure)
-        ]
 
         /// The ID of the hosted zone that you authorized associating a VPC with.
         public let hostedZoneId: String
@@ -1028,10 +951,8 @@ extension Route53 {
     }
 
     public struct DelegationSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "NameServers", required: true, type: .list, encoding: .list(member:"NameServer"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nameServers", location: .body(locationName: "NameServers"), encoding: .list(member:"NameServer"))
         ]
 
         /// The value that you specified for CallerReference when you created the reusable delegation set.
@@ -1055,8 +976,8 @@ extension Route53 {
     }
 
     public struct DeleteHealthCheckRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
 
         /// The ID of the health check that you want to delete.
@@ -1084,8 +1005,8 @@ extension Route53 {
     }
 
     public struct DeleteHostedZoneRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the hosted zone you want to delete.
@@ -1105,9 +1026,6 @@ extension Route53 {
     }
 
     public struct DeleteHostedZoneResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
-        ]
 
         /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
         public let changeInfo: ChangeInfo
@@ -1122,8 +1040,8 @@ extension Route53 {
     }
 
     public struct DeleteQueryLoggingConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the configuration that you want to delete. 
@@ -1152,8 +1070,8 @@ extension Route53 {
     }
 
     public struct DeleteReusableDelegationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the reusable delegation set that you want to delete.
@@ -1181,8 +1099,8 @@ extension Route53 {
     }
 
     public struct DeleteTrafficPolicyInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the traffic policy instance that you want to delete.   When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. 
@@ -1211,9 +1129,9 @@ extension Route53 {
     }
 
     public struct DeleteTrafficPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
         ]
 
         /// The ID of the traffic policy that you want to delete.
@@ -1248,9 +1166,9 @@ extension Route53 {
     }
 
     public struct DeleteVPCAssociationAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "VPC", required: true, type: .structure)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
         ]
 
         /// When removing authorization to associate a VPC that was created by one AWS account with a hosted zone that was created with a different AWS account, the ID of the hosted zone.
@@ -1283,10 +1201,6 @@ extension Route53 {
     }
 
     public struct Dimension: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// For the metric that the CloudWatch alarm is associated with, the name of one dimension.
         public let name: String
@@ -1305,10 +1219,9 @@ extension Route53 {
     }
 
     public struct DisassociateVPCFromHostedZoneRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "VPC", required: true, type: .structure)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
         ]
 
         ///  Optional: A comment about the disassociation request.
@@ -1337,9 +1250,6 @@ extension Route53 {
     }
 
     public struct DisassociateVPCFromHostedZoneResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
-        ]
 
         /// A complex type that describes the changes made to the specified private hosted zone.
         public let changeInfo: ChangeInfo
@@ -1354,11 +1264,6 @@ extension Route53 {
     }
 
     public struct GeoLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinentCode", required: false, type: .string), 
-            AWSShapeMember(label: "CountryCode", required: false, type: .string), 
-            AWSShapeMember(label: "SubdivisionCode", required: false, type: .string)
-        ]
 
         /// The two-letter code for the continent. Valid values: AF | AN | AS | EU | OC | NA | SA  Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public let continentCode: String?
@@ -1390,14 +1295,6 @@ extension Route53 {
     }
 
     public struct GeoLocationDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinentCode", required: false, type: .string), 
-            AWSShapeMember(label: "ContinentName", required: false, type: .string), 
-            AWSShapeMember(label: "CountryCode", required: false, type: .string), 
-            AWSShapeMember(label: "CountryName", required: false, type: .string), 
-            AWSShapeMember(label: "SubdivisionCode", required: false, type: .string), 
-            AWSShapeMember(label: "SubdivisionName", required: false, type: .string)
-        ]
 
         /// The two-letter code for the continent.
         public let continentCode: String?
@@ -1432,8 +1329,8 @@ extension Route53 {
     }
 
     public struct GetAccountLimitRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", location: .uri(locationName: "Type"), required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
         ]
 
         /// The limit that you want to get. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)  
@@ -1449,10 +1346,6 @@ extension Route53 {
     }
 
     public struct GetAccountLimitResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: true, type: .long), 
-            AWSShapeMember(label: "Limit", required: true, type: .structure)
-        ]
 
         /// The current number of entities that you have created of the specified type. For example, if you specified MAX_HEALTH_CHECKS_BY_OWNER for the value of Type in the request, the value of Count is the current number of health checks that you have created using the current account.
         public let count: Int64
@@ -1471,8 +1364,8 @@ extension Route53 {
     }
 
     public struct GetChangeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request.
@@ -1492,9 +1385,6 @@ extension Route53 {
     }
 
     public struct GetChangeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
-        ]
 
         /// A complex type that contains information about the specified change batch.
         public let changeInfo: ChangeInfo
@@ -1517,8 +1407,8 @@ extension Route53 {
     }
 
     public struct GetCheckerIpRangesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CheckerIpRanges", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "checkerIpRanges", location: .body(locationName: "CheckerIpRanges"), encoding: .list(member:"member"))
         ]
 
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route 53 health checkers.
@@ -1534,10 +1424,10 @@ extension Route53 {
     }
 
     public struct GetGeoLocationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinentCode", location: .querystring(locationName: "continentcode"), required: false, type: .string), 
-            AWSShapeMember(label: "CountryCode", location: .querystring(locationName: "countrycode"), required: false, type: .string), 
-            AWSShapeMember(label: "SubdivisionCode", location: .querystring(locationName: "subdivisioncode"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "continentCode", location: .querystring(locationName: "continentcode")), 
+            AWSMemberEncoding(label: "countryCode", location: .querystring(locationName: "countrycode")), 
+            AWSMemberEncoding(label: "subdivisionCode", location: .querystring(locationName: "subdivisioncode"))
         ]
 
         /// Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America  
@@ -1570,9 +1460,6 @@ extension Route53 {
     }
 
     public struct GetGeoLocationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GeoLocationDetails", required: true, type: .structure)
-        ]
 
         /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
         public let geoLocationDetails: GeoLocationDetails
@@ -1595,9 +1482,6 @@ extension Route53 {
     }
 
     public struct GetHealthCheckCountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckCount", required: true, type: .long)
-        ]
 
         /// The number of health checks associated with the current AWS account.
         public let healthCheckCount: Int64
@@ -1612,8 +1496,8 @@ extension Route53 {
     }
 
     public struct GetHealthCheckLastFailureReasonRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
 
         /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check. 
@@ -1633,8 +1517,8 @@ extension Route53 {
     }
 
     public struct GetHealthCheckLastFailureReasonResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckObservations", required: true, type: .list, encoding: .list(member:"HealthCheckObservation"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "healthCheckObservations", location: .body(locationName: "HealthCheckObservations"), encoding: .list(member:"HealthCheckObservation"))
         ]
 
         /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason. 
@@ -1650,8 +1534,8 @@ extension Route53 {
     }
 
     public struct GetHealthCheckRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
 
         /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long.
@@ -1671,9 +1555,6 @@ extension Route53 {
     }
 
     public struct GetHealthCheckResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
-        ]
 
         /// A complex type that contains information about one health check that is associated with the current AWS account.
         public let healthCheck: HealthCheck
@@ -1688,8 +1569,8 @@ extension Route53 {
     }
 
     public struct GetHealthCheckStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
 
         /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. 
@@ -1709,8 +1590,8 @@ extension Route53 {
     }
 
     public struct GetHealthCheckStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckObservations", required: true, type: .list, encoding: .list(member:"HealthCheckObservation"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "healthCheckObservations", location: .body(locationName: "HealthCheckObservations"), encoding: .list(member:"HealthCheckObservation"))
         ]
 
         /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
@@ -1734,9 +1615,6 @@ extension Route53 {
     }
 
     public struct GetHostedZoneCountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneCount", required: true, type: .long)
-        ]
 
         /// The total number of public and private hosted zones that are associated with the current AWS account.
         public let hostedZoneCount: Int64
@@ -1751,9 +1629,9 @@ extension Route53 {
     }
 
     public struct GetHostedZoneLimitRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "Type", location: .uri(locationName: "Type"), required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
         ]
 
         /// The ID of the hosted zone that you want to get a limit for.
@@ -1777,10 +1655,6 @@ extension Route53 {
     }
 
     public struct GetHostedZoneLimitResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: true, type: .long), 
-            AWSShapeMember(label: "Limit", required: true, type: .structure)
-        ]
 
         /// The current number of entities that you have created of the specified type. For example, if you specified MAX_RRSETS_BY_ZONE for the value of Type in the request, the value of Count is the current number of records that you have created in the specified hosted zone.
         public let count: Int64
@@ -1799,8 +1673,8 @@ extension Route53 {
     }
 
     public struct GetHostedZoneRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the hosted zone that you want to get information about.
@@ -1820,10 +1694,8 @@ extension Route53 {
     }
 
     public struct GetHostedZoneResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DelegationSet", required: false, type: .structure), 
-            AWSShapeMember(label: "HostedZone", required: true, type: .structure), 
-            AWSShapeMember(label: "VPCs", required: false, type: .list, encoding: .list(member:"VPC"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vPCs", location: .body(locationName: "VPCs"), encoding: .list(member:"VPC"))
         ]
 
         /// A complex type that lists the Amazon Route 53 name servers for the specified hosted zone.
@@ -1847,8 +1719,8 @@ extension Route53 {
     }
 
     public struct GetQueryLoggingConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the configuration for DNS query logging that you want to get information about.
@@ -1869,9 +1741,6 @@ extension Route53 {
     }
 
     public struct GetQueryLoggingConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryLoggingConfig", required: true, type: .structure)
-        ]
 
         /// A complex type that contains information about the query logging configuration that you specified in a GetQueryLoggingConfig request.
         public let queryLoggingConfig: QueryLoggingConfig
@@ -1886,9 +1755,9 @@ extension Route53 {
     }
 
     public struct GetReusableDelegationSetLimitRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DelegationSetId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "Type", location: .uri(locationName: "Type"), required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "delegationSetId", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
         ]
 
         /// The ID of the delegation set that you want to get the limit for.
@@ -1912,10 +1781,6 @@ extension Route53 {
     }
 
     public struct GetReusableDelegationSetLimitResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: true, type: .long), 
-            AWSShapeMember(label: "Limit", required: true, type: .structure)
-        ]
 
         /// The current number of hosted zones that you can associate with the specified reusable delegation set.
         public let count: Int64
@@ -1934,8 +1799,8 @@ extension Route53 {
     }
 
     public struct GetReusableDelegationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the reusable delegation set that you want to get a list of name servers for.
@@ -1955,9 +1820,6 @@ extension Route53 {
     }
 
     public struct GetReusableDelegationSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DelegationSet", required: true, type: .structure)
-        ]
 
         /// A complex type that contains information about the reusable delegation set.
         public let delegationSet: DelegationSet
@@ -1980,9 +1842,6 @@ extension Route53 {
     }
 
     public struct GetTrafficPolicyInstanceCountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficPolicyInstanceCount", required: true, type: .integer)
-        ]
 
         /// The number of traffic policy instances that are associated with the current AWS account.
         public let trafficPolicyInstanceCount: Int
@@ -1997,8 +1856,8 @@ extension Route53 {
     }
 
     public struct GetTrafficPolicyInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the traffic policy instance that you want to get information about.
@@ -2019,9 +1878,6 @@ extension Route53 {
     }
 
     public struct GetTrafficPolicyInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
-        ]
 
         /// A complex type that contains settings for the traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -2036,9 +1892,9 @@ extension Route53 {
     }
 
     public struct GetTrafficPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
         ]
 
         /// The ID of the traffic policy that you want to get information about.
@@ -2065,9 +1921,6 @@ extension Route53 {
     }
 
     public struct GetTrafficPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
-        ]
 
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -2082,14 +1935,6 @@ extension Route53 {
     }
 
     public struct HealthCheck: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "CloudWatchAlarmConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "HealthCheckVersion", required: true, type: .long), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LinkedService", required: false, type: .structure)
-        ]
 
         /// A unique string that you specified when you created the health check.
         public let callerReference: String
@@ -2124,24 +1969,9 @@ extension Route53 {
     }
 
     public struct HealthCheckConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "ChildHealthChecks", required: false, type: .list, encoding: .list(member:"ChildHealthCheck")), 
-            AWSShapeMember(label: "Disabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableSNI", required: false, type: .boolean), 
-            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer), 
-            AWSShapeMember(label: "FullyQualifiedDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "HealthThreshold", required: false, type: .integer), 
-            AWSShapeMember(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Inverted", required: false, type: .boolean), 
-            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
-            AWSShapeMember(label: "MeasureLatency", required: false, type: .boolean), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "Regions", required: false, type: .list, encoding: .list(member:"Region")), 
-            AWSShapeMember(label: "RequestInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
-            AWSShapeMember(label: "SearchString", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "childHealthChecks", location: .body(locationName: "ChildHealthChecks"), encoding: .list(member:"ChildHealthCheck")), 
+            AWSMemberEncoding(label: "regions", location: .body(locationName: "Regions"), encoding: .list(member:"Region"))
         ]
 
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
@@ -2244,11 +2074,6 @@ extension Route53 {
     }
 
     public struct HealthCheckObservation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusReport", required: false, type: .structure)
-        ]
 
         /// The IP address of the Amazon Route 53 health checker that provided the failure reason in StatusReport.
         public let iPAddress: String?
@@ -2271,14 +2096,6 @@ extension Route53 {
     }
 
     public struct HostedZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "Config", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LinkedService", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceRecordSetCount", required: false, type: .long)
-        ]
 
         /// The value that you specified for CallerReference when you created the hosted zone.
         public let callerReference: String
@@ -2313,10 +2130,6 @@ extension Route53 {
     }
 
     public struct HostedZoneConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateZone", required: false, type: .boolean)
-        ]
 
         /// Any comments that you want to include about the hosted zone.
         public let comment: String?
@@ -2339,10 +2152,6 @@ extension Route53 {
     }
 
     public struct HostedZoneLimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .long)
-        ]
 
         /// The limit that you requested. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
         public let `type`: HostedZoneLimitType
@@ -2361,10 +2170,6 @@ extension Route53 {
     }
 
     public struct LinkedService: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ServicePrincipal", required: false, type: .string)
-        ]
 
         /// If the health check or hosted zone was created by another service, an optional description that can be provided by the other service. When a resource is created by another service, you can't edit or delete it using Amazon Route 53. 
         public let description: String?
@@ -2383,11 +2188,11 @@ extension Route53 {
     }
 
     public struct ListGeoLocationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeMember(label: "StartContinentCode", location: .querystring(locationName: "startcontinentcode"), required: false, type: .string), 
-            AWSShapeMember(label: "StartCountryCode", location: .querystring(locationName: "startcountrycode"), required: false, type: .string), 
-            AWSShapeMember(label: "StartSubdivisionCode", location: .querystring(locationName: "startsubdivisioncode"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
+            AWSMemberEncoding(label: "startContinentCode", location: .querystring(locationName: "startcontinentcode")), 
+            AWSMemberEncoding(label: "startCountryCode", location: .querystring(locationName: "startcountrycode")), 
+            AWSMemberEncoding(label: "startSubdivisionCode", location: .querystring(locationName: "startsubdivisioncode"))
         ]
 
         /// (Optional) The maximum number of geolocations to be included in the response body for this request. If more than maxitems geolocations remain to be listed, then the value of the IsTruncated element in the response is true.
@@ -2424,13 +2229,8 @@ extension Route53 {
     }
 
     public struct ListGeoLocationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GeoLocationDetailsList", required: true, type: .list, encoding: .list(member:"GeoLocationDetails")), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "NextContinentCode", required: false, type: .string), 
-            AWSShapeMember(label: "NextCountryCode", required: false, type: .string), 
-            AWSShapeMember(label: "NextSubdivisionCode", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "geoLocationDetailsList", location: .body(locationName: "GeoLocationDetailsList"), encoding: .list(member:"GeoLocationDetails"))
         ]
 
         /// A complex type that contains one GeoLocationDetails element for each location that Amazon Route 53 supports for geolocation.
@@ -2466,9 +2266,9 @@ extension Route53 {
     }
 
     public struct ListHealthChecksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more health checks. To get another group, submit another ListHealthChecks request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first health check that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more health checks to get.
@@ -2492,12 +2292,8 @@ extension Route53 {
     }
 
     public struct ListHealthChecksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthChecks", required: true, type: .list, encoding: .list(member:"HealthCheck")), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "healthChecks", location: .body(locationName: "HealthChecks"), encoding: .list(member:"HealthCheck"))
         ]
 
         /// A complex type that contains one HealthCheck element for each health check that is associated with the current AWS account.
@@ -2529,10 +2325,10 @@ extension Route53 {
     }
 
     public struct ListHostedZonesByNameRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DNSName", location: .querystring(locationName: "dnsname"), required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dNSName", location: .querystring(locationName: "dnsname")), 
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
         ]
 
         /// (Optional) For your first request to ListHostedZonesByName, include the dnsname parameter only if you want to specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the hosted zones that were created by the current AWS account, in ASCII order. For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname, specify the value of NextDNSName from the previous response.
@@ -2561,14 +2357,8 @@ extension Route53 {
     }
 
     public struct ListHostedZonesByNameResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DNSName", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZones", required: true, type: .list, encoding: .list(member:"HostedZone")), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "NextDNSName", required: false, type: .string), 
-            AWSShapeMember(label: "NextHostedZoneId", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZones", location: .body(locationName: "HostedZones"), encoding: .list(member:"HostedZone"))
         ]
 
         /// For the second and subsequent calls to ListHostedZonesByName, DNSName is the value that you specified for the dnsname parameter in the request that produced the current response.
@@ -2608,10 +2398,10 @@ extension Route53 {
     }
 
     public struct ListHostedZonesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DelegationSetId", location: .querystring(locationName: "delegationsetid"), required: false, type: .string), 
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "delegationSetId", location: .querystring(locationName: "delegationsetid")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
         ]
 
         /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set. 
@@ -2640,12 +2430,8 @@ extension Route53 {
     }
 
     public struct ListHostedZonesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZones", required: true, type: .list, encoding: .list(member:"HostedZone")), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZones", location: .body(locationName: "HostedZones"), encoding: .list(member:"HostedZone"))
         ]
 
         /// A complex type that contains general information about the hosted zone.
@@ -2677,10 +2463,10 @@ extension Route53 {
     }
 
     public struct ListQueryLoggingConfigsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken"))
         ]
 
         /// (Optional) If you want to list the query logging configuration that is associated with a hosted zone, specify the ID in HostedZoneId.  If you don't specify a hosted zone ID, ListQueryLoggingConfigs returns all of the configurations that are associated with the current AWS account.
@@ -2709,9 +2495,8 @@ extension Route53 {
     }
 
     public struct ListQueryLoggingConfigsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "QueryLoggingConfigs", required: true, type: .list, encoding: .list(member:"QueryLoggingConfig"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "queryLoggingConfigs", location: .body(locationName: "QueryLoggingConfigs"), encoding: .list(member:"QueryLoggingConfig"))
         ]
 
         /// If a response includes the last of the query logging configurations that are associated with the current AWS account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListQueryLoggingConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
@@ -2731,12 +2516,12 @@ extension Route53 {
     }
 
     public struct ListResourceRecordSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeMember(label: "StartRecordIdentifier", location: .querystring(locationName: "identifier"), required: false, type: .string), 
-            AWSShapeMember(label: "StartRecordName", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "StartRecordType", location: .querystring(locationName: "type"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
+            AWSMemberEncoding(label: "startRecordIdentifier", location: .querystring(locationName: "identifier")), 
+            AWSMemberEncoding(label: "startRecordName", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "startRecordType", location: .querystring(locationName: "type"))
         ]
 
         /// The ID of the hosted zone that contains the resource record sets that you want to list.
@@ -2775,13 +2560,8 @@ extension Route53 {
     }
 
     public struct ListResourceRecordSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "NextRecordIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "NextRecordName", required: false, type: .string), 
-            AWSShapeMember(label: "NextRecordType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceRecordSets", required: true, type: .list, encoding: .list(member:"ResourceRecordSet"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceRecordSets", location: .body(locationName: "ResourceRecordSets"), encoding: .list(member:"ResourceRecordSet"))
         ]
 
         /// A flag that indicates whether more resource record sets remain to be listed. If your results were truncated, you can make a follow-up pagination request by using the NextRecordName element.
@@ -2817,9 +2597,9 @@ extension Route53 {
     }
 
     public struct ListReusableDelegationSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more reusable delegation sets. To get another group, submit another ListReusableDelegationSets request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first reusable delegation set that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more reusable delegation sets to get.
@@ -2843,12 +2623,8 @@ extension Route53 {
     }
 
     public struct ListReusableDelegationSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DelegationSets", required: true, type: .list, encoding: .list(member:"DelegationSet")), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "delegationSets", location: .body(locationName: "DelegationSets"), encoding: .list(member:"DelegationSet"))
         ]
 
         /// A complex type that contains one DelegationSet element for each reusable delegation set that was created by the current AWS account.
@@ -2880,9 +2656,9 @@ extension Route53 {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
         ]
 
         /// The ID of the resource for which you want to retrieve tags.
@@ -2906,9 +2682,6 @@ extension Route53 {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTagSet", required: true, type: .structure)
-        ]
 
         /// A ResourceTagSet containing tags associated with the specified resource.
         public let resourceTagSet: ResourceTagSet
@@ -2923,9 +2696,10 @@ extension Route53 {
     }
 
     public struct ListTagsForResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIds", required: true, type: .list, encoding: .list(member:"ResourceId")), 
-            AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIds", location: .body(locationName: "ResourceIds"), encoding: .list(member:"ResourceId")), 
+            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
         ]
 
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
@@ -2953,8 +2727,8 @@ extension Route53 {
     }
 
     public struct ListTagsForResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTagSets", required: true, type: .list, encoding: .list(member:"ResourceTagSet"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceTagSets", location: .body(locationName: "ResourceTagSets"), encoding: .list(member:"ResourceTagSet"))
         ]
 
         /// A list of ResourceTagSets containing tags associated with the specified resources.
@@ -2970,9 +2744,9 @@ extension Route53 {
     }
 
     public struct ListTrafficPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
+            AWSMemberEncoding(label: "trafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"))
         ]
 
         /// (Optional) The maximum number of traffic policies that you want Amazon Route 53 to return in response to this request. If you have more than MaxItems traffic policies, the value of IsTruncated in the response is true, and the value of TrafficPolicyIdMarker is the ID of the first traffic policy that Route 53 will return if you submit another request.
@@ -2997,11 +2771,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyIdMarker", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicySummaries", required: true, type: .list, encoding: .list(member:"TrafficPolicySummary"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trafficPolicySummaries", location: .body(locationName: "TrafficPolicySummaries"), encoding: .list(member:"TrafficPolicySummary"))
         ]
 
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicies request and specifying the value of TrafficPolicyIdMarker in the TrafficPolicyIdMarker request parameter.
@@ -3029,11 +2800,11 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "id")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
+            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename")), 
+            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"))
         ]
 
         /// The ID of the hosted zone that you want to list traffic policy instances for.
@@ -3066,12 +2837,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .list, encoding: .list(member:"TrafficPolicyInstance")), 
-            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
         ]
 
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by submitting another ListTrafficPolicyInstancesByHostedZone request and specifying the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
@@ -3103,13 +2870,13 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyId", location: .querystring(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
-            AWSShapeMember(label: "TrafficPolicyVersion", location: .querystring(locationName: "version"), required: true, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
+            AWSMemberEncoding(label: "trafficPolicyId", location: .querystring(locationName: "id")), 
+            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename")), 
+            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype")), 
+            AWSMemberEncoding(label: "trafficPolicyVersion", location: .querystring(locationName: "version"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request.  For the value of hostedzoneid, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
@@ -3154,13 +2921,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .list, encoding: .list(member:"TrafficPolicyInstance")), 
-            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
         ]
 
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of traffic policy instances.
@@ -3196,11 +2958,11 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
+            AWSMemberEncoding(label: "trafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename")), 
+            AWSMemberEncoding(label: "trafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"))
         ]
 
         /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of HostedZoneId, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
@@ -3233,13 +2995,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .list, encoding: .list(member:"TrafficPolicyInstance")), 
-            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
         ]
 
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance that Route 53 will return if you submit another ListTrafficPolicyInstances request. 
@@ -3275,10 +3032,10 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyVersionMarker", location: .querystring(locationName: "trafficpolicyversion"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
+            AWSMemberEncoding(label: "trafficPolicyVersionMarker", location: .querystring(locationName: "trafficpolicyversion"))
         ]
 
         /// Specify the value of Id of the traffic policy for which you want to list all versions.
@@ -3308,11 +3065,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicies", required: true, type: .list, encoding: .list(member:"TrafficPolicy")), 
-            AWSShapeMember(label: "TrafficPolicyVersionMarker", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "trafficPolicies", location: .body(locationName: "TrafficPolicies"), encoding: .list(member:"TrafficPolicy"))
         ]
 
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicyVersions request and specifying the value of NextMarker in the marker parameter.
@@ -3340,10 +3094,10 @@ extension Route53 {
     }
 
     public struct ListVPCAssociationAuthorizationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nexttoken"))
         ]
 
         /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone.
@@ -3372,10 +3126,8 @@ extension Route53 {
     }
 
     public struct ListVPCAssociationAuthorizationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "VPCs", required: true, type: .list, encoding: .list(member:"VPC"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vPCs", location: .body(locationName: "VPCs"), encoding: .list(member:"VPC"))
         ]
 
         /// The ID of the hosted zone that you can associate the listed VPCs with.
@@ -3399,11 +3151,6 @@ extension Route53 {
     }
 
     public struct QueryLoggingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon Route 53 is publishing logs to.
         public let cloudWatchLogsLogGroupArn: String
@@ -3426,9 +3173,6 @@ extension Route53 {
     }
 
     public struct ResourceRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The current or new DNS record value, not to exceed 4,000 characters. In the case of a DELETE action, if the current value does not match the actual value, an error is returned. For descriptions about how to format Value for different record types, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. You can specify more than one value for all record types except CNAME and SOA.   If you're creating an alias resource record set, omit Value. 
         public let value: String
@@ -3447,20 +3191,8 @@ extension Route53 {
     }
 
     public struct ResourceRecordSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasTarget", required: false, type: .structure), 
-            AWSShapeMember(label: "Failover", required: false, type: .enum), 
-            AWSShapeMember(label: "GeoLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckId", required: false, type: .string), 
-            AWSShapeMember(label: "MultiValueAnswer", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceRecords", required: false, type: .list, encoding: .list(member:"ResourceRecord")), 
-            AWSShapeMember(label: "SetIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "TTL", required: false, type: .long), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Weight", required: false, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceRecords", location: .body(locationName: "ResourceRecords"), encoding: .list(member:"ResourceRecord"))
         ]
 
         ///  Alias resource record sets only: Information about the AWS resource, such as a CloudFront distribution or an Amazon S3 bucket, that you want to route traffic to.  If you're creating resource records sets for a private hosted zone, note the following:   You can't create an alias resource record set in a private hosted zone to route traffic to a CloudFront distribution.   Creating geolocation alias resource record sets or latency alias resource record sets in a private hosted zone is unsupported.   For information about creating failover resource record sets in a private hosted zone, see Configuring Failover in a Private Hosted Zone in the Amazon Route 53 Developer Guide.  
@@ -3543,10 +3275,8 @@ extension Route53 {
     }
 
     public struct ResourceTagSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The ID for the specified resource.
@@ -3570,10 +3300,6 @@ extension Route53 {
     }
 
     public struct ReusableDelegationSetLimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .long)
-        ]
 
         /// The limit that you requested: MAX_ZONES_BY_REUSABLE_DELEGATION_SET, the maximum number of hosted zones that you can associate with the specified reusable delegation set.
         public let `type`: ReusableDelegationSetLimitType
@@ -3592,10 +3318,6 @@ extension Route53 {
     }
 
     public struct StatusReport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CheckedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The date and time that the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
         public let checkedTime: TimeStamp?
@@ -3614,10 +3336,6 @@ extension Route53 {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The value of Key depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Key is the name that you want to give the new tag.    Edit a tag: Key is the name of the tag that you want to change the Value for.     Delete a key: Key is the name of the tag you want to remove.    Give a name to a health check: Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check.  
         public let key: String?
@@ -3641,13 +3359,13 @@ extension Route53 {
     }
 
     public struct TestDNSAnswerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EDNS0ClientSubnetIP", location: .querystring(locationName: "edns0clientsubnetip"), required: false, type: .string), 
-            AWSShapeMember(label: "EDNS0ClientSubnetMask", location: .querystring(locationName: "edns0clientsubnetmask"), required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: true, type: .string), 
-            AWSShapeMember(label: "RecordName", location: .querystring(locationName: "recordname"), required: true, type: .string), 
-            AWSShapeMember(label: "RecordType", location: .querystring(locationName: "recordtype"), required: true, type: .enum), 
-            AWSShapeMember(label: "ResolverIP", location: .querystring(locationName: "resolverip"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eDNS0ClientSubnetIP", location: .querystring(locationName: "edns0clientsubnetip")), 
+            AWSMemberEncoding(label: "eDNS0ClientSubnetMask", location: .querystring(locationName: "edns0clientsubnetmask")), 
+            AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")), 
+            AWSMemberEncoding(label: "recordName", location: .querystring(locationName: "recordname")), 
+            AWSMemberEncoding(label: "recordType", location: .querystring(locationName: "recordtype")), 
+            AWSMemberEncoding(label: "resolverIP", location: .querystring(locationName: "resolverip"))
         ]
 
         /// If the resolver that you specified for resolverip supports EDNS0, specify the IPv4 or IPv6 address of a client in the applicable location, for example, 192.0.2.44 or 2001:db8:85a3::8a2e:370:7334.
@@ -3694,13 +3412,8 @@ extension Route53 {
     }
 
     public struct TestDNSAnswerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Nameserver", required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .string), 
-            AWSShapeMember(label: "RecordData", required: true, type: .list, encoding: .list(member:"RecordDataEntry")), 
-            AWSShapeMember(label: "RecordName", required: true, type: .string), 
-            AWSShapeMember(label: "RecordType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResponseCode", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "recordData", location: .body(locationName: "RecordData"), encoding: .list(member:"RecordDataEntry"))
         ]
 
         /// The Amazon Route 53 name server used to respond to the request.
@@ -3736,14 +3449,6 @@ extension Route53 {
     }
 
     public struct TrafficPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "Document", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Version", required: true, type: .integer)
-        ]
 
         /// The comment that you specify in the CreateTrafficPolicy request, if any.
         public let comment: String?
@@ -3778,17 +3483,6 @@ extension Route53 {
     }
 
     public struct TrafficPolicyInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Message", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "State", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
-            AWSShapeMember(label: "TTL", required: true, type: .long)
-        ]
 
         /// The ID of the hosted zone that Amazon Route 53 created resource record sets in.
         public let hostedZoneId: String
@@ -3835,13 +3529,6 @@ extension Route53 {
     }
 
     public struct TrafficPolicySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LatestVersion", required: true, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyCount", required: true, type: .integer), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The ID that Amazon Route 53 assigned to the traffic policy when you created it.
         public let id: String
@@ -3872,24 +3559,12 @@ extension Route53 {
     }
 
     public struct UpdateHealthCheckRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlarmIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "ChildHealthChecks", required: false, type: .list, encoding: .list(member:"ChildHealthCheck")), 
-            AWSShapeMember(label: "Disabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableSNI", required: false, type: .boolean), 
-            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer), 
-            AWSShapeMember(label: "FullyQualifiedDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckVersion", required: false, type: .long), 
-            AWSShapeMember(label: "HealthThreshold", required: false, type: .integer), 
-            AWSShapeMember(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Inverted", required: false, type: .boolean), 
-            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "Regions", required: false, type: .list, encoding: .list(member:"Region")), 
-            AWSShapeMember(label: "ResetElements", required: false, type: .list, encoding: .list(member:"ResettableElementName")), 
-            AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
-            AWSShapeMember(label: "SearchString", required: false, type: .string)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "childHealthChecks", location: .body(locationName: "ChildHealthChecks"), encoding: .list(member:"ChildHealthCheck")), 
+            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId")), 
+            AWSMemberEncoding(label: "regions", location: .body(locationName: "Regions"), encoding: .list(member:"Region")), 
+            AWSMemberEncoding(label: "resetElements", location: .body(locationName: "ResetElements"), encoding: .list(member:"ResettableElementName"))
         ]
 
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
@@ -3993,9 +3668,6 @@ extension Route53 {
     }
 
     public struct UpdateHealthCheckResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
-        ]
 
         /// A complex type that contains the response to an UpdateHealthCheck request.
         public let healthCheck: HealthCheck
@@ -4010,9 +3682,9 @@ extension Route53 {
     }
 
     public struct UpdateHostedZoneCommentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
@@ -4037,9 +3709,6 @@ extension Route53 {
     }
 
     public struct UpdateHostedZoneCommentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HostedZone", required: true, type: .structure)
-        ]
 
         /// A complex type that contains the response to the UpdateHostedZoneComment request.
         public let hostedZone: HostedZone
@@ -4054,10 +3723,10 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyCommentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: true, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
+            AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
         ]
 
         /// The new comment for the specified traffic policy and version.
@@ -4089,9 +3758,6 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyCommentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
-        ]
 
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -4106,11 +3772,9 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
-            AWSShapeMember(label: "TTL", required: true, type: .long)
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
 
         /// The ID of the traffic policy instance that you want to update.
@@ -4149,9 +3813,6 @@ extension Route53 {
     }
 
     public struct UpdateTrafficPolicyInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
-        ]
 
         /// A complex type that contains settings for the updated traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -4166,10 +3827,6 @@ extension Route53 {
     }
 
     public struct VPC: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VPCId", required: false, type: .string), 
-            AWSShapeMember(label: "VPCRegion", required: false, type: .enum)
-        ]
 
         public let vPCId: String?
         /// (Private hosted zones only) The region that an Amazon VPC was created in.

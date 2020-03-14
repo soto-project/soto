@@ -61,11 +61,6 @@ extension DataExchange {
     //MARK: Shapes
 
     public struct AssetDestinationEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
 
         /// The unique identifier for the asset.
         public let assetId: String
@@ -88,9 +83,6 @@ extension DataExchange {
     }
 
     public struct AssetDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3SnapshotAsset", required: false, type: .structure)
-        ]
 
         public let s3SnapshotAsset: S3SnapshotAsset?
 
@@ -104,18 +96,6 @@ extension DataExchange {
     }
 
     public struct AssetEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "AssetDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "AssetType", required: true, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
-        ]
 
         /// The ARN for the asset.
         public let arn: String
@@ -166,10 +146,6 @@ extension DataExchange {
     }
 
     public struct AssetSourceEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
 
         /// The S3 bucket that's part of the source of the asset.
         public let bucket: String
@@ -188,8 +164,8 @@ extension DataExchange {
     }
 
     public struct CancelJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
         ]
 
         public let jobId: String
@@ -204,12 +180,6 @@ extension DataExchange {
     }
 
     public struct CreateDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetType", required: true, type: .enum), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
         public let assetType: AssetType
@@ -236,19 +206,6 @@ extension DataExchange {
     }
 
     public struct CreateDataSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "AssetType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Origin", required: false, type: .enum), 
-            AWSShapeMember(label: "OriginDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let assetType: AssetType?
@@ -292,10 +249,6 @@ extension DataExchange {
     }
 
     public struct CreateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: true, type: .structure), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The details for the CreateJob request.
         public let details: RequestDetails
@@ -318,16 +271,6 @@ extension DataExchange {
     }
 
     public struct CreateJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Details", required: false, type: .structure), 
-            AWSShapeMember(label: "Errors", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let createdAt: TimeStamp?
@@ -362,10 +305,8 @@ extension DataExchange {
     }
 
     public struct CreateRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// An optional comment about the revision.
@@ -393,17 +334,6 @@ extension DataExchange {
     }
 
     public struct CreateRevisionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "Finalized", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let comment: String?
@@ -441,18 +371,6 @@ extension DataExchange {
     }
 
     public struct DataSetEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "AssetType", required: true, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Origin", required: true, type: .enum), 
-            AWSShapeMember(label: "OriginDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
-        ]
 
         /// The ARN for the data set.
         public let arn: String
@@ -503,10 +421,10 @@ extension DataExchange {
     }
 
     public struct DeleteAssetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", location: .uri(locationName: "AssetId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let assetId: String
@@ -527,8 +445,8 @@ extension DataExchange {
     }
 
     public struct DeleteDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         public let dataSetId: String
@@ -543,9 +461,9 @@ extension DataExchange {
     }
 
     public struct DeleteRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let dataSetId: String
@@ -563,10 +481,6 @@ extension DataExchange {
     }
 
     public struct Details: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImportAssetFromSignedUrlJobErrorDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "ImportAssetsFromS3JobErrorDetails", required: false, type: .list)
-        ]
 
         public let importAssetFromSignedUrlJobErrorDetails: ImportAssetFromSignedUrlJobErrorDetails?
         public let importAssetsFromS3JobErrorDetails: [AssetSourceEntry]?
@@ -583,11 +497,6 @@ extension DataExchange {
     }
 
     public struct ExportAssetToSignedUrlRequestDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string)
-        ]
 
         /// The unique identifier for the asset that is exported to a signed URL.
         public let assetId: String
@@ -610,13 +519,6 @@ extension DataExchange {
     }
 
     public struct ExportAssetToSignedUrlResponseDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string), 
-            AWSShapeMember(label: "SignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SignedUrlExpiresAt", required: false, type: .timestamp)
-        ]
 
         /// The unique identifier for the asset associated with this export job.
         public let assetId: String
@@ -647,11 +549,6 @@ extension DataExchange {
     }
 
     public struct ExportAssetsToS3RequestDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetDestinations", required: true, type: .list), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string)
-        ]
 
         /// The destination for the asset.
         public let assetDestinations: [AssetDestinationEntry]
@@ -674,11 +571,6 @@ extension DataExchange {
     }
 
     public struct ExportAssetsToS3ResponseDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetDestinations", required: true, type: .list), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string)
-        ]
 
         /// The destination in Amazon S3 where the asset is exported.
         public let assetDestinations: [AssetDestinationEntry]
@@ -701,10 +593,10 @@ extension DataExchange {
     }
 
     public struct GetAssetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", location: .uri(locationName: "AssetId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let assetId: String
@@ -725,18 +617,6 @@ extension DataExchange {
     }
 
     public struct GetAssetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "AssetDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "AssetType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let assetDetails: AssetDetails?
@@ -777,8 +657,8 @@ extension DataExchange {
     }
 
     public struct GetDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         public let dataSetId: String
@@ -793,19 +673,6 @@ extension DataExchange {
     }
 
     public struct GetDataSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "AssetType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Origin", required: false, type: .enum), 
-            AWSShapeMember(label: "OriginDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let assetType: AssetType?
@@ -849,8 +716,8 @@ extension DataExchange {
     }
 
     public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
         ]
 
         public let jobId: String
@@ -865,16 +732,6 @@ extension DataExchange {
     }
 
     public struct GetJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Details", required: false, type: .structure), 
-            AWSShapeMember(label: "Errors", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let createdAt: TimeStamp?
@@ -909,9 +766,9 @@ extension DataExchange {
     }
 
     public struct GetRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let dataSetId: String
@@ -929,17 +786,6 @@ extension DataExchange {
     }
 
     public struct GetRevisionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "Finalized", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let comment: String?
@@ -977,9 +823,6 @@ extension DataExchange {
     }
 
     public struct ImportAssetFromSignedUrlJobErrorDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetName", required: true, type: .string)
-        ]
 
         public let assetName: String
 
@@ -993,12 +836,6 @@ extension DataExchange {
     }
 
     public struct ImportAssetFromSignedUrlRequestDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetName", required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "Md5Hash", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string)
-        ]
 
         /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name.
         public let assetName: String
@@ -1031,14 +868,6 @@ extension DataExchange {
     }
 
     public struct ImportAssetFromSignedUrlResponseDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetName", required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "Md5Hash", required: false, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string), 
-            AWSShapeMember(label: "SignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SignedUrlExpiresAt", required: false, type: .timestamp)
-        ]
 
         /// The name for the asset associated with this import response.
         public let assetName: String
@@ -1073,11 +902,6 @@ extension DataExchange {
     }
 
     public struct ImportAssetsFromS3RequestDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetSources", required: true, type: .list), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string)
-        ]
 
         /// Is a list of S3 bucket and object key pairs.
         public let assetSources: [AssetSourceEntry]
@@ -1100,11 +924,6 @@ extension DataExchange {
     }
 
     public struct ImportAssetsFromS3ResponseDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetSources", required: true, type: .list), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: true, type: .string)
-        ]
 
         /// Is a list of Amazon S3 bucket and object key pairs.
         public let assetSources: [AssetSourceEntry]
@@ -1127,16 +946,6 @@ extension DataExchange {
     }
 
     public struct JobEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Details", required: true, type: .structure), 
-            AWSShapeMember(label: "Errors", required: false, type: .list), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
-        ]
 
         /// The ARN for the job.
         public let arn: String
@@ -1179,15 +988,6 @@ extension DataExchange {
     }
 
     public struct JobError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: true, type: .enum), 
-            AWSShapeMember(label: "Details", required: false, type: .structure), 
-            AWSShapeMember(label: "LimitName", required: false, type: .enum), 
-            AWSShapeMember(label: "LimitValue", required: false, type: .double), 
-            AWSShapeMember(label: "Message", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
-        ]
 
         /// The code for the job error.
         public let code: Code
@@ -1225,10 +1025,10 @@ extension DataExchange {
     }
 
     public struct ListDataSetRevisionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let dataSetId: String
@@ -1254,10 +1054,6 @@ extension DataExchange {
     }
 
     public struct ListDataSetRevisionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Revisions", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         public let revisions: [RevisionEntry]?
@@ -1274,10 +1070,10 @@ extension DataExchange {
     }
 
     public struct ListDataSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Origin", location: .querystring(locationName: "origin"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "origin", location: .querystring(locationName: "origin"))
         ]
 
         public let maxResults: Int?
@@ -1303,10 +1099,6 @@ extension DataExchange {
     }
 
     public struct ListDataSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         public let dataSets: [DataSetEntry]?
         public let nextToken: String?
@@ -1323,11 +1115,11 @@ extension DataExchange {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .querystring(locationName: "dataSetId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "RevisionId", location: .querystring(locationName: "revisionId"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .querystring(locationName: "dataSetId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "revisionId"))
         ]
 
         public let dataSetId: String?
@@ -1356,10 +1148,6 @@ extension DataExchange {
     }
 
     public struct ListJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jobs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         public let jobs: [JobEntry]?
         public let nextToken: String?
@@ -1376,11 +1164,11 @@ extension DataExchange {
     }
 
     public struct ListRevisionAssetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let dataSetId: String
@@ -1409,10 +1197,6 @@ extension DataExchange {
     }
 
     public struct ListRevisionAssetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Assets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         public let assets: [AssetEntry]?
         public let nextToken: String?
@@ -1429,8 +1213,8 @@ extension DataExchange {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1445,9 +1229,6 @@ extension DataExchange {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
-        ]
 
         public let tags: [String: String]?
 
@@ -1461,9 +1242,6 @@ extension DataExchange {
     }
 
     public struct OriginDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductId", required: true, type: .string)
-        ]
 
         public let productId: String
 
@@ -1477,12 +1255,6 @@ extension DataExchange {
     }
 
     public struct RequestDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportAssetsToS3", required: false, type: .structure), 
-            AWSShapeMember(label: "ExportAssetToSignedUrl", required: false, type: .structure), 
-            AWSShapeMember(label: "ImportAssetFromSignedUrl", required: false, type: .structure), 
-            AWSShapeMember(label: "ImportAssetsFromS3", required: false, type: .structure)
-        ]
 
         /// Details about the export to Amazon S3 request.
         public let exportAssetsToS3: ExportAssetsToS3RequestDetails?
@@ -1513,12 +1285,6 @@ extension DataExchange {
     }
 
     public struct ResponseDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportAssetsToS3", required: false, type: .structure), 
-            AWSShapeMember(label: "ExportAssetToSignedUrl", required: false, type: .structure), 
-            AWSShapeMember(label: "ImportAssetFromSignedUrl", required: false, type: .structure), 
-            AWSShapeMember(label: "ImportAssetsFromS3", required: false, type: .structure)
-        ]
 
         /// Details for the export to Amazon S3 response.
         public let exportAssetsToS3: ExportAssetsToS3ResponseDetails?
@@ -1545,16 +1311,6 @@ extension DataExchange {
     }
 
     public struct RevisionEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "Finalized", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
-        ]
 
         /// The ARN for the revision.
         public let arn: String
@@ -1597,9 +1353,6 @@ extension DataExchange {
     }
 
     public struct S3SnapshotAsset: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Size", required: true, type: .double)
-        ]
 
         /// The size of the S3 object that is the object.
         public let size: Double
@@ -1614,8 +1367,8 @@ extension DataExchange {
     }
 
     public struct StartJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", location: .uri(locationName: "JobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
         ]
 
         public let jobId: String
@@ -1638,9 +1391,8 @@ extension DataExchange {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -1658,9 +1410,9 @@ extension DataExchange {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         public let resourceArn: String
@@ -1678,11 +1430,10 @@ extension DataExchange {
     }
 
     public struct UpdateAssetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssetId", location: .uri(locationName: "AssetId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         public let assetId: String
@@ -1707,18 +1458,6 @@ extension DataExchange {
     }
 
     public struct UpdateAssetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "AssetDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "AssetType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RevisionId", required: false, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let assetDetails: AssetDetails?
@@ -1759,10 +1498,8 @@ extension DataExchange {
     }
 
     public struct UpdateDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         public let dataSetId: String
@@ -1785,18 +1522,6 @@ extension DataExchange {
     }
 
     public struct UpdateDataSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "AssetType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Origin", required: false, type: .enum), 
-            AWSShapeMember(label: "OriginDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let assetType: AssetType?
@@ -1837,11 +1562,9 @@ extension DataExchange {
     }
 
     public struct UpdateRevisionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "Finalized", required: false, type: .boolean), 
-            AWSShapeMember(label: "RevisionId", location: .uri(locationName: "RevisionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
         ]
 
         /// An optional comment about the revision.
@@ -1872,16 +1595,6 @@ extension DataExchange {
     }
 
     public struct UpdateRevisionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "Finalized", required: false, type: .boolean), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
-        ]
 
         public let arn: String?
         public let comment: String?

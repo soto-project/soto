@@ -9,9 +9,6 @@ extension SecretsManager {
     //MARK: Shapes
 
     public struct CancelRotateSecretRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// Specifies the secret for which you want to cancel a rotation request. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -31,11 +28,6 @@ extension SecretsManager {
     }
 
     public struct CancelRotateSecretResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The ARN of the secret for which rotation was canceled.
         public let arn: String?
@@ -58,15 +50,6 @@ extension SecretsManager {
     }
 
     public struct CreateSecretRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SecretBinary", required: false, type: .blob), 
-            AWSShapeMember(label: "SecretString", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// (Optional) If you include SecretString or SecretBinary, then an initial version is created as part of the secret, and this parameter specifies a unique identifier for the new version.   If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include that value in the request.  This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and that version's SecretString and SecretBinary values are the same as those in the request, then the request is ignored (the operation is idempotent).   If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request then the request fails because you cannot modify an existing version. Instead, use PutSecretValue to create a new version.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
@@ -122,11 +105,6 @@ extension SecretsManager {
     }
 
     public struct CreateSecretResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the secret that you just created.  Secrets Manager automatically adds several random characters to the name at the end of the ARN when you initially create a secret. This affects only the ARN and not the actual friendly name. This ensures that if you create a new secret with the same name as an old secret that you previously deleted, then users with access to the old secret don't automatically get access to the new secret because the ARNs are different. 
         public let arn: String?
@@ -149,9 +127,6 @@ extension SecretsManager {
     }
 
     public struct DeleteResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// Specifies the secret that you want to delete the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -171,10 +146,6 @@ extension SecretsManager {
     }
 
     public struct DeleteResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the secret that the resource-based policy was deleted for.
         public let arn: String?
@@ -193,11 +164,6 @@ extension SecretsManager {
     }
 
     public struct DeleteSecretRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForceDeleteWithoutRecovery", required: false, type: .boolean), 
-            AWSShapeMember(label: "RecoveryWindowInDays", required: false, type: .long), 
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// (Optional) Specifies that the secret is to be deleted without any recovery window. You can't use both this parameter and the RecoveryWindowInDays parameter in the same API call. An asynchronous background process performs the actual deletion, so there can be a short delay before the operation completes. If you write code to delete and then immediately recreate a secret with the same name, ensure that your code includes appropriate back off and retry logic.  Use this parameter with caution. This parameter causes the operation to skip the normal waiting period before the permanent deletion that AWS would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithouRecovery parameter, then you have no opportunity to recover the secret. It is permanently lost. 
         public let forceDeleteWithoutRecovery: Bool?
@@ -225,11 +191,6 @@ extension SecretsManager {
     }
 
     public struct DeleteSecretResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the secret that is now scheduled for deletion.
         public let arn: String?
@@ -252,9 +213,6 @@ extension SecretsManager {
     }
 
     public struct DescribeSecretRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// The identifier of the secret whose details you want to retrieve. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -274,22 +232,6 @@ extension SecretsManager {
     }
 
     public struct DescribeSecretResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "DeletedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LastAccessedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastChangedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastRotatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OwningService", required: false, type: .string), 
-            AWSShapeMember(label: "RotationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "RotationLambdaARN", required: false, type: .string), 
-            AWSShapeMember(label: "RotationRules", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VersionIdsToStages", required: false, type: .map)
-        ]
 
         /// The ARN of the secret.
         public let arn: String?
@@ -355,16 +297,6 @@ extension SecretsManager {
     }
 
     public struct GetRandomPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludeCharacters", required: false, type: .string), 
-            AWSShapeMember(label: "ExcludeLowercase", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExcludeNumbers", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExcludePunctuation", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExcludeUppercase", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeSpace", required: false, type: .boolean), 
-            AWSShapeMember(label: "PasswordLength", required: false, type: .long), 
-            AWSShapeMember(label: "RequireEachIncludedType", required: false, type: .boolean)
-        ]
 
         /// A string that includes characters that should not be included in the generated password. The default is that all characters from the included sets can be used.
         public let excludeCharacters: String?
@@ -414,9 +346,6 @@ extension SecretsManager {
     }
 
     public struct GetRandomPasswordResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RandomPassword", required: false, type: .string)
-        ]
 
         /// A string with the generated password.
         public let randomPassword: String?
@@ -431,9 +360,6 @@ extension SecretsManager {
     }
 
     public struct GetResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// Specifies the secret that you want to retrieve the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -453,11 +379,6 @@ extension SecretsManager {
     }
 
     public struct GetResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ResourcePolicy", required: false, type: .string)
-        ]
 
         /// The ARN of the secret that the resource-based policy was retrieved for.
         public let arn: String?
@@ -480,11 +401,6 @@ extension SecretsManager {
     }
 
     public struct GetSecretValueRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "VersionStage", required: false, type: .string)
-        ]
 
         /// Specifies the secret containing the version that you want to retrieve. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -516,15 +432,6 @@ extension SecretsManager {
     }
 
     public struct GetSecretValueResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SecretBinary", required: false, type: .blob), 
-            AWSShapeMember(label: "SecretString", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "VersionStages", required: false, type: .list)
-        ]
 
         /// The ARN of the secret.
         public let arn: String?
@@ -563,12 +470,6 @@ extension SecretsManager {
     }
 
     public struct ListSecretVersionIdsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeDeprecated", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// (Optional) Specifies that you want the results to include versions that do not have any staging labels attached to them. Such versions are considered deprecated and are subject to deletion by Secrets Manager as needed.
         public let includeDeprecated: Bool?
@@ -604,12 +505,6 @@ extension SecretsManager {
     }
 
     public struct ListSecretVersionIdsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Versions", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the secret.  Secrets Manager automatically adds several random characters to the name at the end of the ARN when you initially create a secret. This affects only the ARN and not the actual friendly name. This ensures that if you create a new secret with the same name as an old secret that you previously deleted, then users with access to the old secret don't automatically get access to the new secret because the ARNs are different. 
         public let arn: String?
@@ -636,10 +531,6 @@ extension SecretsManager {
     }
 
     public struct ListSecretsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, it defaults to a value that's specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (isn't null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Secrets Manager might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -665,10 +556,6 @@ extension SecretsManager {
     }
 
     public struct ListSecretsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecretList", required: false, type: .list)
-        ]
 
         /// If present in the response, this value indicates that there's more output available than what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
@@ -687,10 +574,6 @@ extension SecretsManager {
     }
 
     public struct PutResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcePolicy", required: true, type: .string), 
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// A JSON-formatted string that's constructed according to the grammar and syntax for an AWS resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
         public let resourcePolicy: String
@@ -716,10 +599,6 @@ extension SecretsManager {
     }
 
     public struct PutResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the secret that the resource-based policy was retrieved for.
         public let arn: String?
@@ -738,13 +617,6 @@ extension SecretsManager {
     }
 
     public struct PutSecretValueRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecretBinary", required: false, type: .blob), 
-            AWSShapeMember(label: "SecretId", required: true, type: .string), 
-            AWSShapeMember(label: "SecretString", required: false, type: .string), 
-            AWSShapeMember(label: "VersionStages", required: false, type: .list)
-        ]
 
         /// (Optional) Specifies a unique identifier for the new version of the secret.   If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request.   This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the Lambda rotation function's processing. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and that version's SecretString or SecretBinary values are the same as those in the request then the request is ignored (the operation is idempotent).    If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request then the request fails because you cannot modify an existing secret version. You can only create new versions to store new secret values.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
@@ -792,12 +664,6 @@ extension SecretsManager {
     }
 
     public struct PutSecretValueResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "VersionStages", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the secret for which you just created a version.
         public let arn: String?
@@ -824,9 +690,6 @@ extension SecretsManager {
     }
 
     public struct RestoreSecretRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// Specifies the secret that you want to restore from a previously scheduled deletion. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -846,10 +709,6 @@ extension SecretsManager {
     }
 
     public struct RestoreSecretResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the secret that was restored.
         public let arn: String?
@@ -868,12 +727,6 @@ extension SecretsManager {
     }
 
     public struct RotateSecretRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "RotationLambdaARN", required: false, type: .string), 
-            AWSShapeMember(label: "RotationRules", required: false, type: .structure), 
-            AWSShapeMember(label: "SecretId", required: true, type: .string)
-        ]
 
         /// (Optional) Specifies a unique identifier for the new version of the secret that helps ensure idempotency.  If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify your own value if you are implementing your own retry logic and want to ensure that a given secret is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.  Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the function's processing. This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
@@ -910,11 +763,6 @@ extension SecretsManager {
     }
 
     public struct RotateSecretResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The ARN of the secret.
         public let arn: String?
@@ -937,9 +785,6 @@ extension SecretsManager {
     }
 
     public struct RotationRulesType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutomaticallyAfterDays", required: false, type: .long)
-        ]
 
         /// Specifies the number of days between automatic scheduled rotations of the secret. Secrets Manager schedules the next rotation when the previous one is complete. Secrets Manager schedules the date by adding the rotation interval (number of days) to the actual date of the last rotation. The service chooses the hour within that 24-hour date window randomly. The minute is also chosen somewhat randomly, but weighted towards the top of the hour and influenced by a variety of factors that help distribute load.
         public let automaticallyAfterDays: Int64?
@@ -959,22 +804,6 @@ extension SecretsManager {
     }
 
     public struct SecretListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "DeletedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LastAccessedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastChangedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastRotatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OwningService", required: false, type: .string), 
-            AWSShapeMember(label: "RotationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "RotationLambdaARN", required: false, type: .string), 
-            AWSShapeMember(label: "RotationRules", required: false, type: .structure), 
-            AWSShapeMember(label: "SecretVersionsToStages", required: false, type: .map), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the secret. For more information about ARNs in Secrets Manager, see Policy Resources in the AWS Secrets Manager User Guide.
         public let arn: String?
@@ -1040,12 +869,6 @@ extension SecretsManager {
     }
 
     public struct SecretVersionsListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastAccessedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "VersionStages", required: false, type: .list)
-        ]
 
         /// The date and time this version of the secret was created.
         public let createdDate: TimeStamp?
@@ -1072,10 +895,6 @@ extension SecretsManager {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The key identifier, or name, of the tag.
         public let key: String?
@@ -1101,10 +920,6 @@ extension SecretsManager {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The identifier for the secret that you want to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -1131,10 +946,6 @@ extension SecretsManager {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretId", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The identifier for the secret that you want to remove tags from. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names that end with a hyphen followed by six characters. 
         public let secretId: String
@@ -1162,14 +973,6 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "SecretBinary", required: false, type: .blob), 
-            AWSShapeMember(label: "SecretId", required: true, type: .string), 
-            AWSShapeMember(label: "SecretString", required: false, type: .string)
-        ]
 
         /// (Optional) If you want to add a new version to the secret, this parameter specifies a unique identifier for the new version that helps ensure idempotency.  If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically only need to interact with this value if you implement your own retry logic and want to ensure that a given secret is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.  Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the Lambda rotation function's processing.   If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and that version's SecretString and SecretBinary values are the same as those in the request then the request is ignored (the operation is idempotent).    If a version with this value already exists and that version's SecretString and SecretBinary values are different from the request then an error occurs because you cannot modify an existing secret value.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
@@ -1218,11 +1021,6 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The ARN of the secret that was updated.  Secrets Manager automatically adds several random characters to the name at the end of the ARN when you initially create a secret. This affects only the ARN and not the actual friendly name. This ensures that if you create a new secret with the same name as an old secret that you previously deleted, then users with access to the old secret don't automatically get access to the new secret because the ARNs are different. 
         public let arn: String?
@@ -1245,12 +1043,6 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretVersionStageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MoveToVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "RemoveFromVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "SecretId", required: true, type: .string), 
-            AWSShapeMember(label: "VersionStage", required: true, type: .string)
-        ]
 
         /// (Optional) The secret version ID that you want to add the staging label to. If you want to remove a label from a version, then do not specify this parameter. If the staging label is already attached to a different version of the secret, then you must also specify the RemoveFromVersionId parameter. 
         public let moveToVersionId: String?
@@ -1288,10 +1080,6 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretVersionStageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the secret with the staging label that was modified.
         public let arn: String?

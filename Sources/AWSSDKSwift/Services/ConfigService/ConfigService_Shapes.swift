@@ -301,11 +301,6 @@ extension ConfigService {
     //MARK: Shapes
 
     public struct AccountAggregationSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: true, type: .list), 
-            AWSShapeMember(label: "AllAwsRegions", required: false, type: .boolean), 
-            AWSShapeMember(label: "AwsRegions", required: false, type: .list)
-        ]
 
         /// The 12-digit account ID of the account being aggregated. 
         public let accountIds: [String]
@@ -336,12 +331,6 @@ extension ConfigService {
     }
 
     public struct AggregateComplianceByConfigRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
-        ]
 
         /// The 12-digit account ID of the source account.
         public let accountId: String?
@@ -368,10 +357,6 @@ extension ConfigService {
     }
 
     public struct AggregateComplianceCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string)
-        ]
 
         /// The number of compliant and noncompliant AWS Config rules.
         public let complianceSummary: ComplianceSummary?
@@ -390,15 +375,6 @@ extension ConfigService {
     }
 
     public struct AggregateEvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Annotation", required: false, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp)
-        ]
 
         /// The 12-digit account ID of the source account.
         public let accountId: String?
@@ -437,13 +413,6 @@ extension ConfigService {
     }
 
     public struct AggregateResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "SourceAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "SourceRegion", required: true, type: .string)
-        ]
 
         /// The ID of the AWS resource.
         public let resourceId: String
@@ -482,15 +451,6 @@ extension ConfigService {
     }
 
     public struct AggregatedSourceStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum)
-        ]
 
         /// The region authorized to collect aggregated data.
         public let awsRegion: String?
@@ -529,12 +489,6 @@ extension ConfigService {
     }
 
     public struct AggregationAuthorization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregationAuthorizationArn", required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizedAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizedAwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) of the aggregation object.
         public let aggregationAuthorizationArn: String?
@@ -561,22 +515,6 @@ extension ConfigService {
     }
 
     public struct BaseConfigurationItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .string), 
-            AWSShapeMember(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "configurationItemStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceCreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "supplementaryConfiguration", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The 12-digit AWS account ID associated with the resource.
         public let accountId: String?
@@ -643,10 +581,6 @@ extension ConfigService {
     }
 
     public struct BatchGetAggregateResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceIdentifiers", required: true, type: .list)
-        ]
 
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
@@ -676,10 +610,6 @@ extension ConfigService {
     }
 
     public struct BatchGetAggregateResourceConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BaseConfigurationItems", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedResourceIdentifiers", required: false, type: .list)
-        ]
 
         /// A list that contains the current configuration of one or more resources.
         public let baseConfigurationItems: [BaseConfigurationItem]?
@@ -698,9 +628,6 @@ extension ConfigService {
     }
 
     public struct BatchGetResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceKeys", required: true, type: .list)
-        ]
 
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
         public let resourceKeys: [ResourceKey]
@@ -723,10 +650,6 @@ extension ConfigService {
     }
 
     public struct BatchGetResourceConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseConfigurationItems", required: false, type: .list), 
-            AWSShapeMember(label: "unprocessedResourceKeys", required: false, type: .list)
-        ]
 
         /// A list that contains the current configuration of one or more resources.
         public let baseConfigurationItems: [BaseConfigurationItem]?
@@ -745,10 +668,6 @@ extension ConfigService {
     }
 
     public struct Compliance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceContributorCount", required: false, type: .structure), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum)
-        ]
 
         /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
         public let complianceContributorCount: ComplianceContributorCount?
@@ -767,10 +686,6 @@ extension ConfigService {
     }
 
     public struct ComplianceByConfigRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
-        ]
 
         /// Indicates whether the AWS Config rule is compliant.
         public let compliance: Compliance?
@@ -789,11 +704,6 @@ extension ConfigService {
     }
 
     public struct ComplianceByResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// Indicates whether the AWS resource complies with all of the AWS Config rules that evaluated it.
         public let compliance: Compliance?
@@ -816,10 +726,6 @@ extension ConfigService {
     }
 
     public struct ComplianceContributorCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapExceeded", required: false, type: .boolean), 
-            AWSShapeMember(label: "CappedCount", required: false, type: .integer)
-        ]
 
         /// Indicates whether the maximum count is reached.
         public let capExceeded: Bool?
@@ -838,11 +744,6 @@ extension ConfigService {
     }
 
     public struct ComplianceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceSummaryTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompliantResourceCount", required: false, type: .structure), 
-            AWSShapeMember(label: "NonCompliantResourceCount", required: false, type: .structure)
-        ]
 
         /// The time that AWS Config created the compliance summary.
         public let complianceSummaryTimestamp: TimeStamp?
@@ -865,10 +766,6 @@ extension ConfigService {
     }
 
     public struct ComplianceSummaryByResourceType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The number of AWS resources that are compliant or noncompliant, up to a maximum of 100 for each.
         public let complianceSummary: ComplianceSummary?
@@ -887,14 +784,6 @@ extension ConfigService {
     }
 
     public struct ConfigExportDeliveryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastAttemptTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastSuccessfulTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "nextDeliveryTime", required: false, type: .timestamp)
-        ]
 
         /// The time of the last attempted delivery.
         public let lastAttemptTime: TimeStamp?
@@ -929,18 +818,6 @@ extension ConfigService {
     }
 
     public struct ConfigRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleState", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
-            AWSShapeMember(label: "Scope", required: false, type: .structure), 
-            AWSShapeMember(label: "Source", required: true, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public let configRuleArn: String?
@@ -1004,12 +881,6 @@ extension ConfigService {
     }
 
     public struct ConfigRuleComplianceFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
-        ]
 
         /// The 12-digit account ID of the source account. 
         public let accountId: String?
@@ -1045,10 +916,6 @@ extension ConfigService {
     }
 
     public struct ConfigRuleComplianceSummaryFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string)
-        ]
 
         /// The 12-digit account ID of the source account.
         public let accountId: String?
@@ -1073,19 +940,6 @@ extension ConfigService {
     }
 
     public struct ConfigRuleEvaluationStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeMember(label: "FirstActivatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FirstEvaluationStarted", required: false, type: .boolean), 
-            AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastFailedInvocationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastSuccessfulEvaluationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastSuccessfulInvocationTime", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public let configRuleArn: String?
@@ -1140,9 +994,6 @@ extension ConfigService {
     }
 
     public struct ConfigSnapshotDeliveryProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deliveryFrequency", required: false, type: .enum)
-        ]
 
         /// The frequency with which AWS Config delivers configuration snapshots.
         public let deliveryFrequency: MaximumExecutionFrequency?
@@ -1157,12 +1008,6 @@ extension ConfigService {
     }
 
     public struct ConfigStreamDeliveryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp)
-        ]
 
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
@@ -1189,14 +1034,6 @@ extension ConfigService {
     }
 
     public struct ConfigurationAggregator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountAggregationSources", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigurationAggregatorArn", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OrganizationAggregationSource", required: false, type: .structure)
-        ]
 
         /// Provides a list of source accounts and regions to be aggregated.
         public let accountAggregationSources: [AccountAggregationSource]?
@@ -1231,26 +1068,6 @@ extension ConfigService {
     }
 
     public struct ConfigurationItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .string), 
-            AWSShapeMember(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "configurationItemMD5Hash", required: false, type: .string), 
-            AWSShapeMember(label: "configurationItemStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
-            AWSShapeMember(label: "relatedEvents", required: false, type: .list), 
-            AWSShapeMember(label: "relationships", required: false, type: .list), 
-            AWSShapeMember(label: "resourceCreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "supplementaryConfiguration", required: false, type: .map), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The 12-digit AWS account ID associated with the resource.
         public let accountId: String?
@@ -1333,11 +1150,6 @@ extension ConfigService {
     }
 
     public struct ConfigurationRecorder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "recordingGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "roleARN", required: false, type: .string)
-        ]
 
         /// The name of the recorder. By default, AWS Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
         public let name: String?
@@ -1365,16 +1177,6 @@ extension ConfigService {
     }
 
     public struct ConfigurationRecorderStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastStopTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "recording", required: false, type: .boolean)
-        ]
 
         /// The error code indicating that the recording failed.
         public let lastErrorCode: String?
@@ -1417,10 +1219,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackComplianceFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
-        ]
 
         /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
         public let complianceType: ConformancePackComplianceType?
@@ -1448,10 +1246,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackComplianceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackComplianceStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string)
-        ]
 
         /// The status of the conformance pack. The allowed values are COMPLIANT and NON_COMPLIANT. 
         public let conformancePackComplianceStatus: ConformancePackComplianceType
@@ -1470,16 +1264,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackArn", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackId", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateRequestedTime", required: false, type: .timestamp)
-        ]
 
         /// Amazon Resource Name (ARN) of the conformance pack.
         public let conformancePackArn: String
@@ -1522,12 +1306,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackEvaluationFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceIds", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
         public let complianceType: ConformancePackComplianceType?
@@ -1571,13 +1349,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackEvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Annotation", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: true, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleInvokedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EvaluationResultIdentifier", required: true, type: .structure), 
-            AWSShapeMember(label: "ResultRecordedTime", required: true, type: .timestamp)
-        ]
 
         /// Supplementary information about how the evaluation determined the compliance. 
         public let annotation: String?
@@ -1607,10 +1378,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackInputParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterName", required: true, type: .string), 
-            AWSShapeMember(label: "ParameterValue", required: true, type: .string)
-        ]
 
         /// One part of a key-value pair.
         public let parameterName: String
@@ -1636,10 +1403,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackRuleCompliance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
-        ]
 
         /// Compliance of the AWS Config rule The allowed values are COMPLIANT and NON_COMPLIANT.
         public let complianceType: ConformancePackComplianceType?
@@ -1658,16 +1421,6 @@ extension ConfigService {
     }
 
     public struct ConformancePackStatusDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackArn", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackId", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackState", required: true, type: .enum), 
-            AWSShapeMember(label: "ConformancePackStatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateCompletedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdateRequestedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StackArn", required: true, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of comformance pack.
         public let conformancePackArn: String
@@ -1710,10 +1463,6 @@ extension ConfigService {
     }
 
     public struct DeleteAggregationAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizedAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizedAwsRegion", required: true, type: .string)
-        ]
 
         /// The 12-digit account ID of the account authorized to aggregate data.
         public let authorizedAccountId: String
@@ -1738,9 +1487,6 @@ extension ConfigService {
     }
 
     public struct DeleteConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
-        ]
 
         /// The name of the AWS Config rule that you want to delete.
         public let configRuleName: String
@@ -1760,9 +1506,6 @@ extension ConfigService {
     }
 
     public struct DeleteConfigurationAggregatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string)
-        ]
 
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
@@ -1783,9 +1526,6 @@ extension ConfigService {
     }
 
     public struct DeleteConfigurationRecorderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
-        ]
 
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
         public let configurationRecorderName: String
@@ -1805,9 +1545,6 @@ extension ConfigService {
     }
 
     public struct DeleteConformancePackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string)
-        ]
 
         /// Name of the conformance pack you want to delete.
         public let conformancePackName: String
@@ -1828,9 +1565,6 @@ extension ConfigService {
     }
 
     public struct DeleteDeliveryChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelName", required: true, type: .string)
-        ]
 
         /// The name of the delivery channel to delete.
         public let deliveryChannelName: String
@@ -1850,9 +1584,6 @@ extension ConfigService {
     }
 
     public struct DeleteEvaluationResultsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
-        ]
 
         /// The name of the AWS Config rule for which you want to delete the evaluation results.
         public let configRuleName: String
@@ -1880,9 +1611,6 @@ extension ConfigService {
     }
 
     public struct DeleteOrganizationConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
-        ]
 
         /// The name of organization config rule that you want to delete.
         public let organizationConfigRuleName: String
@@ -1903,9 +1631,6 @@ extension ConfigService {
     }
 
     public struct DeleteOrganizationConformancePackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string)
-        ]
 
         /// The name of organization conformance pack that you want to delete.
         public let organizationConformancePackName: String
@@ -1926,10 +1651,6 @@ extension ConfigService {
     }
 
     public struct DeletePendingAggregationRequestRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequesterAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "RequesterAwsRegion", required: true, type: .string)
-        ]
 
         /// The 12-digit account ID of the account requesting to aggregate data.
         public let requesterAccountId: String
@@ -1954,10 +1675,6 @@ extension ConfigService {
     }
 
     public struct DeleteRemediationConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The name of the AWS Config rule for which you want to delete remediation configuration.
         public let configRuleName: String
@@ -1990,10 +1707,6 @@ extension ConfigService {
     }
 
     public struct DeleteRemediationExceptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceKeys", required: true, type: .list)
-        ]
 
         /// The name of the AWS Config rule for which you want to delete remediation exception configuration.
         public let configRuleName: String
@@ -2023,9 +1736,6 @@ extension ConfigService {
     }
 
     public struct DeleteRemediationExceptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedBatches", required: false, type: .list)
-        ]
 
         /// Returns a list of failed delete remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
         public let failedBatches: [FailedDeleteRemediationExceptionsBatch]?
@@ -2040,10 +1750,6 @@ extension ConfigService {
     }
 
     public struct DeleteResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .string)
-        ]
 
         /// Unique identifier of the resource.
         public let resourceId: String
@@ -2069,9 +1775,6 @@ extension ConfigService {
     }
 
     public struct DeleteRetentionConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionConfigurationName", required: true, type: .string)
-        ]
 
         /// The name of the retention configuration to delete.
         public let retentionConfigurationName: String
@@ -2092,9 +1795,6 @@ extension ConfigService {
     }
 
     public struct DeliverConfigSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deliveryChannelName", required: true, type: .string)
-        ]
 
         /// The name of the delivery channel through which the snapshot is delivered.
         public let deliveryChannelName: String
@@ -2114,9 +1814,6 @@ extension ConfigService {
     }
 
     public struct DeliverConfigSnapshotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configSnapshotId", required: false, type: .string)
-        ]
 
         /// The ID of the snapshot that is being created.
         public let configSnapshotId: String?
@@ -2131,13 +1828,6 @@ extension ConfigService {
     }
 
     public struct DeliveryChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configSnapshotDeliveryProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "s3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "snsTopicARN", required: false, type: .string)
-        ]
 
         /// The options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket.
         public let configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties?
@@ -2173,12 +1863,6 @@ extension ConfigService {
     }
 
     public struct DeliveryChannelStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configHistoryDeliveryInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "configSnapshotDeliveryInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "configStreamDeliveryInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// A list that contains the status of the delivery of the configuration history to the specified Amazon S3 bucket.
         public let configHistoryDeliveryInfo: ConfigExportDeliveryInfo?
@@ -2205,12 +1889,6 @@ extension ConfigService {
     }
 
     public struct DescribeAggregateComplianceByConfigRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
@@ -2246,10 +1924,6 @@ extension ConfigService {
     }
 
     public struct DescribeAggregateComplianceByConfigRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregateComplianceByConfigRules", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns a list of AggregateComplianceByConfigRule object.
         public let aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]?
@@ -2268,10 +1942,6 @@ extension ConfigService {
     }
 
     public struct DescribeAggregationAuthorizationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of AggregationAuthorizations returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
         public let limit: Int?
@@ -2295,10 +1965,6 @@ extension ConfigService {
     }
 
     public struct DescribeAggregationAuthorizationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregationAuthorizations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns a list of authorizations granted to various aggregator accounts and regions.
         public let aggregationAuthorizations: [AggregationAuthorization]?
@@ -2317,11 +1983,6 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
         public let complianceTypes: [ComplianceType]?
@@ -2356,10 +2017,6 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceByConfigRules", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Indicates whether each of the specified AWS Config rules is compliant.
         public let complianceByConfigRules: [ComplianceByConfigRule]?
@@ -2378,13 +2035,6 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
         public let complianceTypes: [ComplianceType]?
@@ -2426,10 +2076,6 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceByResources", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Indicates whether the specified AWS resource complies with all of the AWS Config rules that evaluate it.
         public let complianceByResources: [ComplianceByResource]?
@@ -2448,11 +2094,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
         public let configRuleNames: [String]?
@@ -2487,10 +2128,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRulesEvaluationStatus", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Status information about your AWS managed Config rules.
         public let configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]?
@@ -2509,10 +2146,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
         public let configRuleNames: [String]?
@@ -2541,10 +2174,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRules", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The details about your AWS Config rules.
         public let configRules: [ConfigRule]?
@@ -2563,12 +2192,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorSourcesStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateStatus", required: false, type: .list)
-        ]
 
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
@@ -2604,10 +2227,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorSourcesStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregatedSourceStatusList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns an AggregatedSourceStatus object. 
         public let aggregatedSourceStatusList: [AggregatedSourceStatus]?
@@ -2626,11 +2245,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorNames", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the configuration aggregators.
         public let configurationAggregatorNames: [String]?
@@ -2665,10 +2279,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregators", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns a ConfigurationAggregators object.
         public let configurationAggregators: [ConfigurationAggregator]?
@@ -2687,9 +2297,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
-        ]
 
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
         public let configurationRecorderNames: [String]?
@@ -2711,9 +2318,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecordersStatus", required: false, type: .list)
-        ]
 
         /// A list that contains status of the specified recorders.
         public let configurationRecordersStatus: [ConfigurationRecorderStatus]?
@@ -2728,9 +2332,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecordersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
-        ]
 
         /// A list of configuration recorder names.
         public let configurationRecorderNames: [String]?
@@ -2752,9 +2353,6 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecordersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorders", required: false, type: .list)
-        ]
 
         /// A list that contains the descriptions of the specified configuration recorders.
         public let configurationRecorders: [ConfigurationRecorder]?
@@ -2769,12 +2367,6 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackComplianceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Name of the conformance pack.
         public let conformancePackName: String
@@ -2810,11 +2402,6 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackComplianceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackRuleComplianceList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Name of the conformance pack.
         public let conformancePackName: String
@@ -2837,11 +2424,6 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackNames", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Comma-separated list of conformance pack names.
         public let conformancePackNames: [String]?
@@ -2876,10 +2458,6 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackStatusDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of ConformancePackStatusDetail objects.
         public let conformancePackStatusDetails: [ConformancePackStatusDetail]?
@@ -2898,11 +2476,6 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePacksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackNames", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Comma-separated list of conformance pack names for which you want details. If you do not specify any names, AWS Config returns details for all your conformance packs. 
         public let conformancePackNames: [String]?
@@ -2937,10 +2510,6 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePacksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackDetails", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns a list of ConformancePackDetail objects.
         public let conformancePackDetails: [ConformancePackDetail]?
@@ -2959,9 +2528,6 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
-        ]
 
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
@@ -2983,9 +2549,6 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelsStatus", required: false, type: .list)
-        ]
 
         /// A list that contains the status of a specified delivery channel.
         public let deliveryChannelsStatus: [DeliveryChannelStatus]?
@@ -3000,9 +2563,6 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
-        ]
 
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
@@ -3024,9 +2584,6 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannels", required: false, type: .list)
-        ]
 
         /// A list that contains the descriptions of the specified delivery channel.
         public let deliveryChannels: [DeliveryChannel]?
@@ -3041,11 +2598,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRuleStatusesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
-        ]
 
         /// The maximum number of OrganizationConfigRuleStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
@@ -3079,10 +2631,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRuleStatusesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfigRuleStatuses", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -3101,11 +2649,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
-        ]
 
         /// The maximum number of organization config rules returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
@@ -3139,10 +2682,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfigRules", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -3161,11 +2700,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePackStatusesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConformancePackNames", required: false, type: .list)
-        ]
 
         /// The maximum number of OrganizationConformancePackStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100. 
         public let limit: Int?
@@ -3200,10 +2734,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePackStatusesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConformancePackStatuses", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -3222,11 +2752,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePacksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConformancePackNames", required: false, type: .list)
-        ]
 
         /// The maximum number of organization config packs returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
@@ -3261,10 +2786,6 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePacksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConformancePacks", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -3283,10 +2804,6 @@ extension ConfigService {
     }
 
     public struct DescribePendingAggregationRequestsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
         public let limit: Int?
@@ -3310,10 +2827,6 @@ extension ConfigService {
     }
 
     public struct DescribePendingAggregationRequestsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PendingAggregationRequests", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -3332,9 +2845,6 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleNames", required: true, type: .list)
-        ]
 
         /// A list of AWS Config rule names of remediation configurations for which you want details. 
         public let configRuleNames: [String]
@@ -3359,9 +2869,6 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RemediationConfigurations", required: false, type: .list)
-        ]
 
         /// Returns a remediation configuration object.
         public let remediationConfigurations: [RemediationConfiguration]?
@@ -3376,12 +2883,6 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExceptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceKeys", required: false, type: .list)
-        ]
 
         /// The name of the AWS Config rule.
         public let configRuleName: String
@@ -3421,10 +2922,6 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExceptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RemediationExceptions", required: false, type: .list)
-        ]
 
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
@@ -3443,12 +2940,6 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExecutionStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceKeys", required: false, type: .list)
-        ]
 
         /// A list of AWS Config rule names.
         public let configRuleName: String
@@ -3488,10 +2979,6 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExecutionStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RemediationExecutionStatuses", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -3510,10 +2997,6 @@ extension ConfigService {
     }
 
     public struct DescribeRetentionConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RetentionConfigurationNames", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -3542,10 +3025,6 @@ extension ConfigService {
     }
 
     public struct DescribeRetentionConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RetentionConfigurations", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -3564,13 +3043,6 @@ extension ConfigService {
     }
 
     public struct Evaluation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Annotation", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ComplianceResourceType", required: true, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: true, type: .enum), 
-            AWSShapeMember(label: "OrderingTimestamp", required: true, type: .timestamp)
-        ]
 
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
@@ -3610,14 +3082,6 @@ extension ConfigService {
     }
 
     public struct EvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Annotation", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResultToken", required: false, type: .string)
-        ]
 
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
@@ -3652,10 +3116,6 @@ extension ConfigService {
     }
 
     public struct EvaluationResultIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationResultQualifier", required: false, type: .structure), 
-            AWSShapeMember(label: "OrderingTimestamp", required: false, type: .timestamp)
-        ]
 
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
         public let evaluationResultQualifier: EvaluationResultQualifier?
@@ -3674,11 +3134,6 @@ extension ConfigService {
     }
 
     public struct EvaluationResultQualifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The name of the AWS Config rule that was used in the evaluation.
         public let configRuleName: String?
@@ -3701,9 +3156,6 @@ extension ConfigService {
     }
 
     public struct ExecutionControls: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SsmControls", required: false, type: .structure)
-        ]
 
         /// A SsmControls object.
         public let ssmControls: SsmControls?
@@ -3722,10 +3174,6 @@ extension ConfigService {
     }
 
     public struct FailedDeleteRemediationExceptionsBatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedItems", required: false, type: .list), 
-            AWSShapeMember(label: "FailureMessage", required: false, type: .string)
-        ]
 
         /// Returns remediation exception resource key object of the failed items.
         public let failedItems: [RemediationExceptionResourceKey]?
@@ -3744,10 +3192,6 @@ extension ConfigService {
     }
 
     public struct FailedRemediationBatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedItems", required: false, type: .list), 
-            AWSShapeMember(label: "FailureMessage", required: false, type: .string)
-        ]
 
         /// Returns remediation configurations of the failed items.
         public let failedItems: [RemediationConfiguration]?
@@ -3766,10 +3210,6 @@ extension ConfigService {
     }
 
     public struct FailedRemediationExceptionBatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedItems", required: false, type: .list), 
-            AWSShapeMember(label: "FailureMessage", required: false, type: .string)
-        ]
 
         /// Returns remediation exception resource key object of the failed items.
         public let failedItems: [RemediationException]?
@@ -3788,9 +3228,6 @@ extension ConfigService {
     }
 
     public struct FieldInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// Name of the field.
         public let name: String?
@@ -3805,15 +3242,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateComplianceDetailsByConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The 12-digit account ID of the source account.
         public let accountId: String
@@ -3866,10 +3294,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateComplianceDetailsByConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregateEvaluationResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns an AggregateEvaluationResults object.
         public let aggregateEvaluationResults: [AggregateEvaluationResult]?
@@ -3888,13 +3312,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateConfigRuleComplianceSummaryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "GroupByKey", required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
@@ -3934,11 +3351,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateConfigRuleComplianceSummaryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregateComplianceCounts", required: false, type: .list), 
-            AWSShapeMember(label: "GroupByKey", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns a list of AggregateComplianceCounts object.
         public let aggregateComplianceCounts: [AggregateComplianceCount]?
@@ -3961,13 +3373,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateDiscoveredResourceCountsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "GroupByKey", required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
@@ -4007,12 +3412,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateDiscoveredResourceCountsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupByKey", required: false, type: .string), 
-            AWSShapeMember(label: "GroupedResourceCounts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalDiscoveredResources", required: true, type: .long)
-        ]
 
         /// The key passed into the request object. If GroupByKey is not provided, the result will be empty.
         public let groupByKey: String?
@@ -4039,10 +3438,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceIdentifier", required: true, type: .structure)
-        ]
 
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
@@ -4068,9 +3463,6 @@ extension ConfigService {
     }
 
     public struct GetAggregateResourceConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationItem", required: false, type: .structure)
-        ]
 
         /// Returns a ConfigurationItem object.
         public let configurationItem: ConfigurationItem?
@@ -4085,12 +3477,6 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
         public let complianceTypes: [ComplianceType]?
@@ -4126,10 +3512,6 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Indicates whether the AWS resource complies with the specified AWS Config rule.
         public let evaluationResults: [EvaluationResult]?
@@ -4148,12 +3530,6 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .string)
-        ]
 
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
         public let complianceTypes: [ComplianceType]?
@@ -4189,10 +3565,6 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Indicates whether the specified AWS resource complies each AWS Config rule.
         public let evaluationResults: [EvaluationResult]?
@@ -4211,9 +3583,6 @@ extension ConfigService {
     }
 
     public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
-        ]
 
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
         public let complianceSummary: ComplianceSummary?
@@ -4228,9 +3597,6 @@ extension ConfigService {
     }
 
     public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list)
-        ]
 
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance. You can specify that the resource type is an AWS account by specifying AWS::::Account.
         public let resourceTypes: [String]?
@@ -4254,9 +3620,6 @@ extension ConfigService {
     }
 
     public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceSummariesByResourceType", required: false, type: .list)
-        ]
 
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
         public let complianceSummariesByResourceType: [ComplianceSummaryByResourceType]?
@@ -4271,12 +3634,6 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceDetailsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Name of the conformance pack.
         public let conformancePackName: String
@@ -4312,11 +3669,6 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceDetailsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackRuleEvaluationResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Name of the conformance pack.
         public let conformancePackName: String
@@ -4339,11 +3691,6 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceSummaryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackNames", required: true, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Names of conformance packs.
         public let conformancePackNames: [String]
@@ -4378,10 +3725,6 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceSummaryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackComplianceSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of ConformancePackComplianceSummary objects. 
         public let conformancePackComplianceSummaryList: [ConformancePackComplianceSummary]?
@@ -4400,11 +3743,6 @@ extension ConfigService {
     }
 
     public struct GetDiscoveredResourceCountsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceTypes", required: false, type: .list)
-        ]
 
         /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int?
@@ -4438,11 +3776,6 @@ extension ConfigService {
     }
 
     public struct GetDiscoveredResourceCountsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceCounts", required: false, type: .list), 
-            AWSShapeMember(label: "totalDiscoveredResources", required: false, type: .long)
-        ]
 
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -4465,12 +3798,6 @@ extension ConfigService {
     }
 
     public struct GetOrganizationConfigRuleDetailedStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
-        ]
 
         /// A StatusDetailFilters object.
         public let filters: StatusDetailFilters?
@@ -4506,10 +3833,6 @@ extension ConfigService {
     }
 
     public struct GetOrganizationConfigRuleDetailedStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConfigRuleDetailedStatus", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -4528,12 +3851,6 @@ extension ConfigService {
     }
 
     public struct GetOrganizationConformancePackDetailedStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string)
-        ]
 
         /// An OrganizationResourceDetailedStatusFilters object.
         public let filters: OrganizationResourceDetailedStatusFilters?
@@ -4569,10 +3886,6 @@ extension ConfigService {
     }
 
     public struct GetOrganizationConformancePackDetailedStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationConformancePackDetailedStatuses", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -4591,15 +3904,6 @@ extension ConfigService {
     }
 
     public struct GetResourceConfigHistoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "chronologicalOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "earlierTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "laterTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceId", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum)
-        ]
 
         /// The chronological order for configuration items listed. By default, the results are listed in reverse chronological order.
         public let chronologicalOrder: ChronologicalOrder?
@@ -4645,10 +3949,6 @@ extension ConfigService {
     }
 
     public struct GetResourceConfigHistoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationItems", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list that contains the configuration history of one or more resources.
         public let configurationItems: [ConfigurationItem]?
@@ -4667,10 +3967,6 @@ extension ConfigService {
     }
 
     public struct GroupedResourceCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceCount", required: true, type: .long)
-        ]
 
         /// The name of the group that can be region, account ID, or resource type. For example, region1, region2 if the region was chosen as GroupByKey.
         public let groupName: String
@@ -4689,13 +3985,6 @@ extension ConfigService {
     }
 
     public struct ListAggregateDiscoveredResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
-        ]
 
         /// The name of the configuration aggregator. 
         public let configurationAggregatorName: String
@@ -4735,10 +4024,6 @@ extension ConfigService {
     }
 
     public struct ListAggregateDiscoveredResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceIdentifiers", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -4757,14 +4042,6 @@ extension ConfigService {
     }
 
     public struct ListDiscoveredResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeDeletedResources", required: false, type: .boolean), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceIds", required: false, type: .list), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum)
-        ]
 
         /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
         public let includeDeletedResources: Bool?
@@ -4808,10 +4085,6 @@ extension ConfigService {
     }
 
     public struct ListDiscoveredResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceIdentifiers", required: false, type: .list)
-        ]
 
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -4830,11 +4103,6 @@ extension ConfigService {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, AWS Config uses the default. 
         public let limit: Int?
@@ -4864,10 +4132,6 @@ extension ConfigService {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
@@ -4886,14 +4150,6 @@ extension ConfigService {
     }
 
     public struct MemberAccountStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MemberAccountRuleStatus", required: true, type: .enum)
-        ]
 
         /// The 12-digit account ID of a member account.
         public let accountId: String
@@ -4928,11 +4184,6 @@ extension ConfigService {
     }
 
     public struct OrganizationAggregationSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllAwsRegions", required: false, type: .boolean), 
-            AWSShapeMember(label: "AwsRegions", required: false, type: .list), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// If true, aggregate existing AWS Config regions and future regions.
         public let allAwsRegions: Bool?
@@ -4959,14 +4210,6 @@ extension ConfigService {
     }
 
     public struct OrganizationConfigRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OrganizationConfigRuleArn", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationCustomRuleMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "OrganizationManagedRuleMetadata", required: false, type: .structure)
-        ]
 
         /// A comma-separated list of accounts excluded from organization config rule.
         public let excludedAccounts: [String]?
@@ -5001,13 +4244,6 @@ extension ConfigService {
     }
 
     public struct OrganizationConfigRuleStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationRuleStatus", required: true, type: .enum)
-        ]
 
         /// An error code that is returned when organization config rule creation or deletion has failed.
         public let errorCode: String?
@@ -5038,15 +4274,6 @@ extension ConfigService {
     }
 
     public struct OrganizationConformancePack: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "LastUpdateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "OrganizationConformancePackArn", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string)
-        ]
 
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
@@ -5085,14 +4312,6 @@ extension ConfigService {
     }
 
     public struct OrganizationConformancePackDetailedStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
 
         /// The 12-digit account ID of a member account.
         public let accountId: String
@@ -5127,13 +4346,6 @@ extension ConfigService {
     }
 
     public struct OrganizationConformancePackStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
 
         /// An error code that is returned when organization conformance pack creation or deletion has failed in a member account. 
         public let errorCode: String?
@@ -5164,17 +4376,6 @@ extension ConfigService {
     }
 
     public struct OrganizationCustomRuleMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaFunctionArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
-            AWSShapeMember(label: "OrganizationConfigRuleTriggerTypes", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceIdScope", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceTypesScope", required: false, type: .list), 
-            AWSShapeMember(label: "TagKeyScope", required: false, type: .string), 
-            AWSShapeMember(label: "TagValueScope", required: false, type: .string)
-        ]
 
         /// The description that you provide for organization config rule.
         public let description: String?
@@ -5242,16 +4443,6 @@ extension ConfigService {
     }
 
     public struct OrganizationManagedRuleMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
-            AWSShapeMember(label: "ResourceIdScope", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceTypesScope", required: false, type: .list), 
-            AWSShapeMember(label: "RuleIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeyScope", required: false, type: .string), 
-            AWSShapeMember(label: "TagValueScope", required: false, type: .string)
-        ]
 
         /// The description that you provide for organization config rule.
         public let description: String?
@@ -5315,10 +4506,6 @@ extension ConfigService {
     }
 
     public struct OrganizationResourceDetailedStatusFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
@@ -5341,10 +4528,6 @@ extension ConfigService {
     }
 
     public struct PendingAggregationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequesterAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "RequesterAwsRegion", required: false, type: .string)
-        ]
 
         /// The 12-digit account ID of the account requesting to aggregate data.
         public let requesterAccountId: String?
@@ -5363,11 +4546,6 @@ extension ConfigService {
     }
 
     public struct PutAggregationAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizedAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizedAwsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The 12-digit account ID of the account authorized to aggregate data.
         public let authorizedAccountId: String
@@ -5401,9 +4579,6 @@ extension ConfigService {
     }
 
     public struct PutAggregationAuthorizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregationAuthorization", required: false, type: .structure)
-        ]
 
         /// Returns an AggregationAuthorization object. 
         public let aggregationAuthorization: AggregationAuthorization?
@@ -5418,10 +4593,6 @@ extension ConfigService {
     }
 
     public struct PutConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRule", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The rule that you want to add to your account.
         public let configRule: ConfigRule
@@ -5449,12 +4620,6 @@ extension ConfigService {
     }
 
     public struct PutConfigurationAggregatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountAggregationSources", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationAggregationSource", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A list of AccountAggregationSource object. 
         public let accountAggregationSources: [AccountAggregationSource]?
@@ -5498,9 +4663,6 @@ extension ConfigService {
     }
 
     public struct PutConfigurationAggregatorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregator", required: false, type: .structure)
-        ]
 
         /// Returns a ConfigurationAggregator object.
         public let configurationAggregator: ConfigurationAggregator?
@@ -5515,9 +4677,6 @@ extension ConfigService {
     }
 
     public struct PutConfigurationRecorderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorder", required: true, type: .structure)
-        ]
 
         /// The configuration recorder object that records each configuration change made to the resources.
         public let configurationRecorder: ConfigurationRecorder
@@ -5536,14 +4695,6 @@ extension ConfigService {
     }
 
     public struct PutConformancePackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
-            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateS3Uri", required: false, type: .string)
-        ]
 
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
@@ -5598,9 +4749,6 @@ extension ConfigService {
     }
 
     public struct PutConformancePackResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackArn", required: false, type: .string)
-        ]
 
         /// ARN of the conformance pack.
         public let conformancePackArn: String?
@@ -5615,9 +4763,6 @@ extension ConfigService {
     }
 
     public struct PutDeliveryChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannel", required: true, type: .structure)
-        ]
 
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
         public let deliveryChannel: DeliveryChannel
@@ -5636,11 +4781,6 @@ extension ConfigService {
     }
 
     public struct PutEvaluationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Evaluations", required: false, type: .list), 
-            AWSShapeMember(label: "ResultToken", required: true, type: .string), 
-            AWSShapeMember(label: "TestMode", required: false, type: .boolean)
-        ]
 
         /// The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
         public let evaluations: [Evaluation]?
@@ -5671,9 +4811,6 @@ extension ConfigService {
     }
 
     public struct PutEvaluationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedEvaluations", required: false, type: .list)
-        ]
 
         /// Requests that failed because of a client or server error.
         public let failedEvaluations: [Evaluation]?
@@ -5688,12 +4825,6 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationCustomRuleMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "OrganizationManagedRuleMetadata", required: false, type: .structure)
-        ]
 
         /// A comma-separated list of accounts that you want to exclude from an organization config rule.
         public let excludedAccounts: [String]?
@@ -5733,9 +4864,6 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationConfigRuleArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an organization config rule.
         public let organizationConfigRuleArn: String?
@@ -5750,15 +4878,6 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConformancePackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateS3Uri", required: false, type: .string)
-        ]
 
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
@@ -5822,9 +4941,6 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConformancePackResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationConformancePackArn", required: false, type: .string)
-        ]
 
         /// ARN of the organization conformance pack.
         public let organizationConformancePackArn: String?
@@ -5839,9 +4955,6 @@ extension ConfigService {
     }
 
     public struct PutRemediationConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RemediationConfigurations", required: true, type: .list)
-        ]
 
         /// A list of remediation configuration objects.
         public let remediationConfigurations: [RemediationConfiguration]
@@ -5864,9 +4977,6 @@ extension ConfigService {
     }
 
     public struct PutRemediationConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedBatches", required: false, type: .list)
-        ]
 
         /// Returns a list of failed remediation batch objects.
         public let failedBatches: [FailedRemediationBatch]?
@@ -5881,12 +4991,6 @@ extension ConfigService {
     }
 
     public struct PutRemediationExceptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceKeys", required: true, type: .list)
-        ]
 
         /// The name of the AWS Config rule for which you want to create remediation exception.
         public let configRuleName: String
@@ -5926,9 +5030,6 @@ extension ConfigService {
     }
 
     public struct PutRemediationExceptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedBatches", required: false, type: .list)
-        ]
 
         /// Returns a list of failed remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
         public let failedBatches: [FailedRemediationExceptionBatch]?
@@ -5943,14 +5044,6 @@ extension ConfigService {
     }
 
     public struct PutResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaVersionId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The configuration object of the resource in valid JSON format. It must match the schema registered with AWS CloudFormation.  The configuration JSON must not exceed 64 KB. 
         public let configuration: String
@@ -5995,9 +5088,6 @@ extension ConfigService {
     }
 
     public struct PutRetentionConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionPeriodInDays", required: true, type: .integer)
-        ]
 
         /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
         public let retentionPeriodInDays: Int
@@ -6017,9 +5107,6 @@ extension ConfigService {
     }
 
     public struct PutRetentionConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionConfiguration", required: false, type: .structure)
-        ]
 
         /// Returns a retention configuration object.
         public let retentionConfiguration: RetentionConfiguration?
@@ -6034,9 +5121,6 @@ extension ConfigService {
     }
 
     public struct QueryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SelectFields", required: false, type: .list)
-        ]
 
         /// Returns a FieldInfo object.
         public let selectFields: [FieldInfo]?
@@ -6051,11 +5135,6 @@ extension ConfigService {
     }
 
     public struct RecordingGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allSupported", required: false, type: .boolean), 
-            AWSShapeMember(label: "includeGlobalResourceTypes", required: false, type: .boolean), 
-            AWSShapeMember(label: "resourceTypes", required: false, type: .list)
-        ]
 
         /// Specifies whether AWS Config records configuration changes for every supported type of regional resource. If you set this option to true, when AWS Config adds support for a new type of regional resource, it starts recording resources of that type automatically. If you set this option to true, you cannot enumerate a list of resourceTypes.
         public let allSupported: Bool?
@@ -6078,12 +5157,6 @@ extension ConfigService {
     }
 
     public struct Relationship: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationshipName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// The type of relationship with the related resource.
         public let relationshipName: String?
@@ -6110,20 +5183,6 @@ extension ConfigService {
     }
 
     public struct RemediationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Automatic", required: false, type: .boolean), 
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedByService", required: false, type: .string), 
-            AWSShapeMember(label: "ExecutionControls", required: false, type: .structure), 
-            AWSShapeMember(label: "MaximumAutomaticAttempts", required: false, type: .integer), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "RetryAttemptSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "TargetId", required: true, type: .string), 
-            AWSShapeMember(label: "TargetType", required: true, type: .enum), 
-            AWSShapeMember(label: "TargetVersion", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of remediation configuration.
         public let arn: String?
@@ -6204,13 +5263,6 @@ extension ConfigService {
     }
 
     public struct RemediationException: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .string)
-        ]
 
         /// The name of the AWS Config rule.
         public let configRuleName: String
@@ -6241,10 +5293,6 @@ extension ConfigService {
     }
 
     public struct RemediationExceptionResourceKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String?
@@ -6270,13 +5318,6 @@ extension ConfigService {
     }
 
     public struct RemediationExecutionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvocationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceKey", required: false, type: .structure), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StepDetails", required: false, type: .list)
-        ]
 
         /// Start time when the remediation was executed.
         public let invocationTime: TimeStamp?
@@ -6306,13 +5347,6 @@ extension ConfigService {
     }
 
     public struct RemediationExecutionStep: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StopTime", required: false, type: .timestamp)
-        ]
 
         /// An error message if the step was interrupted during execution.
         public let errorMessage: String?
@@ -6343,10 +5377,6 @@ extension ConfigService {
     }
 
     public struct RemediationParameterValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceValue", required: false, type: .structure), 
-            AWSShapeMember(label: "StaticValue", required: false, type: .structure)
-        ]
 
         /// The value is dynamic and changes at run-time.
         public let resourceValue: ResourceValue?
@@ -6369,10 +5399,6 @@ extension ConfigService {
     }
 
     public struct ResourceCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "count", required: false, type: .long), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// The number of resources.
         public let count: Int64?
@@ -6391,11 +5417,6 @@ extension ConfigService {
     }
 
     public struct ResourceCountFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
-        ]
 
         /// The 12-digit ID of the account.
         public let accountId: String?
@@ -6424,12 +5445,6 @@ extension ConfigService {
     }
 
     public struct ResourceFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string)
-        ]
 
         /// The 12-digit source account ID.
         public let accountId: String?
@@ -6464,12 +5479,6 @@ extension ConfigService {
     }
 
     public struct ResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceDeletionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// The time that the resource was deleted.
         public let resourceDeletionTime: TimeStamp?
@@ -6496,10 +5505,6 @@ extension ConfigService {
     }
 
     public struct ResourceKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum)
-        ]
 
         /// The ID of the resource (for example., sg-xxxxxx). 
         public let resourceId: String
@@ -6523,9 +5528,6 @@ extension ConfigService {
     }
 
     public struct ResourceValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .enum)
-        ]
 
         /// The value is a resource ID.
         public let value: ResourceValueType
@@ -6540,10 +5542,6 @@ extension ConfigService {
     }
 
     public struct RetentionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RetentionPeriodInDays", required: true, type: .integer)
-        ]
 
         /// The name of the retention configuration object.
         public let name: String
@@ -6562,12 +5560,6 @@ extension ConfigService {
     }
 
     public struct Scope: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceResourceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "TagKey", required: false, type: .string), 
-            AWSShapeMember(label: "TagValue", required: false, type: .string)
-        ]
 
         /// The ID of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
         public let complianceResourceId: String?
@@ -6609,11 +5601,6 @@ extension ConfigService {
     }
 
     public struct SelectResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expression", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The SQL query SELECT command.
         public let expression: String
@@ -6643,11 +5630,6 @@ extension ConfigService {
     }
 
     public struct SelectResourceConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "QueryInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "Results", required: false, type: .list)
-        ]
 
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response. 
         public let nextToken: String?
@@ -6670,11 +5652,6 @@ extension ConfigService {
     }
 
     public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Owner", required: true, type: .enum), 
-            AWSShapeMember(label: "SourceDetails", required: false, type: .list), 
-            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string)
-        ]
 
         /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
         public let owner: Owner
@@ -6704,11 +5681,6 @@ extension ConfigService {
     }
 
     public struct SourceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSource", required: false, type: .enum), 
-            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
-            AWSShapeMember(label: "MessageType", required: false, type: .enum)
-        ]
 
         /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
         public let eventSource: EventSource?
@@ -6731,10 +5703,6 @@ extension ConfigService {
     }
 
     public struct SsmControls: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConcurrentExecutionRatePercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "ErrorPercentage", required: false, type: .integer)
-        ]
 
         /// The maximum percentage of remediation actions allowed to run in parallel on the non-compliant resources for that specific rule. You can specify a percentage, such as 10%. The default value is 10. 
         public let concurrentExecutionRatePercentage: Int?
@@ -6760,9 +5728,6 @@ extension ConfigService {
     }
 
     public struct StartConfigRulesEvaluationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
-        ]
 
         /// The list of names of AWS Config rules that you want to run evaluations for.
         public let configRuleNames: [String]?
@@ -6794,9 +5759,6 @@ extension ConfigService {
     }
 
     public struct StartConfigurationRecorderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
-        ]
 
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
@@ -6816,10 +5778,6 @@ extension ConfigService {
     }
 
     public struct StartRemediationExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceKeys", required: true, type: .list)
-        ]
 
         /// The list of names of AWS Config rules that you want to run remediation execution for.
         public let configRuleName: String
@@ -6849,10 +5807,6 @@ extension ConfigService {
     }
 
     public struct StartRemediationExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedItems", required: false, type: .list), 
-            AWSShapeMember(label: "FailureMessage", required: false, type: .string)
-        ]
 
         /// For resources that have failed to start execution, the API returns a resource key object.
         public let failedItems: [ResourceKey]?
@@ -6871,9 +5825,6 @@ extension ConfigService {
     }
 
     public struct StaticValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// A list of values. For example, the ARN of the assumed role. 
         public let values: [String]
@@ -6897,10 +5848,6 @@ extension ConfigService {
     }
 
     public struct StatusDetailFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "MemberAccountRuleStatus", required: false, type: .enum)
-        ]
 
         /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
@@ -6923,9 +5870,6 @@ extension ConfigService {
     }
 
     public struct StopConfigurationRecorderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
-        ]
 
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
@@ -6945,10 +5889,6 @@ extension ConfigService {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
@@ -6974,10 +5914,6 @@ extension ConfigService {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
@@ -7006,10 +5942,6 @@ extension ConfigService {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String

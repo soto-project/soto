@@ -217,11 +217,6 @@ extension DynamoDB {
     //MARK: Shapes
 
     public struct ArchivalSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArchivalBackupArn", required: false, type: .string), 
-            AWSShapeMember(label: "ArchivalDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ArchivalReason", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the backup the table was archived to, when applicable in the archival reason. If you wish to restore this backup to the same table name, you will need to delete the original table.
         public let archivalBackupArn: String?
@@ -244,10 +239,6 @@ extension DynamoDB {
     }
 
     public struct AttributeDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeType", required: true, type: .enum)
-        ]
 
         /// A name for the attribute.
         public let attributeName: String
@@ -271,18 +262,6 @@ extension DynamoDB {
     }
 
     public class AttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "B", required: false, type: .blob), 
-            AWSShapeMember(label: "BOOL", required: false, type: .boolean), 
-            AWSShapeMember(label: "BS", required: false, type: .list), 
-            AWSShapeMember(label: "L", required: false, type: .list), 
-            AWSShapeMember(label: "M", required: false, type: .map), 
-            AWSShapeMember(label: "N", required: false, type: .string), 
-            AWSShapeMember(label: "NS", required: false, type: .list), 
-            AWSShapeMember(label: "NULL", required: false, type: .boolean), 
-            AWSShapeMember(label: "S", required: false, type: .string), 
-            AWSShapeMember(label: "SS", required: false, type: .list)
-        ]
 
         /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" 
         public let b: Data?
@@ -343,10 +322,6 @@ extension DynamoDB {
     }
 
     public struct AttributeValueUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .structure)
-        ]
 
         /// Specifies how to perform the update. Valid values are PUT (default), DELETE, and ADD. The behavior depends on whether the specified primary key already exists in the table.  If an item with the specified Key is found in the table:     PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.     DELETE - If no value is specified, the attribute and its value are removed from the item. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specified [a,c], then the final attribute value would be [b]. Specifying an empty set is an error.    ADD - If the attribute does not already exist, then the attribute and its values are added to the item. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then the Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.   If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. In addition, if you use ADD to update an existing item, and intend to increment or decrement an attribute value which does not yet exist, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update does not yet have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway, even though it currently does not exist. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set, and if the Value is also a set, then the Value is added to the existing set. (This is a set operation, not mathematical addition.) For example, if the attribute value was the set [1,2], and the ADD action specified [3], then the final attribute value would be [1,2,3]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings. The same holds true for number sets and binary sets.   This action is only valid for an existing attribute whose data type is number or is a set. Do not use ADD for any other data types.    If no item with the specified Key is found:     PUT - DynamoDB creates a new item with the specified primary key, and then adds the attribute.     DELETE - Nothing happens; there is no attribute to delete.    ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.  
         public let action: AttributeAction?
@@ -369,10 +344,6 @@ extension DynamoDB {
     }
 
     public struct AutoScalingPolicyDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
-            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure)
-        ]
 
         /// The name of the scaling policy.
         public let policyName: String?
@@ -391,10 +362,6 @@ extension DynamoDB {
     }
 
     public struct AutoScalingPolicyUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
-            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: true, type: .structure)
-        ]
 
         /// The name of the scaling policy.
         public let policyName: String?
@@ -419,13 +386,6 @@ extension DynamoDB {
     }
 
     public struct AutoScalingSettingsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoScalingRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumUnits", required: false, type: .long), 
-            AWSShapeMember(label: "MinimumUnits", required: false, type: .long), 
-            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
-        ]
 
         /// Disabled auto scaling for this global table or global secondary index.
         public let autoScalingDisabled: Bool?
@@ -456,13 +416,6 @@ extension DynamoDB {
     }
 
     public struct AutoScalingSettingsUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoScalingRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumUnits", required: false, type: .long), 
-            AWSShapeMember(label: "MinimumUnits", required: false, type: .long), 
-            AWSShapeMember(label: "ScalingPolicyUpdate", required: false, type: .structure)
-        ]
 
         /// Disabled auto scaling for this global table or global secondary index.
         public let autoScalingDisabled: Bool?
@@ -502,12 +455,6 @@ extension DynamoDB {
     }
 
     public struct AutoScalingTargetTrackingScalingPolicyConfigurationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetValue", required: true, type: .double)
-        ]
 
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
@@ -534,12 +481,6 @@ extension DynamoDB {
     }
 
     public struct AutoScalingTargetTrackingScalingPolicyConfigurationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetValue", required: true, type: .double)
-        ]
 
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
@@ -566,11 +507,6 @@ extension DynamoDB {
     }
 
     public struct BackupDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceTableDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceTableFeatureDetails", required: false, type: .structure)
-        ]
 
         /// Contains the details of the backup created for the table. 
         public let backupDetails: BackupDetails?
@@ -593,15 +529,6 @@ extension DynamoDB {
     }
 
     public struct BackupDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupArn", required: true, type: .string), 
-            AWSShapeMember(label: "BackupCreationDateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "BackupExpiryDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BackupName", required: true, type: .string), 
-            AWSShapeMember(label: "BackupSizeBytes", required: false, type: .long), 
-            AWSShapeMember(label: "BackupStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "BackupType", required: true, type: .enum)
-        ]
 
         /// ARN associated with the backup.
         public let backupArn: String
@@ -640,18 +567,6 @@ extension DynamoDB {
     }
 
     public struct BackupSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupCreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BackupExpiryDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BackupName", required: false, type: .string), 
-            AWSShapeMember(label: "BackupSizeBytes", required: false, type: .long), 
-            AWSShapeMember(label: "BackupStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "BackupType", required: false, type: .enum), 
-            AWSShapeMember(label: "TableArn", required: false, type: .string), 
-            AWSShapeMember(label: "TableId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
 
         /// ARN associated with the backup.
         public let backupArn: String?
@@ -702,10 +617,6 @@ extension DynamoDB {
     }
 
     public struct BatchGetItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestItems", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum)
-        ]
 
         /// A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:    ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.    ExpressionAttributeNames - One or more substitution tokens for attribute names in the ProjectionExpression parameter. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information about expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide both the partition key value and the sort key value.    ProjectionExpression - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes are returned. If any of the requested attributes are not found, they do not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.   
         public let requestItems: [String: KeysAndAttributes]
@@ -732,11 +643,6 @@ extension DynamoDB {
     }
 
     public struct BatchGetItemOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .list), 
-            AWSShapeMember(label: "Responses", required: false, type: .map), 
-            AWSShapeMember(label: "UnprocessedKeys", required: false, type: .map)
-        ]
 
         /// The read capacity units consumed by the entire BatchGetItem operation. Each element consists of:    TableName - The table that consumed the provisioned throughput.    CapacityUnits - The total number of capacity units consumed.  
         public let consumedCapacity: [ConsumedCapacity]?
@@ -759,11 +665,6 @@ extension DynamoDB {
     }
 
     public struct BatchWriteItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestItems", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum)
-        ]
 
         /// A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest). Each element in the map consists of the following:    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values are rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.    
         public let requestItems: [String: [WriteRequest]]
@@ -795,11 +696,6 @@ extension DynamoDB {
     }
 
     public struct BatchWriteItemOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .list), 
-            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .map), 
-            AWSShapeMember(label: "UnprocessedItems", required: false, type: .map)
-        ]
 
         /// The capacity units consumed by the entire BatchWriteItem operation. Each element consists of:    TableName - The table that consumed the provisioned throughput.    CapacityUnits - The total number of capacity units consumed.  
         public let consumedCapacity: [ConsumedCapacity]?
@@ -822,10 +718,6 @@ extension DynamoDB {
     }
 
     public struct BillingModeSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BillingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdateToPayPerRequestDateTime", required: false, type: .timestamp)
-        ]
 
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the read/write capacity mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.   
         public let billingMode: BillingMode?
@@ -844,11 +736,6 @@ extension DynamoDB {
     }
 
     public struct Capacity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapacityUnits", required: false, type: .double), 
-            AWSShapeMember(label: "ReadCapacityUnits", required: false, type: .double), 
-            AWSShapeMember(label: "WriteCapacityUnits", required: false, type: .double)
-        ]
 
         /// The total number of capacity units consumed on a table or an index.
         public let capacityUnits: Double?
@@ -871,10 +758,6 @@ extension DynamoDB {
     }
 
     public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeValueList", required: false, type: .list), 
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum)
-        ]
 
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
         public let attributeValueList: [AttributeValue]?
@@ -899,14 +782,6 @@ extension DynamoDB {
     }
 
     public struct ConditionCheck: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionExpression", required: true, type: .string), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnValuesOnConditionCheckFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// A condition that must be satisfied in order for a conditional update to succeed.
         public let conditionExpression: String
@@ -957,15 +832,6 @@ extension DynamoDB {
     }
 
     public struct ConsumedCapacity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapacityUnits", required: false, type: .double), 
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .map), 
-            AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .map), 
-            AWSShapeMember(label: "ReadCapacityUnits", required: false, type: .double), 
-            AWSShapeMember(label: "Table", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "WriteCapacityUnits", required: false, type: .double)
-        ]
 
         /// The total number of capacity units consumed by the operation.
         public let capacityUnits: Double?
@@ -1004,10 +870,6 @@ extension DynamoDB {
     }
 
     public struct ContinuousBackupsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuousBackupsStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "PointInTimeRecoveryDescription", required: false, type: .structure)
-        ]
 
         ///  ContinuousBackupsStatus can be one of the following states: ENABLED, DISABLED
         public let continuousBackupsStatus: ContinuousBackupsStatus
@@ -1026,11 +888,6 @@ extension DynamoDB {
     }
 
     public struct ContributorInsightsSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContributorInsightsStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
 
         /// Describes the current status for contributor insights for the given table and index, if applicable.
         public let contributorInsightsStatus: ContributorInsightsStatus?
@@ -1053,10 +910,6 @@ extension DynamoDB {
     }
 
     public struct CreateBackupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupName", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// Specified name for the backup.
         public let backupName: String
@@ -1084,9 +937,6 @@ extension DynamoDB {
     }
 
     public struct CreateBackupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupDetails", required: false, type: .structure)
-        ]
 
         /// Contains the details of the backup created for the table.
         public let backupDetails: BackupDetails?
@@ -1101,12 +951,6 @@ extension DynamoDB {
     }
 
     public struct CreateGlobalSecondaryIndexAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
-            AWSShapeMember(label: "Projection", required: true, type: .structure), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index to be created.
         public let indexName: String
@@ -1146,10 +990,6 @@ extension DynamoDB {
     }
 
     public struct CreateGlobalTableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableName", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationGroup", required: true, type: .list)
-        ]
 
         /// The global table name.
         public let globalTableName: String
@@ -1174,9 +1014,6 @@ extension DynamoDB {
     }
 
     public struct CreateGlobalTableOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableDescription", required: false, type: .structure)
-        ]
 
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
@@ -1191,9 +1028,6 @@ extension DynamoDB {
     }
 
     public struct CreateReplicaAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: true, type: .string)
-        ]
 
         /// The Region of the replica to be added.
         public let regionName: String
@@ -1208,12 +1042,6 @@ extension DynamoDB {
     }
 
     public struct CreateReplicationGroupMemberAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "RegionName", required: true, type: .string)
-        ]
 
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
@@ -1248,18 +1076,6 @@ extension DynamoDB {
     }
 
     public struct CreateTableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeDefinitions", required: true, type: .list), 
-            AWSShapeMember(label: "BillingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
-            AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
-            AWSShapeMember(label: "SSESpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// An array of attributes that describe the key schema for the table and indexes.
         public let attributeDefinitions: [AttributeDefinition]
@@ -1334,9 +1150,6 @@ extension DynamoDB {
     }
 
     public struct CreateTableOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
-        ]
 
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -1351,14 +1164,6 @@ extension DynamoDB {
     }
 
     public struct Delete: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnValuesOnConditionCheckFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// A condition that must be satisfied in order for a conditional delete to succeed.
         public let conditionExpression: String?
@@ -1409,9 +1214,6 @@ extension DynamoDB {
     }
 
     public struct DeleteBackupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupArn", required: true, type: .string)
-        ]
 
         /// The ARN associated with the backup.
         public let backupArn: String
@@ -1431,9 +1233,6 @@ extension DynamoDB {
     }
 
     public struct DeleteBackupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupDescription", required: false, type: .structure)
-        ]
 
         /// Contains the description of the backup created for the table.
         public let backupDescription: BackupDescription?
@@ -1448,9 +1247,6 @@ extension DynamoDB {
     }
 
     public struct DeleteGlobalSecondaryIndexAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string)
-        ]
 
         /// The name of the global secondary index to be deleted.
         public let indexName: String
@@ -1471,18 +1267,6 @@ extension DynamoDB {
     }
 
     public struct DeleteItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "Expected", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnValues", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
         public let conditionalOperator: ConditionalOperator?
@@ -1552,11 +1336,6 @@ extension DynamoDB {
     }
 
     public struct DeleteItemOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .structure)
-        ]
 
         /// A map of attribute names to AttributeValue objects, representing the item as it appeared before the DeleteItem operation. This map appears in the response only if ReturnValues was specified as ALL_OLD in the request.
         public let attributes: [String: AttributeValue]?
@@ -1579,9 +1358,6 @@ extension DynamoDB {
     }
 
     public struct DeleteReplicaAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: true, type: .string)
-        ]
 
         /// The Region of the replica to be removed.
         public let regionName: String
@@ -1596,9 +1372,6 @@ extension DynamoDB {
     }
 
     public struct DeleteReplicationGroupMemberAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: true, type: .string)
-        ]
 
         /// The Region where the replica exists.
         public let regionName: String
@@ -1613,9 +1386,6 @@ extension DynamoDB {
     }
 
     public struct DeleteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .map)
-        ]
 
         /// A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
         public let key: [String: AttributeValue]
@@ -1637,9 +1407,6 @@ extension DynamoDB {
     }
 
     public struct DeleteTableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The name of the table to delete.
         public let tableName: String
@@ -1660,9 +1427,6 @@ extension DynamoDB {
     }
 
     public struct DeleteTableOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
-        ]
 
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
@@ -1677,9 +1441,6 @@ extension DynamoDB {
     }
 
     public struct DescribeBackupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) associated with the backup.
         public let backupArn: String
@@ -1699,9 +1460,6 @@ extension DynamoDB {
     }
 
     public struct DescribeBackupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupDescription", required: false, type: .structure)
-        ]
 
         /// Contains the description of the backup created for the table.
         public let backupDescription: BackupDescription?
@@ -1716,9 +1474,6 @@ extension DynamoDB {
     }
 
     public struct DescribeContinuousBackupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings.
         public let tableName: String
@@ -1739,9 +1494,6 @@ extension DynamoDB {
     }
 
     public struct DescribeContinuousBackupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuousBackupsDescription", required: false, type: .structure)
-        ]
 
         /// Represents the continuous backups and point in time recovery settings on the table.
         public let continuousBackupsDescription: ContinuousBackupsDescription?
@@ -1756,10 +1508,6 @@ extension DynamoDB {
     }
 
     public struct DescribeContributorInsightsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The name of the global secondary index to describe, if applicable.
         public let indexName: String?
@@ -1787,14 +1535,6 @@ extension DynamoDB {
     }
 
     public struct DescribeContributorInsightsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContributorInsightsRuleList", required: false, type: .list), 
-            AWSShapeMember(label: "ContributorInsightsStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "FailureException", required: false, type: .structure), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
 
         /// List of names of the associated Alpine rules.
         public let contributorInsightsRuleList: [String]?
@@ -1837,9 +1577,6 @@ extension DynamoDB {
     }
 
     public struct DescribeEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoints", required: true, type: .list)
-        ]
 
         /// List of endpoints.
         public let endpoints: [Endpoint]
@@ -1854,9 +1591,6 @@ extension DynamoDB {
     }
 
     public struct DescribeGlobalTableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableName", required: true, type: .string)
-        ]
 
         /// The name of the global table.
         public let globalTableName: String
@@ -1877,9 +1611,6 @@ extension DynamoDB {
     }
 
     public struct DescribeGlobalTableOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableDescription", required: false, type: .structure)
-        ]
 
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
@@ -1894,9 +1625,6 @@ extension DynamoDB {
     }
 
     public struct DescribeGlobalTableSettingsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableName", required: true, type: .string)
-        ]
 
         /// The name of the global table to describe.
         public let globalTableName: String
@@ -1917,10 +1645,6 @@ extension DynamoDB {
     }
 
     public struct DescribeGlobalTableSettingsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicaSettings", required: false, type: .list)
-        ]
 
         /// The name of the global table.
         public let globalTableName: String?
@@ -1947,12 +1671,6 @@ extension DynamoDB {
     }
 
     public struct DescribeLimitsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountMaxReadCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "AccountMaxWriteCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "TableMaxReadCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "TableMaxWriteCapacityUnits", required: false, type: .long)
-        ]
 
         /// The maximum total read capacity units that your account allows you to provision across all of your tables in this Region.
         public let accountMaxReadCapacityUnits: Int64?
@@ -1979,9 +1697,6 @@ extension DynamoDB {
     }
 
     public struct DescribeTableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The name of the table to describe.
         public let tableName: String
@@ -2002,9 +1717,6 @@ extension DynamoDB {
     }
 
     public struct DescribeTableOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Table", required: false, type: .structure)
-        ]
 
         /// The properties of the table.
         public let table: TableDescription?
@@ -2019,9 +1731,6 @@ extension DynamoDB {
     }
 
     public struct DescribeTableReplicaAutoScalingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The name of the table.
         public let tableName: String
@@ -2042,9 +1751,6 @@ extension DynamoDB {
     }
 
     public struct DescribeTableReplicaAutoScalingOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableAutoScalingDescription", required: false, type: .structure)
-        ]
 
         /// Represents the auto scaling properties of the table.
         public let tableAutoScalingDescription: TableAutoScalingDescription?
@@ -2059,9 +1765,6 @@ extension DynamoDB {
     }
 
     public struct DescribeTimeToLiveInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// The name of the table to be described.
         public let tableName: String
@@ -2082,9 +1785,6 @@ extension DynamoDB {
     }
 
     public struct DescribeTimeToLiveOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimeToLiveDescription", required: false, type: .structure)
-        ]
 
         public let timeToLiveDescription: TimeToLiveDescription?
 
@@ -2098,10 +1798,6 @@ extension DynamoDB {
     }
 
     public struct Endpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: true, type: .string), 
-            AWSShapeMember(label: "CachePeriodInMinutes", required: true, type: .long)
-        ]
 
         /// IP address of the endpoint.
         public let address: String
@@ -2120,12 +1816,6 @@ extension DynamoDB {
     }
 
     public struct ExpectedAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeValueList", required: false, type: .list), 
-            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "Exists", required: false, type: .boolean), 
-            AWSShapeMember(label: "Value", required: false, type: .structure)
-        ]
 
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide.
         public let attributeValueList: [AttributeValue]?
@@ -2159,10 +1849,6 @@ extension DynamoDB {
     }
 
     public struct FailureException: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExceptionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ExceptionName", required: false, type: .string)
-        ]
 
         /// Description of the failure.
         public let exceptionDescription: String?
@@ -2181,12 +1867,6 @@ extension DynamoDB {
     }
 
     public struct Get: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: true, type: .map), 
-            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// One or more substitution tokens for attribute names in the ProjectionExpression parameter.
         public let expressionAttributeNames: [String: String]?
@@ -2226,15 +1906,6 @@ extension DynamoDB {
     }
 
     public struct GetItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: true, type: .map), 
-            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -2289,10 +1960,6 @@ extension DynamoDB {
     }
 
     public struct GetItemOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "Item", required: false, type: .map)
-        ]
 
         /// The capacity units consumed by the GetItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Read/Write Capacity Mode in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -2311,12 +1978,6 @@ extension DynamoDB {
     }
 
     public struct GlobalSecondaryIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
-            AWSShapeMember(label: "Projection", required: true, type: .structure), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -2356,10 +2017,6 @@ extension DynamoDB {
     }
 
     public struct GlobalSecondaryIndexAutoScalingUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingUpdate", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -2384,17 +2041,6 @@ extension DynamoDB {
     }
 
     public struct GlobalSecondaryIndexDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backfilling", required: false, type: .boolean), 
-            AWSShapeMember(label: "IndexArn", required: false, type: .string), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "IndexSizeBytes", required: false, type: .long), 
-            AWSShapeMember(label: "IndexStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ItemCount", required: false, type: .long), 
-            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
-            AWSShapeMember(label: "Projection", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure)
-        ]
 
         /// Indicates whether the index is currently backfilling. Backfilling is the process of reading items from the table and determining whether they can be added to the index. (Not all items will qualify: For example, a partition key cannot have any duplicate values.) If an item can be added to the index, DynamoDB will do so. After all items have been processed, the backfilling operation is complete and Backfilling is false. You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false.   For indexes that were created during a CreateTable operation, the Backfilling attribute does not appear in the DescribeTable output. 
         public let backfilling: Bool?
@@ -2441,12 +2087,6 @@ extension DynamoDB {
     }
 
     public struct GlobalSecondaryIndexInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
-            AWSShapeMember(label: "Projection", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -2473,11 +2113,6 @@ extension DynamoDB {
     }
 
     public struct GlobalSecondaryIndexUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Create", required: false, type: .structure), 
-            AWSShapeMember(label: "Delete", required: false, type: .structure), 
-            AWSShapeMember(label: "Update", required: false, type: .structure)
-        ]
 
         /// The parameters required for creating a global secondary index on an existing table:    IndexName      KeySchema      AttributeDefinitions      Projection      ProvisionedThroughput    
         public let create: CreateGlobalSecondaryIndexAction?
@@ -2506,10 +2141,6 @@ extension DynamoDB {
     }
 
     public struct GlobalTable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .list)
-        ]
 
         /// The global table name.
         public let globalTableName: String?
@@ -2528,13 +2159,6 @@ extension DynamoDB {
     }
 
     public struct GlobalTableDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "GlobalTableArn", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalTableName", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalTableStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplicationGroup", required: false, type: .list)
-        ]
 
         /// The creation time of the global table.
         public let creationDateTime: TimeStamp?
@@ -2565,11 +2189,6 @@ extension DynamoDB {
     }
 
     public struct GlobalTableGlobalSecondaryIndexSettingsUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingSettingsUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedWriteCapacityUnits", required: false, type: .long)
-        ]
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -2600,10 +2219,6 @@ extension DynamoDB {
     }
 
     public struct ItemCollectionMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ItemCollectionKey", required: false, type: .map), 
-            AWSShapeMember(label: "SizeEstimateRangeGB", required: false, type: .list)
-        ]
 
         /// The partition key value of the item collection. This value is the same as the partition key value of the item.
         public let itemCollectionKey: [String: AttributeValue]?
@@ -2622,9 +2237,6 @@ extension DynamoDB {
     }
 
     public struct ItemResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Item", required: false, type: .map)
-        ]
 
         /// Map of attribute data consisting of the data type and attribute value.
         public let item: [String: AttributeValue]?
@@ -2639,10 +2251,6 @@ extension DynamoDB {
     }
 
     public struct KeySchemaElement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "KeyType", required: true, type: .enum)
-        ]
 
         /// The name of a key attribute.
         public let attributeName: String
@@ -2666,13 +2274,6 @@ extension DynamoDB {
     }
 
     public struct KeysAndAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "Keys", required: true, type: .list), 
-            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string)
-        ]
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -2715,14 +2316,6 @@ extension DynamoDB {
     }
 
     public struct ListBackupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupType", required: false, type: .enum), 
-            AWSShapeMember(label: "ExclusiveStartBackupArn", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "TimeRangeLowerBound", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TimeRangeUpperBound", required: false, type: .timestamp)
-        ]
 
         /// The backups from the table specified by BackupType are listed. Where BackupType can be:    USER - On-demand backup created by you.    SYSTEM - On-demand backup automatically created by DynamoDB.    ALL - All types of on-demand backups (USER and SYSTEM).  
         public let backupType: BackupTypeFilter?
@@ -2767,10 +2360,6 @@ extension DynamoDB {
     }
 
     public struct ListBackupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "LastEvaluatedBackupArn", required: false, type: .string)
-        ]
 
         /// List of BackupSummary objects.
         public let backupSummaries: [BackupSummary]?
@@ -2789,11 +2378,6 @@ extension DynamoDB {
     }
 
     public struct ListContributorInsightsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
 
         /// Maximum number of results to return per page.
         public let maxResults: Int?
@@ -2823,10 +2407,6 @@ extension DynamoDB {
     }
 
     public struct ListContributorInsightsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContributorInsightsSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of ContributorInsightsSummary.
         public let contributorInsightsSummaries: [ContributorInsightsSummary]?
@@ -2845,11 +2425,6 @@ extension DynamoDB {
     }
 
     public struct ListGlobalTablesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartGlobalTableName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "RegionName", required: false, type: .string)
-        ]
 
         /// The first global table name that this operation will evaluate.
         public let exclusiveStartGlobalTableName: String?
@@ -2879,10 +2454,6 @@ extension DynamoDB {
     }
 
     public struct ListGlobalTablesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTables", required: false, type: .list), 
-            AWSShapeMember(label: "LastEvaluatedGlobalTableName", required: false, type: .string)
-        ]
 
         /// List of global table names.
         public let globalTables: [GlobalTable]?
@@ -2901,10 +2472,6 @@ extension DynamoDB {
     }
 
     public struct ListTablesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartTableName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
 
         /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
         public let exclusiveStartTableName: String?
@@ -2931,10 +2498,6 @@ extension DynamoDB {
     }
 
     public struct ListTablesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastEvaluatedTableName", required: false, type: .string), 
-            AWSShapeMember(label: "TableNames", required: false, type: .list)
-        ]
 
         /// The name of the last table in the current page of results. Use this value as the ExclusiveStartTableName in a new request to obtain the next page of results, until all the table names are returned. If you do not receive a LastEvaluatedTableName value in the response, this means that there are no more table names to be retrieved.
         public let lastEvaluatedTableName: String?
@@ -2953,10 +2516,6 @@ extension DynamoDB {
     }
 
     public struct ListTagsOfResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// An optional string that, if supplied, must be copied from the output of a previous call to ListTagOfResource. When provided in this manner, this API fetches the next page of results.
         public let nextToken: String?
@@ -2980,10 +2539,6 @@ extension DynamoDB {
     }
 
     public struct ListTagsOfResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListTagsOfResource again, with NextToken set to this value.
         public let nextToken: String?
@@ -3002,11 +2557,6 @@ extension DynamoDB {
     }
 
     public struct LocalSecondaryIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
-            AWSShapeMember(label: "Projection", required: true, type: .structure)
-        ]
 
         /// The name of the local secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -3041,14 +2591,6 @@ extension DynamoDB {
     }
 
     public struct LocalSecondaryIndexDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexArn", required: false, type: .string), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "IndexSizeBytes", required: false, type: .long), 
-            AWSShapeMember(label: "ItemCount", required: false, type: .long), 
-            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
-            AWSShapeMember(label: "Projection", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the index.
         public let indexArn: String?
@@ -3083,11 +2625,6 @@ extension DynamoDB {
     }
 
     public struct LocalSecondaryIndexInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
-            AWSShapeMember(label: "Projection", required: false, type: .structure)
-        ]
 
         /// Represents the name of the local secondary index.
         public let indexName: String?
@@ -3110,11 +2647,6 @@ extension DynamoDB {
     }
 
     public struct PointInTimeRecoveryDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EarliestRestorableDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestRestorableDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PointInTimeRecoveryStatus", required: false, type: .enum)
-        ]
 
         /// Specifies the earliest point in time you can restore your table to. You can restore your table to any point in time during the last 35 days. 
         public let earliestRestorableDateTime: TimeStamp?
@@ -3137,9 +2669,6 @@ extension DynamoDB {
     }
 
     public struct PointInTimeRecoverySpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PointInTimeRecoveryEnabled", required: true, type: .boolean)
-        ]
 
         /// Indicates whether point in time recovery is enabled (true) or disabled (false) on the table.
         public let pointInTimeRecoveryEnabled: Bool
@@ -3154,10 +2683,6 @@ extension DynamoDB {
     }
 
     public struct Projection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NonKeyAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ProjectionType", required: false, type: .enum)
-        ]
 
         /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let nonKeyAttributes: [String]?
@@ -3185,10 +2710,6 @@ extension DynamoDB {
     }
 
     public struct ProvisionedThroughput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReadCapacityUnits", required: true, type: .long), 
-            AWSShapeMember(label: "WriteCapacityUnits", required: true, type: .long)
-        ]
 
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         public let readCapacityUnits: Int64
@@ -3212,13 +2733,6 @@ extension DynamoDB {
     }
 
     public struct ProvisionedThroughputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastDecreaseDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastIncreaseDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NumberOfDecreasesToday", required: false, type: .long), 
-            AWSShapeMember(label: "ReadCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "WriteCapacityUnits", required: false, type: .long)
-        ]
 
         /// The date and time of the last provisioned throughput decrease for this table.
         public let lastDecreaseDateTime: TimeStamp?
@@ -3249,9 +2763,6 @@ extension DynamoDB {
     }
 
     public struct ProvisionedThroughputOverride: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReadCapacityUnits", required: false, type: .long)
-        ]
 
         /// Replica-specific read capacity units. If not specified, uses the source table's read capacity settings.
         public let readCapacityUnits: Int64?
@@ -3270,14 +2781,6 @@ extension DynamoDB {
     }
 
     public struct Put: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "Item", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnValuesOnConditionCheckFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// A condition that must be satisfied in order for a conditional update to succeed.
         public let conditionExpression: String?
@@ -3328,18 +2831,6 @@ extension DynamoDB {
     }
 
     public struct PutItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "Expected", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "Item", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnValues", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
         public let conditionalOperator: ConditionalOperator?
@@ -3409,11 +2900,6 @@ extension DynamoDB {
     }
 
     public struct PutItemOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .structure)
-        ]
 
         /// The attribute values as they appeared before the PutItem operation, but only if ReturnValues is specified as ALL_OLD in the request. Each element consists of an attribute name and an attribute value.
         public let attributes: [String: AttributeValue]?
@@ -3436,9 +2922,6 @@ extension DynamoDB {
     }
 
     public struct PutRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Item", required: true, type: .map)
-        ]
 
         /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item that are part of an index key schema for the table, their types must match the index key schema.
         public let item: [String: AttributeValue]
@@ -3460,25 +2943,6 @@ extension DynamoDB {
     }
 
     public struct QueryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExclusiveStartKey", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "KeyConditionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "KeyConditions", required: false, type: .map), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "QueryFilter", required: false, type: .map), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "ScanIndexForward", required: false, type: .boolean), 
-            AWSShapeMember(label: "Select", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -3588,13 +3052,6 @@ extension DynamoDB {
     }
 
     public struct QueryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "LastEvaluatedKey", required: false, type: .map), 
-            AWSShapeMember(label: "ScannedCount", required: false, type: .integer)
-        ]
 
         /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -3625,9 +3082,6 @@ extension DynamoDB {
     }
 
     public struct Replica: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: false, type: .string)
-        ]
 
         /// The Region where the replica needs to be created.
         public let regionName: String?
@@ -3642,13 +3096,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaAutoScalingDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "RegionName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum)
-        ]
 
         /// Replica-specific global secondary index auto scaling settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexAutoScalingDescription]?
@@ -3677,11 +3124,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaAutoScalingUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicaGlobalSecondaryIndexUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingUpdate", required: false, type: .structure)
-        ]
 
         /// The Region where the replica exists.
         public let regionName: String
@@ -3710,15 +3152,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "RegionName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplicaStatusDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicaStatusPercentProgress", required: false, type: .string)
-        ]
 
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]?
@@ -3757,10 +3190,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaGlobalSecondaryIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index.
         public let indexName: String
@@ -3786,12 +3215,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaGlobalSecondaryIndexAutoScalingDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "IndexStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -3816,10 +3239,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaGlobalSecondaryIndexAutoScalingUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingUpdate", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -3844,10 +3263,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaGlobalSecondaryIndexDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure)
-        ]
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -3866,14 +3281,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaGlobalSecondaryIndexSettingsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "IndexStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedReadCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedWriteCapacityUnits", required: false, type: .long)
-        ]
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -3908,11 +3315,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaGlobalSecondaryIndexSettingsUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingSettingsUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisionedReadCapacityUnits", required: false, type: .long)
-        ]
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -3943,16 +3345,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaSettingsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicaBillingModeSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaGlobalSecondaryIndexSettings", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaProvisionedReadCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "ReplicaProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaProvisionedWriteCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum)
-        ]
 
         /// The Region name of the replica.
         public let regionName: String
@@ -3995,12 +3387,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaSettingsUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicaGlobalSecondaryIndexSettingsUpdate", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaProvisionedReadCapacityUnits", required: false, type: .long)
-        ]
 
         /// The Region of the replica to be added.
         public let regionName: String
@@ -4037,10 +3423,6 @@ extension DynamoDB {
     }
 
     public struct ReplicaUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Create", required: false, type: .structure), 
-            AWSShapeMember(label: "Delete", required: false, type: .structure)
-        ]
 
         /// The parameters required for creating a replica on an existing global table.
         public let create: CreateReplicaAction?
@@ -4059,11 +3441,6 @@ extension DynamoDB {
     }
 
     public struct ReplicationGroupUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Create", required: false, type: .structure), 
-            AWSShapeMember(label: "Delete", required: false, type: .structure), 
-            AWSShapeMember(label: "Update", required: false, type: .structure)
-        ]
 
         /// The parameters required for creating a replica for the table.
         public let create: CreateReplicationGroupMemberAction?
@@ -4091,12 +3468,6 @@ extension DynamoDB {
     }
 
     public struct RestoreSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RestoreDateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "RestoreInProgress", required: true, type: .boolean), 
-            AWSShapeMember(label: "SourceBackupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceTableArn", required: false, type: .string)
-        ]
 
         /// Point in time or source backup time.
         public let restoreDateTime: TimeStamp
@@ -4123,14 +3494,6 @@ extension DynamoDB {
     }
 
     public struct RestoreTableFromBackupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupArn", required: true, type: .string), 
-            AWSShapeMember(label: "BillingModeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "GlobalSecondaryIndexOverride", required: false, type: .list), 
-            AWSShapeMember(label: "LocalSecondaryIndexOverride", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetTableName", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) associated with the backup.
         public let backupArn: String
@@ -4180,9 +3543,6 @@ extension DynamoDB {
     }
 
     public struct RestoreTableFromBackupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
-        ]
 
         /// The description of the table created from an existing backup.
         public let tableDescription: TableDescription?
@@ -4197,16 +3557,6 @@ extension DynamoDB {
     }
 
     public struct RestoreTableToPointInTimeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BillingModeOverride", required: false, type: .enum), 
-            AWSShapeMember(label: "GlobalSecondaryIndexOverride", required: false, type: .list), 
-            AWSShapeMember(label: "LocalSecondaryIndexOverride", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "RestoreDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceTableName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetTableName", required: true, type: .string), 
-            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean)
-        ]
 
         /// The billing mode of the restored table.
         public let billingModeOverride: BillingMode?
@@ -4265,9 +3615,6 @@ extension DynamoDB {
     }
 
     public struct RestoreTableToPointInTimeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
-        ]
 
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
@@ -4282,12 +3629,6 @@ extension DynamoDB {
     }
 
     public struct SSEDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InaccessibleEncryptionDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "KMSMasterKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "SSEType", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's AWS KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's AWS KMS key is accessible again. DynamoDB will initiate the table archival process when table's AWS KMS key remains inaccessible for more than seven days from this date.
         public let inaccessibleEncryptionDateTime: TimeStamp?
@@ -4314,11 +3655,6 @@ extension DynamoDB {
     }
 
     public struct SSESpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "SSEType", required: false, type: .enum)
-        ]
 
         /// Indicates whether server-side encryption is done using an AWS managed CMK or an AWS owned CMK. If enabled (true), server-side encryption type is set to KMS and an AWS managed CMK is used (AWS KMS charges apply). If disabled (false) or not specified, server-side encryption is set to AWS owned CMK.
         public let enabled: Bool?
@@ -4341,24 +3677,6 @@ extension DynamoDB {
     }
 
     public struct ScanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExclusiveStartKey", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "ScanFilter", required: false, type: .map), 
-            AWSShapeMember(label: "Segment", required: false, type: .integer), 
-            AWSShapeMember(label: "Select", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "TotalSegments", required: false, type: .integer)
-        ]
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -4464,13 +3782,6 @@ extension DynamoDB {
     }
 
     public struct ScanOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "Items", required: false, type: .list), 
-            AWSShapeMember(label: "LastEvaluatedKey", required: false, type: .map), 
-            AWSShapeMember(label: "ScannedCount", required: false, type: .integer)
-        ]
 
         /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -4501,17 +3812,6 @@ extension DynamoDB {
     }
 
     public struct SourceTableDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BillingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "ItemCount", required: false, type: .long), 
-            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: true, type: .structure), 
-            AWSShapeMember(label: "TableArn", required: false, type: .string), 
-            AWSShapeMember(label: "TableCreationDateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "TableId", required: true, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "TableSizeBytes", required: false, type: .long)
-        ]
 
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the read/write capacity mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.   
         public let billingMode: BillingMode?
@@ -4558,13 +3858,6 @@ extension DynamoDB {
     }
 
     public struct SourceTableFeatureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "SSEDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "StreamDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "TimeToLiveDescription", required: false, type: .structure)
-        ]
 
         /// Represents the GSI properties for the table when the backup was created. It includes the IndexName, KeySchema, Projection, and ProvisionedThroughput for the GSIs on the table at the time of backup. 
         public let globalSecondaryIndexes: [GlobalSecondaryIndexInfo]?
@@ -4595,10 +3888,6 @@ extension DynamoDB {
     }
 
     public struct StreamSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "StreamViewType", required: false, type: .enum)
-        ]
 
         /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
         public let streamEnabled: Bool
@@ -4617,11 +3906,6 @@ extension DynamoDB {
     }
 
     public struct TableAutoScalingDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Replicas", required: false, type: .list), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "TableStatus", required: false, type: .enum)
-        ]
 
         /// Represents replicas of the global table.
         public let replicas: [ReplicaAutoScalingDescription]?
@@ -4644,29 +3928,6 @@ extension DynamoDB {
     }
 
     public struct TableDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArchivalSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "BillingModeSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "GlobalTableVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ItemCount", required: false, type: .long), 
-            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
-            AWSShapeMember(label: "LatestStreamArn", required: false, type: .string), 
-            AWSShapeMember(label: "LatestStreamLabel", required: false, type: .string), 
-            AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
-            AWSShapeMember(label: "Replicas", required: false, type: .list), 
-            AWSShapeMember(label: "RestoreSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "SSEDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "TableArn", required: false, type: .string), 
-            AWSShapeMember(label: "TableId", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "TableSizeBytes", required: false, type: .long), 
-            AWSShapeMember(label: "TableStatus", required: false, type: .enum)
-        ]
 
         /// Contains information about the table archive.
         public let archivalSummary: ArchivalSummary?
@@ -4761,10 +4022,6 @@ extension DynamoDB {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. 
         public let key: String
@@ -4790,10 +4047,6 @@ extension DynamoDB {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -4820,10 +4073,6 @@ extension DynamoDB {
     }
 
     public struct TimeToLiveDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "TimeToLiveStatus", required: false, type: .enum)
-        ]
 
         ///  The name of the TTL attribute for items in the table.
         public let attributeName: String?
@@ -4842,10 +4091,6 @@ extension DynamoDB {
     }
 
     public struct TimeToLiveSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
 
         /// The name of the TTL attribute used to store the expiration time for items in the table.
         public let attributeName: String
@@ -4869,9 +4114,6 @@ extension DynamoDB {
     }
 
     public struct TransactGetItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Get", required: true, type: .structure)
-        ]
 
         /// Contains the primary key that identifies the item to get, together with the name of the table that contains the item, and optionally the specific attributes of the item to retrieve.
         public let get: Get
@@ -4890,10 +4132,6 @@ extension DynamoDB {
     }
 
     public struct TransactGetItemsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "TransactItems", required: true, type: .list)
-        ]
 
         /// A value of TOTAL causes consumed capacity information to be returned, and a value of NONE prevents that information from being returned. No other value is valid.
         public let returnConsumedCapacity: ReturnConsumedCapacity?
@@ -4920,10 +4158,6 @@ extension DynamoDB {
     }
 
     public struct TransactGetItemsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .list), 
-            AWSShapeMember(label: "Responses", required: false, type: .list)
-        ]
 
         /// If the ReturnConsumedCapacity value was TOTAL, this is an array of ConsumedCapacity objects, one for each table addressed by TransactGetItem objects in the TransactItems parameter. These ConsumedCapacity objects report the read-capacity units consumed by the TransactGetItems call in that table.
         public let consumedCapacity: [ConsumedCapacity]?
@@ -4942,12 +4176,6 @@ extension DynamoDB {
     }
 
     public struct TransactWriteItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionCheck", required: false, type: .structure), 
-            AWSShapeMember(label: "Delete", required: false, type: .structure), 
-            AWSShapeMember(label: "Put", required: false, type: .structure), 
-            AWSShapeMember(label: "Update", required: false, type: .structure)
-        ]
 
         /// A request to perform a check item operation.
         public let conditionCheck: ConditionCheck?
@@ -4981,12 +4209,6 @@ extension DynamoDB {
     }
 
     public struct TransactWriteItemsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeMember(label: "TransactItems", required: true, type: .list)
-        ]
 
         /// Providing a ClientRequestToken makes the call to TransactWriteItems idempotent, meaning that multiple identical calls have the same effect as one single call. Although multiple identical calls using the same client request token produce the same result on the server (no side effects), the responses to the calls might not be the same. If the ReturnConsumedCapacity&gt; parameter is set, then the initial TransactWriteItems call returns the amount of write capacity units consumed in making the changes. Subsequent TransactWriteItems calls with the same client token return the number of read capacity units consumed in reading the item. A client request token is valid for 10 minutes after the first request that uses it is completed. After 10 minutes, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 10 minutes, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 10-minute idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
         public let clientRequestToken: String?
@@ -5022,10 +4244,6 @@ extension DynamoDB {
     }
 
     public struct TransactWriteItemsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .list), 
-            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .map)
-        ]
 
         /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter. 
         public let consumedCapacity: [ConsumedCapacity]?
@@ -5044,10 +4262,6 @@ extension DynamoDB {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -5075,15 +4289,6 @@ extension DynamoDB {
     }
 
     public struct Update: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnValuesOnConditionCheckFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "UpdateExpression", required: true, type: .string)
-        ]
 
         /// A condition that must be satisfied in order for a conditional update to succeed.
         public let conditionExpression: String?
@@ -5138,10 +4343,6 @@ extension DynamoDB {
     }
 
     public struct UpdateContinuousBackupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PointInTimeRecoverySpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// Represents the settings used to enable point in time recovery.
         public let pointInTimeRecoverySpecification: PointInTimeRecoverySpecification
@@ -5166,9 +4367,6 @@ extension DynamoDB {
     }
 
     public struct UpdateContinuousBackupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContinuousBackupsDescription", required: false, type: .structure)
-        ]
 
         /// Represents the continuous backups and point in time recovery settings on the table.
         public let continuousBackupsDescription: ContinuousBackupsDescription?
@@ -5183,11 +4381,6 @@ extension DynamoDB {
     }
 
     public struct UpdateContributorInsightsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContributorInsightsAction", required: true, type: .enum), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// Represents the contributor insights action.
         public let contributorInsightsAction: ContributorInsightsAction
@@ -5219,11 +4412,6 @@ extension DynamoDB {
     }
 
     public struct UpdateContributorInsightsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContributorInsightsStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
 
         /// The status of contributor insights
         public let contributorInsightsStatus: ContributorInsightsStatus?
@@ -5246,10 +4434,6 @@ extension DynamoDB {
     }
 
     public struct UpdateGlobalSecondaryIndexAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: true, type: .structure)
-        ]
 
         /// The name of the global secondary index to be updated.
         public let indexName: String
@@ -5275,10 +4459,6 @@ extension DynamoDB {
     }
 
     public struct UpdateGlobalTableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableName", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicaUpdates", required: true, type: .list)
-        ]
 
         /// The global table name.
         public let globalTableName: String
@@ -5303,9 +4483,6 @@ extension DynamoDB {
     }
 
     public struct UpdateGlobalTableOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableDescription", required: false, type: .structure)
-        ]
 
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
@@ -5320,14 +4497,6 @@ extension DynamoDB {
     }
 
     public struct UpdateGlobalTableSettingsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableBillingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "GlobalTableGlobalSecondaryIndexSettingsUpdate", required: false, type: .list), 
-            AWSShapeMember(label: "GlobalTableName", required: true, type: .string), 
-            AWSShapeMember(label: "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "GlobalTableProvisionedWriteCapacityUnits", required: false, type: .long), 
-            AWSShapeMember(label: "ReplicaSettingsUpdate", required: false, type: .list)
-        ]
 
         /// The billing mode of the global table. If GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity billing mode.    PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to On-Demand Mode.   
         public let globalTableBillingMode: BillingMode?
@@ -5380,10 +4549,6 @@ extension DynamoDB {
     }
 
     public struct UpdateGlobalTableSettingsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalTableName", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicaSettings", required: false, type: .list)
-        ]
 
         /// The name of the global table.
         public let globalTableName: String?
@@ -5402,20 +4567,6 @@ extension DynamoDB {
     }
 
     public struct UpdateItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdates", required: false, type: .map), 
-            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeMember(label: "Expected", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeMember(label: "Key", required: true, type: .map), 
-            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeMember(label: "ReturnValues", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "UpdateExpression", required: false, type: .string)
-        ]
 
         /// This is a legacy parameter. Use UpdateExpression instead. For more information, see AttributeUpdates in the Amazon DynamoDB Developer Guide.
         public let attributeUpdates: [String: AttributeValueUpdate]?
@@ -5497,11 +4648,6 @@ extension DynamoDB {
     }
 
     public struct UpdateItemOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .structure)
-        ]
 
         /// A map of attribute values as they appear before or after the UpdateItem operation, as determined by the ReturnValues parameter. The Attributes map is only present if ReturnValues was specified as something other than NONE in the request. Each element represents one attribute.
         public let attributes: [String: AttributeValue]?
@@ -5524,12 +4670,6 @@ extension DynamoDB {
     }
 
     public struct UpdateReplicationGroupMemberAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
-            AWSShapeMember(label: "RegionName", required: true, type: .string)
-        ]
 
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
@@ -5564,16 +4704,6 @@ extension DynamoDB {
     }
 
     public struct UpdateTableInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "BillingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "SSESpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
         public let attributeDefinitions: [AttributeDefinition]?
@@ -5633,9 +4763,6 @@ extension DynamoDB {
     }
 
     public struct UpdateTableOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
-        ]
 
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -5650,12 +4777,6 @@ extension DynamoDB {
     }
 
     public struct UpdateTableReplicaAutoScalingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplicaUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// Represents the auto scaling settings of the global secondary indexes of the replica to be updated.
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexAutoScalingUpdate]?
@@ -5696,9 +4817,6 @@ extension DynamoDB {
     }
 
     public struct UpdateTableReplicaAutoScalingOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableAutoScalingDescription", required: false, type: .structure)
-        ]
 
         /// Returns information about the auto scaling settings of a table with replicas.
         public let tableAutoScalingDescription: TableAutoScalingDescription?
@@ -5713,10 +4831,6 @@ extension DynamoDB {
     }
 
     public struct UpdateTimeToLiveInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TableName", required: true, type: .string), 
-            AWSShapeMember(label: "TimeToLiveSpecification", required: true, type: .structure)
-        ]
 
         /// The name of the table to be configured.
         public let tableName: String
@@ -5742,9 +4856,6 @@ extension DynamoDB {
     }
 
     public struct UpdateTimeToLiveOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimeToLiveSpecification", required: false, type: .structure)
-        ]
 
         /// Represents the output of an UpdateTimeToLive operation.
         public let timeToLiveSpecification: TimeToLiveSpecification?
@@ -5759,10 +4870,6 @@ extension DynamoDB {
     }
 
     public struct WriteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteRequest", required: false, type: .structure), 
-            AWSShapeMember(label: "PutRequest", required: false, type: .structure)
-        ]
 
         /// A request to perform a DeleteItem operation.
         public let deleteRequest: DeleteRequest?

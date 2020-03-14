@@ -49,12 +49,6 @@ extension ComputeOptimizer {
     //MARK: Shapes
 
     public struct AutoScalingGroupConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "desiredCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "maxSize", required: false, type: .integer), 
-            AWSShapeMember(label: "minSize", required: false, type: .integer)
-        ]
 
         /// The desired capacity, or number of instances, for the Auto Scaling group.
         public let desiredCapacity: Int?
@@ -81,17 +75,6 @@ extension ComputeOptimizer {
     }
 
     public struct AutoScalingGroupRecommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "autoScalingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "autoScalingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "currentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "finding", required: false, type: .enum), 
-            AWSShapeMember(label: "lastRefreshTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lookBackPeriodInDays", required: false, type: .double), 
-            AWSShapeMember(label: "recommendationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "utilizationMetrics", required: false, type: .list)
-        ]
 
         /// The AWS account ID of the Auto Scaling group.
         public let accountId: String?
@@ -138,12 +121,6 @@ extension ComputeOptimizer {
     }
 
     public struct AutoScalingGroupRecommendationOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "performanceRisk", required: false, type: .double), 
-            AWSShapeMember(label: "projectedUtilizationMetrics", required: false, type: .list), 
-            AWSShapeMember(label: "rank", required: false, type: .integer)
-        ]
 
         /// An array of objects that describe an Auto Scaling group configuration.
         public let configuration: AutoScalingGroupConfiguration?
@@ -170,10 +147,6 @@ extension ComputeOptimizer {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The name of the filter. Specify Finding to filter the results to a specific findings classification. Specify RecommendationSourceType to filter the results to a specific resource type.
         public let name: FilterName?
@@ -192,13 +165,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetAutoScalingGroupRecommendationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountIds", required: false, type: .list), 
-            AWSShapeMember(label: "autoScalingGroupArns", required: false, type: .list), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The AWS account IDs for which to return Auto Scaling group recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -229,11 +195,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetAutoScalingGroupRecommendationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoScalingGroupRecommendations", required: false, type: .list), 
-            AWSShapeMember(label: "errors", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that describe Auto Scaling group recommendations.
         public let autoScalingGroupRecommendations: [AutoScalingGroupRecommendation]?
@@ -256,13 +217,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetEC2InstanceRecommendationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountIds", required: false, type: .list), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "instanceArns", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The AWS account IDs for which to return instance recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -293,11 +247,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetEC2InstanceRecommendationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errors", required: false, type: .list), 
-            AWSShapeMember(label: "instanceRecommendations", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an instance of an unsupported instance family.
         public let errors: [GetRecommendationError]?
@@ -320,13 +269,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetEC2RecommendationProjectedMetricsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "instanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "stat", required: true, type: .enum)
-        ]
 
         /// The time stamp of the last projected metrics data point to return.
         public let endTime: TimeStamp
@@ -357,9 +299,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetEC2RecommendationProjectedMetricsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "recommendedOptionProjectedMetrics", required: false, type: .list)
-        ]
 
         /// An array of objects that describe a projected metrics.
         public let recommendedOptionProjectedMetrics: [RecommendedOptionProjectedMetric]?
@@ -382,11 +321,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetEnrollmentStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "memberAccountsEnrolled", required: false, type: .boolean), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
-        ]
 
         /// Confirms the enrollment status of member accounts within the organization, if the account is a master account of an organization.
         public let memberAccountsEnrolled: Bool?
@@ -409,11 +343,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetRecommendationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "identifier", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
 
         /// The error code.
         public let code: String?
@@ -436,11 +365,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetRecommendationSummariesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountIds", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The AWS account IDs for which to return recommendation summaries. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -463,10 +387,6 @@ extension ComputeOptimizer {
     }
 
     public struct GetRecommendationSummariesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "recommendationSummaries", required: false, type: .list)
-        ]
 
         /// The token to use to advance to the next page of recommendation summaries. This value is null when there are no more pages of recommendation summaries to return.
         public let nextToken: String?
@@ -485,18 +405,6 @@ extension ComputeOptimizer {
     }
 
     public struct InstanceRecommendation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "currentInstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "finding", required: false, type: .enum), 
-            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "instanceName", required: false, type: .string), 
-            AWSShapeMember(label: "lastRefreshTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lookBackPeriodInDays", required: false, type: .double), 
-            AWSShapeMember(label: "recommendationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "recommendationSources", required: false, type: .list), 
-            AWSShapeMember(label: "utilizationMetrics", required: false, type: .list)
-        ]
 
         /// The AWS account ID of the instance recommendation.
         public let accountId: String?
@@ -547,12 +455,6 @@ extension ComputeOptimizer {
     }
 
     public struct InstanceRecommendationOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "performanceRisk", required: false, type: .double), 
-            AWSShapeMember(label: "projectedUtilizationMetrics", required: false, type: .list), 
-            AWSShapeMember(label: "rank", required: false, type: .integer)
-        ]
 
         /// The instance type of the instance recommendation.
         public let instanceType: String?
@@ -579,11 +481,6 @@ extension ComputeOptimizer {
     }
 
     public struct ProjectedMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "timestamps", required: false, type: .list), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The name of the projected utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
         public let name: MetricName?
@@ -606,10 +503,6 @@ extension ComputeOptimizer {
     }
 
     public struct RecommendationSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "recommendationSourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "recommendationSourceType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public let recommendationSourceArn: String?
@@ -628,11 +521,6 @@ extension ComputeOptimizer {
     }
 
     public struct RecommendationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "recommendationResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "summaries", required: false, type: .list)
-        ]
 
         /// The AWS account ID of the recommendation summary.
         public let accountId: String?
@@ -655,11 +543,6 @@ extension ComputeOptimizer {
     }
 
     public struct RecommendedOptionProjectedMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectedMetrics", required: false, type: .list), 
-            AWSShapeMember(label: "rank", required: false, type: .integer), 
-            AWSShapeMember(label: "recommendedInstanceType", required: false, type: .string)
-        ]
 
         /// An array of objects that describe a projected utilization metric.
         public let projectedMetrics: [ProjectedMetric]?
@@ -682,10 +565,6 @@ extension ComputeOptimizer {
     }
 
     public struct Summary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .double)
-        ]
 
         /// The finding classification of the recommendation.
         public let name: Finding?
@@ -704,10 +583,6 @@ extension ComputeOptimizer {
     }
 
     public struct UpdateEnrollmentStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeMemberAccounts", required: false, type: .boolean), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         /// Indicates whether to enroll member accounts within the organization, if the account is a master account of an organization.
         public let includeMemberAccounts: Bool?
@@ -726,10 +601,6 @@ extension ComputeOptimizer {
     }
 
     public struct UpdateEnrollmentStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
-        ]
 
         /// The enrollment status of the account.
         public let status: Status?
@@ -748,11 +619,6 @@ extension ComputeOptimizer {
     }
 
     public struct UtilizationMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "statistic", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .double)
-        ]
 
         /// The name of the utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
         public let name: MetricName?

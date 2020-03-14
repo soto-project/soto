@@ -14,10 +14,6 @@ extension EBS {
     //MARK: Shapes
 
     public struct Block: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "BlockToken", required: false, type: .string)
-        ]
 
         /// The block index.
         public let blockIndex: Int?
@@ -36,11 +32,6 @@ extension EBS {
     }
 
     public struct ChangedBlock: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "FirstBlockToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecondBlockToken", required: false, type: .string)
-        ]
 
         /// The block index.
         public let blockIndex: Int?
@@ -63,10 +54,10 @@ extension EBS {
     }
 
     public struct GetSnapshotBlockRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockIndex", location: .uri(locationName: "blockIndex"), required: true, type: .integer), 
-            AWSShapeMember(label: "BlockToken", location: .querystring(locationName: "blockToken"), required: true, type: .string), 
-            AWSShapeMember(label: "SnapshotId", location: .uri(locationName: "snapshotId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "blockIndex")), 
+            AWSMemberEncoding(label: "blockToken", location: .querystring(locationName: "blockToken")), 
+            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId"))
         ]
 
         /// The block index of the block from which to get data. Obtain the block index by running the list changed blocks or list snapshot blocks operations.
@@ -99,12 +90,12 @@ extension EBS {
 
     public struct GetSnapshotBlockResponse: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "BlockData"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockData", required: false, type: .blob), 
-            AWSShapeMember(label: "Checksum", location: .header(locationName: "x-amz-Checksum"), required: false, type: .string), 
-            AWSShapeMember(label: "ChecksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm"), required: false, type: .enum), 
-            AWSShapeMember(label: "DataLength", location: .header(locationName: "x-amz-Data-Length"), required: false, type: .integer)
+        public static let payloadPath: String? = "blockData"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData"), encoding: .blob), 
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")), 
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")), 
+            AWSMemberEncoding(label: "dataLength", location: .header(locationName: "x-amz-Data-Length"))
         ]
 
         /// The data content of the block.
@@ -132,12 +123,12 @@ extension EBS {
     }
 
     public struct ListChangedBlocksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FirstSnapshotId", location: .querystring(locationName: "firstSnapshotId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "pageToken"), required: false, type: .string), 
-            AWSShapeMember(label: "SecondSnapshotId", location: .uri(locationName: "secondSnapshotId"), required: true, type: .string), 
-            AWSShapeMember(label: "StartingBlockIndex", location: .querystring(locationName: "startingBlockIndex"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "firstSnapshotId", location: .querystring(locationName: "firstSnapshotId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")), 
+            AWSMemberEncoding(label: "secondSnapshotId", location: .uri(locationName: "secondSnapshotId")), 
+            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
         ]
 
         /// The ID of the first snapshot to use for the comparison.
@@ -182,13 +173,6 @@ extension EBS {
     }
 
     public struct ListChangedBlocksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ChangedBlocks", required: false, type: .list), 
-            AWSShapeMember(label: "ExpiryTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSize", required: false, type: .long)
-        ]
 
         /// The size of the block.
         public let blockSize: Int?
@@ -219,11 +203,11 @@ extension EBS {
     }
 
     public struct ListSnapshotBlocksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "pageToken"), required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotId", location: .uri(locationName: "snapshotId"), required: true, type: .string), 
-            AWSShapeMember(label: "StartingBlockIndex", location: .querystring(locationName: "startingBlockIndex"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")), 
+            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId")), 
+            AWSMemberEncoding(label: "startingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
         ]
 
         /// The number of results to return.
@@ -261,13 +245,6 @@ extension EBS {
     }
 
     public struct ListSnapshotBlocksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Blocks", required: false, type: .list), 
-            AWSShapeMember(label: "BlockSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ExpiryTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSize", required: false, type: .long)
-        ]
 
         /// An array of objects containing information about the blocks.
         public let blocks: [Block]?

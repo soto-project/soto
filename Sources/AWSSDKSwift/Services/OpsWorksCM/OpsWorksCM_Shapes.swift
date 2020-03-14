@@ -53,11 +53,6 @@ extension OpsWorksCM {
     //MARK: Shapes
 
     public struct AccountAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Maximum", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Used", required: false, type: .integer)
-        ]
 
         ///  The maximum allowed value. 
         public let maximum: Int?
@@ -80,11 +75,6 @@ extension OpsWorksCM {
     }
 
     public struct AssociateNodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineAttributes", required: true, type: .list), 
-            AWSShapeMember(label: "NodeName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.     Attributes accepted in a AssociateNode request for Puppet     PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR) that is created by the node.   
         public let engineAttributes: [EngineAttribute]
@@ -118,9 +108,6 @@ extension OpsWorksCM {
     }
 
     public struct AssociateNodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
-        ]
 
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
         public let nodeAssociationStatusToken: String?
@@ -135,30 +122,6 @@ extension OpsWorksCM {
     }
 
     public struct Backup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "S3LogUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusDescription", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "ToolsVersion", required: false, type: .string), 
-            AWSShapeMember(label: "UserArn", required: false, type: .string)
-        ]
 
         /// The ARN of the backup. 
         public let backupArn: String?
@@ -257,11 +220,6 @@ extension OpsWorksCM {
     }
 
     public struct CreateBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         ///  A user-defined description of the backup. 
         public let description: String?
@@ -297,9 +255,6 @@ extension OpsWorksCM {
     }
 
     public struct CreateBackupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
-        ]
 
         /// Backup created by request.
         public let backup: Backup?
@@ -314,29 +269,6 @@ extension OpsWorksCM {
     }
 
     public struct CreateServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CustomCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "CustomDomain", required: false, type: .string), 
-            AWSShapeMember(label: "CustomPrivateKey", required: false, type: .string), 
-            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceProfileArn", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true. 
         public let associatePublicIpAddress: Bool?
@@ -480,9 +412,6 @@ extension OpsWorksCM {
     }
 
     public struct CreateServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: false, type: .structure)
-        ]
 
         /// The server that is created by the request. 
         public let server: Server?
@@ -497,9 +426,6 @@ extension OpsWorksCM {
     }
 
     public struct DeleteBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
-        ]
 
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
         public let backupId: String
@@ -527,9 +453,6 @@ extension OpsWorksCM {
     }
 
     public struct DeleteServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// The ID of the server to delete.
         public let serverName: String
@@ -566,9 +489,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeAccountAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
 
         ///  The attributes that are currently set for the account. 
         public let attributes: [AccountAttribute]?
@@ -583,12 +503,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeBackupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
-        ]
 
         /// Describes a single backup. 
         public let backupId: String?
@@ -626,10 +540,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeBackupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Contains the response to a DescribeBackups request. 
         public let backups: [Backup]?
@@ -648,11 +558,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int?
@@ -684,10 +589,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServerEvents", required: false, type: .list)
-        ]
 
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
         public let nextToken: String?
@@ -706,10 +607,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatusToken", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse. 
         public let nodeAssociationStatusToken: String
@@ -736,10 +633,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeNodeAssociationStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "NodeAssociationStatus", required: false, type: .enum)
-        ]
 
         /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR). 
         public let engineAttributes: [EngineAttribute]?
@@ -758,11 +651,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeServersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
-        ]
 
         /// This is not currently implemented for DescribeServers requests. 
         public let maxResults: Int?
@@ -794,10 +682,6 @@ extension OpsWorksCM {
     }
 
     public struct DescribeServersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Servers", required: false, type: .list)
-        ]
 
         /// This is not currently implemented for DescribeServers requests. 
         public let nextToken: String?
@@ -816,11 +700,6 @@ extension OpsWorksCM {
     }
 
     public struct DisassociateNodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "NodeName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// Engine attributes that are used for disassociating the node. No attributes are required for Puppet.   Attributes required in a DisassociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
         public let engineAttributes: [EngineAttribute]?
@@ -854,9 +733,6 @@ extension OpsWorksCM {
     }
 
     public struct DisassociateNodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
-        ]
 
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
         public let nodeAssociationStatusToken: String?
@@ -871,10 +747,6 @@ extension OpsWorksCM {
     }
 
     public struct EngineAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The name of the engine attribute. 
         public let name: String?
@@ -900,11 +772,6 @@ extension OpsWorksCM {
     }
 
     public struct ExportServerEngineAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExportAttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "InputAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// The name of the export attribute. Currently, the supported export attribute is Userdata. This exports a user data script that includes parameters and values provided in the InputAttributes list.
         public let exportAttributeName: String
@@ -938,10 +805,6 @@ extension OpsWorksCM {
     }
 
     public struct ExportServerEngineAttributeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineAttribute", required: false, type: .structure), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
-        ]
 
         /// The requested engine attribute pair with attribute name and value.
         public let engineAttribute: EngineAttribute?
@@ -960,11 +823,6 @@ extension OpsWorksCM {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -994,10 +852,6 @@ extension OpsWorksCM {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A token that you can use as the value of NextToken in subsequent calls to the API to show more results.
         public let nextToken: String?
@@ -1016,12 +870,6 @@ extension OpsWorksCM {
     }
 
     public struct RestoreServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         ///  The ID of the backup that you want to use to restore a server. 
         public let backupId: String
@@ -1068,32 +916,6 @@ extension OpsWorksCM {
     }
 
     public struct Server: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudFormationStackArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CustomDomain", required: false, type: .string), 
-            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "MaintenanceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "ServerArn", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list)
-        ]
 
         /// Associate a public IP address with a server that you are launching. 
         public let associatePublicIpAddress: Bool?
@@ -1200,12 +1022,6 @@ extension OpsWorksCM {
     }
 
     public struct ServerEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
-        ]
 
         /// The time when the event occurred. 
         public let createdAt: TimeStamp?
@@ -1232,10 +1048,6 @@ extension OpsWorksCM {
     }
 
     public struct StartMaintenanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// Engine attributes that are specific to the server on which you want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef     CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2.   
         public let engineAttributes: [EngineAttribute]?
@@ -1263,9 +1075,6 @@ extension OpsWorksCM {
     }
 
     public struct StartMaintenanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: false, type: .structure)
-        ]
 
         /// Contains the response to a StartMaintenance request. 
         public let server: Server?
@@ -1280,10 +1089,6 @@ extension OpsWorksCM {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / 
         public let key: String
@@ -1311,10 +1116,6 @@ extension OpsWorksCM {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Number (ARN) of a resource to which you want to apply tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
         public let resourceArn: String
@@ -1350,10 +1151,6 @@ extension OpsWorksCM {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Number (ARN) of a resource from which you want to remove tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
         public let resourceArn: String
@@ -1391,11 +1188,6 @@ extension OpsWorksCM {
     }
 
     public struct UpdateServerEngineAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// The name of the engine attribute to update. 
         public let attributeName: String
@@ -1429,9 +1221,6 @@ extension OpsWorksCM {
     }
 
     public struct UpdateServerEngineAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: false, type: .structure)
-        ]
 
         /// Contains the response to an UpdateServerEngineAttributes request. 
         public let server: Server?
@@ -1446,13 +1235,6 @@ extension OpsWorksCM {
     }
 
     public struct UpdateServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
 
         /// Sets the number of automated backups that you want to keep. 
         public let backupRetentionCount: Int?
@@ -1491,9 +1273,6 @@ extension OpsWorksCM {
     }
 
     public struct UpdateServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: false, type: .structure)
-        ]
 
         /// Contains the response to a UpdateServer request. 
         public let server: Server?

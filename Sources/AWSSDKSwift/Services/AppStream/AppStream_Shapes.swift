@@ -205,10 +205,6 @@ extension AppStream {
     //MARK: Shapes
 
     public struct AccessEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointType", required: true, type: .enum), 
-            AWSShapeMember(label: "VpceId", required: false, type: .string)
-        ]
 
         /// The type of interface endpoint.
         public let endpointType: AccessEndpointType
@@ -231,15 +227,6 @@ extension AppStream {
     }
 
     public struct Application: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IconURL", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchParameters", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchPath", required: false, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The application name to display.
         public let displayName: String?
@@ -278,10 +265,6 @@ extension AppStream {
     }
 
     public struct ApplicationSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "SettingsGroup", required: false, type: .string)
-        ]
 
         /// Enables or disables persistent application settings for users during their streaming sessions. 
         public let enabled: Bool
@@ -304,11 +287,6 @@ extension AppStream {
     }
 
     public struct ApplicationSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "SettingsGroup", required: false, type: .string)
-        ]
 
         /// Specifies whether persistent application settings are enabled for users during their streaming sessions.
         public let enabled: Bool?
@@ -331,10 +309,6 @@ extension AppStream {
     }
 
     public struct AssociateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string)
-        ]
 
         /// The name of the fleet. 
         public let fleetName: String
@@ -366,9 +340,6 @@ extension AppStream {
     }
 
     public struct BatchAssociateUserStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserStackAssociations", required: true, type: .list)
-        ]
 
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]
@@ -391,9 +362,6 @@ extension AppStream {
     }
 
     public struct BatchAssociateUserStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errors", required: false, type: .list)
-        ]
 
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
@@ -408,9 +376,6 @@ extension AppStream {
     }
 
     public struct BatchDisassociateUserStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserStackAssociations", required: true, type: .list)
-        ]
 
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]
@@ -433,9 +398,6 @@ extension AppStream {
     }
 
     public struct BatchDisassociateUserStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errors", required: false, type: .list)
-        ]
 
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
@@ -450,9 +412,6 @@ extension AppStream {
     }
 
     public struct ComputeCapacity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredInstances", required: true, type: .integer)
-        ]
 
         /// The desired number of streaming instances.
         public let desiredInstances: Int
@@ -467,12 +426,6 @@ extension AppStream {
     }
 
     public struct ComputeCapacityStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Available", required: false, type: .integer), 
-            AWSShapeMember(label: "Desired", required: true, type: .integer), 
-            AWSShapeMember(label: "InUse", required: false, type: .integer), 
-            AWSShapeMember(label: "Running", required: false, type: .integer)
-        ]
 
         /// The number of currently available instances that can be used to stream sessions.
         public let available: Int?
@@ -499,12 +452,6 @@ extension AppStream {
     }
 
     public struct CopyImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationImageDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationImageName", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationRegion", required: true, type: .string), 
-            AWSShapeMember(label: "SourceImageName", required: true, type: .string)
-        ]
 
         /// The description that the image will have when it is copied to the destination.
         public let destinationImageDescription: String?
@@ -539,9 +486,6 @@ extension AppStream {
     }
 
     public struct CopyImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationImageName", required: false, type: .string)
-        ]
 
         /// The name of the destination image.
         public let destinationImageName: String?
@@ -556,11 +500,6 @@ extension AppStream {
     }
 
     public struct CreateDirectoryConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: true, type: .list), 
-            AWSShapeMember(label: "ServiceAccountCredentials", required: true, type: .structure)
-        ]
 
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String
@@ -590,9 +529,6 @@ extension AppStream {
     }
 
     public struct CreateDirectoryConfigResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryConfig", required: false, type: .structure)
-        ]
 
         /// Information about the directory configuration.
         public let directoryConfig: DirectoryConfig?
@@ -607,24 +543,6 @@ extension AppStream {
     }
 
     public struct CreateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComputeCapacity", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "IdleDisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The desired capacity for the fleet.
         public let computeCapacity: ComputeCapacity
@@ -719,9 +637,6 @@ extension AppStream {
     }
 
     public struct CreateFleetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fleet", required: false, type: .structure)
-        ]
 
         /// Information about the fleet.
         public let fleet: Fleet?
@@ -736,21 +651,6 @@ extension AppStream {
     }
 
     public struct CreateImageBuilderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -840,9 +740,6 @@ extension AppStream {
     }
 
     public struct CreateImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -857,10 +754,6 @@ extension AppStream {
     }
 
     public struct CreateImageBuilderStreamingURLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Validity", required: false, type: .long)
-        ]
 
         /// The name of the image builder.
         public let name: String
@@ -883,10 +776,6 @@ extension AppStream {
     }
 
     public struct CreateImageBuilderStreamingURLResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StreamingURL", required: false, type: .string)
-        ]
 
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
         public let expires: TimeStamp?
@@ -905,19 +794,6 @@ extension AppStream {
     }
 
     public struct CreateStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EmbedHostDomains", required: false, type: .list), 
-            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
-            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .list)
-        ]
 
         /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -1004,9 +880,6 @@ extension AppStream {
     }
 
     public struct CreateStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Stack", required: false, type: .structure)
-        ]
 
         /// Information about the stack.
         public let stack: Stack?
@@ -1021,14 +894,6 @@ extension AppStream {
     }
 
     public struct CreateStreamingURLRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "SessionContext", required: false, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "Validity", required: false, type: .long)
-        ]
 
         /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant.
         public let applicationId: String?
@@ -1073,10 +938,6 @@ extension AppStream {
     }
 
     public struct CreateStreamingURLResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StreamingURL", required: false, type: .string)
-        ]
 
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
         public let expires: TimeStamp?
@@ -1103,10 +964,6 @@ extension AppStream {
     }
 
     public struct CreateUsageReportSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .enum)
-        ]
 
         /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
         public let s3BucketName: String?
@@ -1125,13 +982,6 @@ extension AppStream {
     }
 
     public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "MessageAction", required: false, type: .enum), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// The authentication type for the user. You must specify USERPOOL. 
         public let authenticationType: AuthenticationType
@@ -1180,9 +1030,6 @@ extension AppStream {
     }
 
     public struct DeleteDirectoryConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string)
-        ]
 
         /// The name of the directory configuration.
         public let directoryName: String
@@ -1205,9 +1052,6 @@ extension AppStream {
     }
 
     public struct DeleteFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the fleet.
         public let name: String
@@ -1234,9 +1078,6 @@ extension AppStream {
     }
 
     public struct DeleteImageBuilderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the image builder.
         public let name: String
@@ -1255,9 +1096,6 @@ extension AppStream {
     }
 
     public struct DeleteImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -1272,10 +1110,6 @@ extension AppStream {
     }
 
     public struct DeleteImagePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SharedAccountId", required: true, type: .string)
-        ]
 
         /// The name of the private image.
         public let name: String
@@ -1307,9 +1141,6 @@ extension AppStream {
     }
 
     public struct DeleteImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the image.
         public let name: String
@@ -1328,9 +1159,6 @@ extension AppStream {
     }
 
     public struct DeleteImageResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Image", required: false, type: .structure)
-        ]
 
         /// Information about the image.
         public let image: Image?
@@ -1345,9 +1173,6 @@ extension AppStream {
     }
 
     public struct DeleteStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the stack.
         public let name: String
@@ -1390,10 +1215,6 @@ extension AppStream {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -1426,11 +1247,6 @@ extension AppStream {
     }
 
     public struct DescribeDirectoryConfigsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryNames", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The directory names.
         public let directoryNames: [String]?
@@ -1457,10 +1273,6 @@ extension AppStream {
     }
 
     public struct DescribeDirectoryConfigsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryConfigs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the directory configurations. Note that although the response syntax in this topic includes the account password, this password is not returned in the actual response. 
         public let directoryConfigs: [DirectoryConfig]?
@@ -1479,10 +1291,6 @@ extension AppStream {
     }
 
     public struct DescribeFleetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of the fleets to describe.
         public let names: [String]?
@@ -1508,10 +1316,6 @@ extension AppStream {
     }
 
     public struct DescribeFleetsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fleets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the fleets.
         public let fleets: [Fleet]?
@@ -1530,11 +1334,6 @@ extension AppStream {
     }
 
     public struct DescribeImageBuildersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum size of each page of results.
         public let maxResults: Int?
@@ -1564,10 +1363,6 @@ extension AppStream {
     }
 
     public struct DescribeImageBuildersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilders", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the image builders.
         public let imageBuilders: [ImageBuilder]?
@@ -1586,12 +1381,6 @@ extension AppStream {
     }
 
     public struct DescribeImagePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SharedAwsAccountIds", required: false, type: .list)
-        ]
 
         /// The maximum size of each page of results.
         public let maxResults: Int?
@@ -1630,11 +1419,6 @@ extension AppStream {
     }
 
     public struct DescribeImagePermissionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SharedImagePermissionsList", required: false, type: .list)
-        ]
 
         /// The name of the private image.
         public let name: String?
@@ -1657,13 +1441,6 @@ extension AppStream {
     }
 
     public struct DescribeImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arns", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The ARNs of the public, private, and shared images to describe.
         public let arns: [String]?
@@ -1706,10 +1483,6 @@ extension AppStream {
     }
 
     public struct DescribeImagesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Images", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the images.
         public let images: [Image]?
@@ -1728,14 +1501,6 @@ extension AppStream {
     }
 
     public struct DescribeSessionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", required: false, type: .string)
-        ]
 
         /// The authentication method. Specify API for a user authenticated using a streaming URL or SAML for a SAML federated user. The default is to authenticate users using a streaming URL.
         public let authenticationType: AuthenticationType?
@@ -1778,10 +1543,6 @@ extension AppStream {
     }
 
     public struct DescribeSessionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sessions", required: false, type: .list)
-        ]
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1800,10 +1561,6 @@ extension AppStream {
     }
 
     public struct DescribeStacksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The names of the stacks to describe.
         public let names: [String]?
@@ -1829,10 +1586,6 @@ extension AppStream {
     }
 
     public struct DescribeStacksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Stacks", required: false, type: .list)
-        ]
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1851,10 +1604,6 @@ extension AppStream {
     }
 
     public struct DescribeUsageReportSubscriptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum size of each page of results.
         public let maxResults: Int?
@@ -1877,10 +1626,6 @@ extension AppStream {
     }
 
     public struct DescribeUsageReportSubscriptionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UsageReportSubscriptions", required: false, type: .list)
-        ]
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1899,13 +1644,6 @@ extension AppStream {
     }
 
     public struct DescribeUserStackAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackName", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// The authentication type for the user who is associated with the stack. You must specify USERPOOL.
         public let authenticationType: AuthenticationType?
@@ -1946,10 +1684,6 @@ extension AppStream {
     }
 
     public struct DescribeUserStackAssociationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserStackAssociations", required: false, type: .list)
-        ]
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1968,11 +1702,6 @@ extension AppStream {
     }
 
     public struct DescribeUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The authentication type for the users in the user pool to describe. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -1999,10 +1728,6 @@ extension AppStream {
     }
 
     public struct DescribeUsersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Users", required: false, type: .list)
-        ]
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -2021,12 +1746,6 @@ extension AppStream {
     }
 
     public struct DirectoryConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceAccountCredentials", required: false, type: .structure)
-        ]
 
         /// The time the directory configuration was created.
         public let createdTime: TimeStamp?
@@ -2053,10 +1772,6 @@ extension AppStream {
     }
 
     public struct DisableUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -2089,10 +1804,6 @@ extension AppStream {
     }
 
     public struct DisassociateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string)
-        ]
 
         /// The name of the fleet.
         public let fleetName: String
@@ -2124,10 +1835,6 @@ extension AppStream {
     }
 
     public struct DomainJoinInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryName", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string)
-        ]
 
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String?
@@ -2150,10 +1857,6 @@ extension AppStream {
     }
 
     public struct EnableUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -2186,9 +1889,6 @@ extension AppStream {
     }
 
     public struct ExpireSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SessionId", required: true, type: .string)
-        ]
 
         /// The identifier of the streaming session.
         public let sessionId: String
@@ -2215,27 +1915,6 @@ extension AppStream {
     }
 
     public struct Fleet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "ComputeCapacityStatus", required: true, type: .structure), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "FleetErrors", required: false, type: .list), 
-            AWSShapeMember(label: "FleetType", required: false, type: .enum), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "IdleDisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) for the fleet.
         public let arn: String
@@ -2322,10 +2001,6 @@ extension AppStream {
     }
 
     public struct FleetError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
 
         /// The error code.
         public let errorCode: FleetErrorCode?
@@ -2344,24 +2019,6 @@ extension AppStream {
     }
 
     public struct Image: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Applications", required: false, type: .list), 
-            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "BaseImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ImageBuilderName", required: false, type: .string), 
-            AWSShapeMember(label: "ImageBuilderSupported", required: false, type: .boolean), 
-            AWSShapeMember(label: "ImagePermissions", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Platform", required: false, type: .enum), 
-            AWSShapeMember(label: "PublicBaseImageReleasedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
-            AWSShapeMember(label: "Visibility", required: false, type: .enum)
-        ]
 
         /// The applications associated with the image.
         public let applications: [Application]?
@@ -2436,26 +2093,6 @@ extension AppStream {
     }
 
     public struct ImageBuilder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageBuilderErrors", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NetworkAccessConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Platform", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -2537,10 +2174,6 @@ extension AppStream {
     }
 
     public struct ImageBuilderStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// The state change reason code.
         public let code: ImageBuilderStateChangeReasonCode?
@@ -2559,10 +2192,6 @@ extension AppStream {
     }
 
     public struct ImagePermissions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowFleet", required: false, type: .boolean), 
-            AWSShapeMember(label: "allowImageBuilder", required: false, type: .boolean)
-        ]
 
         /// Indicates whether the image can be used for a fleet.
         public let allowFleet: Bool?
@@ -2581,10 +2210,6 @@ extension AppStream {
     }
 
     public struct ImageStateChangeReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// The state change reason code.
         public let code: ImageStateChangeReasonCode?
@@ -2603,10 +2228,6 @@ extension AppStream {
     }
 
     public struct LastReportGenerationExecutionError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
 
         /// The error code for the error that is returned when a usage report can't be generated.
         public let errorCode: UsageReportExecutionErrorCode?
@@ -2625,10 +2246,6 @@ extension AppStream {
     }
 
     public struct ListAssociatedFleetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackName", required: true, type: .string)
-        ]
 
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -2652,10 +2269,6 @@ extension AppStream {
     }
 
     public struct ListAssociatedFleetsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the fleet.
         public let names: [String]?
@@ -2674,10 +2287,6 @@ extension AppStream {
     }
 
     public struct ListAssociatedStacksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the fleet.
         public let fleetName: String
@@ -2701,10 +2310,6 @@ extension AppStream {
     }
 
     public struct ListAssociatedStacksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Names", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The name of the stack.
         public let names: [String]?
@@ -2723,9 +2328,6 @@ extension AppStream {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -2744,9 +2346,6 @@ extension AppStream {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The information about the tags.
         public let tags: [String: String]?
@@ -2761,10 +2360,6 @@ extension AppStream {
     }
 
     public struct NetworkAccessConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EniId", required: false, type: .string), 
-            AWSShapeMember(label: "EniPrivateIpAddress", required: false, type: .string)
-        ]
 
         /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
         public let eniId: String?
@@ -2783,11 +2378,6 @@ extension AppStream {
     }
 
     public struct ResourceError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorTimestamp", required: false, type: .timestamp)
-        ]
 
         /// The error code.
         public let errorCode: FleetErrorCode?
@@ -2810,10 +2400,6 @@ extension AppStream {
     }
 
     public struct ServiceAccountCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountName", required: true, type: .string), 
-            AWSShapeMember(label: "AccountPassword", required: true, type: .string)
-        ]
 
         /// The user name of the account. This account must have the following privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer objects for the organizational units specified.
         public let accountName: String
@@ -2838,18 +2424,6 @@ extension AppStream {
     }
 
     public struct Session: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConnectionState", required: false, type: .enum), 
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "MaxExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NetworkAccessConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "StackName", required: true, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "UserId", required: true, type: .string)
-        ]
 
         /// The authentication method. The user is authenticated using a streaming URL (API) or SAML 2.0 federation (SAML).
         public let authenticationType: AuthenticationType?
@@ -2900,10 +2474,6 @@ extension AppStream {
     }
 
     public struct SharedImagePermissions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imagePermissions", required: true, type: .structure), 
-            AWSShapeMember(label: "sharedAccountId", required: true, type: .string)
-        ]
 
         /// Describes the permissions for a shared image.
         public let imagePermissions: ImagePermissions
@@ -2922,21 +2492,6 @@ extension AppStream {
     }
 
     public struct Stack: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EmbedHostDomains", required: false, type: .list), 
-            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
-            AWSShapeMember(label: "StackErrors", required: false, type: .list), 
-            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .list)
-        ]
 
         /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints. 
         public let accessEndpoints: [AccessEndpoint]?
@@ -2999,10 +2554,6 @@ extension AppStream {
     }
 
     public struct StackError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
 
         /// The error code.
         public let errorCode: StackErrorCode?
@@ -3021,9 +2572,6 @@ extension AppStream {
     }
 
     public struct StartFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the fleet.
         public let name: String
@@ -3050,10 +2598,6 @@ extension AppStream {
     }
 
     public struct StartImageBuilderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppstreamAgentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST]. 
         public let appstreamAgentVersion: String?
@@ -3078,9 +2622,6 @@ extension AppStream {
     }
 
     public struct StartImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -3095,9 +2636,6 @@ extension AppStream {
     }
 
     public struct StopFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the fleet.
         public let name: String
@@ -3124,9 +2662,6 @@ extension AppStream {
     }
 
     public struct StopImageBuilderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the image builder.
         public let name: String
@@ -3145,9 +2680,6 @@ extension AppStream {
     }
 
     public struct StopImageBuilderResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageBuilder", required: false, type: .structure)
-        ]
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -3162,11 +2694,6 @@ extension AppStream {
     }
 
     public struct StorageConnector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectorType", required: true, type: .enum), 
-            AWSShapeMember(label: "Domains", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
-        ]
 
         /// The type of storage connector.
         public let connectorType: StorageConnectorType
@@ -3198,10 +2725,6 @@ extension AppStream {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -3240,10 +2763,6 @@ extension AppStream {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -3281,11 +2800,6 @@ extension AppStream {
     }
 
     public struct UpdateDirectoryConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationalUnitDistinguishedNames", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceAccountCredentials", required: false, type: .structure)
-        ]
 
         /// The name of the Directory Config object.
         public let directoryName: String
@@ -3315,9 +2829,6 @@ extension AppStream {
     }
 
     public struct UpdateDirectoryConfigResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryConfig", required: false, type: .structure)
-        ]
 
         /// Information about the Directory Config object.
         public let directoryConfig: DirectoryConfig?
@@ -3332,23 +2843,6 @@ extension AppStream {
     }
 
     public struct UpdateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
-            AWSShapeMember(label: "ComputeCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "IdleDisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
-            AWSShapeMember(label: "ImageName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The fleet attributes to delete.
         public let attributesToDelete: [FleetAttribute]?
@@ -3431,9 +2925,6 @@ extension AppStream {
     }
 
     public struct UpdateFleetResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fleet", required: false, type: .structure)
-        ]
 
         /// Information about the fleet.
         public let fleet: Fleet?
@@ -3448,11 +2939,6 @@ extension AppStream {
     }
 
     public struct UpdateImagePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImagePermissions", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SharedAccountId", required: true, type: .string)
-        ]
 
         /// The permissions for the image.
         public let imagePermissions: ImagePermissions
@@ -3488,19 +2974,6 @@ extension AppStream {
     }
 
     public struct UpdateStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EmbedHostDomains", required: false, type: .list), 
-            AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
-            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .list)
-        ]
 
         /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -3579,9 +3052,6 @@ extension AppStream {
     }
 
     public struct UpdateStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Stack", required: false, type: .structure)
-        ]
 
         /// Information about the stack.
         public let stack: Stack?
@@ -3596,12 +3066,6 @@ extension AppStream {
     }
 
     public struct UsageReportSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastGeneratedReportDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "Schedule", required: false, type: .enum), 
-            AWSShapeMember(label: "SubscriptionErrors", required: false, type: .list)
-        ]
 
         /// The time when the last usage report was generated.
         public let lastGeneratedReportDate: TimeStamp?
@@ -3628,16 +3092,6 @@ extension AppStream {
     }
 
     public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// The ARN of the user.
         public let arn: String?
@@ -3680,10 +3134,6 @@ extension AppStream {
     }
 
     public struct UserSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: true, type: .enum), 
-            AWSShapeMember(label: "Permission", required: true, type: .enum)
-        ]
 
         /// The action that is enabled or disabled.
         public let action: Action
@@ -3702,12 +3152,6 @@ extension AppStream {
     }
 
     public struct UserStackAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "SendEmailNotification", required: false, type: .boolean), 
-            AWSShapeMember(label: "StackName", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
 
         /// The authentication type for the user.
         public let authenticationType: AuthenticationType
@@ -3741,11 +3185,6 @@ extension AppStream {
     }
 
     public struct UserStackAssociationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "UserStackAssociation", required: false, type: .structure)
-        ]
 
         /// The error code for the error that is returned when a user can’t be associated with or disassociated from a stack.
         public let errorCode: UserStackAssociationErrorCode?
@@ -3768,10 +3207,6 @@ extension AppStream {
     }
 
     public struct VpcConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list)
-        ]
 
         /// The identifiers of the security groups for the fleet or image builder.
         public let securityGroupIds: [String]?

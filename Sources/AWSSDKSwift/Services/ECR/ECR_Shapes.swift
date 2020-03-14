@@ -73,10 +73,6 @@ extension ECR {
     //MARK: Shapes
 
     public struct Attribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The attribute key.
         public let key: String
@@ -95,11 +91,6 @@ extension ECR {
     }
 
     public struct AuthorizationData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizationToken", required: false, type: .string), 
-            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "proxyEndpoint", required: false, type: .string)
-        ]
 
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public let authorizationToken: String?
@@ -122,11 +113,6 @@ extension ECR {
     }
 
     public struct BatchCheckLayerAvailabilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerDigests", required: true, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The digests of the image layers to check.
         public let layerDigests: [String]
@@ -162,10 +148,6 @@ extension ECR {
     }
 
     public struct BatchCheckLayerAvailabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "layers", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [LayerFailure]?
@@ -184,11 +166,6 @@ extension ECR {
     }
 
     public struct BatchDeleteImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageIds", required: true, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
         public let imageIds: [ImageIdentifier]
@@ -223,10 +200,6 @@ extension ECR {
     }
 
     public struct BatchDeleteImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "imageIds", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -245,12 +218,6 @@ extension ECR {
     }
 
     public struct BatchGetImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "acceptedMediaTypes", required: false, type: .list), 
-            AWSShapeMember(label: "imageIds", required: true, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
         public let acceptedMediaTypes: [String]?
@@ -291,10 +258,6 @@ extension ECR {
     }
 
     public struct BatchGetImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "images", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -313,12 +276,6 @@ extension ECR {
     }
 
     public struct CompleteLayerUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerDigests", required: true, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "uploadId", required: true, type: .string)
-        ]
 
         /// The sha256 digest of the image layer.
         public let layerDigests: [String]
@@ -358,12 +315,6 @@ extension ECR {
     }
 
     public struct CompleteLayerUploadResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerDigest", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "uploadId", required: false, type: .string)
-        ]
 
         /// The sha256 digest of the image layer.
         public let layerDigest: String?
@@ -390,12 +341,6 @@ extension ECR {
     }
 
     public struct CreateRepositoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration?
@@ -428,9 +373,6 @@ extension ECR {
     }
 
     public struct CreateRepositoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repository", required: false, type: .structure)
-        ]
 
         /// The repository that was created.
         public let repository: Repository?
@@ -445,10 +387,6 @@ extension ECR {
     }
 
     public struct DeleteLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -474,12 +412,6 @@ extension ECR {
     }
 
     public struct DeleteLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastEvaluatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
@@ -506,10 +438,6 @@ extension ECR {
     }
 
     public struct DeleteRepositoryPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -535,11 +463,6 @@ extension ECR {
     }
 
     public struct DeleteRepositoryPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The JSON repository policy that was deleted from the repository.
         public let policyText: String?
@@ -562,11 +485,6 @@ extension ECR {
     }
 
     public struct DeleteRepositoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         ///  If a repository contains images, forces the deletion.
         public let force: Bool?
@@ -596,9 +514,6 @@ extension ECR {
     }
 
     public struct DeleteRepositoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repository", required: false, type: .structure)
-        ]
 
         /// The repository that was deleted.
         public let repository: Repository?
@@ -613,13 +528,6 @@ extension ECR {
     }
 
     public struct DescribeImageScanFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageId", required: true, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         public let imageId: ImageIdentifier
         /// The maximum number of image scan results returned by DescribeImageScanFindings in paginated output. When this parameter is used, DescribeImageScanFindings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImageScanFindings request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeImageScanFindings returns up to 100 results and a nextToken value, if applicable.
@@ -659,14 +567,6 @@ extension ECR {
     }
 
     public struct DescribeImageScanFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageId", required: false, type: .structure), 
-            AWSShapeMember(label: "imageScanFindings", required: false, type: .structure), 
-            AWSShapeMember(label: "imageScanStatus", required: false, type: .structure), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         public let imageId: ImageIdentifier?
         /// The information contained in the image scan findings.
@@ -700,9 +600,6 @@ extension ECR {
     }
 
     public struct DescribeImagesFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
-        ]
 
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -717,14 +614,6 @@ extension ECR {
     }
 
     public struct DescribeImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "imageIds", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The filter key and value with which to filter your DescribeImages results.
         public let filter: DescribeImagesFilter?
@@ -773,10 +662,6 @@ extension ECR {
     }
 
     public struct DescribeImagesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageDetails", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of ImageDetail objects that contain data about the image.
         public let imageDetails: [ImageDetail]?
@@ -795,12 +680,6 @@ extension ECR {
     }
 
     public struct DescribeRepositoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryNames", required: false, type: .list)
-        ]
 
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
         public let maxResults: Int?
@@ -840,10 +719,6 @@ extension ECR {
     }
 
     public struct DescribeRepositoriesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "repositories", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -862,9 +737,6 @@ extension ECR {
     }
 
     public struct GetAuthorizationTokenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryIds", required: false, type: .list)
-        ]
 
         /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
@@ -887,9 +759,6 @@ extension ECR {
     }
 
     public struct GetAuthorizationTokenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizationData", required: false, type: .list)
-        ]
 
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
         public let authorizationData: [AuthorizationData]?
@@ -904,11 +773,6 @@ extension ECR {
     }
 
     public struct GetDownloadUrlForLayerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerDigest", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The digest of the image layer to download.
         public let layerDigest: String
@@ -939,10 +803,6 @@ extension ECR {
     }
 
     public struct GetDownloadUrlForLayerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "downloadUrl", required: false, type: .string), 
-            AWSShapeMember(label: "layerDigest", required: false, type: .string)
-        ]
 
         /// The pre-signed Amazon S3 download URL for the requested layer.
         public let downloadUrl: String?
@@ -961,14 +821,6 @@ extension ECR {
     }
 
     public struct GetLifecyclePolicyPreviewRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "imageIds", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// An optional parameter that filters results based on image tag status and all tags, if tagged.
         public let filter: LifecyclePolicyPreviewFilter?
@@ -1017,15 +869,6 @@ extension ECR {
     }
 
     public struct GetLifecyclePolicyPreviewResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "previewResults", required: false, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "summary", required: false, type: .structure)
-        ]
 
         /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
@@ -1064,10 +907,6 @@ extension ECR {
     }
 
     public struct GetLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1093,12 +932,6 @@ extension ECR {
     }
 
     public struct GetLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastEvaluatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
@@ -1125,10 +958,6 @@ extension ECR {
     }
 
     public struct GetRepositoryPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1154,11 +983,6 @@ extension ECR {
     }
 
     public struct GetRepositoryPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The JSON repository policy text associated with the repository.
         public let policyText: String?
@@ -1181,12 +1005,6 @@ extension ECR {
     }
 
     public struct Image: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageId", required: false, type: .structure), 
-            AWSShapeMember(label: "imageManifest", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// An object containing the image tag and image digest associated with an image.
         public let imageId: ImageIdentifier?
@@ -1213,16 +1031,6 @@ extension ECR {
     }
 
     public struct ImageDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "imageScanFindingsSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "imageScanStatus", required: false, type: .structure), 
-            AWSShapeMember(label: "imageSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "imageTags", required: false, type: .list), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
@@ -1265,11 +1073,6 @@ extension ECR {
     }
 
     public struct ImageFailure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "imageId", required: false, type: .structure)
-        ]
 
         /// The code associated with the failure.
         public let failureCode: ImageFailureCode?
@@ -1292,10 +1095,6 @@ extension ECR {
     }
 
     public struct ImageIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "imageTag", required: false, type: .string)
-        ]
 
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
@@ -1319,13 +1118,6 @@ extension ECR {
     }
 
     public struct ImageScanFinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "severity", required: false, type: .enum), 
-            AWSShapeMember(label: "uri", required: false, type: .string)
-        ]
 
         /// A collection of attributes of the host from which the finding is generated.
         public let attributes: [Attribute]?
@@ -1356,12 +1148,6 @@ extension ECR {
     }
 
     public struct ImageScanFindings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "findings", required: false, type: .list), 
-            AWSShapeMember(label: "findingSeverityCounts", required: false, type: .map), 
-            AWSShapeMember(label: "imageScanCompletedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "vulnerabilitySourceUpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// The findings from the image scan.
         public let findings: [ImageScanFinding]?
@@ -1388,11 +1174,6 @@ extension ECR {
     }
 
     public struct ImageScanFindingsSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "findingSeverityCounts", required: false, type: .map), 
-            AWSShapeMember(label: "imageScanCompletedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "vulnerabilitySourceUpdatedAt", required: false, type: .timestamp)
-        ]
 
         /// The image vulnerability counts, sorted by severity.
         public let findingSeverityCounts: [FindingSeverity: Int]?
@@ -1415,10 +1196,6 @@ extension ECR {
     }
 
     public struct ImageScanStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The description of the image scan status.
         public let description: String?
@@ -1437,9 +1214,6 @@ extension ECR {
     }
 
     public struct ImageScanningConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scanOnPush", required: false, type: .boolean)
-        ]
 
         /// The setting that determines whether images are scanned after being pushed to a repository. If set to true, images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the StartImageScan API.
         public let scanOnPush: Bool?
@@ -1454,10 +1228,6 @@ extension ECR {
     }
 
     public struct InitiateLayerUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1483,10 +1253,6 @@ extension ECR {
     }
 
     public struct InitiateLayerUploadResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "partSize", required: false, type: .long), 
-            AWSShapeMember(label: "uploadId", required: false, type: .string)
-        ]
 
         /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
         public let partSize: Int64?
@@ -1505,12 +1271,6 @@ extension ECR {
     }
 
     public struct Layer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerAvailability", required: false, type: .enum), 
-            AWSShapeMember(label: "layerDigest", required: false, type: .string), 
-            AWSShapeMember(label: "layerSize", required: false, type: .long), 
-            AWSShapeMember(label: "mediaType", required: false, type: .string)
-        ]
 
         /// The availability status of the image layer.
         public let layerAvailability: LayerAvailability?
@@ -1537,11 +1297,6 @@ extension ECR {
     }
 
     public struct LayerFailure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "layerDigest", required: false, type: .string)
-        ]
 
         /// The failure code associated with the failure.
         public let failureCode: LayerFailureCode?
@@ -1564,9 +1319,6 @@ extension ECR {
     }
 
     public struct LifecyclePolicyPreviewFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
-        ]
 
         /// The tag status of the image.
         public let tagStatus: TagStatus?
@@ -1581,13 +1333,6 @@ extension ECR {
     }
 
     public struct LifecyclePolicyPreviewResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: false, type: .structure), 
-            AWSShapeMember(label: "appliedRulePriority", required: false, type: .integer), 
-            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "imageTags", required: false, type: .list)
-        ]
 
         /// The type of action to be taken.
         public let action: LifecyclePolicyRuleAction?
@@ -1618,9 +1363,6 @@ extension ECR {
     }
 
     public struct LifecyclePolicyPreviewSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expiringImageTotalCount", required: false, type: .integer)
-        ]
 
         /// The number of expiring images.
         public let expiringImageTotalCount: Int?
@@ -1635,9 +1377,6 @@ extension ECR {
     }
 
     public struct LifecyclePolicyRuleAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The type of action to be taken.
         public let `type`: ImageActionType?
@@ -1652,9 +1391,6 @@ extension ECR {
     }
 
     public struct ListImagesFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
-        ]
 
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -1669,13 +1405,6 @@ extension ECR {
     }
 
     public struct ListImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The filter key and value with which to filter your ListImages results.
         public let filter: ListImagesFilter?
@@ -1715,10 +1444,6 @@ extension ECR {
     }
 
     public struct ListImagesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageIds", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of image IDs for the requested repository.
         public let imageIds: [ImageIdentifier]?
@@ -1737,9 +1462,6 @@ extension ECR {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -1754,9 +1476,6 @@ extension ECR {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The tags for the resource.
         public let tags: [Tag]?
@@ -1771,12 +1490,6 @@ extension ECR {
     }
 
     public struct PutImageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageManifest", required: true, type: .string), 
-            AWSShapeMember(label: "imageTag", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The image manifest corresponding to the image to be uploaded.
         public let imageManifest: String
@@ -1814,9 +1527,6 @@ extension ECR {
     }
 
     public struct PutImageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "image", required: false, type: .structure)
-        ]
 
         /// Details of the image uploaded.
         public let image: Image?
@@ -1831,11 +1541,6 @@ extension ECR {
     }
 
     public struct PutImageScanningConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageScanningConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration
@@ -1865,11 +1570,6 @@ extension ECR {
     }
 
     public struct PutImageScanningConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The image scanning configuration setting for the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration?
@@ -1892,11 +1592,6 @@ extension ECR {
     }
 
     public struct PutImageTagMutabilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageTagMutability", required: true, type: .enum), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability
@@ -1926,11 +1621,6 @@ extension ECR {
     }
 
     public struct PutImageTagMutabilityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The image tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
@@ -1953,11 +1643,6 @@ extension ECR {
     }
 
     public struct PutLifecyclePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecyclePolicyText", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The JSON repository policy text to apply to the repository.
         public let lifecyclePolicyText: String
@@ -1989,11 +1674,6 @@ extension ECR {
     }
 
     public struct PutLifecyclePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The JSON repository policy text.
         public let lifecyclePolicyText: String?
@@ -2016,15 +1696,6 @@ extension ECR {
     }
 
     public struct Repository: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryUri", required: false, type: .string)
-        ]
 
         /// The date and time, in JavaScript date format, when the repository was created.
         public let createdAt: TimeStamp?
@@ -2062,12 +1733,6 @@ extension ECR {
     }
 
     public struct SetRepositoryPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "policyText", required: true, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
@@ -2103,11 +1768,6 @@ extension ECR {
     }
 
     public struct SetRepositoryPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         /// The JSON repository policy text applied to the repository.
         public let policyText: String?
@@ -2130,11 +1790,6 @@ extension ECR {
     }
 
     public struct StartImageScanRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageId", required: true, type: .structure), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         public let imageId: ImageIdentifier
         /// The AWS account ID associated with the registry that contains the repository in which to start an image scan request. If you do not specify a registry, the default registry is assumed.
@@ -2164,12 +1819,6 @@ extension ECR {
     }
 
     public struct StartImageScanResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "imageId", required: false, type: .structure), 
-            AWSShapeMember(label: "imageScanStatus", required: false, type: .structure), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string)
-        ]
 
         public let imageId: ImageIdentifier?
         /// The current state of the scan.
@@ -2195,11 +1844,6 @@ extension ECR {
     }
 
     public struct StartLifecyclePolicyPreviewRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
-        ]
 
         /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
         public let lifecyclePolicyText: String?
@@ -2231,12 +1875,6 @@ extension ECR {
     }
 
     public struct StartLifecyclePolicyPreviewResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecyclePolicyText", required: false, type: .string), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The JSON repository policy text.
         public let lifecyclePolicyText: String?
@@ -2263,10 +1901,6 @@ extension ECR {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
@@ -2285,10 +1919,6 @@ extension ECR {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the the resource to which to add tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -2315,10 +1945,6 @@ extension ECR {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -2345,14 +1971,6 @@ extension ECR {
     }
 
     public struct UploadLayerPartRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "layerPartBlob", required: true, type: .blob), 
-            AWSShapeMember(label: "partFirstByte", required: true, type: .long), 
-            AWSShapeMember(label: "partLastByte", required: true, type: .long), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "uploadId", required: true, type: .string)
-        ]
 
         /// The base64-encoded layer part payload.
         public let layerPartBlob: Data
@@ -2399,12 +2017,6 @@ extension ECR {
     }
 
     public struct UploadLayerPartResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastByteReceived", required: false, type: .long), 
-            AWSShapeMember(label: "registryId", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
-            AWSShapeMember(label: "uploadId", required: false, type: .string)
-        ]
 
         /// The integer value of the last byte received in the request.
         public let lastByteReceived: Int64?

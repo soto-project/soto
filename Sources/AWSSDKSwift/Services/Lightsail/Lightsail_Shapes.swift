@@ -396,12 +396,6 @@ extension Lightsail {
     //MARK: Shapes
 
     public struct AddOn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "nextSnapshotTimeOfDay", required: false, type: .string), 
-            AWSShapeMember(label: "snapshotTimeOfDay", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string)
-        ]
 
         /// The name of the add-on.
         public let name: String?
@@ -428,10 +422,6 @@ extension Lightsail {
     }
 
     public struct AddOnRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOnType", required: true, type: .enum), 
-            AWSShapeMember(label: "autoSnapshotAddOnRequest", required: false, type: .structure)
-        ]
 
         /// The add-on type.
         public let addOnType: AddOnType
@@ -454,9 +444,6 @@ extension Lightsail {
     }
 
     public struct AllocateStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
 
         /// The name of the static IP address.
         public let staticIpName: String
@@ -475,9 +462,6 @@ extension Lightsail {
     }
 
     public struct AllocateStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the static IP address you allocated.
         public let operations: [Operation]?
@@ -492,11 +476,6 @@ extension Lightsail {
     }
 
     public struct AttachDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string), 
-            AWSShapeMember(label: "diskPath", required: true, type: .string), 
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
@@ -525,9 +504,6 @@ extension Lightsail {
     }
 
     public struct AttachDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -542,10 +518,6 @@ extension Lightsail {
     }
 
     public struct AttachInstancesToLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
         public let instanceNames: [String]
@@ -571,9 +543,6 @@ extension Lightsail {
     }
 
     public struct AttachInstancesToLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object representing the API operations.
         public let operations: [Operation]?
@@ -588,10 +557,6 @@ extension Lightsail {
     }
 
     public struct AttachLoadBalancerTlsCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateName", required: true, type: .string), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// The name of your SSL/TLS certificate.
         public let certificateName: String
@@ -615,9 +580,6 @@ extension Lightsail {
     }
 
     public struct AttachLoadBalancerTlsCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object representing the API operations. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
         public let operations: [Operation]?
@@ -632,10 +594,6 @@ extension Lightsail {
     }
 
     public struct AttachStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
 
         /// The instance name to which you want to attach the static IP address.
         public let instanceName: String
@@ -659,9 +617,6 @@ extension Lightsail {
     }
 
     public struct AttachStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about your API operations.
         public let operations: [Operation]?
@@ -676,10 +631,6 @@ extension Lightsail {
     }
 
     public struct AttachedDisk: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer)
-        ]
 
         /// The path of the disk (e.g., /dev/xvdf).
         public let path: String?
@@ -698,9 +649,6 @@ extension Lightsail {
     }
 
     public struct AutoSnapshotAddOnRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "snapshotTimeOfDay", required: false, type: .string)
-        ]
 
         /// The daily time when an automatic snapshot will be created. Constraints:   Must be in HH:00 format, and in an hourly increment.   Specified in Coordinated Universal Time (UTC).   The snapshot will be automatically created between the time specified and up to 45 minutes after.  
         public let snapshotTimeOfDay: String?
@@ -719,12 +667,6 @@ extension Lightsail {
     }
 
     public struct AutoSnapshotDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "date", required: false, type: .string), 
-            AWSShapeMember(label: "fromAttachedDisks", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The timestamp when the automatic snapshot was created.
         public let createdAt: TimeStamp?
@@ -751,10 +693,6 @@ extension Lightsail {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .string), 
-            AWSShapeMember(label: "zoneName", required: false, type: .string)
-        ]
 
         /// The state of the Availability Zone.
         public let state: String?
@@ -773,20 +711,6 @@ extension Lightsail {
     }
 
     public struct Blueprint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "group", required: false, type: .string), 
-            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
-            AWSShapeMember(label: "licenseUrl", required: false, type: .string), 
-            AWSShapeMember(label: "minPower", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "productUrl", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "versionCode", required: false, type: .string)
-        ]
 
         /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
         public let blueprintId: String?
@@ -845,19 +769,6 @@ extension Lightsail {
     }
 
     public struct Bundle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "power", required: false, type: .integer), 
-            AWSShapeMember(label: "price", required: false, type: .float), 
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeMember(label: "supportedPlatforms", required: false, type: .list), 
-            AWSShapeMember(label: "transferPerMonthInGb", required: false, type: .integer)
-        ]
 
         /// The bundle ID (e.g., micro_1_0).
         public let bundleId: String?
@@ -912,10 +823,6 @@ extension Lightsail {
     }
 
     public struct CloseInstancePublicPortsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "portInfo", required: true, type: .structure)
-        ]
 
         /// The name of the instance on which you're attempting to close the public ports.
         public let instanceName: String
@@ -939,9 +846,6 @@ extension Lightsail {
     }
 
     public struct CloseInstancePublicPortsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs that contains information about the operation.
         public let operation: Operation?
@@ -956,16 +860,6 @@ extension Lightsail {
     }
 
     public struct CloudFormationStackRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "destinationInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sourceInfo", required: false, type: .list), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
         public let arn: String?
@@ -1008,11 +902,6 @@ extension Lightsail {
     }
 
     public struct CloudFormationStackRecordSourceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public let arn: String?
@@ -1035,14 +924,6 @@ extension Lightsail {
     }
 
     public struct CopySnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "restoreDate", required: false, type: .string), 
-            AWSShapeMember(label: "sourceRegion", required: true, type: .enum), 
-            AWSShapeMember(label: "sourceResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "sourceSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "targetSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "useLatestRestorableAutoSnapshot", required: false, type: .boolean)
-        ]
 
         /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.  
         public let restoreDate: String?
@@ -1082,9 +963,6 @@ extension Lightsail {
     }
 
     public struct CopySnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
@@ -1099,9 +977,6 @@ extension Lightsail {
     }
 
     public struct CreateCloudFormationStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instances", required: true, type: .list)
-        ]
 
         /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array.
         public let instances: [InstanceEntry]
@@ -1122,9 +997,6 @@ extension Lightsail {
     }
 
     public struct CreateCloudFormationStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
@@ -1139,17 +1011,6 @@ extension Lightsail {
     }
 
     public struct CreateDiskFromSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOns", required: false, type: .list), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "diskName", required: true, type: .string), 
-            AWSShapeMember(label: "diskSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "restoreDate", required: false, type: .string), 
-            AWSShapeMember(label: "sizeInGb", required: true, type: .integer), 
-            AWSShapeMember(label: "sourceDiskName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "useLatestRestorableAutoSnapshot", required: false, type: .boolean)
-        ]
 
         /// An array of objects that represent the add-ons to enable for the new disk.
         public let addOns: [AddOnRequest]?
@@ -1205,9 +1066,6 @@ extension Lightsail {
     }
 
     public struct CreateDiskFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -1222,13 +1080,6 @@ extension Lightsail {
     }
 
     public struct CreateDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOns", required: false, type: .list), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "diskName", required: true, type: .string), 
-            AWSShapeMember(label: "sizeInGb", required: true, type: .integer), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// An array of objects that represent the add-ons to enable for the new disk.
         public let addOns: [AddOnRequest]?
@@ -1267,9 +1118,6 @@ extension Lightsail {
     }
 
     public struct CreateDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -1284,12 +1132,6 @@ extension Lightsail {
     }
 
     public struct CreateDiskSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: false, type: .string), 
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "instanceName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The unique name of the source disk (e.g., Disk-Virginia-1).  This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive. 
         public let diskName: String?
@@ -1322,9 +1164,6 @@ extension Lightsail {
     }
 
     public struct CreateDiskSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -1339,10 +1178,6 @@ extension Lightsail {
     }
 
     public struct CreateDomainEntryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about the domain entry request.
         public let domainEntry: DomainEntry
@@ -1365,9 +1200,6 @@ extension Lightsail {
     }
 
     public struct CreateDomainEntryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the operation.
         public let operation: Operation?
@@ -1382,10 +1214,6 @@ extension Lightsail {
     }
 
     public struct CreateDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
         public let domainName: String
@@ -1404,9 +1232,6 @@ extension Lightsail {
     }
 
     public struct CreateDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the domain resource you created.
         public let operation: Operation?
@@ -1421,11 +1246,6 @@ extension Lightsail {
     }
 
     public struct CreateInstanceSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Lightsail instance on which to base your snapshot.
         public let instanceName: String
@@ -1453,9 +1273,6 @@ extension Lightsail {
     }
 
     public struct CreateInstanceSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the results of your create instances snapshot request.
         public let operations: [Operation]?
@@ -1470,20 +1287,6 @@ extension Lightsail {
     }
 
     public struct CreateInstancesFromSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOns", required: false, type: .list), 
-            AWSShapeMember(label: "attachedDiskMapping", required: false, type: .map), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "bundleId", required: true, type: .string), 
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "instanceSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "keyPairName", required: false, type: .string), 
-            AWSShapeMember(label: "restoreDate", required: false, type: .string), 
-            AWSShapeMember(label: "sourceInstanceName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "useLatestRestorableAutoSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "userData", required: false, type: .string)
-        ]
 
         /// An array of objects representing the add-ons to enable for the new instance.
         public let addOns: [AddOnRequest]?
@@ -1554,9 +1357,6 @@ extension Lightsail {
     }
 
     public struct CreateInstancesFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
         public let operations: [Operation]?
@@ -1571,16 +1371,6 @@ extension Lightsail {
     }
 
     public struct CreateInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOns", required: false, type: .list), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "blueprintId", required: true, type: .string), 
-            AWSShapeMember(label: "bundleId", required: true, type: .string), 
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "keyPairName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "userData", required: false, type: .string)
-        ]
 
         /// An array of objects representing the add-ons to enable for the new instance.
         public let addOns: [AddOnRequest]?
@@ -1632,9 +1422,6 @@ extension Lightsail {
     }
 
     public struct CreateInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the results of your create instances request.
         public let operations: [Operation]?
@@ -1649,10 +1436,6 @@ extension Lightsail {
     }
 
     public struct CreateKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The name for your new key pair.
         public let keyPairName: String
@@ -1675,12 +1458,6 @@ extension Lightsail {
     }
 
     public struct CreateKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPair", required: false, type: .structure), 
-            AWSShapeMember(label: "operation", required: false, type: .structure), 
-            AWSShapeMember(label: "privateKeyBase64", required: false, type: .string), 
-            AWSShapeMember(label: "publicKeyBase64", required: false, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about the new key pair you just created.
         public let keyPair: KeyPair?
@@ -1707,15 +1484,6 @@ extension Lightsail {
     }
 
     public struct CreateLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "certificateDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "certificateName", required: false, type: .string), 
-            AWSShapeMember(label: "healthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "instancePort", required: true, type: .integer), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
         public let certificateAlternativeNames: [String]?
@@ -1761,9 +1529,6 @@ extension Lightsail {
     }
 
     public struct CreateLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object containing information about the API operations.
         public let operations: [Operation]?
@@ -1778,13 +1543,6 @@ extension Lightsail {
     }
 
     public struct CreateLoadBalancerTlsCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "certificateDomainName", required: true, type: .string), 
-            AWSShapeMember(label: "certificateName", required: true, type: .string), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com).
         public let certificateAlternativeNames: [String]?
@@ -1820,9 +1578,6 @@ extension Lightsail {
     }
 
     public struct CreateLoadBalancerTlsCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object containing information about the API operations.
         public let operations: [Operation]?
@@ -1837,17 +1592,6 @@ extension Lightsail {
     }
 
     public struct CreateRelationalDatabaseFromSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "relationalDatabaseBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "restoreTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "sourceRelationalDatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "useLatestRestorableTime", required: false, type: .boolean)
-        ]
 
         /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
         public let availabilityZone: String?
@@ -1900,9 +1644,6 @@ extension Lightsail {
     }
 
     public struct CreateRelationalDatabaseFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your create relational database from snapshot request.
         public let operations: [Operation]?
@@ -1917,19 +1658,6 @@ extension Lightsail {
     }
 
     public struct CreateRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "masterDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "masterUsername", required: true, type: .string), 
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "relationalDatabaseBlueprintId", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseBundleId", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
         public let availabilityZone: String?
@@ -1988,9 +1716,6 @@ extension Lightsail {
     }
 
     public struct CreateRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your create relational database request.
         public let operations: [Operation]?
@@ -2005,11 +1730,6 @@ extension Lightsail {
     }
 
     public struct CreateRelationalDatabaseSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The name of the database on which to base your new snapshot.
         public let relationalDatabaseName: String
@@ -2037,9 +1757,6 @@ extension Lightsail {
     }
 
     public struct CreateRelationalDatabaseSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your create relational database snapshot request.
         public let operations: [Operation]?
@@ -2054,10 +1771,6 @@ extension Lightsail {
     }
 
     public struct DeleteAutoSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "date", required: true, type: .string), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
 
         /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource.
         public let date: String
@@ -2081,9 +1794,6 @@ extension Lightsail {
     }
 
     public struct DeleteAutoSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of objects that describe the result of your request.
         public let operations: [Operation]?
@@ -2098,10 +1808,6 @@ extension Lightsail {
     }
 
     public struct DeleteDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string), 
-            AWSShapeMember(label: "forceDeleteAddOns", required: false, type: .boolean)
-        ]
 
         /// The unique name of the disk you want to delete (e.g., my-disk).
         public let diskName: String
@@ -2124,9 +1830,6 @@ extension Lightsail {
     }
 
     public struct DeleteDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of objects that describe the result of your request.
         public let operations: [Operation]?
@@ -2141,9 +1844,6 @@ extension Lightsail {
     }
 
     public struct DeleteDiskSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string)
-        ]
 
         /// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
@@ -2162,9 +1862,6 @@ extension Lightsail {
     }
 
     public struct DeleteDiskSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -2179,10 +1876,6 @@ extension Lightsail {
     }
 
     public struct DeleteDomainEntryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about your domain entries.
         public let domainEntry: DomainEntry
@@ -2205,9 +1898,6 @@ extension Lightsail {
     }
 
     public struct DeleteDomainEntryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the results of your delete domain entry request.
         public let operation: Operation?
@@ -2222,9 +1912,6 @@ extension Lightsail {
     }
 
     public struct DeleteDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
 
         /// The specific domain name to delete.
         public let domainName: String
@@ -2239,9 +1926,6 @@ extension Lightsail {
     }
 
     public struct DeleteDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the results of your delete domain request.
         public let operation: Operation?
@@ -2256,10 +1940,6 @@ extension Lightsail {
     }
 
     public struct DeleteInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "forceDeleteAddOns", required: false, type: .boolean), 
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
         public let forceDeleteAddOns: Bool?
@@ -2282,9 +1962,6 @@ extension Lightsail {
     }
 
     public struct DeleteInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the results of your delete instance request.
         public let operations: [Operation]?
@@ -2299,9 +1976,6 @@ extension Lightsail {
     }
 
     public struct DeleteInstanceSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
-        ]
 
         /// The name of the snapshot to delete.
         public let instanceSnapshotName: String
@@ -2320,9 +1994,6 @@ extension Lightsail {
     }
 
     public struct DeleteInstanceSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
         public let operations: [Operation]?
@@ -2337,9 +2008,6 @@ extension Lightsail {
     }
 
     public struct DeleteKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string)
-        ]
 
         /// The name of the key pair to delete.
         public let keyPairName: String
@@ -2358,9 +2026,6 @@ extension Lightsail {
     }
 
     public struct DeleteKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the results of your delete key pair request.
         public let operation: Operation?
@@ -2375,9 +2040,6 @@ extension Lightsail {
     }
 
     public struct DeleteKnownHostKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// The name of the instance for which you want to reset the host key or certificate.
         public let instanceName: String
@@ -2396,9 +2058,6 @@ extension Lightsail {
     }
 
     public struct DeleteKnownHostKeysResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
@@ -2413,9 +2072,6 @@ extension Lightsail {
     }
 
     public struct DeleteLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// The name of the load balancer you want to delete.
         public let loadBalancerName: String
@@ -2434,9 +2090,6 @@ extension Lightsail {
     }
 
     public struct DeleteLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -2451,11 +2104,6 @@ extension Lightsail {
     }
 
     public struct DeleteLoadBalancerTlsCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateName", required: true, type: .string), 
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// The SSL/TLS certificate name.
         public let certificateName: String
@@ -2483,9 +2131,6 @@ extension Lightsail {
     }
 
     public struct DeleteLoadBalancerTlsCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -2500,11 +2145,6 @@ extension Lightsail {
     }
 
     public struct DeleteRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "finalRelationalDatabaseSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "skipFinalSnapshot", required: false, type: .boolean)
-        ]
 
         /// The name of the database snapshot created if skip final snapshot is false, which is the default value for that parameter.  Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error.  Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
         public let finalRelationalDatabaseSnapshotName: String?
@@ -2532,9 +2172,6 @@ extension Lightsail {
     }
 
     public struct DeleteRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your delete relational database request.
         public let operations: [Operation]?
@@ -2549,9 +2186,6 @@ extension Lightsail {
     }
 
     public struct DeleteRelationalDatabaseSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string)
-        ]
 
         /// The name of the database snapshot that you are deleting.
         public let relationalDatabaseSnapshotName: String
@@ -2570,9 +2204,6 @@ extension Lightsail {
     }
 
     public struct DeleteRelationalDatabaseSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your delete relational database snapshot request.
         public let operations: [Operation]?
@@ -2587,10 +2218,6 @@ extension Lightsail {
     }
 
     public struct DestinationInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "service", required: false, type: .string)
-        ]
 
         /// The ID of the resource created at the destination.
         public let id: String?
@@ -2609,9 +2236,6 @@ extension Lightsail {
     }
 
     public struct DetachDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string)
-        ]
 
         /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
         public let diskName: String
@@ -2630,9 +2254,6 @@ extension Lightsail {
     }
 
     public struct DetachDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -2647,10 +2268,6 @@ extension Lightsail {
     }
 
     public struct DetachInstancesFromLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// An array of strings containing the names of the instances you want to detach from the load balancer.
         public let instanceNames: [String]
@@ -2676,9 +2293,6 @@ extension Lightsail {
     }
 
     public struct DetachInstancesFromLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -2693,9 +2307,6 @@ extension Lightsail {
     }
 
     public struct DetachStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
 
         /// The name of the static IP to detach from the instance.
         public let staticIpName: String
@@ -2714,9 +2325,6 @@ extension Lightsail {
     }
 
     public struct DetachStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the results of your detach static IP request.
         public let operations: [Operation]?
@@ -2731,10 +2339,6 @@ extension Lightsail {
     }
 
     public struct DisableAddOnRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOnType", required: true, type: .enum), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
 
         /// The add-on type to disable.
         public let addOnType: AddOnType
@@ -2757,9 +2361,6 @@ extension Lightsail {
     }
 
     public struct DisableAddOnResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of objects that describe the result of your request.
         public let operations: [Operation]?
@@ -2774,23 +2375,6 @@ extension Lightsail {
     }
 
     public struct Disk: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOns", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "iops", required: false, type: .integer), 
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// An array of objects representing the add-ons enabled on the disk.
         public let addOns: [AddOn]?
@@ -2861,12 +2445,6 @@ extension Lightsail {
     }
 
     public struct DiskInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer)
-        ]
 
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
         public let isSystemDisk: Bool?
@@ -2893,10 +2471,6 @@ extension Lightsail {
     }
 
     public struct DiskMap: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newDiskName", required: false, type: .string), 
-            AWSShapeMember(label: "originalDiskPath", required: false, type: .string)
-        ]
 
         /// The new disk name (e.g., my-new-disk).
         public let newDiskName: String?
@@ -2920,23 +2494,6 @@ extension Lightsail {
     }
 
     public struct DiskSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fromDiskArn", required: false, type: .string), 
-            AWSShapeMember(label: "fromDiskName", required: false, type: .string), 
-            AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "fromInstanceName", required: false, type: .string), 
-            AWSShapeMember(label: "isFromAutoSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "progress", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the disk snapshot.
         public let arn: String?
@@ -3007,9 +2564,6 @@ extension Lightsail {
     }
 
     public struct DiskSnapshotInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer)
-        ]
 
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int?
@@ -3024,16 +2578,6 @@ extension Lightsail {
     }
 
     public struct Domain: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "domainEntries", required: false, type: .list), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
@@ -3076,13 +2620,6 @@ extension Lightsail {
     }
 
     public struct DomainEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "isAlias", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "target", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string)
-        ]
 
         /// The ID of the domain recordset entry.
         public let id: String?
@@ -3125,10 +2662,6 @@ extension Lightsail {
     }
 
     public struct DownloadDefaultKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "privateKeyBase64", required: false, type: .string), 
-            AWSShapeMember(label: "publicKeyBase64", required: false, type: .string)
-        ]
 
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
@@ -3147,10 +2680,6 @@ extension Lightsail {
     }
 
     public struct EnableAddOnRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOnRequest", required: true, type: .structure), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
 
         /// An array of strings representing the add-on to enable or modify.
         public let addOnRequest: AddOnRequest
@@ -3174,9 +2703,6 @@ extension Lightsail {
     }
 
     public struct EnableAddOnResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of objects that describe the result of your request.
         public let operations: [Operation]?
@@ -3191,16 +2717,6 @@ extension Lightsail {
     }
 
     public struct ExportSnapshotRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "destinationInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sourceInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public let arn: String?
@@ -3243,16 +2759,6 @@ extension Lightsail {
     }
 
     public struct ExportSnapshotRecordSourceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "diskSnapshotInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "fromResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "fromResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "instanceSnapshotInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
         public let arn: String?
@@ -3295,9 +2801,6 @@ extension Lightsail {
     }
 
     public struct ExportSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourceSnapshotName", required: true, type: .string)
-        ]
 
         /// The name of the instance or disk snapshot to be exported to Amazon EC2.
         public let sourceSnapshotName: String
@@ -3316,9 +2819,6 @@ extension Lightsail {
     }
 
     public struct ExportSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
@@ -3333,9 +2833,6 @@ extension Lightsail {
     }
 
     public struct GetActiveNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for paginating results from your get active names request.
         public let pageToken: String?
@@ -3350,10 +2847,6 @@ extension Lightsail {
     }
 
     public struct GetActiveNamesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activeNames", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// The list of active names returned by the get active names request.
         public let activeNames: [String]?
@@ -3372,9 +2865,6 @@ extension Lightsail {
     }
 
     public struct GetAutoSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
 
         /// The name of the source instance or disk from which to get automatic snapshot information.
         public let resourceName: String
@@ -3393,11 +2883,6 @@ extension Lightsail {
     }
 
     public struct GetAutoSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// An array of objects that describe the automatic snapshots that are available for the specified source instance or disk.
         public let autoSnapshots: [AutoSnapshotDetails]?
@@ -3420,10 +2905,6 @@ extension Lightsail {
     }
 
     public struct GetBlueprintsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeInactive", required: false, type: .boolean), 
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A Boolean value indicating whether to include inactive results in your request.
         public let includeInactive: Bool?
@@ -3442,10 +2923,6 @@ extension Lightsail {
     }
 
     public struct GetBlueprintsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blueprints", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of key-value pairs that contains information about the available blueprints.
         public let blueprints: [Blueprint]?
@@ -3464,10 +2941,6 @@ extension Lightsail {
     }
 
     public struct GetBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeInactive", required: false, type: .boolean), 
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A Boolean value that indicates whether to include inactive bundle results in your request.
         public let includeInactive: Bool?
@@ -3486,10 +2959,6 @@ extension Lightsail {
     }
 
     public struct GetBundlesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundles", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of key-value pairs that contains information about the available bundles.
         public let bundles: [Bundle]?
@@ -3508,9 +2977,6 @@ extension Lightsail {
     }
 
     public struct GetCloudFormationStackRecordsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to a specific page of results for your get cloud formation stack records request.
         public let pageToken: String?
@@ -3525,10 +2991,6 @@ extension Lightsail {
     }
 
     public struct GetCloudFormationStackRecordsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudFormationStackRecords", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// A list of objects describing the CloudFormation stack records.
         public let cloudFormationStackRecords: [CloudFormationStackRecord]?
@@ -3547,9 +3009,6 @@ extension Lightsail {
     }
 
     public struct GetDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string)
-        ]
 
         /// The name of the disk (e.g., my-disk).
         public let diskName: String
@@ -3568,9 +3027,6 @@ extension Lightsail {
     }
 
     public struct GetDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "disk", required: false, type: .structure)
-        ]
 
         /// An object containing information about the disk.
         public let disk: Disk?
@@ -3585,9 +3041,6 @@ extension Lightsail {
     }
 
     public struct GetDiskSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string)
-        ]
 
         /// The name of the disk snapshot (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
@@ -3606,9 +3059,6 @@ extension Lightsail {
     }
 
     public struct GetDiskSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshot", required: false, type: .structure)
-        ]
 
         /// An object containing information about the disk snapshot.
         public let diskSnapshot: DiskSnapshot?
@@ -3623,9 +3073,6 @@ extension Lightsail {
     }
 
     public struct GetDiskSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
         public let pageToken: String?
@@ -3640,10 +3087,6 @@ extension Lightsail {
     }
 
     public struct GetDiskSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of objects containing information about all block storage disk snapshots.
         public let diskSnapshots: [DiskSnapshot]?
@@ -3662,9 +3105,6 @@ extension Lightsail {
     }
 
     public struct GetDisksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your GetDisks request.
         public let pageToken: String?
@@ -3679,10 +3119,6 @@ extension Lightsail {
     }
 
     public struct GetDisksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "disks", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of objects containing information about all block storage disks.
         public let disks: [Disk]?
@@ -3701,9 +3137,6 @@ extension Lightsail {
     }
 
     public struct GetDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
 
         /// The domain name for which your want to return information about.
         public let domainName: String
@@ -3718,9 +3151,6 @@ extension Lightsail {
     }
 
     public struct GetDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domain", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about your get domain request.
         public let domain: Domain?
@@ -3735,9 +3165,6 @@ extension Lightsail {
     }
 
     public struct GetDomainsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your get domains request.
         public let pageToken: String?
@@ -3752,10 +3179,6 @@ extension Lightsail {
     }
 
     public struct GetDomainsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domains", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
         public let domains: [Domain]?
@@ -3774,9 +3197,6 @@ extension Lightsail {
     }
 
     public struct GetExportSnapshotRecordsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to a specific page of results for your get export snapshot records request.
         public let pageToken: String?
@@ -3791,10 +3211,6 @@ extension Lightsail {
     }
 
     public struct GetExportSnapshotRecordsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportSnapshotRecords", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// A list of objects describing the export snapshot records.
         public let exportSnapshotRecords: [ExportSnapshotRecord]?
@@ -3813,10 +3229,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceAccessDetailsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum)
-        ]
 
         /// The name of the instance to access.
         public let instanceName: String
@@ -3839,9 +3251,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceAccessDetailsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessDetails", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about a get instance access request.
         public let accessDetails: InstanceAccessDetails?
@@ -3856,15 +3265,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceMetricDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "metricName", required: true, type: .enum), 
-            AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "statistics", required: true, type: .list), 
-            AWSShapeMember(label: "unit", required: true, type: .enum)
-        ]
 
         /// The end time of the time period.
         public let endTime: TimeStamp
@@ -3909,10 +3309,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceMetricDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricData", required: false, type: .list), 
-            AWSShapeMember(label: "metricName", required: false, type: .enum)
-        ]
 
         /// An array of key-value pairs containing information about the results of your get instance metric data request.
         public let metricData: [MetricDatapoint]?
@@ -3931,9 +3327,6 @@ extension Lightsail {
     }
 
     public struct GetInstancePortStatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// The name of the instance.
         public let instanceName: String
@@ -3952,9 +3345,6 @@ extension Lightsail {
     }
 
     public struct GetInstancePortStatesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "portStates", required: false, type: .list)
-        ]
 
         /// Information about the port states resulting from your request.
         public let portStates: [InstancePortState]?
@@ -3969,9 +3359,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// The name of the instance.
         public let instanceName: String
@@ -3990,9 +3377,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instance", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the specified instance.
         public let instance: Instance?
@@ -4007,9 +3391,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
-        ]
 
         /// The name of the snapshot for which you are requesting information.
         public let instanceSnapshotName: String
@@ -4028,9 +3409,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshot", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
         public let instanceSnapshot: InstanceSnapshot?
@@ -4045,9 +3423,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your get instance snapshots request.
         public let pageToken: String?
@@ -4062,10 +3437,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about the results of your get instance snapshots request.
         public let instanceSnapshots: [InstanceSnapshot]?
@@ -4084,9 +3455,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// The name of the instance to get state information about.
         public let instanceName: String
@@ -4105,9 +3473,6 @@ extension Lightsail {
     }
 
     public struct GetInstanceStateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .structure)
-        ]
 
         /// The state of the instance.
         public let state: InstanceState?
@@ -4122,9 +3487,6 @@ extension Lightsail {
     }
 
     public struct GetInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your get instances request.
         public let pageToken: String?
@@ -4139,10 +3501,6 @@ extension Lightsail {
     }
 
     public struct GetInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instances", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about your instances.
         public let instances: [Instance]?
@@ -4161,9 +3519,6 @@ extension Lightsail {
     }
 
     public struct GetKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string)
-        ]
 
         /// The name of the key pair for which you are requesting information.
         public let keyPairName: String
@@ -4182,9 +3537,6 @@ extension Lightsail {
     }
 
     public struct GetKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPair", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the key pair.
         public let keyPair: KeyPair?
@@ -4199,9 +3551,6 @@ extension Lightsail {
     }
 
     public struct GetKeyPairsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your get key pairs request.
         public let pageToken: String?
@@ -4216,10 +3565,6 @@ extension Lightsail {
     }
 
     public struct GetKeyPairsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairs", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about the key pairs.
         public let keyPairs: [KeyPair]?
@@ -4238,15 +3583,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancerMetricDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "metricName", required: true, type: .enum), 
-            AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "statistics", required: true, type: .list), 
-            AWSShapeMember(label: "unit", required: true, type: .enum)
-        ]
 
         /// The end time of the period.
         public let endTime: TimeStamp
@@ -4291,10 +3627,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancerMetricDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricData", required: false, type: .list), 
-            AWSShapeMember(label: "metricName", required: false, type: .enum)
-        ]
 
         /// An array of metric datapoint objects.
         public let metricData: [MetricDatapoint]?
@@ -4313,9 +3645,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -4334,9 +3663,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancer", required: false, type: .structure)
-        ]
 
         /// An object containing information about your load balancer.
         public let loadBalancer: LoadBalancer?
@@ -4351,9 +3677,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancerTlsCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// The name of the load balancer you associated with your SSL/TLS certificate.
         public let loadBalancerName: String
@@ -4372,9 +3695,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancerTlsCertificatesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tlsCertificates", required: false, type: .list)
-        ]
 
         /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
         public let tlsCertificates: [LoadBalancerTlsCertificate]?
@@ -4389,9 +3709,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for paginating the results from your GetLoadBalancers request.
         public let pageToken: String?
@@ -4406,10 +3723,6 @@ extension Lightsail {
     }
 
     public struct GetLoadBalancersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An array of LoadBalancer objects describing your load balancers.
         public let loadBalancers: [LoadBalancer]?
@@ -4428,9 +3741,6 @@ extension Lightsail {
     }
 
     public struct GetOperationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operationId", required: true, type: .string)
-        ]
 
         /// A GUID used to identify the operation.
         public let operationId: String
@@ -4449,9 +3759,6 @@ extension Lightsail {
     }
 
     public struct GetOperationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the results of your get operation request.
         public let operation: Operation?
@@ -4466,10 +3773,6 @@ extension Lightsail {
     }
 
     public struct GetOperationsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your get operations for resource request.
         public let pageToken: String?
@@ -4492,10 +3795,6 @@ extension Lightsail {
     }
 
     public struct GetOperationsForResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextPageToken: String?
@@ -4514,9 +3813,6 @@ extension Lightsail {
     }
 
     public struct GetOperationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your get operations request.
         public let pageToken: String?
@@ -4531,10 +3827,6 @@ extension Lightsail {
     }
 
     public struct GetOperationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// A token used for advancing to the next page of results from your get operations request.
         public let nextPageToken: String?
@@ -4553,10 +3845,6 @@ extension Lightsail {
     }
 
     public struct GetRegionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeAvailabilityZones", required: false, type: .boolean), 
-            AWSShapeMember(label: "includeRelationalDatabaseAvailabilityZones", required: false, type: .boolean)
-        ]
 
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
         public let includeAvailabilityZones: Bool?
@@ -4575,9 +3863,6 @@ extension Lightsail {
     }
 
     public struct GetRegionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "regions", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about your get regions request.
         public let regions: [Region]?
@@ -4592,9 +3877,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseBlueprintsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to a specific page of results for your get relational database blueprints request.
         public let pageToken: String?
@@ -4609,10 +3891,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseBlueprintsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blueprints", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An object describing the result of your get relational database blueprints request.
         public let blueprints: [RelationalDatabaseBlueprint]?
@@ -4631,9 +3909,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to a specific page of results for your get relational database bundles request.
         public let pageToken: String?
@@ -4648,10 +3923,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseBundlesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundles", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
 
         /// An object describing the result of your get relational database bundles request.
         public let bundles: [RelationalDatabaseBundle]?
@@ -4670,11 +3941,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "durationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum is 1 and the maximum is 14 days (20160 minutes).
         public let durationInMinutes: Int?
@@ -4701,10 +3967,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseEventsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseEvents", required: false, type: .list)
-        ]
 
         /// A token used for advancing to the next page of results from your get relational database events request.
         public let nextPageToken: String?
@@ -4723,14 +3985,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseLogEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "startFromHead", required: false, type: .boolean), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
-        ]
 
         /// The end of the time interval from which to get log events. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp?
@@ -4769,11 +4023,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseLogEventsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextBackwardToken", required: false, type: .string), 
-            AWSShapeMember(label: "nextForwardToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceLogEvents", required: false, type: .list)
-        ]
 
         /// A token used for advancing to the previous page of results from your get relational database log events request.
         public let nextBackwardToken: String?
@@ -4796,9 +4045,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseLogStreamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// The name of your database for which to get log streams.
         public let relationalDatabaseName: String
@@ -4817,9 +4063,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseLogStreamsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logStreams", required: false, type: .list)
-        ]
 
         /// An object describing the result of your get relational database log streams request.
         public let logStreams: [String]?
@@ -4834,10 +4077,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseMasterUserPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "passwordVersion", required: false, type: .enum), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous passwords respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT. After the PENDING password rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT 
         public let passwordVersion: RelationalDatabasePasswordVersion?
@@ -4860,10 +4099,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseMasterUserPasswordResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string)
-        ]
 
         /// The timestamp when the specified version of the master user password was created.
         public let createdAt: TimeStamp?
@@ -4882,15 +4117,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseMetricDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "metricName", required: true, type: .enum), 
-            AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "statistics", required: true, type: .list), 
-            AWSShapeMember(label: "unit", required: true, type: .enum)
-        ]
 
         /// The end of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp
@@ -4935,10 +4161,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseMetricDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricData", required: false, type: .list), 
-            AWSShapeMember(label: "metricName", required: false, type: .enum)
-        ]
 
         /// An object describing the result of your get relational database metric data request.
         public let metricData: [MetricDatapoint]?
@@ -4957,10 +4179,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseParametersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// A token used for advancing to a specific page of results for your get relational database parameters request.
         public let pageToken: String?
@@ -4983,10 +4201,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "parameters", required: false, type: .list)
-        ]
 
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let nextPageToken: String?
@@ -5005,9 +4219,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// The name of the database that you are looking up.
         public let relationalDatabaseName: String
@@ -5026,9 +4237,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabase", required: false, type: .structure)
-        ]
 
         /// An object describing the specified database.
         public let relationalDatabase: RelationalDatabase?
@@ -5043,9 +4251,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string)
-        ]
 
         /// The name of the database snapshot for which to get information.
         public let relationalDatabaseSnapshotName: String
@@ -5064,9 +4269,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshot", required: false, type: .structure)
-        ]
 
         /// An object describing the specified database snapshot.
         public let relationalDatabaseSnapshot: RelationalDatabaseSnapshot?
@@ -5081,9 +4283,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to a specific page of results for your get relational database snapshots request.
         public let pageToken: String?
@@ -5098,10 +4297,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseSnapshots", required: false, type: .list)
-        ]
 
         /// A token used for advancing to the next page of results from your get relational database snapshots request.
         public let nextPageToken: String?
@@ -5120,9 +4315,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to a specific page of results for your get relational database request.
         public let pageToken: String?
@@ -5137,10 +4329,6 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabasesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabases", required: false, type: .list)
-        ]
 
         /// A token used for advancing to the next page of results from your get relational databases request.
         public let nextPageToken: String?
@@ -5159,9 +4347,6 @@ extension Lightsail {
     }
 
     public struct GetStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
 
         /// The name of the static IP in Lightsail.
         public let staticIpName: String
@@ -5180,9 +4365,6 @@ extension Lightsail {
     }
 
     public struct GetStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIp", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the requested static IP.
         public let staticIp: StaticIp?
@@ -5197,9 +4379,6 @@ extension Lightsail {
     }
 
     public struct GetStaticIpsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
 
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let pageToken: String?
@@ -5214,10 +4393,6 @@ extension Lightsail {
     }
 
     public struct GetStaticIpsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "staticIps", required: false, type: .list)
-        ]
 
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let nextPageToken: String?
@@ -5236,15 +4411,6 @@ extension Lightsail {
     }
 
     public struct HostKeyAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "algorithm", required: false, type: .string), 
-            AWSShapeMember(label: "fingerprintSHA1", required: false, type: .string), 
-            AWSShapeMember(label: "fingerprintSHA256", required: false, type: .string), 
-            AWSShapeMember(label: "notValidAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "notValidBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "publicKey", required: false, type: .string), 
-            AWSShapeMember(label: "witnessedAt", required: false, type: .timestamp)
-        ]
 
         /// The SSH host key algorithm or the RDP certificate format. For SSH host keys, the algorithm may be ssh-rsa, ecdsa-sha2-nistp256, ssh-ed25519, etc. For RDP certificates, the algorithm is always x509-cert.
         public let algorithm: String?
@@ -5283,10 +4449,6 @@ extension Lightsail {
     }
 
     public struct ImportKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string), 
-            AWSShapeMember(label: "publicKeyBase64", required: true, type: .string)
-        ]
 
         /// The name of the key pair for which you want to import the public key.
         public let keyPairName: String
@@ -5309,9 +4471,6 @@ extension Lightsail {
     }
 
     public struct ImportKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -5326,28 +4485,6 @@ extension Lightsail {
     }
 
     public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addOns", required: false, type: .list), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "blueprintName", required: false, type: .string), 
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "hardware", required: false, type: .structure), 
-            AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
-            AWSShapeMember(label: "isStaticIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "networking", required: false, type: .structure), 
-            AWSShapeMember(label: "privateIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "publicIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .structure), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "username", required: false, type: .string)
-        ]
 
         /// An array of objects representing the add-ons enabled on the instance.
         public let addOns: [AddOn]?
@@ -5438,18 +4575,6 @@ extension Lightsail {
     }
 
     public struct InstanceAccessDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certKey", required: false, type: .string), 
-            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "hostKeys", required: false, type: .list), 
-            AWSShapeMember(label: "instanceName", required: false, type: .string), 
-            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
-            AWSShapeMember(label: "password", required: false, type: .string), 
-            AWSShapeMember(label: "passwordData", required: false, type: .structure), 
-            AWSShapeMember(label: "privateKey", required: false, type: .string), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "username", required: false, type: .string)
-        ]
 
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
         public let certKey: String?
@@ -5500,13 +4625,6 @@ extension Lightsail {
     }
 
     public struct InstanceEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "instanceType", required: true, type: .string), 
-            AWSShapeMember(label: "portInfoSource", required: true, type: .enum), 
-            AWSShapeMember(label: "sourceName", required: true, type: .string), 
-            AWSShapeMember(label: "userData", required: false, type: .string)
-        ]
 
         /// The Availability Zone for the new Amazon EC2 instance.
         public let availabilityZone: String
@@ -5542,11 +4660,6 @@ extension Lightsail {
     }
 
     public struct InstanceHardware: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeMember(label: "disks", required: false, type: .list), 
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float)
-        ]
 
         /// The number of vCPUs the instance has.
         public let cpuCount: Int?
@@ -5569,11 +4682,6 @@ extension Lightsail {
     }
 
     public struct InstanceHealthSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceHealth", required: false, type: .enum), 
-            AWSShapeMember(label: "instanceHealthReason", required: false, type: .enum), 
-            AWSShapeMember(label: "instanceName", required: false, type: .string)
-        ]
 
         /// Describes the overall instance health. Valid values are below.
         public let instanceHealth: InstanceHealthState?
@@ -5596,10 +4704,6 @@ extension Lightsail {
     }
 
     public struct InstanceNetworking: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "monthlyTransfer", required: false, type: .structure), 
-            AWSShapeMember(label: "ports", required: false, type: .list)
-        ]
 
         /// The amount of data in GB allocated for monthly data transfers.
         public let monthlyTransfer: MonthlyTransfer?
@@ -5618,15 +4722,6 @@ extension Lightsail {
     }
 
     public struct InstancePortInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessDirection", required: false, type: .enum), 
-            AWSShapeMember(label: "accessFrom", required: false, type: .string), 
-            AWSShapeMember(label: "accessType", required: false, type: .enum), 
-            AWSShapeMember(label: "commonName", required: false, type: .string), 
-            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "toPort", required: false, type: .integer)
-        ]
 
         /// The access direction (inbound or outbound).
         public let accessDirection: AccessDirection?
@@ -5665,12 +4760,6 @@ extension Lightsail {
     }
 
     public struct InstancePortState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "toPort", required: false, type: .integer)
-        ]
 
         /// The first port in the range.
         public let fromPort: Int?
@@ -5697,24 +4786,6 @@ extension Lightsail {
     }
 
     public struct InstanceSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fromAttachedDisks", required: false, type: .list), 
-            AWSShapeMember(label: "fromBlueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "fromInstanceName", required: false, type: .string), 
-            AWSShapeMember(label: "isFromAutoSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "progress", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
         public let arn: String?
@@ -5789,11 +4860,6 @@ extension Lightsail {
     }
 
     public struct InstanceSnapshotInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fromBlueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "fromDiskInfo", required: false, type: .list)
-        ]
 
         /// The blueprint ID from which the source instance (e.g., os_debian_8_3).
         public let fromBlueprintId: String?
@@ -5816,10 +4882,6 @@ extension Lightsail {
     }
 
     public struct InstanceState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The status code for the instance.
         public let code: Int?
@@ -5846,9 +4908,6 @@ extension Lightsail {
     }
 
     public struct IsVpcPeeredResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isPeered", required: false, type: .boolean)
-        ]
 
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
         public let isPeered: Bool?
@@ -5863,16 +4922,6 @@ extension Lightsail {
     }
 
     public struct KeyPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public let arn: String?
@@ -5915,24 +4964,6 @@ extension Lightsail {
     }
 
     public struct LoadBalancer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "configurationOptions", required: false, type: .map), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "dnsName", required: false, type: .string), 
-            AWSShapeMember(label: "healthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "instanceHealthSummary", required: false, type: .list), 
-            AWSShapeMember(label: "instancePort", required: false, type: .integer), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "publicPorts", required: false, type: .list), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "tlsCertificateSummaries", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let arn: String?
@@ -6007,33 +5038,6 @@ extension Lightsail {
     }
 
     public struct LoadBalancerTlsCertificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "domainValidationRecords", required: false, type: .list), 
-            AWSShapeMember(label: "failureReason", required: false, type: .enum), 
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeMember(label: "issuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "issuer", required: false, type: .string), 
-            AWSShapeMember(label: "keyAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "loadBalancerName", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "notAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "notBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "renewalSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "revocationReason", required: false, type: .enum), 
-            AWSShapeMember(label: "revokedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "serial", required: false, type: .string), 
-            AWSShapeMember(label: "signatureAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "subject", required: false, type: .string), 
-            AWSShapeMember(label: "subjectAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
         public let arn: String?
@@ -6144,10 +5148,6 @@ extension Lightsail {
     }
 
     public struct LoadBalancerTlsCertificateDomainValidationOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "validationStatus", required: false, type: .enum)
-        ]
 
         /// The fully qualified domain name in the certificate request.
         public let domainName: String?
@@ -6166,13 +5166,6 @@ extension Lightsail {
     }
 
     public struct LoadBalancerTlsCertificateDomainValidationRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string), 
-            AWSShapeMember(label: "validationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The domain name against which your SSL/TLS certificate was validated.
         public let domainName: String?
@@ -6203,10 +5196,6 @@ extension Lightsail {
     }
 
     public struct LoadBalancerTlsCertificateRenewalSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainValidationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "renewalStatus", required: false, type: .enum)
-        ]
 
         /// Contains information about the validation of each domain name in the certificate, as it pertains to Lightsail's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request.
         public let domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]?
@@ -6225,10 +5214,6 @@ extension Lightsail {
     }
 
     public struct LoadBalancerTlsCertificateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
@@ -6247,10 +5232,6 @@ extension Lightsail {
     }
 
     public struct LogEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
 
         /// The timestamp when the database log event was created.
         public let createdAt: TimeStamp?
@@ -6269,15 +5250,6 @@ extension Lightsail {
     }
 
     public struct MetricDatapoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "average", required: false, type: .double), 
-            AWSShapeMember(label: "maximum", required: false, type: .double), 
-            AWSShapeMember(label: "minimum", required: false, type: .double), 
-            AWSShapeMember(label: "sampleCount", required: false, type: .double), 
-            AWSShapeMember(label: "sum", required: false, type: .double), 
-            AWSShapeMember(label: "timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "unit", required: false, type: .enum)
-        ]
 
         /// The average.
         public let average: Double?
@@ -6316,9 +5288,6 @@ extension Lightsail {
     }
 
     public struct MonthlyTransfer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "gbPerMonthAllocated", required: false, type: .integer)
-        ]
 
         /// The amount allocated per month (in GB).
         public let gbPerMonthAllocated: Int?
@@ -6333,10 +5302,6 @@ extension Lightsail {
     }
 
     public struct OpenInstancePublicPortsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "portInfo", required: true, type: .structure)
-        ]
 
         /// The name of the instance for which you want to open the public ports.
         public let instanceName: String
@@ -6360,9 +5325,6 @@ extension Lightsail {
     }
 
     public struct OpenInstancePublicPortsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -6377,20 +5339,6 @@ extension Lightsail {
     }
 
     public struct Operation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorDetails", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "isTerminal", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "operationDetails", required: false, type: .string), 
-            AWSShapeMember(label: "operationType", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusChangedAt", required: false, type: .timestamp)
-        ]
 
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
         public let createdAt: TimeStamp?
@@ -6449,10 +5397,6 @@ extension Lightsail {
     }
 
     public struct PasswordData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ciphertext", required: false, type: .string), 
-            AWSShapeMember(label: "keyPairName", required: false, type: .string)
-        ]
 
         /// The encrypted password. Ciphertext will be an empty string if access to your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready.  If you use the default key pair (LightsailDefaultKeyPair), the decrypted password will be available in the password field. If you are using a custom key pair, you need to use your own means of decryption. If you change the Administrator password on the instance, Lightsail will continue to return the original ciphertext value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default. 
         public let ciphertext: String?
@@ -6479,9 +5423,6 @@ extension Lightsail {
     }
 
     public struct PeerVpcResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -6496,11 +5437,6 @@ extension Lightsail {
     }
 
     public struct PendingMaintenanceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: false, type: .string), 
-            AWSShapeMember(label: "currentApplyDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
 
         /// The type of pending database maintenance action.
         public let action: String?
@@ -6523,11 +5459,6 @@ extension Lightsail {
     }
 
     public struct PendingModifiedRelationalDatabaseValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backupRetentionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string)
-        ]
 
         /// A Boolean value indicating whether automated backup retention is enabled.
         public let backupRetentionEnabled: Bool?
@@ -6550,11 +5481,6 @@ extension Lightsail {
     }
 
     public struct PortInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "toPort", required: false, type: .integer)
-        ]
 
         /// The first port in the range.
         public let fromPort: Int?
@@ -6584,10 +5510,6 @@ extension Lightsail {
     }
 
     public struct PutInstancePublicPortsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "portInfos", required: true, type: .list)
-        ]
 
         /// The Lightsail instance name of the public port(s) you are setting.
         public let instanceName: String
@@ -6613,9 +5535,6 @@ extension Lightsail {
     }
 
     public struct PutInstancePublicPortsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// Describes metadata about the operation you just executed.
         public let operation: Operation?
@@ -6630,9 +5549,6 @@ extension Lightsail {
     }
 
     public struct RebootInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// The name of the instance to reboot.
         public let instanceName: String
@@ -6651,9 +5567,6 @@ extension Lightsail {
     }
 
     public struct RebootInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the request operations.
         public let operations: [Operation]?
@@ -6668,9 +5581,6 @@ extension Lightsail {
     }
 
     public struct RebootRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// The name of your database to reboot.
         public let relationalDatabaseName: String
@@ -6689,9 +5599,6 @@ extension Lightsail {
     }
 
     public struct RebootRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your reboot relational database request.
         public let operations: [Operation]?
@@ -6706,14 +5613,6 @@ extension Lightsail {
     }
 
     public struct Region: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "availabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "continentCode", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "relationalDatabaseAvailabilityZones", required: false, type: .list)
-        ]
 
         /// The Availability Zones. Follows the format us-east-2a (case-sensitive).
         public let availabilityZones: [AvailabilityZone]?
@@ -6748,34 +5647,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabase: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "backupRetentionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "caCertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "engine", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "hardware", required: false, type: .structure), 
-            AWSShapeMember(label: "latestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "masterDatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "masterEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "masterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parameterApplyStatus", required: false, type: .string), 
-            AWSShapeMember(label: "pendingMaintenanceActions", required: false, type: .list), 
-            AWSShapeMember(label: "pendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "relationalDatabaseBlueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "secondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the database.
         public let arn: String?
@@ -6890,14 +5761,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabaseBlueprint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "engine", required: false, type: .enum), 
-            AWSShapeMember(label: "engineDescription", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "isEngineDefault", required: false, type: .boolean)
-        ]
 
         /// The ID for the database blueprint.
         public let blueprintId: String?
@@ -6932,17 +5795,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabaseBundle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
-            AWSShapeMember(label: "isEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "price", required: false, type: .float), 
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeMember(label: "transferPerMonthInGb", required: false, type: .integer)
-        ]
 
         /// The ID for the database bundle.
         public let bundleId: String?
@@ -6989,10 +5841,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabaseEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "address", required: false, type: .string), 
-            AWSShapeMember(label: "port", required: false, type: .integer)
-        ]
 
         /// Specifies the DNS address of the database.
         public let address: String?
@@ -7011,12 +5859,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabaseEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "eventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: false, type: .string)
-        ]
 
         /// The timestamp when the database event was created.
         public let createdAt: TimeStamp?
@@ -7043,11 +5885,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabaseHardware: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float)
-        ]
 
         /// The number of vCPUs for the database.
         public let cpuCount: Int?
@@ -7070,16 +5907,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabaseParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "applyMethod", required: false, type: .string), 
-            AWSShapeMember(label: "applyType", required: false, type: .string), 
-            AWSShapeMember(label: "dataType", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "isModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "parameterName", required: false, type: .string), 
-            AWSShapeMember(label: "parameterValue", required: false, type: .string)
-        ]
 
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
@@ -7122,23 +5949,6 @@ extension Lightsail {
     }
 
     public struct RelationalDatabaseSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "engine", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "fromRelationalDatabaseArn", required: false, type: .string), 
-            AWSShapeMember(label: "fromRelationalDatabaseBlueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "fromRelationalDatabaseBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "fromRelationalDatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the database snapshot.
         public let arn: String?
@@ -7209,9 +6019,6 @@ extension Lightsail {
     }
 
     public struct ReleaseStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
 
         /// The name of the static IP to delete.
         public let staticIpName: String
@@ -7230,9 +6037,6 @@ extension Lightsail {
     }
 
     public struct ReleaseStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -7247,10 +6051,6 @@ extension Lightsail {
     }
 
     public struct ResourceLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "regionName", required: false, type: .enum)
-        ]
 
         /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
         public let availabilityZone: String?
@@ -7269,9 +6069,6 @@ extension Lightsail {
     }
 
     public struct StartInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// The name of the instance (a virtual private server) to start.
         public let instanceName: String
@@ -7290,9 +6087,6 @@ extension Lightsail {
     }
 
     public struct StartInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -7307,9 +6101,6 @@ extension Lightsail {
     }
 
     public struct StartRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// The name of your database to start.
         public let relationalDatabaseName: String
@@ -7328,9 +6119,6 @@ extension Lightsail {
     }
 
     public struct StartRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your start relational database request.
         public let operations: [Operation]?
@@ -7345,17 +6133,6 @@ extension Lightsail {
     }
 
     public struct StaticIp: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public let arn: String?
@@ -7402,10 +6179,6 @@ extension Lightsail {
     }
 
     public struct StopInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
 
         /// When set to True, forces a Lightsail instance that is stuck in a stopping state to stop.  Only use the force parameter if your instance is stuck in the stopping state. In any other state, your instance should stop normally without adding this parameter to your API request. 
         public let force: Bool?
@@ -7428,9 +6201,6 @@ extension Lightsail {
     }
 
     public struct StopInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -7445,10 +6215,6 @@ extension Lightsail {
     }
 
     public struct StopRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: false, type: .string)
-        ]
 
         /// The name of your database to stop.
         public let relationalDatabaseName: String
@@ -7472,9 +6238,6 @@ extension Lightsail {
     }
 
     public struct StopRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your stop relational database request.
         public let operations: [Operation]?
@@ -7489,10 +6252,6 @@ extension Lightsail {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
         public let key: String?
@@ -7511,11 +6270,6 @@ extension Lightsail {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to which you want to add a tag.
         public let resourceArn: String?
@@ -7543,9 +6297,6 @@ extension Lightsail {
     }
 
     public struct TagResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
@@ -7568,9 +6319,6 @@ extension Lightsail {
     }
 
     public struct UnpeerVpcResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -7585,11 +6333,6 @@ extension Lightsail {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource from which you want to remove a tag.
         public let resourceArn: String?
@@ -7617,9 +6360,6 @@ extension Lightsail {
     }
 
     public struct UntagResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// A list of objects describing the API operation.
         public let operations: [Operation]?
@@ -7634,10 +6374,6 @@ extension Lightsail {
     }
 
     public struct UpdateDomainEntryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
 
         /// An array of key-value pairs containing information about the domain entry.
         public let domainEntry: DomainEntry
@@ -7660,9 +6396,6 @@ extension Lightsail {
     }
 
     public struct UpdateDomainEntryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -7677,11 +6410,6 @@ extension Lightsail {
     }
 
     public struct UpdateLoadBalancerAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributeName", required: true, type: .enum), 
-            AWSShapeMember(label: "attributeValue", required: true, type: .string), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
 
         /// The name of the attribute you want to update. Valid values are below.
         public let attributeName: LoadBalancerAttributeName
@@ -7710,9 +6438,6 @@ extension Lightsail {
     }
 
     public struct UpdateLoadBalancerAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the API operations.
         public let operations: [Operation]?
@@ -7727,10 +6452,6 @@ extension Lightsail {
     }
 
     public struct UpdateRelationalDatabaseParametersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parameters", required: true, type: .list), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
 
         /// The database parameters to update.
         public let parameters: [RelationalDatabaseParameter]
@@ -7753,9 +6474,6 @@ extension Lightsail {
     }
 
     public struct UpdateRelationalDatabaseParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your update relational database parameters request.
         public let operations: [Operation]?
@@ -7770,18 +6488,6 @@ extension Lightsail {
     }
 
     public struct UpdateRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "caCertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "disableBackupRetention", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableBackupRetention", required: false, type: .boolean), 
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "rotateMasterUserPassword", required: false, type: .boolean)
-        ]
 
         /// When true, applies changes immediately. When false, applies changes during the preferred maintenance window. Some changes may cause an outage. Default: false 
         public let applyImmediately: Bool?
@@ -7836,9 +6542,6 @@ extension Lightsail {
     }
 
     public struct UpdateRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
 
         /// An object describing the result of your update relational database request.
         public let operations: [Operation]?

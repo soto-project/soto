@@ -48,15 +48,6 @@ extension Cloud9 {
     //MARK: Shapes
 
     public struct CreateEnvironmentEC2Request: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "automaticStopTimeMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "instanceType", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "ownerArn", required: false, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string)
-        ]
 
         /// The number of minutes until the running instance is shut down after the environment has last been used.
         public let automaticStopTimeMinutes: Int?
@@ -109,9 +100,6 @@ extension Cloud9 {
     }
 
     public struct CreateEnvironmentEC2Result: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: false, type: .string)
-        ]
 
         /// The ID of the environment that was created.
         public let environmentId: String?
@@ -126,11 +114,6 @@ extension Cloud9 {
     }
 
     public struct CreateEnvironmentMembershipRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string), 
-            AWSShapeMember(label: "permissions", required: true, type: .enum), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The ID of the environment that contains the environment member you want to add.
         public let environmentId: String
@@ -158,9 +141,6 @@ extension Cloud9 {
     }
 
     public struct CreateEnvironmentMembershipResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "membership", required: false, type: .structure)
-        ]
 
         /// Information about the environment member that was added.
         public let membership: EnvironmentMember?
@@ -175,10 +155,6 @@ extension Cloud9 {
     }
 
     public struct DeleteEnvironmentMembershipRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The ID of the environment to delete the environment member from.
         public let environmentId: String
@@ -210,9 +186,6 @@ extension Cloud9 {
     }
 
     public struct DeleteEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string)
-        ]
 
         /// The ID of the environment to delete.
         public let environmentId: String
@@ -239,13 +212,6 @@ extension Cloud9 {
     }
 
     public struct DescribeEnvironmentMembershipsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "permissions", required: false, type: .list), 
-            AWSShapeMember(label: "userArn", required: false, type: .string)
-        ]
 
         /// The ID of the environment to get environment member information about.
         public let environmentId: String?
@@ -283,10 +249,6 @@ extension Cloud9 {
     }
 
     public struct DescribeEnvironmentMembershipsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "memberships", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Information about the environment members for the environment.
         public let memberships: [EnvironmentMember]?
@@ -305,9 +267,6 @@ extension Cloud9 {
     }
 
     public struct DescribeEnvironmentStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string)
-        ]
 
         /// The ID of the environment to get status information about.
         public let environmentId: String
@@ -326,10 +285,6 @@ extension Cloud9 {
     }
 
     public struct DescribeEnvironmentStatusResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// Any informational message about the status of the environment.
         public let message: String?
@@ -348,9 +303,6 @@ extension Cloud9 {
     }
 
     public struct DescribeEnvironmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentIds", required: true, type: .list)
-        ]
 
         /// The IDs of individual environments to get information about.
         public let environmentIds: [String]
@@ -373,9 +325,6 @@ extension Cloud9 {
     }
 
     public struct DescribeEnvironmentsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environments", required: false, type: .list)
-        ]
 
         /// Information about the environments that are returned.
         public let environments: [Environment]?
@@ -390,15 +339,6 @@ extension Cloud9 {
     }
 
     public struct Environment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "ownerArn", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String?
@@ -437,11 +377,6 @@ extension Cloud9 {
     }
 
     public struct EnvironmentLifecycle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureResource", required: false, type: .string), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// If the environment failed to delete, the Amazon Resource Name (ARN) of the related AWS resource.
         public let failureResource: String?
@@ -464,13 +399,6 @@ extension Cloud9 {
     }
 
     public struct EnvironmentMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: false, type: .string), 
-            AWSShapeMember(label: "lastAccess", required: false, type: .timestamp), 
-            AWSShapeMember(label: "permissions", required: false, type: .enum), 
-            AWSShapeMember(label: "userArn", required: false, type: .string), 
-            AWSShapeMember(label: "userId", required: false, type: .string)
-        ]
 
         /// The ID of the environment for the environment member.
         public let environmentId: String?
@@ -501,10 +429,6 @@ extension Cloud9 {
     }
 
     public struct ListEnvironmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of environments to get identifiers for.
         public let maxResults: Int?
@@ -528,10 +452,6 @@ extension Cloud9 {
     }
 
     public struct ListEnvironmentsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentIds", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of environment identifiers.
         public let environmentIds: [String]?
@@ -550,11 +470,6 @@ extension Cloud9 {
     }
 
     public struct UpdateEnvironmentMembershipRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string), 
-            AWSShapeMember(label: "permissions", required: true, type: .enum), 
-            AWSShapeMember(label: "userArn", required: true, type: .string)
-        ]
 
         /// The ID of the environment for the environment member whose settings you want to change.
         public let environmentId: String
@@ -582,9 +497,6 @@ extension Cloud9 {
     }
 
     public struct UpdateEnvironmentMembershipResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "membership", required: false, type: .structure)
-        ]
 
         /// Information about the environment member whose settings were changed.
         public let membership: EnvironmentMember?
@@ -599,11 +511,6 @@ extension Cloud9 {
     }
 
     public struct UpdateEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "environmentId", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// Any new or replacement description for the environment.
         public let description: String?

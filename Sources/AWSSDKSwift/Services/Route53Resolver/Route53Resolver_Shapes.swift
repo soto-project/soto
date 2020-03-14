@@ -70,10 +70,6 @@ extension Route53Resolver {
     //MARK: Shapes
 
     public struct AssociateResolverEndpointIpAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddress", required: true, type: .structure), 
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
 
         /// Either the IPv4 address that you want to add to a resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
         public let ipAddress: IpAddressUpdate
@@ -98,9 +94,6 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverEndpointIpAddressResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
 
         /// The response to an AssociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -115,11 +108,6 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string), 
-            AWSShapeMember(label: "VPCId", required: true, type: .string)
-        ]
 
         /// A name for the association that you're creating between a resolver rule and a VPC.
         public let name: String?
@@ -151,9 +139,6 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
-        ]
 
         /// Information about the AssociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
@@ -168,14 +153,6 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "Direction", required: true, type: .enum), 
-            AWSShapeMember(label: "IpAddresses", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
         public let creatorRequestId: String
@@ -226,9 +203,6 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
 
         /// Information about the CreateResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -243,15 +217,6 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "RuleType", required: true, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TargetIps", required: false, type: .list)
-        ]
 
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
         public let creatorRequestId: String
@@ -305,9 +270,6 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
-        ]
 
         /// Information about the CreateResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
@@ -322,9 +284,6 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
 
         /// The ID of the resolver endpoint that you want to delete.
         public let resolverEndpointId: String
@@ -344,9 +303,6 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
 
         /// Information about the DeleteResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -361,9 +317,6 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
-        ]
 
         /// The ID of the resolver rule that you want to delete.
         public let resolverRuleId: String
@@ -383,9 +336,6 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
-        ]
 
         /// Information about the DeleteResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
@@ -400,10 +350,6 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverEndpointIpAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddress", required: true, type: .structure), 
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
 
         /// The IPv4 address that you want to remove from a resolver endpoint.
         public let ipAddress: IpAddressUpdate
@@ -428,9 +374,6 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverEndpointIpAddressResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
 
         /// The response to an DisassociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -445,10 +388,6 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string), 
-            AWSShapeMember(label: "VPCId", required: true, type: .string)
-        ]
 
         /// The ID of the resolver rule that you want to disassociate from the specified VPC.
         public let resolverRuleId: String
@@ -474,9 +413,6 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
-        ]
 
         /// Information about the DisassociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
@@ -491,10 +427,6 @@ extension Route53Resolver {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
 
         /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the name of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify Direction for the value of Name.
         public let name: String?
@@ -522,9 +454,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
 
         /// The ID of the resolver endpoint that you want to get information about.
         public let resolverEndpointId: String
@@ -544,9 +473,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
 
         /// Information about the resolver endpoint that you specified in a GetResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -561,9 +487,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleAssociationId", required: true, type: .string)
-        ]
 
         /// The ID of the resolver rule association that you want to get information about.
         public let resolverRuleAssociationId: String
@@ -583,9 +506,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleAssociationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
-        ]
 
         /// Information about the resolver rule association that you specified in a GetResolverRuleAssociation request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
@@ -600,9 +520,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRulePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
 
         /// The ID of the resolver rule policy that you want to get information about.
         public let arn: String
@@ -622,9 +539,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRulePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRulePolicy", required: false, type: .string)
-        ]
 
         /// Information about the resolver rule policy that you specified in a GetResolverRulePolicy request.
         public let resolverRulePolicy: String?
@@ -639,9 +553,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
-        ]
 
         /// The ID of the resolver rule that you want to get information about.
         public let resolverRuleId: String
@@ -661,9 +572,6 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
-        ]
 
         /// Information about the resolver rule that you specified in a GetResolverRule request.
         public let resolverRule: ResolverRule?
@@ -678,10 +586,6 @@ extension Route53Resolver {
     }
 
     public struct IpAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: true, type: .string)
-        ]
 
         /// The IP address that you want to use for DNS queries.
         public let ip: String?
@@ -707,15 +611,6 @@ extension Route53Resolver {
     }
 
     public struct IpAddressResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
-            AWSShapeMember(label: "Ip", required: false, type: .string), 
-            AWSShapeMember(label: "IpId", required: false, type: .string), 
-            AWSShapeMember(label: "ModificationTime", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string)
-        ]
 
         /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
@@ -754,11 +649,6 @@ extension Route53Resolver {
     }
 
     public struct IpAddressUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", required: false, type: .string), 
-            AWSShapeMember(label: "IpId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string)
-        ]
 
         /// The new IP address.
         public let ip: String?
@@ -790,11 +680,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointIpAddressesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
 
         /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses. 
         public let maxResults: Int?
@@ -824,11 +709,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointIpAddressesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The IP addresses that DNS queries pass through on their way to your network (outbound endpoint) or on the way to Resolver (inbound endpoint).
         public let ipAddresses: [IpAddressResponse]?
@@ -851,11 +731,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An optional specification to return a subset of resolver endpoints, such as all inbound resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
@@ -886,11 +761,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpoints", required: false, type: .list)
-        ]
 
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
@@ -913,11 +783,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRuleAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An optional specification to return a subset of resolver rules, such as resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
@@ -948,11 +813,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRuleAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverRuleAssociations", required: false, type: .list)
-        ]
 
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
@@ -975,11 +835,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An optional specification to return a subset of resolver rules, such as all resolver rules that are associated with the same resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
@@ -1010,11 +865,6 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverRules", required: false, type: .list)
-        ]
 
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
@@ -1037,11 +887,6 @@ extension Route53Resolver {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
         public let maxResults: Int?
@@ -1071,10 +916,6 @@ extension Route53Resolver {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// If more than MaxResults tags match the specified criteria, you can submit another ListTagsForResource request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
@@ -1093,10 +934,6 @@ extension Route53Resolver {
     }
 
     public struct PutResolverRulePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "ResolverRulePolicy", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the account that you want to grant permissions to.
         public let arn: String
@@ -1121,9 +958,6 @@ extension Route53Resolver {
     }
 
     public struct PutResolverRulePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnValue", required: false, type: .boolean)
-        ]
 
         /// Whether the PutResolverRulePolicy request was successful.
         public let returnValue: Bool?
@@ -1138,20 +972,6 @@ extension Route53Resolver {
     }
 
     public struct ResolverEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Direction", required: false, type: .enum), 
-            AWSShapeMember(label: "HostVPCId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddressCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ModificationTime", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// The ARN (Amazon Resource Name) for the resolver endpoint.
         public let arn: String?
@@ -1210,20 +1030,6 @@ extension Route53Resolver {
     }
 
     public struct ResolverRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "RuleType", required: false, type: .enum), 
-            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "TargetIps", required: false, type: .list)
-        ]
 
         /// The ARN (Amazon Resource Name) for the resolver rule specified by Id.
         public let arn: String?
@@ -1282,14 +1088,6 @@ extension Route53Resolver {
     }
 
     public struct ResolverRuleAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "VPCId", required: false, type: .string)
-        ]
 
         /// The ID of the association between a resolver rule and a VPC. Resolver assigns this value when you submit an AssociateResolverRule request.
         public let id: String?
@@ -1324,11 +1122,6 @@ extension Route53Resolver {
     }
 
     public struct ResolverRuleConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "TargetIps", required: false, type: .list)
-        ]
 
         /// The new name for the resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. 
         public let name: String?
@@ -1362,10 +1155,6 @@ extension Route53Resolver {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id.
         public let key: String?
@@ -1384,10 +1173,6 @@ extension Route53Resolver {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the resource that you want to add tags to. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
         public let resourceArn: String
@@ -1419,10 +1204,6 @@ extension Route53Resolver {
     }
 
     public struct TargetAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
 
         /// One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.
         public let ip: String
@@ -1448,10 +1229,6 @@ extension Route53Resolver {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the resource that you want to remove tags from. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
         public let resourceArn: String
@@ -1483,10 +1260,6 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
 
         /// The name of the resolver endpoint that you want to update.
         public let name: String?
@@ -1512,9 +1285,6 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
 
         /// The response to an UpdateResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -1529,10 +1299,6 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Config", required: true, type: .structure), 
-            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
-        ]
 
         /// The new settings for the resolver rule.
         public let config: ResolverRuleConfig
@@ -1557,9 +1323,6 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
-        ]
 
         /// The response to an UpdateResolverRule request.
         public let resolverRule: ResolverRule?

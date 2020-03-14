@@ -20,9 +20,6 @@ extension Macie {
     //MARK: Shapes
 
     public struct AssociateMemberAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "memberAccountId", required: true, type: .string)
-        ]
 
         /// The ID of the AWS account that you want to associate with Amazon Macie as a member account.
         public let memberAccountId: String
@@ -41,10 +38,6 @@ extension Macie {
     }
 
     public struct AssociateS3ResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "memberAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "s3Resources", required: true, type: .list)
-        ]
 
         /// The ID of the Amazon Macie member account whose resources you want to associate with Macie. 
         public let memberAccountId: String?
@@ -70,9 +63,6 @@ extension Macie {
     }
 
     public struct AssociateS3ResourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedS3Resources", required: false, type: .list)
-        ]
 
         /// S3 resources that couldn't be associated with Amazon Macie. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?
@@ -87,10 +77,6 @@ extension Macie {
     }
 
     public struct ClassificationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "continuous", required: true, type: .enum), 
-            AWSShapeMember(label: "oneTime", required: true, type: .enum)
-        ]
 
         /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie begins performing continuous classification after a bucket is successfully associated with Amazon Macie. 
         public let continuous: S3ContinuousClassificationType
@@ -109,10 +95,6 @@ extension Macie {
     }
 
     public struct ClassificationTypeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "continuous", required: false, type: .enum), 
-            AWSShapeMember(label: "oneTime", required: false, type: .enum)
-        ]
 
         /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie begins performing continuous classification after a bucket is successfully associated with Amazon Macie. 
         public let continuous: S3ContinuousClassificationType?
@@ -131,9 +113,6 @@ extension Macie {
     }
 
     public struct DisassociateMemberAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "memberAccountId", required: true, type: .string)
-        ]
 
         /// The ID of the member account that you want to remove from Amazon Macie.
         public let memberAccountId: String
@@ -152,10 +131,6 @@ extension Macie {
     }
 
     public struct DisassociateS3ResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "associatedS3Resources", required: true, type: .list), 
-            AWSShapeMember(label: "memberAccountId", required: false, type: .string)
-        ]
 
         /// The S3 resources (buckets or prefixes) that you want to remove from being monitored and classified by Amazon Macie. 
         public let associatedS3Resources: [S3Resource]
@@ -181,9 +156,6 @@ extension Macie {
     }
 
     public struct DisassociateS3ResourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedS3Resources", required: false, type: .list)
-        ]
 
         /// S3 resources that couldn't be removed from being monitored and classified by Amazon Macie. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?
@@ -198,11 +170,6 @@ extension Macie {
     }
 
     public struct FailedS3Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "failedItem", required: false, type: .structure)
-        ]
 
         /// The status code of a failed item.
         public let errorCode: String?
@@ -225,10 +192,6 @@ extension Macie {
     }
 
     public struct ListMemberAccountsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Use this parameter to indicate the maximum number of items that you want in the response. The default value is 250. 
         public let maxResults: Int?
@@ -252,10 +215,6 @@ extension Macie {
     }
 
     public struct ListMemberAccountsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "memberAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of the Amazon Macie member accounts returned by the action. The current master account is also included in this list. 
         public let memberAccounts: [MemberAccount]?
@@ -274,11 +233,6 @@ extension Macie {
     }
 
     public struct ListS3ResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "memberAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Use this parameter to indicate the maximum number of items that you want in the response. The default value is 250. 
         public let maxResults: Int?
@@ -307,10 +261,6 @@ extension Macie {
     }
 
     public struct ListS3ResourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "s3Resources", required: false, type: .list)
-        ]
 
         /// When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null. 
         public let nextToken: String?
@@ -329,9 +279,6 @@ extension Macie {
     }
 
     public struct MemberAccount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string)
-        ]
 
         /// The AWS account ID of the Amazon Macie member account.
         public let accountId: String?
@@ -346,10 +293,6 @@ extension Macie {
     }
 
     public struct S3Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "prefix", required: false, type: .string)
-        ]
 
         /// The name of the S3 bucket.
         public let bucketName: String
@@ -373,11 +316,6 @@ extension Macie {
     }
 
     public struct S3ResourceClassification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "classificationType", required: true, type: .structure), 
-            AWSShapeMember(label: "prefix", required: false, type: .string)
-        ]
 
         /// The name of the S3 bucket that you want to associate with Amazon Macie.
         public let bucketName: String
@@ -405,11 +343,6 @@ extension Macie {
     }
 
     public struct S3ResourceClassificationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "classificationTypeUpdate", required: true, type: .structure), 
-            AWSShapeMember(label: "prefix", required: false, type: .string)
-        ]
 
         /// The name of the S3 bucket whose classification types you want to update.
         public let bucketName: String
@@ -437,10 +370,6 @@ extension Macie {
     }
 
     public struct UpdateS3ResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "memberAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "s3ResourcesUpdate", required: true, type: .list)
-        ]
 
         /// The AWS ID of the Amazon Macie member account whose S3 resources' classification types you want to update. 
         public let memberAccountId: String?
@@ -466,9 +395,6 @@ extension Macie {
     }
 
     public struct UpdateS3ResourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failedS3Resources", required: false, type: .list)
-        ]
 
         /// The S3 resources whose classification types can't be updated. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?

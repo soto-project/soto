@@ -32,11 +32,6 @@ extension KinesisAnalytics {
     //MARK: Shapes
 
     public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOption", required: true, type: .structure), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
-        ]
 
         /// The Kinesis Analytics application name.
         public let applicationName: String
@@ -76,12 +71,6 @@ extension KinesisAnalytics {
     }
 
     public struct AddApplicationInputProcessingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "InputId", required: true, type: .string), 
-            AWSShapeMember(label: "InputProcessingConfiguration", required: true, type: .structure)
-        ]
 
         /// Name of the application to which you want to add the input processing configuration.
         public let applicationName: String
@@ -128,11 +117,6 @@ extension KinesisAnalytics {
     }
 
     public struct AddApplicationInputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "Input", required: true, type: .structure)
-        ]
 
         /// Name of your existing Amazon Kinesis Analytics application to which you want to add the streaming source.
         public let applicationName: String
@@ -172,11 +156,6 @@ extension KinesisAnalytics {
     }
 
     public struct AddApplicationOutputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "Output", required: true, type: .structure)
-        ]
 
         /// Name of the application to which you want to add the output configuration.
         public let applicationName: String
@@ -216,11 +195,6 @@ extension KinesisAnalytics {
     }
 
     public struct AddApplicationReferenceDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ReferenceDataSource", required: true, type: .structure)
-        ]
 
         /// Name of an existing application.
         public let applicationName: String
@@ -260,20 +234,6 @@ extension KinesisAnalytics {
     }
 
     public struct ApplicationDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationCode", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OutputDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
-        ]
 
         /// ARN of the application.
         public let applicationARN: String
@@ -332,11 +292,6 @@ extension KinesisAnalytics {
     }
 
     public struct ApplicationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum)
-        ]
 
         /// ARN of the application.
         public let applicationARN: String
@@ -359,13 +314,6 @@ extension KinesisAnalytics {
     }
 
     public struct ApplicationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationCodeUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "InputUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "OutputUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "ReferenceDataSourceUpdates", required: false, type: .list)
-        ]
 
         /// Describes application code updates.
         public let applicationCodeUpdate: String?
@@ -413,10 +361,6 @@ extension KinesisAnalytics {
     }
 
     public struct CSVMappingParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordColumnDelimiter", required: true, type: .string), 
-            AWSShapeMember(label: "RecordRowDelimiter", required: true, type: .string)
-        ]
 
         /// Column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
         public let recordColumnDelimiter: String
@@ -440,10 +384,6 @@ extension KinesisAnalytics {
     }
 
     public struct CloudWatchLoggingOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// ARN of the CloudWatch log to receive application messages.
         public let logStreamARN: String
@@ -471,11 +411,6 @@ extension KinesisAnalytics {
     }
 
     public struct CloudWatchLoggingOptionDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: false, type: .string), 
-            AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// ID of the CloudWatch logging option description.
         public let cloudWatchLoggingOptionId: String?
@@ -498,11 +433,6 @@ extension KinesisAnalytics {
     }
 
     public struct CloudWatchLoggingOptionUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
-            AWSShapeMember(label: "LogStreamARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
-        ]
 
         /// ID of the CloudWatch logging option to update
         public let cloudWatchLoggingOptionId: String
@@ -537,15 +467,6 @@ extension KinesisAnalytics {
     }
 
     public struct CreateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationCode", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .list), 
-            AWSShapeMember(label: "Inputs", required: false, type: .list), 
-            AWSShapeMember(label: "Outputs", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more information about the typical pattern, see Application Code.  You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
         public let applicationCode: String?
@@ -608,9 +529,6 @@ extension KinesisAnalytics {
     }
 
     public struct CreateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSummary", required: true, type: .structure)
-        ]
 
         /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
         public let applicationSummary: ApplicationSummary
@@ -625,11 +543,6 @@ extension KinesisAnalytics {
     }
 
     public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
-        ]
 
         /// The Kinesis Analytics application name.
         public let applicationName: String
@@ -671,11 +584,6 @@ extension KinesisAnalytics {
     }
 
     public struct DeleteApplicationInputProcessingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "InputId", required: true, type: .string)
-        ]
 
         /// The Kinesis Analytics application name.
         public let applicationName: String
@@ -717,11 +625,6 @@ extension KinesisAnalytics {
     }
 
     public struct DeleteApplicationOutputRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "OutputId", required: true, type: .string)
-        ]
 
         /// Amazon Kinesis Analytics application name.
         public let applicationName: String
@@ -763,11 +666,6 @@ extension KinesisAnalytics {
     }
 
     public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeMember(label: "ReferenceId", required: true, type: .string)
-        ]
 
         /// Name of an existing application.
         public let applicationName: String
@@ -809,10 +707,6 @@ extension KinesisAnalytics {
     }
 
     public struct DeleteApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "CreateTimestamp", required: true, type: .timestamp)
-        ]
 
         /// Name of the Amazon Kinesis Analytics application to delete.
         public let applicationName: String
@@ -845,9 +739,6 @@ extension KinesisAnalytics {
     }
 
     public struct DescribeApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
 
         /// Name of the application.
         public let applicationName: String
@@ -868,9 +759,6 @@ extension KinesisAnalytics {
     }
 
     public struct DescribeApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationDetail", required: true, type: .structure)
-        ]
 
         /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
         public let applicationDetail: ApplicationDetail
@@ -885,9 +773,6 @@ extension KinesisAnalytics {
     }
 
     public struct DestinationSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordFormatType", required: true, type: .enum)
-        ]
 
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType
@@ -902,13 +787,6 @@ extension KinesisAnalytics {
     }
 
     public struct DiscoverInputSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "S3Configuration", required: false, type: .structure)
-        ]
 
         /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records.
         public let inputProcessingConfiguration: InputProcessingConfiguration?
@@ -950,12 +828,6 @@ extension KinesisAnalytics {
     }
 
     public struct DiscoverInputSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "ParsedInputRecords", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessedInputRecords", required: false, type: .list), 
-            AWSShapeMember(label: "RawInputRecords", required: false, type: .list)
-        ]
 
         /// Schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
         public let inputSchema: SourceSchema?
@@ -982,14 +854,6 @@ extension KinesisAnalytics {
     }
 
     public struct Input: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputParallelism", required: false, type: .structure), 
-            AWSShapeMember(label: "InputProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "InputSchema", required: true, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseInput", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsInput", required: false, type: .structure), 
-            AWSShapeMember(label: "NamePrefix", required: true, type: .string)
-        ]
 
         /// Describes the number of in-application streams to create.  Data from your source is routed to these in-application input streams.  (see Configuring Application Input.
         public let inputParallelism: InputParallelism?
@@ -1034,10 +898,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "InputStartingPositionConfiguration", required: true, type: .structure)
-        ]
 
         /// Input source ID. You can get this ID by calling the DescribeApplication operation.
         public let id: String
@@ -1062,17 +922,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InAppStreamNames", required: false, type: .list), 
-            AWSShapeMember(label: "InputId", required: false, type: .string), 
-            AWSShapeMember(label: "InputParallelism", required: false, type: .structure), 
-            AWSShapeMember(label: "InputProcessingConfigurationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseInputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsInputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "NamePrefix", required: false, type: .string)
-        ]
 
         /// Returns the in-application stream names that are mapped to the stream source.
         public let inAppStreamNames: [String]?
@@ -1119,10 +968,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputLambdaProcessor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// The ARN of the AWS Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
@@ -1150,10 +995,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputLambdaProcessorDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.
         public let resourceARN: String?
@@ -1172,10 +1013,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputLambdaProcessorUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String?
@@ -1203,9 +1040,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputParallelism: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Count", required: false, type: .integer)
-        ]
 
         /// Number of in-application streams to create. For more information, see Limits. 
         public let count: Int?
@@ -1225,9 +1059,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputParallelismUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountUpdate", required: false, type: .integer)
-        ]
 
         /// Number of in-application streams to create for the specified streaming source.
         public let countUpdate: Int?
@@ -1247,9 +1078,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputProcessingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputLambdaProcessor", required: true, type: .structure)
-        ]
 
         /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
         public let inputLambdaProcessor: InputLambdaProcessor
@@ -1268,9 +1096,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputProcessingConfigurationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputLambdaProcessorDescription", required: false, type: .structure)
-        ]
 
         /// Provides configuration information about the associated InputLambdaProcessorDescription.
         public let inputLambdaProcessorDescription: InputLambdaProcessorDescription?
@@ -1285,9 +1110,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputProcessingConfigurationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputLambdaProcessorUpdate", required: true, type: .structure)
-        ]
 
         /// Provides update information for an InputLambdaProcessor.
         public let inputLambdaProcessorUpdate: InputLambdaProcessorUpdate
@@ -1306,11 +1128,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputSchemaUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordColumnUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "RecordEncodingUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RecordFormatUpdate", required: false, type: .structure)
-        ]
 
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. 
         public let recordColumnUpdates: [RecordColumn]?
@@ -1343,9 +1160,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputStartingPositionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputStartingPosition", required: false, type: .enum)
-        ]
 
         /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
         public let inputStartingPosition: InputStartingPosition?
@@ -1360,15 +1174,6 @@ extension KinesisAnalytics {
     }
 
     public struct InputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputId", required: true, type: .string), 
-            AWSShapeMember(label: "InputParallelismUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "InputProcessingConfigurationUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "InputSchemaUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseInputUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsInputUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "NamePrefixUpdate", required: false, type: .string)
-        ]
 
         /// Input ID of the application input to be updated.
         public let inputId: String
@@ -1420,9 +1225,6 @@ extension KinesisAnalytics {
     }
 
     public struct JSONMappingParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordRowPath", required: true, type: .string)
-        ]
 
         /// Path to the top-level parent that contains the records.
         public let recordRowPath: String
@@ -1441,10 +1243,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisFirehoseInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// ARN of the input delivery stream.
         public let resourceARN: String
@@ -1472,10 +1270,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisFirehoseInputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
         public let resourceARN: String?
@@ -1494,10 +1288,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisFirehoseInputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery stream to read.
         public let resourceARNUpdate: String?
@@ -1525,10 +1315,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisFirehoseOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
         public let resourceARN: String
@@ -1556,10 +1342,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisFirehoseOutputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
         public let resourceARN: String?
@@ -1578,10 +1360,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisFirehoseOutputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to write to.
         public let resourceARNUpdate: String?
@@ -1609,10 +1387,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisStreamsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// ARN of the input Amazon Kinesis stream to read.
         public let resourceARN: String
@@ -1640,10 +1414,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisStreamsInputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
         public let resourceARN: String?
@@ -1662,10 +1432,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisStreamsInputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
         public let resourceARNUpdate: String?
@@ -1693,10 +1459,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisStreamsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// ARN of the destination Amazon Kinesis stream to write to.
         public let resourceARN: String
@@ -1724,10 +1486,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisStreamsOutputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
         public let resourceARN: String?
@@ -1746,10 +1504,6 @@ extension KinesisAnalytics {
     }
 
     public struct KinesisStreamsOutputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to write the output.
         public let resourceARNUpdate: String?
@@ -1777,10 +1531,6 @@ extension KinesisAnalytics {
     }
 
     public struct LambdaOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
@@ -1808,10 +1558,6 @@ extension KinesisAnalytics {
     }
 
     public struct LambdaOutputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the destination Lambda function.
         public let resourceARN: String?
@@ -1830,10 +1576,6 @@ extension KinesisAnalytics {
     }
 
     public struct LambdaOutputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the destination Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String?
@@ -1861,10 +1603,6 @@ extension KinesisAnalytics {
     }
 
     public struct ListApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
 
         /// Name of the application to start the list with. When using pagination to retrieve the list, you don't need to specify this parameter in the first request. However, in subsequent requests, you add the last application name from the previous response to get the next page of applications.
         public let exclusiveStartApplicationName: String?
@@ -1891,10 +1629,6 @@ extension KinesisAnalytics {
     }
 
     public struct ListApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "HasMoreApplications", required: true, type: .boolean)
-        ]
 
         /// List of ApplicationSummary objects. 
         public let applicationSummaries: [ApplicationSummary]
@@ -1913,9 +1647,6 @@ extension KinesisAnalytics {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// The ARN of the application for which to retrieve tags.
         public let resourceARN: String
@@ -1936,9 +1667,6 @@ extension KinesisAnalytics {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The key-value tags assigned to the application.
         public let tags: [Tag]?
@@ -1953,10 +1681,6 @@ extension KinesisAnalytics {
     }
 
     public struct MappingParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSVMappingParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "JSONMappingParameters", required: false, type: .structure)
-        ]
 
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
         public let cSVMappingParameters: CSVMappingParameters?
@@ -1980,13 +1704,6 @@ extension KinesisAnalytics {
     }
 
     public struct Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationSchema", required: true, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
         public let destinationSchema: DestinationSchema
@@ -2025,14 +1742,6 @@ extension KinesisAnalytics {
     }
 
     public struct OutputDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseOutputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaOutputDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OutputId", required: false, type: .string)
-        ]
 
         /// Data format used for writing data to the destination.
         public let destinationSchema: DestinationSchema?
@@ -2067,14 +1776,6 @@ extension KinesisAnalytics {
     }
 
     public struct OutputUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationSchemaUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamsOutputUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaOutputUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "NameUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "OutputId", required: true, type: .string)
-        ]
 
         /// Describes the data format when records are written to the destination. For more information, see Configuring Application Output.
         public let destinationSchemaUpdate: DestinationSchema?
@@ -2120,11 +1821,6 @@ extension KinesisAnalytics {
     }
 
     public struct RecordColumn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Mapping", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SqlType", required: true, type: .string)
-        ]
 
         /// Reference to the data element in the streaming input or the reference data source. This element is required if the RecordFormatType is JSON.
         public let mapping: String?
@@ -2151,10 +1847,6 @@ extension KinesisAnalytics {
     }
 
     public struct RecordFormat: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MappingParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "RecordFormatType", required: true, type: .enum)
-        ]
 
         /// When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
         public let mappingParameters: MappingParameters?
@@ -2177,11 +1869,6 @@ extension KinesisAnalytics {
     }
 
     public struct ReferenceDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReferenceSchema", required: true, type: .structure), 
-            AWSShapeMember(label: "S3ReferenceDataSource", required: false, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
         public let referenceSchema: SourceSchema
@@ -2211,12 +1898,6 @@ extension KinesisAnalytics {
     }
 
     public struct ReferenceDataSourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
-            AWSShapeMember(label: "TableName", required: true, type: .string)
-        ]
 
         /// ID of the reference data source. This is the ID that Amazon Kinesis Analytics assigns when you add the reference data source to your application using the AddApplicationReferenceDataSource operation.
         public let referenceId: String
@@ -2243,12 +1924,6 @@ extension KinesisAnalytics {
     }
 
     public struct ReferenceDataSourceUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceSchemaUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "TableNameUpdate", required: false, type: .string)
-        ]
 
         /// ID of the reference data source being updated. You can use the DescribeApplication operation to get this value.
         public let referenceId: String
@@ -2285,11 +1960,6 @@ extension KinesisAnalytics {
     }
 
     public struct S3Configuration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "FileKey", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// ARN of the S3 bucket that contains the data.
         public let bucketARN: String
@@ -2323,11 +1993,6 @@ extension KinesisAnalytics {
     }
 
     public struct S3ReferenceDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "FileKey", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String
@@ -2361,11 +2026,6 @@ extension KinesisAnalytics {
     }
 
     public struct S3ReferenceDataSourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "FileKey", required: true, type: .string), 
-            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String
@@ -2388,11 +2048,6 @@ extension KinesisAnalytics {
     }
 
     public struct S3ReferenceDataSourceUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARNUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "FileKeyUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "ReferenceRoleARNUpdate", required: false, type: .string)
-        ]
 
         /// Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARNUpdate: String?
@@ -2426,11 +2081,6 @@ extension KinesisAnalytics {
     }
 
     public struct SourceSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordColumns", required: true, type: .list), 
-            AWSShapeMember(label: "RecordEncoding", required: false, type: .string), 
-            AWSShapeMember(label: "RecordFormat", required: true, type: .structure)
-        ]
 
         /// A list of RecordColumn objects.
         public let recordColumns: [RecordColumn]
@@ -2463,10 +2113,6 @@ extension KinesisAnalytics {
     }
 
     public struct StartApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "InputConfigurations", required: true, type: .list)
-        ]
 
         /// Name of the application.
         public let applicationName: String
@@ -2502,9 +2148,6 @@ extension KinesisAnalytics {
     }
 
     public struct StopApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
 
         /// Name of the running application to stop.
         public let applicationName: String
@@ -2533,10 +2176,6 @@ extension KinesisAnalytics {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The key of the key-value tag.
         public let key: String
@@ -2562,10 +2201,6 @@ extension KinesisAnalytics {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The ARN of the application to assign the tags.
         public let resourceARN: String
@@ -2603,10 +2238,6 @@ extension KinesisAnalytics {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The ARN of the Kinesis Analytics application from which to remove the tags.
         public let resourceARN: String
@@ -2645,11 +2276,6 @@ extension KinesisAnalytics {
     }
 
     public struct UpdateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationUpdate", required: true, type: .structure), 
-            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long)
-        ]
 
         /// Name of the Amazon Kinesis Analytics application to update.
         public let applicationName: String

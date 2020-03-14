@@ -138,10 +138,6 @@ extension SES {
     //MARK: Shapes
 
     public struct AddHeaderAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HeaderName", required: true, type: .string), 
-            AWSShapeMember(label: "HeaderValue", required: true, type: .string)
-        ]
 
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         public let headerName: String
@@ -160,10 +156,6 @@ extension SES {
     }
 
     public struct Body: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Html", required: false, type: .structure), 
-            AWSShapeMember(label: "Text", required: false, type: .structure)
-        ]
 
         /// The content of the message, in HTML format. Use this for email clients that can process HTML. You can include clickable links, formatted text, and much more in an HTML message.
         public let html: Content?
@@ -182,13 +174,6 @@ extension SES {
     }
 
     public struct BounceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: true, type: .string), 
-            AWSShapeMember(label: "Sender", required: true, type: .string), 
-            AWSShapeMember(label: "SmtpReplyCode", required: true, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: false, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
 
         /// Human-readable text to include in the bounce message.
         public let message: String
@@ -219,12 +204,6 @@ extension SES {
     }
 
     public struct BouncedRecipientInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BounceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Recipient", required: true, type: .string), 
-            AWSShapeMember(label: "RecipientArn", required: false, type: .string), 
-            AWSShapeMember(label: "RecipientDsnFields", required: false, type: .structure)
-        ]
 
         /// The reason for the bounce. You must provide either this parameter or RecipientDsnFields.
         public let bounceType: BounceType?
@@ -251,10 +230,8 @@ extension SES {
     }
 
     public struct BulkEmailDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "ReplacementTags", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReplacementTemplateData", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "replacementTags", location: .body(locationName: "ReplacementTags"), encoding: .list(member:"member"))
         ]
 
         public let destination: Destination
@@ -281,11 +258,6 @@ extension SES {
     }
 
     public struct BulkEmailDestinationStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Error", required: false, type: .string), 
-            AWSShapeMember(label: "MessageId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// A description of an error that prevented a message being sent using the SendBulkTemplatedEmail operation.
         public let error: String?
@@ -308,10 +280,6 @@ extension SES {
     }
 
     public struct CloneReceiptRuleSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginalRuleSetName", required: true, type: .string), 
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of the rule set to clone.
         public let originalRuleSetName: String
@@ -338,8 +306,8 @@ extension SES {
     }
 
     public struct CloudWatchDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DimensionConfigurations", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dimensionConfigurations", location: .body(locationName: "DimensionConfigurations"), encoding: .list(member:"member"))
         ]
 
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
@@ -355,11 +323,6 @@ extension SES {
     }
 
     public struct CloudWatchDimensionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultDimensionValue", required: true, type: .string), 
-            AWSShapeMember(label: "DimensionName", required: true, type: .string), 
-            AWSShapeMember(label: "DimensionValueSource", required: true, type: .enum)
-        ]
 
         /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let defaultDimensionValue: String
@@ -382,9 +345,6 @@ extension SES {
     }
 
     public struct ConfigurationSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// The name of the configuration set. The name must meet the following requirements:   Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain 64 characters or fewer.  
         public let name: String
@@ -399,10 +359,6 @@ extension SES {
     }
 
     public struct Content: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Charset", required: false, type: .string), 
-            AWSShapeMember(label: "Data", required: true, type: .string)
-        ]
 
         /// The character set of the content.
         public let charset: String?
@@ -421,10 +377,6 @@ extension SES {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "EventDestination", required: true, type: .structure)
-        ]
 
         /// The name of the configuration set that the event destination should be associated with.
         public let configurationSetName: String
@@ -451,9 +403,6 @@ extension SES {
     }
 
     public struct CreateConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSet", required: true, type: .structure)
-        ]
 
         /// A data structure that contains the name of the configuration set.
         public let configurationSet: ConfigurationSet
@@ -476,10 +425,6 @@ extension SES {
     }
 
     public struct CreateConfigurationSetTrackingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "TrackingOptions", required: true, type: .structure)
-        ]
 
         /// The name of the configuration set that the tracking options should be associated with.
         public let configurationSetName: String
@@ -505,14 +450,6 @@ extension SES {
     }
 
     public struct CreateCustomVerificationEmailTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureRedirectionURL", required: true, type: .string), 
-            AWSShapeMember(label: "FromEmailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "SuccessRedirectionURL", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateContent", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateSubject", required: true, type: .string)
-        ]
 
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String
@@ -547,9 +484,6 @@ extension SES {
     }
 
     public struct CreateReceiptFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: true, type: .structure)
-        ]
 
         /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
         public let filter: ReceiptFilter
@@ -572,11 +506,6 @@ extension SES {
     }
 
     public struct CreateReceiptRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "After", required: false, type: .string), 
-            AWSShapeMember(label: "Rule", required: true, type: .structure), 
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
         public let after: String?
@@ -607,9 +536,6 @@ extension SES {
     }
 
     public struct CreateReceiptRuleSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of the rule set to create. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let ruleSetName: String
@@ -632,9 +558,6 @@ extension SES {
     }
 
     public struct CreateTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Template", required: true, type: .structure)
-        ]
 
         /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
         public let template: Template
@@ -657,13 +580,6 @@ extension SES {
     }
 
     public struct CustomVerificationEmailTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
-            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateSubject", required: false, type: .string)
-        ]
 
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
@@ -694,10 +610,6 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "EventDestinationName", required: true, type: .string)
-        ]
 
         /// The name of the configuration set from which to delete the event destination.
         public let configurationSetName: String
@@ -724,9 +636,6 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string)
-        ]
 
         /// The name of the configuration set to delete.
         public let configurationSetName: String
@@ -749,9 +658,6 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetTrackingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string)
-        ]
 
         /// The name of the configuration set from which you want to delete the tracking options.
         public let configurationSetName: String
@@ -774,9 +680,6 @@ extension SES {
     }
 
     public struct DeleteCustomVerificationEmailTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", required: true, type: .string)
-        ]
 
         /// The name of the custom verification email template that you want to delete.
         public let templateName: String
@@ -791,10 +694,6 @@ extension SES {
     }
 
     public struct DeleteIdentityPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identity", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
 
         /// The identity that is associated with the policy that you want to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
@@ -826,9 +725,6 @@ extension SES {
     }
 
     public struct DeleteIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identity", required: true, type: .string)
-        ]
 
         /// The identity to be removed from the list of identities for the AWS Account.
         public let identity: String
@@ -851,9 +747,6 @@ extension SES {
     }
 
     public struct DeleteReceiptFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterName", required: true, type: .string)
-        ]
 
         /// The name of the IP address filter to delete.
         public let filterName: String
@@ -876,10 +769,6 @@ extension SES {
     }
 
     public struct DeleteReceiptRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of the receipt rule to delete.
         public let ruleName: String
@@ -906,9 +795,6 @@ extension SES {
     }
 
     public struct DeleteReceiptRuleSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of the receipt rule set to delete.
         public let ruleSetName: String
@@ -931,9 +817,6 @@ extension SES {
     }
 
     public struct DeleteTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", required: true, type: .string)
-        ]
 
         /// The name of the template to be deleted.
         public let templateName: String
@@ -956,9 +839,6 @@ extension SES {
     }
 
     public struct DeleteVerifiedEmailAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
-        ]
 
         /// An email address to be removed from the list of verified addresses.
         public let emailAddress: String
@@ -973,9 +853,6 @@ extension SES {
     }
 
     public struct DeliveryOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum)
-        ]
 
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
@@ -998,9 +875,8 @@ extension SES {
     }
 
     public struct DescribeActiveReceiptRuleSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
 
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
@@ -1020,9 +896,8 @@ extension SES {
     }
 
     public struct DescribeConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetAttributeNames", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSetAttributeNames", location: .body(locationName: "ConfigurationSetAttributeNames"), encoding: .list(member:"member"))
         ]
 
         /// A list of configuration set attributes to return.
@@ -1042,12 +917,8 @@ extension SES {
     }
 
     public struct DescribeConfigurationSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSet", required: false, type: .structure), 
-            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "EventDestinations", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "TrackingOptions", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventDestinations", location: .body(locationName: "EventDestinations"), encoding: .list(member:"member"))
         ]
 
         /// The configuration set object associated with the specified configuration set.
@@ -1078,10 +949,6 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of the receipt rule.
         public let ruleName: String
@@ -1100,9 +967,6 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rule", required: false, type: .structure)
-        ]
 
         /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
         public let rule: ReceiptRule?
@@ -1117,9 +981,6 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of the receipt rule set to describe.
         public let ruleSetName: String
@@ -1134,9 +995,8 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
 
         /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
@@ -1156,10 +1016,10 @@ extension SES {
     }
 
     public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BccAddresses", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "CcAddresses", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ToAddresses", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bccAddresses", location: .body(locationName: "BccAddresses"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "ccAddresses", location: .body(locationName: "CcAddresses"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "toAddresses", location: .body(locationName: "ToAddresses"), encoding: .list(member:"member"))
         ]
 
         /// The recipients to place on the BCC: line of the message.
@@ -1183,13 +1043,8 @@ extension SES {
     }
 
     public struct EventDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SNSDestination", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "matchingEventTypes", location: .body(locationName: "MatchingEventTypes"), encoding: .list(member:"member"))
         ]
 
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
@@ -1225,10 +1080,6 @@ extension SES {
     }
 
     public struct ExtensionField: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         public let name: String
@@ -1247,9 +1098,6 @@ extension SES {
     }
 
     public struct GetAccountSendingEnabledResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
         public let enabled: Bool?
@@ -1264,9 +1112,6 @@ extension SES {
     }
 
     public struct GetCustomVerificationEmailTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", required: true, type: .string)
-        ]
 
         /// The name of the custom verification email template that you want to retrieve.
         public let templateName: String
@@ -1281,14 +1126,6 @@ extension SES {
     }
 
     public struct GetCustomVerificationEmailTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
-            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateContent", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateSubject", required: false, type: .string)
-        ]
 
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
@@ -1323,8 +1160,8 @@ extension SES {
     }
 
     public struct GetIdentityDkimAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identities", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
         ]
 
         /// A list of one or more verified identities - email addresses, domains, or both.
@@ -1340,8 +1177,8 @@ extension SES {
     }
 
     public struct GetIdentityDkimAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimAttributes", required: true, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dkimAttributes", location: .body(locationName: "DkimAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// The DKIM attributes for an email address or a domain.
@@ -1357,8 +1194,8 @@ extension SES {
     }
 
     public struct GetIdentityMailFromDomainAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identities", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
         ]
 
         /// A list of one or more identities.
@@ -1374,8 +1211,8 @@ extension SES {
     }
 
     public struct GetIdentityMailFromDomainAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MailFromDomainAttributes", required: true, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "mailFromDomainAttributes", location: .body(locationName: "MailFromDomainAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// A map of identities to custom MAIL FROM attributes.
@@ -1391,8 +1228,8 @@ extension SES {
     }
 
     public struct GetIdentityNotificationAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identities", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
         ]
 
         /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
@@ -1408,8 +1245,8 @@ extension SES {
     }
 
     public struct GetIdentityNotificationAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationAttributes", required: true, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "notificationAttributes", location: .body(locationName: "NotificationAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// A map of Identity to IdentityNotificationAttributes.
@@ -1425,9 +1262,8 @@ extension SES {
     }
 
     public struct GetIdentityPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identity", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyNames", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
 
         /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
@@ -1454,8 +1290,8 @@ extension SES {
     }
 
     public struct GetIdentityPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policies", required: true, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policies", location: .body(locationName: "Policies"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// A map of policy names to policies.
@@ -1471,8 +1307,8 @@ extension SES {
     }
 
     public struct GetIdentityVerificationAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identities", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
         ]
 
         /// A list of identities.
@@ -1488,8 +1324,8 @@ extension SES {
     }
 
     public struct GetIdentityVerificationAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VerificationAttributes", required: true, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "verificationAttributes", location: .body(locationName: "VerificationAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
         /// A map of Identities to IdentityVerificationAttributes objects.
@@ -1505,11 +1341,6 @@ extension SES {
     }
 
     public struct GetSendQuotaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Max24HourSend", required: false, type: .double), 
-            AWSShapeMember(label: "MaxSendRate", required: false, type: .double), 
-            AWSShapeMember(label: "SentLast24Hours", required: false, type: .double)
-        ]
 
         /// The maximum number of emails the user is allowed to send in a 24-hour interval. A value of -1 signifies an unlimited quota.
         public let max24HourSend: Double?
@@ -1532,8 +1363,8 @@ extension SES {
     }
 
     public struct GetSendStatisticsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendDataPoints", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sendDataPoints", location: .body(locationName: "SendDataPoints"), encoding: .list(member:"member"))
         ]
 
         /// A list of data points, each of which represents 15 minutes of activity.
@@ -1549,9 +1380,6 @@ extension SES {
     }
 
     public struct GetTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", required: true, type: .string)
-        ]
 
         /// The name of the template you want to retrieve.
         public let templateName: String
@@ -1566,9 +1394,6 @@ extension SES {
     }
 
     public struct GetTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Template", required: false, type: .structure)
-        ]
 
         public let template: Template?
 
@@ -1582,10 +1407,8 @@ extension SES {
     }
 
     public struct IdentityDkimAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "DkimTokens", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DkimVerificationStatus", required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dkimTokens", location: .body(locationName: "DkimTokens"), encoding: .list(member:"member"))
         ]
 
         /// Is true if DKIM signing is enabled for email sent from the identity. It's false otherwise. The default value is true.
@@ -1609,11 +1432,6 @@ extension SES {
     }
 
     public struct IdentityMailFromDomainAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BehaviorOnMXFailure", required: true, type: .enum), 
-            AWSShapeMember(label: "MailFromDomain", required: true, type: .string), 
-            AWSShapeMember(label: "MailFromDomainStatus", required: true, type: .enum)
-        ]
 
         /// The action that Amazon SES takes if it cannot successfully read the required MX record when you send an email. A value of UseDefaultValue indicates that if Amazon SES cannot read the required MX record, it uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of RejectMessage indicates that if Amazon SES cannot read the required MX record, Amazon SES returns a MailFromDomainNotVerified error and does not send the email. The custom MAIL FROM setup states that result in this behavior are Pending, Failed, and TemporaryFailure.
         public let behaviorOnMXFailure: BehaviorOnMXFailure
@@ -1636,15 +1454,6 @@ extension SES {
     }
 
     public struct IdentityNotificationAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BounceTopic", required: true, type: .string), 
-            AWSShapeMember(label: "ComplaintTopic", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryTopic", required: true, type: .string), 
-            AWSShapeMember(label: "ForwardingEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "HeadersInBounceNotificationsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "HeadersInComplaintNotificationsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "HeadersInDeliveryNotificationsEnabled", required: false, type: .boolean)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish bounce notifications.
         public let bounceTopic: String
@@ -1683,10 +1492,6 @@ extension SES {
     }
 
     public struct IdentityVerificationAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VerificationStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "VerificationToken", required: false, type: .string)
-        ]
 
         /// The verification status of the identity: "Pending", "Success", "Failed", or "TemporaryFailure".
         public let verificationStatus: VerificationStatus
@@ -1705,10 +1510,6 @@ extension SES {
     }
 
     public struct KinesisFirehoseDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "IAMRoleARN", required: true, type: .string)
-        ]
 
         /// The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
         public let deliveryStreamARN: String
@@ -1727,11 +1528,6 @@ extension SES {
     }
 
     public struct LambdaAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FunctionArn", required: true, type: .string), 
-            AWSShapeMember(label: "InvocationType", required: false, type: .enum), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an AWS Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about AWS Lambda, see the AWS Lambda Developer Guide.
         public let functionArn: String
@@ -1754,10 +1550,6 @@ extension SES {
     }
 
     public struct ListConfigurationSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The number of configuration sets to return.
         public let maxItems: Int?
@@ -1776,9 +1568,8 @@ extension SES {
     }
 
     public struct ListConfigurationSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSets", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSets", location: .body(locationName: "ConfigurationSets"), encoding: .list(member:"member"))
         ]
 
         /// A list of configuration sets.
@@ -1798,10 +1589,6 @@ extension SES {
     }
 
     public struct ListCustomVerificationEmailTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation will return up to 50 results.
         public let maxResults: Int?
@@ -1825,9 +1612,8 @@ extension SES {
     }
 
     public struct ListCustomVerificationEmailTemplatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomVerificationEmailTemplates", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "customVerificationEmailTemplates", location: .body(locationName: "CustomVerificationEmailTemplates"), encoding: .list(member:"member"))
         ]
 
         /// A list of the custom verification email templates that exist in your account.
@@ -1847,11 +1633,6 @@ extension SES {
     }
 
     public struct ListIdentitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
         public let identityType: IdentityType?
@@ -1874,9 +1655,8 @@ extension SES {
     }
 
     public struct ListIdentitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identities", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
         ]
 
         /// A list of identities.
@@ -1896,9 +1676,6 @@ extension SES {
     }
 
     public struct ListIdentityPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identity", required: true, type: .string)
-        ]
 
         /// The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
@@ -1913,8 +1690,8 @@ extension SES {
     }
 
     public struct ListIdentityPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
 
         /// A list of names of policies that apply to the specified identity.
@@ -1938,8 +1715,8 @@ extension SES {
     }
 
     public struct ListReceiptFiltersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"member"))
         ]
 
         /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
@@ -1955,9 +1732,6 @@ extension SES {
     }
 
     public struct ListReceiptRuleSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
         public let nextToken: String?
@@ -1972,9 +1746,8 @@ extension SES {
     }
 
     public struct ListReceiptRuleSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RuleSets", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleSets", location: .body(locationName: "RuleSets"), encoding: .list(member:"member"))
         ]
 
         /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
@@ -1994,10 +1767,6 @@ extension SES {
     }
 
     public struct ListTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 10. If you do not specify a value, or if you specify a value less than 1 or greater than 10, the operation will return up to 10 results.
         public let maxItems: Int?
@@ -2016,9 +1785,8 @@ extension SES {
     }
 
     public struct ListTemplatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TemplatesMetadata", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templatesMetadata", location: .body(locationName: "TemplatesMetadata"), encoding: .list(member:"member"))
         ]
 
         /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 email templates.
@@ -2038,8 +1806,8 @@ extension SES {
     }
 
     public struct ListVerifiedEmailAddressesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VerifiedEmailAddresses", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "verifiedEmailAddresses", location: .body(locationName: "VerifiedEmailAddresses"), encoding: .list(member:"member"))
         ]
 
         /// A list of email addresses that have been verified.
@@ -2055,10 +1823,6 @@ extension SES {
     }
 
     public struct Message: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Body", required: true, type: .structure), 
-            AWSShapeMember(label: "Subject", required: true, type: .structure)
-        ]
 
         /// The message body.
         public let body: Body
@@ -2077,10 +1841,8 @@ extension SES {
     }
 
     public struct MessageDsn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArrivalDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExtensionFields", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReportingMta", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionFields", location: .body(locationName: "ExtensionFields"), encoding: .list(member:"member"))
         ]
 
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
@@ -2104,10 +1866,6 @@ extension SES {
     }
 
     public struct MessageTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The name of the tag. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let name: String
@@ -2126,10 +1884,6 @@ extension SES {
     }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure)
-        ]
 
         /// The name of the configuration set that you want to specify the delivery options for.
         public let configurationSetName: String
@@ -2156,11 +1910,6 @@ extension SES {
     }
 
     public struct PutIdentityPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identity", required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
 
         /// The identity that the policy will apply to. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
@@ -2197,9 +1946,6 @@ extension SES {
     }
 
     public struct RawMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: true, type: .blob)
-        ]
 
         /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an AWS SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide.
         public let data: Data
@@ -2214,15 +1960,6 @@ extension SES {
     }
 
     public struct ReceiptAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddHeaderAction", required: false, type: .structure), 
-            AWSShapeMember(label: "BounceAction", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaAction", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Action", required: false, type: .structure), 
-            AWSShapeMember(label: "SNSAction", required: false, type: .structure), 
-            AWSShapeMember(label: "StopAction", required: false, type: .structure), 
-            AWSShapeMember(label: "WorkmailAction", required: false, type: .structure)
-        ]
 
         /// Adds a header to the received email.
         public let addHeaderAction: AddHeaderAction?
@@ -2261,10 +1998,6 @@ extension SES {
     }
 
     public struct ReceiptFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpFilter", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
         public let ipFilter: ReceiptIpFilter
@@ -2283,10 +2016,6 @@ extension SES {
     }
 
     public struct ReceiptIpFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidr", required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: true, type: .enum)
-        ]
 
         /// A single IP address or a range of IP addresses that you want to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317.
         public let cidr: String
@@ -2305,13 +2034,9 @@ extension SES {
     }
 
     public struct ReceiptRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Recipients", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ScanEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "recipients", location: .body(locationName: "Recipients"), encoding: .list(member:"member"))
         ]
 
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
@@ -2347,10 +2072,6 @@ extension SES {
     }
 
     public struct ReceiptRuleSetMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The date and time the receipt rule set was created.
         public let createdTimestamp: TimeStamp?
@@ -2369,14 +2090,8 @@ extension SES {
     }
 
     public struct RecipientDsnFields: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: true, type: .enum), 
-            AWSShapeMember(label: "DiagnosticCode", required: false, type: .string), 
-            AWSShapeMember(label: "ExtensionFields", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "FinalRecipient", required: false, type: .string), 
-            AWSShapeMember(label: "LastAttemptDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RemoteMta", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "extensionFields", location: .body(locationName: "ExtensionFields"), encoding: .list(member:"member"))
         ]
 
         /// The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464.
@@ -2416,9 +2131,8 @@ extension SES {
     }
 
     public struct ReorderReceiptRuleSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleNames", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
 
         /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
@@ -2446,11 +2160,6 @@ extension SES {
     }
 
     public struct ReputationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastFreshStart", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
-        ]
 
         /// The date and time at which the reputation metrics for the configuration set were last reset. Resetting these metrics is known as a fresh start. When you disable email sending for a configuration set using UpdateConfigurationSetSendingEnabled and later re-enable it, the reputation metrics for the configuration set (but not for the entire Amazon SES account) are reset. If email sending for the configuration set has never been disabled and later re-enabled, the value of this attribute is null.
         public let lastFreshStart: TimeStamp?
@@ -2473,12 +2182,6 @@ extension SES {
     }
 
     public struct S3Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectKeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
 
         /// The name of the Amazon S3 bucket that incoming email will be saved to.
         public let bucketName: String
@@ -2505,10 +2208,6 @@ extension SES {
     }
 
     public struct SNSAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encoding", required: false, type: .enum), 
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
 
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
         public let encoding: SNSActionEncoding?
@@ -2527,9 +2226,6 @@ extension SES {
     }
 
     public struct SNSDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicARN", required: true, type: .string)
-        ]
 
         /// The ARN of the Amazon SNS topic that email sending events will be published to. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicARN: String
@@ -2544,13 +2240,8 @@ extension SES {
     }
 
     public struct SendBounceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BouncedRecipientInfoList", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "BounceSender", required: true, type: .string), 
-            AWSShapeMember(label: "BounceSenderArn", required: false, type: .string), 
-            AWSShapeMember(label: "Explanation", required: false, type: .string), 
-            AWSShapeMember(label: "MessageDsn", required: false, type: .structure), 
-            AWSShapeMember(label: "OriginalMessageId", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bouncedRecipientInfoList", location: .body(locationName: "BouncedRecipientInfoList"), encoding: .list(member:"member"))
         ]
 
         /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
@@ -2586,9 +2277,6 @@ extension SES {
     }
 
     public struct SendBounceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
 
         /// The message ID of the bounce message.
         public let messageId: String?
@@ -2603,18 +2291,10 @@ extension SES {
     }
 
     public struct SendBulkTemplatedEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultTags", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "DefaultTemplateData", required: false, type: .string), 
-            AWSShapeMember(label: "Destinations", required: true, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReturnPath", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnPathArn", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: true, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Template", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateArn", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "defaultTags", location: .body(locationName: "DefaultTags"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "destinations", location: .body(locationName: "Destinations"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "replyToAddresses", location: .body(locationName: "ReplyToAddresses"), encoding: .list(member:"member"))
         ]
 
         /// The name of the configuration set to use when you send an email using SendBulkTemplatedEmail.
@@ -2677,8 +2357,8 @@ extension SES {
     }
 
     public struct SendBulkTemplatedEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .body(locationName: "Status"), encoding: .list(member:"member"))
         ]
 
         /// The unique message identifier returned from the SendBulkTemplatedEmail action.
@@ -2694,11 +2374,6 @@ extension SES {
     }
 
     public struct SendCustomVerificationEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string)
-        ]
 
         /// Name of a configuration set to use when sending the verification email.
         public let configurationSetName: String?
@@ -2721,9 +2396,6 @@ extension SES {
     }
 
     public struct SendCustomVerificationEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
 
         /// The unique message identifier returned from the SendCustomVerificationEmail operation.
         public let messageId: String?
@@ -2738,13 +2410,6 @@ extension SES {
     }
 
     public struct SendDataPoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bounces", required: false, type: .long), 
-            AWSShapeMember(label: "Complaints", required: false, type: .long), 
-            AWSShapeMember(label: "DeliveryAttempts", required: false, type: .long), 
-            AWSShapeMember(label: "Rejects", required: false, type: .long), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
-        ]
 
         /// Number of emails that have bounced.
         public let bounces: Int64?
@@ -2775,16 +2440,9 @@ extension SES {
     }
 
     public struct SendEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "Message", required: true, type: .structure), 
-            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReturnPath", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnPathArn", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: true, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "replyToAddresses", location: .body(locationName: "ReplyToAddresses"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
         /// The name of the configuration set to use when you send an email using SendEmail.
@@ -2832,9 +2490,6 @@ extension SES {
     }
 
     public struct SendEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: true, type: .string)
-        ]
 
         /// The unique message identifier returned from the SendEmail action. 
         public let messageId: String
@@ -2849,15 +2504,9 @@ extension SES {
     }
 
     public struct SendRawEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Destinations", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "FromArn", required: false, type: .string), 
-            AWSShapeMember(label: "RawMessage", required: true, type: .structure), 
-            AWSShapeMember(label: "ReturnPathArn", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "destinations", location: .body(locationName: "Destinations"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
         /// The name of the configuration set to use when you send an email using SendRawEmail.
@@ -2901,9 +2550,6 @@ extension SES {
     }
 
     public struct SendRawEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: true, type: .string)
-        ]
 
         /// The unique message identifier returned from the SendRawEmail action. 
         public let messageId: String
@@ -2918,18 +2564,9 @@ extension SES {
     }
 
     public struct SendTemplatedEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "ReturnPath", required: false, type: .string), 
-            AWSShapeMember(label: "ReturnPathArn", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: true, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Template", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateData", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "replyToAddresses", location: .body(locationName: "ReplyToAddresses"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
         /// The name of the configuration set to use when you send an email using SendTemplatedEmail.
@@ -2989,9 +2626,6 @@ extension SES {
     }
 
     public struct SendTemplatedEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: true, type: .string)
-        ]
 
         /// The unique message identifier returned from the SendTemplatedEmail action. 
         public let messageId: String
@@ -3006,9 +2640,6 @@ extension SES {
     }
 
     public struct SetActiveReceiptRuleSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RuleSetName", required: false, type: .string)
-        ]
 
         /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
         public let ruleSetName: String?
@@ -3031,10 +2662,6 @@ extension SES {
     }
 
     public struct SetIdentityDkimEnabledRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Identity", required: true, type: .string)
-        ]
 
         /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it. 
         public let dkimEnabled: Bool
@@ -3061,10 +2688,6 @@ extension SES {
     }
 
     public struct SetIdentityFeedbackForwardingEnabledRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForwardingEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Identity", required: true, type: .string)
-        ]
 
         /// Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
         public let forwardingEnabled: Bool
@@ -3091,11 +2714,6 @@ extension SES {
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Identity", required: true, type: .string), 
-            AWSShapeMember(label: "NotificationType", required: true, type: .enum)
-        ]
 
         /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
         public let enabled: Bool
@@ -3126,11 +2744,6 @@ extension SES {
     }
 
     public struct SetIdentityMailFromDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BehaviorOnMXFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "Identity", required: true, type: .string), 
-            AWSShapeMember(label: "MailFromDomain", required: false, type: .string)
-        ]
 
         /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMXFailure: BehaviorOnMXFailure?
@@ -3161,11 +2774,6 @@ extension SES {
     }
 
     public struct SetIdentityNotificationTopicRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identity", required: true, type: .string), 
-            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
-            AWSShapeMember(label: "SnsTopic", required: false, type: .string)
-        ]
 
         /// The identity (email address or domain) that you want to set the Amazon SNS topic for.  You can only specify a verified identity for this parameter.  You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         public let identity: String
@@ -3196,11 +2804,6 @@ extension SES {
     }
 
     public struct SetReceiptRulePositionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "After", required: false, type: .string), 
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// The name of the receipt rule after which to place the specified receipt rule.
         public let after: String?
@@ -3231,10 +2834,6 @@ extension SES {
     }
 
     public struct StopAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scope", required: true, type: .enum), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
 
         /// The scope of the StopAction. The only acceptable value is RuleSet.
         public let scope: StopScope
@@ -3253,12 +2852,6 @@ extension SES {
     }
 
     public struct Template: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HtmlPart", required: false, type: .string), 
-            AWSShapeMember(label: "SubjectPart", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "TextPart", required: false, type: .string)
-        ]
 
         /// The HTML body of the email.
         public let htmlPart: String?
@@ -3285,10 +2878,6 @@ extension SES {
     }
 
     public struct TemplateMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The time and date the template was created.
         public let createdTimestamp: TimeStamp?
@@ -3307,10 +2896,6 @@ extension SES {
     }
 
     public struct TestRenderTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateData", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string)
-        ]
 
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let templateData: String
@@ -3333,9 +2918,6 @@ extension SES {
     }
 
     public struct TestRenderTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RenderedTemplate", required: false, type: .string)
-        ]
 
         /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
         public let renderedTemplate: String?
@@ -3350,9 +2932,6 @@ extension SES {
     }
 
     public struct TrackingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomRedirectDomain", required: false, type: .string)
-        ]
 
         /// The custom subdomain that will be used to redirect email recipients to the Amazon SES event tracking domain.
         public let customRedirectDomain: String?
@@ -3367,9 +2946,6 @@ extension SES {
     }
 
     public struct UpdateAccountSendingEnabledRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
         public let enabled: Bool?
@@ -3384,10 +2960,6 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "EventDestination", required: true, type: .structure)
-        ]
 
         /// The name of the configuration set that contains the event destination that you want to update.
         public let configurationSetName: String
@@ -3414,10 +2986,6 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetReputationMetricsEnabledRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
 
         /// The name of the configuration set that you want to update.
         public let configurationSetName: String
@@ -3436,10 +3004,6 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetSendingEnabledRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
 
         /// The name of the configuration set that you want to update.
         public let configurationSetName: String
@@ -3458,10 +3022,6 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetTrackingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeMember(label: "TrackingOptions", required: true, type: .structure)
-        ]
 
         /// The name of the configuration set for which you want to update the custom tracking domain.
         public let configurationSetName: String
@@ -3487,14 +3047,6 @@ extension SES {
     }
 
     public struct UpdateCustomVerificationEmailTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureRedirectionURL", required: false, type: .string), 
-            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "SuccessRedirectionURL", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateContent", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateSubject", required: false, type: .string)
-        ]
 
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
@@ -3529,10 +3081,6 @@ extension SES {
     }
 
     public struct UpdateReceiptRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rule", required: true, type: .structure), 
-            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
-        ]
 
         /// A data structure that contains the updated receipt rule information.
         public let rule: ReceiptRule
@@ -3559,9 +3107,6 @@ extension SES {
     }
 
     public struct UpdateTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Template", required: true, type: .structure)
-        ]
 
         public let template: Template
 
@@ -3583,9 +3128,6 @@ extension SES {
     }
 
     public struct VerifyDomainDkimRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string)
-        ]
 
         /// The name of the domain to be verified for Easy DKIM signing.
         public let domain: String
@@ -3600,8 +3142,8 @@ extension SES {
     }
 
     public struct VerifyDomainDkimResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimTokens", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dkimTokens", location: .body(locationName: "DkimTokens"), encoding: .list(member:"member"))
         ]
 
         /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
@@ -3617,9 +3159,6 @@ extension SES {
     }
 
     public struct VerifyDomainIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string)
-        ]
 
         /// The domain to be verified.
         public let domain: String
@@ -3634,9 +3173,6 @@ extension SES {
     }
 
     public struct VerifyDomainIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VerificationToken", required: true, type: .string)
-        ]
 
         /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, if you still want to verify the domain, you must restart the verification process from the beginning.
         public let verificationToken: String
@@ -3651,9 +3187,6 @@ extension SES {
     }
 
     public struct VerifyEmailAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
-        ]
 
         /// The email address to be verified.
         public let emailAddress: String
@@ -3668,9 +3201,6 @@ extension SES {
     }
 
     public struct VerifyEmailIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
-        ]
 
         /// The email address to be verified.
         public let emailAddress: String
@@ -3693,10 +3223,6 @@ extension SES {
     }
 
     public struct WorkmailAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationArn", required: true, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
 
         /// The ARN of the Amazon WorkMail organization. An example of an Amazon WorkMail organization ARN is arn:aws:workmail:us-west-2:123456789012:organization/m-68755160c4cb4e29a2b2f8fb58f359d7. For information about Amazon WorkMail organizations, see the Amazon WorkMail Administrator Guide.
         public let organizationArn: String

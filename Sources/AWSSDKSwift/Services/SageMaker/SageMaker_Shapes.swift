@@ -1016,10 +1016,6 @@ extension SageMaker {
     //MARK: Shapes
 
     public struct AddTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
@@ -1048,9 +1044,6 @@ extension SageMaker {
     }
 
     public struct AddTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A list of tags associated with the Amazon SageMaker resource.
         public let tags: [Tag]?
@@ -1065,13 +1058,6 @@ extension SageMaker {
     }
 
     public struct AlgorithmSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableSageMakerMetricsTimeSeries", required: false, type: .boolean), 
-            AWSShapeMember(label: "MetricDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "TrainingImage", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum)
-        ]
 
         /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on AWS Marketplace. If you specify a value for this parameter, you can't specify a value for TrainingImage.
         public let algorithmName: String?
@@ -1115,10 +1101,6 @@ extension SageMaker {
     }
 
     public struct AlgorithmStatusDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageScanStatuses", required: false, type: .list), 
-            AWSShapeMember(label: "ValidationStatuses", required: false, type: .list)
-        ]
 
         /// The status of the scan of the algorithm's Docker image container.
         public let imageScanStatuses: [AlgorithmStatusItem]?
@@ -1137,11 +1119,6 @@ extension SageMaker {
     }
 
     public struct AlgorithmStatusItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
 
         /// if the overall status is Failed, the reason for the failure.
         public let failureReason: String?
@@ -1164,13 +1141,6 @@ extension SageMaker {
     }
 
     public struct AlgorithmSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmArn", required: true, type: .string), 
-            AWSShapeMember(label: "AlgorithmDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AlgorithmName", required: true, type: .string), 
-            AWSShapeMember(label: "AlgorithmStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) of the algorithm.
         public let algorithmArn: String
@@ -1201,11 +1171,6 @@ extension SageMaker {
     }
 
     public struct AlgorithmValidationProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingJobDefinition", required: true, type: .structure), 
-            AWSShapeMember(label: "TransformJobDefinition", required: false, type: .structure)
-        ]
 
         /// The name of the profile for the algorithm. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let profileName: String
@@ -1236,10 +1201,6 @@ extension SageMaker {
     }
 
     public struct AlgorithmValidationSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ValidationProfiles", required: true, type: .list), 
-            AWSShapeMember(label: "ValidationRole", required: true, type: .string)
-        ]
 
         /// An array of AlgorithmValidationProfile objects, each of which specifies a training job and batch transform job that Amazon SageMaker runs to validate your algorithm.
         public let validationProfiles: [AlgorithmValidationProfile]
@@ -1269,9 +1230,6 @@ extension SageMaker {
     }
 
     public struct AnnotationConsolidationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnnotationConsolidationLambdaArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:    Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.  arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition   arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for semantic segmentation labels based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.  arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation    For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String
@@ -1291,14 +1249,6 @@ extension SageMaker {
     }
 
     public struct AppDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppName", required: false, type: .string), 
-            AWSShapeMember(label: "AppType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
-        ]
 
         /// The name of the app.
         public let appName: String?
@@ -1333,11 +1283,6 @@ extension SageMaker {
     }
 
     public struct AppSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerArguments", required: false, type: .list), 
-            AWSShapeMember(label: "ContainerEntrypoint", required: false, type: .list), 
-            AWSShapeMember(label: "ImageUri", required: true, type: .string)
-        ]
 
         /// The arguments for a container used to run a processing job.
         public let containerArguments: [String]?
@@ -1377,10 +1322,6 @@ extension SageMaker {
     }
 
     public struct AssociateTrialComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "TrialName", required: true, type: .string)
-        ]
 
         /// The name of the component to associated with the trial.
         public let trialComponentName: String
@@ -1408,10 +1349,6 @@ extension SageMaker {
     }
 
     public struct AssociateTrialComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
@@ -1430,18 +1367,6 @@ extension SageMaker {
     }
 
     public struct AutoMLCandidate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CandidateName", required: true, type: .string), 
-            AWSShapeMember(label: "CandidateStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "CandidateSteps", required: true, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FinalAutoMLJobObjectiveMetric", required: false, type: .structure), 
-            AWSShapeMember(label: "InferenceContainers", required: false, type: .list), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ObjectiveStatus", required: true, type: .enum)
-        ]
 
         /// The candidate name.
         public let candidateName: String
@@ -1491,11 +1416,6 @@ extension SageMaker {
     }
 
     public struct AutoMLCandidateStep: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CandidateStepArn", required: true, type: .string), 
-            AWSShapeMember(label: "CandidateStepName", required: true, type: .string), 
-            AWSShapeMember(label: "CandidateStepType", required: true, type: .enum)
-        ]
 
         /// The ARN for the Candidate's step.
         public let candidateStepArn: String
@@ -1518,11 +1438,6 @@ extension SageMaker {
     }
 
     public struct AutoMLChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetAttributeName", required: true, type: .string)
-        ]
 
         /// You can use Gzip or None. The default value is None.
         public let compressionType: CompressionType?
@@ -1550,11 +1465,6 @@ extension SageMaker {
     }
 
     public struct AutoMLContainerDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "Image", required: true, type: .string), 
-            AWSShapeMember(label: "ModelDataUrl", required: true, type: .string)
-        ]
 
         /// Environment variables to set in the container. Refer to ContainerDefinition for more details.
         public let environment: [String: String]?
@@ -1577,9 +1487,6 @@ extension SageMaker {
     }
 
     public struct AutoMLDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
-        ]
 
         /// The Amazon S3 location of the data.
         public let s3DataSource: AutoMLS3DataSource
@@ -1598,10 +1505,6 @@ extension SageMaker {
     }
 
     public struct AutoMLJobArtifacts: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CandidateDefinitionNotebookLocation", required: false, type: .string), 
-            AWSShapeMember(label: "DataExplorationNotebookLocation", required: false, type: .string)
-        ]
 
         /// The URL to the notebook location.
         public let candidateDefinitionNotebookLocation: String?
@@ -1620,11 +1523,6 @@ extension SageMaker {
     }
 
     public struct AutoMLJobCompletionCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAutoMLJobRuntimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxCandidates", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxRuntimePerTrainingJobInSeconds", required: false, type: .integer)
-        ]
 
         /// The maximum time, in seconds, an AutoML job is allowed to wait for a trial to complete. It must be equal to or greater than MaxRuntimePerTrainingJobInSeconds.
         public let maxAutoMLJobRuntimeInSeconds: Int?
@@ -1653,10 +1551,6 @@ extension SageMaker {
     }
 
     public struct AutoMLJobConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletionCriteria", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityConfig", required: false, type: .structure)
-        ]
 
         /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
         public let completionCriteria: AutoMLJobCompletionCriteria?
@@ -1680,9 +1574,6 @@ extension SageMaker {
     }
 
     public struct AutoMLJobObjective: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricName", required: true, type: .enum)
-        ]
 
         /// The name of the metric.
         public let metricName: AutoMLMetricEnum
@@ -1697,16 +1588,6 @@ extension SageMaker {
     }
 
     public struct AutoMLJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
-            AWSShapeMember(label: "AutoMLJobSecondaryStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "AutoMLJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
-        ]
 
         /// The ARN of the job.
         public let autoMLJobArn: String
@@ -1749,10 +1630,6 @@ extension SageMaker {
     }
 
     public struct AutoMLOutputDataConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
-        ]
 
         /// The AWS KMS encryption key ID.
         public let kmsKeyId: String?
@@ -1778,10 +1655,6 @@ extension SageMaker {
     }
 
     public struct AutoMLS3DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// The data type.
         public let s3DataType: AutoMLS3DataType
@@ -1805,11 +1678,6 @@ extension SageMaker {
     }
 
     public struct AutoMLSecurityConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// Whether to use traffic encryption between the container layers.
         public let enableInterContainerTrafficEncryption: Bool?
@@ -1838,10 +1706,6 @@ extension SageMaker {
     }
 
     public struct CaptureContentTypeHeader: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CsvContentTypes", required: false, type: .list), 
-            AWSShapeMember(label: "JsonContentTypes", required: false, type: .list)
-        ]
 
         public let csvContentTypes: [String]?
         public let jsonContentTypes: [String]?
@@ -1873,9 +1737,6 @@ extension SageMaker {
     }
 
     public struct CaptureOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptureMode", required: true, type: .enum)
-        ]
 
         public let captureMode: CaptureMode
 
@@ -1889,10 +1750,6 @@ extension SageMaker {
     }
 
     public struct CategoricalParameterRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The name of the categorical hyperparameter to tune.
         public let name: String
@@ -1922,9 +1779,6 @@ extension SageMaker {
     }
 
     public struct CategoricalParameterRangeSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The allowed categories for the hyperparameter.
         public let values: [String]
@@ -1948,15 +1802,6 @@ extension SageMaker {
     }
 
     public struct Channel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelName", required: true, type: .string), 
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
-            AWSShapeMember(label: "InputMode", required: false, type: .enum), 
-            AWSShapeMember(label: "RecordWrapperType", required: false, type: .enum), 
-            AWSShapeMember(label: "ShuffleConfig", required: false, type: .structure)
-        ]
 
         /// The name of the channel. 
         public let channelName: String
@@ -2004,14 +1849,6 @@ extension SageMaker {
     }
 
     public struct ChannelSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SupportedCompressionTypes", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedContentTypes", required: true, type: .list), 
-            AWSShapeMember(label: "SupportedInputModes", required: true, type: .list)
-        ]
 
         /// A brief description of the channel.
         public let description: String?
@@ -2059,10 +1896,6 @@ extension SageMaker {
     }
 
     public struct CheckpointConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// (Optional) The local directory where checkpoints are written. The default directory is /opt/ml/checkpoints/. 
         public let localPath: String?
@@ -2088,13 +1921,6 @@ extension SageMaker {
     }
 
     public struct CodeRepositorySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "GitConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Git repository.
         public let codeRepositoryArn: String
@@ -2125,11 +1951,6 @@ extension SageMaker {
     }
 
     public struct CognitoMemberDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "UserGroup", required: true, type: .string), 
-            AWSShapeMember(label: "UserPool", required: true, type: .string)
-        ]
 
         /// An identifier for an application client. You must create the app client ID using Amazon Cognito.
         public let clientId: String
@@ -2164,10 +1985,6 @@ extension SageMaker {
     }
 
     public struct CollectionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CollectionName", required: false, type: .string), 
-            AWSShapeMember(label: "CollectionParameters", required: false, type: .map)
-        ]
 
         /// The name of the tensor collection. The name must be unique relative to other rule configuration names.
         public let collectionName: String?
@@ -2199,16 +2016,6 @@ extension SageMaker {
     }
 
     public struct CompilationJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompilationEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompilationJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "CompilationJobName", required: true, type: .string), 
-            AWSShapeMember(label: "CompilationJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "CompilationStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompilationTargetDevice", required: true, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp)
-        ]
 
         /// The time when the model compilation job completed.
         public let compilationEndTime: TimeStamp?
@@ -2251,14 +2058,6 @@ extension SageMaker {
     }
 
     public struct ContainerDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerHostname", required: false, type: .string), 
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "Image", required: false, type: .string), 
-            AWSShapeMember(label: "Mode", required: false, type: .enum), 
-            AWSShapeMember(label: "ModelDataUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ModelPackageName", required: false, type: .string)
-        ]
 
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see Use Logs and Metrics to Monitor an Inference Pipeline. If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public let containerHostname: String?
@@ -2311,12 +2110,6 @@ extension SageMaker {
     }
 
     public struct ContinuousParameterRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxValue", required: true, type: .string), 
-            AWSShapeMember(label: "MinValue", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingType", required: false, type: .enum)
-        ]
 
         /// The maximum value for the hyperparameter. The tuning job uses floating-point values between MinValue value and this value for tuning.
         public let maxValue: String
@@ -2352,10 +2145,6 @@ extension SageMaker {
     }
 
     public struct ContinuousParameterRangeSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxValue", required: true, type: .string), 
-            AWSShapeMember(label: "MinValue", required: true, type: .string)
-        ]
 
         /// The maximum floating-point value allowed.
         public let maxValue: String
@@ -2381,14 +2170,6 @@ extension SageMaker {
     }
 
     public struct CreateAlgorithmInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AlgorithmName", required: true, type: .string), 
-            AWSShapeMember(label: "CertifyForMarketplace", required: false, type: .boolean), 
-            AWSShapeMember(label: "InferenceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
-        ]
 
         /// A description of the algorithm.
         public let algorithmDescription: String?
@@ -2434,9 +2215,6 @@ extension SageMaker {
     }
 
     public struct CreateAlgorithmOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the new algorithm.
         public let algorithmArn: String
@@ -2451,14 +2229,6 @@ extension SageMaker {
     }
 
     public struct CreateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppName", required: true, type: .string), 
-            AWSShapeMember(label: "AppType", required: true, type: .enum), 
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceSpec", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
-        ]
 
         /// The name of the app.
         public let appName: String
@@ -2507,9 +2277,6 @@ extension SageMaker {
     }
 
     public struct CreateAppResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppArn", required: false, type: .string)
-        ]
 
         /// The app's Amazon Resource Name (ARN).
         public let appArn: String?
@@ -2524,17 +2291,6 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
-            AWSShapeMember(label: "AutoMLJobObjective", required: false, type: .structure), 
-            AWSShapeMember(label: "GenerateCandidateDefinitionsOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ProblemType", required: false, type: .enum), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// Contains CompletionCriteria and SecurityConfig.
         public let autoMLJobConfig: AutoMLJobConfig?
@@ -2602,9 +2358,6 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobArn", required: true, type: .string)
-        ]
 
         /// When a job is created, it is assigned a unique ARN.
         public let autoMLJobArn: String
@@ -2619,10 +2372,6 @@ extension SageMaker {
     }
 
     public struct CreateCodeRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "GitConfig", required: true, type: .structure)
-        ]
 
         /// The name of the Git repository. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let codeRepositoryName: String
@@ -2648,9 +2397,6 @@ extension SageMaker {
     }
 
     public struct CreateCodeRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the new repository.
         public let codeRepositoryArn: String
@@ -2665,13 +2411,6 @@ extension SageMaker {
     }
 
     public struct CreateCompilationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompilationJobName", required: true, type: .string), 
-            AWSShapeMember(label: "InputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure)
-        ]
 
         /// A name for the model compilation job. The name must be unique within the AWS Region and within your AWS account. 
         public let compilationJobName: String
@@ -2714,9 +2453,6 @@ extension SageMaker {
     }
 
     public struct CreateCompilationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompilationJobArn", required: true, type: .string)
-        ]
 
         /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker returns the following data in JSON format:    CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.  
         public let compilationJobArn: String
@@ -2731,15 +2467,6 @@ extension SageMaker {
     }
 
     public struct CreateDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthMode", required: true, type: .enum), 
-            AWSShapeMember(label: "DefaultUserSettings", required: true, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "HomeEfsFileSystemKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: true, type: .string)
-        ]
 
         /// The mode of authentication that member use to access the domain.
         public let authMode: AuthMode
@@ -2799,10 +2526,6 @@ extension SageMaker {
     }
 
     public struct CreateDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainArn", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the created domain.
         public let domainArn: String?
@@ -2821,13 +2544,6 @@ extension SageMaker {
     }
 
     public struct CreateEndpointConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataCaptureConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductionVariants", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         public let dataCaptureConfig: DataCaptureConfig?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request. 
@@ -2875,9 +2591,6 @@ extension SageMaker {
     }
 
     public struct CreateEndpointConfigOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the endpoint configuration. 
         public let endpointConfigArn: String
@@ -2892,11 +2605,6 @@ extension SageMaker {
     }
 
     public struct CreateEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The name of an endpoint configuration. For more information, see CreateEndpointConfig. 
         public let endpointConfigName: String
@@ -2931,9 +2639,6 @@ extension SageMaker {
     }
 
     public struct CreateEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
@@ -2948,12 +2653,6 @@ extension SageMaker {
     }
 
     public struct CreateExperimentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The description of the experiment.
         public let description: String?
@@ -2996,9 +2695,6 @@ extension SageMaker {
     }
 
     public struct CreateExperimentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the experiment.
         public let experimentArn: String?
@@ -3013,14 +2709,6 @@ extension SageMaker {
     }
 
     public struct CreateFlowDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string), 
-            AWSShapeMember(label: "HumanLoopActivationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HumanLoopConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The name of your flow definition.
         public let flowDefinitionName: String
@@ -3072,9 +2760,6 @@ extension SageMaker {
     }
 
     public struct CreateFlowDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the flow definition you create.
         public let flowDefinitionArn: String
@@ -3089,11 +2774,6 @@ extension SageMaker {
     }
 
     public struct CreateHumanTaskUiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UiTemplate", required: true, type: .structure)
-        ]
 
         /// The name of the user interface you are creating.
         public let humanTaskUiName: String
@@ -3127,9 +2807,6 @@ extension SageMaker {
     }
 
     public struct CreateHumanTaskUiResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the human review workflow user interface you create.
         public let humanTaskUiArn: String
@@ -3144,14 +2821,6 @@ extension SageMaker {
     }
 
     public struct CreateHyperParameterTuningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TrainingJobDefinition", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingJobDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "WarmStartConfig", required: false, type: .structure)
-        ]
 
         /// The HyperParameterTuningJobConfig object that describes the tuning job, including the search strategy, the objective metric used to evaluate training jobs, ranges of parameters to search, and resource limits for the tuning job. For more information, see automatic-model-tuning 
         public let hyperParameterTuningJobConfig: HyperParameterTuningJobConfig
@@ -3204,9 +2873,6 @@ extension SageMaker {
     }
 
     public struct CreateHyperParameterTuningJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the tuning job. Amazon SageMaker assigns an ARN to a hyperparameter tuning job when you create it.
         public let hyperParameterTuningJobArn: String
@@ -3221,18 +2887,6 @@ extension SageMaker {
     }
 
     public struct CreateLabelingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanTaskConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "InputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "LabelAttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "LabelCategoryConfigS3Uri", required: false, type: .string), 
-            AWSShapeMember(label: "LabelingJobAlgorithmsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LabelingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingConditions", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// Configures the labeling task and how it is presented to workers; including, but not limited to price, keywords, and batch size (task count).
         public let humanTaskConfig: HumanTaskConfig
@@ -3307,9 +2961,6 @@ extension SageMaker {
     }
 
     public struct CreateLabelingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LabelingJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the labeling job. You use this ARN to identify the labeling job.
         public let labelingJobArn: String
@@ -3324,15 +2975,6 @@ extension SageMaker {
     }
 
     public struct CreateModelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Containers", required: false, type: .list), 
-            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ModelName", required: true, type: .string), 
-            AWSShapeMember(label: "PrimaryContainer", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// Specifies the containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
@@ -3390,9 +3032,6 @@ extension SageMaker {
     }
 
     public struct CreateModelOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelArn", required: true, type: .string)
-        ]
 
         /// The ARN of the model created in Amazon SageMaker.
         public let modelArn: String
@@ -3407,14 +3046,6 @@ extension SageMaker {
     }
 
     public struct CreateModelPackageInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertifyForMarketplace", required: false, type: .boolean), 
-            AWSShapeMember(label: "InferenceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ModelPackageDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ModelPackageName", required: true, type: .string), 
-            AWSShapeMember(label: "SourceAlgorithmSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
-        ]
 
         /// Whether to certify the model package for listing on AWS Marketplace.
         public let certifyForMarketplace: Bool?
@@ -3460,9 +3091,6 @@ extension SageMaker {
     }
 
     public struct CreateModelPackageOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelPackageArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the new model package.
         public let modelPackageArn: String
@@ -3477,11 +3105,6 @@ extension SageMaker {
     }
 
     public struct CreateMonitoringScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
         public let monitoringScheduleConfig: MonitoringScheduleConfig
@@ -3516,9 +3139,6 @@ extension SageMaker {
     }
 
     public struct CreateMonitoringScheduleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
         public let monitoringScheduleArn: String
@@ -3533,22 +3153,6 @@ extension SageMaker {
     }
 
     public struct CreateNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorTypes", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalCodeRepositories", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultCodeRepository", required: false, type: .string), 
-            AWSShapeMember(label: "DirectInternetAccess", required: false, type: .enum), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LifecycleConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "RootAccess", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
-        ]
 
         /// A list of Elastic Inference (EI) instance types to associate with this notebook instance. Currently, only one instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
@@ -3650,11 +3254,6 @@ extension SageMaker {
     }
 
     public struct CreateNotebookInstanceLifecycleConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "OnCreate", required: false, type: .list), 
-            AWSShapeMember(label: "OnStart", required: false, type: .list)
-        ]
 
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String
@@ -3690,9 +3289,6 @@ extension SageMaker {
     }
 
     public struct CreateNotebookInstanceLifecycleConfigOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigArn: String?
@@ -3707,9 +3303,6 @@ extension SageMaker {
     }
 
     public struct CreateNotebookInstanceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the notebook instance. 
         public let notebookInstanceArn: String?
@@ -3724,11 +3317,6 @@ extension SageMaker {
     }
 
     public struct CreatePresignedDomainUrlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "SessionExpirationDurationInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
-        ]
 
         /// The domain ID.
         public let domainId: String
@@ -3759,9 +3347,6 @@ extension SageMaker {
     }
 
     public struct CreatePresignedDomainUrlResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizedUrl", required: false, type: .string)
-        ]
 
         /// The presigned URL.
         public let authorizedUrl: String?
@@ -3776,10 +3361,6 @@ extension SageMaker {
     }
 
     public struct CreatePresignedNotebookInstanceUrlInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
-            AWSShapeMember(label: "SessionExpirationDurationInSeconds", required: false, type: .integer)
-        ]
 
         /// The name of the notebook instance.
         public let notebookInstanceName: String
@@ -3805,9 +3386,6 @@ extension SageMaker {
     }
 
     public struct CreatePresignedNotebookInstanceUrlOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizedUrl", required: false, type: .string)
-        ]
 
         /// A JSON object that contains the URL string. 
         public let authorizedUrl: String?
@@ -3822,19 +3400,6 @@ extension SageMaker {
     }
 
     public struct CreateProcessingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "NetworkConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ProcessingInputs", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingOutputConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ProcessingResources", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// Configures the processing job to run a specified Docker container image.
         public let appSpecification: AppSpecification
@@ -3919,9 +3484,6 @@ extension SageMaker {
     }
 
     public struct CreateProcessingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProcessingJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the processing job.
         public let processingJobArn: String
@@ -3936,26 +3498,6 @@ extension SageMaker {
     }
 
     public struct CreateTrainingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DebugHookConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DebugRuleConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TensorBoardOutputConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The registry path of the Docker image that contains the training algorithm and algorithm-specific metadata, including the input mode. For more information about algorithms provided by Amazon SageMaker, see Algorithms. For information about providing your own algorithms, see Using Your Own Algorithms with Amazon SageMaker. 
         public let algorithmSpecification: AlgorithmSpecification
@@ -4074,9 +3616,6 @@ extension SageMaker {
     }
 
     public struct CreateTrainingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String
@@ -4091,20 +3630,6 @@ extension SageMaker {
     }
 
     public struct CreateTransformJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "DataProcessing", required: false, type: .structure), 
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxConcurrentTransforms", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxPayloadInMB", required: false, type: .integer), 
-            AWSShapeMember(label: "ModelName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TransformInput", required: true, type: .structure), 
-            AWSShapeMember(label: "TransformJobName", required: true, type: .string), 
-            AWSShapeMember(label: "TransformOutput", required: true, type: .structure), 
-            AWSShapeMember(label: "TransformResources", required: true, type: .structure)
-        ]
 
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set the SplitType property of the DataProcessing object to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
         public let batchStrategy: BatchStrategy?
@@ -4188,9 +3713,6 @@ extension SageMaker {
     }
 
     public struct CreateTransformJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformJobArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the transform job.
         public let transformJobArn: String
@@ -4205,17 +3727,6 @@ extension SageMaker {
     }
 
     public struct CreateTrialComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
-        ]
 
         /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
@@ -4292,9 +3803,6 @@ extension SageMaker {
     }
 
     public struct CreateTrialComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
@@ -4309,12 +3817,6 @@ extension SageMaker {
     }
 
     public struct CreateTrialRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TrialName", required: true, type: .string)
-        ]
 
         /// The name of the trial as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialName is displayed.
         public let displayName: String?
@@ -4358,9 +3860,6 @@ extension SageMaker {
     }
 
     public struct CreateTrialResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
@@ -4375,14 +3874,6 @@ extension SageMaker {
     }
 
     public struct CreateUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "SingleSignOnUserIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SingleSignOnUserValue", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .structure)
-        ]
 
         /// The ID of the associated Domain.
         public let domainId: String
@@ -4431,9 +3922,6 @@ extension SageMaker {
     }
 
     public struct CreateUserProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserProfileArn", required: false, type: .string)
-        ]
 
         /// The user profile Amazon Resource Name (ARN).
         public let userProfileArn: String?
@@ -4448,13 +3936,6 @@ extension SageMaker {
     }
 
     public struct CreateWorkteamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "MemberDefinitions", required: true, type: .list), 
-            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "WorkteamName", required: true, type: .string)
-        ]
 
         /// A description of the work team.
         public let description: String
@@ -4505,9 +3986,6 @@ extension SageMaker {
     }
 
     public struct CreateWorkteamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkteamArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the work team. You can use this ARN to identify the work team.
         public let workteamArn: String?
@@ -4522,14 +4000,6 @@ extension SageMaker {
     }
 
     public struct DataCaptureConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptureContentTypeHeader", required: false, type: .structure), 
-            AWSShapeMember(label: "CaptureOptions", required: true, type: .list), 
-            AWSShapeMember(label: "DestinationS3Uri", required: true, type: .string), 
-            AWSShapeMember(label: "EnableCapture", required: false, type: .boolean), 
-            AWSShapeMember(label: "InitialSamplingPercentage", required: true, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
-        ]
 
         public let captureContentTypeHeader: CaptureContentTypeHeader?
         public let captureOptions: [CaptureOption]
@@ -4570,13 +4040,6 @@ extension SageMaker {
     }
 
     public struct DataCaptureConfigSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptureStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "CurrentSamplingPercentage", required: true, type: .integer), 
-            AWSShapeMember(label: "DestinationS3Uri", required: true, type: .string), 
-            AWSShapeMember(label: "EnableCapture", required: true, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: true, type: .string)
-        ]
 
         public let captureStatus: CaptureStatus
         public let currentSamplingPercentage: Int
@@ -4602,11 +4065,6 @@ extension SageMaker {
     }
 
     public struct DataProcessing: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputFilter", required: false, type: .string), 
-            AWSShapeMember(label: "JoinSource", required: false, type: .enum), 
-            AWSShapeMember(label: "OutputFilter", required: false, type: .string)
-        ]
 
         /// A JSONPath expression used to select a portion of the input data to pass to the algorithm. Use the InputFilter parameter to exclude fields, such as an ID column, from the input. If you want Amazon SageMaker to pass the entire input dataset to the algorithm, accept the default value $. Examples: "$", "$[1:]", "$.features" 
         public let inputFilter: String?
@@ -4636,10 +4094,6 @@ extension SageMaker {
     }
 
     public struct DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemDataSource", required: false, type: .structure), 
-            AWSShapeMember(label: "S3DataSource", required: false, type: .structure)
-        ]
 
         /// The file system that is associated with a channel.
         public let fileSystemDataSource: FileSystemDataSource?
@@ -4663,12 +4117,6 @@ extension SageMaker {
     }
 
     public struct DebugHookConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CollectionConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "HookParameters", required: false, type: .map), 
-            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
-        ]
 
         /// Configuration information for tensor collections.
         public let collectionConfigurations: [CollectionConfiguration]?
@@ -4714,15 +4162,6 @@ extension SageMaker {
     }
 
     public struct DebugRuleConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
-            AWSShapeMember(label: "RuleConfigurationName", required: true, type: .string), 
-            AWSShapeMember(label: "RuleEvaluatorImage", required: true, type: .string), 
-            AWSShapeMember(label: "RuleParameters", required: false, type: .map), 
-            AWSShapeMember(label: "S3OutputPath", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
-        ]
 
         /// The instance type to deploy for a training job.
         public let instanceType: ProcessingInstanceType?
@@ -4781,13 +4220,6 @@ extension SageMaker {
     }
 
     public struct DebugRuleEvaluationStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RuleConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "RuleEvaluationJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "RuleEvaluationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
-        ]
 
         /// Timestamp when the rule evaluation status was last modified.
         public let lastModifiedTime: TimeStamp?
@@ -4818,9 +4250,6 @@ extension SageMaker {
     }
 
     public struct DeleteAlgorithmInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmName", required: true, type: .string)
-        ]
 
         /// The name of the algorithm to delete.
         public let algorithmName: String
@@ -4841,12 +4270,6 @@ extension SageMaker {
     }
 
     public struct DeleteAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppName", required: true, type: .string), 
-            AWSShapeMember(label: "AppType", required: true, type: .enum), 
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
-        ]
 
         /// The name of the app.
         public let appName: String
@@ -4881,9 +4304,6 @@ extension SageMaker {
     }
 
     public struct DeleteCodeRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string)
-        ]
 
         /// The name of the Git repository to delete.
         public let codeRepositoryName: String
@@ -4904,10 +4324,6 @@ extension SageMaker {
     }
 
     public struct DeleteDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "RetentionPolicy", required: false, type: .structure)
-        ]
 
         /// The domain ID.
         public let domainId: String
@@ -4930,9 +4346,6 @@ extension SageMaker {
     }
 
     public struct DeleteEndpointConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
-        ]
 
         /// The name of the endpoint configuration that you want to delete.
         public let endpointConfigName: String
@@ -4952,9 +4365,6 @@ extension SageMaker {
     }
 
     public struct DeleteEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
-        ]
 
         /// The name of the endpoint that you want to delete.
         public let endpointName: String
@@ -4974,9 +4384,6 @@ extension SageMaker {
     }
 
     public struct DeleteExperimentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentName", required: true, type: .string)
-        ]
 
         /// The name of the experiment to delete.
         public let experimentName: String
@@ -4997,9 +4404,6 @@ extension SageMaker {
     }
 
     public struct DeleteExperimentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the experiment that is being deleted.
         public let experimentArn: String?
@@ -5014,9 +4418,6 @@ extension SageMaker {
     }
 
     public struct DeleteFlowDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string)
-        ]
 
         /// The name of the flow definition you are deleting.
         public let flowDefinitionName: String
@@ -5045,9 +4446,6 @@ extension SageMaker {
     }
 
     public struct DeleteModelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelName", required: true, type: .string)
-        ]
 
         /// The name of the model to delete.
         public let modelName: String
@@ -5067,9 +4465,6 @@ extension SageMaker {
     }
 
     public struct DeleteModelPackageInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelPackageName", required: true, type: .string)
-        ]
 
         /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let modelPackageName: String
@@ -5090,9 +4485,6 @@ extension SageMaker {
     }
 
     public struct DeleteMonitoringScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
-        ]
 
         /// The name of the monitoring schedule to delete.
         public let monitoringScheduleName: String
@@ -5113,9 +4505,6 @@ extension SageMaker {
     }
 
     public struct DeleteNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
 
         /// The name of the Amazon SageMaker notebook instance to delete.
         public let notebookInstanceName: String
@@ -5135,9 +4524,6 @@ extension SageMaker {
     }
 
     public struct DeleteNotebookInstanceLifecycleConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
-        ]
 
         /// The name of the lifecycle configuration to delete.
         public let notebookInstanceLifecycleConfigName: String
@@ -5157,10 +4543,6 @@ extension SageMaker {
     }
 
     public struct DeleteTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete.
         public let resourceArn: String
@@ -5199,9 +4581,6 @@ extension SageMaker {
     }
 
     public struct DeleteTrialComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
-        ]
 
         /// The name of the component to delete.
         public let trialComponentName: String
@@ -5222,9 +4601,6 @@ extension SageMaker {
     }
 
     public struct DeleteTrialComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the component is being deleted.
         public let trialComponentArn: String?
@@ -5239,9 +4615,6 @@ extension SageMaker {
     }
 
     public struct DeleteTrialRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialName", required: true, type: .string)
-        ]
 
         /// The name of the trial to delete.
         public let trialName: String
@@ -5262,9 +4635,6 @@ extension SageMaker {
     }
 
     public struct DeleteTrialResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the trial that is being deleted.
         public let trialArn: String?
@@ -5279,10 +4649,6 @@ extension SageMaker {
     }
 
     public struct DeleteUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
-        ]
 
         /// The domain ID.
         public let domainId: String
@@ -5307,9 +4673,6 @@ extension SageMaker {
     }
 
     public struct DeleteWorkteamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkteamName", required: true, type: .string)
-        ]
 
         /// The name of the work team to delete.
         public let workteamName: String
@@ -5330,9 +4693,6 @@ extension SageMaker {
     }
 
     public struct DeleteWorkteamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Success", required: true, type: .boolean)
-        ]
 
         /// Returns true if the work team was successfully deleted; otherwise, returns false.
         public let success: Bool
@@ -5347,11 +4707,6 @@ extension SageMaker {
     }
 
     public struct DeployedImage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolutionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResolvedImage", required: false, type: .string), 
-            AWSShapeMember(label: "SpecifiedImage", required: false, type: .string)
-        ]
 
         /// The date and time when the image path for the model resolved to the ResolvedImage 
         public let resolutionTime: TimeStamp?
@@ -5374,9 +4729,6 @@ extension SageMaker {
     }
 
     public struct DescribeAlgorithmInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmName", required: true, type: .string)
-        ]
 
         /// The name of the algorithm to describe.
         public let algorithmName: String
@@ -5397,19 +4749,6 @@ extension SageMaker {
     }
 
     public struct DescribeAlgorithmOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmArn", required: true, type: .string), 
-            AWSShapeMember(label: "AlgorithmDescription", required: false, type: .string), 
-            AWSShapeMember(label: "AlgorithmName", required: true, type: .string), 
-            AWSShapeMember(label: "AlgorithmStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "AlgorithmStatusDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "CertifyForMarketplace", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "InferenceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the algorithm.
         public let algorithmArn: String
@@ -5464,12 +4803,6 @@ extension SageMaker {
     }
 
     public struct DescribeAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppName", required: true, type: .string), 
-            AWSShapeMember(label: "AppType", required: true, type: .enum), 
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
-        ]
 
         /// The name of the app.
         public let appName: String
@@ -5504,19 +4837,6 @@ extension SageMaker {
     }
 
     public struct DescribeAppResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppArn", required: false, type: .string), 
-            AWSShapeMember(label: "AppName", required: false, type: .string), 
-            AWSShapeMember(label: "AppType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainId", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastHealthCheckTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUserActivityTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceSpec", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
-        ]
 
         /// The app's Amazon Resource Name (ARN).
         public let appArn: String?
@@ -5571,9 +4891,6 @@ extension SageMaker {
     }
 
     public struct DescribeAutoMLJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string)
-        ]
 
         /// Request information about a job using that job's unique name.
         public let autoMLJobName: String
@@ -5594,26 +4911,6 @@ extension SageMaker {
     }
 
     public struct DescribeAutoMLJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "AutoMLJobArtifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMLJobConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
-            AWSShapeMember(label: "AutoMLJobObjective", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMLJobSecondaryStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "AutoMLJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "BestCandidate", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "GenerateCandidateDefinitionsOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ProblemType", required: false, type: .enum), 
-            AWSShapeMember(label: "ResolvedAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// Returns the job's ARN.
         public let autoMLJobArn: String
@@ -5696,9 +4993,6 @@ extension SageMaker {
     }
 
     public struct DescribeCodeRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string)
-        ]
 
         /// The name of the Git repository to describe.
         public let codeRepositoryName: String
@@ -5719,13 +5013,6 @@ extension SageMaker {
     }
 
     public struct DescribeCodeRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "GitConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Git repository.
         public let codeRepositoryArn: String
@@ -5756,9 +5043,6 @@ extension SageMaker {
     }
 
     public struct DescribeCompilationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompilationJobName", required: true, type: .string)
-        ]
 
         /// The name of the model compilation job that you want information about.
         public let compilationJobName: String
@@ -5779,21 +5063,6 @@ extension SageMaker {
     }
 
     public struct DescribeCompilationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompilationEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompilationJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "CompilationJobName", required: true, type: .string), 
-            AWSShapeMember(label: "CompilationJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "CompilationStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: true, type: .string), 
-            AWSShapeMember(label: "InputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ModelArtifacts", required: true, type: .structure), 
-            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure)
-        ]
 
         /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker detected that the job failed. 
         public let compilationEndTime: TimeStamp?
@@ -5856,9 +5125,6 @@ extension SageMaker {
     }
 
     public struct DescribeDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string)
-        ]
 
         /// The domain ID.
         public let domainId: String
@@ -5877,23 +5143,6 @@ extension SageMaker {
     }
 
     public struct DescribeDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthMode", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultUserSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainArn", required: false, type: .string), 
-            AWSShapeMember(label: "DomainId", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "HomeEfsFileSystemId", required: false, type: .string), 
-            AWSShapeMember(label: "HomeEfsFileSystemKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SingleSignOnManagedApplicationInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The domain's authentication mode.
         public let authMode: AuthMode?
@@ -5964,9 +5213,6 @@ extension SageMaker {
     }
 
     public struct DescribeEndpointConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
-        ]
 
         /// The name of the endpoint configuration.
         public let endpointConfigName: String
@@ -5986,14 +5232,6 @@ extension SageMaker {
     }
 
     public struct DescribeEndpointConfigOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DataCaptureConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ProductionVariants", required: true, type: .list)
-        ]
 
         /// A timestamp that shows when the endpoint configuration was created.
         public let creationTime: TimeStamp
@@ -6027,9 +5265,6 @@ extension SageMaker {
     }
 
     public struct DescribeEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
-        ]
 
         /// The name of the endpoint.
         public let endpointName: String
@@ -6049,17 +5284,6 @@ extension SageMaker {
     }
 
     public struct DescribeEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DataCaptureConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ProductionVariants", required: false, type: .list)
-        ]
 
         /// A timestamp that shows when the endpoint was created.
         public let creationTime: TimeStamp
@@ -6105,9 +5329,6 @@ extension SageMaker {
     }
 
     public struct DescribeExperimentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentName", required: true, type: .string)
-        ]
 
         /// The name of the experiment to describe.
         public let experimentName: String
@@ -6128,17 +5349,6 @@ extension SageMaker {
     }
 
     public struct DescribeExperimentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentArn", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Source", required: false, type: .structure)
-        ]
 
         /// Who created the experiment.
         public let createdBy: UserContext?
@@ -6185,9 +5395,6 @@ extension SageMaker {
     }
 
     public struct DescribeFlowDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string)
-        ]
 
         /// The name of the flow definition.
         public let flowDefinitionName: String
@@ -6208,17 +5415,6 @@ extension SageMaker {
     }
 
     public struct DescribeFlowDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "HumanLoopActivationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HumanLoopConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The timestamp when the flow definition was created.
         public let creationTime: TimeStamp
@@ -6264,9 +5460,6 @@ extension SageMaker {
     }
 
     public struct DescribeHumanTaskUiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string)
-        ]
 
         /// The name of the human task user interface you want information about.
         public let humanTaskUiName: String
@@ -6287,12 +5480,6 @@ extension SageMaker {
     }
 
     public struct DescribeHumanTaskUiResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string), 
-            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string), 
-            AWSShapeMember(label: "UiTemplate", required: true, type: .structure)
-        ]
 
         /// The timestamp when the human task user interface was created.
         public let creationTime: TimeStamp
@@ -6318,9 +5505,6 @@ extension SageMaker {
     }
 
     public struct DescribeHyperParameterTuningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string)
-        ]
 
         /// The name of the tuning job to describe.
         public let hyperParameterTuningJobName: String
@@ -6341,23 +5525,6 @@ extension SageMaker {
     }
 
     public struct DescribeHyperParameterTuningJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BestTrainingJob", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "HyperParameterTuningEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "HyperParameterTuningJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "HyperParameterTuningJobConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
-            AWSShapeMember(label: "HyperParameterTuningJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ObjectiveStatusCounters", required: true, type: .structure), 
-            AWSShapeMember(label: "OverallBestTrainingJob", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingJobDefinition", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingJobDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "TrainingJobStatusCounters", required: true, type: .structure), 
-            AWSShapeMember(label: "WarmStartConfig", required: false, type: .structure)
-        ]
 
         /// A TrainingJobSummary object that describes the training job that completed with the best current HyperParameterTuningJobObjective.
         public let bestTrainingJob: HyperParameterTrainingJobSummary?
@@ -6427,9 +5594,6 @@ extension SageMaker {
     }
 
     public struct DescribeLabelingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LabelingJobName", required: true, type: .string)
-        ]
 
         /// The name of the labeling job to return information for.
         public let labelingJobName: String
@@ -6450,26 +5614,6 @@ extension SageMaker {
     }
 
     public struct DescribeLabelingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "HumanTaskConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "InputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "JobReferenceCode", required: true, type: .string), 
-            AWSShapeMember(label: "LabelAttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "LabelCategoryConfigS3Uri", required: false, type: .string), 
-            AWSShapeMember(label: "LabelCounters", required: true, type: .structure), 
-            AWSShapeMember(label: "LabelingJobAlgorithmsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LabelingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "LabelingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "LabelingJobOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "LabelingJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingConditions", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The date and time that the labeling job was created.
         public let creationTime: TimeStamp
@@ -6552,9 +5696,6 @@ extension SageMaker {
     }
 
     public struct DescribeModelInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelName", required: true, type: .string)
-        ]
 
         /// The name of the model.
         public let modelName: String
@@ -6574,16 +5715,6 @@ extension SageMaker {
     }
 
     public struct DescribeModelOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Containers", required: false, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ModelArn", required: true, type: .string), 
-            AWSShapeMember(label: "ModelName", required: true, type: .string), 
-            AWSShapeMember(label: "PrimaryContainer", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
@@ -6626,9 +5757,6 @@ extension SageMaker {
     }
 
     public struct DescribeModelPackageInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelPackageName", required: true, type: .string)
-        ]
 
         /// The name of the model package to describe.
         public let modelPackageName: String
@@ -6649,18 +5777,6 @@ extension SageMaker {
     }
 
     public struct DescribeModelPackageOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertifyForMarketplace", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "InferenceSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ModelPackageArn", required: true, type: .string), 
-            AWSShapeMember(label: "ModelPackageDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ModelPackageName", required: true, type: .string), 
-            AWSShapeMember(label: "ModelPackageStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ModelPackageStatusDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "SourceAlgorithmSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
-        ]
 
         /// Whether the model package is certified for listing on AWS Marketplace.
         public let certifyForMarketplace: Bool?
@@ -6711,9 +5827,6 @@ extension SageMaker {
     }
 
     public struct DescribeMonitoringScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
-        ]
 
         /// Name of a previously created monitoring schedule.
         public let monitoringScheduleName: String
@@ -6734,17 +5847,6 @@ extension SageMaker {
     }
 
     public struct DescribeMonitoringScheduleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "LastMonitoringExecutionSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string), 
-            AWSShapeMember(label: "MonitoringScheduleConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
-            AWSShapeMember(label: "MonitoringScheduleStatus", required: true, type: .enum)
-        ]
 
         /// The time at which the monitoring job was created.
         public let creationTime: TimeStamp
@@ -6791,9 +5893,6 @@ extension SageMaker {
     }
 
     public struct DescribeNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
 
         /// The name of the notebook instance that you want information about.
         public let notebookInstanceName: String
@@ -6813,9 +5912,6 @@ extension SageMaker {
     }
 
     public struct DescribeNotebookInstanceLifecycleConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
-        ]
 
         /// The name of the lifecycle configuration to describe.
         public let notebookInstanceLifecycleConfigName: String
@@ -6835,14 +5931,6 @@ extension SageMaker {
     }
 
     public struct DescribeNotebookInstanceLifecycleConfigOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "OnCreate", required: false, type: .list), 
-            AWSShapeMember(label: "OnStart", required: false, type: .list)
-        ]
 
         /// A timestamp that tells when the lifecycle configuration was created.
         public let creationTime: TimeStamp?
@@ -6877,28 +5965,6 @@ extension SageMaker {
     }
 
     public struct DescribeNotebookInstanceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorTypes", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalCodeRepositories", required: false, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultCodeRepository", required: false, type: .string), 
-            AWSShapeMember(label: "DirectInternetAccess", required: false, type: .enum), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceName", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "RootAccess", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
-        ]
 
         /// A list of the Elastic Inference (EI) instance types associated with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
@@ -6989,9 +6055,6 @@ extension SageMaker {
     }
 
     public struct DescribeProcessingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string)
-        ]
 
         /// The name of the processing job. The name must be unique within an AWS Region in the AWS account.
         public let processingJobName: String
@@ -7012,29 +6075,6 @@ extension SageMaker {
     }
 
     public struct DescribeProcessingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "ExitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MonitoringScheduleArn", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ProcessingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProcessingInputs", required: false, type: .list), 
-            AWSShapeMember(label: "ProcessingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "ProcessingOutputConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ProcessingResources", required: true, type: .structure), 
-            AWSShapeMember(label: "ProcessingStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingJobArn", required: false, type: .string)
-        ]
 
         /// Configures the processing job to run a specified container image.
         public let appSpecification: AppSpecification
@@ -7129,9 +6169,6 @@ extension SageMaker {
     }
 
     public struct DescribeSubscribedWorkteamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the subscribed work team to describe.
         public let workteamArn: String
@@ -7151,9 +6188,6 @@ extension SageMaker {
     }
 
     public struct DescribeSubscribedWorkteamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscribedWorkteam", required: true, type: .structure)
-        ]
 
         /// A Workteam instance that contains information about the work team.
         public let subscribedWorkteam: SubscribedWorkteam
@@ -7168,9 +6202,6 @@ extension SageMaker {
     }
 
     public struct DescribeTrainingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string)
-        ]
 
         /// The name of the training job.
         public let trainingJobName: String
@@ -7191,42 +6222,6 @@ extension SageMaker {
     }
 
     public struct DescribeTrainingJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "BillableTimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DebugHookConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DebugRuleConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "DebugRuleEvaluationStatuses", required: false, type: .list), 
-            AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FinalMetricDataList", required: false, type: .list), 
-            AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
-            AWSShapeMember(label: "LabelingJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ModelArtifacts", required: true, type: .structure), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SecondaryStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "SecondaryStatusTransitions", required: false, type: .list), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
-            AWSShapeMember(label: "TensorBoardOutputConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingTimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "TuningJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// Information about the algorithm used for training, and algorithm metadata. 
         public let algorithmSpecification: AlgorithmSpecification
@@ -7368,9 +6363,6 @@ extension SageMaker {
     }
 
     public struct DescribeTransformJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformJobName", required: true, type: .string)
-        ]
 
         /// The name of the transform job that you want to view details of.
         public let transformJobName: String
@@ -7391,27 +6383,6 @@ extension SageMaker {
     }
 
     public struct DescribeTransformJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DataProcessing", required: false, type: .structure), 
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LabelingJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "MaxConcurrentTransforms", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxPayloadInMB", required: false, type: .integer), 
-            AWSShapeMember(label: "ModelName", required: true, type: .string), 
-            AWSShapeMember(label: "TransformEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TransformInput", required: true, type: .structure), 
-            AWSShapeMember(label: "TransformJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "TransformJobName", required: true, type: .string), 
-            AWSShapeMember(label: "TransformJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "TransformOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "TransformResources", required: true, type: .structure), 
-            AWSShapeMember(label: "TransformStartTime", required: false, type: .timestamp)
-        ]
 
         public let autoMLJobArn: String?
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set SplitType to Line, RecordIO, or TFRecord.
@@ -7495,9 +6466,6 @@ extension SageMaker {
     }
 
     public struct DescribeTrialComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
-        ]
 
         /// The name of the trial component to describe.
         public let trialComponentName: String
@@ -7518,23 +6486,6 @@ extension SageMaker {
     }
 
     public struct DescribeTrialComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "Source", required: false, type: .structure), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentName", required: false, type: .string)
-        ]
 
         /// Who created the component.
         public let createdBy: UserContext?
@@ -7605,9 +6556,6 @@ extension SageMaker {
     }
 
     public struct DescribeTrialRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialName", required: true, type: .string)
-        ]
 
         /// The name of the trial to describe.
         public let trialName: String
@@ -7628,17 +6576,6 @@ extension SageMaker {
     }
 
     public struct DescribeTrialResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Source", required: false, type: .structure), 
-            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialName", required: false, type: .string)
-        ]
 
         /// Who created the trial.
         public let createdBy: UserContext?
@@ -7685,10 +6622,6 @@ extension SageMaker {
     }
 
     public struct DescribeUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
-        ]
 
         /// The domain ID.
         public let domainId: String
@@ -7713,19 +6646,6 @@ extension SageMaker {
     }
 
     public struct DescribeUserProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainId", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "HomeEfsFileSystemUid", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SingleSignOnUserIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SingleSignOnUserValue", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UserProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .structure)
-        ]
 
         /// The creation time.
         public let creationTime: TimeStamp?
@@ -7780,9 +6700,6 @@ extension SageMaker {
     }
 
     public struct DescribeWorkforceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
-        ]
 
         /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to "default" when a workforce is created and cannot be modified. 
         public let workforceName: String
@@ -7803,9 +6720,6 @@ extension SageMaker {
     }
 
     public struct DescribeWorkforceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workforce", required: true, type: .structure)
-        ]
 
         /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each AWS Region. By default, any workforce related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
         public let workforce: Workforce
@@ -7820,9 +6734,6 @@ extension SageMaker {
     }
 
     public struct DescribeWorkteamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkteamName", required: true, type: .string)
-        ]
 
         /// The name of the work team to return a description of.
         public let workteamName: String
@@ -7843,9 +6754,6 @@ extension SageMaker {
     }
 
     public struct DescribeWorkteamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workteam", required: true, type: .structure)
-        ]
 
         /// A Workteam instance that contains information about the work team. 
         public let workteam: Workteam
@@ -7860,11 +6768,6 @@ extension SageMaker {
     }
 
     public struct DesiredWeightAndCapacity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "DesiredWeight", required: false, type: .float), 
-            AWSShapeMember(label: "VariantName", required: true, type: .string)
-        ]
 
         /// The variant's capacity.
         public let desiredInstanceCount: Int?
@@ -7894,10 +6797,6 @@ extension SageMaker {
     }
 
     public struct DisassociateTrialComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "TrialName", required: true, type: .string)
-        ]
 
         /// The name of the component to disassociate from the trial.
         public let trialComponentName: String
@@ -7925,10 +6824,6 @@ extension SageMaker {
     }
 
     public struct DisassociateTrialComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
@@ -7947,15 +6842,6 @@ extension SageMaker {
     }
 
     public struct DomainDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainArn", required: false, type: .string), 
-            AWSShapeMember(label: "DomainId", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// The creation time.
         public let creationTime: TimeStamp?
@@ -7994,11 +6880,6 @@ extension SageMaker {
     }
 
     public struct EndpointConfigSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
-        ]
 
         /// A timestamp that shows when the endpoint configuration was created.
         public let creationTime: TimeStamp
@@ -8021,12 +6902,6 @@ extension SageMaker {
     }
 
     public struct EndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
-            AWSShapeMember(label: "S3DataDistributionType", required: false, type: .enum), 
-            AWSShapeMember(label: "S3InputMode", required: false, type: .enum)
-        ]
 
         /// An endpoint in customer's account which has enabled DataCaptureConfig enabled.
         public let endpointName: String
@@ -8060,13 +6935,6 @@ extension SageMaker {
     }
 
     public struct EndpointSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
-        ]
 
         /// A timestamp that shows when the endpoint was created.
         public let creationTime: TimeStamp
@@ -8097,18 +6965,6 @@ extension SageMaker {
     }
 
     public struct Experiment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentArn", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Source", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         public let createdBy: UserContext?
         /// When the experiment was created.
@@ -8156,11 +7012,6 @@ extension SageMaker {
     }
 
     public struct ExperimentConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentDisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "TrialName", required: false, type: .string)
-        ]
 
         /// The name of the experiment.
         public let experimentName: String?
@@ -8195,10 +7046,6 @@ extension SageMaker {
     }
 
     public struct ExperimentSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source.
         public let sourceArn: String
@@ -8217,14 +7064,6 @@ extension SageMaker {
     }
 
     public struct ExperimentSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentArn", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentSource", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp)
-        ]
 
         /// When the experiment was created.
         public let creationTime: TimeStamp?
@@ -8258,12 +7097,6 @@ extension SageMaker {
     }
 
     public struct FileSystemDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryPath", required: true, type: .string), 
-            AWSShapeMember(label: "FileSystemAccessMode", required: true, type: .enum), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "FileSystemType", required: true, type: .enum)
-        ]
 
         /// The full path to the directory to associate with the channel.
         public let directoryPath: String
@@ -8297,11 +7130,6 @@ extension SageMaker {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Operator", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A property name. For example, TrainingJobName. For the list of valid property names returned in a search result for each supported resource, see TrainingJob properties. You must specify a valid property name for the resource.
         public let name: String
@@ -8333,11 +7161,6 @@ extension SageMaker {
     }
 
     public struct FinalAutoMLJobObjectiveMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricName", required: true, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .float)
-        ]
 
         /// The name of the metric.
         public let metricName: AutoMLMetricEnum
@@ -8360,11 +7183,6 @@ extension SageMaker {
     }
 
     public struct FinalHyperParameterTuningJobObjectiveMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .float)
-        ]
 
         /// The name of the objective metric.
         public let metricName: String
@@ -8387,10 +7205,6 @@ extension SageMaker {
     }
 
     public struct FlowDefinitionOutputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
-        ]
 
         /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
         public let kmsKeyId: String?
@@ -8416,13 +7230,6 @@ extension SageMaker {
     }
 
     public struct FlowDefinitionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionStatus", required: true, type: .enum)
-        ]
 
         /// The timestamp when SageMaker created the flow definition.
         public let creationTime: TimeStamp
@@ -8453,10 +7260,6 @@ extension SageMaker {
     }
 
     public struct GetSearchSuggestionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resource", required: true, type: .enum), 
-            AWSShapeMember(label: "SuggestionQuery", required: false, type: .structure)
-        ]
 
         /// The name of the Amazon SageMaker resource to Search for.
         public let resource: ResourceType
@@ -8479,9 +7282,6 @@ extension SageMaker {
     }
 
     public struct GetSearchSuggestionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PropertyNameSuggestions", required: false, type: .list)
-        ]
 
         /// A list of property names for a Resource that match a SuggestionQuery.
         public let propertyNameSuggestions: [PropertyNameSuggestion]?
@@ -8496,11 +7296,6 @@ extension SageMaker {
     }
 
     public struct GitConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Branch", required: false, type: .string), 
-            AWSShapeMember(label: "RepositoryUrl", required: true, type: .string), 
-            AWSShapeMember(label: "SecretArn", required: false, type: .string)
-        ]
 
         /// The default branch for the Git repository.
         public let branch: String?
@@ -8533,9 +7328,6 @@ extension SageMaker {
     }
 
     public struct GitConfigForUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password} 
         public let secretArn: String?
@@ -8556,9 +7348,6 @@ extension SageMaker {
     }
 
     public struct HumanLoopActivationConditionsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopActivationConditions", required: true, type: .string)
-        ]
 
         /// JSON expressing use-case specific conditions declaratively. If any condition is matched, atomic tasks are created against the configured work team. The set of conditions is different for Rekognition and Textract.
         public let humanLoopActivationConditions: String
@@ -8577,10 +7366,6 @@ extension SageMaker {
     }
 
     public struct HumanLoopActivationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopActivationConditionsConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "HumanLoopRequestSource", required: true, type: .structure)
-        ]
 
         /// Container structure for defining under what conditions SageMaker creates a human loop.
         public let humanLoopActivationConditionsConfig: HumanLoopActivationConditionsConfig
@@ -8603,17 +7388,6 @@ extension SageMaker {
     }
 
     public struct HumanLoopConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string), 
-            AWSShapeMember(label: "PublicWorkforceTaskPrice", required: false, type: .structure), 
-            AWSShapeMember(label: "TaskAvailabilityLifetimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "TaskCount", required: true, type: .integer), 
-            AWSShapeMember(label: "TaskDescription", required: true, type: .string), 
-            AWSShapeMember(label: "TaskKeywords", required: false, type: .list), 
-            AWSShapeMember(label: "TaskTimeLimitInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "TaskTitle", required: true, type: .string), 
-            AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the human task user interface.
         public let humanTaskUiArn: String
@@ -8686,9 +7460,6 @@ extension SageMaker {
     }
 
     public struct HumanLoopRequestSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsManagedHumanLoopRequestSource", required: true, type: .enum)
-        ]
 
         /// Specifies whether Amazon Rekognition or Amazon Textract are used as the integration source. The default field settings and JSON parsing rules are different based on the integration source. Valid values:
         public let awsManagedHumanLoopRequestSource: AwsManagedHumanLoopRequestSource
@@ -8703,20 +7474,6 @@ extension SageMaker {
     }
 
     public struct HumanTaskConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnnotationConsolidationConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxConcurrentTaskCount", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfHumanWorkersPerDataObject", required: true, type: .integer), 
-            AWSShapeMember(label: "PreHumanTaskLambdaArn", required: true, type: .string), 
-            AWSShapeMember(label: "PublicWorkforceTaskPrice", required: false, type: .structure), 
-            AWSShapeMember(label: "TaskAvailabilityLifetimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "TaskDescription", required: true, type: .string), 
-            AWSShapeMember(label: "TaskKeywords", required: false, type: .list), 
-            AWSShapeMember(label: "TaskTimeLimitInSeconds", required: true, type: .integer), 
-            AWSShapeMember(label: "TaskTitle", required: true, type: .string), 
-            AWSShapeMember(label: "UiConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
-        ]
 
         /// Configures how labels are consolidated across human workers.
         public let annotationConsolidationConfig: AnnotationConsolidationConfig
@@ -8806,11 +7563,6 @@ extension SageMaker {
     }
 
     public struct HumanTaskUiSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string), 
-            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string)
-        ]
 
         /// A timestamp when SageMaker created the human task user interface.
         public let creationTime: TimeStamp
@@ -8833,12 +7585,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterAlgorithmSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmName", required: false, type: .string), 
-            AWSShapeMember(label: "MetricDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "TrainingImage", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum)
-        ]
 
         /// The name of the resource algorithm to use for the hyperparameter tuning job. If you specify a value for this parameter, do not specify a value for TrainingImage.
         public let algorithmName: String?
@@ -8878,15 +7624,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "IsTunable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Range", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The default value for this hyperparameter. If a default value is specified, a hyperparameter cannot be required.
         public let defaultValue: String?
@@ -8935,23 +7672,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterTrainingJobDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DefinitionName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
-            AWSShapeMember(label: "HyperParameterRanges", required: false, type: .structure), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StaticHyperParameters", required: false, type: .map), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
-            AWSShapeMember(label: "TuningObjective", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// The HyperParameterAlgorithmSpecification object that specifies the resource algorithm to use for the training jobs that the tuning job launches.
         public let algorithmSpecification: HyperParameterAlgorithmSpecification
@@ -9047,20 +7767,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterTrainingJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FinalHyperParameterTuningJobObjectiveMetric", required: false, type: .structure), 
-            AWSShapeMember(label: "ObjectiveStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingJobDefinitionName", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TunedHyperParameters", required: true, type: .map), 
-            AWSShapeMember(label: "TuningJobName", required: false, type: .string)
-        ]
 
         /// The date and time that the training job was created.
         public let creationTime: TimeStamp
@@ -9119,14 +7825,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningJobConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobObjective", required: false, type: .structure), 
-            AWSShapeMember(label: "ParameterRanges", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceLimits", required: true, type: .structure), 
-            AWSShapeMember(label: "Strategy", required: true, type: .enum), 
-            AWSShapeMember(label: "TrainingJobEarlyStoppingType", required: false, type: .enum), 
-            AWSShapeMember(label: "TuningJobCompletionCriteria", required: false, type: .structure)
-        ]
 
         /// The HyperParameterTuningJobObjective object that specifies the objective metric for this tuning job.
         public let hyperParameterTuningJobObjective: HyperParameterTuningJobObjective?
@@ -9167,10 +7865,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningJobObjective: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The name of the metric to use for the objective metric.
         public let metricName: String
@@ -9195,18 +7889,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "HyperParameterTuningEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "HyperParameterTuningJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
-            AWSShapeMember(label: "HyperParameterTuningJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ObjectiveStatusCounters", required: true, type: .structure), 
-            AWSShapeMember(label: "ResourceLimits", required: false, type: .structure), 
-            AWSShapeMember(label: "Strategy", required: true, type: .enum), 
-            AWSShapeMember(label: "TrainingJobStatusCounters", required: true, type: .structure)
-        ]
 
         /// The date and time that the tuning job was created.
         public let creationTime: TimeStamp
@@ -9257,10 +7939,6 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningJobWarmStartConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParentHyperParameterTuningJobs", required: true, type: .list), 
-            AWSShapeMember(label: "WarmStartType", required: true, type: .enum)
-        ]
 
         /// An array of hyperparameter tuning jobs that are used as the starting point for the new hyperparameter tuning job. For more information about warm starting a hyperparameter tuning job, see Using a Previous Hyperparameter Tuning Job as a Starting Point. Hyperparameter tuning jobs created before October 1, 2018 cannot be used as parent jobs for warm start tuning jobs.
         public let parentHyperParameterTuningJobs: [ParentHyperParameterTuningJob]
@@ -9287,13 +7965,6 @@ extension SageMaker {
     }
 
     public struct InferenceSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Containers", required: true, type: .list), 
-            AWSShapeMember(label: "SupportedContentTypes", required: true, type: .list), 
-            AWSShapeMember(label: "SupportedRealtimeInferenceInstanceTypes", required: true, type: .list), 
-            AWSShapeMember(label: "SupportedResponseMIMETypes", required: true, type: .list), 
-            AWSShapeMember(label: "SupportedTransformInstanceTypes", required: true, type: .list)
-        ]
 
         /// The Amazon ECR registry path of the Docker image that contains the inference code.
         public let containers: [ModelPackageContainerDefinition]
@@ -9341,11 +8012,6 @@ extension SageMaker {
     }
 
     public struct InputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataInputConfig", required: true, type: .string), 
-            AWSShapeMember(label: "Framework", required: true, type: .enum), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.  
         public let dataInputConfig: String
@@ -9376,12 +8042,6 @@ extension SageMaker {
     }
 
     public struct IntegerParameterRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxValue", required: true, type: .string), 
-            AWSShapeMember(label: "MinValue", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingType", required: false, type: .enum)
-        ]
 
         /// The maximum value of the hyperparameter to search.
         public let maxValue: String
@@ -9417,10 +8077,6 @@ extension SageMaker {
     }
 
     public struct IntegerParameterRangeSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxValue", required: true, type: .string), 
-            AWSShapeMember(label: "MinValue", required: true, type: .string)
-        ]
 
         /// The maximum integer value allowed.
         public let maxValue: String
@@ -9446,9 +8102,6 @@ extension SageMaker {
     }
 
     public struct JupyterServerAppSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
-        ]
 
         /// The instance type and quantity.
         public let defaultResourceSpec: ResourceSpec?
@@ -9467,9 +8120,6 @@ extension SageMaker {
     }
 
     public struct KernelGatewayAppSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
-        ]
 
         /// The instance type and quantity.
         public let defaultResourceSpec: ResourceSpec?
@@ -9488,13 +8138,6 @@ extension SageMaker {
     }
 
     public struct LabelCounters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedNonRetryableError", required: false, type: .integer), 
-            AWSShapeMember(label: "HumanLabeled", required: false, type: .integer), 
-            AWSShapeMember(label: "MachineLabeled", required: false, type: .integer), 
-            AWSShapeMember(label: "TotalLabeled", required: false, type: .integer), 
-            AWSShapeMember(label: "Unlabeled", required: false, type: .integer)
-        ]
 
         /// The total number of objects that could not be labeled due to an error.
         public let failedNonRetryableError: Int?
@@ -9525,11 +8168,6 @@ extension SageMaker {
     }
 
     public struct LabelCountersForWorkteam: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLabeled", required: false, type: .integer), 
-            AWSShapeMember(label: "PendingHuman", required: false, type: .integer), 
-            AWSShapeMember(label: "Total", required: false, type: .integer)
-        ]
 
         /// The total number of data objects labeled by a human worker.
         public let humanLabeled: Int?
@@ -9552,11 +8190,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobAlgorithmsConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitialActiveLearningModelArn", required: false, type: .string), 
-            AWSShapeMember(label: "LabelingJobAlgorithmSpecificationArn", required: true, type: .string), 
-            AWSShapeMember(label: "LabelingJobResourceConfig", required: false, type: .structure)
-        ]
 
         /// At the end of an auto-label job Amazon SageMaker Ground Truth sends the Amazon Resource Nam (ARN) of the final model used for auto-labeling. You can use this model as the starting point for subsequent similar jobs by providing the ARN of the model here. 
         public let initialActiveLearningModelArn: String?
@@ -9588,9 +8221,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobDataAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentClassifiers", required: false, type: .list)
-        ]
 
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker may restrict the Amazon Mechanical Turk workers that can view your task based on this information.
         public let contentClassifiers: [ContentClassifier]?
@@ -9609,9 +8239,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
-        ]
 
         /// The Amazon S3 location of the input data objects.
         public let s3DataSource: LabelingJobS3DataSource
@@ -9630,14 +8257,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobForWorkteamSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "JobReferenceCode", required: true, type: .string), 
-            AWSShapeMember(label: "LabelCounters", required: false, type: .structure), 
-            AWSShapeMember(label: "LabelingJobName", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfHumanWorkersPerDataObject", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkRequesterAccountId", required: true, type: .string)
-        ]
 
         /// The date and time that the labeling job was created.
         public let creationTime: TimeStamp
@@ -9671,10 +8290,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobInputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "DataSource", required: true, type: .structure)
-        ]
 
         /// Attributes of the data specified by the customer.
         public let dataAttributes: LabelingJobDataAttributes?
@@ -9698,10 +8313,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinalActiveLearningModelArn", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDatasetS3Uri", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the most recent Amazon SageMaker model trained as part of automated data labeling. 
         public let finalActiveLearningModelArn: String?
@@ -9720,10 +8331,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobOutputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
-        ]
 
         /// The AWS Key Management Service ID of the key used to encrypt the output data, if any. If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for LabelingJobOutputConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateLabelingJob request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
@@ -9749,9 +8356,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobResourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string)
-        ]
 
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
@@ -9771,9 +8375,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobS3DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestS3Uri", required: true, type: .string)
-        ]
 
         /// The Amazon S3 location of the manifest file that describes the input data objects.
         public let manifestS3Uri: String
@@ -9793,10 +8394,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobStoppingConditions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxHumanLabeledObjectCount", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxPercentageOfInputDatasetLabeled", required: false, type: .integer)
-        ]
 
         /// The maximum number of objects that can be labeled by human workers.
         public let maxHumanLabeledObjectCount: Int?
@@ -9821,20 +8418,6 @@ extension SageMaker {
     }
 
     public struct LabelingJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnnotationConsolidationLambdaArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "InputConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LabelCounters", required: true, type: .structure), 
-            AWSShapeMember(label: "LabelingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "LabelingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "LabelingJobOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "LabelingJobStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "PreHumanTaskLambdaArn", required: true, type: .string), 
-            AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Lambda function used to consolidate the annotations from individual workers into a label for a data object. For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String?
@@ -9893,15 +8476,6 @@ extension SageMaker {
     }
 
     public struct ListAlgorithmsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only algorithms created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -9949,10 +8523,6 @@ extension SageMaker {
     }
 
     public struct ListAlgorithmsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmSummaryList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// &gt;An array of AlgorithmSummary objects, each of which lists an algorithm.
         public let algorithmSummaryList: [AlgorithmSummary]
@@ -9971,14 +8541,6 @@ extension SageMaker {
     }
 
     public struct ListAppsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainIdEquals", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "UserProfileNameEquals", required: false, type: .string)
-        ]
 
         /// A parameter to search for the domain ID.
         public let domainIdEquals: String?
@@ -10023,10 +8585,6 @@ extension SageMaker {
     }
 
     public struct ListAppsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Apps", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of apps.
         public let apps: [AppDetails]?
@@ -10045,18 +8603,6 @@ extension SageMaker {
     }
 
     public struct ListAutoMLJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// Request a list of jobs, using a filter for time.
         public let creationTimeAfter: TimeStamp?
@@ -10116,10 +8662,6 @@ extension SageMaker {
     }
 
     public struct ListAutoMLJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns a summary list of jobs.
         public let autoMLJobSummaries: [AutoMLJobSummary]
@@ -10138,15 +8680,6 @@ extension SageMaker {
     }
 
     public struct ListCandidatesForAutoMLJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
-            AWSShapeMember(label: "CandidateNameEquals", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// List the Candidates created for the job by providing the job's name.
         public let autoMLJobName: String
@@ -10197,10 +8730,6 @@ extension SageMaker {
     }
 
     public struct ListCandidatesForAutoMLJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Candidates", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Summaries about the Candidates.
         public let candidates: [AutoMLCandidate]
@@ -10219,17 +8748,6 @@ extension SageMaker {
     }
 
     public struct ListCodeRepositoriesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only Git repositories that were created after the specified time.
         public let creationTimeAfter: TimeStamp?
@@ -10285,10 +8803,6 @@ extension SageMaker {
     }
 
     public struct ListCodeRepositoriesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositorySummaryList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Gets a list of summaries of the Git repositories. Each summary specifies the following values for the repository:    Name   Amazon Resource Name (ARN)   Creation time   Last modified time   Configuration information, including the URL location of the repository and the ARN of the AWS Secrets Manager secret that contains the credentials used to access the repository.  
         public let codeRepositorySummaryList: [CodeRepositorySummary]
@@ -10307,18 +8821,6 @@ extension SageMaker {
     }
 
     public struct ListCompilationJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns the model compilation jobs that were created after a specified time. 
         public let creationTimeAfter: TimeStamp?
@@ -10378,10 +8880,6 @@ extension SageMaker {
     }
 
     public struct ListCompilationJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompilationJobSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of CompilationJobSummary objects, each describing a model compilation job. 
         public let compilationJobSummaries: [CompilationJobSummary]
@@ -10400,10 +8898,6 @@ extension SageMaker {
     }
 
     public struct ListDomainsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returns a list up to a specified limit.
         public let maxResults: Int?
@@ -10429,10 +8923,6 @@ extension SageMaker {
     }
 
     public struct ListDomainsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domains", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of domains.
         public let domains: [DomainDetails]?
@@ -10451,15 +8941,6 @@ extension SageMaker {
     }
 
     public struct ListEndpointConfigsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only endpoint configurations with a creation time greater than or equal to the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -10507,10 +8988,6 @@ extension SageMaker {
     }
 
     public struct ListEndpointConfigsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigs", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of endpoint configurations.
         public let endpointConfigs: [EndpointConfigSummary]
@@ -10529,18 +9006,6 @@ extension SageMaker {
     }
 
     public struct ListEndpointsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only endpoints with a creation time greater than or equal to the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -10600,10 +9065,6 @@ extension SageMaker {
     }
 
     public struct ListEndpointsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoints", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         ///  An array or endpoint objects. 
         public let endpoints: [EndpointSummary]
@@ -10622,14 +9083,6 @@ extension SageMaker {
     }
 
     public struct ListExperimentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only experiments created after the specified time.
         public let createdAfter: TimeStamp?
@@ -10671,10 +9124,6 @@ extension SageMaker {
     }
 
     public struct ListExperimentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of the summaries of your experiments.
         public let experimentSummaries: [ExperimentSummary]?
@@ -10693,13 +9142,6 @@ extension SageMaker {
     }
 
     public struct ListFlowDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only flow definitions with a creation time greater than or equal to the specified timestamp.
         public let creationTimeAfter: TimeStamp?
@@ -10737,10 +9179,6 @@ extension SageMaker {
     }
 
     public struct ListFlowDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowDefinitionSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects describing the flow definitions.
         public let flowDefinitionSummaries: [FlowDefinitionSummary]
@@ -10759,13 +9197,6 @@ extension SageMaker {
     }
 
     public struct ListHumanTaskUisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only human task user interfaces with a creation time greater than or equal to the specified timestamp.
         public let creationTimeAfter: TimeStamp?
@@ -10803,10 +9234,6 @@ extension SageMaker {
     }
 
     public struct ListHumanTaskUisResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanTaskUiSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects describing the human task user interfaces.
         public let humanTaskUiSummaries: [HumanTaskUiSummary]
@@ -10825,18 +9252,6 @@ extension SageMaker {
     }
 
     public struct ListHyperParameterTuningJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only tuning jobs that were created after the specified time.
         public let creationTimeAfter: TimeStamp?
@@ -10896,10 +9311,6 @@ extension SageMaker {
     }
 
     public struct ListHyperParameterTuningJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of HyperParameterTuningJobSummary objects that describe the tuning jobs that the ListHyperParameterTuningJobs request returned.
         public let hyperParameterTuningJobSummaries: [HyperParameterTuningJobSummary]
@@ -10918,16 +9329,6 @@ extension SageMaker {
     }
 
     public struct ListLabelingJobsForWorkteamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JobReferenceCodeContains", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
-        ]
 
         /// A filter that returns only labeling jobs created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -10982,10 +9383,6 @@ extension SageMaker {
     }
 
     public struct ListLabelingJobsForWorkteamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LabelingJobSummaryList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of LabelingJobSummary objects, each describing a labeling job.
         public let labelingJobSummaryList: [LabelingJobForWorkteamSummary]
@@ -11004,18 +9401,6 @@ extension SageMaker {
     }
 
     public struct ListLabelingJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only labeling jobs created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -11075,10 +9460,6 @@ extension SageMaker {
     }
 
     public struct ListLabelingJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LabelingJobSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of LabelingJobSummary objects, each describing a labeling job.
         public let labelingJobSummaryList: [LabelingJobSummary]?
@@ -11097,15 +9478,6 @@ extension SageMaker {
     }
 
     public struct ListModelPackagesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only model packages created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -11153,10 +9525,6 @@ extension SageMaker {
     }
 
     public struct ListModelPackagesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModelPackageSummaryList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of ModelPackageSummary objects, each of which lists a model package.
         public let modelPackageSummaryList: [ModelPackageSummary]
@@ -11175,15 +9543,6 @@ extension SageMaker {
     }
 
     public struct ListModelsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only models with a creation time greater than or equal to the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -11231,10 +9590,6 @@ extension SageMaker {
     }
 
     public struct ListModelsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Models", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of ModelSummary objects, each of which lists a model.
         public let models: [ModelSummary]
@@ -11253,21 +9608,6 @@ extension SageMaker {
     }
 
     public struct ListMonitoringExecutionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringScheduleName", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduledTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScheduledTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only jobs created after a specified time.
         public let creationTimeAfter: TimeStamp?
@@ -11342,10 +9682,6 @@ extension SageMaker {
     }
 
     public struct ListMonitoringExecutionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringExecutionSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A JSON array in which each element is a summary for a monitoring execution.
         public let monitoringExecutionSummaries: [MonitoringExecutionSummary]
@@ -11364,19 +9700,6 @@ extension SageMaker {
     }
 
     public struct ListMonitoringSchedulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only monitoring schedules created after a specified time.
         public let creationTimeAfter: TimeStamp?
@@ -11442,10 +9765,6 @@ extension SageMaker {
     }
 
     public struct ListMonitoringSchedulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A JSON array in which each element is a summary for a monitoring schedule.
         public let monitoringScheduleSummaries: [MonitoringScheduleSummary]
@@ -11464,17 +9783,6 @@ extension SageMaker {
     }
 
     public struct ListNotebookInstanceLifecycleConfigsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only lifecycle configurations that were created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -11530,10 +9838,6 @@ extension SageMaker {
     }
 
     public struct ListNotebookInstanceLifecycleConfigsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigs", required: false, type: .list)
-        ]
 
         /// If the response is truncated, Amazon SageMaker returns this token. To get the next set of lifecycle configurations, use it in the next request. 
         public let nextToken: String?
@@ -11552,21 +9856,6 @@ extension SageMaker {
     }
 
     public struct ListNotebookInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalCodeRepositoryEquals", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultCodeRepositoryContains", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigNameContains", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only notebook instances with associated with the specified git repository.
         public let additionalCodeRepositoryEquals: String?
@@ -11645,10 +9934,6 @@ extension SageMaker {
     }
 
     public struct ListNotebookInstancesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstances", required: false, type: .list)
-        ]
 
         /// If the response to the previous ListNotebookInstances request was truncated, Amazon SageMaker returns this token. To retrieve the next set of notebook instances, use the token in the next request.
         public let nextToken: String?
@@ -11667,18 +9952,6 @@ extension SageMaker {
     }
 
     public struct ListProcessingJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only processing jobs created after the specified time.
         public let creationTimeAfter: TimeStamp?
@@ -11736,10 +10009,6 @@ extension SageMaker {
     }
 
     public struct ListProcessingJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingJobSummaries", required: true, type: .list)
-        ]
 
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of processing jobs, use it in the subsequent request.
         public let nextToken: String?
@@ -11758,11 +10027,6 @@ extension SageMaker {
     }
 
     public struct ListSubscribedWorkteamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of work teams to return in each page of the response.
         public let maxResults: Int?
@@ -11795,10 +10059,6 @@ extension SageMaker {
     }
 
     public struct ListSubscribedWorkteamsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SubscribedWorkteams", required: true, type: .list)
-        ]
 
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of work teams, use it in the subsequent request.
         public let nextToken: String?
@@ -11817,11 +10077,6 @@ extension SageMaker {
     }
 
     public struct ListTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// Maximum number of tags to return.
         public let maxResults: Int?
@@ -11852,10 +10107,6 @@ extension SageMaker {
     }
 
     public struct ListTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         ///  If response is truncated, Amazon SageMaker includes a token in the response. You can use this token in your subsequent request to fetch next set of tokens. 
         public let nextToken: String?
@@ -11874,14 +10125,6 @@ extension SageMaker {
     }
 
     public struct ListTrainingJobsForHyperParameterTuningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// The name of the tuning job whose training jobs you want to list.
         public let hyperParameterTuningJobName: String
@@ -11926,10 +10169,6 @@ extension SageMaker {
     }
 
     public struct ListTrainingJobsForHyperParameterTuningJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingJobSummaries", required: true, type: .list)
-        ]
 
         /// If the result of this ListTrainingJobsForHyperParameterTuningJob request was truncated, the response includes a NextToken. To retrieve the next set of training jobs, use the token in the next request.
         public let nextToken: String?
@@ -11948,18 +10187,6 @@ extension SageMaker {
     }
 
     public struct ListTrainingJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only training jobs created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
@@ -12019,10 +10246,6 @@ extension SageMaker {
     }
 
     public struct ListTrainingJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingJobSummaries", required: true, type: .list)
-        ]
 
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of training jobs, use it in the subsequent request.
         public let nextToken: String?
@@ -12041,18 +10264,6 @@ extension SageMaker {
     }
 
     public struct ListTransformJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
-        ]
 
         /// A filter that returns only transform jobs created after the specified time.
         public let creationTimeAfter: TimeStamp?
@@ -12112,10 +10323,6 @@ extension SageMaker {
     }
 
     public struct ListTransformJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TransformJobSummaries", required: true, type: .list)
-        ]
 
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of transform jobs, use it in the next request.
         public let nextToken: String?
@@ -12134,17 +10341,6 @@ extension SageMaker {
     }
 
     public struct ListTrialComponentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialName", required: false, type: .string)
-        ]
 
         /// A filter that returns only components created after the specified time.
         public let createdAfter: TimeStamp?
@@ -12205,10 +10401,6 @@ extension SageMaker {
     }
 
     public struct ListTrialComponentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentSummaries", required: false, type: .list)
-        ]
 
         /// A token for getting the next set of components, if there are any.
         public let nextToken: String?
@@ -12227,15 +10419,6 @@ extension SageMaker {
     }
 
     public struct ListTrialsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// A filter that returns only trials created after the specified time.
         public let createdAfter: TimeStamp?
@@ -12284,10 +10467,6 @@ extension SageMaker {
     }
 
     public struct ListTrialsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TrialSummaries", required: false, type: .list)
-        ]
 
         /// A token for getting the next set of trials, if there are any.
         public let nextToken: String?
@@ -12306,14 +10485,6 @@ extension SageMaker {
     }
 
     public struct ListUserProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainIdEquals", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "UserProfileNameContains", required: false, type: .string)
-        ]
 
         /// A parameter by which to filter the results.
         public let domainIdEquals: String?
@@ -12358,10 +10529,6 @@ extension SageMaker {
     }
 
     public struct ListUserProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserProfiles", required: false, type: .list)
-        ]
 
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -12380,13 +10547,6 @@ extension SageMaker {
     }
 
     public struct ListWorkteamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// The maximum number of work teams to return in each page of the response.
         public let maxResults: Int?
@@ -12427,10 +10587,6 @@ extension SageMaker {
     }
 
     public struct ListWorkteamsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Workteams", required: true, type: .list)
-        ]
 
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of work teams, use it in the subsequent request.
         public let nextToken: String?
@@ -12449,9 +10605,6 @@ extension SageMaker {
     }
 
     public struct MemberDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CognitoMemberDefinition", required: false, type: .structure)
-        ]
 
         /// The Amazon Cognito user group that is part of the work team.
         public let cognitoMemberDefinition: CognitoMemberDefinition?
@@ -12470,11 +10623,6 @@ extension SageMaker {
     }
 
     public struct MetricData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Value", required: false, type: .float)
-        ]
 
         /// The name of the metric.
         public let metricName: String?
@@ -12497,10 +10645,6 @@ extension SageMaker {
     }
 
     public struct MetricDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Regex", required: true, type: .string)
-        ]
 
         /// The name of the metric.
         public let name: String
@@ -12528,9 +10672,6 @@ extension SageMaker {
     }
 
     public struct ModelArtifacts: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3ModelArtifacts", required: true, type: .string)
-        ]
 
         /// The path of the S3 object that contains the model artifacts. For example, s3://bucket-name/keynameprefix/model.tar.gz.
         public let s3ModelArtifacts: String
@@ -12545,13 +10686,6 @@ extension SageMaker {
     }
 
     public struct ModelPackageContainerDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerHostname", required: false, type: .string), 
-            AWSShapeMember(label: "Image", required: true, type: .string), 
-            AWSShapeMember(label: "ImageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "ModelDataUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ProductId", required: false, type: .string)
-        ]
 
         /// The DNS host name for the Docker container.
         public let containerHostname: String?
@@ -12595,10 +10729,6 @@ extension SageMaker {
     }
 
     public struct ModelPackageStatusDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageScanStatuses", required: false, type: .list), 
-            AWSShapeMember(label: "ValidationStatuses", required: true, type: .list)
-        ]
 
         /// The status of the scan of the Docker image container for the model package.
         public let imageScanStatuses: [ModelPackageStatusItem]?
@@ -12617,11 +10747,6 @@ extension SageMaker {
     }
 
     public struct ModelPackageStatusItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
 
         /// if the overall status is Failed, the reason for the failure.
         public let failureReason: String?
@@ -12644,13 +10769,6 @@ extension SageMaker {
     }
 
     public struct ModelPackageSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ModelPackageArn", required: true, type: .string), 
-            AWSShapeMember(label: "ModelPackageDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ModelPackageName", required: true, type: .string), 
-            AWSShapeMember(label: "ModelPackageStatus", required: true, type: .enum)
-        ]
 
         /// A timestamp that shows when the model package was created.
         public let creationTime: TimeStamp
@@ -12681,10 +10799,6 @@ extension SageMaker {
     }
 
     public struct ModelPackageValidationProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "TransformJobDefinition", required: true, type: .structure)
-        ]
 
         /// The name of the profile for the model package.
         public let profileName: String
@@ -12710,10 +10824,6 @@ extension SageMaker {
     }
 
     public struct ModelPackageValidationSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ValidationProfiles", required: true, type: .list), 
-            AWSShapeMember(label: "ValidationRole", required: true, type: .string)
-        ]
 
         /// An array of ModelPackageValidationProfile objects, each of which specifies a batch transform job that Amazon SageMaker runs to validate your model package.
         public let validationProfiles: [ModelPackageValidationProfile]
@@ -12743,11 +10853,6 @@ extension SageMaker {
     }
 
     public struct ModelSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ModelArn", required: true, type: .string), 
-            AWSShapeMember(label: "ModelName", required: true, type: .string)
-        ]
 
         /// A timestamp that indicates when the model was created.
         public let creationTime: TimeStamp
@@ -12770,13 +10875,6 @@ extension SageMaker {
     }
 
     public struct MonitoringAppSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerArguments", required: false, type: .list), 
-            AWSShapeMember(label: "ContainerEntrypoint", required: false, type: .list), 
-            AWSShapeMember(label: "ImageUri", required: true, type: .string), 
-            AWSShapeMember(label: "PostAnalyticsProcessorSourceUri", required: false, type: .string), 
-            AWSShapeMember(label: "RecordPreprocessorSourceUri", required: false, type: .string)
-        ]
 
         /// An array of arguments for the container used to run the monitoring job.
         public let containerArguments: [String]?
@@ -12828,10 +10926,6 @@ extension SageMaker {
     }
 
     public struct MonitoringBaselineConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConstraintsResource", required: false, type: .structure), 
-            AWSShapeMember(label: "StatisticsResource", required: false, type: .structure)
-        ]
 
         /// The baseline constraint file in Amazon S3 that the current monitoring job should validated against.
         public let constraintsResource: MonitoringConstraintsResource?
@@ -12855,12 +10949,6 @@ extension SageMaker {
     }
 
     public struct MonitoringClusterConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer)
-        ]
 
         /// The number of ML compute instances to use in the model monitoring job. For distributed processing jobs, specify a value greater than 1. The default value is 1.
         public let instanceCount: Int
@@ -12896,9 +10984,6 @@ extension SageMaker {
     }
 
     public struct MonitoringConstraintsResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Uri", required: false, type: .string)
-        ]
 
         /// The Amazon S3 URI for the constraints resource.
         public let s3Uri: String?
@@ -12918,16 +11003,6 @@ extension SageMaker {
     }
 
     public struct MonitoringExecutionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "MonitoringExecutionStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduledTime", required: true, type: .timestamp)
-        ]
 
         /// The time at which the monitoring job was created.
         public let creationTime: TimeStamp
@@ -12970,9 +11045,6 @@ extension SageMaker {
     }
 
     public struct MonitoringInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointInput", required: true, type: .structure)
-        ]
 
         /// The endpoint for a monitoring job.
         public let endpointInput: EndpointInput
@@ -12991,17 +11063,6 @@ extension SageMaker {
     }
 
     public struct MonitoringJobDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BaselineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "MonitoringAppSpecification", required: true, type: .structure), 
-            AWSShapeMember(label: "MonitoringInputs", required: true, type: .list), 
-            AWSShapeMember(label: "MonitoringOutputConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "MonitoringResources", required: true, type: .structure), 
-            AWSShapeMember(label: "NetworkConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: false, type: .structure)
-        ]
 
         /// Baseline configuration used to validate that the data conforms to the specified constraints and statistics
         public let baselineConfig: MonitoringBaselineConfig?
@@ -13071,9 +11132,6 @@ extension SageMaker {
     }
 
     public struct MonitoringOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Output", required: true, type: .structure)
-        ]
 
         /// The Amazon S3 storage location where the results of a monitoring job are saved.
         public let s3Output: MonitoringS3Output
@@ -13092,10 +11150,6 @@ extension SageMaker {
     }
 
     public struct MonitoringOutputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringOutputs", required: true, type: .list)
-        ]
 
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
         public let kmsKeyId: String?
@@ -13124,9 +11178,6 @@ extension SageMaker {
     }
 
     public struct MonitoringResources: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterConfig", required: true, type: .structure)
-        ]
 
         /// The configuration for the cluster resources used to run the processing job.
         public let clusterConfig: MonitoringClusterConfig
@@ -13145,11 +11196,6 @@ extension SageMaker {
     }
 
     public struct MonitoringS3Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
-            AWSShapeMember(label: "S3UploadMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// The local path to the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job. LocalPath is an absolute path for the output data.
         public let localPath: String
@@ -13179,10 +11225,6 @@ extension SageMaker {
     }
 
     public struct MonitoringScheduleConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringJobDefinition", required: true, type: .structure), 
-            AWSShapeMember(label: "ScheduleConfig", required: false, type: .structure)
-        ]
 
         /// Defines the monitoring job.
         public let monitoringJobDefinition: MonitoringJobDefinition
@@ -13206,14 +11248,6 @@ extension SageMaker {
     }
 
     public struct MonitoringScheduleSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string), 
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
-            AWSShapeMember(label: "MonitoringScheduleStatus", required: true, type: .enum)
-        ]
 
         /// The creation time of the monitoring schedule.
         public let creationTime: TimeStamp
@@ -13248,9 +11282,6 @@ extension SageMaker {
     }
 
     public struct MonitoringStatisticsResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Uri", required: false, type: .string)
-        ]
 
         /// The Amazon S3 URI for the statistics resource.
         public let s3Uri: String?
@@ -13270,9 +11301,6 @@ extension SageMaker {
     }
 
     public struct MonitoringStoppingCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRuntimeInSeconds", required: true, type: .integer)
-        ]
 
         /// The maximum runtime allowed in seconds.
         public let maxRuntimeInSeconds: Int
@@ -13292,10 +11320,6 @@ extension SageMaker {
     }
 
     public struct NestedFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: true, type: .list), 
-            AWSShapeMember(label: "NestedPropertyName", required: true, type: .string)
-        ]
 
         /// A list of filters. Each filter acts on a property. Filters must contain at least one Filters value. For example, a NestedFilters call might include a filter on the PropertyName parameter of the InputDataConfig property: InputDataConfig.DataSource.S3DataSource.S3Uri.
         public let filters: [Filter]
@@ -13325,10 +11349,6 @@ extension SageMaker {
     }
 
     public struct NetworkConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// Whether to allow inbound and outbound network calls to and from the containers used for the processing job.
         public let enableNetworkIsolation: Bool?
@@ -13350,12 +11370,6 @@ extension SageMaker {
     }
 
     public struct NotebookInstanceLifecycleConfigSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: true, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
-        ]
 
         /// A timestamp that tells when the lifecycle configuration was created.
         public let creationTime: TimeStamp?
@@ -13382,9 +11396,6 @@ extension SageMaker {
     }
 
     public struct NotebookInstanceLifecycleHook: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: false, type: .string)
-        ]
 
         /// A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration.
         public let content: String?
@@ -13405,18 +11416,6 @@ extension SageMaker {
     }
 
     public struct NotebookInstanceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalCodeRepositories", required: false, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultCodeRepository", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotebookInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
@@ -13467,9 +11466,6 @@ extension SageMaker {
     }
 
     public struct NotificationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string)
-        ]
 
         /// The ARN for the SNS topic to which notifications should be published.
         public let notificationTopicArn: String?
@@ -13488,11 +11484,6 @@ extension SageMaker {
     }
 
     public struct ObjectiveStatusCounters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failed", required: false, type: .integer), 
-            AWSShapeMember(label: "Pending", required: false, type: .integer), 
-            AWSShapeMember(label: "Succeeded", required: false, type: .integer)
-        ]
 
         /// The number of training jobs whose final objective metric was not evaluated and used in the hyperparameter tuning process. This typically occurs when the training job failed or did not emit an objective metric.
         public let failed: Int?
@@ -13515,10 +11506,6 @@ extension SageMaker {
     }
 
     public struct OutputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3OutputLocation", required: true, type: .string), 
-            AWSShapeMember(label: "TargetDevice", required: true, type: .enum)
-        ]
 
         /// Identifies the S3 path where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String
@@ -13542,10 +11529,6 @@ extension SageMaker {
     }
 
     public struct OutputDataConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
-        ]
 
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTrainingJob, CreateTransformJob, or CreateHyperParameterTuningJob requests. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
@@ -13571,11 +11554,6 @@ extension SageMaker {
     }
 
     public struct ParameterRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CategoricalParameterRangeSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "ContinuousParameterRangeSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "IntegerParameterRangeSpecification", required: false, type: .structure)
-        ]
 
         /// A CategoricalParameterRangeSpecification object that defines the possible values for a categorical hyperparameter.
         public let categoricalParameterRangeSpecification: CategoricalParameterRangeSpecification?
@@ -13604,11 +11582,6 @@ extension SageMaker {
     }
 
     public struct ParameterRanges: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CategoricalParameterRanges", required: false, type: .list), 
-            AWSShapeMember(label: "ContinuousParameterRanges", required: false, type: .list), 
-            AWSShapeMember(label: "IntegerParameterRanges", required: false, type: .list)
-        ]
 
         /// The array of CategoricalParameterRange objects that specify ranges of categorical hyperparameters that a hyperparameter tuning job searches.
         public let categoricalParameterRanges: [CategoricalParameterRange]?
@@ -13649,10 +11622,6 @@ extension SageMaker {
     }
 
     public struct Parent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "TrialName", required: false, type: .string)
-        ]
 
         /// The name of the experiment.
         public let experimentName: String?
@@ -13671,9 +11640,6 @@ extension SageMaker {
     }
 
     public struct ParentHyperParameterTuningJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobName", required: false, type: .string)
-        ]
 
         /// The name of the hyperparameter tuning job to be used as a starting point for a new hyperparameter tuning job.
         public let hyperParameterTuningJobName: String?
@@ -13694,12 +11660,6 @@ extension SageMaker {
     }
 
     public struct ProcessingClusterConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer)
-        ]
 
         /// The number of ML compute instances to use in the processing job. For distributed processing jobs, specify a value greater than 1. The default value is 1.
         public let instanceCount: Int
@@ -13735,10 +11695,6 @@ extension SageMaker {
     }
 
     public struct ProcessingInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputName", required: true, type: .string), 
-            AWSShapeMember(label: "S3Input", required: true, type: .structure)
-        ]
 
         /// The name of the inputs for the processing job.
         public let inputName: String
@@ -13761,16 +11717,6 @@ extension SageMaker {
     }
 
     public struct ProcessingJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ExitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProcessingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProcessingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingJobStatus", required: true, type: .enum)
-        ]
 
         /// The time at which the processing job was created.
         public let creationTime: TimeStamp
@@ -13813,10 +11759,6 @@ extension SageMaker {
     }
 
     public struct ProcessingOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputName", required: true, type: .string), 
-            AWSShapeMember(label: "S3Output", required: true, type: .structure)
-        ]
 
         /// The name for the processing job output.
         public let outputName: String
@@ -13839,10 +11781,6 @@ extension SageMaker {
     }
 
     public struct ProcessingOutputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Outputs", required: true, type: .list)
-        ]
 
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
         public let kmsKeyId: String?
@@ -13871,9 +11809,6 @@ extension SageMaker {
     }
 
     public struct ProcessingResources: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterConfig", required: true, type: .structure)
-        ]
 
         /// The configuration for the resources in a cluster used to run the processing job.
         public let clusterConfig: ProcessingClusterConfig
@@ -13892,14 +11827,6 @@ extension SageMaker {
     }
 
     public struct ProcessingS3Input: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
-            AWSShapeMember(label: "S3CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "S3DataDistributionType", required: false, type: .enum), 
-            AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
-            AWSShapeMember(label: "S3InputMode", required: true, type: .enum), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// The local path to the Amazon S3 bucket where you want Amazon SageMaker to download the inputs to run a processing job. LocalPath is an absolute path to the input data.
         public let localPath: String
@@ -13941,11 +11868,6 @@ extension SageMaker {
     }
 
     public struct ProcessingS3Output: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
-            AWSShapeMember(label: "S3UploadMode", required: true, type: .enum), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// The local path to the Amazon S3 bucket where you want Amazon SageMaker to save the results of an processing job. LocalPath is an absolute path to the input data.
         public let localPath: String
@@ -13975,9 +11897,6 @@ extension SageMaker {
     }
 
     public struct ProcessingStoppingCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRuntimeInSeconds", required: true, type: .integer)
-        ]
 
         /// Specifies the maximum runtime in seconds.
         public let maxRuntimeInSeconds: Int
@@ -13997,14 +11916,6 @@ extension SageMaker {
     }
 
     public struct ProductionVariant: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorType", required: false, type: .enum), 
-            AWSShapeMember(label: "InitialInstanceCount", required: true, type: .integer), 
-            AWSShapeMember(label: "InitialVariantWeight", required: false, type: .float), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "ModelName", required: true, type: .string), 
-            AWSShapeMember(label: "VariantName", required: true, type: .string)
-        ]
 
         /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorType: ProductionVariantAcceleratorType?
@@ -14048,14 +11959,6 @@ extension SageMaker {
     }
 
     public struct ProductionVariantSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CurrentWeight", required: false, type: .float), 
-            AWSShapeMember(label: "DeployedImages", required: false, type: .list), 
-            AWSShapeMember(label: "DesiredInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "DesiredWeight", required: false, type: .float), 
-            AWSShapeMember(label: "VariantName", required: true, type: .string)
-        ]
 
         /// The number of instances associated with the variant.
         public let currentInstanceCount: Int?
@@ -14090,9 +11993,6 @@ extension SageMaker {
     }
 
     public struct PropertyNameQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PropertyNameHint", required: true, type: .string)
-        ]
 
         /// Text that begins a property's name.
         public let propertyNameHint: String
@@ -14113,9 +12013,6 @@ extension SageMaker {
     }
 
     public struct PropertyNameSuggestion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PropertyName", required: false, type: .string)
-        ]
 
         /// A suggested property name based on what you entered in the search textbox in the Amazon SageMaker console.
         public let propertyName: String?
@@ -14130,9 +12027,6 @@ extension SageMaker {
     }
 
     public struct PublicWorkforceTaskPrice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmountInUsd", required: false, type: .structure)
-        ]
 
         /// Defines the amount of money paid to an Amazon Mechanical Turk worker in United States dollars.
         public let amountInUsd: USD?
@@ -14151,11 +12045,6 @@ extension SageMaker {
     }
 
     public struct RenderUiTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "Task", required: true, type: .structure), 
-            AWSShapeMember(label: "UiTemplate", required: true, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) that has access to the S3 objects that are used by the template.
         public let roleArn: String
@@ -14186,10 +12075,6 @@ extension SageMaker {
     }
 
     public struct RenderUiTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Errors", required: true, type: .list), 
-            AWSShapeMember(label: "RenderedContent", required: true, type: .string)
-        ]
 
         /// A list of one or more RenderingError objects if any were encountered while rendering the template. If there were no errors, the list is empty.
         public let errors: [RenderingError]
@@ -14208,9 +12093,6 @@ extension SageMaker {
     }
 
     public struct RenderableTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Input", required: true, type: .string)
-        ]
 
         /// A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input. For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text".
         public let input: String
@@ -14231,10 +12113,6 @@ extension SageMaker {
     }
 
     public struct RenderingError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: true, type: .string), 
-            AWSShapeMember(label: "Message", required: true, type: .string)
-        ]
 
         /// A unique identifier for a specific class of errors.
         public let code: String
@@ -14253,11 +12131,6 @@ extension SageMaker {
     }
 
     public struct ResolvedAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobObjective", required: false, type: .structure), 
-            AWSShapeMember(label: "CompletionCriteria", required: false, type: .structure), 
-            AWSShapeMember(label: "ProblemType", required: false, type: .enum)
-        ]
 
         public let autoMLJobObjective: AutoMLJobObjective?
         public let completionCriteria: AutoMLJobCompletionCriteria?
@@ -14278,12 +12151,6 @@ extension SageMaker {
     }
 
     public struct ResourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer)
-        ]
 
         /// The number of ML compute instances to use. For distributed training, provide a value greater than 1. 
         public let instanceCount: Int
@@ -14317,10 +12184,6 @@ extension SageMaker {
     }
 
     public struct ResourceLimits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxNumberOfTrainingJobs", required: true, type: .integer), 
-            AWSShapeMember(label: "MaxParallelTrainingJobs", required: true, type: .integer)
-        ]
 
         /// The maximum number of training jobs that a hyperparameter tuning job can launch.
         public let maxNumberOfTrainingJobs: Int
@@ -14344,10 +12207,6 @@ extension SageMaker {
     }
 
     public struct ResourceSpec: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentArn", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the environment.
         public let environmentArn: String?
@@ -14371,9 +12230,6 @@ extension SageMaker {
     }
 
     public struct RetentionPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HomeEfsFileSystem", required: false, type: .enum)
-        ]
 
         /// The home Amazon Elastic File System (EFS).
         public let homeEfsFileSystem: RetentionType?
@@ -14388,12 +12244,6 @@ extension SageMaker {
     }
 
     public struct S3DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: false, type: .list), 
-            AWSShapeMember(label: "S3DataDistributionType", required: false, type: .enum), 
-            AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// A list of one or more attribute names to use that are found in a specified augmented manifest file.
         public let attributeNames: [String]?
@@ -14431,9 +12281,6 @@ extension SageMaker {
     }
 
     public struct ScheduleConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleExpression", required: true, type: .string)
-        ]
 
         /// A cron expression that describes details about the monitoring schedule. Currently the only supported cron expressions are:   If you want to set the job to start every hour, please use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)    To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)       Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.   
         public let scheduleExpression: String
@@ -14453,12 +12300,6 @@ extension SageMaker {
     }
 
     public class SearchExpression: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "NestedFilters", required: false, type: .list), 
-            AWSShapeMember(label: "Operator", required: false, type: .enum), 
-            AWSShapeMember(label: "SubExpressions", required: false, type: .list)
-        ]
 
         /// A list of filter objects.
         public let filters: [Filter]?
@@ -14503,12 +12344,6 @@ extension SageMaker {
     }
 
     public struct SearchRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Experiment", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingJob", required: false, type: .structure), 
-            AWSShapeMember(label: "Trial", required: false, type: .structure), 
-            AWSShapeMember(label: "TrialComponent", required: false, type: .structure)
-        ]
 
         /// A summary of the properties of an experiment.
         public let experiment: Experiment?
@@ -14535,14 +12370,6 @@ extension SageMaker {
     }
 
     public struct SearchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Resource", required: true, type: .enum), 
-            AWSShapeMember(label: "SearchExpression", required: false, type: .structure), 
-            AWSShapeMember(label: "SortBy", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// The maximum number of results to return in a SearchResponse.
         public let maxResults: Int?
@@ -14588,10 +12415,6 @@ extension SageMaker {
     }
 
     public struct SearchResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Results", required: false, type: .list)
-        ]
 
         /// If the result of the previous Search request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
@@ -14610,12 +12433,6 @@ extension SageMaker {
     }
 
     public struct SecondaryStatusTransition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// A timestamp that shows when the training job transitioned out of this secondary status state into another secondary status state or when the training job has ended.
         public let endTime: TimeStamp?
@@ -14642,11 +12459,6 @@ extension SageMaker {
     }
 
     public struct SharingSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookOutputOption", required: false, type: .enum), 
-            AWSShapeMember(label: "S3KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: false, type: .string)
-        ]
 
         /// The notebook output option.
         public let notebookOutputOption: NotebookOutputOption?
@@ -14676,9 +12488,6 @@ extension SageMaker {
     }
 
     public struct ShuffleConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Seed", required: true, type: .long)
-        ]
 
         /// Determines the shuffling order in ShuffleConfig value.
         public let seed: Int64
@@ -14693,10 +12502,6 @@ extension SageMaker {
     }
 
     public struct SourceAlgorithm: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmName", required: true, type: .string), 
-            AWSShapeMember(label: "ModelDataUrl", required: false, type: .string)
-        ]
 
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your Amazon SageMaker account or an algorithm in AWS Marketplace that you are subscribed to.
         public let algorithmName: String
@@ -14723,9 +12528,6 @@ extension SageMaker {
     }
 
     public struct SourceAlgorithmSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceAlgorithms", required: true, type: .list)
-        ]
 
         /// A list of the algorithms that were used to create a model package.
         public let sourceAlgorithms: [SourceAlgorithm]
@@ -14748,9 +12550,6 @@ extension SageMaker {
     }
 
     public struct SourceIpConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cidrs", required: true, type: .list)
-        ]
 
         /// A list of one to four Classless Inter-Domain Routing (CIDR) values. Maximum: 4 CIDR values  The following Length Constraints apply to individual CIDR values in the CIDR value list. 
         public let cidrs: [String]
@@ -14773,9 +12572,6 @@ extension SageMaker {
     }
 
     public struct StartMonitoringScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
-        ]
 
         /// The name of the schedule to start.
         public let monitoringScheduleName: String
@@ -14796,9 +12592,6 @@ extension SageMaker {
     }
 
     public struct StartNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
 
         /// The name of the notebook instance to start.
         public let notebookInstanceName: String
@@ -14818,9 +12611,6 @@ extension SageMaker {
     }
 
     public struct StopAutoMLJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string)
-        ]
 
         /// The name of the object you are requesting.
         public let autoMLJobName: String
@@ -14841,9 +12631,6 @@ extension SageMaker {
     }
 
     public struct StopCompilationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompilationJobName", required: true, type: .string)
-        ]
 
         /// The name of the model compilation job to stop.
         public let compilationJobName: String
@@ -14864,9 +12651,6 @@ extension SageMaker {
     }
 
     public struct StopHyperParameterTuningJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string)
-        ]
 
         /// The name of the tuning job to stop.
         public let hyperParameterTuningJobName: String
@@ -14887,9 +12671,6 @@ extension SageMaker {
     }
 
     public struct StopLabelingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LabelingJobName", required: true, type: .string)
-        ]
 
         /// The name of the labeling job to stop.
         public let labelingJobName: String
@@ -14910,9 +12691,6 @@ extension SageMaker {
     }
 
     public struct StopMonitoringScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
-        ]
 
         /// The name of the schedule to stop.
         public let monitoringScheduleName: String
@@ -14933,9 +12711,6 @@ extension SageMaker {
     }
 
     public struct StopNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
-        ]
 
         /// The name of the notebook instance to terminate.
         public let notebookInstanceName: String
@@ -14955,9 +12730,6 @@ extension SageMaker {
     }
 
     public struct StopProcessingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string)
-        ]
 
         /// The name of the processing job to stop.
         public let processingJobName: String
@@ -14978,9 +12750,6 @@ extension SageMaker {
     }
 
     public struct StopTrainingJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string)
-        ]
 
         /// The name of the training job to stop.
         public let trainingJobName: String
@@ -15001,9 +12770,6 @@ extension SageMaker {
     }
 
     public struct StopTransformJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransformJobName", required: true, type: .string)
-        ]
 
         /// The name of the transform job to stop.
         public let transformJobName: String
@@ -15024,10 +12790,6 @@ extension SageMaker {
     }
 
     public struct StoppingCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRuntimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxWaitTimeInSeconds", required: false, type: .integer)
-        ]
 
         /// The maximum length of time, in seconds, that the training or compilation job can run. If job does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. The maximum value is 28 days.
         public let maxRuntimeInSeconds: Int?
@@ -15051,13 +12813,6 @@ extension SageMaker {
     }
 
     public struct SubscribedWorkteam: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListingId", required: false, type: .string), 
-            AWSShapeMember(label: "MarketplaceDescription", required: false, type: .string), 
-            AWSShapeMember(label: "MarketplaceTitle", required: false, type: .string), 
-            AWSShapeMember(label: "SellerName", required: false, type: .string), 
-            AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
-        ]
 
         public let listingId: String?
         /// The description of the vendor from the Amazon Marketplace.
@@ -15087,9 +12842,6 @@ extension SageMaker {
     }
 
     public struct SuggestionQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PropertyNameQuery", required: false, type: .structure)
-        ]
 
         /// Defines a property name hint. Only property names that begin with the specified hint are included in the response.
         public let propertyNameQuery: PropertyNameQuery?
@@ -15108,10 +12860,6 @@ extension SageMaker {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The tag key.
         public let key: String
@@ -15139,9 +12887,6 @@ extension SageMaker {
     }
 
     public struct TensorBoardAppSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
-        ]
 
         /// The instance type and quantity.
         public let defaultResourceSpec: ResourceSpec?
@@ -15160,10 +12905,6 @@ extension SageMaker {
     }
 
     public struct TensorBoardOutputConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
-        ]
 
         /// Path to local storage location for tensorBoard output. Defaults to /opt/ml/output/tensorboard.
         public let localPath: String?
@@ -15189,43 +12930,6 @@ extension SageMaker {
     }
 
     public struct TrainingJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlgorithmSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "BillableTimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DebugHookConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DebugRuleConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "DebugRuleEvaluationStatuses", required: false, type: .list), 
-            AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FinalMetricDataList", required: false, type: .list), 
-            AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
-            AWSShapeMember(label: "LabelingJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ModelArtifacts", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SecondaryStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SecondaryStatusTransitions", required: false, type: .list), 
-            AWSShapeMember(label: "StoppingCondition", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TensorBoardOutputConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingJobName", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingJobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingTimeInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "TuningJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
-        ]
 
         /// Information about the algorithm used for training, and algorithm metadata.
         public let algorithmSpecification: AlgorithmSpecification?
@@ -15372,14 +13076,6 @@ extension SageMaker {
     }
 
     public struct TrainingJobDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
-            AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum)
-        ]
 
         /// The hyperparameters used for the training job.
         public let hyperParameters: [String: String]?
@@ -15431,13 +13127,6 @@ extension SageMaker {
     }
 
     public struct TrainingJobStatusCounters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Completed", required: false, type: .integer), 
-            AWSShapeMember(label: "InProgress", required: false, type: .integer), 
-            AWSShapeMember(label: "NonRetryableError", required: false, type: .integer), 
-            AWSShapeMember(label: "RetryableError", required: false, type: .integer), 
-            AWSShapeMember(label: "Stopped", required: false, type: .integer)
-        ]
 
         /// The number of completed training jobs launched by the hyperparameter tuning job.
         public let completed: Int?
@@ -15468,14 +13157,6 @@ extension SageMaker {
     }
 
     public struct TrainingJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum)
-        ]
 
         /// A timestamp that shows when the training job was created.
         public let creationTime: TimeStamp
@@ -15510,16 +13191,6 @@ extension SageMaker {
     }
 
     public struct TrainingSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedHyperParameters", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedTrainingInstanceTypes", required: true, type: .list), 
-            AWSShapeMember(label: "SupportedTuningJobObjectiveMetrics", required: false, type: .list), 
-            AWSShapeMember(label: "SupportsDistributedTraining", required: false, type: .boolean), 
-            AWSShapeMember(label: "TrainingChannels", required: true, type: .list), 
-            AWSShapeMember(label: "TrainingImage", required: true, type: .string), 
-            AWSShapeMember(label: "TrainingImageDigest", required: false, type: .string)
-        ]
 
         /// A list of MetricDefinition objects, which are used for parsing metrics generated by the algorithm.
         public let metricDefinitions: [MetricDefinition]?
@@ -15587,9 +13258,6 @@ extension SageMaker {
     }
 
     public struct TransformDataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
-        ]
 
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: TransformS3DataSource
@@ -15608,12 +13276,6 @@ extension SageMaker {
     }
 
     public struct TransformInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string), 
-            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
-            AWSShapeMember(label: "SplitType", required: false, type: .enum)
-        ]
 
         /// If your transform data is compressed, specify the compression type. Amazon SageMaker automatically decompresses the data for the transform job accordingly. The default value is None.
         public let compressionType: CompressionType?
@@ -15646,15 +13308,6 @@ extension SageMaker {
     }
 
     public struct TransformJobDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "Environment", required: false, type: .map), 
-            AWSShapeMember(label: "MaxConcurrentTransforms", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxPayloadInMB", required: false, type: .integer), 
-            AWSShapeMember(label: "TransformInput", required: true, type: .structure), 
-            AWSShapeMember(label: "TransformOutput", required: true, type: .structure), 
-            AWSShapeMember(label: "TransformResources", required: true, type: .structure)
-        ]
 
         /// A string that determines the number of records included in a single mini-batch.  SingleRecord means only one record is used per mini-batch. MultiRecord means a mini-batch is set to contain as many records that can fit within the MaxPayloadInMB limit.
         public let batchStrategy: BatchStrategy?
@@ -15707,15 +13360,6 @@ extension SageMaker {
     }
 
     public struct TransformJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TransformEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TransformJobArn", required: true, type: .string), 
-            AWSShapeMember(label: "TransformJobName", required: true, type: .string), 
-            AWSShapeMember(label: "TransformJobStatus", required: true, type: .enum)
-        ]
 
         /// A timestamp that shows when the transform Job was created.
         public let creationTime: TimeStamp
@@ -15754,12 +13398,6 @@ extension SageMaker {
     }
 
     public struct TransformOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accept", required: false, type: .string), 
-            AWSShapeMember(label: "AssembleWith", required: false, type: .enum), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
-        ]
 
         /// The MIME type used to specify the output data. Amazon SageMaker uses the MIME type with each http call to transfer data from the transform job.
         public let accept: String?
@@ -15795,11 +13433,6 @@ extension SageMaker {
     }
 
     public struct TransformResources: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
-            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string)
-        ]
 
         /// The number of ML compute instances to use in the transform job. For distributed transform jobs, specify a value greater than 1. The default value is 1.
         public let instanceCount: Int
@@ -15828,10 +13461,6 @@ extension SageMaker {
     }
 
     public struct TransformS3DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
 
         /// If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for batch transform.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for batch transform.  The following values are compatible: ManifestFile, S3Prefix  The following value is not compatible: AugmentedManifestFile 
         public let s3DataType: S3DataType
@@ -15855,19 +13484,6 @@ extension SageMaker {
     }
 
     public struct Trial: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Source", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "TrialName", required: false, type: .string)
-        ]
 
         public let createdBy: UserContext?
         /// When the trial was created.
@@ -15919,26 +13535,6 @@ extension SageMaker {
     }
 
     public struct TrialComponent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "Parents", required: false, type: .list), 
-            AWSShapeMember(label: "Source", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentName", required: false, type: .string)
-        ]
 
         public let createdBy: UserContext?
         /// When the component was created.
@@ -16017,10 +13613,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data.
         public let mediaType: String?
@@ -16046,17 +13638,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentMetricSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Avg", required: false, type: .double), 
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "Last", required: false, type: .double), 
-            AWSShapeMember(label: "Max", required: false, type: .double), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "Min", required: false, type: .double), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "StdDev", required: false, type: .double), 
-            AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp)
-        ]
 
         /// The average value of the metric.
         public let avg: Double?
@@ -16103,10 +13684,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentParameterValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberValue", required: false, type: .double), 
-            AWSShapeMember(label: "StringValue", required: false, type: .string)
-        ]
 
         /// The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter.
         public let numberValue: Double?
@@ -16130,13 +13707,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentSimpleSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentName", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentSource", required: false, type: .structure)
-        ]
 
         public let createdBy: UserContext?
         /// When the component was created.
@@ -16165,10 +13735,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source.
         public let sourceArn: String
@@ -16187,10 +13753,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentSourceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingJob", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source.
         public let sourceArn: String?
@@ -16208,10 +13770,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "PrimaryStatus", required: false, type: .enum)
-        ]
 
         /// If the component failed, a message describing why.
         public let message: String?
@@ -16235,19 +13793,6 @@ extension SageMaker {
     }
 
     public struct TrialComponentSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentName", required: false, type: .string), 
-            AWSShapeMember(label: "TrialComponentSource", required: false, type: .structure)
-        ]
 
         /// Who created the component.
         public let createdBy: UserContext?
@@ -16301,10 +13846,6 @@ extension SageMaker {
     }
 
     public struct TrialSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source.
         public let sourceArn: String
@@ -16323,14 +13864,6 @@ extension SageMaker {
     }
 
     public struct TrialSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrialName", required: false, type: .string), 
-            AWSShapeMember(label: "TrialSource", required: false, type: .structure)
-        ]
 
         /// When the trial was created.
         public let creationTime: TimeStamp?
@@ -16364,9 +13897,6 @@ extension SageMaker {
     }
 
     public struct TuningJobCompletionCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetObjectiveMetricValue", required: true, type: .float)
-        ]
 
         /// The objective metric's value.
         public let targetObjectiveMetricValue: Float
@@ -16381,11 +13911,6 @@ extension SageMaker {
     }
 
     public struct USD: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cents", required: false, type: .integer), 
-            AWSShapeMember(label: "Dollars", required: false, type: .integer), 
-            AWSShapeMember(label: "TenthFractionsOfACent", required: false, type: .integer)
-        ]
 
         /// The fractional portion, in cents, of the amount. 
         public let cents: Int?
@@ -16417,9 +13942,6 @@ extension SageMaker {
     }
 
     public struct UiConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UiTemplateS3Uri", required: true, type: .string)
-        ]
 
         /// The Amazon S3 bucket location of the UI template. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
         public let uiTemplateS3Uri: String
@@ -16439,9 +13961,6 @@ extension SageMaker {
     }
 
     public struct UiTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: true, type: .string)
-        ]
 
         /// The content of the Liquid template for the worker user interface.
         public let content: String
@@ -16462,10 +13981,6 @@ extension SageMaker {
     }
 
     public struct UiTemplateInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentSha256", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// The SHA 256 hash that you used to create the request signature.
         public let contentSha256: String?
@@ -16484,10 +13999,6 @@ extension SageMaker {
     }
 
     public struct UpdateCodeRepositoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
-            AWSShapeMember(label: "GitConfig", required: false, type: .structure)
-        ]
 
         /// The name of the Git repository to update.
         public let codeRepositoryName: String
@@ -16513,9 +14024,6 @@ extension SageMaker {
     }
 
     public struct UpdateCodeRepositoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeRepositoryArn", required: true, type: .string)
-        ]
 
         /// The ARN of the Git repository.
         public let codeRepositoryArn: String
@@ -16530,10 +14038,6 @@ extension SageMaker {
     }
 
     public struct UpdateDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultUserSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainId", required: true, type: .string)
-        ]
 
         /// A collection of settings.
         public let defaultUserSettings: UserSettings?
@@ -16557,9 +14061,6 @@ extension SageMaker {
     }
 
     public struct UpdateDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainArn", required: false, type: .string)
-        ]
 
         /// The domain Amazon Resource Name (ARN).
         public let domainArn: String?
@@ -16574,10 +14075,6 @@ extension SageMaker {
     }
 
     public struct UpdateEndpointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
-        ]
 
         /// The name of the new endpoint configuration.
         public let endpointConfigName: String
@@ -16603,9 +14100,6 @@ extension SageMaker {
     }
 
     public struct UpdateEndpointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
@@ -16620,10 +14114,6 @@ extension SageMaker {
     }
 
     public struct UpdateEndpointWeightsAndCapacitiesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredWeightsAndCapacities", required: true, type: .list), 
-            AWSShapeMember(label: "EndpointName", required: true, type: .string)
-        ]
 
         /// An object that provides new capacity and weight values for a variant.
         public let desiredWeightsAndCapacities: [DesiredWeightAndCapacity]
@@ -16651,9 +14141,6 @@ extension SageMaker {
     }
 
     public struct UpdateEndpointWeightsAndCapacitiesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the updated endpoint.
         public let endpointArn: String
@@ -16668,11 +14155,6 @@ extension SageMaker {
     }
 
     public struct UpdateExperimentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "ExperimentName", required: true, type: .string)
-        ]
 
         /// The description of the experiment.
         public let description: String?
@@ -16706,9 +14188,6 @@ extension SageMaker {
     }
 
     public struct UpdateExperimentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExperimentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the experiment.
         public let experimentArn: String?
@@ -16723,10 +14202,6 @@ extension SageMaker {
     }
 
     public struct UpdateMonitoringScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
-        ]
 
         /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
         public let monitoringScheduleConfig: MonitoringScheduleConfig
@@ -16752,9 +14227,6 @@ extension SageMaker {
     }
 
     public struct UpdateMonitoringScheduleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
         public let monitoringScheduleArn: String
@@ -16769,21 +14241,6 @@ extension SageMaker {
     }
 
     public struct UpdateNotebookInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorTypes", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalCodeRepositories", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultCodeRepository", required: false, type: .string), 
-            AWSShapeMember(label: "DisassociateAcceleratorTypes", required: false, type: .boolean), 
-            AWSShapeMember(label: "DisassociateAdditionalCodeRepositories", required: false, type: .boolean), 
-            AWSShapeMember(label: "DisassociateDefaultCodeRepository", required: false, type: .boolean), 
-            AWSShapeMember(label: "DisassociateLifecycleConfig", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "LifecycleConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "RootAccess", required: false, type: .enum), 
-            AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
-        ]
 
         /// A list of the Elastic Inference (EI) instance types to associate with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
@@ -16867,11 +14324,6 @@ extension SageMaker {
     }
 
     public struct UpdateNotebookInstanceLifecycleConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "OnCreate", required: false, type: .list), 
-            AWSShapeMember(label: "OnStart", required: false, type: .list)
-        ]
 
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String
@@ -16923,19 +14375,6 @@ extension SageMaker {
     }
 
     public struct UpdateTrialComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "InputArtifactsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
-            AWSShapeMember(label: "OutputArtifactsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map), 
-            AWSShapeMember(label: "ParametersToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
-        ]
 
         /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
@@ -17027,9 +14466,6 @@ extension SageMaker {
     }
 
     public struct UpdateTrialComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
@@ -17044,10 +14480,6 @@ extension SageMaker {
     }
 
     public struct UpdateTrialRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "TrialName", required: true, type: .string)
-        ]
 
         /// The name of the trial as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialName is displayed.
         public let displayName: String?
@@ -17075,9 +14507,6 @@ extension SageMaker {
     }
 
     public struct UpdateTrialResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrialArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
@@ -17092,11 +14521,6 @@ extension SageMaker {
     }
 
     public struct UpdateUserProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "UserProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "UserSettings", required: false, type: .structure)
-        ]
 
         /// The domain ID.
         public let domainId: String
@@ -17126,9 +14550,6 @@ extension SageMaker {
     }
 
     public struct UpdateUserProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserProfileArn", required: false, type: .string)
-        ]
 
         /// The user profile Amazon Resource Name (ARN).
         public let userProfileArn: String?
@@ -17143,10 +14564,6 @@ extension SageMaker {
     }
 
     public struct UpdateWorkforceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
-        ]
 
         /// A list of one to four worker IP address ranges (CIDRs) that can be used to access tasks assigned to this workforce. Maximum: 4 CIDR values
         public let sourceIpConfig: SourceIpConfig?
@@ -17172,9 +14589,6 @@ extension SageMaker {
     }
 
     public struct UpdateWorkforceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workforce", required: true, type: .structure)
-        ]
 
         /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each AWS Region. By default, any workforce related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
         public let workforce: Workforce
@@ -17189,12 +14603,6 @@ extension SageMaker {
     }
 
     public struct UpdateWorkteamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "MemberDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "WorkteamName", required: true, type: .string)
-        ]
 
         /// An updated description for the work team.
         public let description: String?
@@ -17236,9 +14644,6 @@ extension SageMaker {
     }
 
     public struct UpdateWorkteamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Workteam", required: true, type: .structure)
-        ]
 
         /// A Workteam object that describes the updated work team.
         public let workteam: Workteam
@@ -17253,11 +14658,6 @@ extension SageMaker {
     }
 
     public struct UserContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainId", required: false, type: .string), 
-            AWSShapeMember(label: "UserProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
-        ]
 
         /// The domain associated with the user.
         public let domainId: String?
@@ -17280,13 +14680,6 @@ extension SageMaker {
     }
 
     public struct UserProfileDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainId", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
-        ]
 
         /// The creation time.
         public let creationTime: TimeStamp?
@@ -17317,14 +14710,6 @@ extension SageMaker {
     }
 
     public struct UserSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExecutionRole", required: false, type: .string), 
-            AWSShapeMember(label: "JupyterServerAppSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "KernelGatewayAppSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "SharingSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "TensorBoardAppSettings", required: false, type: .structure)
-        ]
 
         /// The execution role for the user.
         public let executionRole: String?
@@ -17374,10 +14759,6 @@ extension SageMaker {
     }
 
     public struct VpcConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
-            AWSShapeMember(label: "Subnets", required: true, type: .list)
-        ]
 
         /// The VPC security group IDs, in the form sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
         public let securityGroupIds: [String]
@@ -17411,12 +14792,6 @@ extension SageMaker {
     }
 
     public struct Workforce: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "WorkforceArn", required: true, type: .string), 
-            AWSShapeMember(label: "WorkforceName", required: true, type: .string)
-        ]
 
         /// The most recent date that was used to successfully add one or more IP address ranges (CIDRs) to a private workforce's allow list.
         public let lastUpdatedDate: TimeStamp?
@@ -17443,17 +14818,6 @@ extension SageMaker {
     }
 
     public struct Workteam: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "LastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MemberDefinitions", required: true, type: .list), 
-            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ProductListingIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubDomain", required: false, type: .string), 
-            AWSShapeMember(label: "WorkteamArn", required: true, type: .string), 
-            AWSShapeMember(label: "WorkteamName", required: true, type: .string)
-        ]
 
         /// The date and time that the work team was created (timestamp).
         public let createDate: TimeStamp?

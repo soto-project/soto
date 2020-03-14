@@ -56,10 +56,6 @@ extension Kinesis {
     //MARK: Shapes
 
     public struct AddTagsToStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
-        ]
 
         /// The name of the stream.
         public let streamName: String
@@ -90,12 +86,6 @@ extension Kinesis {
     }
 
     public struct Consumer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerARN", required: true, type: .string), 
-            AWSShapeMember(label: "ConsumerCreationTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ConsumerName", required: true, type: .string), 
-            AWSShapeMember(label: "ConsumerStatus", required: true, type: .enum)
-        ]
 
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call SubscribeToShard. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         public let consumerARN: String
@@ -121,13 +111,6 @@ extension Kinesis {
     }
 
     public struct ConsumerDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerARN", required: true, type: .string), 
-            AWSShapeMember(label: "ConsumerCreationTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ConsumerName", required: true, type: .string), 
-            AWSShapeMember(label: "ConsumerStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "StreamARN", required: true, type: .string)
-        ]
 
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call SubscribeToShard. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         public let consumerARN: String
@@ -157,10 +140,6 @@ extension Kinesis {
     }
 
     public struct CreateStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardCount", required: true, type: .integer), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput. DefaultShardLimit;
         public let shardCount: Int
@@ -187,10 +166,6 @@ extension Kinesis {
     }
 
     public struct DecreaseStreamRetentionPeriodInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The new retention period of the stream, in hours. Must be less than the current retention period.
         public let retentionPeriodHours: Int
@@ -217,10 +192,6 @@ extension Kinesis {
     }
 
     public struct DeleteStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnforceConsumerDeletion", required: false, type: .boolean), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// If this parameter is unset (null) or if you set it to false, and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException. 
         public let enforceConsumerDeletion: Bool?
@@ -245,11 +216,6 @@ extension Kinesis {
     }
 
     public struct DeregisterStreamConsumerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerARN", required: false, type: .string), 
-            AWSShapeMember(label: "ConsumerName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string)
-        ]
 
         /// The ARN returned by Kinesis Data Streams when you registered the consumer. If you don't know the ARN of the consumer that you want to deregister, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The description of a consumer contains its ARN.
         public let consumerARN: String?
@@ -292,10 +258,6 @@ extension Kinesis {
     }
 
     public struct DescribeLimitsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpenShardCount", required: true, type: .integer), 
-            AWSShapeMember(label: "ShardLimit", required: true, type: .integer)
-        ]
 
         /// The number of open shards.
         public let openShardCount: Int
@@ -314,11 +276,6 @@ extension Kinesis {
     }
 
     public struct DescribeStreamConsumerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerARN", required: false, type: .string), 
-            AWSShapeMember(label: "ConsumerName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: false, type: .string)
-        ]
 
         /// The ARN returned by Kinesis Data Streams when you registered the consumer.
         public let consumerARN: String?
@@ -353,9 +310,6 @@ extension Kinesis {
     }
 
     public struct DescribeStreamConsumerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerDescription", required: true, type: .structure)
-        ]
 
         /// An object that represents the details of the consumer.
         public let consumerDescription: ConsumerDescription
@@ -370,11 +324,6 @@ extension Kinesis {
     }
 
     public struct DescribeStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartShardId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The shard ID of the shard to start with.
         public let exclusiveStartShardId: String?
@@ -408,9 +357,6 @@ extension Kinesis {
     }
 
     public struct DescribeStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamDescription", required: true, type: .structure)
-        ]
 
         /// The current status of the stream, the stream Amazon Resource Name (ARN), an array of shard objects that comprise the stream, and whether there are more shards available.
         public let streamDescription: StreamDescription
@@ -425,9 +371,6 @@ extension Kinesis {
     }
 
     public struct DescribeStreamSummaryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The name of the stream to describe.
         public let streamName: String
@@ -448,9 +391,6 @@ extension Kinesis {
     }
 
     public struct DescribeStreamSummaryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamDescriptionSummary", required: true, type: .structure)
-        ]
 
         /// A StreamDescriptionSummary containing information about the stream.
         public let streamDescriptionSummary: StreamDescriptionSummary
@@ -465,10 +405,6 @@ extension Kinesis {
     }
 
     public struct DisableEnhancedMonitoringInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardLevelMetrics", required: true, type: .list), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]
@@ -495,10 +431,6 @@ extension Kinesis {
     }
 
     public struct EnableEnhancedMonitoringInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardLevelMetrics", required: true, type: .list), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]
@@ -525,9 +457,6 @@ extension Kinesis {
     }
 
     public struct EnhancedMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardLevelMetrics", required: false, type: .list)
-        ]
 
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]?
@@ -542,11 +471,6 @@ extension Kinesis {
     }
 
     public struct EnhancedMonitoringOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentShardLevelMetrics", required: false, type: .list), 
-            AWSShapeMember(label: "DesiredShardLevelMetrics", required: false, type: .list), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// Represents the current state of the metrics that are in the enhanced state before the operation.
         public let currentShardLevelMetrics: [MetricsName]?
@@ -569,10 +493,6 @@ extension Kinesis {
     }
 
     public struct GetRecordsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ShardIterator", required: true, type: .string)
-        ]
 
         /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException.
         public let limit: Int?
@@ -598,11 +518,6 @@ extension Kinesis {
     }
 
     public struct GetRecordsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MillisBehindLatest", required: false, type: .long), 
-            AWSShapeMember(label: "NextShardIterator", required: false, type: .string), 
-            AWSShapeMember(label: "Records", required: true, type: .list)
-        ]
 
         /// The number of milliseconds the GetRecords response is from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
         public let millisBehindLatest: Int64?
@@ -625,13 +540,6 @@ extension Kinesis {
     }
 
     public struct GetShardIteratorInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardId", required: true, type: .string), 
-            AWSShapeMember(label: "ShardIteratorType", required: true, type: .enum), 
-            AWSShapeMember(label: "StartingSequenceNumber", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
-        ]
 
         /// The shard ID of the Kinesis Data Streams shard to get the iterator for.
         public let shardId: String
@@ -672,9 +580,6 @@ extension Kinesis {
     }
 
     public struct GetShardIteratorOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardIterator", required: false, type: .string)
-        ]
 
         /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
         public let shardIterator: String?
@@ -689,10 +594,6 @@ extension Kinesis {
     }
 
     public struct HashKeyRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndingHashKey", required: true, type: .string), 
-            AWSShapeMember(label: "StartingHashKey", required: true, type: .string)
-        ]
 
         /// The ending hash key of the hash key range.
         public let endingHashKey: String
@@ -711,10 +612,6 @@ extension Kinesis {
     }
 
     public struct IncreaseStreamRetentionPeriodInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The new retention period of the stream, in hours. Must be more than the current retention period.
         public let retentionPeriodHours: Int
@@ -741,13 +638,6 @@ extension Kinesis {
     }
 
     public struct ListShardsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartShardId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StreamCreationTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string)
-        ]
 
         /// Specify this parameter to indicate that you want to list the shards starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior is for ListShards to list the shards starting with the first one in the stream. You cannot specify this parameter if you specify NextToken.
         public let exclusiveStartShardId: String?
@@ -791,10 +681,6 @@ extension Kinesis {
     }
 
     public struct ListShardsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Shards", required: false, type: .list)
-        ]
 
         /// When the number of shards in the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of shards in the data stream, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListShards to list the next set of shards. For more information about the use of this pagination token when calling the ListShards operation, see ListShardsInput$NextToken.  Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListShards, you have 300 seconds to use that value. If you specify an expired token in a call to ListShards, you get ExpiredNextTokenException. 
         public let nextToken: String?
@@ -813,12 +699,6 @@ extension Kinesis {
     }
 
     public struct ListStreamConsumersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "StreamCreationTimestamp", required: false, type: .timestamp)
-        ]
 
         /// The maximum number of consumers that you want a single call of ListStreamConsumers to return.
         public let maxResults: Int?
@@ -855,10 +735,6 @@ extension Kinesis {
     }
 
     public struct ListStreamConsumersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Consumers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of JSON objects. Each object represents one registered consumer.
         public let consumers: [Consumer]?
@@ -877,10 +753,6 @@ extension Kinesis {
     }
 
     public struct ListStreamsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
 
         /// The name of the stream to start the list with.
         public let exclusiveStartStreamName: String?
@@ -907,10 +779,6 @@ extension Kinesis {
     }
 
     public struct ListStreamsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HasMoreStreams", required: true, type: .boolean), 
-            AWSShapeMember(label: "StreamNames", required: true, type: .list)
-        ]
 
         /// If set to true, there are more streams available to list.
         public let hasMoreStreams: Bool
@@ -929,11 +797,6 @@ extension Kinesis {
     }
 
     public struct ListTagsForStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExclusiveStartTagKey", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey. 
         public let exclusiveStartTagKey: String?
@@ -966,10 +829,6 @@ extension Kinesis {
     }
 
     public struct ListTagsForStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HasMoreTags", required: true, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// If set to true, more tags are available. To request additional tags, set ExclusiveStartTagKey to the key of the last tag returned.
         public let hasMoreTags: Bool
@@ -988,11 +847,6 @@ extension Kinesis {
     }
 
     public struct MergeShardsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdjacentShardToMerge", required: true, type: .string), 
-            AWSShapeMember(label: "ShardToMerge", required: true, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The shard ID of the adjacent shard for the merge.
         public let adjacentShardToMerge: String
@@ -1027,13 +881,6 @@ extension Kinesis {
     }
 
     public struct PutRecordInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: true, type: .blob), 
-            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionKey", required: true, type: .string), 
-            AWSShapeMember(label: "SequenceNumberForOrdering", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
@@ -1076,11 +923,6 @@ extension Kinesis {
     }
 
     public struct PutRecordOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "SequenceNumber", required: true, type: .string), 
-            AWSShapeMember(label: "ShardId", required: true, type: .string)
-        ]
 
         /// The encryption type to use on the record. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed AWS KMS key.  
         public let encryptionType: EncryptionType?
@@ -1103,10 +945,6 @@ extension Kinesis {
     }
 
     public struct PutRecordsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Records", required: true, type: .list), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The records associated with the request.
         public let records: [PutRecordsRequestEntry]
@@ -1136,11 +974,6 @@ extension Kinesis {
     }
 
     public struct PutRecordsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "FailedRecordCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Records", required: true, type: .list)
-        ]
 
         /// The encryption type used on the records. This parameter can be one of the following values:    NONE: Do not encrypt the records.    KMS: Use server-side encryption on the records using a customer-managed AWS KMS key.  
         public let encryptionType: EncryptionType?
@@ -1163,11 +996,6 @@ extension Kinesis {
     }
 
     public struct PutRecordsRequestEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: true, type: .blob), 
-            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionKey", required: true, type: .string)
-        ]
 
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
@@ -1198,12 +1026,6 @@ extension Kinesis {
     }
 
     public struct PutRecordsResultEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeMember(label: "ShardId", required: false, type: .string)
-        ]
 
         /// The error code for an individual record result. ErrorCodes can be either ProvisionedThroughputExceededException or InternalFailure.
         public let errorCode: String?
@@ -1230,13 +1052,6 @@ extension Kinesis {
     }
 
     public struct Record: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApproximateArrivalTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Data", required: true, type: .blob), 
-            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "PartitionKey", required: true, type: .string), 
-            AWSShapeMember(label: "SequenceNumber", required: true, type: .string)
-        ]
 
         /// The approximate time that the record was inserted into the stream.
         public let approximateArrivalTimestamp: TimeStamp?
@@ -1267,10 +1082,6 @@ extension Kinesis {
     }
 
     public struct RegisterStreamConsumerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerName", required: true, type: .string), 
-            AWSShapeMember(label: "StreamARN", required: true, type: .string)
-        ]
 
         /// For a given Kinesis data stream, each consumer must have a unique name. However, consumer names don't have to be unique across data streams.
         public let consumerName: String
@@ -1298,9 +1109,6 @@ extension Kinesis {
     }
 
     public struct RegisterStreamConsumerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Consumer", required: true, type: .structure)
-        ]
 
         /// An object that represents the details of the consumer you registered. When you register a consumer, it gets an ARN that is generated by Kinesis Data Streams.
         public let consumer: Consumer
@@ -1315,10 +1123,6 @@ extension Kinesis {
     }
 
     public struct RemoveTagsFromStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The name of the stream.
         public let streamName: String
@@ -1349,10 +1153,6 @@ extension Kinesis {
     }
 
     public struct SequenceNumberRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
-            AWSShapeMember(label: "StartingSequenceNumber", required: true, type: .string)
-        ]
 
         /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
         public let endingSequenceNumber: String?
@@ -1371,13 +1171,6 @@ extension Kinesis {
     }
 
     public struct Shard: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdjacentParentShardId", required: false, type: .string), 
-            AWSShapeMember(label: "HashKeyRange", required: true, type: .structure), 
-            AWSShapeMember(label: "ParentShardId", required: false, type: .string), 
-            AWSShapeMember(label: "SequenceNumberRange", required: true, type: .structure), 
-            AWSShapeMember(label: "ShardId", required: true, type: .string)
-        ]
 
         /// The shard ID of the shard adjacent to the shard's parent.
         public let adjacentParentShardId: String?
@@ -1408,11 +1201,6 @@ extension Kinesis {
     }
 
     public struct SplitShardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NewStartingHashKey", required: true, type: .string), 
-            AWSShapeMember(label: "ShardToSplit", required: true, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard.
         public let newStartingHashKey: String
@@ -1445,11 +1233,6 @@ extension Kinesis {
     }
 
     public struct StartStreamEncryptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
-            AWSShapeMember(label: "KeyId", required: true, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The encryption type to use. The only valid value is KMS.
         public let encryptionType: EncryptionType
@@ -1480,11 +1263,6 @@ extension Kinesis {
     }
 
     public struct StartingPosition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         public let sequenceNumber: String?
         public let timestamp: TimeStamp?
@@ -1508,11 +1286,6 @@ extension Kinesis {
     }
 
     public struct StopStreamEncryptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
-            AWSShapeMember(label: "KeyId", required: true, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
-        ]
 
         /// The encryption type. The only valid value is KMS.
         public let encryptionType: EncryptionType
@@ -1543,18 +1316,6 @@ extension Kinesis {
     }
 
     public struct StreamDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "EnhancedMonitoring", required: true, type: .list), 
-            AWSShapeMember(label: "HasMoreShards", required: true, type: .boolean), 
-            AWSShapeMember(label: "KeyId", required: false, type: .string), 
-            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
-            AWSShapeMember(label: "Shards", required: true, type: .list), 
-            AWSShapeMember(label: "StreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "StreamCreationTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "StreamStatus", required: true, type: .enum)
-        ]
 
         /// The server-side encryption type used on the stream. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed AWS KMS key.  
         public let encryptionType: EncryptionType?
@@ -1605,18 +1366,6 @@ extension Kinesis {
     }
 
     public struct StreamDescriptionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerCount", required: false, type: .integer), 
-            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "EnhancedMonitoring", required: true, type: .list), 
-            AWSShapeMember(label: "KeyId", required: false, type: .string), 
-            AWSShapeMember(label: "OpenShardCount", required: true, type: .integer), 
-            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
-            AWSShapeMember(label: "StreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "StreamCreationTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "StreamStatus", required: true, type: .enum)
-        ]
 
         /// The number of enhanced fan-out consumers registered with the stream.
         public let consumerCount: Int?
@@ -1667,11 +1416,6 @@ extension Kinesis {
     }
 
     public struct SubscribeToShardInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsumerARN", required: true, type: .string), 
-            AWSShapeMember(label: "ShardId", required: true, type: .string), 
-            AWSShapeMember(label: "StartingPosition", required: true, type: .structure)
-        ]
 
         /// For this parameter, use the value you obtained when you called RegisterStreamConsumer.
         public let consumerARN: String
@@ -1703,10 +1447,6 @@ extension Kinesis {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let key: String
@@ -1725,11 +1465,6 @@ extension Kinesis {
     }
 
     public struct UpdateShardCountInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingType", required: true, type: .enum), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetShardCount", required: true, type: .integer)
-        ]
 
         /// The scaling type. Uniform scaling creates shards of equal size.
         public let scalingType: ScalingType
@@ -1760,11 +1495,6 @@ extension Kinesis {
     }
 
     public struct UpdateShardCountOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentShardCount", required: false, type: .integer), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "TargetShardCount", required: false, type: .integer)
-        ]
 
         /// The current number of shards.
         public let currentShardCount: Int?

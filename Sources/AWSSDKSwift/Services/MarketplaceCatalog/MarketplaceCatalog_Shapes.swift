@@ -24,9 +24,9 @@ extension MarketplaceCatalog {
     //MARK: Shapes
 
     public struct CancelChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", location: .querystring(locationName: "catalog"), required: true, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "changeSetId", location: .querystring(locationName: "changeSetId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace.
@@ -55,10 +55,6 @@ extension MarketplaceCatalog {
     }
 
     public struct CancelChangeSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeSetArn", required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", required: false, type: .string)
-        ]
 
         /// The ARN associated with the change set referenced in this request.
         public let changeSetArn: String?
@@ -77,11 +73,6 @@ extension MarketplaceCatalog {
     }
 
     public struct Change: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeType", required: true, type: .string), 
-            AWSShapeMember(label: "Details", required: true, type: .string), 
-            AWSShapeMember(label: "Entity", required: true, type: .structure)
-        ]
 
         /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope.
         public let changeType: String
@@ -114,15 +105,6 @@ extension MarketplaceCatalog {
     }
 
     public struct ChangeSetSummaryListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeSetArn", required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .string), 
-            AWSShapeMember(label: "EntityIdList", required: false, type: .list), 
-            AWSShapeMember(label: "StartTime", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The ARN associated with the unique identifier for the change set referenced in this request.
         public let changeSetArn: String?
@@ -161,11 +143,6 @@ extension MarketplaceCatalog {
     }
 
     public struct ChangeSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeType", required: false, type: .string), 
-            AWSShapeMember(label: "Entity", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorDetailList", required: false, type: .list)
-        ]
 
         /// The type of the change.
         public let changeType: String?
@@ -188,9 +165,9 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", location: .querystring(locationName: "catalog"), required: true, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", location: .querystring(locationName: "changeSetId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "changeSetId", location: .querystring(locationName: "changeSetId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace 
@@ -219,16 +196,6 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeChangeSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeSet", required: false, type: .list), 
-            AWSShapeMember(label: "ChangeSetArn", required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .string), 
-            AWSShapeMember(label: "FailureDescription", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// An array of ChangeSummary objects.
         public let changeSet: [ChangeSummary]?
@@ -271,9 +238,9 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeEntityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", location: .querystring(locationName: "catalog"), required: true, type: .string), 
-            AWSShapeMember(label: "EntityId", location: .querystring(locationName: "entityId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
+            AWSMemberEncoding(label: "entityId", location: .querystring(locationName: "entityId"))
         ]
 
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace 
@@ -302,13 +269,6 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeEntityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: false, type: .string), 
-            AWSShapeMember(label: "EntityArn", required: false, type: .string), 
-            AWSShapeMember(label: "EntityIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "EntityType", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string)
-        ]
 
         /// This stringified JSON object includes the details of the entity.
         public let details: String?
@@ -339,10 +299,6 @@ extension MarketplaceCatalog {
     }
 
     public struct Entity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .string)
-        ]
 
         /// The identifier for the entity.
         public let identifier: String?
@@ -370,14 +326,6 @@ extension MarketplaceCatalog {
     }
 
     public struct EntitySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntityArn", required: false, type: .string), 
-            AWSShapeMember(label: "EntityId", required: false, type: .string), 
-            AWSShapeMember(label: "EntityType", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Visibility", required: false, type: .string)
-        ]
 
         /// The ARN associated with the unique identifier for the entity.
         public let entityArn: String?
@@ -412,10 +360,6 @@ extension MarketplaceCatalog {
     }
 
     public struct ErrorDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
 
         /// The error code that identifies the type of error.
         public let errorCode: String?
@@ -434,10 +378,6 @@ extension MarketplaceCatalog {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ValueList", required: false, type: .list)
-        ]
 
         /// For ListEntities, the supported value for this is an EntityId. For ListChangeSets, the supported values are as follows:
         public let name: String?
@@ -464,13 +404,6 @@ extension MarketplaceCatalog {
     }
 
     public struct ListChangeSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", required: true, type: .string), 
-            AWSShapeMember(label: "FilterList", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sort", required: false, type: .structure)
-        ]
 
         /// The catalog related to the request. Fixed value: AWSMarketplace 
         public let catalog: String
@@ -518,10 +451,6 @@ extension MarketplaceCatalog {
     }
 
     public struct ListChangeSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeSetSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         ///  Array of ChangeSetSummaryListItem objects.
         public let changeSetSummaryList: [ChangeSetSummaryListItem]?
@@ -540,14 +469,6 @@ extension MarketplaceCatalog {
     }
 
     public struct ListEntitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", required: true, type: .string), 
-            AWSShapeMember(label: "EntityType", required: true, type: .string), 
-            AWSShapeMember(label: "FilterList", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sort", required: false, type: .structure)
-        ]
 
         /// The catalog related to the request. Fixed value: AWSMarketplace 
         public let catalog: String
@@ -602,10 +523,6 @@ extension MarketplaceCatalog {
     }
 
     public struct ListEntitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitySummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         ///  Array of EntitySummary object.
         public let entitySummaryList: [EntitySummary]?
@@ -624,10 +541,6 @@ extension MarketplaceCatalog {
     }
 
     public struct Sort: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SortBy", required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
-        ]
 
         /// For ListEntities, supported attributes include LastModifiedDate (default), Visibility, EntityId, and Name. For ListChangeSets, supported attributes include StartTime and EndTime.
         public let sortBy: String?
@@ -652,12 +565,6 @@ extension MarketplaceCatalog {
     }
 
     public struct StartChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", required: true, type: .string), 
-            AWSShapeMember(label: "ChangeSet", required: true, type: .list), 
-            AWSShapeMember(label: "ChangeSetName", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
-        ]
 
         /// The catalog related to the request. Fixed value: AWSMarketplace 
         public let catalog: String
@@ -701,10 +608,6 @@ extension MarketplaceCatalog {
     }
 
     public struct StartChangeSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeSetArn", required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", required: false, type: .string)
-        ]
 
         /// The ARN associated to the unique identifier generated for the request.
         public let changeSetArn: String?

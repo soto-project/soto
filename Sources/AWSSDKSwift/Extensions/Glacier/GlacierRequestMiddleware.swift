@@ -1,5 +1,6 @@
 import NIO
 import AWSSDKSwiftCore
+import AWSCrypto
 
 let MEGA_BYTE = 1024 * 1024
 
@@ -38,12 +39,12 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
     // See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
     //
     internal func computeTreeHash(_ byteBuffer: ByteBuffer) throws -> [UInt8] {
-        var shas: [[UInt8]] = []
+        var shas: [SHA256.Digest] = []
 
         if byteBuffer.readableBytes < MEGA_BYTE {
             let byteBufferView = byteBuffer.readableBytesView
             guard let _ = byteBufferView.withContiguousStorageIfAvailable({ bytes in
-                shas.append(sha256(bytes))
+                shas.append(SHA256.hash(data: bytes))
             }) else {
                 throw GlacierMiddlewareErrorType.failedToAccessBytes
             }
@@ -63,7 +64,7 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
                 }
                 guard let byteBufferView = byteBuffer.viewBytes(at: byteBuffer.readerIndex+start, length: length) else { throw GlacierMiddlewareErrorType.failedToAccessBytes }
                 guard let _ = byteBufferView.withContiguousStorageIfAvailable({ bytes in
-                    shas.append(sha256(bytes))
+                    shas.append(SHA256.hash(data: bytes))
                 }) else {
                     throw GlacierMiddlewareErrorType.failedToAccessBytes
                 }
@@ -71,17 +72,16 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
         }
 
         while shas.count > 1 {
-            var tmpShas: [[UInt8]] = []
+            var tmpShas: [SHA256.Digest] = []
             shas.forEachSlice(2, {
                 let pair = $0
                 guard let bytes1 = pair.first else { return }
 
                 if pair.count > 1, let bytes2 = pair.last {
-                    var context = sha256_Init()
-                    sha256_Update(&context, bytes1)
-                    sha256_Update(&context, bytes2)
-                    let sha = sha256_Final(&context)
-                    tmpShas.append(sha)
+                    var sha256 = SHA256()
+                    sha256.update(data: [UInt8](bytes1))
+                    sha256.update(data: [UInt8](bytes2))
+                    tmpShas.append(sha256.finalize())
                 } else {
                     tmpShas.append(bytes1)
                 }
@@ -89,7 +89,7 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
             shas = tmpShas
         }
 
-        return shas[0]
+        return [UInt8](shas[0])
     }
 }
 

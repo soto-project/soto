@@ -245,10 +245,6 @@ extension QuickSight {
     //MARK: Shapes
 
     public struct ActiveIAMPolicyAssignment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
-        ]
 
         /// A name for the IAM policy assignment.
         public let assignmentName: String?
@@ -267,9 +263,6 @@ extension QuickSight {
     }
 
     public struct AdHocFilteringOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityStatus", required: false, type: .enum)
-        ]
 
         /// Availability status.
         public let availabilityStatus: DashboardBehavior?
@@ -284,9 +277,6 @@ extension QuickSight {
     }
 
     public struct AmazonElasticsearchParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string)
-        ]
 
         /// The Amazon Elasticsearch Service domain.
         public let domain: String
@@ -306,9 +296,6 @@ extension QuickSight {
     }
 
     public struct AthenaParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
-        ]
 
         /// The workgroup that Amazon Athena uses.
         public let workGroup: String?
@@ -328,11 +315,6 @@ extension QuickSight {
     }
 
     public struct AuroraParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Database.
         public let database: String
@@ -364,11 +346,6 @@ extension QuickSight {
     }
 
     public struct AuroraPostgreSqlParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Database.
         public let database: String
@@ -400,9 +377,6 @@ extension QuickSight {
     }
 
     public struct AwsIotAnalyticsParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetName", required: true, type: .string)
-        ]
 
         /// Dataset name.
         public let dataSetName: String
@@ -422,11 +396,6 @@ extension QuickSight {
     }
 
     public struct CalculatedColumn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnId", required: true, type: .string), 
-            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
-            AWSShapeMember(label: "Expression", required: true, type: .string)
-        ]
 
         /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
         public let columnId: String
@@ -458,10 +427,10 @@ extension QuickSight {
     }
 
     public struct CancelIngestionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "IngestionId", location: .uri(locationName: "IngestionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
         /// The AWS account ID.
@@ -494,12 +463,6 @@ extension QuickSight {
     }
 
     public struct CancelIngestionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) for the data ingestion.
         public let arn: String?
@@ -526,11 +489,6 @@ extension QuickSight {
     }
 
     public struct CastColumnTypeOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
-            AWSShapeMember(label: "Format", required: false, type: .string), 
-            AWSShapeMember(label: "NewColumnType", required: true, type: .enum)
-        ]
 
         /// Column name.
         public let columnName: String
@@ -559,9 +517,6 @@ extension QuickSight {
     }
 
     public struct ColumnGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GeoSpatialColumnGroup", required: false, type: .structure)
-        ]
 
         /// Geospatial column group that denotes a hierarchy.
         public let geoSpatialColumnGroup: GeoSpatialColumnGroup?
@@ -580,9 +535,6 @@ extension QuickSight {
     }
 
     public struct ColumnGroupColumnSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the column group's column schema.
         public let name: String?
@@ -597,10 +549,6 @@ extension QuickSight {
     }
 
     public struct ColumnGroupSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnGroupColumnSchemaList", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// A structure containing the list of schemas for column group columns.
         public let columnGroupColumnSchemaList: [ColumnGroupColumnSchema]?
@@ -619,11 +567,6 @@ extension QuickSight {
     }
 
     public struct ColumnSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataType", required: false, type: .string), 
-            AWSShapeMember(label: "GeographicRole", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The data type of the column schema.
         public let dataType: String?
@@ -646,9 +589,6 @@ extension QuickSight {
     }
 
     public struct ColumnTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnGeographicRole", required: false, type: .enum)
-        ]
 
         /// A geospatial role for a column.
         public let columnGeographicRole: GeoSpatialDataRole?
@@ -663,9 +603,6 @@ extension QuickSight {
     }
 
     public struct CreateColumnsOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Columns", required: true, type: .list)
-        ]
 
         /// Calculated columns to create.
         public let columns: [CalculatedColumn]
@@ -688,16 +625,9 @@ extension QuickSight {
     }
 
     public struct CreateDashboardRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardPublishOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account where you want to create the dashboard.
@@ -771,14 +701,6 @@ extension QuickSight {
     }
 
     public struct CreateDashboardResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "VersionArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let arn: String?
@@ -813,17 +735,8 @@ extension QuickSight {
     }
 
     public struct CreateDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "ColumnGroups", required: false, type: .list), 
-            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
-            AWSShapeMember(label: "ImportMode", required: true, type: .enum), 
-            AWSShapeMember(label: "LogicalTableMap", required: false, type: .map), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "PhysicalTableMap", required: true, type: .map), 
-            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
         /// The AWS account ID.
@@ -910,14 +823,6 @@ extension QuickSight {
     }
 
     public struct CreateDataSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionArn", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -952,17 +857,8 @@ extension QuickSight {
     }
 
     public struct CreateDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
-            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
-            AWSShapeMember(label: "DataSourceParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "SslProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "VpcConnectionProperties", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
         ]
 
         /// The AWS account ID.
@@ -1034,13 +930,6 @@ extension QuickSight {
     }
 
     public struct CreateDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
@@ -1071,11 +960,11 @@ extension QuickSight {
     }
 
     public struct CreateGroupMembershipRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "MemberName", location: .uri(locationName: "MemberName"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "memberName", location: .uri(locationName: "MemberName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -1116,11 +1005,6 @@ extension QuickSight {
     }
 
     public struct CreateGroupMembershipResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupMember", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The group member.
         public let groupMember: GroupMember?
@@ -1143,11 +1027,9 @@ extension QuickSight {
     }
 
     public struct CreateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -1187,11 +1069,6 @@ extension QuickSight {
     }
 
     public struct CreateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The name of the group.
         public let group: Group?
@@ -1214,13 +1091,9 @@ extension QuickSight {
     }
 
     public struct CreateIAMPolicyAssignmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentName", required: true, type: .string), 
-            AWSShapeMember(label: "AssignmentStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Identities", required: false, type: .map), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. It must be unique within an AWS account.
@@ -1266,15 +1139,6 @@ extension QuickSight {
     }
 
     public struct CreateIAMPolicyAssignmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Identities", required: false, type: .map), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The ID for the assignment.
         public let assignmentId: String?
@@ -1313,10 +1177,10 @@ extension QuickSight {
     }
 
     public struct CreateIngestionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "IngestionId", location: .uri(locationName: "IngestionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
         /// The AWS account ID.
@@ -1349,13 +1213,6 @@ extension QuickSight {
     }
 
     public struct CreateIngestionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) for the data ingestion.
         public let arn: String?
@@ -1386,11 +1243,10 @@ extension QuickSight {
     }
 
     public struct CreateTemplateAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateVersionNumber", required: true, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by QuickSight. 
@@ -1431,11 +1287,6 @@ extension QuickSight {
     }
 
     public struct CreateTemplateAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateAlias", required: false, type: .structure)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -1458,14 +1309,9 @@ extension QuickSight {
     }
 
     public struct CreateTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -1530,14 +1376,6 @@ extension QuickSight {
     }
 
     public struct CreateTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "VersionArn", required: false, type: .string)
-        ]
 
         /// The ARN for the template.
         public let arn: String?
@@ -1572,10 +1410,6 @@ extension QuickSight {
     }
 
     public struct CredentialPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// Password.
         public let password: String
@@ -1601,12 +1435,6 @@ extension QuickSight {
     }
 
     public struct CustomSql: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Columns", required: false, type: .list), 
-            AWSShapeMember(label: "DataSourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SqlQuery", required: true, type: .string)
-        ]
 
         /// The column schema from the SQL query result set.
         public let columns: [InputColumn]?
@@ -1645,15 +1473,6 @@ extension QuickSight {
     }
 
     public struct Dashboard: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "LastPublishedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -1692,10 +1511,6 @@ extension QuickSight {
     }
 
     public struct DashboardError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// Message.
         public let message: String?
@@ -1714,11 +1529,6 @@ extension QuickSight {
     }
 
     public struct DashboardPublishOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdHocFilteringOption", required: false, type: .structure), 
-            AWSShapeMember(label: "ExportToCSVOption", required: false, type: .structure), 
-            AWSShapeMember(label: "SheetControlsOption", required: false, type: .structure)
-        ]
 
         /// Ad hoc (one-time) filtering option.
         public let adHocFilteringOption: AdHocFilteringOption?
@@ -1741,9 +1551,6 @@ extension QuickSight {
     }
 
     public struct DashboardSourceEntity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceTemplate", required: false, type: .structure)
-        ]
 
         /// Source template.
         public let sourceTemplate: DashboardSourceTemplate?
@@ -1762,10 +1569,6 @@ extension QuickSight {
     }
 
     public struct DashboardSourceTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "DataSetReferences", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String
@@ -1791,15 +1594,6 @@ extension QuickSight {
     }
 
     public struct DashboardSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "LastPublishedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "PublishedVersionNumber", required: false, type: .long)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -1838,15 +1632,6 @@ extension QuickSight {
     }
 
     public struct DashboardVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Errors", required: false, type: .list), 
-            AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -1885,14 +1670,6 @@ extension QuickSight {
     }
 
     public struct DashboardVersionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -1927,20 +1704,6 @@ extension QuickSight {
     }
 
     public struct DataSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "ColumnGroups", required: false, type: .list), 
-            AWSShapeMember(label: "ConsumedSpiceCapacityInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "ImportMode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogicalTableMap", required: false, type: .map), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "OutputColumns", required: false, type: .list), 
-            AWSShapeMember(label: "PhysicalTableMap", required: false, type: .map), 
-            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -1999,11 +1762,6 @@ extension QuickSight {
     }
 
     public struct DataSetConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnGroupSchemaList", required: false, type: .list), 
-            AWSShapeMember(label: "DataSetSchema", required: false, type: .structure), 
-            AWSShapeMember(label: "Placeholder", required: false, type: .string)
-        ]
 
         /// A structure containing the list of column group schemas.
         public let columnGroupSchemaList: [ColumnGroupSchema]?
@@ -2026,10 +1784,6 @@ extension QuickSight {
     }
 
     public struct DataSetReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetArn", required: true, type: .string), 
-            AWSShapeMember(label: "DataSetPlaceholder", required: true, type: .string)
-        ]
 
         /// Dataset Amazon Resource Name (ARN).
         public let dataSetArn: String
@@ -2052,9 +1806,6 @@ extension QuickSight {
     }
 
     public struct DataSetSchema: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnSchemaList", required: false, type: .list)
-        ]
 
         /// A structure containing the list of column schemas.
         public let columnSchemaList: [ColumnSchema]?
@@ -2069,15 +1820,6 @@ extension QuickSight {
     }
 
     public struct DataSetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "ImportMode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -2116,19 +1858,6 @@ extension QuickSight {
     }
 
     public struct DataSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SslProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "VpcConnectionProperties", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
@@ -2183,9 +1912,6 @@ extension QuickSight {
     }
 
     public struct DataSourceCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CredentialPair", required: false, type: .structure)
-        ]
 
         /// Credential pair.
         public let credentialPair: CredentialPair?
@@ -2204,10 +1930,6 @@ extension QuickSight {
     }
 
     public struct DataSourceErrorInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// Error message.
         public let message: String?
@@ -2226,27 +1948,6 @@ extension QuickSight {
     }
 
     public struct DataSourceParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmazonElasticsearchParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "AthenaParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "AuroraParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "AuroraPostgreSqlParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsIotAnalyticsParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "JiraParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "MariaDbParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "MySqlParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "PostgreSqlParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "PrestoParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "RdsParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "RedshiftParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "ServiceNowParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "SnowflakeParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "SparkParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "SqlServerParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "TeradataParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "TwitterParameters", required: false, type: .structure)
-        ]
 
         /// Amazon Elasticsearch Service parameters.
         public let amazonElasticsearchParameters: AmazonElasticsearchParameters?
@@ -2355,10 +2056,6 @@ extension QuickSight {
     }
 
     public struct DateTimeParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// A display name for the dataset.
         public let name: String
@@ -2381,10 +2078,6 @@ extension QuickSight {
     }
 
     public struct DecimalParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// A display name for the dataset.
         public let name: String
@@ -2407,10 +2100,10 @@ extension QuickSight {
     }
 
     public struct DeleteDashboardRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're deleting.
@@ -2444,12 +2137,6 @@ extension QuickSight {
     }
 
     public struct DeleteDashboardResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Secure Socket Layer (SSL) properties that apply for the resource.
         public let arn: String?
@@ -2476,9 +2163,9 @@ extension QuickSight {
     }
 
     public struct DeleteDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -2504,12 +2191,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -2536,9 +2217,9 @@ extension QuickSight {
     }
 
     public struct DeleteDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -2564,12 +2245,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the data source that you deleted.
         public let arn: String?
@@ -2596,11 +2271,11 @@ extension QuickSight {
     }
 
     public struct DeleteGroupMembershipRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "MemberName", location: .uri(locationName: "MemberName"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "memberName", location: .uri(locationName: "MemberName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2641,10 +2316,6 @@ extension QuickSight {
     }
 
     public struct DeleteGroupMembershipResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -2663,10 +2334,10 @@ extension QuickSight {
     }
 
     public struct DeleteGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2700,10 +2371,6 @@ extension QuickSight {
     }
 
     public struct DeleteGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -2722,10 +2389,10 @@ extension QuickSight {
     }
 
     public struct DeleteIAMPolicyAssignmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentName", location: .uri(locationName: "AssignmentName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assignmentName", location: .uri(locationName: "AssignmentName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. 
@@ -2759,11 +2426,6 @@ extension QuickSight {
     }
 
     public struct DeleteIAMPolicyAssignmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The name of the assignment. 
         public let assignmentName: String?
@@ -2786,10 +2448,10 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The name for the template alias. If you name a specific alias, you delete the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. 
@@ -2825,13 +2487,6 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string)
-        ]
 
         /// The name for the template alias.
         public let aliasName: String?
@@ -2862,10 +2517,10 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The ID of the AWS account that contains the template that you're deleting.
@@ -2899,12 +2554,6 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -2931,10 +2580,10 @@ extension QuickSight {
     }
 
     public struct DeleteUserByPrincipalIdRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "PrincipalId"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -2966,10 +2615,6 @@ extension QuickSight {
     }
 
     public struct DeleteUserByPrincipalIdResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -2988,10 +2633,10 @@ extension QuickSight {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -3025,10 +2670,6 @@ extension QuickSight {
     }
 
     public struct DeleteUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3047,9 +2688,9 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're describing permissions for.
@@ -3078,13 +2719,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -3115,11 +2749,11 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", location: .querystring(locationName: "alias-name"), required: false, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .querystring(locationName: "alias-name")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The alias name.
@@ -3160,11 +2794,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dashboard", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// Information about the dashboard.
         public let dashboard: Dashboard?
@@ -3187,9 +2816,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -3215,13 +2844,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetArn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
@@ -3252,9 +2874,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -3280,11 +2902,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSet", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// Information on the dataset.
         public let dataSet: DataSet?
@@ -3307,9 +2924,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourcePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -3335,13 +2952,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourcePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
@@ -3372,9 +2982,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -3400,11 +3010,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSource", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The information on the data source.
         public let dataSource: DataSource?
@@ -3427,10 +3032,10 @@ extension QuickSight {
     }
 
     public struct DescribeGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -3464,11 +3069,6 @@ extension QuickSight {
     }
 
     public struct DescribeGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The name of the group.
         public let group: Group?
@@ -3491,10 +3091,10 @@ extension QuickSight {
     }
 
     public struct DescribeIAMPolicyAssignmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentName", location: .uri(locationName: "AssignmentName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assignmentName", location: .uri(locationName: "AssignmentName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. 
@@ -3528,11 +3128,6 @@ extension QuickSight {
     }
 
     public struct DescribeIAMPolicyAssignmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IAMPolicyAssignment", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// Information describing the IAM policy assignment.
         public let iAMPolicyAssignment: IAMPolicyAssignment?
@@ -3555,10 +3150,10 @@ extension QuickSight {
     }
 
     public struct DescribeIngestionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "IngestionId", location: .uri(locationName: "IngestionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "ingestionId", location: .uri(locationName: "IngestionId"))
         ]
 
         /// The AWS account ID.
@@ -3591,11 +3186,6 @@ extension QuickSight {
     }
 
     public struct DescribeIngestionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ingestion", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// Information about the ingestion.
         public let ingestion: Ingestion?
@@ -3618,10 +3208,10 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The name of the template alias that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
@@ -3657,11 +3247,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateAlias", required: false, type: .structure)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3684,9 +3269,9 @@ extension QuickSight {
     }
 
     public struct DescribeTemplatePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template that you're describing.
@@ -3715,13 +3300,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplatePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string)
-        ]
 
         /// A list of resource permissions to be set on the template. 
         public let permissions: [ResourcePermission]?
@@ -3752,11 +3330,11 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", location: .querystring(locationName: "alias-name"), required: false, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .querystring(locationName: "alias-name")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .querystring(locationName: "version-number"))
         ]
 
         /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
@@ -3797,10 +3375,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "Template", required: false, type: .structure)
-        ]
 
         /// The HTTP status of the request.
         public let status: Int?
@@ -3819,10 +3393,10 @@ extension QuickSight {
     }
 
     public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -3856,11 +3430,6 @@ extension QuickSight {
     }
 
     public struct DescribeUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3883,10 +3452,6 @@ extension QuickSight {
     }
 
     public struct ErrorInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// Error message.
         public let message: String?
@@ -3905,9 +3470,6 @@ extension QuickSight {
     }
 
     public struct ExportToCSVOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityStatus", required: false, type: .enum)
-        ]
 
         /// Availability status.
         public let availabilityStatus: DashboardBehavior?
@@ -3922,9 +3484,6 @@ extension QuickSight {
     }
 
     public struct FilterOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionExpression", required: true, type: .string)
-        ]
 
         /// An expression that must evaluate to a Boolean value. Rows for which the expression evaluates to true are kept in the dataset.
         public let conditionExpression: String
@@ -3944,11 +3503,6 @@ extension QuickSight {
     }
 
     public struct GeoSpatialColumnGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Columns", required: true, type: .list), 
-            AWSShapeMember(label: "CountryCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Columns in this hierarchy.
         public let columns: [String]
@@ -3982,14 +3536,14 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityType", location: .querystring(locationName: "creds-type"), required: true, type: .enum), 
-            AWSShapeMember(label: "ResetDisabled", location: .querystring(locationName: "reset-disabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime"), required: false, type: .long), 
-            AWSShapeMember(label: "UndoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "UserArn", location: .querystring(locationName: "user-arn"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "identityType", location: .querystring(locationName: "creds-type")), 
+            AWSMemberEncoding(label: "resetDisabled", location: .querystring(locationName: "reset-disabled")), 
+            AWSMemberEncoding(label: "sessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime")), 
+            AWSMemberEncoding(label: "undoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled")), 
+            AWSMemberEncoding(label: "userArn", location: .querystring(locationName: "user-arn"))
         ]
 
         /// The ID for the AWS account that contains the dashboard that you're embedding.
@@ -4040,11 +3594,6 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmbedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// An URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code value that enables a single sign-on session. 
         public let embedUrl: String?
@@ -4067,12 +3616,6 @@ extension QuickSight {
     }
 
     public struct Group: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the group.
         public let arn: String?
@@ -4099,10 +3642,6 @@ extension QuickSight {
     }
 
     public struct GroupMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "MemberName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the group member (user).
         public let arn: String?
@@ -4121,14 +3660,6 @@ extension QuickSight {
     }
 
     public struct IAMPolicyAssignment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "AwsAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Identities", required: false, type: .map), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
-        ]
 
         /// Assignment ID.
         public let assignmentId: String?
@@ -4163,10 +3694,6 @@ extension QuickSight {
     }
 
     public struct IAMPolicyAssignmentSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum)
-        ]
 
         /// Assignment name.
         public let assignmentName: String?
@@ -4185,19 +3712,6 @@ extension QuickSight {
     }
 
     public struct Ingestion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ErrorInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "IngestionStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "IngestionTimeInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "QueueInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestSource", required: false, type: .enum), 
-            AWSShapeMember(label: "RequestType", required: false, type: .enum), 
-            AWSShapeMember(label: "RowInfo", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String
@@ -4250,10 +3764,6 @@ extension QuickSight {
     }
 
     public struct InputColumn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The name of this column in the underlying data source.
         public let name: String
@@ -4277,10 +3787,6 @@ extension QuickSight {
     }
 
     public struct IntegerParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// A display name for the dataset.
         public let name: String
@@ -4303,9 +3809,6 @@ extension QuickSight {
     }
 
     public struct JiraParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SiteBaseUrl", required: true, type: .string)
-        ]
 
         /// The base URL of the Jira site.
         public let siteBaseUrl: String
@@ -4325,12 +3828,6 @@ extension QuickSight {
     }
 
     public struct JoinInstruction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LeftOperand", required: true, type: .string), 
-            AWSShapeMember(label: "OnClause", required: true, type: .string), 
-            AWSShapeMember(label: "RightOperand", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// Left operand.
         public let leftOperand: String
@@ -4368,11 +3865,11 @@ extension QuickSight {
     }
 
     public struct ListDashboardVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're listing versions for.
@@ -4411,12 +3908,6 @@ extension QuickSight {
     }
 
     public struct ListDashboardVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardVersionSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// A structure that contains information about each version of the dashboard.
         public let dashboardVersionSummaryList: [DashboardVersionSummary]?
@@ -4443,10 +3934,10 @@ extension QuickSight {
     }
 
     public struct ListDashboardsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID of the AWS account that contains the dashboards that you're listing.
@@ -4478,12 +3969,6 @@ extension QuickSight {
     }
 
     public struct ListDashboardsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// A structure that contains all of the dashboards shared with the user. This structure provides basic information about the dashboards.
         public let dashboardSummaryList: [DashboardSummary]?
@@ -4510,10 +3995,10 @@ extension QuickSight {
     }
 
     public struct ListDataSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The AWS account ID.
@@ -4545,12 +4030,6 @@ extension QuickSight {
     }
 
     public struct ListDataSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The list of dataset summaries.
         public let dataSetSummaries: [DataSetSummary]?
@@ -4577,10 +4056,10 @@ extension QuickSight {
     }
 
     public struct ListDataSourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The AWS account ID.
@@ -4612,12 +4091,6 @@ extension QuickSight {
     }
 
     public struct ListDataSourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSources", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// A list of data sources.
         public let dataSources: [DataSource]?
@@ -4644,12 +4117,12 @@ extension QuickSight {
     }
 
     public struct ListGroupMembershipsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -4693,12 +4166,6 @@ extension QuickSight {
     }
 
     public struct ListGroupMembershipsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupMemberList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The list of the members of the group.
         public let groupMemberList: [GroupMember]?
@@ -4725,11 +4192,11 @@ extension QuickSight {
     }
 
     public struct ListGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -4767,12 +4234,6 @@ extension QuickSight {
     }
 
     public struct ListGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The list of the groups.
         public let groupList: [Group]?
@@ -4799,12 +4260,12 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsForUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID of the AWS account that contains the assignments.
@@ -4848,12 +4309,6 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsForUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveAssignments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The active assignments for this user.
         public let activeAssignments: [ActiveIAMPolicyAssignment]?
@@ -4880,12 +4335,11 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The status of the assignments.
@@ -4927,12 +4381,6 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IAMPolicyAssignments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// Information describing the IAM policy assignments.
         public let iAMPolicyAssignments: [IAMPolicyAssignmentSummary]?
@@ -4959,11 +4407,11 @@ extension QuickSight {
     }
 
     public struct ListIngestionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The AWS account ID.
@@ -4999,12 +4447,6 @@ extension QuickSight {
     }
 
     public struct ListIngestionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ingestions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// A list of the ingestions.
         public let ingestions: [Ingestion]?
@@ -5031,8 +4473,8 @@ extension QuickSight {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
@@ -5048,11 +4490,6 @@ extension QuickSight {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -5075,11 +4512,11 @@ extension QuickSight {
     }
 
     public struct ListTemplateAliasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-result"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-result")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template aliases that you're listing.
@@ -5118,12 +4555,6 @@ extension QuickSight {
     }
 
     public struct ListTemplateAliasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateAliasList", required: false, type: .list)
-        ]
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -5150,11 +4581,11 @@ extension QuickSight {
     }
 
     public struct ListTemplateVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the templates that you're listing.
@@ -5193,12 +4624,6 @@ extension QuickSight {
     }
 
     public struct ListTemplateVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateVersionSummaryList", required: false, type: .list)
-        ]
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -5225,10 +4650,10 @@ extension QuickSight {
     }
 
     public struct ListTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-result"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-result")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID of the AWS account that contains the templates that you're listing.
@@ -5260,12 +4685,6 @@ extension QuickSight {
     }
 
     public struct ListTemplatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateSummaryList", required: false, type: .list)
-        ]
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -5292,12 +4711,12 @@ extension QuickSight {
     }
 
     public struct ListUserGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The AWS account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -5341,12 +4760,6 @@ extension QuickSight {
     }
 
     public struct ListUserGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The list of groups the user is a member of.
         public let groupList: [Group]?
@@ -5373,11 +4786,11 @@ extension QuickSight {
     }
 
     public struct ListUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -5415,12 +4828,6 @@ extension QuickSight {
     }
 
     public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "UserList", required: false, type: .list)
-        ]
 
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
@@ -5447,11 +4854,6 @@ extension QuickSight {
     }
 
     public struct LogicalTable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: true, type: .string), 
-            AWSShapeMember(label: "DataTransforms", required: false, type: .list), 
-            AWSShapeMember(label: "Source", required: true, type: .structure)
-        ]
 
         /// A display name for the logical table.
         public let alias: String
@@ -5485,10 +4887,6 @@ extension QuickSight {
     }
 
     public struct LogicalTableSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JoinInstruction", required: false, type: .structure), 
-            AWSShapeMember(label: "PhysicalTableId", required: false, type: .string)
-        ]
 
         /// Specifies the result of a join of two logical tables.
         public let joinInstruction: JoinInstruction?
@@ -5514,10 +4912,6 @@ extension QuickSight {
     }
 
     public struct ManifestFileLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
 
         /// Amazon S3 bucket.
         public let bucket: String
@@ -5543,11 +4937,6 @@ extension QuickSight {
     }
 
     public struct MariaDbParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Database.
         public let database: String
@@ -5579,11 +4968,6 @@ extension QuickSight {
     }
 
     public struct MySqlParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Database.
         public let database: String
@@ -5615,10 +4999,6 @@ extension QuickSight {
     }
 
     public struct OutputColumn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// A display name for the dataset.
         public let name: String?
@@ -5637,12 +5017,6 @@ extension QuickSight {
     }
 
     public struct Parameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateTimeParameters", required: false, type: .list), 
-            AWSShapeMember(label: "DecimalParameters", required: false, type: .list), 
-            AWSShapeMember(label: "IntegerParameters", required: false, type: .list), 
-            AWSShapeMember(label: "StringParameters", required: false, type: .list)
-        ]
 
         /// DateTime parameters.
         public let dateTimeParameters: [DateTimeParameter]?
@@ -5688,11 +5062,6 @@ extension QuickSight {
     }
 
     public struct PhysicalTable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomSql", required: false, type: .structure), 
-            AWSShapeMember(label: "RelationalTable", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Source", required: false, type: .structure)
-        ]
 
         /// A physical table type built from the results of the custom SQL query.
         public let customSql: CustomSql?
@@ -5721,11 +5090,6 @@ extension QuickSight {
     }
 
     public struct PostgreSqlParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Database.
         public let database: String
@@ -5757,11 +5121,6 @@ extension QuickSight {
     }
 
     public struct PrestoParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Catalog", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Catalog.
         public let catalog: String
@@ -5792,9 +5151,6 @@ extension QuickSight {
     }
 
     public struct ProjectOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProjectedColumns", required: true, type: .list)
-        ]
 
         /// Projected columns.
         public let projectedColumns: [String]
@@ -5814,10 +5170,6 @@ extension QuickSight {
     }
 
     public struct QueueInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueuedIngestion", required: true, type: .string), 
-            AWSShapeMember(label: "WaitingOnIngestion", required: true, type: .string)
-        ]
 
         /// The ID of the ongoing ingestion. The queued ingestion is waiting for the ongoing ingestion to complete.
         public let queuedIngestion: String
@@ -5836,10 +5188,6 @@ extension QuickSight {
     }
 
     public struct RdsParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
 
         /// Database.
         public let database: String
@@ -5865,12 +5213,6 @@ extension QuickSight {
     }
 
     public struct RedshiftParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
 
         /// Cluster ID. This field can be blank if the Host and Port are provided.
         public let clusterId: String?
@@ -5908,15 +5250,9 @@ extension QuickSight {
     }
 
     public struct RegisterUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Email", required: true, type: .string), 
-            AWSShapeMember(label: "IamArn", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityType", required: true, type: .enum), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "SessionName", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "UserRole", required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -5973,12 +5309,6 @@ extension QuickSight {
     }
 
     public struct RegisterUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "User", required: false, type: .structure), 
-            AWSShapeMember(label: "UserInvitationUrl", required: false, type: .string)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -6005,12 +5335,6 @@ extension QuickSight {
     }
 
     public struct RelationalTable: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "InputColumns", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Schema", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the data source.
         public let dataSourceArn: String
@@ -6048,10 +5372,6 @@ extension QuickSight {
     }
 
     public struct RenameColumnOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
-            AWSShapeMember(label: "NewColumnName", required: true, type: .string)
-        ]
 
         /// The name of the column to be renamed.
         public let columnName: String
@@ -6077,10 +5397,6 @@ extension QuickSight {
     }
 
     public struct ResourcePermission: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .list), 
-            AWSShapeMember(label: "Principal", required: true, type: .string)
-        ]
 
         /// The action to grant or revoke permissions on, for example "quicksight:DescribeDashboard".
         public let actions: [String]
@@ -6106,10 +5422,6 @@ extension QuickSight {
     }
 
     public struct RowInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RowsDropped", required: false, type: .long), 
-            AWSShapeMember(label: "RowsIngested", required: false, type: .long)
-        ]
 
         /// The number of rows that were not ingested.
         public let rowsDropped: Int64?
@@ -6128,10 +5440,6 @@ extension QuickSight {
     }
 
     public struct RowLevelPermissionDataSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "PermissionPolicy", required: true, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the permission dataset.
         public let arn: String
@@ -6150,9 +5458,6 @@ extension QuickSight {
     }
 
     public struct S3Parameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestFileLocation", required: true, type: .structure)
-        ]
 
         /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded in the console.
         public let manifestFileLocation: ManifestFileLocation
@@ -6171,11 +5476,6 @@ extension QuickSight {
     }
 
     public struct S3Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "InputColumns", required: true, type: .list), 
-            AWSShapeMember(label: "UploadSettings", required: false, type: .structure)
-        ]
 
         /// The amazon Resource Name (ARN) for the data source.
         public let dataSourceArn: String
@@ -6207,9 +5507,6 @@ extension QuickSight {
     }
 
     public struct ServiceNowParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SiteBaseUrl", required: true, type: .string)
-        ]
 
         /// URL of the base site.
         public let siteBaseUrl: String
@@ -6229,9 +5526,6 @@ extension QuickSight {
     }
 
     public struct SheetControlsOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VisibilityState", required: false, type: .enum)
-        ]
 
         /// Visibility state.
         public let visibilityState: DashboardUIState?
@@ -6246,11 +5540,6 @@ extension QuickSight {
     }
 
     public struct SnowflakeParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Warehouse", required: true, type: .string)
-        ]
 
         /// Database.
         public let database: String
@@ -6281,10 +5570,6 @@ extension QuickSight {
     }
 
     public struct SparkParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Host.
         public let host: String
@@ -6310,11 +5595,6 @@ extension QuickSight {
     }
 
     public struct SqlServerParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Database.
         public let database: String
@@ -6346,9 +5626,6 @@ extension QuickSight {
     }
 
     public struct SslProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisableSsl", required: false, type: .boolean)
-        ]
 
         /// A Boolean option to control whether SSL should be disabled.
         public let disableSsl: Bool?
@@ -6363,10 +5640,6 @@ extension QuickSight {
     }
 
     public struct StringParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// A display name for the dataset.
         public let name: String
@@ -6389,10 +5662,6 @@ extension QuickSight {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// Tag key.
         public let key: String
@@ -6418,10 +5687,6 @@ extension QuickSight {
     }
 
     public struct TagColumnOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The column that this operation acts on.
         public let columnName: String
@@ -6447,9 +5712,8 @@ extension QuickSight {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -6477,10 +5741,6 @@ extension QuickSight {
     }
 
     public struct TagResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -6499,14 +5759,6 @@ extension QuickSight {
     }
 
     public struct Template: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .structure)
-        ]
 
         /// The Amazon Resource Name (ARN) of the template.
         public let arn: String?
@@ -6541,11 +5793,6 @@ extension QuickSight {
     }
 
     public struct TemplateAlias: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateVersionNumber", required: false, type: .long)
-        ]
 
         /// The display name of the template alias.
         public let aliasName: String?
@@ -6568,10 +5815,6 @@ extension QuickSight {
     }
 
     public struct TemplateError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// Description of the error type.
         public let message: String?
@@ -6590,10 +5833,6 @@ extension QuickSight {
     }
 
     public struct TemplateSourceAnalysis: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "DataSetReferences", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String
@@ -6619,10 +5858,6 @@ extension QuickSight {
     }
 
     public struct TemplateSourceEntity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceAnalysis", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceTemplate", required: false, type: .structure)
-        ]
 
         /// The source analysis, if it is based on an analysis.
         public let sourceAnalysis: TemplateSourceAnalysis?
@@ -6645,9 +5880,6 @@ extension QuickSight {
     }
 
     public struct TemplateSourceTemplate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String
@@ -6662,14 +5894,6 @@ extension QuickSight {
     }
 
     public struct TemplateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestVersionNumber", required: false, type: .long), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string)
-        ]
 
         /// A summary of a template.
         public let arn: String?
@@ -6704,15 +5928,6 @@ extension QuickSight {
     }
 
     public struct TemplateVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataSetConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Errors", required: false, type: .list), 
-            AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
-        ]
 
         /// The time that this template version was created.
         public let createdTime: TimeStamp?
@@ -6751,13 +5966,6 @@ extension QuickSight {
     }
 
     public struct TemplateVersionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
-        ]
 
         /// The ARN of the template version.
         public let arn: String?
@@ -6788,11 +5996,6 @@ extension QuickSight {
     }
 
     public struct TeradataParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "Host", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: true, type: .integer)
-        ]
 
         /// Database.
         public let database: String
@@ -6824,14 +6027,6 @@ extension QuickSight {
     }
 
     public struct TransformOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CastColumnTypeOperation", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateColumnsOperation", required: false, type: .structure), 
-            AWSShapeMember(label: "FilterOperation", required: false, type: .structure), 
-            AWSShapeMember(label: "ProjectOperation", required: false, type: .structure), 
-            AWSShapeMember(label: "RenameColumnOperation", required: false, type: .structure), 
-            AWSShapeMember(label: "TagColumnOperation", required: false, type: .structure)
-        ]
 
         /// A transform operation that casts a column to a different type.
         public let castColumnTypeOperation: CastColumnTypeOperation?
@@ -6875,10 +6070,6 @@ extension QuickSight {
     }
 
     public struct TwitterParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRows", required: true, type: .integer), 
-            AWSShapeMember(label: "Query", required: true, type: .string)
-        ]
 
         /// Maximum number of rows to query Twitter.
         public let maxRows: Int
@@ -6903,9 +6094,9 @@ extension QuickSight {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "keys"), required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "keys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource that you want to untag.
@@ -6934,10 +6125,6 @@ extension QuickSight {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -6956,11 +6143,9 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "RevokePermissions", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account that contains the dashboard whose permissions you're updating.
@@ -7007,13 +6192,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -7044,10 +6222,10 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPublishedVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")), 
+            AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're updating.
@@ -7081,12 +6259,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPublishedVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -7113,14 +6285,9 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardPublishOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
-            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId"))
         ]
 
         /// The ID of the AWS account that contains the dashboard that you're updating.
@@ -7176,14 +6343,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "VersionArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -7218,11 +6377,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "RevokePermissions", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -7266,12 +6423,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSetArn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
@@ -7298,15 +6449,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "ColumnGroups", required: false, type: .list), 
-            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "ImportMode", required: true, type: .enum), 
-            AWSShapeMember(label: "LogicalTableMap", required: false, type: .map), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "PhysicalTableMap", required: true, type: .map), 
-            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
 
         /// The AWS account ID.
@@ -7375,14 +6520,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionArn", required: false, type: .string), 
-            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -7417,11 +6554,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourcePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "RevokePermissions", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -7465,12 +6600,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourcePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataSourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
@@ -7497,14 +6626,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
-            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string), 
-            AWSShapeMember(label: "DataSourceParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SslProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcConnectionProperties", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "dataSourceId", location: .uri(locationName: "DataSourceId"))
         ]
 
         /// The AWS account ID.
@@ -7554,13 +6678,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "UpdateStatus", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
@@ -7591,11 +6708,10 @@ extension QuickSight {
     }
 
     public struct UpdateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -7635,11 +6751,6 @@ extension QuickSight {
     }
 
     public struct UpdateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The name of the group.
         public let group: Group?
@@ -7662,13 +6773,10 @@ extension QuickSight {
     }
 
     public struct UpdateIAMPolicyAssignmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentName", location: .uri(locationName: "AssignmentName"), required: true, type: .string), 
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Identities", required: false, type: .map), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assignmentName", location: .uri(locationName: "AssignmentName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
         /// The name of the assignment. This name must be unique within an AWS account.
@@ -7714,15 +6822,6 @@ extension QuickSight {
     }
 
     public struct UpdateIAMPolicyAssignmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Identities", required: false, type: .map), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
 
         /// The ID of the assignment.
         public let assignmentId: String?
@@ -7761,11 +6860,10 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateVersionNumber", required: true, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .uri(locationName: "AliasName")), 
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
@@ -7806,11 +6904,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateAlias", required: false, type: .structure)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -7833,11 +6926,9 @@ extension QuickSight {
     }
 
     public struct UpdateTemplatePermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
-            AWSShapeMember(label: "RevokePermissions", required: false, type: .list), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template.
@@ -7884,13 +6975,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplatePermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string)
-        ]
 
         /// A list of resource permissions to be set on the template.
         public let permissions: [ResourcePermission]?
@@ -7921,12 +7005,9 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "TemplateId"))
         ]
 
         /// The ID of the AWS account that contains the template that you're updating.
@@ -7973,14 +7054,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "TemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "VersionArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the template.
         public let arn: String?
@@ -8015,12 +7088,10 @@ extension QuickSight {
     }
 
     public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Email", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "Role", required: true, type: .enum), 
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace")), 
+            AWSMemberEncoding(label: "userName", location: .uri(locationName: "UserName"))
         ]
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
@@ -8062,11 +7133,6 @@ extension QuickSight {
     }
 
     public struct UpdateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -8089,13 +7155,6 @@ extension QuickSight {
     }
 
     public struct UploadSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainsHeader", required: false, type: .boolean), 
-            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
-            AWSShapeMember(label: "Format", required: false, type: .enum), 
-            AWSShapeMember(label: "StartFromRow", required: false, type: .integer), 
-            AWSShapeMember(label: "TextQualifier", required: false, type: .enum)
-        ]
 
         /// Whether the file has a header row, or the files each have a header row.
         public let containsHeader: Bool?
@@ -8132,15 +7191,6 @@ extension QuickSight {
     }
 
     public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Active", required: false, type: .boolean), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .enum), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
 
         /// The active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public let active: Bool?
@@ -8179,9 +7229,6 @@ extension QuickSight {
     }
 
     public struct VpcConnectionProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcConnectionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the VPC connection.
         public let vpcConnectionArn: String

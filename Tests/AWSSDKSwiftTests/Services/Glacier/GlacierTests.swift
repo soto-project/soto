@@ -13,22 +13,28 @@ import NIO
 
 class GlacierTests: XCTestCase {
 
-    func testComputeTreeHash() throws {
-        var z = 4
-        var w = 23
-        // Random number generator taken from https://www.codeproject.com/Articles/25172/Simple-Random-Number-Generation
-        func simpleRNG() -> UInt8 {
+    // create a buffer of random values. Will always create the same given you supply the same z and w values
+    // Random number generator from https://www.codeproject.com/Articles/25172/Simple-Random-Number-Generation
+    func createRandomBuffer(_ w: UInt, _ z: UInt, size: Int) -> [UInt8] {
+        var z = z
+        var w = w
+        func getUInt8() -> UInt8
+        {
             z = 36969 * (z & 65535) + (z >> 16);
             w = 18000 * (w & 65535) + (w >> 16);
-            return UInt8(((z<<16)+w) & 0xff)
+            return UInt8(((z << 16) + w) & 0xff);
         }
-
-        //  create buffer full of random data, use the same seeds to ensure we get the same buffer everytime
-        let size = 7*1024*1024 + 258
-        var data = Data(count: size)
+        var data = Array<UInt8>(repeating: 0, count: size)
         for i in 0..<size {
-            data[i] = simpleRNG()
+            data[i] = getUInt8()
         }
+        return data
+    }
+
+    func testComputeTreeHash() throws {
+        //  create buffer full of random data, use the same seeds to ensure we get the same buffer everytime
+        let data = createRandomBuffer(23, 4, size: 7*1024*1024 + 258)
+
         // create byte buffer
         var byteBuffer = ByteBufferAllocator().buffer(capacity: data.count)
         byteBuffer.writeBytes(data)

@@ -14,12 +14,6 @@ extension KinesisVideoSignalingChannels {
     //MARK: Shapes
 
     public struct GetIceServerConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "Service", required: false, type: .enum), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. 
         public let channelARN: String
@@ -58,9 +52,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct GetIceServerConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IceServerList", required: false, type: .list)
-        ]
 
         /// The list of ICE server information objects.
         public let iceServerList: [IceServer]?
@@ -75,12 +66,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct IceServer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Ttl", required: false, type: .integer), 
-            AWSShapeMember(label: "Uris", required: false, type: .list), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// A password to login to the ICE server.
         public let password: String?
@@ -107,11 +92,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct SendAlexaOfferToMasterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelARN", required: true, type: .string), 
-            AWSShapeMember(label: "MessagePayload", required: true, type: .string), 
-            AWSShapeMember(label: "SenderClientId", required: true, type: .string)
-        ]
 
         /// The ARN of the signaling channel by which Alexa and the master peer communicate.
         public let channelARN: String
@@ -146,9 +126,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct SendAlexaOfferToMasterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Answer", required: false, type: .string)
-        ]
 
         /// The base64-encoded SDP answer content.
         public let answer: String?

@@ -9,10 +9,6 @@ extension ForecastQueryService {
     //MARK: Shapes
 
     public struct DataPoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timestamp", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .double)
-        ]
 
         /// The timestamp of the specific forecast.
         public let timestamp: String?
@@ -31,9 +27,6 @@ extension ForecastQueryService {
     }
 
     public struct Forecast: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Predictions", required: false, type: .map)
-        ]
 
         /// The forecast. The string of the string to array map is one of the following values:   mean   p10   p50   p90  
         public let predictions: [String: [DataPoint]]?
@@ -48,13 +41,6 @@ extension ForecastQueryService {
     }
 
     public struct QueryForecastRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndDate", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: true, type: .map), 
-            AWSShapeMember(label: "ForecastArn", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartDate", required: false, type: .string)
-        ]
 
         /// The end date for the forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss'Z' (ISO 8601 format). For example, "1970-01-01T00:00:00Z." 
         public let endDate: String?
@@ -101,9 +87,6 @@ extension ForecastQueryService {
     }
 
     public struct QueryForecastResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Forecast", required: false, type: .structure)
-        ]
 
         /// The forecast.
         public let forecast: Forecast?
