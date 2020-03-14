@@ -135,11 +135,6 @@ extension CodePipeline {
     //MARK: Shapes
 
     public struct AWSSessionCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "secretAccessKey", required: true, type: .string), 
-            AWSShapeMember(label: "sessionToken", required: true, type: .string)
-        ]
 
         /// The access key for the session.
         public let accessKeyId: String
@@ -162,10 +157,6 @@ extension CodePipeline {
     }
 
     public struct AcknowledgeJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "nonce", required: true, type: .string)
-        ]
 
         /// The unique system-generated ID of the job for which you want to confirm receipt.
         public let jobId: String
@@ -190,9 +181,6 @@ extension CodePipeline {
     }
 
     public struct AcknowledgeJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// Whether the job worker has received the specified job.
         public let status: JobStatus?
@@ -207,11 +195,6 @@ extension CodePipeline {
     }
 
     public struct AcknowledgeThirdPartyJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "nonce", required: true, type: .string)
-        ]
 
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
@@ -243,9 +226,6 @@ extension CodePipeline {
     }
 
     public struct AcknowledgeThirdPartyJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The status information for the third party job, if any.
         public let status: JobStatus?
@@ -260,9 +240,6 @@ extension CodePipeline {
     }
 
     public struct ActionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configuration", required: false, type: .map)
-        ]
 
         /// The configuration data for the action.
         public let configuration: [String: String]?
@@ -277,15 +254,6 @@ extension CodePipeline {
     }
 
     public struct ActionConfigurationProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "key", required: true, type: .boolean), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "queryable", required: false, type: .boolean), 
-            AWSShapeMember(label: "required", required: true, type: .boolean), 
-            AWSShapeMember(label: "secret", required: true, type: .boolean), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The description of the action configuration property that is displayed to users.
         public let description: String?
@@ -331,10 +299,6 @@ extension CodePipeline {
     }
 
     public struct ActionContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The system-generated unique ID that corresponds to an action's execution.
         public let actionExecutionId: String?
@@ -353,17 +317,6 @@ extension CodePipeline {
     }
 
     public struct ActionDeclaration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeMember(label: "configuration", required: false, type: .map), 
-            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "namespace", required: false, type: .string), 
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "runOrder", required: false, type: .integer)
-        ]
 
         /// Specifies the action type and the provider of the action.
         public let actionTypeId: ActionTypeId
@@ -438,17 +391,6 @@ extension CodePipeline {
     }
 
     public struct ActionExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "externalExecutionUrl", required: false, type: .string), 
-            AWSShapeMember(label: "lastStatusChange", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "percentComplete", required: false, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "summary", required: false, type: .string), 
-            AWSShapeMember(label: "token", required: false, type: .string)
-        ]
 
         /// The details of an error returned by a URL external to AWS.
         public let errorDetails: ErrorDetails?
@@ -495,18 +437,6 @@ extension CodePipeline {
     }
 
     public struct ActionExecutionDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "input", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "output", required: false, type: .structure), 
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "stageName", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The action execution ID.
         public let actionExecutionId: String?
@@ -557,9 +487,6 @@ extension CodePipeline {
     }
 
     public struct ActionExecutionFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
-        ]
 
         /// The pipeline execution ID used to filter action execution history.
         public let pipelineExecutionId: String?
@@ -578,15 +505,6 @@ extension CodePipeline {
     }
 
     public struct ActionExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
-            AWSShapeMember(label: "configuration", required: false, type: .map), 
-            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "namespace", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "resolvedConfiguration", required: false, type: .map), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         public let actionTypeId: ActionTypeId?
         /// Configuration data for an action execution.
@@ -624,11 +542,6 @@ extension CodePipeline {
     }
 
     public struct ActionExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionResult", required: false, type: .structure), 
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "outputVariables", required: false, type: .map)
-        ]
 
         /// Execution result information listed in the output details for an action execution.
         public let executionResult: ActionExecutionResult?
@@ -651,11 +564,6 @@ extension CodePipeline {
     }
 
     public struct ActionExecutionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "externalExecutionSummary", required: false, type: .string), 
-            AWSShapeMember(label: "externalExecutionUrl", required: false, type: .string)
-        ]
 
         /// The action provider's external ID for the action execution.
         public let externalExecutionId: String?
@@ -678,11 +586,6 @@ extension CodePipeline {
     }
 
     public struct ActionRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: true, type: .timestamp), 
-            AWSShapeMember(label: "revisionChangeId", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: true, type: .string)
-        ]
 
         /// The date and time when the most recent version of the action was created, in timestamp format.
         public let created: TimeStamp
@@ -712,13 +615,6 @@ extension CodePipeline {
     }
 
     public struct ActionState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeMember(label: "entityUrl", required: false, type: .string), 
-            AWSShapeMember(label: "latestExecution", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionUrl", required: false, type: .string)
-        ]
 
         /// The name of the action.
         public let actionName: String?
@@ -749,13 +645,6 @@ extension CodePipeline {
     }
 
     public struct ActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionConfigurationProperties", required: false, type: .list), 
-            AWSShapeMember(label: "id", required: true, type: .structure), 
-            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "settings", required: false, type: .structure)
-        ]
 
         /// The configuration properties for the action type.
         public let actionConfigurationProperties: [ActionConfigurationProperty]?
@@ -786,12 +675,6 @@ extension CodePipeline {
     }
 
     public struct ActionTypeId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: true, type: .enum), 
-            AWSShapeMember(label: "owner", required: true, type: .enum), 
-            AWSShapeMember(label: "provider", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: true, type: .string)
-        ]
 
         /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values. 
         public let category: ActionCategory
@@ -827,12 +710,6 @@ extension CodePipeline {
     }
 
     public struct ActionTypeSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entityUrlTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "executionUrlTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "revisionUrlTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "thirdPartyConfigurationUrl", required: false, type: .string)
-        ]
 
         /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display in the pipeline.
         public let entityUrlTemplate: String?
@@ -870,10 +747,6 @@ extension CodePipeline {
     }
 
     public struct ApprovalResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "summary", required: true, type: .string)
-        ]
 
         /// The response submitted by a reviewer assigned to an approval action request.
         public let status: ApprovalStatus
@@ -897,11 +770,6 @@ extension CodePipeline {
     }
 
     public struct Artifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revision", required: false, type: .string)
-        ]
 
         /// The location of an artifact.
         public let location: ArtifactLocation?
@@ -924,10 +792,6 @@ extension CodePipeline {
     }
 
     public struct ArtifactDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "s3location", required: false, type: .structure)
-        ]
 
         /// The artifact object name for the action execution.
         public let name: String?
@@ -946,10 +810,6 @@ extension CodePipeline {
     }
 
     public struct ArtifactDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maximumCount", required: true, type: .integer), 
-            AWSShapeMember(label: "minimumCount", required: true, type: .integer)
-        ]
 
         /// The maximum number of artifacts allowed for the action type.
         public let maximumCount: Int
@@ -975,10 +835,6 @@ extension CodePipeline {
     }
 
     public struct ArtifactLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The S3 bucket that contains the artifact.
         public let s3Location: S3ArtifactLocation?
@@ -997,14 +853,6 @@ extension CodePipeline {
     }
 
     public struct ArtifactRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionChangeIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
-            AWSShapeMember(label: "revisionUrl", required: false, type: .string)
-        ]
 
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
         public let created: TimeStamp?
@@ -1039,11 +887,6 @@ extension CodePipeline {
     }
 
     public struct ArtifactStore: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
-            AWSShapeMember(label: "location", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
         public let encryptionKey: EncryptionKey?
@@ -1073,10 +916,6 @@ extension CodePipeline {
     }
 
     public struct BlockerDeclaration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// Reserved for future use.
         public let name: String
@@ -1100,16 +939,6 @@ extension CodePipeline {
     }
 
     public struct CreateCustomActionTypeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: true, type: .enum), 
-            AWSShapeMember(label: "configurationProperties", required: false, type: .list), 
-            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "provider", required: true, type: .string), 
-            AWSShapeMember(label: "settings", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: true, type: .string)
-        ]
 
         /// The category of the custom action, such as a build action or a test action.  Although Source and Approval are listed as valid values, they are not currently functional. These values are reserved for future use. 
         public let category: ActionCategory
@@ -1171,10 +1000,6 @@ extension CodePipeline {
     }
 
     public struct CreateCustomActionTypeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionType", required: true, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// Returns information about the details of an action type.
         public let actionType: ActionType
@@ -1193,10 +1018,6 @@ extension CodePipeline {
     }
 
     public struct CreatePipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: true, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration
@@ -1222,10 +1043,6 @@ extension CodePipeline {
     }
 
     public struct CreatePipelineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration?
@@ -1244,12 +1061,6 @@ extension CodePipeline {
     }
 
     public struct CurrentRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "changeIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "revision", required: true, type: .string), 
-            AWSShapeMember(label: "revisionSummary", required: false, type: .string)
-        ]
 
         /// The change identifier for the current revision.
         public let changeIdentifier: String
@@ -1285,11 +1096,6 @@ extension CodePipeline {
     }
 
     public struct DeleteCustomActionTypeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: true, type: .enum), 
-            AWSShapeMember(label: "provider", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: true, type: .string)
-        ]
 
         /// The category of the custom action that you want to delete, such as source or deploy.
         public let category: ActionCategory
@@ -1321,9 +1127,6 @@ extension CodePipeline {
     }
 
     public struct DeletePipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the pipeline to be deleted.
         public let name: String
@@ -1344,9 +1147,6 @@ extension CodePipeline {
     }
 
     public struct DeleteWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the webhook you want to delete.
         public let name: String
@@ -1375,9 +1175,6 @@ extension CodePipeline {
     }
 
     public struct DeregisterWebhookWithThirdPartyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookName", required: false, type: .string)
-        ]
 
         /// The name of the webhook you want to deregister.
         public let webhookName: String?
@@ -1406,12 +1203,6 @@ extension CodePipeline {
     }
 
     public struct DisableStageTransitionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "reason", required: true, type: .string), 
-            AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "transitionType", required: true, type: .enum)
-        ]
 
         /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
         public let pipelineName: String
@@ -1450,11 +1241,6 @@ extension CodePipeline {
     }
 
     public struct EnableStageTransitionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "transitionType", required: true, type: .enum)
-        ]
 
         /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
         public let pipelineName: String
@@ -1486,10 +1272,6 @@ extension CodePipeline {
     }
 
     public struct EncryptionKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The ID used to identify the key. For an AWS KMS key, you can use the key ID, the key ARN, or the alias ARN.  Aliases are recognized only in the account that created the customer master key (CMK). For cross-account actions, you can only use the key ID or key ARN to identify the key. 
         public let id: String
@@ -1513,10 +1295,6 @@ extension CodePipeline {
     }
 
     public struct ErrorDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
 
         /// The system ID or number code of the error.
         public let code: String?
@@ -1535,11 +1313,6 @@ extension CodePipeline {
     }
 
     public struct ExecutionDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "percentComplete", required: false, type: .integer), 
-            AWSShapeMember(label: "summary", required: false, type: .string)
-        ]
 
         /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
         public let externalExecutionId: String?
@@ -1571,10 +1344,6 @@ extension CodePipeline {
     }
 
     public struct ExecutionTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "triggerDetail", required: false, type: .string), 
-            AWSShapeMember(label: "triggerType", required: false, type: .enum)
-        ]
 
         /// Detail related to the event that started a pipeline execution, such as the webhook ARN of the webhook that triggered the pipeline execution or the user ARN for a user-initiated start-pipeline-execution CLI command.
         public let triggerDetail: String?
@@ -1593,11 +1362,6 @@ extension CodePipeline {
     }
 
     public struct FailureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The external ID of the run of the action that failed.
         public let externalExecutionId: String?
@@ -1627,9 +1391,6 @@ extension CodePipeline {
     }
 
     public struct GetJobDetailsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string)
-        ]
 
         /// The unique system-generated ID for the job.
         public let jobId: String
@@ -1648,9 +1409,6 @@ extension CodePipeline {
     }
 
     public struct GetJobDetailsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
-        ]
 
         /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials. 
         public let jobDetails: JobDetails?
@@ -1665,10 +1423,6 @@ extension CodePipeline {
     }
 
     public struct GetPipelineExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string)
-        ]
 
         /// The ID of the pipeline execution about which you want to get execution details.
         public let pipelineExecutionId: String
@@ -1694,9 +1448,6 @@ extension CodePipeline {
     }
 
     public struct GetPipelineExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecution", required: false, type: .structure)
-        ]
 
         /// Represents information about the execution of a pipeline.
         public let pipelineExecution: PipelineExecution?
@@ -1711,10 +1462,6 @@ extension CodePipeline {
     }
 
     public struct GetPipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .integer)
-        ]
 
         /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an AWS user account.
         public let name: String
@@ -1740,10 +1487,6 @@ extension CodePipeline {
     }
 
     public struct GetPipelineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "pipeline", required: false, type: .structure)
-        ]
 
         /// Represents the pipeline metadata information returned as part of the output of a GetPipeline action.
         public let metadata: PipelineMetadata?
@@ -1762,9 +1505,6 @@ extension CodePipeline {
     }
 
     public struct GetPipelineStateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the pipeline about which you want to get information.
         public let name: String
@@ -1785,13 +1525,6 @@ extension CodePipeline {
     }
 
     public struct GetPipelineStateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "stageStates", required: false, type: .list), 
-            AWSShapeMember(label: "updated", required: false, type: .timestamp)
-        ]
 
         /// The date and time the pipeline was created, in timestamp format.
         public let created: TimeStamp?
@@ -1822,10 +1555,6 @@ extension CodePipeline {
     }
 
     public struct GetThirdPartyJobDetailsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "jobId", required: true, type: .string)
-        ]
 
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
@@ -1851,9 +1580,6 @@ extension CodePipeline {
     }
 
     public struct GetThirdPartyJobDetailsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
-        ]
 
         /// The details of the job, including any protected values defined for the job.
         public let jobDetails: ThirdPartyJobDetails?
@@ -1868,9 +1594,6 @@ extension CodePipeline {
     }
 
     public struct InputArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the artifact to be worked on (for example, "My App"). The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         public let name: String
@@ -1891,12 +1614,6 @@ extension CodePipeline {
     }
 
     public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "data", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "nonce", required: false, type: .string)
-        ]
 
         /// The ID of the AWS account to use when performing the job.
         public let accountId: String?
@@ -1923,16 +1640,6 @@ extension CodePipeline {
     }
 
     public struct JobData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
-            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure), 
-            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
-            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineContext", required: false, type: .structure)
-        ]
 
         /// Represents information about an action configuration.
         public let actionConfiguration: ActionConfiguration?
@@ -1975,11 +1682,6 @@ extension CodePipeline {
     }
 
     public struct JobDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "data", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
 
         /// The AWS account ID associated with the job.
         public let accountId: String?
@@ -2002,12 +1704,6 @@ extension CodePipeline {
     }
 
     public struct ListActionExecutionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .structure), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string)
-        ]
 
         /// Input information used to filter action execution history.
         public let filter: ActionExecutionFilter?
@@ -2045,10 +1741,6 @@ extension CodePipeline {
     }
 
     public struct ListActionExecutionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionExecutionDetails", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The details for a list of recent executions, such as action execution ID.
         public let actionExecutionDetails: [ActionExecutionDetail]?
@@ -2067,10 +1759,6 @@ extension CodePipeline {
     }
 
     public struct ListActionTypesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionOwnerFilter", required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Filters the list of action types to those created by a specified entity.
         public let actionOwnerFilter: ActionOwner?
@@ -2094,10 +1782,6 @@ extension CodePipeline {
     }
 
     public struct ListActionTypesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionTypes", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Provides details of the action types.
         public let actionTypes: [ActionType]
@@ -2116,11 +1800,6 @@ extension CodePipeline {
     }
 
     public struct ListPipelineExecutionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string)
-        ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
         public let maxResults: Int?
@@ -2153,10 +1832,6 @@ extension CodePipeline {
     }
 
     public struct ListPipelineExecutionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineExecutionSummaries", required: false, type: .list)
-        ]
 
         /// A token that can be used in the next ListPipelineExecutions call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
         public let nextToken: String?
@@ -2175,9 +1850,6 @@ extension CodePipeline {
     }
 
     public struct ListPipelinesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
         public let nextToken: String?
@@ -2197,10 +1869,6 @@ extension CodePipeline {
     }
 
     public struct ListPipelinesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelines", required: false, type: .list)
-        ]
 
         /// If the amount of returned information is significantly large, an identifier is also returned. It can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
         public let nextToken: String?
@@ -2219,11 +1887,6 @@ extension CodePipeline {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -2254,10 +1917,6 @@ extension CodePipeline {
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent API call to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
         public let nextToken: String?
@@ -2276,15 +1935,6 @@ extension CodePipeline {
     }
 
     public struct ListWebhookItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "definition", required: true, type: .structure), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastTriggered", required: false, type: .timestamp), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "url", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the webhook.
         public let arn: String?
@@ -2323,10 +1973,6 @@ extension CodePipeline {
     }
 
     public struct ListWebhooksInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -2352,10 +1998,6 @@ extension CodePipeline {
     }
 
     public struct ListWebhooksOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "webhooks", required: false, type: .list)
-        ]
 
         /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListWebhooks call to return the next set of webhooks in the list. 
         public let nextToken: String?
@@ -2374,9 +2016,6 @@ extension CodePipeline {
     }
 
     public struct OutputArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         public let name: String
@@ -2397,13 +2036,6 @@ extension CodePipeline {
     }
 
     public struct PipelineContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: false, type: .structure), 
-            AWSShapeMember(label: "pipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .structure)
-        ]
 
         /// The context of an action to a job worker in the stage of a pipeline.
         public let action: ActionContext?
@@ -2434,14 +2066,6 @@ extension CodePipeline {
     }
 
     public struct PipelineDeclaration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactStore", required: false, type: .structure), 
-            AWSShapeMember(label: "artifactStores", required: false, type: .map), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "stages", required: true, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .integer)
-        ]
 
         /// Represents information about the S3 bucket where artifacts are stored for the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
         public let artifactStore: ArtifactStore?
@@ -2494,13 +2118,6 @@ extension CodePipeline {
     }
 
     public struct PipelineExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactRevisions", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// A list of ArtifactRevision objects included in a pipeline execution.
         public let artifactRevisions: [ArtifactRevision]?
@@ -2531,15 +2148,6 @@ extension CodePipeline {
     }
 
     public struct PipelineExecutionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "sourceRevisions", required: false, type: .list), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "stopTrigger", required: false, type: .structure), 
-            AWSShapeMember(label: "trigger", required: false, type: .structure)
-        ]
 
         /// The date and time of the last change to the pipeline execution, in timestamp format.
         public let lastUpdateTime: TimeStamp?
@@ -2578,11 +2186,6 @@ extension CodePipeline {
     }
 
     public struct PipelineMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "updated", required: false, type: .timestamp)
-        ]
 
         /// The date and time the pipeline was created, in timestamp format.
         public let created: TimeStamp?
@@ -2605,12 +2208,6 @@ extension CodePipeline {
     }
 
     public struct PipelineSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "version", required: false, type: .integer)
-        ]
 
         /// The date and time the pipeline was created, in timestamp format.
         public let created: TimeStamp?
@@ -2637,11 +2234,6 @@ extension CodePipeline {
     }
 
     public struct PollForJobsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeMember(label: "maxBatchSize", required: false, type: .integer), 
-            AWSShapeMember(label: "queryParam", required: false, type: .map)
-        ]
 
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
@@ -2676,9 +2268,6 @@ extension CodePipeline {
     }
 
     public struct PollForJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list)
-        ]
 
         /// Information about the jobs to take action on.
         public let jobs: [Job]?
@@ -2693,10 +2282,6 @@ extension CodePipeline {
     }
 
     public struct PollForThirdPartyJobsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeMember(label: "maxBatchSize", required: false, type: .integer)
-        ]
 
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
@@ -2720,9 +2305,6 @@ extension CodePipeline {
     }
 
     public struct PollForThirdPartyJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list)
-        ]
 
         /// Information about the jobs to take action on.
         public let jobs: [ThirdPartyJob]?
@@ -2737,12 +2319,6 @@ extension CodePipeline {
     }
 
     public struct PutActionRevisionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: true, type: .string), 
-            AWSShapeMember(label: "actionRevision", required: true, type: .structure), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "stageName", required: true, type: .string)
-        ]
 
         /// The name of the action that processes the revision.
         public let actionName: String
@@ -2782,10 +2358,6 @@ extension CodePipeline {
     }
 
     public struct PutActionRevisionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newRevision", required: false, type: .boolean), 
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
-        ]
 
         /// Indicates whether the artifact revision was previously used in an execution of the specified pipeline.
         public let newRevision: Bool?
@@ -2804,13 +2376,6 @@ extension CodePipeline {
     }
 
     public struct PutApprovalResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "result", required: true, type: .structure), 
-            AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "token", required: true, type: .string)
-        ]
 
         /// The name of the action for which approval is requested.
         public let actionName: String
@@ -2855,9 +2420,6 @@ extension CodePipeline {
     }
 
     public struct PutApprovalResultOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvedAt", required: false, type: .timestamp)
-        ]
 
         /// The timestamp showing when the approval or rejection was submitted.
         public let approvedAt: TimeStamp?
@@ -2872,10 +2434,6 @@ extension CodePipeline {
     }
 
     public struct PutJobFailureResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "jobId", required: true, type: .string)
-        ]
 
         /// The details about the failure of a job.
         public let failureDetails: FailureDetails
@@ -2899,13 +2457,6 @@ extension CodePipeline {
     }
 
     public struct PutJobSuccessResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "outputVariables", required: false, type: .map)
-        ]
 
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
         public let continuationToken: String?
@@ -2947,11 +2498,6 @@ extension CodePipeline {
     }
 
     public struct PutThirdPartyJobFailureResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "failureDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "jobId", required: true, type: .string)
-        ]
 
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
@@ -2982,13 +2528,6 @@ extension CodePipeline {
     }
 
     public struct PutThirdPartyJobSuccessResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", required: true, type: .string)
-        ]
 
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
@@ -3030,10 +2569,6 @@ extension CodePipeline {
     }
 
     public struct PutWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "webhook", required: true, type: .structure)
-        ]
 
         /// The tags for the webhook.
         public let tags: [Tag]?
@@ -3059,9 +2594,6 @@ extension CodePipeline {
     }
 
     public struct PutWebhookOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: false, type: .structure)
-        ]
 
         /// The detail returned from creating the webhook, such as the webhook name, webhook URL, and webhook ARN.
         public let webhook: ListWebhookItem?
@@ -3076,9 +2608,6 @@ extension CodePipeline {
     }
 
     public struct RegisterWebhookWithThirdPartyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookName", required: false, type: .string)
-        ]
 
         /// The name of an existing webhook created with PutWebhook to register with a supported third party. 
         public let webhookName: String?
@@ -3107,12 +2636,6 @@ extension CodePipeline {
     }
 
     public struct RetryStageExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "retryMode", required: true, type: .enum), 
-            AWSShapeMember(label: "stageName", required: true, type: .string)
-        ]
 
         /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
         public let pipelineExecutionId: String
@@ -3149,9 +2672,6 @@ extension CodePipeline {
     }
 
     public struct RetryStageExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
-        ]
 
         /// The ID of the current workflow execution in the failed stage.
         public let pipelineExecutionId: String?
@@ -3166,10 +2686,6 @@ extension CodePipeline {
     }
 
     public struct S3ArtifactLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "objectKey", required: true, type: .string)
-        ]
 
         /// The name of the S3 bucket.
         public let bucketName: String
@@ -3188,10 +2704,6 @@ extension CodePipeline {
     }
 
     public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "key", required: false, type: .string)
-        ]
 
         /// The Amazon S3 artifact bucket for an action's artifacts.
         public let bucket: String?
@@ -3210,12 +2722,6 @@ extension CodePipeline {
     }
 
     public struct SourceRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
-            AWSShapeMember(label: "revisionUrl", required: false, type: .string)
-        ]
 
         /// The name of the action that processed the revision to the source artifact.
         public let actionName: String
@@ -3242,9 +2748,6 @@ extension CodePipeline {
     }
 
     public struct StageContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The name of the stage.
         public let name: String?
@@ -3259,11 +2762,6 @@ extension CodePipeline {
     }
 
     public struct StageDeclaration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: true, type: .list), 
-            AWSShapeMember(label: "blockers", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The actions included in a stage.
         public let actions: [ActionDeclaration]
@@ -3298,10 +2796,6 @@ extension CodePipeline {
     }
 
     public struct StageExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         /// The ID of the pipeline execution associated with the stage.
         public let pipelineExecutionId: String
@@ -3320,12 +2814,6 @@ extension CodePipeline {
     }
 
     public struct StageState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionStates", required: false, type: .list), 
-            AWSShapeMember(label: "inboundTransitionState", required: false, type: .structure), 
-            AWSShapeMember(label: "latestExecution", required: false, type: .structure), 
-            AWSShapeMember(label: "stageName", required: false, type: .string)
-        ]
 
         /// The state of the stage.
         public let actionStates: [ActionState]?
@@ -3352,10 +2840,6 @@ extension CodePipeline {
     }
 
     public struct StartPipelineExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The system-generated unique ID used to identify a unique execution request.
         public let clientRequestToken: String?
@@ -3383,9 +2867,6 @@ extension CodePipeline {
     }
 
     public struct StartPipelineExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
-        ]
 
         /// The unique system-generated ID of the pipeline execution that was started.
         public let pipelineExecutionId: String?
@@ -3400,9 +2881,6 @@ extension CodePipeline {
     }
 
     public struct StopExecutionTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reason", required: false, type: .string)
-        ]
 
         /// The user-specified reason the pipeline was stopped.
         public let reason: String?
@@ -3417,12 +2895,6 @@ extension CodePipeline {
     }
 
     public struct StopPipelineExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abandon", required: false, type: .boolean), 
-            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "reason", required: false, type: .string)
-        ]
 
         /// Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions.  This option can lead to failed or out-of-sequence tasks. 
         public let abandon: Bool?
@@ -3457,9 +2929,6 @@ extension CodePipeline {
     }
 
     public struct StopPipelineExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
-        ]
 
         /// The unique system-generated ID of the pipeline execution that was stopped.
         public let pipelineExecutionId: String?
@@ -3474,10 +2943,6 @@ extension CodePipeline {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The tag's key.
         public let key: String
@@ -3503,10 +2968,6 @@ extension CodePipeline {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceArn: String
@@ -3540,10 +3001,6 @@ extension CodePipeline {
     }
 
     public struct ThirdPartyJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string)
-        ]
 
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientId: String?
@@ -3562,16 +3019,6 @@ extension CodePipeline {
     }
 
     public struct ThirdPartyJobData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
-            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure), 
-            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
-            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineContext", required: false, type: .structure)
-        ]
 
         /// Represents information about an action configuration.
         public let actionConfiguration: ActionConfiguration?
@@ -3614,11 +3061,6 @@ extension CodePipeline {
     }
 
     public struct ThirdPartyJobDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "data", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "nonce", required: false, type: .string)
-        ]
 
         /// The data to be returned by the third party job worker.
         public let data: ThirdPartyJobData?
@@ -3641,12 +3083,6 @@ extension CodePipeline {
     }
 
     public struct TransitionState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "disabledReason", required: false, type: .string), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastChangedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastChangedBy", required: false, type: .string)
-        ]
 
         /// The user-specified reason why the transition between two stages of a pipeline was disabled.
         public let disabledReason: String?
@@ -3673,10 +3109,6 @@ extension CodePipeline {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the resource to remove tags from.
         public let resourceArn: String
@@ -3711,9 +3143,6 @@ extension CodePipeline {
     }
 
     public struct UpdatePipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: true, type: .structure)
-        ]
 
         /// The name of the pipeline to be updated.
         public let pipeline: PipelineDeclaration
@@ -3732,9 +3161,6 @@ extension CodePipeline {
     }
 
     public struct UpdatePipelineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: false, type: .structure)
-        ]
 
         /// The structure of the updated pipeline.
         public let pipeline: PipelineDeclaration?
@@ -3749,10 +3175,6 @@ extension CodePipeline {
     }
 
     public struct WebhookAuthConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedIPRange", required: false, type: .string), 
-            AWSShapeMember(label: "SecretToken", required: false, type: .string)
-        ]
 
         /// The property used to configure acceptance of webhooks in an IP address range. For IP, only the AllowedIPRange property must be set. This property must be set to a valid CIDR range.
         public let allowedIPRange: String?
@@ -3778,14 +3200,6 @@ extension CodePipeline {
     }
 
     public struct WebhookDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authentication", required: true, type: .enum), 
-            AWSShapeMember(label: "authenticationConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "filters", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "targetAction", required: true, type: .string), 
-            AWSShapeMember(label: "targetPipeline", required: true, type: .string)
-        ]
 
         /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.   For information about the authentication scheme implemented by GITHUB_HMAC, see Securing your webhooks on the GitHub Developer website.    IP rejects webhooks trigger requests unless they originate from an IP address in the IP range whitelisted in the authentication configuration.    UNAUTHENTICATED accepts all webhook trigger requests regardless of origin.  
         public let authentication: WebhookAuthenticationType
@@ -3837,10 +3251,6 @@ extension CodePipeline {
     }
 
     public struct WebhookFilterRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jsonPath", required: true, type: .string), 
-            AWSShapeMember(label: "matchEquals", required: false, type: .string)
-        ]
 
         /// A JsonPath expression that is applied to the body/payload of the webhook. The value selected by the JsonPath expression must match the value specified in the MatchEquals field. Otherwise, the request is ignored. For more information, see Java JsonPath implementation in GitHub.
         public let jsonPath: String

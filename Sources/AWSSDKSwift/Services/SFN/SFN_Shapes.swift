@@ -97,10 +97,6 @@ extension SFN {
     //MARK: Shapes
 
     public struct ActivityFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -119,11 +115,6 @@ extension SFN {
     }
 
     public struct ActivityListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string), 
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
@@ -146,10 +137,6 @@ extension SFN {
     }
 
     public struct ActivityScheduleFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -168,12 +155,6 @@ extension SFN {
     }
 
     public struct ActivityScheduledEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "heartbeatInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long)
-        ]
 
         /// The maximum allowed duration between two heartbeats for the activity task.
         public let heartbeatInSeconds: Int64?
@@ -200,9 +181,6 @@ extension SFN {
     }
 
     public struct ActivityStartedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "workerName", required: false, type: .string)
-        ]
 
         /// The name of the worker that the task is assigned to. These names are provided by the workers when calling GetActivityTask.
         public let workerName: String?
@@ -217,9 +195,6 @@ extension SFN {
     }
 
     public struct ActivitySucceededEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: false, type: .string)
-        ]
 
         /// The JSON data output by the activity task.
         public let output: String?
@@ -234,10 +209,6 @@ extension SFN {
     }
 
     public struct ActivityTimedOutEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -256,9 +227,6 @@ extension SFN {
     }
 
     public struct CloudWatchLogsLogGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupArn", required: false, type: .string)
-        ]
 
         /// The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :* 
         public let logGroupArn: String?
@@ -278,10 +246,6 @@ extension SFN {
     }
 
     public struct CreateActivityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
@@ -308,10 +272,6 @@ extension SFN {
     }
 
     public struct CreateActivityOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string), 
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
@@ -330,14 +290,6 @@ extension SFN {
     }
 
     public struct CreateStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "loggingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
@@ -385,10 +337,6 @@ extension SFN {
     }
 
     public struct CreateStateMachineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
@@ -407,9 +355,6 @@ extension SFN {
     }
 
     public struct DeleteActivityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the activity to delete.
         public let activityArn: String
@@ -437,9 +382,6 @@ extension SFN {
     }
 
     public struct DeleteStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
@@ -467,9 +409,6 @@ extension SFN {
     }
 
     public struct DescribeActivityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the activity to describe.
         public let activityArn: String
@@ -489,11 +428,6 @@ extension SFN {
     }
 
     public struct DescribeActivityOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string), 
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
@@ -516,9 +450,6 @@ extension SFN {
     }
 
     public struct DescribeExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the execution to describe.
         public let executionArn: String
@@ -538,16 +469,6 @@ extension SFN {
     }
 
     public struct DescribeExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "input", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "output", required: false, type: .string), 
-            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "stopDate", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
@@ -590,9 +511,6 @@ extension SFN {
     }
 
     public struct DescribeStateMachineForExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
         public let executionArn: String
@@ -612,13 +530,6 @@ extension SFN {
     }
 
     public struct DescribeStateMachineForExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "updateDate", required: true, type: .timestamp)
-        ]
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
@@ -649,9 +560,6 @@ extension SFN {
     }
 
     public struct DescribeStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the state machine to describe.
         public let stateMachineArn: String
@@ -671,16 +579,6 @@ extension SFN {
     }
 
     public struct DescribeStateMachineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "loggingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
@@ -721,10 +619,6 @@ extension SFN {
     }
 
     public struct ExecutionAbortedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -743,10 +637,6 @@ extension SFN {
     }
 
     public struct ExecutionFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -765,14 +655,6 @@ extension SFN {
     }
 
     public struct ExecutionListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "stopDate", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
@@ -807,10 +689,6 @@ extension SFN {
     }
 
     public struct ExecutionStartedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The JSON data input to the execution.
         public let input: String?
@@ -829,9 +707,6 @@ extension SFN {
     }
 
     public struct ExecutionSucceededEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: false, type: .string)
-        ]
 
         /// The JSON data output by the execution.
         public let output: String?
@@ -846,10 +721,6 @@ extension SFN {
     }
 
     public struct ExecutionTimedOutEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -868,10 +739,6 @@ extension SFN {
     }
 
     public struct GetActivityTaskInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityArn", required: true, type: .string), 
-            AWSShapeMember(label: "workerName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity.)
         public let activityArn: String
@@ -897,10 +764,6 @@ extension SFN {
     }
 
     public struct GetActivityTaskOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "taskToken", required: false, type: .string)
-        ]
 
         /// The string that contains the JSON input data for the task.
         public let input: String?
@@ -919,12 +782,6 @@ extension SFN {
     }
 
     public struct GetExecutionHistoryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean)
-        ]
 
         /// The Amazon Resource Name (ARN) of the execution.
         public let executionArn: String
@@ -960,10 +817,6 @@ extension SFN {
     }
 
     public struct GetExecutionHistoryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "events", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of events that occurred in the execution.
         public let events: [HistoryEvent]
@@ -982,44 +835,6 @@ extension SFN {
     }
 
     public struct HistoryEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activityFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityScheduledEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityScheduleFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityStartedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activitySucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "activityTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionAbortedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionStartedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "executionTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: true, type: .long), 
-            AWSShapeMember(label: "lambdaFunctionFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionScheduledEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionScheduleFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionStartFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lambdaFunctionTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "mapIterationAbortedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "mapIterationFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "mapIterationStartedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "mapIterationSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "mapStateStartedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "previousEventId", required: false, type: .long), 
-            AWSShapeMember(label: "stateEnteredEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "stateExitedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskScheduledEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskStartedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskStartFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskSubmitFailedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskSubmittedEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "taskTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "timestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         public let activityFailedEventDetails: ActivityFailedEventDetails?
         public let activityScheduledEventDetails: ActivityScheduledEventDetails?
@@ -1158,10 +973,6 @@ extension SFN {
     }
 
     public struct LambdaFunctionFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1180,10 +991,6 @@ extension SFN {
     }
 
     public struct LambdaFunctionScheduleFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1202,11 +1009,6 @@ extension SFN {
     }
 
     public struct LambdaFunctionScheduledEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long)
-        ]
 
         /// The JSON data input to the lambda function.
         public let input: String?
@@ -1229,10 +1031,6 @@ extension SFN {
     }
 
     public struct LambdaFunctionStartFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1251,9 +1049,6 @@ extension SFN {
     }
 
     public struct LambdaFunctionSucceededEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: false, type: .string)
-        ]
 
         /// The JSON data output by the lambda function.
         public let output: String?
@@ -1268,10 +1063,6 @@ extension SFN {
     }
 
     public struct LambdaFunctionTimedOutEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -1290,10 +1081,6 @@ extension SFN {
     }
 
     public struct ListActivitiesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
@@ -1319,10 +1106,6 @@ extension SFN {
     }
 
     public struct ListActivitiesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activities", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of activities.
         public let activities: [ActivityListItem]
@@ -1341,12 +1124,6 @@ extension SFN {
     }
 
     public struct ListExecutionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "statusFilter", required: false, type: .enum)
-        ]
 
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
@@ -1382,10 +1159,6 @@ extension SFN {
     }
 
     public struct ListExecutionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executions", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of matching executions.
         public let executions: [ExecutionListItem]
@@ -1404,10 +1177,6 @@ extension SFN {
     }
 
     public struct ListStateMachinesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
@@ -1433,10 +1202,6 @@ extension SFN {
     }
 
     public struct ListStateMachinesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachines", required: true, type: .list)
-        ]
 
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
@@ -1454,9 +1219,6 @@ extension SFN {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
@@ -1476,9 +1238,6 @@ extension SFN {
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// An array of tags associated with the resource.
         public let tags: [Tag]?
@@ -1493,9 +1252,6 @@ extension SFN {
     }
 
     public struct LogDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudWatchLogsLogGroup", required: false, type: .structure)
-        ]
 
         /// An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the AWS CloudFormation User Guide.
         public let cloudWatchLogsLogGroup: CloudWatchLogsLogGroup?
@@ -1514,11 +1270,6 @@ extension SFN {
     }
 
     public struct LoggingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinations", required: false, type: .list), 
-            AWSShapeMember(label: "includeExecutionData", required: false, type: .boolean), 
-            AWSShapeMember(label: "level", required: false, type: .enum)
-        ]
 
         /// An object that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF.
         public let destinations: [LogDestination]?
@@ -1547,10 +1298,6 @@ extension SFN {
     }
 
     public struct MapIterationEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "index", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The index of the array belonging to the Map state iteration.
         public let index: Int?
@@ -1569,9 +1316,6 @@ extension SFN {
     }
 
     public struct MapStateStartedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "length", required: false, type: .integer)
-        ]
 
         /// The size of the array for Map state iterations.
         public let length: Int?
@@ -1586,11 +1330,6 @@ extension SFN {
     }
 
     public struct SendTaskFailureInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string), 
-            AWSShapeMember(label: "taskToken", required: true, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1630,9 +1369,6 @@ extension SFN {
     }
 
     public struct SendTaskHeartbeatInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskToken", required: true, type: .string)
-        ]
 
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
@@ -1660,10 +1396,6 @@ extension SFN {
     }
 
     public struct SendTaskSuccessInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: true, type: .string), 
-            AWSShapeMember(label: "taskToken", required: true, type: .string)
-        ]
 
         /// The JSON output of the task.
         public let output: String
@@ -1696,11 +1428,6 @@ extension SFN {
     }
 
     public struct StartExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
 
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
         public let input: String?
@@ -1731,10 +1458,6 @@ extension SFN {
     }
 
     public struct StartExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionArn", required: true, type: .string), 
-            AWSShapeMember(label: "startDate", required: true, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
@@ -1753,10 +1476,6 @@ extension SFN {
     }
 
     public struct StateEnteredEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "input", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The string that contains the JSON input data for the state.
         public let input: String?
@@ -1775,10 +1494,6 @@ extension SFN {
     }
 
     public struct StateExitedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "output", required: false, type: .string)
-        ]
 
         /// The name of the state. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
@@ -1797,12 +1512,6 @@ extension SFN {
     }
 
     public struct StateMachineListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
@@ -1828,11 +1537,6 @@ extension SFN {
     }
 
     public struct StopExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string), 
-            AWSShapeMember(label: "executionArn", required: true, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1864,9 +1568,6 @@ extension SFN {
     }
 
     public struct StopExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stopDate", required: true, type: .timestamp)
-        ]
 
         /// The date the execution is stopped.
         public let stopDate: TimeStamp
@@ -1881,10 +1582,6 @@ extension SFN {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The key of a tag.
         public let key: String?
@@ -1910,10 +1607,6 @@ extension SFN {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
@@ -1948,12 +1641,6 @@ extension SFN {
     }
 
     public struct TaskFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1980,13 +1667,6 @@ extension SFN {
     }
 
     public struct TaskScheduledEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parameters", required: true, type: .string), 
-            AWSShapeMember(label: "region", required: true, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string), 
-            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long)
-        ]
 
         /// The JSON data passed to the resource referenced in a task state.
         public let parameters: String
@@ -2017,12 +1697,6 @@ extension SFN {
     }
 
     public struct TaskStartFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -2049,10 +1723,6 @@ extension SFN {
     }
 
     public struct TaskStartedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string)
-        ]
 
         /// The service name of the resource in a task state.
         public let resource: String
@@ -2071,12 +1741,6 @@ extension SFN {
     }
 
     public struct TaskSubmitFailedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -2103,11 +1767,6 @@ extension SFN {
     }
 
     public struct TaskSubmittedEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string)
-        ]
 
         /// The response from a resource when a task has started.
         public let output: String?
@@ -2130,11 +1789,6 @@ extension SFN {
     }
 
     public struct TaskSucceededEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "output", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string)
-        ]
 
         /// The full JSON response from a resource when a task has succeeded. This response becomes the output of the related task.
         public let output: String?
@@ -2157,12 +1811,6 @@ extension SFN {
     }
 
     public struct TaskTimedOutEventDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cause", required: false, type: .string), 
-            AWSShapeMember(label: "error", required: false, type: .string), 
-            AWSShapeMember(label: "resource", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .string)
-        ]
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -2189,10 +1837,6 @@ extension SFN {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
@@ -2228,12 +1872,6 @@ extension SFN {
     }
 
     public struct UpdateStateMachineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: false, type: .string), 
-            AWSShapeMember(label: "loggingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
-        ]
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
@@ -2269,9 +1907,6 @@ extension SFN {
     }
 
     public struct UpdateStateMachineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "updateDate", required: true, type: .timestamp)
-        ]
 
         /// The date and time the state machine was updated.
         public let updateDate: TimeStamp

@@ -78,11 +78,6 @@ extension ManagedBlockchain {
     //MARK: Shapes
 
     public struct ApprovalThresholdPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProposalDurationInHours", required: false, type: .integer), 
-            AWSShapeMember(label: "ThresholdComparator", required: false, type: .enum), 
-            AWSShapeMember(label: "ThresholdPercentage", required: false, type: .integer)
-        ]
 
         /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions are not carried out.
         public let proposalDurationInHours: Int?
@@ -112,11 +107,8 @@ extension ManagedBlockchain {
     }
 
     public struct CreateMemberInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "InvitationId", required: true, type: .string), 
-            AWSShapeMember(label: "MemberConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -154,9 +146,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateMemberOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", required: false, type: .string)
-        ]
 
         /// The unique identifier of the member.
         public let memberId: String?
@@ -171,16 +160,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateNetworkInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Framework", required: true, type: .enum), 
-            AWSShapeMember(label: "FrameworkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "FrameworkVersion", required: true, type: .string), 
-            AWSShapeMember(label: "MemberConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "VotingPolicy", required: true, type: .structure)
-        ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
         public let clientRequestToken: String
@@ -236,10 +215,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateNetworkOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkId", required: false, type: .string)
-        ]
 
         /// The unique identifier for the first member within the network.
         public let memberId: String?
@@ -258,11 +233,9 @@ extension ManagedBlockchain {
     }
 
     public struct CreateNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "NodeConfiguration", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -299,9 +272,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateNodeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeId", required: false, type: .string)
-        ]
 
         /// The unique identifier of the node.
         public let nodeId: String?
@@ -316,12 +286,8 @@ extension ManagedBlockchain {
     }
 
     public struct CreateProposalInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .structure), 
-            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "MemberId", required: true, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions.
@@ -364,9 +330,6 @@ extension ManagedBlockchain {
     }
 
     public struct CreateProposalOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProposalId", required: false, type: .string)
-        ]
 
         /// The unique identifier of the proposal.
         public let proposalId: String?
@@ -381,9 +344,9 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteMemberInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The unique identifier of the member to remove.
@@ -418,10 +381,10 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "NodeId", location: .uri(locationName: "nodeId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "nodeId"))
         ]
 
         /// The unique identifier of the member that owns this node.
@@ -462,9 +425,9 @@ extension ManagedBlockchain {
     }
 
     public struct GetMemberInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The unique identifier of the member.
@@ -491,9 +454,6 @@ extension ManagedBlockchain {
     }
 
     public struct GetMemberOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Member", required: false, type: .structure)
-        ]
 
         /// The properties of a member.
         public let member: Member?
@@ -508,8 +468,8 @@ extension ManagedBlockchain {
     }
 
     public struct GetNetworkInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
 
         /// The unique identifier of the network to get information about.
@@ -530,9 +490,6 @@ extension ManagedBlockchain {
     }
 
     public struct GetNetworkOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Network", required: false, type: .structure)
-        ]
 
         /// An object containing network configuration parameters.
         public let network: Network?
@@ -547,10 +504,10 @@ extension ManagedBlockchain {
     }
 
     public struct GetNodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "NodeId", location: .uri(locationName: "nodeId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "nodeId"))
         ]
 
         /// The unique identifier of the member that owns the node.
@@ -583,9 +540,6 @@ extension ManagedBlockchain {
     }
 
     public struct GetNodeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Node", required: false, type: .structure)
-        ]
 
         /// Properties of the node configuration.
         public let node: Node?
@@ -600,9 +554,9 @@ extension ManagedBlockchain {
     }
 
     public struct GetProposalInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "ProposalId", location: .uri(locationName: "proposalId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "proposalId"))
         ]
 
         /// The unique identifier of the network for which the proposal is made.
@@ -629,9 +583,6 @@ extension ManagedBlockchain {
     }
 
     public struct GetProposalOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Proposal", required: false, type: .structure)
-        ]
 
         /// Information about a proposal.
         public let proposal: Proposal?
@@ -646,13 +597,6 @@ extension ManagedBlockchain {
     }
 
     public struct Invitation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InvitationId", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The date and time that the invitation was created.
         public let creationDate: TimeStamp?
@@ -682,9 +626,6 @@ extension ManagedBlockchain {
     }
 
     public struct InviteAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Principal", required: true, type: .string)
-        ]
 
         /// The AWS account ID to invite.
         public let principal: String
@@ -699,9 +640,9 @@ extension ManagedBlockchain {
     }
 
     public struct ListInvitationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of invitations to return.
@@ -727,10 +668,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListInvitationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invitations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The invitations for the network.
         public let invitations: [Invitation]?
@@ -749,13 +686,13 @@ extension ManagedBlockchain {
     }
 
     public struct ListMembersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsOwned", location: .querystring(locationName: "isOwned"), required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "Name", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "isOwned", location: .querystring(locationName: "isOwned")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// An optional Boolean value. If provided, the request is limited either to members that the current AWS account owns (true) or that other AWS accounts own (false). If omitted, all members are listed.
@@ -799,10 +736,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListMembersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of MemberSummary objects. Each object contains details about a network member.
         public let members: [MemberSummary]?
@@ -821,12 +754,12 @@ extension ManagedBlockchain {
     }
 
     public struct ListNetworksInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Framework", location: .querystring(locationName: "framework"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "Name", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "framework", location: .querystring(locationName: "framework")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// An optional framework specifier. If provided, only networks of this framework type are listed.
@@ -864,10 +797,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListNetworksOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Networks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of NetworkSummary objects that contain configuration properties for each network.
         public let networks: [NetworkSummary]?
@@ -886,12 +815,12 @@ extension ManagedBlockchain {
     }
 
     public struct ListNodesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// The maximum number of nodes to list.
@@ -933,10 +862,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListNodesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Nodes", required: false, type: .list)
-        ]
 
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
@@ -955,11 +880,11 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalVotesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ProposalId", location: .uri(locationName: "proposalId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "proposalId"))
         ]
 
         ///  The maximum number of votes to return. 
@@ -997,10 +922,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalVotesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProposalVotes", required: false, type: .list)
-        ]
 
         ///  The pagination token that indicates the next set of results to retrieve. 
         public let nextToken: String?
@@ -1019,10 +940,10 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  The maximum number of proposals to return. 
@@ -1054,10 +975,6 @@ extension ManagedBlockchain {
     }
 
     public struct ListProposalsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Proposals", required: false, type: .list)
-        ]
 
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
@@ -1076,15 +993,6 @@ extension ManagedBlockchain {
     }
 
     public struct Member: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FrameworkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The date and time that the member was created.
         public let creationDate: TimeStamp?
@@ -1123,11 +1031,6 @@ extension ManagedBlockchain {
     }
 
     public struct MemberConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FrameworkConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// An optional description of the member.
         public let description: String?
@@ -1158,10 +1061,6 @@ extension ManagedBlockchain {
     }
 
     public struct MemberFabricAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdminUsername", required: false, type: .string), 
-            AWSShapeMember(label: "CaEndpoint", required: false, type: .string)
-        ]
 
         /// The user name for the initial administrator user for the member.
         public let adminUsername: String?
@@ -1180,10 +1079,6 @@ extension ManagedBlockchain {
     }
 
     public struct MemberFabricConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdminPassword", required: true, type: .string), 
-            AWSShapeMember(label: "AdminUsername", required: true, type: .string)
-        ]
 
         /// The password for the member's initial administrative user. The AdminPassword must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quote(‘), double quote(“), forward slash(/), backward slash(\), @, or a space.
         public let adminPassword: String
@@ -1211,9 +1106,6 @@ extension ManagedBlockchain {
     }
 
     public struct MemberFrameworkAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fabric", required: false, type: .structure)
-        ]
 
         /// Attributes of Hyperledger Fabric relevant to a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricAttributes?
@@ -1228,9 +1120,6 @@ extension ManagedBlockchain {
     }
 
     public struct MemberFrameworkConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fabric", required: false, type: .structure)
-        ]
 
         /// Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricConfiguration?
@@ -1249,14 +1138,6 @@ extension ManagedBlockchain {
     }
 
     public struct MemberSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "IsOwned", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The date and time that the member was created.
         public let creationDate: TimeStamp?
@@ -1291,18 +1172,6 @@ extension ManagedBlockchain {
     }
 
     public struct Network: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Framework", required: false, type: .enum), 
-            AWSShapeMember(label: "FrameworkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "FrameworkVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "VotingPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcEndpointServiceName", required: false, type: .string)
-        ]
 
         /// The date and time that the network was created.
         public let creationDate: TimeStamp?
@@ -1353,10 +1222,6 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkFabricAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Edition", required: false, type: .enum), 
-            AWSShapeMember(label: "OrderingServiceEndpoint", required: false, type: .string)
-        ]
 
         /// The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For more information, see Amazon Managed Blockchain Pricing.
         public let edition: Edition?
@@ -1375,9 +1240,6 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkFabricConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Edition", required: true, type: .enum)
-        ]
 
         /// The edition of Amazon Managed Blockchain that the network uses. For more information, see Amazon Managed Blockchain Pricing.
         public let edition: Edition
@@ -1392,9 +1254,6 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkFrameworkAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fabric", required: false, type: .structure)
-        ]
 
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricAttributes?
@@ -1409,9 +1268,6 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkFrameworkConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fabric", required: false, type: .structure)
-        ]
 
         ///  Hyperledger Fabric configuration properties for a Managed Blockchain network that uses Hyperledger Fabric. 
         public let fabric: NetworkFabricConfiguration?
@@ -1426,15 +1282,6 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Framework", required: false, type: .enum), 
-            AWSShapeMember(label: "FrameworkVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The date and time that the network was created.
         public let creationDate: TimeStamp?
@@ -1473,16 +1320,6 @@ extension ManagedBlockchain {
     }
 
     public struct Node: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FrameworkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "MemberId", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
@@ -1525,10 +1362,6 @@ extension ManagedBlockchain {
     }
 
     public struct NodeConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string)
-        ]
 
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String
@@ -1547,10 +1380,6 @@ extension ManagedBlockchain {
     }
 
     public struct NodeFabricAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PeerEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "PeerEventEndpoint", required: false, type: .string)
-        ]
 
         /// The endpoint that identifies the peer node for all services except peer channel-based event services.
         public let peerEndpoint: String?
@@ -1569,9 +1398,6 @@ extension ManagedBlockchain {
     }
 
     public struct NodeFrameworkAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fabric", required: false, type: .structure)
-        ]
 
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NodeFabricAttributes?
@@ -1586,13 +1412,6 @@ extension ManagedBlockchain {
     }
 
     public struct NodeSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
@@ -1623,20 +1442,6 @@ extension ManagedBlockchain {
     }
 
     public struct Proposal: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "NoVoteCount", required: false, type: .integer), 
-            AWSShapeMember(label: "OutstandingVoteCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ProposalId", required: false, type: .string), 
-            AWSShapeMember(label: "ProposedByMemberId", required: false, type: .string), 
-            AWSShapeMember(label: "ProposedByMemberName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "YesVoteCount", required: false, type: .integer)
-        ]
 
         /// The actions to perform on the network if the proposal is APPROVED.
         public let actions: ProposalActions?
@@ -1695,10 +1500,6 @@ extension ManagedBlockchain {
     }
 
     public struct ProposalActions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invitations", required: false, type: .list), 
-            AWSShapeMember(label: "Removals", required: false, type: .list)
-        ]
 
         ///  The actions to perform for an APPROVED proposal to invite an AWS account to create a member and join the network. 
         public let invitations: [InviteAction]?
@@ -1723,15 +1524,6 @@ extension ManagedBlockchain {
     }
 
     public struct ProposalSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProposalId", required: false, type: .string), 
-            AWSShapeMember(label: "ProposedByMemberId", required: false, type: .string), 
-            AWSShapeMember(label: "ProposedByMemberName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         ///  The date and time that the proposal was created. 
         public let creationDate: TimeStamp?
@@ -1770,8 +1562,8 @@ extension ManagedBlockchain {
     }
 
     public struct RejectInvitationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitationId", location: .uri(locationName: "invitationId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "invitationId", location: .uri(locationName: "invitationId"))
         ]
 
         /// The unique identifier of the invitation to reject.
@@ -1800,9 +1592,6 @@ extension ManagedBlockchain {
     }
 
     public struct RemoveAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the member to remove.
         public let memberId: String
@@ -1822,11 +1611,9 @@ extension ManagedBlockchain {
     }
 
     public struct VoteOnProposalInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
-            AWSShapeMember(label: "ProposalId", location: .uri(locationName: "proposalId"), required: true, type: .string), 
-            AWSShapeMember(label: "Vote", required: true, type: .enum), 
-            AWSShapeMember(label: "VoterMemberId", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
+            AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "proposalId"))
         ]
 
         ///  The unique identifier of the network. 
@@ -1871,11 +1658,6 @@ extension ManagedBlockchain {
     }
 
     public struct VoteSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberId", required: false, type: .string), 
-            AWSShapeMember(label: "MemberName", required: false, type: .string), 
-            AWSShapeMember(label: "Vote", required: false, type: .enum)
-        ]
 
         ///  The unique identifier of the member that cast the vote. 
         public let memberId: String?
@@ -1898,9 +1680,6 @@ extension ManagedBlockchain {
     }
 
     public struct VotingPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApprovalThresholdPolicy", required: false, type: .structure)
-        ]
 
         /// Defines the rules for the network for voting on proposals, such as the percentage of YES votes required for the proposal to be approved and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.
         public let approvalThresholdPolicy: ApprovalThresholdPolicy?

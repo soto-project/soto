@@ -21,13 +21,6 @@ extension CodeStarconnections {
     //MARK: Shapes
 
     public struct Connection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionArn", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "OwnerAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted. 
         public let connectionArn: String?
@@ -58,10 +51,6 @@ extension CodeStarconnections {
     }
 
     public struct CreateConnectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionName", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderType", required: true, type: .enum)
-        ]
 
         /// The name of the connection to be created. The name must be unique in the calling AWS account.
         public let connectionName: String
@@ -85,9 +74,6 @@ extension CodeStarconnections {
     }
 
     public struct CreateConnectionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted. 
         public let connectionArn: String
@@ -102,9 +88,6 @@ extension CodeStarconnections {
     }
 
     public struct DeleteConnectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted. 
         public let connectionArn: String
@@ -133,9 +116,6 @@ extension CodeStarconnections {
     }
 
     public struct GetConnectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of a connection.
         public let connectionArn: String
@@ -156,9 +136,6 @@ extension CodeStarconnections {
     }
 
     public struct GetConnectionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connection", required: false, type: .structure)
-        ]
 
         /// The connection details, such as status, owner, and provider type.
         public let connection: Connection?
@@ -173,11 +150,6 @@ extension CodeStarconnections {
     }
 
     public struct ListConnectionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderTypeFilter", required: false, type: .enum)
-        ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -208,10 +180,6 @@ extension CodeStarconnections {
     }
 
     public struct ListConnectionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connections", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of connections and the details for each connection, such as status, owner, and provider type.
         public let connections: [Connection]?

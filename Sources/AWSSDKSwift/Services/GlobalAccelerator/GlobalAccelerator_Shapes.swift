@@ -46,17 +46,6 @@ extension GlobalAccelerator {
     //MARK: Shapes
 
     public struct Accelerator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DnsName", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
-            AWSShapeMember(label: "IpSets", required: false, type: .list), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the accelerator.
         public let acceleratorArn: String?
@@ -103,11 +92,6 @@ extension GlobalAccelerator {
     }
 
     public struct AcceleratorAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FlowLogsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FlowLogsS3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "FlowLogsS3Prefix", required: false, type: .string)
-        ]
 
         /// Indicates whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
@@ -130,12 +114,6 @@ extension GlobalAccelerator {
     }
 
     public struct CreateAcceleratorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
@@ -167,9 +145,6 @@ extension GlobalAccelerator {
     }
 
     public struct CreateAcceleratorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accelerator", required: false, type: .structure)
-        ]
 
         /// The accelerator that is created by specifying a listener and the supported IP address types.
         public let accelerator: Accelerator?
@@ -184,18 +159,6 @@ extension GlobalAccelerator {
     }
 
     public struct CreateEndpointGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "EndpointGroupRegion", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
-        ]
 
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
@@ -266,9 +229,6 @@ extension GlobalAccelerator {
     }
 
     public struct CreateEndpointGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
-        ]
 
         /// The information about the endpoint group that was created.
         public let endpointGroup: EndpointGroup?
@@ -283,13 +243,6 @@ extension GlobalAccelerator {
     }
 
     public struct CreateListenerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
-            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
-            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeMember(label: "PortRanges", required: true, type: .list), 
-            AWSShapeMember(label: "Protocol", required: true, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of your accelerator.
         public let acceleratorArn: String
@@ -330,9 +283,6 @@ extension GlobalAccelerator {
     }
 
     public struct CreateListenerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listener", required: false, type: .structure)
-        ]
 
         /// The listener that you've created.
         public let listener: Listener?
@@ -347,9 +297,6 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteAcceleratorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an accelerator.
         public let acceleratorArn: String
@@ -368,9 +315,6 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteEndpointGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroupArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the endpoint group to delete.
         public let endpointGroupArn: String
@@ -389,9 +333,6 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteListenerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -410,9 +351,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
         public let acceleratorArn: String
@@ -431,9 +369,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorAttributes", required: false, type: .structure)
-        ]
 
         /// The attributes of the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
@@ -448,9 +383,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the accelerator to describe.
         public let acceleratorArn: String
@@ -469,9 +401,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accelerator", required: false, type: .structure)
-        ]
 
         /// The description of the accelerator.
         public let accelerator: Accelerator?
@@ -486,9 +415,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeEndpointGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroupArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
@@ -507,9 +433,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeEndpointGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
-        ]
 
         /// The description of an endpoint group.
         public let endpointGroup: EndpointGroup?
@@ -524,9 +447,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeListenerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the listener to describe.
         public let listenerArn: String
@@ -545,9 +465,6 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeListenerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listener", required: false, type: .structure)
-        ]
 
         /// The description of a listener.
         public let listener: Listener?
@@ -562,11 +479,6 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientIPPreservationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "Weight", required: false, type: .integer)
-        ]
 
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Viewing Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
@@ -595,13 +507,6 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientIPPreservationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "HealthReason", required: false, type: .string), 
-            AWSShapeMember(label: "HealthState", required: false, type: .enum), 
-            AWSShapeMember(label: "Weight", required: false, type: .integer)
-        ]
 
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Viewing Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
@@ -632,17 +537,6 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "EndpointGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointGroupRegion", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
-        ]
 
         /// The list of endpoint objects.
         public let endpointDescriptions: [EndpointDescription]?
@@ -689,10 +583,6 @@ extension GlobalAccelerator {
     }
 
     public struct IpSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "IpFamily", required: false, type: .string)
-        ]
 
         /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
         public let ipAddresses: [String]?
@@ -711,10 +601,6 @@ extension GlobalAccelerator {
     }
 
     public struct ListAcceleratorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The number of Global Accelerator objects that you want to return with this call. The default value is 10.
         public let maxResults: Int?
@@ -739,10 +625,6 @@ extension GlobalAccelerator {
     }
 
     public struct ListAcceleratorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accelerators", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of accelerators for a customer account.
         public let accelerators: [Accelerator]?
@@ -761,11 +643,6 @@ extension GlobalAccelerator {
     }
 
     public struct ListEndpointGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -795,10 +672,6 @@ extension GlobalAccelerator {
     }
 
     public struct ListEndpointGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of the endpoint groups associated with a listener.
         public let endpointGroups: [EndpointGroup]?
@@ -817,11 +690,6 @@ extension GlobalAccelerator {
     }
 
     public struct ListListenersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the accelerator for which you want to list listener objects.
         public let acceleratorArn: String
@@ -851,10 +719,6 @@ extension GlobalAccelerator {
     }
 
     public struct ListListenersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of listeners for an accelerator.
         public let listeners: [Listener]?
@@ -873,12 +737,6 @@ extension GlobalAccelerator {
     }
 
     public struct Listener: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
-            AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
-            AWSShapeMember(label: "PortRanges", required: false, type: .list), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum)
-        ]
 
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
@@ -905,10 +763,6 @@ extension GlobalAccelerator {
     }
 
     public struct PortRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FromPort", required: false, type: .integer), 
-            AWSShapeMember(label: "ToPort", required: false, type: .integer)
-        ]
 
         /// The first port in the range of ports, inclusive.
         public let fromPort: Int?
@@ -934,12 +788,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
-            AWSShapeMember(label: "FlowLogsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FlowLogsS3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "FlowLogsS3Prefix", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the accelerator that you want to update.
         public let acceleratorArn: String
@@ -972,9 +820,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorAttributes", required: false, type: .structure)
-        ]
 
         /// Updated attributes for the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
@@ -989,12 +834,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceleratorArn", required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the accelerator to update.
         public let acceleratorArn: String
@@ -1026,9 +865,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accelerator", required: false, type: .structure)
-        ]
 
         /// Information about the updated accelerator.
         public let accelerator: Accelerator?
@@ -1043,16 +879,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateEndpointGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "EndpointGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
-        ]
 
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
@@ -1113,9 +939,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateEndpointGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointGroup", required: false, type: .structure)
-        ]
 
         /// The information about the endpoint group that was updated.
         public let endpointGroup: EndpointGroup?
@@ -1130,12 +953,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateListenerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientAffinity", required: false, type: .enum), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "PortRanges", required: false, type: .list), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum)
-        ]
 
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
@@ -1171,9 +988,6 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateListenerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listener", required: false, type: .structure)
-        ]
 
         /// Information for the updated listener.
         public let listener: Listener?

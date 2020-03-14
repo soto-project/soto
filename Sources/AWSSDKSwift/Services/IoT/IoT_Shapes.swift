@@ -383,9 +383,6 @@ extension IoT {
     //MARK: Shapes
 
     public struct AbortConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "criteriaList", required: true, type: .list)
-        ]
 
         /// The list of abort criteria to define rules to abort the job.
         public let criteriaList: [AbortCriteria]
@@ -407,12 +404,6 @@ extension IoT {
     }
 
     public struct AbortCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: true, type: .enum), 
-            AWSShapeMember(label: "failureType", required: true, type: .enum), 
-            AWSShapeMember(label: "minNumberOfExecutedThings", required: true, type: .integer), 
-            AWSShapeMember(label: "thresholdPercentage", required: true, type: .double)
-        ]
 
         /// The type of abort action to initiate a job abort.
         public let action: AbortAction
@@ -444,9 +435,9 @@ extension IoT {
     }
 
     public struct AcceptCertificateTransferRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
+            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -472,26 +463,6 @@ extension IoT {
     }
 
     public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudwatchAlarm", required: false, type: .structure), 
-            AWSShapeMember(label: "cloudwatchMetric", required: false, type: .structure), 
-            AWSShapeMember(label: "dynamoDB", required: false, type: .structure), 
-            AWSShapeMember(label: "dynamoDBv2", required: false, type: .structure), 
-            AWSShapeMember(label: "elasticsearch", required: false, type: .structure), 
-            AWSShapeMember(label: "firehose", required: false, type: .structure), 
-            AWSShapeMember(label: "http", required: false, type: .structure), 
-            AWSShapeMember(label: "iotAnalytics", required: false, type: .structure), 
-            AWSShapeMember(label: "iotEvents", required: false, type: .structure), 
-            AWSShapeMember(label: "iotSiteWise", required: false, type: .structure), 
-            AWSShapeMember(label: "kinesis", required: false, type: .structure), 
-            AWSShapeMember(label: "lambda", required: false, type: .structure), 
-            AWSShapeMember(label: "republish", required: false, type: .structure), 
-            AWSShapeMember(label: "s3", required: false, type: .structure), 
-            AWSShapeMember(label: "salesforce", required: false, type: .structure), 
-            AWSShapeMember(label: "sns", required: false, type: .structure), 
-            AWSShapeMember(label: "sqs", required: false, type: .structure), 
-            AWSShapeMember(label: "stepFunctions", required: false, type: .structure)
-        ]
 
         /// Change the state of a CloudWatch alarm.
         public let cloudwatchAlarm: CloudwatchAlarmAction?
@@ -584,15 +555,6 @@ extension IoT {
     }
 
     public struct ActiveViolation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "behavior", required: false, type: .structure), 
-            AWSShapeMember(label: "lastViolationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastViolationValue", required: false, type: .structure), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "violationId", required: false, type: .string), 
-            AWSShapeMember(label: "violationStartTime", required: false, type: .timestamp)
-        ]
 
         /// The behavior which is being violated.
         public let behavior: Behavior?
@@ -631,12 +593,6 @@ extension IoT {
     }
 
     public struct AddThingToBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -680,13 +636,6 @@ extension IoT {
     }
 
     public struct AddThingToThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
         public let overrideDynamicGroups: Bool?
@@ -734,10 +683,6 @@ extension IoT {
     }
 
     public struct AddThingsToThingGroupParams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingGroupNames", required: true, type: .list)
-        ]
 
         /// Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic things groups.
         public let overrideDynamicGroups: Bool?
@@ -766,10 +711,6 @@ extension IoT {
     }
 
     public struct AlertTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "alertTargetArn", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The ARN of the notification target to which alerts are sent.
         public let alertTargetArn: String
@@ -793,9 +734,6 @@ extension IoT {
     }
 
     public struct Allowed: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
 
         /// A list of policies that allowed the authentication.
         public let policies: [Policy]?
@@ -810,10 +748,6 @@ extension IoT {
     }
 
     public struct AssetPropertyTimestamp: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offsetInNanos", required: false, type: .string), 
-            AWSShapeMember(label: "timeInSeconds", required: true, type: .string)
-        ]
 
         /// Optional. A string that contains the nanosecond time offset. Accepts substitution templates.
         public let offsetInNanos: String?
@@ -832,11 +766,6 @@ extension IoT {
     }
 
     public struct AssetPropertyValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "quality", required: false, type: .string), 
-            AWSShapeMember(label: "timestamp", required: true, type: .structure), 
-            AWSShapeMember(label: "value", required: true, type: .structure)
-        ]
 
         /// Optional. A string that describes the quality of the value. Accepts substitution templates. Must be GOOD, BAD, or UNCERTAIN.
         public let quality: String?
@@ -863,12 +792,6 @@ extension IoT {
     }
 
     public struct AssetPropertyVariant: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "booleanValue", required: false, type: .string), 
-            AWSShapeMember(label: "doubleValue", required: false, type: .string), 
-            AWSShapeMember(label: "integerValue", required: false, type: .string), 
-            AWSShapeMember(label: "stringValue", required: false, type: .string)
-        ]
 
         /// Optional. A string that contains the boolean value (true or false) of the value entry. Accepts substitution templates.
         public let booleanValue: String?
@@ -900,10 +823,8 @@ extension IoT {
     }
 
     public struct AssociateTargetsWithJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "targets", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// An optional comment string describing why the job was associated with the targets.
@@ -936,11 +857,6 @@ extension IoT {
     }
 
     public struct AssociateTargetsWithJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string)
-        ]
 
         /// A short text description of the job.
         public let description: String?
@@ -963,9 +879,8 @@ extension IoT {
     }
 
     public struct AttachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "target", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
 
         /// The name of the policy to attach.
@@ -991,9 +906,9 @@ extension IoT {
     }
 
     public struct AttachPrincipalPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
+            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
         ]
 
         /// The policy name.
@@ -1019,9 +934,9 @@ extension IoT {
     }
 
     public struct AttachSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
-            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName")), 
+            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
         ]
 
         /// The security profile that is attached.
@@ -1055,9 +970,9 @@ extension IoT {
     }
 
     public struct AttachThingPrincipalRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
@@ -1091,10 +1006,6 @@ extension IoT {
     }
 
     public struct AttributePayload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "merge", required: false, type: .boolean)
-        ]
 
         /// A JSON string containing up to three key-value pair in JSON format. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
         public let attributes: [String: String]?
@@ -1122,9 +1033,6 @@ extension IoT {
     }
 
     public struct AuditCheckConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enabled", required: false, type: .boolean)
-        ]
 
         /// True if this audit check is enabled for this account.
         public let enabled: Bool?
@@ -1139,14 +1047,6 @@ extension IoT {
     }
 
     public struct AuditCheckDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkCompliant", required: false, type: .boolean), 
-            AWSShapeMember(label: "checkRunStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "nonCompliantResourcesCount", required: false, type: .long), 
-            AWSShapeMember(label: "totalResourcesCount", required: false, type: .long)
-        ]
 
         /// True if the check is complete and found all resources compliant.
         public let checkCompliant: Bool?
@@ -1181,18 +1081,6 @@ extension IoT {
     }
 
     public struct AuditFinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkName", required: false, type: .string), 
-            AWSShapeMember(label: "findingId", required: false, type: .string), 
-            AWSShapeMember(label: "findingTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "nonCompliantResource", required: false, type: .structure), 
-            AWSShapeMember(label: "reasonForNonCompliance", required: false, type: .string), 
-            AWSShapeMember(label: "reasonForNonComplianceCode", required: false, type: .string), 
-            AWSShapeMember(label: "relatedResources", required: false, type: .list), 
-            AWSShapeMember(label: "severity", required: false, type: .enum), 
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "taskStartTime", required: false, type: .timestamp)
-        ]
 
         /// The audit check that generated this result.
         public let checkName: String?
@@ -1243,17 +1131,6 @@ extension IoT {
     }
 
     public struct AuditMitigationActionExecutionMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionId", required: false, type: .string), 
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "findingId", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
 
         /// The unique identifier for the mitigation action being applied by the task.
         public let actionId: String?
@@ -1300,11 +1177,6 @@ extension IoT {
     }
 
     public struct AuditMitigationActionsTaskMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "taskStatus", required: false, type: .enum)
-        ]
 
         /// The time at which the audit mitigation actions task was started.
         public let startTime: TimeStamp?
@@ -1327,11 +1199,6 @@ extension IoT {
     }
 
     public struct AuditMitigationActionsTaskTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditCheckToReasonCodeFilter", required: false, type: .map), 
-            AWSShapeMember(label: "auditTaskId", required: false, type: .string), 
-            AWSShapeMember(label: "findingIds", required: false, type: .list)
-        ]
 
         /// Specifies a filter in the form of an audit check and set of reason codes that identify the findings from the audit to which the audit mitigation actions task apply.
         public let auditCheckToReasonCodeFilter: [String: [String]]?
@@ -1371,11 +1238,6 @@ extension IoT {
     }
 
     public struct AuditNotificationTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "targetArn", required: false, type: .string)
-        ]
 
         /// True if notifications to the target are enabled.
         public let enabled: Bool?
@@ -1403,11 +1265,6 @@ extension IoT {
     }
 
     public struct AuditTaskMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "taskStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "taskType", required: false, type: .enum)
-        ]
 
         /// The ID of this audit.
         public let taskId: String?
@@ -1430,10 +1287,6 @@ extension IoT {
     }
 
     public struct AuthInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionType", required: false, type: .enum), 
-            AWSShapeMember(label: "resources", required: false, type: .list)
-        ]
 
         /// The type of action for which the principal is being authorized.
         public let actionType: ActionType?
@@ -1452,13 +1305,6 @@ extension IoT {
     }
 
     public struct AuthResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowed", required: false, type: .structure), 
-            AWSShapeMember(label: "authDecision", required: false, type: .enum), 
-            AWSShapeMember(label: "authInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "denied", required: false, type: .structure), 
-            AWSShapeMember(label: "missingContextValues", required: false, type: .list)
-        ]
 
         /// The policies and statements that allowed the specified action.
         public let allowed: Allowed?
@@ -1489,10 +1335,6 @@ extension IoT {
     }
 
     public struct AuthorizerConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowAuthorizerOverride", required: false, type: .boolean), 
-            AWSShapeMember(label: "defaultAuthorizerName", required: false, type: .string)
-        ]
 
         /// A Boolean that specifies whether the domain configuration's authorization service can be overridden.
         public let allowAuthorizerOverride: Bool?
@@ -1517,17 +1359,6 @@ extension IoT {
     }
 
     public struct AuthorizerDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerFunctionArn", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "signingDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map)
-        ]
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -1574,10 +1405,6 @@ extension IoT {
     }
 
     public struct AuthorizerSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", required: false, type: .string)
-        ]
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -1596,9 +1423,6 @@ extension IoT {
     }
 
     public struct AwsJobExecutionsRolloutConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maximumPerMinute", required: false, type: .integer)
-        ]
 
         /// The maximum number of OTA update job executions started per minute.
         public let maximumPerMinute: Int?
@@ -1618,9 +1442,6 @@ extension IoT {
     }
 
     public struct AwsJobPresignedUrlConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expiresInSec", required: false, type: .long)
-        ]
 
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 1800 seconds. Pre-signed URLs are generated when a request for the job document is received.
         public let expiresInSec: Int64?
@@ -1635,11 +1456,6 @@ extension IoT {
     }
 
     public struct Behavior: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "criteria", required: false, type: .structure), 
-            AWSShapeMember(label: "metric", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The criteria that determine if a device is behaving normally in regard to the metric.
         public let criteria: BehaviorCriteria?
@@ -1669,14 +1485,6 @@ extension IoT {
     }
 
     public struct BehaviorCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "consecutiveDatapointsToAlarm", required: false, type: .integer), 
-            AWSShapeMember(label: "consecutiveDatapointsToClear", required: false, type: .integer), 
-            AWSShapeMember(label: "durationSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "statisticalThreshold", required: false, type: .structure), 
-            AWSShapeMember(label: "value", required: false, type: .structure)
-        ]
 
         /// The operator that relates the thing measured (metric) to the criteria (containing a value or statisticalThreshold).
         public let comparisonOperator: ComparisonOperator?
@@ -1720,9 +1528,6 @@ extension IoT {
     }
 
     public struct BillingGroupMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
-        ]
 
         /// The date the billing group was created.
         public let creationDate: TimeStamp?
@@ -1737,9 +1542,6 @@ extension IoT {
     }
 
     public struct BillingGroupProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupDescription", required: false, type: .string)
-        ]
 
         /// The description of the billing group.
         public let billingGroupDescription: String?
@@ -1759,12 +1561,6 @@ extension IoT {
     }
 
     public struct CACertificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The ARN of the CA certificate.
         public let certificateArn: String?
@@ -1791,19 +1587,6 @@ extension IoT {
     }
 
     public struct CACertificateDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoRegistrationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "customerVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "generationId", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ownedBy", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "validity", required: false, type: .structure)
-        ]
 
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
         public let autoRegistrationStatus: AutoRegistrationStatus?
@@ -1858,8 +1641,8 @@ extension IoT {
     }
 
     public struct CancelAuditMitigationActionsTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// The unique identifier for the task that you want to cancel. 
@@ -1889,8 +1672,8 @@ extension IoT {
     }
 
     public struct CancelAuditTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS".
@@ -1920,8 +1703,8 @@ extension IoT {
     }
 
     public struct CancelCertificateTransferRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -1943,12 +1726,10 @@ extension IoT {
     }
 
     public struct CancelJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "statusDetails", required: false, type: .map), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
@@ -1997,11 +1778,9 @@ extension IoT {
     }
 
     public struct CancelJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comment", required: false, type: .string), 
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "reasonCode", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// An optional comment string describing why the job was canceled.
@@ -2039,11 +1818,6 @@ extension IoT {
     }
 
     public struct CancelJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string)
-        ]
 
         /// A short text description of the job.
         public let description: String?
@@ -2066,12 +1840,6 @@ extension IoT {
     }
 
     public struct Certificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The ARN of the certificate.
         public let certificateArn: String?
@@ -2098,21 +1866,6 @@ extension IoT {
     }
 
     public struct CertificateDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "customerVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "generationId", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ownedBy", required: false, type: .string), 
-            AWSShapeMember(label: "previousOwnedBy", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "transferData", required: false, type: .structure), 
-            AWSShapeMember(label: "validity", required: false, type: .structure)
-        ]
 
         /// The certificate ID of the CA certificate used to sign this certificate.
         public let caCertificateId: String?
@@ -2175,10 +1928,6 @@ extension IoT {
     }
 
     public struct CertificateValidity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "notAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "notBefore", required: false, type: .timestamp)
-        ]
 
         /// The certificate is not valid after this date.
         public let notAfter: TimeStamp?
@@ -2213,12 +1962,6 @@ extension IoT {
     }
 
     public struct CloudwatchAlarmAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "alarmName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "stateReason", required: true, type: .string), 
-            AWSShapeMember(label: "stateValue", required: true, type: .string)
-        ]
 
         /// The CloudWatch alarm name.
         public let alarmName: String
@@ -2245,14 +1988,6 @@ extension IoT {
     }
 
     public struct CloudwatchMetricAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricName", required: true, type: .string), 
-            AWSShapeMember(label: "metricNamespace", required: true, type: .string), 
-            AWSShapeMember(label: "metricTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "metricUnit", required: true, type: .string), 
-            AWSShapeMember(label: "metricValue", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The CloudWatch metric name.
         public let metricName: String
@@ -2287,11 +2022,6 @@ extension IoT {
     }
 
     public struct CodeSigning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsSignerJobId", required: false, type: .string), 
-            AWSShapeMember(label: "customCodeSigning", required: false, type: .structure), 
-            AWSShapeMember(label: "startSigningJobParameter", required: false, type: .structure)
-        ]
 
         /// The ID of the AWSSignerJob which was created to sign the file.
         public let awsSignerJobId: String?
@@ -2318,10 +2048,6 @@ extension IoT {
     }
 
     public struct CodeSigningCertificateChain: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateName", required: false, type: .string), 
-            AWSShapeMember(label: "inlineDocument", required: false, type: .string)
-        ]
 
         /// The name of the certificate.
         public let certificateName: String?
@@ -2340,9 +2066,6 @@ extension IoT {
     }
 
     public struct CodeSigningSignature: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inlineDocument", required: false, type: .blob)
-        ]
 
         /// A base64 encoded binary representation of the code signing signature.
         public let inlineDocument: Data?
@@ -2357,9 +2080,6 @@ extension IoT {
     }
 
     public struct Configuration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         /// True to enable the configuration.
         public let enabled: Bool?
@@ -2374,8 +2094,8 @@ extension IoT {
     }
 
     public struct ConfirmTopicRuleDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "confirmationToken", location: .uri(locationName: "confirmationToken"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "confirmationToken", location: .uri(locationName: "confirmationToken"))
         ]
 
         /// The token used to confirm ownership or access to the topic rule confirmation URL.
@@ -2404,13 +2124,8 @@ extension IoT {
     }
 
     public struct CreateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerFunctionArn", required: true, type: .string), 
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
-            AWSShapeMember(label: "signingDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
 
         /// The ARN of the authorizer's Lambda function.
@@ -2461,10 +2176,6 @@ extension IoT {
     }
 
     public struct CreateAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", required: false, type: .string)
-        ]
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -2483,10 +2194,8 @@ extension IoT {
     }
 
     public struct CreateBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "billingGroupProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
         ]
 
         /// The name you wish to give to the billing group.
@@ -2517,11 +2226,6 @@ extension IoT {
     }
 
     public struct CreateBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string)
-        ]
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -2544,9 +2248,8 @@ extension IoT {
     }
 
     public struct CreateCertificateFromCsrRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateSigningRequest", required: true, type: .string), 
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
         ]
 
         /// The certificate signing request (CSR).
@@ -2570,11 +2273,6 @@ extension IoT {
     }
 
     public struct CreateCertificateFromCsrResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
         public let certificateArn: String?
@@ -2597,13 +2295,8 @@ extension IoT {
     }
 
     public struct CreateDomainConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string), 
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "serverCertificateArns", required: false, type: .list), 
-            AWSShapeMember(label: "serviceType", required: false, type: .enum), 
-            AWSShapeMember(label: "validationCertificateArn", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
 
         /// An object that specifies the authorization service for a domain.
@@ -2658,10 +2351,6 @@ extension IoT {
     }
 
     public struct CreateDomainConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string)
-        ]
 
         /// The ARN of the domain configuration.
         public let domainConfigurationArn: String?
@@ -2680,13 +2369,8 @@ extension IoT {
     }
 
     public struct CreateDynamicThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The dynamic thing group index name.  Currently one index is supported: "AWS_Things". 
@@ -2733,14 +2417,6 @@ extension IoT {
     }
 
     public struct CreateDynamicThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string)
-        ]
 
         /// The dynamic thing group index name.
         public let indexName: String?
@@ -2775,18 +2451,8 @@ extension IoT {
     }
 
     public struct CreateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "document", required: false, type: .string), 
-            AWSShapeMember(label: "documentSource", required: false, type: .string), 
-            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "targets", required: true, type: .list), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// Allows you to create criteria to abort a job.
@@ -2857,11 +2523,6 @@ extension IoT {
     }
 
     public struct CreateJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string)
-        ]
 
         /// The job description.
         public let description: String?
@@ -2884,8 +2545,8 @@ extension IoT {
     }
 
     public struct CreateKeysAndCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
         ]
 
         /// Specifies whether the certificate is active.
@@ -2901,12 +2562,6 @@ extension IoT {
     }
 
     public struct CreateKeysAndCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "keyPair", required: false, type: .structure)
-        ]
 
         /// The ARN of the certificate.
         public let certificateArn: String?
@@ -2933,11 +2588,8 @@ extension IoT {
     }
 
     public struct CreateMitigationActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string), 
-            AWSShapeMember(label: "actionParams", required: true, type: .structure), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
 
         /// A friendly name for the action. Choose a friendly name that accurately describes the action (for example, EnableLoggingAction).
@@ -2973,10 +2625,6 @@ extension IoT {
     }
 
     public struct CreateMitigationActionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionArn", required: false, type: .string), 
-            AWSShapeMember(label: "actionId", required: false, type: .string)
-        ]
 
         /// The ARN for the new mitigation action.
         public let actionArn: String?
@@ -2995,18 +2643,8 @@ extension IoT {
     }
 
     public struct CreateOTAUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
-            AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "awsJobPresignedUrlConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "files", required: true, type: .list), 
-            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
-            AWSShapeMember(label: "protocols", required: false, type: .list), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "targets", required: true, type: .list), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
         ]
 
         /// A list of additional OTA update parameters which are name-value pairs.
@@ -3081,13 +2719,6 @@ extension IoT {
     }
 
     public struct CreateOTAUpdateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsIotJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "awsIotJobId", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateId", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateStatus", required: false, type: .enum)
-        ]
 
         /// The AWS IoT job ARN associated with the OTA update.
         public let awsIotJobArn: String?
@@ -3118,9 +2749,8 @@ extension IoT {
     }
 
     public struct CreatePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
 
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
@@ -3146,12 +2776,6 @@ extension IoT {
     }
 
     public struct CreatePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionId", required: false, type: .string)
-        ]
 
         /// The policy ARN.
         public let policyArn: String?
@@ -3178,10 +2802,9 @@ extension IoT {
     }
 
     public struct CreatePolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
+            AWSMemberEncoding(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"))
         ]
 
         /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace.
@@ -3211,12 +2834,6 @@ extension IoT {
     }
 
     public struct CreatePolicyVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionId", required: false, type: .string)
-        ]
 
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
@@ -3243,8 +2860,8 @@ extension IoT {
     }
 
     public struct CreateProvisioningClaimRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
 
         /// The name of the provisioning template to use.
@@ -3266,12 +2883,6 @@ extension IoT {
     }
 
     public struct CreateProvisioningClaimResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "expiration", required: false, type: .timestamp), 
-            AWSShapeMember(label: "keyPair", required: false, type: .structure)
-        ]
 
         /// The ID of the certificate.
         public let certificateId: String?
@@ -3298,14 +2909,6 @@ extension IoT {
     }
 
     public struct CreateProvisioningTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "provisioningRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "templateBody", required: true, type: .string), 
-            AWSShapeMember(label: "templateName", required: true, type: .string)
-        ]
 
         /// The description of the fleet provisioning template.
         public let description: String?
@@ -3351,11 +2954,6 @@ extension IoT {
     }
 
     public struct CreateProvisioningTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultVersionId", required: false, type: .integer), 
-            AWSShapeMember(label: "templateArn", required: false, type: .string), 
-            AWSShapeMember(label: "templateName", required: false, type: .string)
-        ]
 
         /// The default version of the fleet provisioning template.
         public let defaultVersionId: Int?
@@ -3378,10 +2976,9 @@ extension IoT {
     }
 
     public struct CreateProvisioningTemplateVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean), 
-            AWSShapeMember(label: "templateBody", required: true, type: .string), 
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "setAsDefault", location: .querystring(locationName: "setAsDefault")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
 
         /// Sets a fleet provision template version as the default version.
@@ -3411,12 +3008,6 @@ extension IoT {
     }
 
     public struct CreateProvisioningTemplateVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "templateArn", required: false, type: .string), 
-            AWSShapeMember(label: "templateName", required: false, type: .string), 
-            AWSShapeMember(label: "versionId", required: false, type: .integer)
-        ]
 
         /// True if the fleet provisioning template version is the default version, otherwise false.
         public let isDefaultVersion: Bool?
@@ -3443,10 +3034,8 @@ extension IoT {
     }
 
     public struct CreateRoleAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
 
         /// How long (in seconds) the credentials will be valid.
@@ -3480,10 +3069,6 @@ extension IoT {
     }
 
     public struct CreateRoleAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
-            AWSShapeMember(label: "roleAliasArn", required: false, type: .string)
-        ]
 
         /// The role alias.
         public let roleAlias: String?
@@ -3502,13 +3087,8 @@ extension IoT {
     }
 
     public struct CreateScheduledAuditRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "frequency", required: true, type: .enum), 
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "targetCheckNames", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
 
         /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
@@ -3551,9 +3131,6 @@ extension IoT {
     }
 
     public struct CreateScheduledAuditResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string)
-        ]
 
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
@@ -3568,13 +3145,8 @@ extension IoT {
     }
 
     public struct CreateSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "behaviors", required: false, type: .list), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
@@ -3625,10 +3197,6 @@ extension IoT {
     }
 
     public struct CreateSecurityProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string)
-        ]
 
         /// The ARN of the security profile.
         public let securityProfileArn: String?
@@ -3647,12 +3215,8 @@ extension IoT {
     }
 
     public struct CreateStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "files", required: true, type: .list), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
 
         /// A description of the stream.
@@ -3699,12 +3263,6 @@ extension IoT {
     }
 
     public struct CreateStreamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer)
-        ]
 
         /// A description of the stream.
         public let description: String?
@@ -3731,11 +3289,8 @@ extension IoT {
     }
 
     public struct CreateThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The name of the parent thing group.
@@ -3773,11 +3328,6 @@ extension IoT {
     }
 
     public struct CreateThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string)
-        ]
 
         /// The thing group ARN.
         public let thingGroupArn: String?
@@ -3800,11 +3350,8 @@ extension IoT {
     }
 
     public struct CreateThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
@@ -3845,11 +3392,6 @@ extension IoT {
     }
 
     public struct CreateThingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingId", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// The ARN of the new thing.
         public let thingArn: String?
@@ -3872,10 +3414,8 @@ extension IoT {
     }
 
     public struct CreateThingTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
 
         /// Metadata which can be used to manage the thing type.
@@ -3906,11 +3446,6 @@ extension IoT {
     }
 
     public struct CreateThingTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the thing type.
         public let thingTypeArn: String?
@@ -3933,9 +3468,6 @@ extension IoT {
     }
 
     public struct CreateTopicRuleDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationConfiguration", required: true, type: .structure)
-        ]
 
         /// The topic rule destination configuration.
         public let destinationConfiguration: TopicRuleDestinationConfiguration
@@ -3954,9 +3486,6 @@ extension IoT {
     }
 
     public struct CreateTopicRuleDestinationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "topicRuleDestination", required: false, type: .structure)
-        ]
 
         /// The topic rule destination.
         public let topicRuleDestination: TopicRuleDestination?
@@ -3973,10 +3502,9 @@ extension IoT {
     public struct CreateTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "topicRulePayload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
-            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName")), 
+            AWSMemberEncoding(label: "tags", location: .header(locationName: "x-amz-tagging"))
         ]
 
         /// The name of the rule.
@@ -4007,12 +3535,6 @@ extension IoT {
     }
 
     public struct CustomCodeSigning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateChain", required: false, type: .structure), 
-            AWSShapeMember(label: "hashAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "signature", required: false, type: .structure), 
-            AWSShapeMember(label: "signatureAlgorithm", required: false, type: .string)
-        ]
 
         /// The certificate chain.
         public let certificateChain: CodeSigningCertificateChain?
@@ -4039,8 +3561,8 @@ extension IoT {
     }
 
     public struct DeleteAccountAuditConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deleteScheduledAudits", location: .querystring(locationName: "deleteScheduledAudits"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deleteScheduledAudits", location: .querystring(locationName: "deleteScheduledAudits"))
         ]
 
         /// If true, all scheduled audits are deleted.
@@ -4064,8 +3586,8 @@ extension IoT {
     }
 
     public struct DeleteAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
 
         /// The name of the authorizer to delete.
@@ -4095,9 +3617,9 @@ extension IoT {
     }
 
     public struct DeleteBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName")), 
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"))
         ]
 
         /// The name of the billing group.
@@ -4131,8 +3653,8 @@ extension IoT {
     }
 
     public struct DeleteCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "caCertificateId"))
         ]
 
         /// The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
@@ -4162,9 +3684,9 @@ extension IoT {
     }
 
     public struct DeleteCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "forceDelete", location: .querystring(locationName: "forceDelete"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
+            AWSMemberEncoding(label: "forceDelete", location: .querystring(locationName: "forceDelete"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -4190,8 +3712,8 @@ extension IoT {
     }
 
     public struct DeleteDomainConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
 
         /// The name of the domain configuration to be deleted.
@@ -4221,9 +3743,9 @@ extension IoT {
     }
 
     public struct DeleteDynamicThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The expected version of the dynamic thing group to delete.
@@ -4257,11 +3779,11 @@ extension IoT {
     }
 
     public struct DeleteJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNumber", location: .uri(locationName: "executionNumber"), required: true, type: .long), 
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "executionNumber", location: .uri(locationName: "executionNumber")), 
+            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
@@ -4298,9 +3820,9 @@ extension IoT {
     }
 
     public struct DeleteJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state. 
@@ -4326,8 +3848,8 @@ extension IoT {
     }
 
     public struct DeleteMitigationActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
 
         /// The name of the mitigation action that you want to delete.
@@ -4356,10 +3878,10 @@ extension IoT {
     }
 
     public struct DeleteOTAUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deleteStream", location: .querystring(locationName: "deleteStream"), required: false, type: .boolean), 
-            AWSShapeMember(label: "forceDeleteAWSJob", location: .querystring(locationName: "forceDeleteAWSJob"), required: false, type: .boolean), 
-            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deleteStream", location: .querystring(locationName: "deleteStream")), 
+            AWSMemberEncoding(label: "forceDeleteAWSJob", location: .querystring(locationName: "forceDeleteAWSJob")), 
+            AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
         ]
 
         /// Specifies if the stream associated with an OTA update should be deleted when the OTA update is deleted.
@@ -4397,8 +3919,8 @@ extension IoT {
     }
 
     public struct DeletePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
 
         /// The name of the policy to delete.
@@ -4420,9 +3942,9 @@ extension IoT {
     }
 
     public struct DeletePolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
+            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
         ]
 
         /// The name of the policy.
@@ -4449,8 +3971,8 @@ extension IoT {
     }
 
     public struct DeleteProvisioningTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
 
         /// The name of the fleet provision template to delete.
@@ -4480,9 +4002,9 @@ extension IoT {
     }
 
     public struct DeleteProvisioningTemplateVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string), 
-            AWSShapeMember(label: "versionId", location: .uri(locationName: "versionId"), required: true, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "versionId"))
         ]
 
         /// The name of the fleet provisioning template version to delete.
@@ -4532,8 +4054,8 @@ extension IoT {
     }
 
     public struct DeleteRoleAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
 
         /// The role alias to delete.
@@ -4563,8 +4085,8 @@ extension IoT {
     }
 
     public struct DeleteScheduledAuditRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
 
         /// The name of the scheduled audit you want to delete.
@@ -4594,9 +4116,9 @@ extension IoT {
     }
 
     public struct DeleteSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
+            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
 
         /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
@@ -4630,8 +4152,8 @@ extension IoT {
     }
 
     public struct DeleteStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
 
         /// The stream ID.
@@ -4661,9 +4183,9 @@ extension IoT {
     }
 
     public struct DeleteThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The expected version of the thing group to delete.
@@ -4697,9 +4219,9 @@ extension IoT {
     }
 
     public struct DeleteThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
@@ -4733,8 +4255,8 @@ extension IoT {
     }
 
     public struct DeleteThingTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
 
         /// The name of the thing type.
@@ -4764,8 +4286,8 @@ extension IoT {
     }
 
     public struct DeleteTopicRuleDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", location: .uri(locationName: "arn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
 
         /// The ARN of the topic rule destination to delete.
@@ -4789,8 +4311,8 @@ extension IoT {
     }
 
     public struct DeleteTopicRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the rule.
@@ -4812,9 +4334,9 @@ extension IoT {
     }
 
     public struct DeleteV2LoggingLevelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetName", location: .querystring(locationName: "targetName"), required: true, type: .string), 
-            AWSShapeMember(label: "targetType", location: .querystring(locationName: "targetType"), required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "targetName", location: .querystring(locationName: "targetName")), 
+            AWSMemberEncoding(label: "targetType", location: .querystring(locationName: "targetType"))
         ]
 
         /// The name of the resource for which you are configuring logging.
@@ -4834,10 +4356,6 @@ extension IoT {
     }
 
     public struct Denied: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "explicitDeny", required: false, type: .structure), 
-            AWSShapeMember(label: "implicitDeny", required: false, type: .structure)
-        ]
 
         /// Information that explicitly denies the authorization. 
         public let explicitDeny: ExplicitDeny?
@@ -4856,9 +4374,8 @@ extension IoT {
     }
 
     public struct DeprecateThingTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
-            AWSShapeMember(label: "undoDeprecate", required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
 
         /// The name of the thing type to deprecate.
@@ -4900,11 +4417,6 @@ extension IoT {
     }
 
     public struct DescribeAccountAuditConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditCheckConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "auditNotificationTargetConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// Which audit checks are enabled and disabled for this account.
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
@@ -4927,8 +4439,8 @@ extension IoT {
     }
 
     public struct DescribeAuditFindingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "findingId", location: .uri(locationName: "findingId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "findingId", location: .uri(locationName: "findingId"))
         ]
 
         /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
@@ -4950,9 +4462,6 @@ extension IoT {
     }
 
     public struct DescribeAuditFindingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "finding", required: false, type: .structure)
-        ]
 
         public let finding: AuditFinding?
 
@@ -4966,8 +4475,8 @@ extension IoT {
     }
 
     public struct DescribeAuditMitigationActionsTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// The unique identifier for the audit mitigation task.
@@ -4989,15 +4498,6 @@ extension IoT {
     }
 
     public struct DescribeAuditMitigationActionsTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionsDefinition", required: false, type: .list), 
-            AWSShapeMember(label: "auditCheckToActionsMapping", required: false, type: .map), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "target", required: false, type: .structure), 
-            AWSShapeMember(label: "taskStatistics", required: false, type: .map), 
-            AWSShapeMember(label: "taskStatus", required: false, type: .enum)
-        ]
 
         /// Specifies the mitigation actions and their parameters that are applied as part of this task.
         public let actionsDefinition: [MitigationAction]?
@@ -5036,8 +4536,8 @@ extension IoT {
     }
 
     public struct DescribeAuditTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// The ID of the audit whose information you want to get.
@@ -5059,14 +4559,6 @@ extension IoT {
     }
 
     public struct DescribeAuditTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditDetails", required: false, type: .map), 
-            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string), 
-            AWSShapeMember(label: "taskStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "taskStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "taskStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "taskType", required: false, type: .enum)
-        ]
 
         /// Detailed information about each check performed during this audit.
         public let auditDetails: [String: AuditCheckDetails]?
@@ -5101,8 +4593,8 @@ extension IoT {
     }
 
     public struct DescribeAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
 
         /// The name of the authorizer to describe.
@@ -5124,9 +4616,6 @@ extension IoT {
     }
 
     public struct DescribeAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerDescription", required: false, type: .structure)
-        ]
 
         /// The authorizer description.
         public let authorizerDescription: AuthorizerDescription?
@@ -5141,8 +4630,8 @@ extension IoT {
     }
 
     public struct DescribeBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
         ]
 
         /// The name of the billing group.
@@ -5164,14 +4653,6 @@ extension IoT {
     }
 
     public struct DescribeBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -5206,8 +4687,8 @@ extension IoT {
     }
 
     public struct DescribeCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "caCertificateId"))
         ]
 
         /// The CA certificate identifier.
@@ -5229,10 +4710,6 @@ extension IoT {
     }
 
     public struct DescribeCACertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "registrationConfig", required: false, type: .structure)
-        ]
 
         /// The CA certificate description.
         public let certificateDescription: CACertificateDescription?
@@ -5251,8 +4728,8 @@ extension IoT {
     }
 
     public struct DescribeCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -5274,9 +4751,6 @@ extension IoT {
     }
 
     public struct DescribeCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateDescription", required: false, type: .structure)
-        ]
 
         /// The description of the certificate.
         public let certificateDescription: CertificateDescription?
@@ -5299,9 +4773,6 @@ extension IoT {
     }
 
     public struct DescribeDefaultAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerDescription", required: false, type: .structure)
-        ]
 
         /// The default authorizer's description.
         public let authorizerDescription: AuthorizerDescription?
@@ -5316,8 +4787,8 @@ extension IoT {
     }
 
     public struct DescribeDomainConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
 
         /// The name of the domain configuration.
@@ -5339,16 +4810,6 @@ extension IoT {
     }
 
     public struct DescribeDomainConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "domainConfigurationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "domainType", required: false, type: .enum), 
-            AWSShapeMember(label: "serverCertificates", required: false, type: .list), 
-            AWSShapeMember(label: "serviceType", required: false, type: .enum)
-        ]
 
         /// An object that specifies the authorization service for a domain.
         public let authorizerConfig: AuthorizerConfig?
@@ -5391,8 +4852,8 @@ extension IoT {
     }
 
     public struct DescribeEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpointType", location: .querystring(locationName: "endpointType"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endpointType", location: .querystring(locationName: "endpointType"))
         ]
 
         /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.      iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.  
@@ -5412,9 +4873,6 @@ extension IoT {
     }
 
     public struct DescribeEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpointAddress", required: false, type: .string)
-        ]
 
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
         public let endpointAddress: String?
@@ -5437,11 +4895,6 @@ extension IoT {
     }
 
     public struct DescribeEventConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "eventConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
-        ]
 
         /// The creation date of the event configuration.
         public let creationDate: TimeStamp?
@@ -5464,8 +4917,8 @@ extension IoT {
     }
 
     public struct DescribeIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexName", location: .uri(locationName: "indexName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "indexName"))
         ]
 
         /// The index name.
@@ -5487,11 +4940,6 @@ extension IoT {
     }
 
     public struct DescribeIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "indexStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "schema", required: false, type: .string)
-        ]
 
         /// The index name.
         public let indexName: String?
@@ -5514,10 +4962,10 @@ extension IoT {
     }
 
     public struct DescribeJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNumber", location: .querystring(locationName: "executionNumber"), required: false, type: .long), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// A string (consisting of the digits "0" through "9" which is used to specify a particular job execution on a particular device.
@@ -5550,9 +4998,6 @@ extension IoT {
     }
 
     public struct DescribeJobExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "execution", required: false, type: .structure)
-        ]
 
         /// Information about the job execution.
         public let execution: JobExecution?
@@ -5567,8 +5012,8 @@ extension IoT {
     }
 
     public struct DescribeJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// The unique identifier you assigned to this job when it was created.
@@ -5590,10 +5035,6 @@ extension IoT {
     }
 
     public struct DescribeJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "documentSource", required: false, type: .string), 
-            AWSShapeMember(label: "job", required: false, type: .structure)
-        ]
 
         /// An S3 link to the job document.
         public let documentSource: String?
@@ -5612,8 +5053,8 @@ extension IoT {
     }
 
     public struct DescribeMitigationActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
 
         /// The friendly name that uniquely identifies the mitigation action.
@@ -5634,16 +5075,6 @@ extension IoT {
     }
 
     public struct DescribeMitigationActionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionArn", required: false, type: .string), 
-            AWSShapeMember(label: "actionId", required: false, type: .string), 
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "actionParams", required: false, type: .structure), 
-            AWSShapeMember(label: "actionType", required: false, type: .enum), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The ARN that identifies this migration action.
         public let actionArn: String?
@@ -5686,8 +5117,8 @@ extension IoT {
     }
 
     public struct DescribeProvisioningTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
 
         /// The name of the fleet provisioning template.
@@ -5709,17 +5140,6 @@ extension IoT {
     }
 
     public struct DescribeProvisioningTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "defaultVersionId", required: false, type: .integer), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "provisioningRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "templateArn", required: false, type: .string), 
-            AWSShapeMember(label: "templateBody", required: false, type: .string), 
-            AWSShapeMember(label: "templateName", required: false, type: .string)
-        ]
 
         /// The date when the fleet provisioning template was created.
         public let creationDate: TimeStamp?
@@ -5766,9 +5186,9 @@ extension IoT {
     }
 
     public struct DescribeProvisioningTemplateVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string), 
-            AWSShapeMember(label: "versionId", location: .uri(locationName: "versionId"), required: true, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName")), 
+            AWSMemberEncoding(label: "versionId", location: .uri(locationName: "versionId"))
         ]
 
         /// The template name.
@@ -5794,12 +5214,6 @@ extension IoT {
     }
 
     public struct DescribeProvisioningTemplateVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "templateBody", required: false, type: .string), 
-            AWSShapeMember(label: "versionId", required: false, type: .integer)
-        ]
 
         /// The date when the fleet provisioning template version was created.
         public let creationDate: TimeStamp?
@@ -5826,8 +5240,8 @@ extension IoT {
     }
 
     public struct DescribeRoleAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
 
         /// The role alias to describe.
@@ -5849,9 +5263,6 @@ extension IoT {
     }
 
     public struct DescribeRoleAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAliasDescription", required: false, type: .structure)
-        ]
 
         /// The role alias description.
         public let roleAliasDescription: RoleAliasDescription?
@@ -5866,8 +5277,8 @@ extension IoT {
     }
 
     public struct DescribeScheduledAuditRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
 
         /// The name of the scheduled audit whose information you want to get.
@@ -5889,14 +5300,6 @@ extension IoT {
     }
 
     public struct DescribeScheduledAuditResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "frequency", required: false, type: .enum), 
-            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string), 
-            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string), 
-            AWSShapeMember(label: "targetCheckNames", required: false, type: .list)
-        ]
 
         /// The day of the month on which the scheduled audit takes place. Will be "1" through "31" or "LAST". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
@@ -5931,8 +5334,8 @@ extension IoT {
     }
 
     public struct DescribeSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
 
         /// The name of the security profile whose information you want to get.
@@ -5954,17 +5357,6 @@ extension IoT {
     }
 
     public struct DescribeSecurityProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "behaviors", required: false, type: .list), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetain: [String]?
@@ -6011,8 +5403,8 @@ extension IoT {
     }
 
     public struct DescribeStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
 
         /// The stream ID.
@@ -6034,9 +5426,6 @@ extension IoT {
     }
 
     public struct DescribeStreamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamInfo", required: false, type: .structure)
-        ]
 
         /// Information about the stream.
         public let streamInfo: StreamInfo?
@@ -6051,8 +5440,8 @@ extension IoT {
     }
 
     public struct DescribeThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The name of the thing group.
@@ -6074,18 +5463,6 @@ extension IoT {
     }
 
     public struct DescribeThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// The dynamic thing group index name.
         public let indexName: String?
@@ -6136,8 +5513,8 @@ extension IoT {
     }
 
     public struct DescribeThingRegistrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// The task ID.
@@ -6157,20 +5534,6 @@ extension IoT {
     }
 
     public struct DescribeThingRegistrationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "failureCount", required: false, type: .integer), 
-            AWSShapeMember(label: "inputFileBucket", required: false, type: .string), 
-            AWSShapeMember(label: "inputFileKey", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "percentageProgress", required: false, type: .integer), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "successCount", required: false, type: .integer), 
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "templateBody", required: false, type: .string)
-        ]
 
         /// The task creation date.
         public let creationDate: TimeStamp?
@@ -6229,8 +5592,8 @@ extension IoT {
     }
 
     public struct DescribeThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The name of the thing.
@@ -6252,16 +5615,6 @@ extension IoT {
     }
 
     public struct DescribeThingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "defaultClientId", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingId", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// The thing attributes.
         public let attributes: [String: String]?
@@ -6304,8 +5657,8 @@ extension IoT {
     }
 
     public struct DescribeThingTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
 
         /// The name of the thing type.
@@ -6327,13 +5680,6 @@ extension IoT {
     }
 
     public struct DescribeThingTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
-        ]
 
         /// The thing type ARN.
         public let thingTypeArn: String?
@@ -6364,9 +5710,6 @@ extension IoT {
     }
 
     public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Destination", required: false, type: .structure)
-        ]
 
         /// Describes the location in S3 of the updated firmware.
         public let s3Destination: S3Destination?
@@ -6385,9 +5728,8 @@ extension IoT {
     }
 
     public struct DetachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "target", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
 
         /// The policy to detach.
@@ -6413,9 +5755,9 @@ extension IoT {
     }
 
     public struct DetachPrincipalPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
+            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
         ]
 
         /// The name of the policy to detach.
@@ -6441,9 +5783,9 @@ extension IoT {
     }
 
     public struct DetachSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
-            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName")), 
+            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
         ]
 
         /// The security profile that is detached.
@@ -6477,9 +5819,9 @@ extension IoT {
     }
 
     public struct DetachThingPrincipalRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.
@@ -6513,8 +5855,8 @@ extension IoT {
     }
 
     public struct DisableTopicRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the rule to disable.
@@ -6536,11 +5878,6 @@ extension IoT {
     }
 
     public struct DomainConfigurationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "serviceType", required: false, type: .enum)
-        ]
 
         /// The ARN of the domain configuration.
         public let domainConfigurationArn: String?
@@ -6563,18 +5900,6 @@ extension IoT {
     }
 
     public struct DynamoDBAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hashKeyField", required: true, type: .string), 
-            AWSShapeMember(label: "hashKeyType", required: false, type: .enum), 
-            AWSShapeMember(label: "hashKeyValue", required: true, type: .string), 
-            AWSShapeMember(label: "operation", required: false, type: .string), 
-            AWSShapeMember(label: "payloadField", required: false, type: .string), 
-            AWSShapeMember(label: "rangeKeyField", required: false, type: .string), 
-            AWSShapeMember(label: "rangeKeyType", required: false, type: .enum), 
-            AWSShapeMember(label: "rangeKeyValue", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "tableName", required: true, type: .string)
-        ]
 
         /// The hash key name.
         public let hashKeyField: String
@@ -6625,10 +5950,6 @@ extension IoT {
     }
 
     public struct DynamoDBv2Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "putItem", required: true, type: .structure), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// Specifies the DynamoDB table to which the message data will be written. For example:  { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } }  Each attribute in the message payload will be written to a separate column in the DynamoDB database.
         public let putItem: PutItemInput
@@ -6647,11 +5968,6 @@ extension IoT {
     }
 
     public struct EffectivePolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string)
-        ]
 
         /// The policy ARN.
         public let policyArn: String?
@@ -6674,13 +5990,6 @@ extension IoT {
     }
 
     public struct ElasticsearchAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpoint", required: true, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "index", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .string)
-        ]
 
         /// The endpoint of your Elasticsearch domain.
         public let endpoint: String
@@ -6715,10 +6024,6 @@ extension IoT {
     }
 
     public struct EnableIoTLoggingParams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logLevel", required: true, type: .enum), 
-            AWSShapeMember(label: "roleArnForLogging", required: true, type: .string)
-        ]
 
         /// Specifies the types of information to be logged.
         public let logLevel: LogLevel
@@ -6742,8 +6047,8 @@ extension IoT {
     }
 
     public struct EnableTopicRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the topic rule to enable.
@@ -6765,10 +6070,6 @@ extension IoT {
     }
 
     public struct ErrorInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
 
         /// The error code.
         public let code: String?
@@ -6787,9 +6088,6 @@ extension IoT {
     }
 
     public struct ExplicitDeny: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
 
         /// The policies that denied the authorization.
         public let policies: [Policy]?
@@ -6804,11 +6102,6 @@ extension IoT {
     }
 
     public struct ExponentialRolloutRate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseRatePerMinute", required: true, type: .integer), 
-            AWSShapeMember(label: "incrementFactor", required: true, type: .double), 
-            AWSShapeMember(label: "rateIncreaseCriteria", required: true, type: .structure)
-        ]
 
         /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
         public let baseRatePerMinute: Int
@@ -6839,10 +6132,6 @@ extension IoT {
     }
 
     public struct Field: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The name of the field.
         public let name: String?
@@ -6861,10 +6150,6 @@ extension IoT {
     }
 
     public struct FileLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
-            AWSShapeMember(label: "stream", required: false, type: .structure)
-        ]
 
         /// The location of the updated firmware in S3.
         public let s3Location: S3Location?
@@ -6888,11 +6173,6 @@ extension IoT {
     }
 
     public struct FirehoseAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "separator", required: false, type: .string)
-        ]
 
         /// The delivery stream name.
         public let deliveryStreamName: String
@@ -6919,12 +6199,6 @@ extension IoT {
     }
 
     public struct GetCardinalityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "aggregationField", required: false, type: .string), 
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string)
-        ]
 
         /// The field to aggregate.
         public let aggregationField: String?
@@ -6959,9 +6233,6 @@ extension IoT {
     }
 
     public struct GetCardinalityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cardinality", required: false, type: .integer)
-        ]
 
         /// The approximate count of unique values that match the query.
         public let cardinality: Int?
@@ -6976,10 +6247,8 @@ extension IoT {
     }
 
     public struct GetEffectivePoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
         ]
 
         /// The Cognito identity pool ID.
@@ -7009,9 +6278,6 @@ extension IoT {
     }
 
     public struct GetEffectivePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "effectivePolicies", required: false, type: .list)
-        ]
 
         /// The effective policies.
         public let effectivePolicies: [EffectivePolicy]?
@@ -7034,10 +6300,6 @@ extension IoT {
     }
 
     public struct GetIndexingConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupIndexingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "thingIndexingConfiguration", required: false, type: .structure)
-        ]
 
         /// The index configuration.
         public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
@@ -7056,8 +6318,8 @@ extension IoT {
     }
 
     public struct GetJobDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// The unique identifier you assigned to this job when it was created.
@@ -7079,9 +6341,6 @@ extension IoT {
     }
 
     public struct GetJobDocumentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "document", required: false, type: .string)
-        ]
 
         /// The job document content.
         public let document: String?
@@ -7104,10 +6363,6 @@ extension IoT {
     }
 
     public struct GetLoggingOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The logging level.
         public let logLevel: LogLevel?
@@ -7126,8 +6381,8 @@ extension IoT {
     }
 
     public struct GetOTAUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
         ]
 
         /// The OTA update ID.
@@ -7149,9 +6404,6 @@ extension IoT {
     }
 
     public struct GetOTAUpdateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdateInfo", required: false, type: .structure)
-        ]
 
         /// The OTA update info.
         public let otaUpdateInfo: OTAUpdateInfo?
@@ -7166,13 +6418,6 @@ extension IoT {
     }
 
     public struct GetPercentilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "aggregationField", required: false, type: .string), 
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "percents", required: false, type: .list), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string)
-        ]
 
         /// The field to aggregate.
         public let aggregationField: String?
@@ -7215,9 +6460,6 @@ extension IoT {
     }
 
     public struct GetPercentilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "percentiles", required: false, type: .list)
-        ]
 
         /// The percentile values of the aggregated fields.
         public let percentiles: [PercentPair]?
@@ -7232,8 +6474,8 @@ extension IoT {
     }
 
     public struct GetPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
 
         /// The name of the policy.
@@ -7255,15 +6497,6 @@ extension IoT {
     }
 
     public struct GetPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "defaultVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "generationId", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string)
-        ]
 
         /// The date the policy was created.
         public let creationDate: TimeStamp?
@@ -7302,9 +6535,9 @@ extension IoT {
     }
 
     public struct GetPolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
+            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
         ]
 
         /// The name of the policy.
@@ -7331,16 +6564,6 @@ extension IoT {
     }
 
     public struct GetPolicyVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "generationId", required: false, type: .string), 
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionId", required: false, type: .string)
-        ]
 
         /// The date the policy was created.
         public let creationDate: TimeStamp?
@@ -7391,9 +6614,6 @@ extension IoT {
     }
 
     public struct GetRegistrationCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registrationCode", required: false, type: .string)
-        ]
 
         /// The CA certificate registration code.
         public let registrationCode: String?
@@ -7408,12 +6628,6 @@ extension IoT {
     }
 
     public struct GetStatisticsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "aggregationField", required: false, type: .string), 
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string)
-        ]
 
         /// The aggregation field name.
         public let aggregationField: String?
@@ -7448,9 +6662,6 @@ extension IoT {
     }
 
     public struct GetStatisticsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statistics", required: false, type: .structure)
-        ]
 
         /// The statistics returned by the Fleet Indexing service based on the query and aggregation field.
         public let statistics: Statistics?
@@ -7465,8 +6676,8 @@ extension IoT {
     }
 
     public struct GetTopicRuleDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", location: .uri(locationName: "arn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
 
         /// The ARN of the topic rule destination.
@@ -7482,9 +6693,6 @@ extension IoT {
     }
 
     public struct GetTopicRuleDestinationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "topicRuleDestination", required: false, type: .structure)
-        ]
 
         /// The topic rule destination.
         public let topicRuleDestination: TopicRuleDestination?
@@ -7499,8 +6707,8 @@ extension IoT {
     }
 
     public struct GetTopicRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the rule.
@@ -7522,10 +6730,6 @@ extension IoT {
     }
 
     public struct GetTopicRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rule", required: false, type: .structure), 
-            AWSShapeMember(label: "ruleArn", required: false, type: .string)
-        ]
 
         /// The rule.
         public let rule: TopicRule?
@@ -7552,11 +6756,6 @@ extension IoT {
     }
 
     public struct GetV2LoggingOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultLogLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "disableAllLogs", required: false, type: .boolean), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The default log level.
         public let defaultLogLevel: LogLevel?
@@ -7579,10 +6778,6 @@ extension IoT {
     }
 
     public struct GroupNameAndArn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "groupArn", required: false, type: .string), 
-            AWSShapeMember(label: "groupName", required: false, type: .string)
-        ]
 
         /// The group ARN.
         public let groupArn: String?
@@ -7601,12 +6796,6 @@ extension IoT {
     }
 
     public struct HttpAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auth", required: false, type: .structure), 
-            AWSShapeMember(label: "confirmationUrl", required: false, type: .string), 
-            AWSShapeMember(label: "headers", required: false, type: .list), 
-            AWSShapeMember(label: "url", required: true, type: .string)
-        ]
 
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public let auth: HttpAuthorization?
@@ -7643,10 +6832,6 @@ extension IoT {
     }
 
     public struct HttpActionHeader: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The HTTP header key.
         public let key: String
@@ -7670,9 +6855,6 @@ extension IoT {
     }
 
     public struct HttpAuthorization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sigv4", required: false, type: .structure)
-        ]
 
         /// Use Sig V4 authorization. For more information, see Signature Version 4 Signing Process.
         public let sigv4: SigV4Authorization?
@@ -7687,10 +6869,6 @@ extension IoT {
     }
 
     public struct HttpContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "headers", required: false, type: .map), 
-            AWSShapeMember(label: "queryString", required: false, type: .string)
-        ]
 
         /// The header keys and values in an HTTP authorization request.
         public let headers: [String: String]?
@@ -7720,9 +6898,6 @@ extension IoT {
     }
 
     public struct HttpUrlDestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "confirmationUrl", required: true, type: .string)
-        ]
 
         /// The URL AWS IoT uses to confirm ownership of or access to the topic rule destination URL.
         public let confirmationUrl: String
@@ -7741,9 +6916,6 @@ extension IoT {
     }
 
     public struct HttpUrlDestinationProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "confirmationUrl", required: false, type: .string)
-        ]
 
         /// The URL used to confirm the HTTP topic rule destination URL.
         public let confirmationUrl: String?
@@ -7758,9 +6930,6 @@ extension IoT {
     }
 
     public struct HttpUrlDestinationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "confirmationUrl", required: false, type: .string)
-        ]
 
         /// The URL used to confirm ownership of or access to the HTTP topic rule destination URL.
         public let confirmationUrl: String?
@@ -7775,9 +6944,6 @@ extension IoT {
     }
 
     public struct ImplicitDeny: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
 
         /// Policies that don't contain a matching allow or deny statement for the specified action on the specified resource. 
         public let policies: [Policy]?
@@ -7792,11 +6958,6 @@ extension IoT {
     }
 
     public struct IotAnalyticsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelArn", required: false, type: .string), 
-            AWSShapeMember(label: "channelName", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// (deprecated) The ARN of the IoT Analytics channel to which message data will be sent.
         public let channelArn: String?
@@ -7819,11 +6980,6 @@ extension IoT {
     }
 
     public struct IotEventsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputName", required: true, type: .string), 
-            AWSShapeMember(label: "messageId", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The name of the AWS IoT Events input.
         public let inputName: String
@@ -7852,10 +7008,6 @@ extension IoT {
     }
 
     public struct IotSiteWiseAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "putAssetPropertyValueEntries", required: true, type: .list), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// A list of asset property value entries.
         public let putAssetPropertyValueEntries: [PutAssetPropertyValueEntry]
@@ -7881,25 +7033,6 @@ extension IoT {
     }
 
     public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "comment", required: false, type: .string), 
-            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "forceCanceled", required: false, type: .boolean), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string), 
-            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "jobProcessDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "reasonCode", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "targets", required: false, type: .list), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure)
-        ]
 
         /// Configuration for criteria to abort the job.
         public let abortConfig: AbortConfig?
@@ -7978,19 +7111,6 @@ extension IoT {
     }
 
     public struct JobExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approximateSecondsBeforeTimedOut", required: false, type: .long), 
-            AWSShapeMember(label: "executionNumber", required: false, type: .long), 
-            AWSShapeMember(label: "forceCanceled", required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "queuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "versionNumber", required: false, type: .long)
-        ]
 
         /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The actual job execution timeout can occur up to 60 seconds later than the estimated duration. This value will not be included if the job execution has reached a terminal status.
         public let approximateSecondsBeforeTimedOut: Int64?
@@ -8045,9 +7165,6 @@ extension IoT {
     }
 
     public struct JobExecutionStatusDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detailsMap", required: false, type: .map)
-        ]
 
         /// The job execution status.
         public let detailsMap: [String: String]?
@@ -8062,13 +7179,6 @@ extension IoT {
     }
 
     public struct JobExecutionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNumber", required: false, type: .long), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "queuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used later in commands which return or update job execution information.
         public let executionNumber: Int64?
@@ -8099,10 +7209,6 @@ extension IoT {
     }
 
     public struct JobExecutionSummaryForJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobExecutionSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string)
-        ]
 
         /// Contains a subset of information about a job execution.
         public let jobExecutionSummary: JobExecutionSummary?
@@ -8121,10 +7227,6 @@ extension IoT {
     }
 
     public struct JobExecutionSummaryForThing: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobExecutionSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", required: false, type: .string)
-        ]
 
         /// Contains a subset of information about a job execution.
         public let jobExecutionSummary: JobExecutionSummary?
@@ -8143,10 +7245,6 @@ extension IoT {
     }
 
     public struct JobExecutionsRolloutConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exponentialRate", required: false, type: .structure), 
-            AWSShapeMember(label: "maximumPerMinute", required: false, type: .integer)
-        ]
 
         /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout.
         public let exponentialRate: ExponentialRolloutRate?
@@ -8170,17 +7268,6 @@ extension IoT {
     }
 
     public struct JobProcessDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfCanceledThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfFailedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfInProgressThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfQueuedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfRejectedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfRemovedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfSucceededThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfTimedOutThings", required: false, type: .integer), 
-            AWSShapeMember(label: "processingTargets", required: false, type: .list)
-        ]
 
         /// The number of things that cancelled the job.
         public let numberOfCanceledThings: Int?
@@ -8227,16 +7314,6 @@ extension IoT {
     }
 
     public struct JobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string)
-        ]
 
         /// The time, in seconds since the epoch, when the job completed.
         public let completedAt: TimeStamp?
@@ -8279,10 +7356,6 @@ extension IoT {
     }
 
     public struct KeyPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrivateKey", required: false, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .string)
-        ]
 
         /// The private key.
         public let privateKey: String?
@@ -8301,11 +7374,6 @@ extension IoT {
     }
 
     public struct KinesisAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "partitionKey", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "streamName", required: true, type: .string)
-        ]
 
         /// The partition key.
         public let partitionKey: String?
@@ -8328,9 +7396,6 @@ extension IoT {
     }
 
     public struct LambdaAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionArn", required: true, type: .string)
-        ]
 
         /// The ARN of the Lambda function.
         public let functionArn: String
@@ -8345,11 +7410,11 @@ extension IoT {
     }
 
     public struct ListActiveViolationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"), required: false, type: .string), 
-            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")), 
+            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -8387,10 +7452,6 @@ extension IoT {
     }
 
     public struct ListActiveViolationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activeViolations", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of active violations.
         public let activeViolations: [ActiveViolation]?
@@ -8409,11 +7470,11 @@ extension IoT {
     }
 
     public struct ListAttachedPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "target", location: .uri(locationName: "target"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
+            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive")), 
+            AWSMemberEncoding(label: "target", location: .uri(locationName: "target"))
         ]
 
         /// The token to retrieve the next set of results.
@@ -8447,10 +7508,6 @@ extension IoT {
     }
 
     public struct ListAttachedPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
 
         /// The token to retrieve the next set of results, or ``null`` if there are no more results.
         public let nextMarker: String?
@@ -8469,15 +7526,6 @@ extension IoT {
     }
 
     public struct ListAuditFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkName", required: false, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
 
         /// A filter to limit results to the findings for the specified audit check.
         public let checkName: String?
@@ -8525,10 +7573,6 @@ extension IoT {
     }
 
     public struct ListAuditFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "findings", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The findings (results) of the audit.
         public let findings: [AuditFinding]?
@@ -8547,12 +7591,12 @@ extension IoT {
     }
 
     public struct ListAuditMitigationActionsExecutionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionStatus", location: .querystring(locationName: "actionStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "findingId", location: .querystring(locationName: "findingId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "taskId", location: .querystring(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionStatus", location: .querystring(locationName: "actionStatus")), 
+            AWSMemberEncoding(label: "findingId", location: .querystring(locationName: "findingId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "taskId", location: .querystring(locationName: "taskId"))
         ]
 
         /// Specify this filter to limit results to those with a specific status.
@@ -8595,10 +7639,6 @@ extension IoT {
     }
 
     public struct ListAuditMitigationActionsExecutionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionsExecutions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A set of task execution results based on the input parameters. Details include the mitigation action applied, start time, and task status.
         public let actionsExecutions: [AuditMitigationActionExecutionMetadata]?
@@ -8617,14 +7657,14 @@ extension IoT {
     }
 
     public struct ListAuditMitigationActionsTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditTaskId", location: .querystring(locationName: "auditTaskId"), required: false, type: .string), 
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "findingId", location: .querystring(locationName: "findingId"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "taskStatus", location: .querystring(locationName: "taskStatus"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "auditTaskId", location: .querystring(locationName: "auditTaskId")), 
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "findingId", location: .querystring(locationName: "findingId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")), 
+            AWSMemberEncoding(label: "taskStatus", location: .querystring(locationName: "taskStatus"))
         ]
 
         /// Specify this filter to limit results to tasks that were applied to results for a specific audit.
@@ -8675,10 +7715,6 @@ extension IoT {
     }
 
     public struct ListAuditMitigationActionsTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tasks", required: false, type: .list)
-        ]
 
         /// The token for the next set of results.
         public let nextToken: String?
@@ -8697,13 +7733,13 @@ extension IoT {
     }
 
     public struct ListAuditTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "taskStatus", location: .querystring(locationName: "taskStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "taskType", location: .querystring(locationName: "taskType"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")), 
+            AWSMemberEncoding(label: "taskStatus", location: .querystring(locationName: "taskStatus")), 
+            AWSMemberEncoding(label: "taskType", location: .querystring(locationName: "taskType"))
         ]
 
         /// The end of the time period.
@@ -8744,10 +7780,6 @@ extension IoT {
     }
 
     public struct ListAuditTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tasks", required: false, type: .list)
-        ]
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -8766,11 +7798,11 @@ extension IoT {
     }
 
     public struct ListAuthorizersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// Return the list of authorizers in ascending alphabetical order.
@@ -8804,10 +7836,6 @@ extension IoT {
     }
 
     public struct ListAuthorizersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizers", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
 
         /// The authorizers.
         public let authorizers: [AuthorizerSummary]?
@@ -8826,10 +7854,10 @@ extension IoT {
     }
 
     public struct ListBillingGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return per request.
@@ -8861,10 +7889,6 @@ extension IoT {
     }
 
     public struct ListBillingGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroups", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of billing groups.
         public let billingGroups: [GroupNameAndArn]?
@@ -8883,10 +7907,10 @@ extension IoT {
     }
 
     public struct ListCACertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
         ]
 
         /// Determines the order of the results.
@@ -8916,10 +7940,6 @@ extension IoT {
     }
 
     public struct ListCACertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificates", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
 
         /// The CA certificates registered in your AWS account.
         public let certificates: [CACertificate]?
@@ -8938,11 +7958,11 @@ extension IoT {
     }
 
     public struct ListCertificatesByCARequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "caCertificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "caCertificateId", location: .uri(locationName: "caCertificateId")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
         ]
 
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
@@ -8979,10 +7999,6 @@ extension IoT {
     }
 
     public struct ListCertificatesByCAResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificates", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
 
         /// The device certificates signed by the specified CA certificate.
         public let certificates: [Certificate]?
@@ -9001,10 +8017,10 @@ extension IoT {
     }
 
     public struct ListCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
         ]
 
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
@@ -9034,10 +8050,6 @@ extension IoT {
     }
 
     public struct ListCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificates", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
 
         /// The descriptions of the certificates.
         public let certificates: [Certificate]?
@@ -9056,10 +8068,10 @@ extension IoT {
     }
 
     public struct ListDomainConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "serviceType", location: .querystring(locationName: "serviceType"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
+            AWSMemberEncoding(label: "serviceType", location: .querystring(locationName: "serviceType"))
         ]
 
         /// The marker for the next set of results.
@@ -9089,10 +8101,6 @@ extension IoT {
     }
 
     public struct ListDomainConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
 
         /// A list of objects that contain summary information about the user's domain configurations.
         public let domainConfigurations: [DomainConfigurationSummary]?
@@ -9111,9 +8119,9 @@ extension IoT {
     }
 
     public struct ListIndicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -9138,10 +8146,6 @@ extension IoT {
     }
 
     public struct ListIndicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexNames", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The index names.
         public let indexNames: [String]?
@@ -9160,11 +8164,11 @@ extension IoT {
     }
 
     public struct ListJobExecutionsForJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// The unique identifier you assigned to this job when it was created.
@@ -9200,10 +8204,6 @@ extension IoT {
     }
 
     public struct ListJobExecutionsForJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of job execution summaries.
         public let executionSummaries: [JobExecutionSummaryForJob]?
@@ -9222,11 +8222,11 @@ extension IoT {
     }
 
     public struct ListJobExecutionsForThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The maximum number of results to be returned per request.
@@ -9262,10 +8262,6 @@ extension IoT {
     }
 
     public struct ListJobExecutionsForThingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of job execution summaries.
         public let executionSummaries: [JobExecutionSummaryForThing]?
@@ -9284,13 +8280,13 @@ extension IoT {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "targetSelection", location: .querystring(locationName: "targetSelection"), required: false, type: .enum), 
-            AWSShapeMember(label: "thingGroupId", location: .querystring(locationName: "thingGroupId"), required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", location: .querystring(locationName: "thingGroupName"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")), 
+            AWSMemberEncoding(label: "targetSelection", location: .querystring(locationName: "targetSelection")), 
+            AWSMemberEncoding(label: "thingGroupId", location: .querystring(locationName: "thingGroupId")), 
+            AWSMemberEncoding(label: "thingGroupName", location: .querystring(locationName: "thingGroupName"))
         ]
 
         /// The maximum number of results to return per request.
@@ -9337,10 +8333,6 @@ extension IoT {
     }
 
     public struct ListJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of jobs.
         public let jobs: [JobSummary]?
@@ -9359,10 +8351,10 @@ extension IoT {
     }
 
     public struct ListMitigationActionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionType", location: .querystring(locationName: "actionType"), required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionType", location: .querystring(locationName: "actionType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Specify a value to limit the result to mitigation actions with a specific action type.
@@ -9391,10 +8383,6 @@ extension IoT {
     }
 
     public struct ListMitigationActionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A set of actions that matched the specified filter criteria.
         public let actionIdentifiers: [MitigationActionIdentifier]?
@@ -9413,10 +8401,10 @@ extension IoT {
     }
 
     public struct ListOTAUpdatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateStatus", location: .querystring(locationName: "otaUpdateStatus"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "otaUpdateStatus", location: .querystring(locationName: "otaUpdateStatus"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -9445,10 +8433,6 @@ extension IoT {
     }
 
     public struct ListOTAUpdatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdates", required: false, type: .list)
-        ]
 
         /// A token to use to get the next set of results.
         public let nextToken: String?
@@ -9467,10 +8451,10 @@ extension IoT {
     }
 
     public struct ListOutgoingCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
         ]
 
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
@@ -9500,10 +8484,6 @@ extension IoT {
     }
 
     public struct ListOutgoingCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "outgoingCertificates", required: false, type: .list)
-        ]
 
         /// The marker for the next set of results.
         public let nextMarker: String?
@@ -9522,10 +8502,10 @@ extension IoT {
     }
 
     public struct ListPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
         ]
 
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
@@ -9555,10 +8535,6 @@ extension IoT {
     }
 
     public struct ListPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
 
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
@@ -9577,11 +8553,11 @@ extension IoT {
     }
 
     public struct ListPolicyPrincipalsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
+            AWSMemberEncoding(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"))
         ]
 
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
@@ -9618,10 +8594,6 @@ extension IoT {
     }
 
     public struct ListPolicyPrincipalsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "principals", required: false, type: .list)
-        ]
 
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
@@ -9640,8 +8612,8 @@ extension IoT {
     }
 
     public struct ListPolicyVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
 
         /// The policy name.
@@ -9663,9 +8635,6 @@ extension IoT {
     }
 
     public struct ListPolicyVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyVersions", required: false, type: .list)
-        ]
 
         /// The policy versions.
         public let policyVersions: [PolicyVersion]?
@@ -9680,11 +8649,11 @@ extension IoT {
     }
 
     public struct ListPrincipalPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
+            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
         ]
 
         /// Specifies the order for results. If true, results are returned in ascending creation order.
@@ -9718,10 +8687,6 @@ extension IoT {
     }
 
     public struct ListPrincipalPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
 
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
@@ -9740,10 +8705,10 @@ extension IoT {
     }
 
     public struct ListPrincipalThingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -9772,10 +8737,6 @@ extension IoT {
     }
 
     public struct ListPrincipalThingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9794,10 +8755,10 @@ extension IoT {
     }
 
     public struct ListProvisioningTemplateVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -9829,10 +8790,6 @@ extension IoT {
     }
 
     public struct ListProvisioningTemplateVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "versions", required: false, type: .list)
-        ]
 
         /// A token to retrieve the next set of results.
         public let nextToken: String?
@@ -9851,9 +8808,9 @@ extension IoT {
     }
 
     public struct ListProvisioningTemplatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -9878,10 +8835,6 @@ extension IoT {
     }
 
     public struct ListProvisioningTemplatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "templates", required: false, type: .list)
-        ]
 
         /// A token to retrieve the next set of results.
         public let nextToken: String?
@@ -9900,10 +8853,10 @@ extension IoT {
     }
 
     public struct ListRoleAliasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize"))
         ]
 
         /// Return the list of role aliases in ascending alphabetical order.
@@ -9933,10 +8886,6 @@ extension IoT {
     }
 
     public struct ListRoleAliasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "roleAliases", required: false, type: .list)
-        ]
 
         /// A marker used to get the next set of results.
         public let nextMarker: String?
@@ -9955,9 +8904,9 @@ extension IoT {
     }
 
     public struct ListScheduledAuditsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time. The default is 25.
@@ -9982,10 +8931,6 @@ extension IoT {
     }
 
     public struct ListScheduledAuditsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "scheduledAudits", required: false, type: .list)
-        ]
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10004,11 +8949,11 @@ extension IoT {
     }
 
     public struct ListSecurityProfilesForTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive")), 
+            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10041,10 +8986,6 @@ extension IoT {
     }
 
     public struct ListSecurityProfilesForTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileTargetMappings", required: false, type: .list)
-        ]
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10063,9 +9004,9 @@ extension IoT {
     }
 
     public struct ListSecurityProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10090,10 +9031,6 @@ extension IoT {
     }
 
     public struct ListSecurityProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileIdentifiers", required: false, type: .list)
-        ]
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10112,10 +9049,10 @@ extension IoT {
     }
 
     public struct ListStreamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Set to true to return the list of streams in ascending order.
@@ -10144,10 +9081,6 @@ extension IoT {
     }
 
     public struct ListStreamsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "streams", required: false, type: .list)
-        ]
 
         /// A token used to get the next set of results.
         public let nextToken: String?
@@ -10166,9 +9099,9 @@ extension IoT {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
         /// The token to retrieve the next set of results.
@@ -10188,10 +9121,6 @@ extension IoT {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10210,10 +9139,10 @@ extension IoT {
     }
 
     public struct ListTargetsForPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
 
         /// A marker used to get the next set of results.
@@ -10246,10 +9175,6 @@ extension IoT {
     }
 
     public struct ListTargetsForPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "targets", required: false, type: .list)
-        ]
 
         /// A marker used to get the next set of results.
         public let nextMarker: String?
@@ -10268,10 +9193,10 @@ extension IoT {
     }
 
     public struct ListTargetsForSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10303,10 +9228,6 @@ extension IoT {
     }
 
     public struct ListTargetsForSecurityProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileTargets", required: false, type: .list)
-        ]
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10325,10 +9246,10 @@ extension IoT {
     }
 
     public struct ListThingGroupsForThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10360,10 +9281,6 @@ extension IoT {
     }
 
     public struct ListThingGroupsForThingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroups", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10382,12 +9299,12 @@ extension IoT {
     }
 
     public struct ListThingGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "parentGroup", location: .querystring(locationName: "parentGroup"), required: false, type: .string), 
-            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "parentGroup", location: .querystring(locationName: "parentGroup")), 
+            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10430,10 +9347,6 @@ extension IoT {
     }
 
     public struct ListThingGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroups", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10452,8 +9365,8 @@ extension IoT {
     }
 
     public struct ListThingPrincipalsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The name of the thing.
@@ -10475,9 +9388,6 @@ extension IoT {
     }
 
     public struct ListThingPrincipalsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principals", required: false, type: .list)
-        ]
 
         /// The principals associated with the thing.
         public let principals: [String]?
@@ -10492,11 +9402,11 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTaskReportsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "reportType", location: .querystring(locationName: "reportType"), required: true, type: .enum), 
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "reportType", location: .querystring(locationName: "reportType")), 
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// The maximum number of results to return per request.
@@ -10530,11 +9440,6 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTaskReportsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "reportType", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceLinks", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10557,10 +9462,10 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10589,10 +9494,6 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "taskIds", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10611,10 +9512,10 @@ extension IoT {
     }
 
     public struct ListThingTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"))
         ]
 
         /// The maximum number of results to return in this operation.
@@ -10646,10 +9547,6 @@ extension IoT {
     }
 
     public struct ListThingTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypes", required: false, type: .list)
-        ]
 
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10668,10 +9565,10 @@ extension IoT {
     }
 
     public struct ListThingsInBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of the billing group.
@@ -10703,10 +9600,6 @@ extension IoT {
     }
 
     public struct ListThingsInBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10725,11 +9618,11 @@ extension IoT {
     }
 
     public struct ListThingsInThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "recursive", location: .querystring(locationName: "recursive")), 
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10765,10 +9658,6 @@ extension IoT {
     }
 
     public struct ListThingsInThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10787,12 +9676,12 @@ extension IoT {
     }
 
     public struct ListThingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributeName", location: .querystring(locationName: "attributeName"), required: false, type: .string), 
-            AWSShapeMember(label: "attributeValue", location: .querystring(locationName: "attributeValue"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attributeName", location: .querystring(locationName: "attributeName")), 
+            AWSMemberEncoding(label: "attributeValue", location: .querystring(locationName: "attributeValue")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"))
         ]
 
         /// The attribute name used to search for things.
@@ -10836,10 +9725,6 @@ extension IoT {
     }
 
     public struct ListThingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10858,9 +9743,9 @@ extension IoT {
     }
 
     public struct ListTopicRuleDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10885,10 +9770,6 @@ extension IoT {
     }
 
     public struct ListTopicRuleDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Information about a topic rule destination.
         public let destinationSummaries: [TopicRuleDestinationSummary]?
@@ -10907,11 +9788,11 @@ extension IoT {
     }
 
     public struct ListTopicRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "topic", location: .querystring(locationName: "topic"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled")), 
+            AWSMemberEncoding(label: "topic", location: .querystring(locationName: "topic"))
         ]
 
         /// The maximum number of results to return.
@@ -10944,10 +9825,6 @@ extension IoT {
     }
 
     public struct ListTopicRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "rules", required: false, type: .list)
-        ]
 
         /// A token used to retrieve the next value.
         public let nextToken: String?
@@ -10966,10 +9843,10 @@ extension IoT {
     }
 
     public struct ListV2LoggingLevelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "targetType", location: .querystring(locationName: "targetType"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "targetType", location: .querystring(locationName: "targetType"))
         ]
 
         /// The maximum number of results to return at one time.
@@ -10998,10 +9875,6 @@ extension IoT {
     }
 
     public struct ListV2LoggingLevelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logTargetConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The logging configuration for a target.
         public let logTargetConfigurations: [LogTargetConfiguration]?
@@ -11020,13 +9893,13 @@ extension IoT {
     }
 
     public struct ListViolationEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"), required: false, type: .string), 
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")), 
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")), 
+            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
         ]
 
         /// The end time for the alerts to be listed.
@@ -11072,10 +9945,6 @@ extension IoT {
     }
 
     public struct ListViolationEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "violationEvents", required: false, type: .list)
-        ]
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -11094,10 +9963,6 @@ extension IoT {
     }
 
     public struct LogTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetName", required: false, type: .string), 
-            AWSShapeMember(label: "targetType", required: true, type: .enum)
-        ]
 
         /// The target name.
         public let targetName: String?
@@ -11116,10 +9981,6 @@ extension IoT {
     }
 
     public struct LogTargetConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "logTarget", required: false, type: .structure)
-        ]
 
         /// The logging level.
         public let logLevel: LogLevel?
@@ -11138,10 +9999,6 @@ extension IoT {
     }
 
     public struct LoggingOptionsPayload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The log level.
         public let logLevel: LogLevel?
@@ -11160,11 +10017,6 @@ extension IoT {
     }
 
     public struct MetricValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cidrs", required: false, type: .list), 
-            AWSShapeMember(label: "count", required: false, type: .long), 
-            AWSShapeMember(label: "ports", required: false, type: .list)
-        ]
 
         /// If the comparisonOperator calls for a set of CIDRs, use this to specify that set to be compared with the metric.
         public let cidrs: [String]?
@@ -11200,12 +10052,6 @@ extension IoT {
     }
 
     public struct MitigationAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionParams", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The set of parameters for this mitigation action. The parameters vary, depending on the kind of action you apply.
         public let actionParams: MitigationActionParams?
@@ -11232,11 +10078,6 @@ extension IoT {
     }
 
     public struct MitigationActionIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionArn", required: false, type: .string), 
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
-        ]
 
         /// The IAM role ARN used to apply this mitigation action.
         public let actionArn: String?
@@ -11259,14 +10100,6 @@ extension IoT {
     }
 
     public struct MitigationActionParams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "addThingsToThingGroupParams", required: false, type: .structure), 
-            AWSShapeMember(label: "enableIoTLoggingParams", required: false, type: .structure), 
-            AWSShapeMember(label: "publishFindingToSnsParams", required: false, type: .structure), 
-            AWSShapeMember(label: "replaceDefaultPolicyVersionParams", required: false, type: .structure), 
-            AWSShapeMember(label: "updateCACertificateParams", required: false, type: .structure), 
-            AWSShapeMember(label: "updateDeviceCertificateParams", required: false, type: .structure)
-        ]
 
         /// Parameters to define a mitigation action that moves devices associated with a certificate to one or more specified thing groups, typically for quarantine.
         public let addThingsToThingGroupParams: AddThingsToThingGroupParams?
@@ -11307,11 +10140,6 @@ extension IoT {
     }
 
     public struct MqttContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "password", required: false, type: .blob), 
-            AWSShapeMember(label: "username", required: false, type: .string)
-        ]
 
         /// The value of the clientId key in an MQTT authorization request.
         public let clientId: String?
@@ -11343,11 +10171,6 @@ extension IoT {
     }
 
     public struct NonCompliantResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalInfo", required: false, type: .map), 
-            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// Other information about the noncompliant resource.
         public let additionalInfo: [String: String]?
@@ -11370,13 +10193,6 @@ extension IoT {
     }
 
     public struct OTAUpdateFile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "codeSigning", required: false, type: .structure), 
-            AWSShapeMember(label: "fileLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "fileName", required: false, type: .string), 
-            AWSShapeMember(label: "fileVersion", required: false, type: .string)
-        ]
 
         /// A list of name/attribute pairs.
         public let attributes: [String: String]?
@@ -11412,24 +10228,6 @@ extension IoT {
     }
 
     public struct OTAUpdateInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
-            AWSShapeMember(label: "awsIotJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "awsIotJobId", required: false, type: .string), 
-            AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "awsJobPresignedUrlConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "errorInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateFiles", required: false, type: .list), 
-            AWSShapeMember(label: "otaUpdateId", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "protocols", required: false, type: .list), 
-            AWSShapeMember(label: "targets", required: false, type: .list), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum)
-        ]
 
         /// A collection of name/value pairs
         public let additionalParameters: [String: String]?
@@ -11504,11 +10302,6 @@ extension IoT {
     }
 
     public struct OTAUpdateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateId", required: false, type: .string)
-        ]
 
         /// The date when the OTA update was created.
         public let creationDate: TimeStamp?
@@ -11531,14 +10324,6 @@ extension IoT {
     }
 
     public struct OutgoingCertificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "transferDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
-            AWSShapeMember(label: "transferredTo", required: false, type: .string)
-        ]
 
         /// The certificate ARN.
         public let certificateArn: String?
@@ -11573,10 +10358,6 @@ extension IoT {
     }
 
     public struct PercentPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "percent", required: false, type: .double), 
-            AWSShapeMember(label: "value", required: false, type: .double)
-        ]
 
         /// The percentile.
         public let percent: Double?
@@ -11595,10 +10376,6 @@ extension IoT {
     }
 
     public struct Policy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string)
-        ]
 
         /// The policy ARN.
         public let policyArn: String?
@@ -11617,11 +10394,6 @@ extension IoT {
     }
 
     public struct PolicyVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "versionId", required: false, type: .string)
-        ]
 
         /// The date and time the policy was created.
         public let createDate: TimeStamp?
@@ -11644,10 +10416,6 @@ extension IoT {
     }
 
     public struct PolicyVersionIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionId", required: false, type: .string)
-        ]
 
         /// The name of the policy.
         public let policyName: String?
@@ -11673,10 +10441,6 @@ extension IoT {
     }
 
     public struct PresignedUrlConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expiresInSec", required: false, type: .long), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document.
         public let expiresInSec: Int64?
@@ -11702,14 +10466,6 @@ extension IoT {
     }
 
     public struct ProvisioningTemplateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "templateArn", required: false, type: .string), 
-            AWSShapeMember(label: "templateName", required: false, type: .string)
-        ]
 
         /// The date when the fleet provisioning template summary was created.
         public let creationDate: TimeStamp?
@@ -11744,11 +10500,6 @@ extension IoT {
     }
 
     public struct ProvisioningTemplateVersionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "versionId", required: false, type: .integer)
-        ]
 
         /// The date when the fleet provisioning template version was created
         public let creationDate: TimeStamp?
@@ -11771,9 +10522,6 @@ extension IoT {
     }
 
     public struct PublishFindingToSnsParams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "topicArn", required: true, type: .string)
-        ]
 
         /// The ARN of the topic to which you want to publish the findings.
         public let topicArn: String
@@ -11792,13 +10540,6 @@ extension IoT {
     }
 
     public struct PutAssetPropertyValueEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assetId", required: false, type: .string), 
-            AWSShapeMember(label: "entryId", required: false, type: .string), 
-            AWSShapeMember(label: "propertyAlias", required: false, type: .string), 
-            AWSShapeMember(label: "propertyId", required: false, type: .string), 
-            AWSShapeMember(label: "propertyValues", required: true, type: .list)
-        ]
 
         /// The ID of the AWS IoT SiteWise asset. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
         public let assetId: String?
@@ -11838,9 +10579,6 @@ extension IoT {
     }
 
     public struct PutItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tableName", required: true, type: .string)
-        ]
 
         /// The table where the message data will be written.
         public let tableName: String
@@ -11855,10 +10593,6 @@ extension IoT {
     }
 
     public struct RateIncreaseCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfNotifiedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfSucceededThings", required: false, type: .integer)
-        ]
 
         /// The threshold for number of notified things that will initiate the increase in rate of rollout.
         public let numberOfNotifiedThings: Int?
@@ -11882,12 +10616,9 @@ extension IoT {
     }
 
     public struct RegisterCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration"), required: false, type: .boolean), 
-            AWSShapeMember(label: "caCertificate", required: true, type: .string), 
-            AWSShapeMember(label: "registrationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "verificationCertificate", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration")), 
+            AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
         ]
 
         /// Allows this CA certificate to be used for auto registration of device certificates.
@@ -11927,10 +10658,6 @@ extension IoT {
     }
 
     public struct RegisterCACertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string)
-        ]
 
         /// The CA certificate ARN.
         public let certificateArn: String?
@@ -11949,11 +10676,6 @@ extension IoT {
     }
 
     public struct RegisterCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caCertificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
@@ -11983,10 +10705,6 @@ extension IoT {
     }
 
     public struct RegisterCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string)
-        ]
 
         /// The certificate ARN.
         public let certificateArn: String?
@@ -12005,10 +10723,6 @@ extension IoT {
     }
 
     public struct RegisterThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parameters", required: false, type: .map), 
-            AWSShapeMember(label: "templateBody", required: true, type: .string)
-        ]
 
         /// The parameters for provisioning a thing. See Programmatic Provisioning for more information.
         public let parameters: [String: String]?
@@ -12027,10 +10741,6 @@ extension IoT {
     }
 
     public struct RegisterThingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArns", required: false, type: .map)
-        ]
 
         /// .
         public let certificatePem: String?
@@ -12049,10 +10759,6 @@ extension IoT {
     }
 
     public struct RegistrationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "templateBody", required: false, type: .string)
-        ]
 
         /// The ARN of the role.
         public let roleArn: String?
@@ -12076,9 +10782,8 @@ extension IoT {
     }
 
     public struct RejectCertificateTransferRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "rejectReason", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -12105,11 +10810,6 @@ extension IoT {
     }
 
     public struct RelatedResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalInfo", required: false, type: .map), 
-            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
-        ]
 
         /// Other information about the resource.
         public let additionalInfo: [String: String]?
@@ -12132,12 +10832,6 @@ extension IoT {
     }
 
     public struct RemoveThingFromBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -12181,12 +10875,6 @@ extension IoT {
     }
 
     public struct RemoveThingFromThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// The ARN of the thing to remove from the group.
         public let thingArn: String?
@@ -12230,9 +10918,6 @@ extension IoT {
     }
 
     public struct ReplaceDefaultPolicyVersionParams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateName", required: true, type: .enum)
-        ]
 
         /// The name of the template to be applied. The only supported value is BLANK_POLICY.
         public let templateName: PolicyTemplateName
@@ -12249,9 +10934,8 @@ extension IoT {
     public struct ReplaceTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "topicRulePayload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
-            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
         /// The name of the rule.
@@ -12278,11 +10962,6 @@ extension IoT {
     }
 
     public struct RepublishAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "qos", required: false, type: .integer), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "topic", required: true, type: .string)
-        ]
 
         /// The Quality of Service (QoS) level to use when republishing messages. The default value is 0.
         public let qos: Int?
@@ -12310,16 +10989,6 @@ extension IoT {
     }
 
     public struct ResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "account", required: false, type: .string), 
-            AWSShapeMember(label: "caCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "deviceCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "iamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "roleAliasArn", required: false, type: .string)
-        ]
 
         /// The account with which the resource is associated.
         public let account: String?
@@ -12379,15 +11048,6 @@ extension IoT {
     }
 
     public struct RoleAliasDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
-            AWSShapeMember(label: "roleAliasArn", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The UNIX timestamp of when the role alias was created.
         public let creationDate: TimeStamp?
@@ -12426,12 +11086,6 @@ extension IoT {
     }
 
     public struct S3Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "cannedAcl", required: false, type: .enum), 
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
 
         /// The Amazon S3 bucket.
         public let bucketName: String
@@ -12458,10 +11112,6 @@ extension IoT {
     }
 
     public struct S3Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "prefix", required: false, type: .string)
-        ]
 
         /// The S3 bucket that contains the updated firmware.
         public let bucket: String?
@@ -12484,11 +11134,6 @@ extension IoT {
     }
 
     public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         /// The S3 bucket.
         public let bucket: String?
@@ -12516,10 +11161,6 @@ extension IoT {
     }
 
     public struct SalesforceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "token", required: true, type: .string), 
-            AWSShapeMember(label: "url", required: true, type: .string)
-        ]
 
         /// The token used to authenticate access to the Salesforce IoT Cloud Input Stream. The token is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
         public let token: String
@@ -12544,13 +11185,6 @@ extension IoT {
     }
 
     public struct ScheduledAuditMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "frequency", required: false, type: .enum), 
-            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string), 
-            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string)
-        ]
 
         /// The day of the month on which the scheduled audit is run (if the frequency is "MONTHLY"). If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
@@ -12581,13 +11215,6 @@ extension IoT {
     }
 
     public struct SearchIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string)
-        ]
 
         /// The search index name.
         public let indexName: String?
@@ -12627,11 +11254,6 @@ extension IoT {
     }
 
     public struct SearchIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroups", required: false, type: .list), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -12654,10 +11276,6 @@ extension IoT {
     }
 
     public struct SecurityProfileIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The ARN of the security profile.
         public let arn: String
@@ -12676,9 +11294,6 @@ extension IoT {
     }
 
     public struct SecurityProfileTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The ARN of the security profile.
         public let arn: String
@@ -12693,10 +11308,6 @@ extension IoT {
     }
 
     public struct SecurityProfileTargetMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "target", required: false, type: .structure)
-        ]
 
         /// Information that identifies the security profile.
         public let securityProfileIdentifier: SecurityProfileIdentifier?
@@ -12715,11 +11326,6 @@ extension IoT {
     }
 
     public struct ServerCertificateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "serverCertificateStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "serverCertificateStatusDetail", required: false, type: .string)
-        ]
 
         /// The ARN of the server certificate.
         public let serverCertificateArn: String?
@@ -12742,9 +11348,6 @@ extension IoT {
     }
 
     public struct SetDefaultAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", required: true, type: .string)
-        ]
 
         /// The authorizer name.
         public let authorizerName: String
@@ -12765,10 +11368,6 @@ extension IoT {
     }
 
     public struct SetDefaultAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", required: false, type: .string)
-        ]
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -12787,9 +11386,9 @@ extension IoT {
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
+            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
         ]
 
         /// The policy name.
@@ -12818,9 +11417,6 @@ extension IoT {
     public struct SetLoggingOptionsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "loggingOptionsPayload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptionsPayload", required: true, type: .structure)
-        ]
 
         /// The logging options payload.
         public let loggingOptionsPayload: LoggingOptionsPayload
@@ -12835,10 +11431,6 @@ extension IoT {
     }
 
     public struct SetV2LoggingLevelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logLevel", required: true, type: .enum), 
-            AWSShapeMember(label: "logTarget", required: true, type: .structure)
-        ]
 
         /// The log level.
         public let logLevel: LogLevel
@@ -12857,11 +11449,6 @@ extension IoT {
     }
 
     public struct SetV2LoggingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultLogLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "disableAllLogs", required: false, type: .boolean), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// The default logging level.
         public let defaultLogLevel: LogLevel?
@@ -12884,11 +11471,6 @@ extension IoT {
     }
 
     public struct SigV4Authorization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "serviceName", required: true, type: .string), 
-            AWSShapeMember(label: "signingRegion", required: true, type: .string)
-        ]
 
         /// The ARN of the signing role.
         public let roleArn: String
@@ -12911,11 +11493,6 @@ extension IoT {
     }
 
     public struct SigningProfileParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePathOnDevice", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .string)
-        ]
 
         /// Certificate ARN.
         public let certificateArn: String?
@@ -12938,11 +11515,6 @@ extension IoT {
     }
 
     public struct SnsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "targetArn", required: true, type: .string)
-        ]
 
         /// (Optional) The message format of the message to publish. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see https://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
         public let messageFormat: MessageFormat?
@@ -12965,11 +11537,6 @@ extension IoT {
     }
 
     public struct SqsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queueUrl", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "useBase64", required: false, type: .boolean)
-        ]
 
         /// The URL of the Amazon SQS queue.
         public let queueUrl: String
@@ -12992,11 +11559,8 @@ extension IoT {
     }
 
     public struct StartAuditMitigationActionsTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditCheckToActionsMapping", required: true, type: .map), 
-            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "target", required: true, type: .structure), 
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your AWS account.
@@ -13038,9 +11602,6 @@ extension IoT {
     }
 
     public struct StartAuditMitigationActionsTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
 
         /// The unique identifier for the audit mitigation task. This matches the taskId that you specified in the request.
         public let taskId: String?
@@ -13055,9 +11616,6 @@ extension IoT {
     }
 
     public struct StartOnDemandAuditTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetCheckNames", required: true, type: .list)
-        ]
 
         /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
         public let targetCheckNames: [String]
@@ -13072,9 +11630,6 @@ extension IoT {
     }
 
     public struct StartOnDemandAuditTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
 
         /// The ID of the on-demand audit you started.
         public let taskId: String?
@@ -13089,11 +11644,6 @@ extension IoT {
     }
 
     public struct StartSigningJobParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: false, type: .structure), 
-            AWSShapeMember(label: "signingProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "signingProfileParameter", required: false, type: .structure)
-        ]
 
         /// The location to write the code-signed file.
         public let destination: Destination?
@@ -13120,12 +11670,6 @@ extension IoT {
     }
 
     public struct StartThingRegistrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputFileBucket", required: true, type: .string), 
-            AWSShapeMember(label: "inputFileKey", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "templateBody", required: true, type: .string)
-        ]
 
         /// The S3 bucket that contains the input file.
         public let inputFileBucket: String
@@ -13163,9 +11707,6 @@ extension IoT {
     }
 
     public struct StartThingRegistrationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
 
         /// The bulk thing provisioning task ID.
         public let taskId: String?
@@ -13180,9 +11721,6 @@ extension IoT {
     }
 
     public struct StatisticalThreshold: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statistic", required: false, type: .string)
-        ]
 
         /// The percentile which resolves to a threshold value by which compliance with a behavior is determined. Metrics are collected over the specified period (durationSeconds) from all reporting devices in your account and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the device fall above or below (comparisonOperator) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs.
         public let statistic: String?
@@ -13201,16 +11739,6 @@ extension IoT {
     }
 
     public struct Statistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "average", required: false, type: .double), 
-            AWSShapeMember(label: "count", required: false, type: .integer), 
-            AWSShapeMember(label: "maximum", required: false, type: .double), 
-            AWSShapeMember(label: "minimum", required: false, type: .double), 
-            AWSShapeMember(label: "stdDeviation", required: false, type: .double), 
-            AWSShapeMember(label: "sum", required: false, type: .double), 
-            AWSShapeMember(label: "sumOfSquares", required: false, type: .double), 
-            AWSShapeMember(label: "variance", required: false, type: .double)
-        ]
 
         /// The average of the aggregated field values.
         public let average: Double?
@@ -13253,11 +11781,6 @@ extension IoT {
     }
 
     public struct StepFunctionsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "stateMachineName", required: true, type: .string)
-        ]
 
         /// (Optional) A name will be given to the state machine execution consisting of this prefix followed by a UUID. Step Functions automatically creates a unique name for each state machine execution if one is not provided.
         public let executionNamePrefix: String?
@@ -13280,8 +11803,8 @@ extension IoT {
     }
 
     public struct StopThingRegistrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
 
         /// The bulk thing provisioning task ID.
@@ -13309,10 +11832,6 @@ extension IoT {
     }
 
     public struct Stream: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileId", required: false, type: .integer), 
-            AWSShapeMember(label: "streamId", required: false, type: .string)
-        ]
 
         /// The ID of a file associated with a stream.
         public let fileId: Int?
@@ -13339,10 +11858,6 @@ extension IoT {
     }
 
     public struct StreamFile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileId", required: false, type: .integer), 
-            AWSShapeMember(label: "s3Location", required: false, type: .structure)
-        ]
 
         /// The file ID.
         public let fileId: Int?
@@ -13367,16 +11882,6 @@ extension IoT {
     }
 
     public struct StreamInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "files", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer)
-        ]
 
         /// The date when the stream was created.
         public let createdAt: TimeStamp?
@@ -13419,12 +11924,6 @@ extension IoT {
     }
 
     public struct StreamSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer)
-        ]
 
         /// A description of the stream.
         public let description: String?
@@ -13451,10 +11950,6 @@ extension IoT {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The tag's key.
         public let key: String?
@@ -13473,10 +11968,6 @@ extension IoT {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The ARN of the resource.
         public let resourceArn: String
@@ -13503,15 +11994,6 @@ extension IoT {
     }
 
     public struct TaskStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "canceledChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "compliantChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "failedChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "inProgressChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "nonCompliantChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "totalChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "waitingForDataCollectionChecks", required: false, type: .integer)
-        ]
 
         /// The number of checks that did not run because the audit was canceled.
         public let canceledChecks: Int?
@@ -13550,13 +12032,6 @@ extension IoT {
     }
 
     public struct TaskStatisticsForAuditCheck: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "canceledFindingsCount", required: false, type: .long), 
-            AWSShapeMember(label: "failedFindingsCount", required: false, type: .long), 
-            AWSShapeMember(label: "skippedFindingsCount", required: false, type: .long), 
-            AWSShapeMember(label: "succeededFindingsCount", required: false, type: .long), 
-            AWSShapeMember(label: "totalFindingsCount", required: false, type: .long)
-        ]
 
         /// The number of findings to which the mitigation action task was canceled when applied.
         public let canceledFindingsCount: Int64?
@@ -13587,13 +12062,8 @@ extension IoT {
     }
 
     public struct TestAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authInfos", required: true, type: .list), 
-            AWSShapeMember(label: "clientId", location: .querystring(locationName: "clientId"), required: false, type: .string), 
-            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "policyNamesToAdd", required: false, type: .list), 
-            AWSShapeMember(label: "policyNamesToSkip", required: false, type: .list), 
-            AWSShapeMember(label: "principal", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientId", location: .querystring(locationName: "clientId"))
         ]
 
         /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list.
@@ -13644,9 +12114,6 @@ extension IoT {
     }
 
     public struct TestAuthorizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authResults", required: false, type: .list)
-        ]
 
         /// The authentication results.
         public let authResults: [AuthResult]?
@@ -13661,13 +12128,8 @@ extension IoT {
     }
 
     public struct TestInvokeAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
-            AWSShapeMember(label: "httpContext", required: false, type: .structure), 
-            AWSShapeMember(label: "mqttContext", required: false, type: .structure), 
-            AWSShapeMember(label: "tlsContext", required: false, type: .structure), 
-            AWSShapeMember(label: "token", required: false, type: .string), 
-            AWSShapeMember(label: "tokenSignature", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
 
         /// The custom authorizer name.
@@ -13717,13 +12179,6 @@ extension IoT {
     }
 
     public struct TestInvokeAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "disconnectAfterInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "isAuthenticated", required: false, type: .boolean), 
-            AWSShapeMember(label: "policyDocuments", required: false, type: .list), 
-            AWSShapeMember(label: "principalId", required: false, type: .string), 
-            AWSShapeMember(label: "refreshAfterInSeconds", required: false, type: .integer)
-        ]
 
         /// The number of seconds after which the connection is terminated.
         public let disconnectAfterInSeconds: Int?
@@ -13754,13 +12209,6 @@ extension IoT {
     }
 
     public struct ThingAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// A list of thing attributes which are name-value pairs.
         public let attributes: [String: String]?
@@ -13791,10 +12239,6 @@ extension IoT {
     }
 
     public struct ThingConnectivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "connected", required: false, type: .boolean), 
-            AWSShapeMember(label: "timestamp", required: false, type: .long)
-        ]
 
         /// True if the thing is connected to the AWS IoT service; false if it is not connected.
         public let connected: Bool?
@@ -13813,15 +12257,6 @@ extension IoT {
     }
 
     public struct ThingDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "connectivity", required: false, type: .structure), 
-            AWSShapeMember(label: "shadow", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "thingId", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string)
-        ]
 
         /// The attributes.
         public let attributes: [String: String]?
@@ -13860,13 +12295,6 @@ extension IoT {
     }
 
     public struct ThingGroupDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "parentGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string)
-        ]
 
         /// The thing group attributes.
         public let attributes: [String: String]?
@@ -13897,11 +12325,6 @@ extension IoT {
     }
 
     public struct ThingGroupIndexingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customFields", required: false, type: .list), 
-            AWSShapeMember(label: "managedFields", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupIndexingMode", required: true, type: .enum)
-        ]
 
         /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
         public let customFields: [Field]?
@@ -13924,11 +12347,6 @@ extension IoT {
     }
 
     public struct ThingGroupMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "parentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "rootToParentThingGroups", required: false, type: .list)
-        ]
 
         /// The UNIX timestamp of when the thing group was created.
         public let creationDate: TimeStamp?
@@ -13951,10 +12369,6 @@ extension IoT {
     }
 
     public struct ThingGroupProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
-            AWSShapeMember(label: "thingGroupDescription", required: false, type: .string)
-        ]
 
         /// The thing group attributes in JSON format.
         public let attributePayload: AttributePayload?
@@ -13979,12 +12393,6 @@ extension IoT {
     }
 
     public struct ThingIndexingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customFields", required: false, type: .list), 
-            AWSShapeMember(label: "managedFields", required: false, type: .list), 
-            AWSShapeMember(label: "thingConnectivityIndexingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "thingIndexingMode", required: true, type: .enum)
-        ]
 
         /// Contains custom field names and their data type.
         public let customFields: [Field]?
@@ -14011,12 +12419,6 @@ extension IoT {
     }
 
     public struct ThingTypeDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
-        ]
 
         /// The thing type ARN.
         public let thingTypeArn: String?
@@ -14043,11 +12445,6 @@ extension IoT {
     }
 
     public struct ThingTypeMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deprecated", required: false, type: .boolean), 
-            AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp)
-        ]
 
         /// The date and time when the thing type was created.
         public let creationDate: TimeStamp?
@@ -14070,10 +12467,6 @@ extension IoT {
     }
 
     public struct ThingTypeProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "searchableAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "thingTypeDescription", required: false, type: .string)
-        ]
 
         /// A list of searchable thing attribute names.
         public let searchableAttributes: [String]?
@@ -14101,9 +12494,6 @@ extension IoT {
     }
 
     public struct TimeoutConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inProgressTimeoutInMinutes", required: false, type: .long)
-        ]
 
         /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status.
         public let inProgressTimeoutInMinutes: Int64?
@@ -14118,9 +12508,6 @@ extension IoT {
     }
 
     public struct TlsContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serverName", required: false, type: .string)
-        ]
 
         /// The value of the serverName key in a TLS authorization request.
         public let serverName: String?
@@ -14140,16 +12527,6 @@ extension IoT {
     }
 
     public struct TopicRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "errorAction", required: false, type: .structure), 
-            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ruleName", required: false, type: .string), 
-            AWSShapeMember(label: "sql", required: false, type: .string)
-        ]
 
         /// The actions associated with the rule.
         public let actions: [Action]?
@@ -14192,12 +12569,6 @@ extension IoT {
     }
 
     public struct TopicRuleDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "httpUrlProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
-        ]
 
         /// The topic rule destination URL.
         public let arn: String?
@@ -14224,9 +12595,6 @@ extension IoT {
     }
 
     public struct TopicRuleDestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpUrlConfiguration", required: false, type: .structure)
-        ]
 
         /// Configuration of the HTTP URL.
         public let httpUrlConfiguration: HttpUrlDestinationConfiguration?
@@ -14245,12 +12613,6 @@ extension IoT {
     }
 
     public struct TopicRuleDestinationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "httpUrlSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
-        ]
 
         /// The topic rule destination ARN.
         public let arn: String?
@@ -14277,13 +12639,6 @@ extension IoT {
     }
 
     public struct TopicRuleListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ruleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ruleName", required: false, type: .string), 
-            AWSShapeMember(label: "topicPattern", required: false, type: .string)
-        ]
 
         /// The date and time the rule was created.
         public let createdAt: TimeStamp?
@@ -14314,14 +12669,6 @@ extension IoT {
     }
 
     public struct TopicRulePayload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: true, type: .list), 
-            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "errorAction", required: false, type: .structure), 
-            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "sql", required: true, type: .string)
-        ]
 
         /// The actions associated with the rule.
         public let actions: [Action]
@@ -14365,10 +12712,9 @@ extension IoT {
     }
 
     public struct TransferCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"), required: true, type: .string), 
-            AWSShapeMember(label: "transferMessage", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
+            AWSMemberEncoding(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -14402,9 +12748,6 @@ extension IoT {
     }
 
     public struct TransferCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transferredCertificateArn", required: false, type: .string)
-        ]
 
         /// The ARN of the certificate.
         public let transferredCertificateArn: String?
@@ -14419,13 +12762,6 @@ extension IoT {
     }
 
     public struct TransferData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "acceptDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "rejectDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "rejectReason", required: false, type: .string), 
-            AWSShapeMember(label: "transferDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "transferMessage", required: false, type: .string)
-        ]
 
         /// The date the transfer was accepted.
         public let acceptDate: TimeStamp?
@@ -14456,10 +12792,6 @@ extension IoT {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The ARN of the resource.
         public let resourceArn: String
@@ -14486,11 +12818,6 @@ extension IoT {
     }
 
     public struct UpdateAccountAuditConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditCheckConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "auditNotificationTargetConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
 
         /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
@@ -14529,12 +12856,8 @@ extension IoT {
     }
 
     public struct UpdateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerFunctionArn", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
 
         /// The ARN of the authorizer's Lambda function.
@@ -14581,10 +12904,6 @@ extension IoT {
     }
 
     public struct UpdateAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", required: false, type: .string)
-        ]
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -14603,10 +12922,8 @@ extension IoT {
     }
 
     public struct UpdateBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "billingGroupProperties", required: true, type: .structure), 
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
         ]
 
         /// The name of the billing group.
@@ -14637,9 +12954,6 @@ extension IoT {
     }
 
     public struct UpdateBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// The latest version of the billing group.
         public let version: Int64?
@@ -14654,9 +12968,6 @@ extension IoT {
     }
 
     public struct UpdateCACertificateParams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: true, type: .enum)
-        ]
 
         /// The action that you want to apply to the CA cerrtificate. The only supported value is DEACTIVATE.
         public let action: CACertificateUpdateAction
@@ -14671,12 +12982,10 @@ extension IoT {
     }
 
     public struct UpdateCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "registrationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "removeAutoRegistration", required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "caCertificateId")), 
+            AWSMemberEncoding(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus")), 
+            AWSMemberEncoding(label: "newStatus", location: .querystring(locationName: "newStatus"))
         ]
 
         /// The CA certificate identifier.
@@ -14715,9 +13024,9 @@ extension IoT {
     }
 
     public struct UpdateCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: true, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
+            AWSMemberEncoding(label: "newStatus", location: .querystring(locationName: "newStatus"))
         ]
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -14743,9 +13052,6 @@ extension IoT {
     }
 
     public struct UpdateDeviceCertificateParams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: true, type: .enum)
-        ]
 
         /// The action that you want to apply to the device cerrtificate. The only supported value is DEACTIVATE.
         public let action: DeviceCertificateUpdateAction
@@ -14760,11 +13066,8 @@ extension IoT {
     }
 
     public struct UpdateDomainConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string), 
-            AWSShapeMember(label: "domainConfigurationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "removeAuthorizerConfig", required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
 
         /// An object that specifies the authorization service for a domain.
@@ -14799,10 +13102,6 @@ extension IoT {
     }
 
     public struct UpdateDomainConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
-            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string)
-        ]
 
         /// The ARN of the domain configuration that was updated.
         public let domainConfigurationArn: String?
@@ -14821,13 +13120,8 @@ extension IoT {
     }
 
     public struct UpdateDynamicThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The expected version of the dynamic thing group to update.
@@ -14874,9 +13168,6 @@ extension IoT {
     }
 
     public struct UpdateDynamicThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// The dynamic thing group version.
         public let version: Int64?
@@ -14891,9 +13182,6 @@ extension IoT {
     }
 
     public struct UpdateEventConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventConfigurations", required: false, type: .map)
-        ]
 
         /// The new event configuration values.
         public let eventConfigurations: [EventType: Configuration]?
@@ -14916,10 +13204,6 @@ extension IoT {
     }
 
     public struct UpdateIndexingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupIndexingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "thingIndexingConfiguration", required: false, type: .structure)
-        ]
 
         /// Thing group indexing configuration.
         public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
@@ -14946,13 +13230,8 @@ extension IoT {
     }
 
     public struct UpdateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
         /// Allows you to create criteria to abort a job.
@@ -14999,10 +13278,8 @@ extension IoT {
     }
 
     public struct UpdateMitigationActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string), 
-            AWSShapeMember(label: "actionParams", required: false, type: .structure), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
 
         /// The friendly name for the mitigation action. You can't change the name by using UpdateMitigationAction. Instead, you must delete and re-create the mitigation action with the new name.
@@ -15034,10 +13311,6 @@ extension IoT {
     }
 
     public struct UpdateMitigationActionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionArn", required: false, type: .string), 
-            AWSShapeMember(label: "actionId", required: false, type: .string)
-        ]
 
         /// The ARN for the new mitigation action.
         public let actionArn: String?
@@ -15056,12 +13329,8 @@ extension IoT {
     }
 
     public struct UpdateProvisioningTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultVersionId", required: false, type: .integer), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "provisioningRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
 
         /// The ID of the default provisioning template version.
@@ -15112,10 +13381,8 @@ extension IoT {
     }
 
     public struct UpdateRoleAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
 
         /// The number of seconds the credential will be valid.
@@ -15149,10 +13416,6 @@ extension IoT {
     }
 
     public struct UpdateRoleAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
-            AWSShapeMember(label: "roleAliasArn", required: false, type: .string)
-        ]
 
         /// The role alias.
         public let roleAlias: String?
@@ -15171,12 +13434,8 @@ extension IoT {
     }
 
     public struct UpdateScheduledAuditRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "frequency", required: false, type: .enum), 
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string), 
-            AWSShapeMember(label: "targetCheckNames", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
 
         /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
@@ -15215,9 +13474,6 @@ extension IoT {
     }
 
     public struct UpdateScheduledAuditResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string)
-        ]
 
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
@@ -15232,16 +13488,9 @@ extension IoT {
     }
 
     public struct UpdateSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "behaviors", required: false, type: .list), 
-            AWSShapeMember(label: "deleteAdditionalMetricsToRetain", required: false, type: .boolean), 
-            AWSShapeMember(label: "deleteAlertTargets", required: false, type: .boolean), 
-            AWSShapeMember(label: "deleteBehaviors", required: false, type: .boolean), 
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
+            AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
@@ -15304,17 +13553,6 @@ extension IoT {
     }
 
     public struct UpdateSecurityProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "behaviors", required: false, type: .list), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the security profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetain: [String]?
@@ -15361,11 +13599,8 @@ extension IoT {
     }
 
     public struct UpdateStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "files", required: false, type: .list), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
 
         /// The description of the stream.
@@ -15408,12 +13643,6 @@ extension IoT {
     }
 
     public struct UpdateStreamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer)
-        ]
 
         /// A description of the stream.
         public let description: String?
@@ -15440,10 +13669,8 @@ extension IoT {
     }
 
     public struct UpdateThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: true, type: .structure)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
 
         /// The expected version of the thing group. If this does not match the version of the thing group being updated, the update will fail.
@@ -15474,9 +13701,6 @@ extension IoT {
     }
 
     public struct UpdateThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// The version of the updated thing group.
         public let version: Int64?
@@ -15491,12 +13715,6 @@ extension IoT {
     }
 
     public struct UpdateThingGroupsForThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingGroupsToAdd", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
 
         /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
         public let overrideDynamicGroups: Bool?
@@ -15547,12 +13765,8 @@ extension IoT {
     }
 
     public struct UpdateThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "removeThingType", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// A list of thing attributes, a JSON string containing name-value pairs. For example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new attributes or update existing attributes.
@@ -15602,10 +13816,6 @@ extension IoT {
     }
 
     public struct UpdateTopicRuleDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         /// The ARN of the topic rule destination.
         public let arn: String
@@ -15632,9 +13842,6 @@ extension IoT {
     }
 
     public struct ValidateSecurityProfileBehaviorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "behaviors", required: true, type: .list)
-        ]
 
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
         public let behaviors: [Behavior]
@@ -15656,10 +13863,6 @@ extension IoT {
     }
 
     public struct ValidateSecurityProfileBehaviorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "valid", required: false, type: .boolean), 
-            AWSShapeMember(label: "validationErrors", required: false, type: .list)
-        ]
 
         /// True if the behaviors were valid.
         public let valid: Bool?
@@ -15678,9 +13881,6 @@ extension IoT {
     }
 
     public struct ValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
 
         /// The description of an error found in the behaviors.
         public let errorMessage: String?
@@ -15695,15 +13895,6 @@ extension IoT {
     }
 
     public struct ViolationEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "behavior", required: false, type: .structure), 
-            AWSShapeMember(label: "metricValue", required: false, type: .structure), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "violationEventTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "violationEventType", required: false, type: .enum), 
-            AWSShapeMember(label: "violationId", required: false, type: .string)
-        ]
 
         /// The behavior which was violated.
         public let behavior: Behavior?

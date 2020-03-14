@@ -115,11 +115,6 @@ extension DatabaseMigrationService {
     //MARK: Shapes
 
     public struct AccountQuota: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotaName", required: false, type: .string), 
-            AWSShapeMember(label: "Max", required: false, type: .long), 
-            AWSShapeMember(label: "Used", required: false, type: .long)
-        ]
 
         /// The name of the AWS DMS quota for this AWS account.
         public let accountQuotaName: String?
@@ -142,10 +137,6 @@ extension DatabaseMigrationService {
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// Identifies the AWS DMS resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For AWS DMS, you can tag a replication instance, an endpoint, or a replication task.
         public let resourceArn: String
@@ -172,11 +163,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyAction", required: true, type: .string), 
-            AWSShapeMember(label: "OptInType", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
 
         /// The pending maintenance action to apply to this resource.
         public let applyAction: String
@@ -199,9 +185,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ApplyPendingMaintenanceActionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
-        ]
 
         /// The AWS DMS resource that the pending maintenance action will be applied to.
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
@@ -216,9 +199,6 @@ extension DatabaseMigrationService {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the availability zone.
         public let name: String?
@@ -233,18 +213,6 @@ extension DatabaseMigrationService {
     }
 
     public struct Certificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateCreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateOwner", required: false, type: .string), 
-            AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
-            AWSShapeMember(label: "KeyLength", required: false, type: .integer), 
-            AWSShapeMember(label: "SigningAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "ValidFromDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ValidToDate", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
@@ -295,14 +263,6 @@ extension DatabaseMigrationService {
     }
 
     public struct Connection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
@@ -337,30 +297,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateEndpointMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: true, type: .enum), 
-            AWSShapeMember(label: "EngineName", required: true, type: .string), 
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "RedshiftSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
@@ -458,9 +394,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
-        ]
 
         /// The endpoint that was created.
         public let endpoint: Endpoint?
@@ -475,15 +408,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceIds", required: false, type: .list), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         ///  A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it. 
         public let enabled: Bool?
@@ -522,9 +446,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateEventSubscriptionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         /// The event subscription that was created.
         public let eventSubscription: EventSubscription?
@@ -539,22 +460,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateReplicationInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "DnsNameServers", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
-        ]
 
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -621,9 +526,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateReplicationInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
-        ]
 
         /// The replication instance that was created.
         public let replicationInstance: ReplicationInstance?
@@ -638,12 +540,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateReplicationSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The description for the subnet group.
         public let replicationSubnetGroupDescription: String
@@ -670,9 +566,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateReplicationSubnetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
-        ]
 
         /// The replication subnet group that was created.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
@@ -687,19 +580,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "MigrationType", required: true, type: .enum), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "TableMappings", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TargetEndpointArn", required: true, type: .string)
-        ]
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
@@ -754,9 +634,6 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
 
         /// The replication task that was created.
         public let replicationTask: ReplicationTask?
@@ -771,9 +648,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteCertificateMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the deleted certificate.
         public let certificateArn: String
@@ -788,9 +662,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .structure)
-        ]
 
         /// The Secure Sockets Layer (SSL) certificate.
         public let certificate: Certificate?
@@ -805,10 +676,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteConnectionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -827,9 +694,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connection", required: false, type: .structure)
-        ]
 
         /// The connection that is being deleted.
         public let connection: Connection?
@@ -844,9 +708,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteEndpointMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -861,9 +722,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
-        ]
 
         /// The endpoint that was deleted.
         public let endpoint: Endpoint?
@@ -878,9 +736,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         /// The name of the DMS event notification subscription to be deleted.
         public let subscriptionName: String
@@ -895,9 +750,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteEventSubscriptionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         /// The event subscription that was deleted.
         public let eventSubscription: EventSubscription?
@@ -912,9 +764,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteReplicationInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
         public let replicationInstanceArn: String
@@ -929,9 +778,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteReplicationInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
-        ]
 
         /// The replication instance that was deleted.
         public let replicationInstance: ReplicationInstance?
@@ -946,9 +792,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteReplicationSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
-        ]
 
         /// The subnet group name of the replication instance.
         public let replicationSubnetGroupIdentifier: String
@@ -971,9 +814,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
         public let replicationTaskArn: String
@@ -988,9 +828,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
 
         /// The deleted replication task.
         public let replicationTask: ReplicationTask?
@@ -1013,10 +850,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeAccountAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotas", required: false, type: .list), 
-            AWSShapeMember(label: "UniqueAccountIdentifier", required: false, type: .string)
-        ]
 
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?
@@ -1035,11 +868,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeCertificatesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         /// Filters applied to the certificate described in the form of key-value pairs.
         public let filters: [Filter]?
@@ -1062,10 +890,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
         public let certificates: [Certificate]?
@@ -1084,11 +908,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeConnectionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
@@ -1111,10 +930,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeConnectionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connections", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// A description of the connections.
         public let connections: [Connection]?
@@ -1133,11 +948,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEndpointTypesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
         public let filters: [Filter]?
@@ -1160,10 +970,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEndpointTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "SupportedEndpointTypes", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1182,11 +988,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEndpointsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         /// Filters applied to the describe action. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
         public let filters: [Filter]?
@@ -1209,10 +1010,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEndpointsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoints", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// Endpoint description.
         public let endpoints: [Endpoint]?
@@ -1231,10 +1028,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventCategoriesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
-        ]
 
         /// Filters applied to the action.
         public let filters: [Filter]?
@@ -1253,9 +1046,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventCategoriesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategoryGroupList", required: false, type: .list)
-        ]
 
         /// A list of event categories.
         public let eventCategoryGroupList: [EventCategoryGroup]?
@@ -1270,12 +1060,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SubscriptionName", required: false, type: .string)
-        ]
 
         /// Filters applied to the action.
         public let filters: [Filter]?
@@ -1302,10 +1086,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventSubscriptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// A list of event subscriptions.
         public let eventSubscriptionsList: [EventSubscription]?
@@ -1324,17 +1104,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The duration of the events to be listed.
         public let duration: Int?
@@ -1381,10 +1150,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
 
         /// The events described.
         public let events: [Event]?
@@ -1403,10 +1168,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1425,10 +1186,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "OrderableReplicationInstances", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1447,12 +1204,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribePendingMaintenanceActionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string)
-        ]
 
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1478,10 +1229,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribePendingMaintenanceActionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1500,9 +1247,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -1517,9 +1261,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeRefreshSchemasStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
-        ]
 
         /// The status of the schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
@@ -1534,11 +1275,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationInstanceTaskLogsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1561,11 +1297,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationInstanceTaskLogsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceTaskLogs", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1588,11 +1319,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationInstancesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         /// Filters applied to the describe action. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
         public let filters: [Filter]?
@@ -1615,10 +1341,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstances", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1637,11 +1359,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         /// Filters applied to the describe action.
         public let filters: [Filter]?
@@ -1664,10 +1381,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroups", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1686,11 +1399,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationTaskAssessmentResultsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1713,11 +1421,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationTaskAssessmentResultsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskAssessmentResults", required: false, type: .list)
-        ]
 
         /// - The Amazon S3 bucket where the task assessment report is located. 
         public let bucketName: String?
@@ -1740,12 +1443,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationTasksMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "WithoutSettings", required: false, type: .boolean)
-        ]
 
         /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
@@ -1772,10 +1469,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTasks", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1794,11 +1487,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeSchemasMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -1821,10 +1509,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeSchemasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Schemas", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1843,12 +1527,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeTableStatisticsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
-        ]
 
         /// Filters applied to the describe table statistics action. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
         public let filters: [Filter]?
@@ -1875,11 +1553,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeTableStatisticsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "TableStatistics", required: false, type: .list)
-        ]
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1902,10 +1575,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DmsTransferSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
-        ]
 
         ///  The name of the S3 bucket to use. 
         public let bucketName: String?
@@ -1924,9 +1593,6 @@ extension DatabaseMigrationService {
     }
 
     public struct DynamoDbSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String
@@ -1941,12 +1607,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ElasticsearchSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointUri", required: true, type: .string), 
-            AWSShapeMember(label: "ErrorRetryDuration", required: false, type: .integer), 
-            AWSShapeMember(label: "FullLoadErrorPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
-        ]
 
         /// The endpoint for the Elasticsearch cluster.
         public let endpointUri: String
@@ -1973,32 +1633,6 @@ extension DatabaseMigrationService {
     }
 
     public struct Endpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "RedshiftSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
         public let certificateArn: String?
@@ -2105,13 +1739,6 @@ extension DatabaseMigrationService {
     }
 
     public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum)
-        ]
 
         /// The date of the event.
         public let date: TimeStamp?
@@ -2142,10 +1769,6 @@ extension DatabaseMigrationService {
     }
 
     public struct EventCategoryGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
-        ]
 
         ///  A list of event categories from a source type that you've chosen.
         public let eventCategories: [String]?
@@ -2164,17 +1787,6 @@ extension DatabaseMigrationService {
     }
 
     public struct EventSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategoriesList", required: false, type: .list), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdsList", required: false, type: .list), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
-        ]
 
         /// The AWS customer account associated with the AWS DMS event notification subscription.
         public let customerAwsId: String?
@@ -2221,10 +1833,6 @@ extension DatabaseMigrationService {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The name of the filter.
         public let name: String
@@ -2243,12 +1851,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ImportCertificateMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A customer-assigned name for the certificate. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let certificateIdentifier: String
@@ -2275,9 +1877,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ImportCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .structure)
-        ]
 
         /// The certificate to be uploaded.
         public let certificate: Certificate?
@@ -2292,11 +1891,6 @@ extension DatabaseMigrationService {
     }
 
     public struct KinesisSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "StreamArn", required: false, type: .string)
-        ]
 
         /// The output format for the records created on the endpoint. The message format is JSON.
         public let messageFormat: MessageFormatValue?
@@ -2319,9 +1913,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
         public let resourceArn: String
@@ -2336,9 +1927,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// A list of tags for the resource.
         public let tagList: [Tag]?
@@ -2353,29 +1941,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyEndpointMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DmsTransferSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ElasticsearchSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
-            AWSShapeMember(label: "KinesisSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "RedshiftSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public let certificateArn: String?
@@ -2469,9 +2034,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
-        ]
 
         /// The modified endpoint.
         public let endpoint: Endpoint?
@@ -2486,13 +2048,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         ///  A Boolean value; set to true to activate the subscription. 
         public let enabled: Bool?
@@ -2523,9 +2078,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyEventSubscriptionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         /// The modified event subscription.
         public let eventSubscription: EventSubscription?
@@ -2540,19 +2092,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyReplicationInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
-        ]
 
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -2607,9 +2146,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyReplicationInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
-        ]
 
         /// The modified replication instance.
         public let replicationInstance: ReplicationInstance?
@@ -2624,11 +2160,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyReplicationSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
-        ]
 
         /// A description for the replication instance subnet group.
         public let replicationSubnetGroupDescription: String?
@@ -2651,9 +2182,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyReplicationSubnetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
-        ]
 
         /// The modified replication subnet group.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
@@ -2668,16 +2196,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
-            AWSShapeMember(label: "TableMappings", required: false, type: .string)
-        ]
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
@@ -2720,9 +2238,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
 
         /// The replication task that was modified.
         public let replicationTask: ReplicationTask?
@@ -2737,20 +2252,6 @@ extension DatabaseMigrationService {
     }
 
     public struct MongoDbSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthMechanism", required: false, type: .enum), 
-            AWSShapeMember(label: "AuthSource", required: false, type: .string), 
-            AWSShapeMember(label: "AuthType", required: false, type: .enum), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DocsToInvestigate", required: false, type: .string), 
-            AWSShapeMember(label: "ExtractDocId", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "NestingLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This setting is not used when authType=No.
         public let authMechanism: AuthMechanismValue?
@@ -2809,17 +2310,6 @@ extension DatabaseMigrationService {
     }
 
     public struct OrderableReplicationInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "MinAllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "ReleaseStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string)
-        ]
 
         /// List of Availability Zones for this replication instance.
         public let availabilityZones: [String]?
@@ -2866,14 +2356,6 @@ extension DatabaseMigrationService {
     }
 
     public struct PendingMaintenanceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .string), 
-            AWSShapeMember(label: "AutoAppliedAfterDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CurrentApplyDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ForcedApplyDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OptInStatus", required: false, type: .string)
-        ]
 
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
@@ -2908,10 +2390,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RebootReplicationInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
 
         /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
         public let forceFailover: Bool?
@@ -2930,9 +2408,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RebootReplicationInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
-        ]
 
         /// The replication instance that is being rebooted. 
         public let replicationInstance: ReplicationInstance?
@@ -2947,33 +2422,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RedshiftSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcceptAnyDate", required: false, type: .boolean), 
-            AWSShapeMember(label: "AfterConnectScript", required: false, type: .string), 
-            AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
-            AWSShapeMember(label: "BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "ConnectionTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DateFormat", required: false, type: .string), 
-            AWSShapeMember(label: "EmptyAsNull", required: false, type: .boolean), 
-            AWSShapeMember(label: "EncryptionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "FileTransferUploadStreams", required: false, type: .integer), 
-            AWSShapeMember(label: "LoadTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxFileSize", required: false, type: .integer), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "RemoveQuotes", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplaceChars", required: false, type: .string), 
-            AWSShapeMember(label: "ReplaceInvalidChars", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "ServerSideEncryptionKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "TimeFormat", required: false, type: .string), 
-            AWSShapeMember(label: "TrimBlanks", required: false, type: .boolean), 
-            AWSShapeMember(label: "TruncateColumns", required: false, type: .boolean), 
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "WriteBufferSize", required: false, type: .integer)
-        ]
 
         /// A value that indicates to allow any date format, including invalid formats such as 00/00/00 00:00:00, to be loaded without generating an error. You can choose true or false (the default). This parameter applies only to TIMESTAMP and DATE columns. Always use ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data doesn't match the DATEFORMAT specification, Amazon Redshift inserts a NULL value into that field. 
         public let acceptAnyDate: Bool?
@@ -3084,10 +2532,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RefreshSchemasMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -3106,9 +2550,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RefreshSchemasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
-        ]
 
         /// The status of the refreshed schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
@@ -3123,13 +2564,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RefreshSchemasStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastRefreshDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
@@ -3160,11 +2594,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReloadTablesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReloadOption", required: false, type: .enum), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "TablesToReload", required: true, type: .list)
-        ]
 
         /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task.  Valid values: data-reload, validate-only Default value is data-reload.
         public let reloadOption: ReloadOptionValue?
@@ -3187,9 +2616,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReloadTablesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String?
@@ -3204,10 +2630,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// An AWS DMS resource from which you want to remove tag(s). The value for this parameter is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -3234,29 +2656,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "DnsNameServers", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "FreeUntil", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicationInstanceStatus", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list)
-        ]
 
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -3351,11 +2750,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationInstanceTaskLog: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstanceTaskLogSize", required: false, type: .long), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskName", required: false, type: .string)
-        ]
 
         /// The size, in bytes, of the replication task log.
         public let replicationInstanceTaskLogSize: Int64?
@@ -3378,12 +2772,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationPendingModifiedValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string)
-        ]
 
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -3410,13 +2798,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationSubnetGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// A description for the replication subnet group.
         public let replicationSubnetGroupDescription: String?
@@ -3447,25 +2828,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
-            AWSShapeMember(label: "RecoveryCheckpoint", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskCreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReplicationTaskStats", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceEndpointArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StopReason", required: false, type: .string), 
-            AWSShapeMember(label: "TableMappings", required: false, type: .string), 
-            AWSShapeMember(label: "TargetEndpointArn", required: false, type: .string)
-        ]
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want the CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
@@ -3544,15 +2906,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationTaskAssessmentResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssessmentResults", required: false, type: .string), 
-            AWSShapeMember(label: "AssessmentResultsFile", required: false, type: .string), 
-            AWSShapeMember(label: "AssessmentStatus", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskLastAssessmentDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "S3ObjectUrl", required: false, type: .string)
-        ]
 
         ///  The task assessment results in JSON format. 
         public let assessmentResults: String?
@@ -3591,19 +2944,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationTaskStats: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ElapsedTimeMillis", required: false, type: .long), 
-            AWSShapeMember(label: "FreshStartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FullLoadFinishDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FullLoadProgressPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "FullLoadStartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StopDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TablesErrored", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesLoaded", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesLoading", required: false, type: .integer), 
-            AWSShapeMember(label: "TablesQueued", required: false, type: .integer)
-        ]
 
         /// The elapsed time of the task, in milliseconds.
         public let elapsedTimeMillis: Int64?
@@ -3658,10 +2998,6 @@ extension DatabaseMigrationService {
     }
 
     public struct ResourcePendingMaintenanceActions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
-        ]
 
         /// Detailed information about the pending maintenance action.
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
@@ -3680,28 +3016,6 @@ extension DatabaseMigrationService {
     }
 
     public struct S3Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
-            AWSShapeMember(label: "BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "CdcInsertsOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "CsvDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "DataFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "DataPageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "DictPageSizeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "EnableStatistics", required: false, type: .boolean), 
-            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "IncludeOpForFullLoad", required: false, type: .boolean), 
-            AWSShapeMember(label: "ParquetTimestampInMillisecond", required: false, type: .boolean), 
-            AWSShapeMember(label: "ParquetVersion", required: false, type: .enum), 
-            AWSShapeMember(label: "RowGroupLength", required: false, type: .integer), 
-            AWSShapeMember(label: "ServerSideEncryptionKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "TimestampColumnName", required: false, type: .string)
-        ]
 
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path  bucketFolder/schema_name/table_name/. If this parameter is not specified, then the path used is  schema_name/table_name/. 
         public let bucketFolder: String?
@@ -3792,9 +3106,6 @@ extension DatabaseMigrationService {
     }
 
     public struct StartReplicationTaskAssessmentMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
-        ]
 
         ///  The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String
@@ -3809,9 +3120,6 @@ extension DatabaseMigrationService {
     }
 
     public struct StartReplicationTaskAssessmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
 
         ///  The assessed replication task. 
         public let replicationTask: ReplicationTask?
@@ -3826,13 +3134,6 @@ extension DatabaseMigrationService {
     }
 
     public struct StartReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CdcStartPosition", required: false, type: .string), 
-            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CdcStopPosition", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum)
-        ]
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
@@ -3863,9 +3164,6 @@ extension DatabaseMigrationService {
     }
 
     public struct StartReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
 
         /// The replication task started.
         public let replicationTask: ReplicationTask?
@@ -3880,9 +3178,6 @@ extension DatabaseMigrationService {
     }
 
     public struct StopReplicationTaskMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name(ARN) of the replication task to be stopped.
         public let replicationTaskArn: String
@@ -3897,9 +3192,6 @@ extension DatabaseMigrationService {
     }
 
     public struct StopReplicationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
-        ]
 
         /// The replication task stopped.
         public let replicationTask: ReplicationTask?
@@ -3914,11 +3206,6 @@ extension DatabaseMigrationService {
     }
 
     public struct Subnet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
-        ]
 
         /// The Availability Zone of the subnet.
         public let subnetAvailabilityZone: AvailabilityZone?
@@ -3941,12 +3228,6 @@ extension DatabaseMigrationService {
     }
 
     public struct SupportedEndpointType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "EngineDisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string), 
-            AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean)
-        ]
 
         /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
@@ -3973,24 +3254,6 @@ extension DatabaseMigrationService {
     }
 
     public struct TableStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ddls", required: false, type: .long), 
-            AWSShapeMember(label: "Deletes", required: false, type: .long), 
-            AWSShapeMember(label: "FullLoadCondtnlChkFailedRows", required: false, type: .long), 
-            AWSShapeMember(label: "FullLoadErrorRows", required: false, type: .long), 
-            AWSShapeMember(label: "FullLoadRows", required: false, type: .long), 
-            AWSShapeMember(label: "Inserts", required: false, type: .long), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "TableState", required: false, type: .string), 
-            AWSShapeMember(label: "Updates", required: false, type: .long), 
-            AWSShapeMember(label: "ValidationFailedRecords", required: false, type: .long), 
-            AWSShapeMember(label: "ValidationPendingRecords", required: false, type: .long), 
-            AWSShapeMember(label: "ValidationState", required: false, type: .string), 
-            AWSShapeMember(label: "ValidationStateDetails", required: false, type: .string), 
-            AWSShapeMember(label: "ValidationSuspendedRecords", required: false, type: .long)
-        ]
 
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
@@ -4065,10 +3328,6 @@ extension DatabaseMigrationService {
     }
 
     public struct TableToReload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
-        ]
 
         /// The schema name of the table to be reloaded.
         public let schemaName: String?
@@ -4087,10 +3346,6 @@ extension DatabaseMigrationService {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
@@ -4109,10 +3364,6 @@ extension DatabaseMigrationService {
     }
 
     public struct TestConnectionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -4131,9 +3382,6 @@ extension DatabaseMigrationService {
     }
 
     public struct TestConnectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connection", required: false, type: .structure)
-        ]
 
         /// The connection tested.
         public let connection: Connection?
@@ -4148,10 +3396,6 @@ extension DatabaseMigrationService {
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
-        ]
 
         /// The status of the VPC security group.
         public let status: String?

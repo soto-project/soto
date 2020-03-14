@@ -47,12 +47,6 @@ extension WorkLink {
     //MARK: Shapes
 
     public struct AssociateDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcmCertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of an issued ACM certificate that is valid for the domain being associated.
         public let acmCertificateArn: String
@@ -97,11 +91,6 @@ extension WorkLink {
     }
 
     public struct AssociateWebsiteAuthorizationProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizationProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The authorization provider type.
         public let authorizationProviderType: AuthorizationProviderType
@@ -132,9 +121,6 @@ extension WorkLink {
     }
 
     public struct AssociateWebsiteAuthorizationProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizationProviderId", required: false, type: .string)
-        ]
 
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String?
@@ -149,11 +135,6 @@ extension WorkLink {
     }
 
     public struct AssociateWebsiteCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: true, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The root certificate of the CA.
         public let certificate: String
@@ -185,9 +166,6 @@ extension WorkLink {
     }
 
     public struct AssociateWebsiteCertificateAuthorityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WebsiteCaId", required: false, type: .string)
-        ]
 
         /// A unique identifier for the CA.
         public let websiteCaId: String?
@@ -202,11 +180,6 @@ extension WorkLink {
     }
 
     public struct CreateFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetName", required: true, type: .string), 
-            AWSShapeMember(label: "OptimizeForEndUserLocation", required: false, type: .boolean)
-        ]
 
         /// The fleet name to display.
         public let displayName: String?
@@ -236,9 +209,6 @@ extension WorkLink {
     }
 
     public struct CreateFleetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: false, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String?
@@ -253,9 +223,6 @@ extension WorkLink {
     }
 
     public struct DeleteFleetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -283,9 +250,6 @@ extension WorkLink {
     }
 
     public struct DescribeAuditStreamConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -305,9 +269,6 @@ extension WorkLink {
     }
 
     public struct DescribeAuditStreamConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuditStreamArn", required: false, type: .string)
-        ]
 
         /// The ARN of the Amazon Kinesis data stream that will receive the audit events.
         public let auditStreamArn: String?
@@ -322,9 +283,6 @@ extension WorkLink {
     }
 
     public struct DescribeCompanyNetworkConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -344,11 +302,6 @@ extension WorkLink {
     }
 
     public struct DescribeCompanyNetworkConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The security groups associated with access to the provided subnets.
         public let securityGroupIds: [String]?
@@ -371,9 +324,6 @@ extension WorkLink {
     }
 
     public struct DescribeDevicePolicyConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -393,9 +343,6 @@ extension WorkLink {
     }
 
     public struct DescribeDevicePolicyConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceCaCertificate", required: false, type: .string)
-        ]
 
         /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
         public let deviceCaCertificate: String?
@@ -410,10 +357,6 @@ extension WorkLink {
     }
 
     public struct DescribeDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// A unique identifier for a registered user's device.
         public let deviceId: String
@@ -439,17 +382,6 @@ extension WorkLink {
     }
 
     public struct DescribeDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FirstAccessedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastAccessedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Manufacturer", required: false, type: .string), 
-            AWSShapeMember(label: "Model", required: false, type: .string), 
-            AWSShapeMember(label: "OperatingSystem", required: false, type: .string), 
-            AWSShapeMember(label: "OperatingSystemVersion", required: false, type: .string), 
-            AWSShapeMember(label: "PatchLevel", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The date that the device first signed in to Amazon WorkLink.
         public let firstAccessedTime: TimeStamp?
@@ -496,10 +428,6 @@ extension WorkLink {
     }
 
     public struct DescribeDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The name of the domain.
         public let domainName: String
@@ -526,13 +454,6 @@ extension WorkLink {
     }
 
     public struct DescribeDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AcmCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainStatus", required: false, type: .enum)
-        ]
 
         /// The ARN of an issued ACM certificate that is valid for the domain being associated.
         public let acmCertificateArn: String?
@@ -563,9 +484,6 @@ extension WorkLink {
     }
 
     public struct DescribeFleetMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -585,15 +503,6 @@ extension WorkLink {
     }
 
     public struct DescribeFleetMetadataResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompanyCode", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OptimizeForEndUserLocation", required: false, type: .boolean)
-        ]
 
         /// The identifier used by users to sign in to the Amazon WorkLink app.
         public let companyCode: String?
@@ -632,9 +541,6 @@ extension WorkLink {
     }
 
     public struct DescribeIdentityProviderConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -654,11 +560,6 @@ extension WorkLink {
     }
 
     public struct DescribeIdentityProviderConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProviderSamlMetadata", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceProviderSamlMetadata", required: false, type: .string)
-        ]
 
         /// The SAML metadata document provided by the user’s identity provider.
         public let identityProviderSamlMetadata: String?
@@ -681,10 +582,6 @@ extension WorkLink {
     }
 
     public struct DescribeWebsiteCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "WebsiteCaId", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -710,11 +607,6 @@ extension WorkLink {
     }
 
     public struct DescribeWebsiteCertificateAuthorityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
 
         /// The root certificate of the certificate authority.
         public let certificate: String?
@@ -737,10 +629,6 @@ extension WorkLink {
     }
 
     public struct DeviceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceStatus", required: false, type: .enum)
-        ]
 
         /// The ID of the device.
         public let deviceId: String?
@@ -759,10 +647,6 @@ extension WorkLink {
     }
 
     public struct DisassociateDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The name of the domain.
         public let domainName: String
@@ -797,10 +681,6 @@ extension WorkLink {
     }
 
     public struct DisassociateWebsiteAuthorizationProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizationProviderId", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String
@@ -834,10 +714,6 @@ extension WorkLink {
     }
 
     public struct DisassociateWebsiteCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "WebsiteCaId", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -871,12 +747,6 @@ extension WorkLink {
     }
 
     public struct DomainSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "DomainStatus", required: true, type: .enum)
-        ]
 
         /// The time that the domain was created.
         public let createdTime: TimeStamp
@@ -903,15 +773,6 @@ extension WorkLink {
     }
 
     public struct FleetSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompanyCode", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: false, type: .string), 
-            AWSShapeMember(label: "FleetName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp)
-        ]
 
         /// The identifier used by users to sign into the Amazon WorkLink app.
         public let companyCode: String?
@@ -950,11 +811,6 @@ extension WorkLink {
     }
 
     public struct ListDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -986,10 +842,6 @@ extension WorkLink {
     }
 
     public struct ListDevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Devices", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the devices.
         public let devices: [DeviceSummary]?
@@ -1008,11 +860,6 @@ extension WorkLink {
     }
 
     public struct ListDomainsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -1044,10 +891,6 @@ extension WorkLink {
     }
 
     public struct ListDomainsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domains", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the domains.
         public let domains: [DomainSummary]?
@@ -1066,10 +909,6 @@ extension WorkLink {
     }
 
     public struct ListFleetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
@@ -1095,10 +934,6 @@ extension WorkLink {
     }
 
     public struct ListFleetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The summary list of the fleets.
         public let fleetSummaryList: [FleetSummary]?
@@ -1117,11 +952,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteAuthorizationProvidersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -1153,10 +983,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteAuthorizationProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "WebsiteAuthorizationProviders", required: false, type: .list)
-        ]
 
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -1175,11 +1001,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteCertificateAuthoritiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -1211,10 +1032,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteCertificateAuthoritiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "WebsiteCertificateAuthorities", required: false, type: .list)
-        ]
 
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1233,10 +1050,6 @@ extension WorkLink {
     }
 
     public struct RestoreDomainAccessRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The name of the domain.
         public let domainName: String
@@ -1271,10 +1084,6 @@ extension WorkLink {
     }
 
     public struct RevokeDomainAccessRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The name of the domain.
         public let domainName: String
@@ -1309,10 +1118,6 @@ extension WorkLink {
     }
 
     public struct SignOutUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -1346,10 +1151,6 @@ extension WorkLink {
     }
 
     public struct UpdateAuditStreamConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuditStreamArn", required: false, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The ARN of the Amazon Kinesis data stream that receives the audit events.
         public let auditStreamArn: String?
@@ -1381,12 +1182,6 @@ extension WorkLink {
     }
 
     public struct UpdateCompanyNetworkConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeMember(label: "VpcId", required: true, type: .string)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -1434,10 +1229,6 @@ extension WorkLink {
     }
 
     public struct UpdateDevicePolicyConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceCaCertificate", required: false, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
         public let deviceCaCertificate: String?
@@ -1472,11 +1263,6 @@ extension WorkLink {
     }
 
     public struct UpdateDomainMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string)
-        ]
 
         /// The name to display.
         public let displayName: String?
@@ -1516,11 +1302,6 @@ extension WorkLink {
     }
 
     public struct UpdateFleetMetadataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "OptimizeForEndUserLocation", required: false, type: .boolean)
-        ]
 
         /// The fleet name to display. The existing DisplayName is unset if null is passed.
         public let displayName: String?
@@ -1557,11 +1338,6 @@ extension WorkLink {
     }
 
     public struct UpdateIdentityProviderConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FleetArn", required: true, type: .string), 
-            AWSShapeMember(label: "IdentityProviderSamlMetadata", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityProviderType", required: true, type: .enum)
-        ]
 
         /// The ARN of the fleet.
         public let fleetArn: String
@@ -1599,12 +1375,6 @@ extension WorkLink {
     }
 
     public struct WebsiteAuthorizationProviderSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizationProviderId", required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizationProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string)
-        ]
 
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String?
@@ -1631,11 +1401,6 @@ extension WorkLink {
     }
 
     public struct WebsiteCaSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "WebsiteCaId", required: false, type: .string)
-        ]
 
         /// The time when the CA was added.
         public let createdTime: TimeStamp?

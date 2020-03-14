@@ -25,10 +25,6 @@ extension Neptune {
     //MARK: Shapes
 
     public struct AddRoleToDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The name of the DB cluster to associate the IAM role with.
         public let dBClusterIdentifier: String
@@ -47,10 +43,6 @@ extension Neptune {
     }
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
         public let sourceIdentifier: String
@@ -69,9 +61,6 @@ extension Neptune {
     }
 
     public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -85,9 +74,8 @@ extension Neptune {
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The Amazon Neptune resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
@@ -107,11 +95,6 @@ extension Neptune {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyAction", required: true, type: .string), 
-            AWSShapeMember(label: "OptInType", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceIdentifier", required: true, type: .string)
-        ]
 
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
         public let applyAction: String
@@ -134,9 +117,6 @@ extension Neptune {
     }
 
     public struct ApplyPendingMaintenanceActionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
-        ]
 
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
@@ -150,9 +130,6 @@ extension Neptune {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The name of the availability zone.
         public let name: String?
@@ -167,10 +144,6 @@ extension Neptune {
     }
 
     public struct CharacterSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CharacterSetDescription", required: false, type: .string), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string)
-        ]
 
         /// The description of the character set.
         public let characterSetDescription: String?
@@ -189,9 +162,9 @@ extension Neptune {
     }
 
     public struct CloudwatchLogsExportConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisableLogTypes", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableLogTypes", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "disableLogTypes", location: .body(locationName: "DisableLogTypes"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
         ]
 
         /// The list of log types to disable.
@@ -211,11 +184,8 @@ extension Neptune {
     }
 
     public struct CopyDBClusterParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceDBClusterParameterGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBClusterParameterGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "TargetDBClusterParameterGroupIdentifier", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
@@ -243,9 +213,6 @@ extension Neptune {
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -259,13 +226,8 @@ extension Neptune {
     }
 
     public struct CopyDBClusterSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBClusterSnapshotIdentifier", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
@@ -301,9 +263,6 @@ extension Neptune {
     }
 
     public struct CopyDBClusterSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -317,11 +276,8 @@ extension Neptune {
     }
 
     public struct CopyDBParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceDBParameterGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TargetDBParameterGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "TargetDBParameterGroupIdentifier", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
@@ -349,9 +305,6 @@ extension Neptune {
     }
 
     public struct CopyDBParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBParameterGroup: DBParameterGroup?
 
@@ -365,31 +318,11 @@ extension Neptune {
     }
 
     public struct CreateDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A list of EC2 Availability Zones that instances in the DB cluster can be created in.
@@ -497,11 +430,8 @@ extension Neptune {
     }
 
     public struct CreateDBClusterParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string. 
@@ -529,9 +459,6 @@ extension Neptune {
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -545,9 +472,6 @@ extension Neptune {
     }
 
     public struct CreateDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -561,10 +485,8 @@ extension Neptune {
     }
 
     public struct CreateDBClusterSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1 
@@ -588,9 +510,6 @@ extension Neptune {
     }
 
     public struct CreateDBClusterSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -604,49 +523,11 @@ extension Neptune {
     }
 
     public struct CreateDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: true, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroupName")), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer Not applicable. Neptune cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in a Neptune cluster volume.
@@ -826,9 +707,6 @@ extension Neptune {
     }
 
     public struct CreateDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -842,11 +720,8 @@ extension Neptune {
     }
 
     public struct CreateDBParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
@@ -874,9 +749,6 @@ extension Neptune {
     }
 
     public struct CreateDBParameterGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
-        ]
 
         public let dBParameterGroup: DBParameterGroup?
 
@@ -890,11 +762,9 @@ extension Neptune {
     }
 
     public struct CreateDBSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier")), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         /// The description for the DB subnet group.
@@ -922,9 +792,6 @@ extension Neptune {
     }
 
     public struct CreateDBSubnetGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
-        ]
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -938,14 +805,10 @@ extension Neptune {
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceIds", required: false, type: .list, encoding: .list(member:"SourceId")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
+            AWSMemberEncoding(label: "sourceIds", location: .body(locationName: "SourceIds"), encoding: .list(member:"SourceId")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
         ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
@@ -985,9 +848,6 @@ extension Neptune {
     }
 
     public struct CreateEventSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -1001,44 +861,14 @@ extension Neptune {
     }
 
     public struct DBCluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AssociatedRoles", required: false, type: .list, encoding: .list(member:"DBClusterRole")), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CloneGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterMembers", required: false, type: .list, encoding: .list(member:"DBClusterMember")), 
-            AWSShapeMember(label: "DBClusterOptionGroupMemberships", required: false, type: .list, encoding: .list(member:"DBClusterOptionGroup")), 
-            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .string), 
-            AWSShapeMember(label: "DbClusterResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EarliestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EnabledCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LatestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PercentProgress", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ReaderEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "ReadReplicaIdentifiers", required: false, type: .list, encoding: .list(member:"ReadReplicaIdentifier")), 
-            AWSShapeMember(label: "ReplicationSourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "associatedRoles", location: .body(locationName: "AssociatedRoles"), encoding: .list(member:"DBClusterRole")), 
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "dBClusterMembers", location: .body(locationName: "DBClusterMembers"), encoding: .list(member:"DBClusterMember")), 
+            AWSMemberEncoding(label: "dBClusterOptionGroupMemberships", location: .body(locationName: "DBClusterOptionGroupMemberships"), encoding: .list(member:"DBClusterOptionGroup")), 
+            AWSMemberEncoding(label: "enabledCloudwatchLogsExports", location: .body(locationName: "EnabledCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "readReplicaIdentifiers", location: .body(locationName: "ReadReplicaIdentifiers"), encoding: .list(member:"ReadReplicaIdentifier")), 
+            AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         ///  AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
@@ -1198,12 +1028,6 @@ extension Neptune {
     }
 
     public struct DBClusterMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "IsClusterWriter", required: false, type: .boolean), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer)
-        ]
 
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
@@ -1230,9 +1054,8 @@ extension Neptune {
     }
 
     public struct DBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusters", required: false, type: .list, encoding: .list(member:"DBCluster")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBClusters", location: .body(locationName: "DBClusters"), encoding: .list(member:"DBCluster"))
         ]
 
         /// Contains a list of DB clusters for the user.
@@ -1252,10 +1075,6 @@ extension Neptune {
     }
 
     public struct DBClusterOptionGroupStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterOptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// Specifies the name of the DB cluster option group.
         public let dBClusterOptionGroupName: String?
@@ -1274,12 +1093,6 @@ extension Neptune {
     }
 
     public struct DBClusterParameterGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
@@ -1306,9 +1119,8 @@ extension Neptune {
     }
 
     public struct DBClusterParameterGroupDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -1328,9 +1140,6 @@ extension Neptune {
     }
 
     public struct DBClusterParameterGroupNameMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string)
-        ]
 
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
@@ -1345,9 +1154,8 @@ extension Neptune {
     }
 
     public struct DBClusterParameterGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroups", required: false, type: .list, encoding: .list(member:"DBClusterParameterGroup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBClusterParameterGroups", location: .body(locationName: "DBClusterParameterGroups"), encoding: .list(member:"DBClusterParameterGroup"))
         ]
 
         /// A list of DB cluster parameter groups.
@@ -1367,10 +1175,6 @@ extension Neptune {
     }
 
     public struct DBClusterRole: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
@@ -1389,27 +1193,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "PercentProgress", required: false, type: .integer), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SnapshotType", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterSnapshotArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
         ]
 
         /// Specifies the allocated storage size in gibibytes (GiB).
@@ -1501,9 +1286,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshotAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeValues", required: false, type: .list, encoding: .list(member:"AttributeValue"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "AttributeValues"), encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
@@ -1523,9 +1307,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshotAttributesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotAttributes", required: false, type: .list, encoding: .list(member:"DBClusterSnapshotAttribute")), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBClusterSnapshotAttributes", location: .body(locationName: "DBClusterSnapshotAttributes"), encoding: .list(member:"DBClusterSnapshotAttribute"))
         ]
 
         /// The list of attributes and values for the manual DB cluster snapshot.
@@ -1545,9 +1328,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshots", required: false, type: .list, encoding: .list(member:"DBClusterSnapshot")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBClusterSnapshots", location: .body(locationName: "DBClusterSnapshots"), encoding: .list(member:"DBClusterSnapshot"))
         ]
 
         /// Provides a list of DB cluster snapshots for the user.
@@ -1567,19 +1349,11 @@ extension Neptune {
     }
 
     public struct DBEngineVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBEngineDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBEngineVersionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultCharacterSet", required: false, type: .structure), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ExportableLogTypes", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "SupportedCharacterSets", required: false, type: .list, encoding: .list(member:"CharacterSet")), 
-            AWSShapeMember(label: "SupportedTimezones", required: false, type: .list, encoding: .list(member:"Timezone")), 
-            AWSShapeMember(label: "SupportsLogExportsToCloudwatchLogs", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsReadReplica", required: false, type: .boolean), 
-            AWSShapeMember(label: "ValidUpgradeTarget", required: false, type: .list, encoding: .list(member:"UpgradeTarget"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportableLogTypes", location: .body(locationName: "ExportableLogTypes"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "supportedCharacterSets", location: .body(locationName: "SupportedCharacterSets"), encoding: .list(member:"CharacterSet")), 
+            AWSMemberEncoding(label: "supportedTimezones", location: .body(locationName: "SupportedTimezones"), encoding: .list(member:"Timezone")), 
+            AWSMemberEncoding(label: "validUpgradeTarget", location: .body(locationName: "ValidUpgradeTarget"), encoding: .list(member:"UpgradeTarget"))
         ]
 
         /// The description of the database engine.
@@ -1639,9 +1413,8 @@ extension Neptune {
     }
 
     public struct DBEngineVersionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBEngineVersions", required: false, type: .list, encoding: .list(member:"DBEngineVersion")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBEngineVersions", location: .body(locationName: "DBEngineVersions"), encoding: .list(member:"DBEngineVersion"))
         ]
 
         ///  A list of DBEngineVersion elements.
@@ -1661,59 +1434,16 @@ extension Neptune {
     }
 
     public struct DBInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DbInstancePort", required: false, type: .integer), 
-            AWSShapeMember(label: "DBInstanceStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroups", required: false, type: .list, encoding: .list(member:"DBParameterGroup")), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroup")), 
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainMemberships", required: false, type: .list, encoding: .list(member:"DomainMembership")), 
-            AWSShapeMember(label: "EnabledCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "EnhancedMonitoringResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "LatestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupMemberships", required: false, type: .list, encoding: .list(member:"OptionGroupMembership")), 
-            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "PerformanceInsightsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "ReadReplicaDBClusterIdentifiers", required: false, type: .list, encoding: .list(member:"ReadReplicaDBClusterIdentifier")), 
-            AWSShapeMember(label: "ReadReplicaDBInstanceIdentifiers", required: false, type: .list, encoding: .list(member:"ReadReplicaDBInstanceIdentifier")), 
-            AWSShapeMember(label: "ReadReplicaSourceDBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "StatusInfos", required: false, type: .list, encoding: .list(member:"DBInstanceStatusInfo")), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup")), 
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroup")), 
+            AWSMemberEncoding(label: "domainMemberships", location: .body(locationName: "DomainMemberships"), encoding: .list(member:"DomainMembership")), 
+            AWSMemberEncoding(label: "enabledCloudwatchLogsExports", location: .body(locationName: "EnabledCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "optionGroupMemberships", location: .body(locationName: "OptionGroupMemberships"), encoding: .list(member:"OptionGroupMembership")), 
+            AWSMemberEncoding(label: "readReplicaDBClusterIdentifiers", location: .body(locationName: "ReadReplicaDBClusterIdentifiers"), encoding: .list(member:"ReadReplicaDBClusterIdentifier")), 
+            AWSMemberEncoding(label: "readReplicaDBInstanceIdentifiers", location: .body(locationName: "ReadReplicaDBInstanceIdentifiers"), encoding: .list(member:"ReadReplicaDBInstanceIdentifier")), 
+            AWSMemberEncoding(label: "statusInfos", location: .body(locationName: "StatusInfos"), encoding: .list(member:"DBInstanceStatusInfo")), 
+            AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
         /// Specifies the allocated storage size specified in gibibytes.
@@ -1933,9 +1663,8 @@ extension Neptune {
     }
 
     public struct DBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstances", required: false, type: .list, encoding: .list(member:"DBInstance")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBInstances", location: .body(locationName: "DBInstances"), encoding: .list(member:"DBInstance"))
         ]
 
         ///  A list of DBInstance instances.
@@ -1955,12 +1684,6 @@ extension Neptune {
     }
 
     public struct DBInstanceStatusInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Normal", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "StatusType", required: false, type: .string)
-        ]
 
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public let message: String?
@@ -1987,12 +1710,6 @@ extension Neptune {
     }
 
     public struct DBParameterGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public let dBParameterGroupArn: String?
@@ -2019,9 +1736,8 @@ extension Neptune {
     }
 
     public struct DBParameterGroupDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2041,9 +1757,6 @@ extension Neptune {
     }
 
     public struct DBParameterGroupNameMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string)
-        ]
 
         /// Provides the name of the DB parameter group.
         public let dBParameterGroupName: String?
@@ -2058,10 +1771,6 @@ extension Neptune {
     }
 
     public struct DBParameterGroupStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
-        ]
 
         /// The name of the DP parameter group.
         public let dBParameterGroupName: String?
@@ -2080,9 +1789,8 @@ extension Neptune {
     }
 
     public struct DBParameterGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroups", required: false, type: .list, encoding: .list(member:"DBParameterGroup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup"))
         ]
 
         /// A list of DBParameterGroup instances.
@@ -2102,10 +1810,6 @@ extension Neptune {
     }
 
     public struct DBSecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The name of the DB security group.
         public let dBSecurityGroupName: String?
@@ -2124,13 +1828,8 @@ extension Neptune {
     }
 
     public struct DBSubnetGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"Subnet")), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"Subnet"))
         ]
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
@@ -2166,9 +1865,8 @@ extension Neptune {
     }
 
     public struct DBSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroups", required: false, type: .list, encoding: .list(member:"DBSubnetGroup")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBSubnetGroups", location: .body(locationName: "DBSubnetGroups"), encoding: .list(member:"DBSubnetGroup"))
         ]
 
         ///  A list of DBSubnetGroup instances.
@@ -2188,11 +1886,6 @@ extension Neptune {
     }
 
     public struct DeleteDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
-        ]
 
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String
@@ -2215,9 +1908,6 @@ extension Neptune {
     }
 
     public struct DeleteDBClusterParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
-        ]
 
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
@@ -2232,9 +1922,6 @@ extension Neptune {
     }
 
     public struct DeleteDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -2248,9 +1935,6 @@ extension Neptune {
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
@@ -2265,9 +1949,6 @@ extension Neptune {
     }
 
     public struct DeleteDBClusterSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -2281,11 +1962,6 @@ extension Neptune {
     }
 
     public struct DeleteDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
-        ]
 
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.  
         public let dBInstanceIdentifier: String
@@ -2308,9 +1984,6 @@ extension Neptune {
     }
 
     public struct DeleteDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -2324,9 +1997,6 @@ extension Neptune {
     }
 
     public struct DeleteDBParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string)
-        ]
 
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Cannot be associated with any DB instances  
         public let dBParameterGroupName: String
@@ -2341,9 +2011,6 @@ extension Neptune {
     }
 
     public struct DeleteDBSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
-        ]
 
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
@@ -2358,9 +2025,6 @@ extension Neptune {
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         /// The name of the event notification subscription you want to delete.
         public let subscriptionName: String
@@ -2375,9 +2039,6 @@ extension Neptune {
     }
 
     public struct DeleteEventSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -2391,11 +2052,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -2423,12 +2081,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterParametersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -2460,9 +2114,6 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
-        ]
 
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
@@ -2477,9 +2128,6 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -2493,15 +2141,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterSnapshotsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "IncludePublic", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeShared", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotType", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBCluster.  
@@ -2545,11 +2186,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClustersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
@@ -2577,16 +2215,8 @@ extension Neptune {
     }
 
     public struct DescribeDBEngineVersionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "ListSupportedCharacterSets", required: false, type: .boolean), 
-            AWSShapeMember(label: "ListSupportedTimezones", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.  
@@ -2634,11 +2264,8 @@ extension Neptune {
     }
 
     public struct DescribeDBInstancesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
@@ -2666,11 +2293,8 @@ extension Neptune {
     }
 
     public struct DescribeDBParameterGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -2698,12 +2322,8 @@ extension Neptune {
     }
 
     public struct DescribeDBParametersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
@@ -2735,11 +2355,8 @@ extension Neptune {
     }
 
     public struct DescribeDBSubnetGroupsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB subnet group to return details for.
@@ -2767,11 +2384,8 @@ extension Neptune {
     }
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB cluster parameter group family to return engine parameter information for.
@@ -2799,9 +2413,6 @@ extension Neptune {
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
-        ]
 
         public let engineDefaults: EngineDefaults?
 
@@ -2815,11 +2426,8 @@ extension Neptune {
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The name of the DB parameter group family.
@@ -2847,9 +2455,6 @@ extension Neptune {
     }
 
     public struct DescribeEngineDefaultParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
-        ]
 
         public let engineDefaults: EngineDefaults?
 
@@ -2863,9 +2468,8 @@ extension Neptune {
     }
 
     public struct DescribeEventCategoriesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// This parameter is not currently supported.
@@ -2885,11 +2489,8 @@ extension Neptune {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SubscriptionName", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// This parameter is not currently supported.
@@ -2917,16 +2518,9 @@ extension Neptune {
     }
 
     public struct DescribeEventsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The number of minutes to retrieve events for. Default: 60
@@ -2974,15 +2568,8 @@ extension Neptune {
     }
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Vpc", required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
@@ -3026,11 +2613,8 @@ extension Neptune {
     }
 
     public struct DescribePendingMaintenanceActionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
@@ -3058,9 +2642,6 @@ extension Neptune {
     }
 
     public struct DescribeValidDBInstanceModificationsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
 
         /// The customer identifier or the ARN of your DB instance.
         public let dBInstanceIdentifier: String
@@ -3075,9 +2656,6 @@ extension Neptune {
     }
 
     public struct DescribeValidDBInstanceModificationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ValidDBInstanceModificationsMessage", required: false, type: .structure)
-        ]
 
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
 
@@ -3091,12 +2669,6 @@ extension Neptune {
     }
 
     public struct DomainMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "FQDN", required: false, type: .string), 
-            AWSShapeMember(label: "IAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The identifier of the Active Directory Domain.
         public let domain: String?
@@ -3123,10 +2695,6 @@ extension Neptune {
     }
 
     public struct DoubleRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "From", required: false, type: .double), 
-            AWSShapeMember(label: "To", required: false, type: .double)
-        ]
 
         /// The minimum value in the range.
         public let from: Double?
@@ -3145,11 +2713,6 @@ extension Neptune {
     }
 
     public struct Endpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
 
         /// Specifies the DNS address of the DB instance.
         public let address: String?
@@ -3172,10 +2735,8 @@ extension Neptune {
     }
 
     public struct EngineDefaults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
@@ -3199,13 +2760,8 @@ extension Neptune {
     }
 
     public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
 
         /// Specifies the date and time of the event.
@@ -3241,9 +2797,8 @@ extension Neptune {
     }
 
     public struct EventCategoriesMap: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
 
         /// The event categories for the specified source type
@@ -3263,8 +2818,8 @@ extension Neptune {
     }
 
     public struct EventCategoriesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategoriesMapList", required: false, type: .list, encoding: .list(member:"EventCategoriesMap"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventCategoriesMapList", location: .body(locationName: "EventCategoriesMapList"), encoding: .list(member:"EventCategoriesMap"))
         ]
 
         /// A list of EventCategoriesMap data types.
@@ -3280,17 +2835,9 @@ extension Neptune {
     }
 
     public struct EventSubscription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategoriesList", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "EventSubscriptionArn", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdsList", required: false, type: .list, encoding: .list(member:"SourceId")), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventCategoriesList", location: .body(locationName: "EventCategoriesList"), encoding: .list(member:"EventCategory")), 
+            AWSMemberEncoding(label: "sourceIdsList", location: .body(locationName: "SourceIdsList"), encoding: .list(member:"SourceId"))
         ]
 
         /// The AWS customer account associated with the event notification subscription.
@@ -3342,9 +2889,8 @@ extension Neptune {
     }
 
     public struct EventSubscriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list, encoding: .list(member:"EventSubscription")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventSubscriptionsList", location: .body(locationName: "EventSubscriptionsList"), encoding: .list(member:"EventSubscription"))
         ]
 
         /// A list of EventSubscriptions data types.
@@ -3364,9 +2910,8 @@ extension Neptune {
     }
 
     public struct EventsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", required: false, type: .list, encoding: .list(member:"Event")), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"Event"))
         ]
 
         ///  A list of Event instances.
@@ -3386,10 +2931,6 @@ extension Neptune {
     }
 
     public struct FailoverDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "TargetDBInstanceIdentifier", required: false, type: .string)
-        ]
 
         /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
@@ -3408,9 +2949,6 @@ extension Neptune {
     }
 
     public struct FailoverDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -3424,9 +2962,8 @@ extension Neptune {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list, encoding: .list(member:"Value"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"Value"))
         ]
 
         /// This parameter is not currently supported.
@@ -3446,9 +2983,8 @@ extension Neptune {
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
-            AWSShapeMember(label: "ResourceName", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
 
         /// This parameter is not currently supported.
@@ -3468,22 +3004,8 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CloudwatchLogsExportConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "NewDBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
@@ -3555,9 +3077,8 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB cluster parameter group to modify.
@@ -3577,9 +3098,6 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -3593,11 +3111,9 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ValuesToAdd", required: false, type: .list, encoding: .list(member:"AttributeValue")), 
-            AWSShapeMember(label: "ValuesToRemove", required: false, type: .list, encoding: .list(member:"AttributeValue"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "valuesToAdd", location: .body(locationName: "ValuesToAdd"), encoding: .list(member:"AttributeValue")), 
+            AWSMemberEncoding(label: "valuesToRemove", location: .body(locationName: "ValuesToRemove"), encoding: .list(member:"AttributeValue"))
         ]
 
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
@@ -3625,9 +3141,6 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
-        ]
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -3641,43 +3154,9 @@ extension Neptune {
     }
 
     public struct ModifyDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CloudwatchLogsExportConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBPortNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .list, encoding: .list(member:"DBSecurityGroupName")), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "NewDBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The new amount of storage (in gibibytes) to allocate for the DB instance. Not applicable. Storage is managed by the DB Cluster.
@@ -3833,9 +3312,6 @@ extension Neptune {
     }
 
     public struct ModifyDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -3849,9 +3325,8 @@ extension Neptune {
     }
 
     public struct ModifyDBParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
@@ -3871,10 +3346,8 @@ extension Neptune {
     }
 
     public struct ModifyDBSubnetGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier"))
         ]
 
         /// The description for the DB subnet group.
@@ -3898,9 +3371,6 @@ extension Neptune {
     }
 
     public struct ModifyDBSubnetGroupResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
-        ]
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -3914,12 +3384,8 @@ extension Neptune {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .list, encoding: .list(member:"EventCategory")), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
 
         ///  A Boolean value; set to true to activate the subscription.
@@ -3951,9 +3417,6 @@ extension Neptune {
     }
 
     public struct ModifyEventSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -3967,10 +3430,6 @@ extension Neptune {
     }
 
     public struct OptionGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
 
         /// The name of the option group that the instance belongs to.
         public let optionGroupName: String?
@@ -3989,27 +3448,8 @@ extension Neptune {
     }
 
     public struct OrderableDBInstanceOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MaxIopsPerDbInstance", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxIopsPerGib", required: false, type: .double), 
-            AWSShapeMember(label: "MaxStorageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MinIopsPerDbInstance", required: false, type: .integer), 
-            AWSShapeMember(label: "MinIopsPerGib", required: false, type: .double), 
-            AWSShapeMember(label: "MinStorageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MultiAZCapable", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReadReplicaCapable", required: false, type: .boolean), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "SupportsEnhancedMonitoring", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsIops", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsPerformanceInsights", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsStorageEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "Vpc", required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
         ]
 
         /// A list of Availability Zones for a DB instance.
@@ -4101,9 +3541,8 @@ extension Neptune {
     }
 
     public struct OrderableDBInstanceOptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "OrderableDBInstanceOptions", required: false, type: .list, encoding: .list(member:"OrderableDBInstanceOption"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "orderableDBInstanceOptions", location: .body(locationName: "OrderableDBInstanceOptions"), encoding: .list(member:"OrderableDBInstanceOption"))
         ]
 
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -4123,18 +3562,6 @@ extension Neptune {
     }
 
     public struct Parameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "ApplyMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "ApplyType", required: false, type: .string), 
-            AWSShapeMember(label: "DataType", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string)
-        ]
 
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
@@ -4185,9 +3612,9 @@ extension Neptune {
     }
 
     public struct PendingCloudwatchLogsExports: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogTypesToDisable", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "LogTypesToEnable", required: false, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "logTypesToDisable", location: .body(locationName: "LogTypesToDisable"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
         ]
 
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
@@ -4207,14 +3634,6 @@ extension Neptune {
     }
 
     public struct PendingMaintenanceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .string), 
-            AWSShapeMember(label: "AutoAppliedAfterDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CurrentApplyDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ForcedApplyDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OptInStatus", required: false, type: .string)
-        ]
 
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
@@ -4249,9 +3668,8 @@ extension Neptune {
     }
 
     public struct PendingMaintenanceActionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .list, encoding: .list(member:"ResourcePendingMaintenanceActions"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pendingMaintenanceActions", location: .body(locationName: "PendingMaintenanceActions"), encoding: .list(member:"ResourcePendingMaintenanceActions"))
         ]
 
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
@@ -4271,22 +3689,6 @@ extension Neptune {
     }
 
     public struct PendingModifiedValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "PendingCloudwatchLogsExports", required: false, type: .structure), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string)
-        ]
 
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied.
         public let allocatedStorage: Int?
@@ -4353,9 +3755,6 @@ extension Neptune {
     }
 
     public struct PromoteReadReplicaDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
-        ]
 
         /// Not supported.
         public let dBClusterIdentifier: String
@@ -4370,9 +3769,6 @@ extension Neptune {
     }
 
     public struct PromoteReadReplicaDBClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -4386,11 +3782,6 @@ extension Neptune {
     }
 
     public struct Range: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "From", required: false, type: .integer), 
-            AWSShapeMember(label: "Step", required: false, type: .integer), 
-            AWSShapeMember(label: "To", required: false, type: .integer)
-        ]
 
         /// The minimum value in the range.
         public let from: Int?
@@ -4413,10 +3804,6 @@ extension Neptune {
     }
 
     public struct RebootDBInstanceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
-        ]
 
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
@@ -4435,9 +3822,6 @@ extension Neptune {
     }
 
     public struct RebootDBInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
 
         public let dBInstance: DBInstance?
 
@@ -4451,10 +3835,6 @@ extension Neptune {
     }
 
     public struct RemoveRoleFromDBClusterMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
-        ]
 
         /// The name of the DB cluster to disassociate the IAM role from.
         public let dBClusterIdentifier: String
@@ -4473,10 +3853,6 @@ extension Neptune {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
-        ]
 
         ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.
         public let sourceIdentifier: String
@@ -4495,9 +3871,6 @@ extension Neptune {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
 
         public let eventSubscription: EventSubscription?
 
@@ -4511,9 +3884,8 @@ extension Neptune {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
         /// The Amazon Neptune resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
@@ -4533,10 +3905,8 @@ extension Neptune {
     }
 
     public struct ResetDBClusterParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
-            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB cluster parameter group to reset.
@@ -4560,10 +3930,8 @@ extension Neptune {
     }
 
     public struct ResetDBParameterGroupMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter")), 
-            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
 
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
@@ -4587,9 +3955,8 @@ extension Neptune {
     }
 
     public struct ResourcePendingMaintenanceActions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .list, encoding: .list(member:"PendingMaintenanceAction")), 
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pendingMaintenanceActionDetails", location: .body(locationName: "PendingMaintenanceActionDetails"), encoding: .list(member:"PendingMaintenanceAction"))
         ]
 
         /// A list that provides details about the pending maintenance actions for the resource.
@@ -4609,23 +3976,11 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
@@ -4701,9 +4056,6 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -4717,22 +4069,10 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "RestoreToTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RestoreType", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
-            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
+            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
@@ -4804,9 +4144,6 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterToPointInTimeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
 
         public let dBCluster: DBCluster?
 
@@ -4820,11 +4157,6 @@ extension Neptune {
     }
 
     public struct Subnet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
-        ]
 
         /// Specifies the EC2 Availability Zone that the subnet is in.
         public let subnetAvailabilityZone: AvailabilityZone?
@@ -4847,10 +4179,6 @@ extension Neptune {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
@@ -4869,8 +4197,8 @@ extension Neptune {
     }
 
     public struct TagListMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tagList", location: .body(locationName: "TagList"), encoding: .list(member:"Tag"))
         ]
 
         /// List of tags returned by the ListTagsForResource operation.
@@ -4886,9 +4214,6 @@ extension Neptune {
     }
 
     public struct Timezone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimezoneName", required: false, type: .string)
-        ]
 
         /// The name of the time zone.
         public let timezoneName: String?
@@ -4903,13 +4228,6 @@ extension Neptune {
     }
 
     public struct UpgradeTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "IsMajorVersionUpgrade", required: false, type: .boolean)
-        ]
 
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
@@ -4940,8 +4258,8 @@ extension Neptune {
     }
 
     public struct ValidDBInstanceModificationsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Storage", required: false, type: .list, encoding: .list(member:"ValidStorageOptions"))
+        public static var _encoding = [
+            AWSMemberEncoding(label: "storage", location: .body(locationName: "Storage"), encoding: .list(member:"ValidStorageOptions"))
         ]
 
         /// Valid storage options for your DB instance.
@@ -4957,11 +4275,10 @@ extension Neptune {
     }
 
     public struct ValidStorageOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IopsToStorageRatio", required: false, type: .list, encoding: .list(member:"DoubleRange")), 
-            AWSShapeMember(label: "ProvisionedIops", required: false, type: .list, encoding: .list(member:"Range")), 
-            AWSShapeMember(label: "StorageSize", required: false, type: .list, encoding: .list(member:"Range")), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "iopsToStorageRatio", location: .body(locationName: "IopsToStorageRatio"), encoding: .list(member:"DoubleRange")), 
+            AWSMemberEncoding(label: "provisionedIops", location: .body(locationName: "ProvisionedIops"), encoding: .list(member:"Range")), 
+            AWSMemberEncoding(label: "storageSize", location: .body(locationName: "StorageSize"), encoding: .list(member:"Range"))
         ]
 
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
@@ -4989,10 +4306,6 @@ extension Neptune {
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
-        ]
 
         /// The status of the VPC security group.
         public let status: String?

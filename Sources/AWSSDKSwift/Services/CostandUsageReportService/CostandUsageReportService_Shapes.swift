@@ -61,9 +61,6 @@ extension CostandUsageReportService {
     //MARK: Shapes
 
     public struct DeleteReportDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportName", required: false, type: .string)
-        ]
 
         public let reportName: String?
 
@@ -82,9 +79,6 @@ extension CostandUsageReportService {
     }
 
     public struct DeleteReportDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResponseMessage", required: false, type: .string)
-        ]
 
         public let responseMessage: String?
 
@@ -98,10 +92,6 @@ extension CostandUsageReportService {
     }
 
     public struct DescribeReportDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         public let maxResults: Int?
         public let nextToken: String?
@@ -123,10 +113,6 @@ extension CostandUsageReportService {
     }
 
     public struct DescribeReportDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ReportDefinitions", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         /// A list of AWS Cost and Usage reports owned by the account.
@@ -144,10 +130,6 @@ extension CostandUsageReportService {
     }
 
     public struct ModifyReportDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportDefinition", required: true, type: .structure), 
-            AWSShapeMember(label: "ReportName", required: true, type: .string)
-        ]
 
         public let reportDefinition: ReportDefinition
         public let reportName: String
@@ -178,9 +160,6 @@ extension CostandUsageReportService {
     }
 
     public struct PutReportDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportDefinition", required: true, type: .structure)
-        ]
 
         /// Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. 
         public let reportDefinition: ReportDefinition
@@ -207,19 +186,6 @@ extension CostandUsageReportService {
     }
 
     public struct ReportDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "AdditionalSchemaElements", required: true, type: .list), 
-            AWSShapeMember(label: "Compression", required: true, type: .enum), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "RefreshClosedReports", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReportName", required: true, type: .string), 
-            AWSShapeMember(label: "ReportVersioning", required: false, type: .enum), 
-            AWSShapeMember(label: "S3Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "S3Prefix", required: true, type: .string), 
-            AWSShapeMember(label: "S3Region", required: true, type: .enum), 
-            AWSShapeMember(label: "TimeUnit", required: true, type: .enum)
-        ]
 
         /// A list of manifests that you want Amazon Web Services to create for this report.
         public let additionalArtifacts: [AdditionalArtifact]?

@@ -9,8 +9,8 @@ extension IoTDataPlane {
     //MARK: Shapes
 
     public struct DeleteThingShadowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The name of the thing.
@@ -34,8 +34,8 @@ extension IoTDataPlane {
     public struct DeleteThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payload", required: true, type: .blob)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", encoding: .blob)
         ]
 
         /// The state information, in JSON format.
@@ -51,8 +51,8 @@ extension IoTDataPlane {
     }
 
     public struct GetThingShadowRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The name of the thing.
@@ -76,8 +76,8 @@ extension IoTDataPlane {
     public struct GetThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payload", required: false, type: .blob)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", encoding: .blob)
         ]
 
         /// The state information, in JSON format.
@@ -95,10 +95,10 @@ extension IoTDataPlane {
     public struct PublishRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payload", required: false, type: .blob), 
-            AWSShapeMember(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer), 
-            AWSShapeMember(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", encoding: .blob), 
+            AWSMemberEncoding(label: "qos", location: .querystring(locationName: "qos")), 
+            AWSMemberEncoding(label: "topic", location: .uri(locationName: "topic"))
         ]
 
         /// The state information, in JSON format.
@@ -129,9 +129,9 @@ extension IoTDataPlane {
     public struct UpdateThingShadowRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payload", required: true, type: .blob), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", encoding: .blob), 
+            AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
         /// The state information, in JSON format.
@@ -159,8 +159,8 @@ extension IoTDataPlane {
     public struct UpdateThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "payload", required: false, type: .blob)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", encoding: .blob)
         ]
 
         /// The state information, in JSON format.

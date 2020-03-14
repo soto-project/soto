@@ -148,8 +148,8 @@ extension Polly {
     //MARK: Shapes
 
     public struct DeleteLexiconInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "LexiconName"))
         ]
 
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
@@ -177,11 +177,11 @@ extension Polly {
     }
 
     public struct DescribeVoicesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Engine", location: .querystring(locationName: "Engine"), required: false, type: .enum), 
-            AWSShapeMember(label: "IncludeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes"), required: false, type: .boolean), 
-            AWSShapeMember(label: "LanguageCode", location: .querystring(locationName: "LanguageCode"), required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "engine", location: .querystring(locationName: "Engine")), 
+            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes")), 
+            AWSMemberEncoding(label: "languageCode", location: .querystring(locationName: "LanguageCode")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis. 
@@ -214,10 +214,6 @@ extension Polly {
     }
 
     public struct DescribeVoicesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Voices", required: false, type: .list)
-        ]
 
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
         public let nextToken: String?
@@ -236,8 +232,8 @@ extension Polly {
     }
 
     public struct GetLexiconInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "LexiconName"))
         ]
 
         /// Name of the lexicon.
@@ -257,10 +253,6 @@ extension Polly {
     }
 
     public struct GetLexiconOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Lexicon", required: false, type: .structure), 
-            AWSShapeMember(label: "LexiconAttributes", required: false, type: .structure)
-        ]
 
         /// Lexicon object that provides name and the string content of the lexicon. 
         public let lexicon: Lexicon?
@@ -279,8 +271,8 @@ extension Polly {
     }
 
     public struct GetSpeechSynthesisTaskInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskId", location: .uri(locationName: "TaskId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "TaskId"))
         ]
 
         /// The Amazon Polly generated identifier for a speech synthesis task.
@@ -300,9 +292,6 @@ extension Polly {
     }
 
     public struct GetSpeechSynthesisTaskOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SynthesisTask", required: false, type: .structure)
-        ]
 
         /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
         public let synthesisTask: SynthesisTask?
@@ -317,10 +306,6 @@ extension Polly {
     }
 
     public struct Lexicon: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public let content: String?
@@ -339,14 +324,6 @@ extension Polly {
     }
 
     public struct LexiconAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alphabet", required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LexemesCount", required: false, type: .integer), 
-            AWSShapeMember(label: "LexiconArn", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: false, type: .integer)
-        ]
 
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
         public let alphabet: String?
@@ -381,10 +358,6 @@ extension Polly {
     }
 
     public struct LexiconDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// Provides lexicon metadata.
         public let attributes: LexiconAttributes?
@@ -403,8 +376,8 @@ extension Polly {
     }
 
     public struct ListLexiconsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
@@ -425,10 +398,6 @@ extension Polly {
     }
 
     public struct ListLexiconsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Lexicons", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of lexicon names and attributes.
         public let lexicons: [LexiconDescription]?
@@ -447,10 +416,10 @@ extension Polly {
     }
 
     public struct ListSpeechSynthesisTasksInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .querystring(locationName: "Status"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "Status"))
         ]
 
         /// Maximum number of speech synthesis tasks returned in a List operation.
@@ -481,10 +450,6 @@ extension Polly {
     }
 
     public struct ListSpeechSynthesisTasksOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SynthesisTasks", required: false, type: .list)
-        ]
 
         /// An opaque pagination token returned from the previous List operation in this request. If present, this indicates where to continue the listing.
         public let nextToken: String?
@@ -503,9 +468,8 @@ extension Polly {
     }
 
     public struct PutLexiconInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "LexiconName"))
         ]
 
         /// Content of the PLS lexicon as string data.
@@ -537,20 +501,6 @@ extension Polly {
     }
 
     public struct StartSpeechSynthesisTaskInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Engine", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LexiconNames", required: false, type: .list), 
-            AWSShapeMember(label: "OutputFormat", required: true, type: .enum), 
-            AWSShapeMember(label: "OutputS3BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "OutputS3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "SampleRate", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SpeechMarkTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Text", required: true, type: .string), 
-            AWSShapeMember(label: "TextType", required: false, type: .enum), 
-            AWSShapeMember(label: "VoiceId", required: true, type: .enum)
-        ]
 
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
@@ -620,9 +570,6 @@ extension Polly {
     }
 
     public struct StartSpeechSynthesisTaskOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SynthesisTask", required: false, type: .structure)
-        ]
 
         /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
         public let synthesisTask: SynthesisTask?
@@ -637,23 +584,6 @@ extension Polly {
     }
 
     public struct SynthesisTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Engine", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LexiconNames", required: false, type: .list), 
-            AWSShapeMember(label: "OutputFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharacters", required: false, type: .integer), 
-            AWSShapeMember(label: "SampleRate", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SpeechMarkTypes", required: false, type: .list), 
-            AWSShapeMember(label: "TaskId", required: false, type: .string), 
-            AWSShapeMember(label: "TaskStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskStatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "TextType", required: false, type: .enum), 
-            AWSShapeMember(label: "VoiceId", required: false, type: .enum)
-        ]
 
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: TimeStamp?
@@ -724,17 +654,6 @@ extension Polly {
     }
 
     public struct SynthesizeSpeechInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Engine", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LexiconNames", required: false, type: .list), 
-            AWSShapeMember(label: "OutputFormat", required: true, type: .enum), 
-            AWSShapeMember(label: "SampleRate", required: false, type: .string), 
-            AWSShapeMember(label: "SpeechMarkTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Text", required: true, type: .string), 
-            AWSShapeMember(label: "TextType", required: false, type: .enum), 
-            AWSShapeMember(label: "VoiceId", required: true, type: .enum)
-        ]
 
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
@@ -790,11 +709,11 @@ extension Polly {
 
     public struct SynthesizeSpeechOutput: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "AudioStream"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioStream", required: false, type: .blob), 
-            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"), required: false, type: .integer)
+        public static let payloadPath: String? = "audioStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream"), encoding: .blob), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "requestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"))
         ]
 
         ///  Stream containing the synthesized speech. 
@@ -818,15 +737,6 @@ extension Polly {
     }
 
     public struct Voice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalLanguageCodes", required: false, type: .list), 
-            AWSShapeMember(label: "Gender", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SupportedEngines", required: false, type: .list)
-        ]
 
         /// Additional codes for languages available for the specified voice in addition to its default language.  For example, the default language for Aditi is Indian English (en-IN) because it was first used for that language. Since Aditi is bilingual and fluent in both Indian English and Hindi, this parameter would show the code hi-IN.
         public let additionalLanguageCodes: [LanguageCode]?

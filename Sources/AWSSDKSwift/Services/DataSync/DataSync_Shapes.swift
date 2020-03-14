@@ -151,11 +151,6 @@ extension DataSync {
     //MARK: Shapes
 
     public struct AgentListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the agent.
         public let agentArn: String?
@@ -178,9 +173,6 @@ extension DataSync {
     }
 
     public struct CancelTaskExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the task execution to cancel.
         public let taskExecutionArn: String
@@ -208,14 +200,6 @@ extension DataSync {
     }
 
     public struct CreateAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivationKey", required: true, type: .string), 
-            AWSShapeMember(label: "AgentName", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupArns", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetArns", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VpcEndpointId", required: false, type: .string)
-        ]
 
         /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the AWS DataSync console. The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating an Agent in the AWS DataSync User Guide. 
         public let activationKey: String
@@ -276,9 +260,6 @@ extension DataSync {
     }
 
     public struct CreateAgentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and AWS Region.
         public let agentArn: String?
@@ -293,12 +274,6 @@ extension DataSync {
     }
 
     public struct CreateLocationEfsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ec2Config", required: true, type: .structure), 
-            AWSShapeMember(label: "EfsFilesystemArn", required: true, type: .string), 
-            AWSShapeMember(label: "Subdirectory", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The subnet and security group that the Amazon EFS file system uses. The security group that you provide needs to be able to communicate with the security group on the mount target in the subnet specified. The exact relationship between security group M (of the mount target) and security group S (which you provide for DataSync to use at this stage) is as follows:     Security group M (which you associate with the mount target) must allow inbound access for the Transmission Control Protocol (TCP) on the NFS port (2049) from security group S. You can enable inbound connections either by IP address (CIDR range) or security group.    Security group S (provided to DataSync to access EFS) should have a rule that enables outbound connections to the NFS port on one of the file system’s mount targets. You can enable outbound connections either by IP address (CIDR range) or security group. For information about security groups and mount targets, see Security Groups for Amazon EC2 Instances and Mount Targets in the Amazon EFS User Guide.   
         public let ec2Config: Ec2Config
@@ -338,9 +313,6 @@ extension DataSync {
     }
 
     public struct CreateLocationEfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that is created.
         public let locationArn: String?
@@ -355,15 +327,6 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "FsxFilesystemArn", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroupArns", required: true, type: .list), 
-            AWSShapeMember(label: "Subdirectory", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "User", required: true, type: .string)
-        ]
 
         /// The name of the Windows domain that the FSx for Windows server belongs to.
         public let domain: String?
@@ -426,9 +389,6 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the FSx for Windows file system location that is created.
         public let locationArn: String?
@@ -443,13 +403,6 @@ extension DataSync {
     }
 
     public struct CreateLocationNfsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "OnPremConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ServerHostname", required: true, type: .string), 
-            AWSShapeMember(label: "Subdirectory", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The NFS mount options that DataSync can use to mount your NFS share.
         public let mountOptions: NfsMountOptions?
@@ -493,9 +446,6 @@ extension DataSync {
     }
 
     public struct CreateLocationNfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
         public let locationArn: String?
@@ -510,13 +460,6 @@ extension DataSync {
     }
 
     public struct CreateLocationS3Request: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3BucketArn", required: true, type: .string), 
-            AWSShapeMember(label: "S3Config", required: true, type: .structure), 
-            AWSShapeMember(label: "S3StorageClass", required: false, type: .enum), 
-            AWSShapeMember(label: "Subdirectory", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
         public let s3BucketArn: String
@@ -559,9 +502,6 @@ extension DataSync {
     }
 
     public struct CreateLocationS3Response: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source Amazon S3 bucket location that is created.
         public let locationArn: String?
@@ -576,16 +516,6 @@ extension DataSync {
     }
 
     public struct CreateLocationSmbRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArns", required: true, type: .list), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "MountOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "ServerHostname", required: true, type: .string), 
-            AWSShapeMember(label: "Subdirectory", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "User", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location. 
         public let agentArns: [String]
@@ -652,9 +582,6 @@ extension DataSync {
     }
 
     public struct CreateLocationSmbResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
         public let locationArn: String?
@@ -669,16 +596,6 @@ extension DataSync {
     }
 
     public struct CreateTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationLocationArn", required: true, type: .string), 
-            AWSShapeMember(label: "Excludes", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceLocationArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.  For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.  For more information about how to use CloudWatch Logs with DataSync, see Monitoring Your Task in the AWS DataSync User Guide. 
         public let cloudWatchLogGroupArn: String?
@@ -745,9 +662,6 @@ extension DataSync {
     }
 
     public struct CreateTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
@@ -762,9 +676,6 @@ extension DataSync {
     }
 
     public struct DeleteAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and AWS Region.
         public let agentArn: String
@@ -792,9 +703,6 @@ extension DataSync {
     }
 
     public struct DeleteLocationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the location to delete.
         public let locationArn: String
@@ -822,9 +730,6 @@ extension DataSync {
     }
 
     public struct DeleteTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the task to delete.
         public let taskArn: String
@@ -852,9 +757,6 @@ extension DataSync {
     }
 
     public struct DescribeAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the agent to describe.
         public let agentArn: String
@@ -874,15 +776,6 @@ extension DataSync {
     }
 
     public struct DescribeAgentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "LastConnectionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateLinkConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the agent.
         public let agentArn: String?
@@ -921,9 +814,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationEfsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the EFS location to describe.
         public let locationArn: String
@@ -943,12 +833,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationEfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Ec2Config", required: false, type: .structure), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string)
-        ]
 
         /// The time that the EFS location was created.
         public let creationTime: TimeStamp?
@@ -974,9 +858,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationFsxWindowsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the FSx for Windows location to describe.
         public let locationArn: String
@@ -996,14 +877,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationFsxWindowsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupArns", required: false, type: .list), 
-            AWSShapeMember(label: "User", required: false, type: .string)
-        ]
 
         /// The time that the FSx for Windows location was created.
         public let creationTime: TimeStamp?
@@ -1038,9 +911,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationNfsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
 
         /// The Amazon resource Name (ARN) of the NFS location to describe.
         public let locationArn: String
@@ -1060,13 +930,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationNfsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "MountOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "OnPremConfig", required: false, type: .structure)
-        ]
 
         /// The time that the NFS location was created.
         public let creationTime: TimeStamp?
@@ -1096,9 +959,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationS3Request: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location to describe.
         public let locationArn: String
@@ -1118,13 +978,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationS3Response: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "S3Config", required: false, type: .structure), 
-            AWSShapeMember(label: "S3StorageClass", required: false, type: .enum)
-        ]
 
         /// The time that the Amazon S3 bucket location was created.
         public let creationTime: TimeStamp?
@@ -1154,9 +1007,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationSmbRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: true, type: .string)
-        ]
 
         /// The Amazon resource Name (ARN) of the SMB location to describe.
         public let locationArn: String
@@ -1176,15 +1026,6 @@ extension DataSync {
     }
 
     public struct DescribeLocationSmbResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArns", required: false, type: .list), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "MountOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "User", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
         public let agentArns: [String]?
@@ -1223,9 +1064,6 @@ extension DataSync {
     }
 
     public struct DescribeTaskExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the task that is being executed.
         public let taskExecutionArn: String
@@ -1245,20 +1083,6 @@ extension DataSync {
     }
 
     public struct DescribeTaskExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
-            AWSShapeMember(label: "BytesWritten", required: false, type: .long), 
-            AWSShapeMember(label: "EstimatedBytesToTransfer", required: false, type: .long), 
-            AWSShapeMember(label: "EstimatedFilesToTransfer", required: false, type: .long), 
-            AWSShapeMember(label: "Excludes", required: false, type: .list), 
-            AWSShapeMember(label: "FilesTransferred", required: false, type: .long), 
-            AWSShapeMember(label: "Includes", required: false, type: .list), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "Result", required: false, type: .structure), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string)
-        ]
 
         /// The physical number of bytes transferred over the network.
         public let bytesTransferred: Int64?
@@ -1316,9 +1140,6 @@ extension DataSync {
     }
 
     public struct DescribeTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the task to describe.
         public let taskArn: String
@@ -1338,23 +1159,6 @@ extension DataSync {
     }
 
     public struct DescribeTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CurrentTaskExecutionArn", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationLocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationNetworkInterfaceArns", required: false, type: .list), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
-            AWSShapeMember(label: "Excludes", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceLocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceNetworkInterfaceArns", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.
         public let cloudWatchLogGroupArn: String?
@@ -1425,10 +1229,6 @@ extension DataSync {
     }
 
     public struct Ec2Config: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupArns", required: true, type: .list), 
-            AWSShapeMember(label: "SubnetArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Names (ARNs) of the security groups that are configured for the Amazon EC2 resource.
         public let securityGroupArns: [String]
@@ -1458,10 +1258,6 @@ extension DataSync {
     }
 
     public struct FilterRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterType", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The type of filter rule to apply. AWS DataSync only supports the SIMPLE_PATTERN rule type.
         public let filterType: FilterType?
@@ -1485,10 +1281,6 @@ extension DataSync {
     }
 
     public struct ListAgentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of agents to list.
         public let maxResults: Int?
@@ -1514,10 +1306,6 @@ extension DataSync {
     }
 
     public struct ListAgentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Agents", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of agents in your account.
         public let agents: [AgentListEntry]?
@@ -1536,10 +1324,6 @@ extension DataSync {
     }
 
     public struct ListLocationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of locations to return.
         public let maxResults: Int?
@@ -1565,10 +1349,6 @@ extension DataSync {
     }
 
     public struct ListLocationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Locations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array that contains a list of locations.
         public let locations: [LocationListEntry]?
@@ -1587,11 +1367,6 @@ extension DataSync {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The maximum number of locations to return.
         public let maxResults: Int?
@@ -1623,10 +1398,6 @@ extension DataSync {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// An opaque string that indicates the position at which to begin returning the next list of resource tags.
         public let nextToken: String?
@@ -1645,11 +1416,6 @@ extension DataSync {
     }
 
     public struct ListTaskExecutionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TaskArn", required: false, type: .string)
-        ]
 
         /// The maximum number of executed tasks to list.
         public let maxResults: Int?
@@ -1681,10 +1447,6 @@ extension DataSync {
     }
 
     public struct ListTaskExecutionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TaskExecutions", required: false, type: .list)
-        ]
 
         /// An opaque string that indicates the position at which to begin returning the next list of executed tasks.
         public let nextToken: String?
@@ -1703,10 +1465,6 @@ extension DataSync {
     }
 
     public struct ListTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of tasks to return.
         public let maxResults: Int?
@@ -1732,10 +1490,6 @@ extension DataSync {
     }
 
     public struct ListTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tasks", required: false, type: .list)
-        ]
 
         /// An opaque string that indicates the position at which to begin returning the next list of tasks.
         public let nextToken: String?
@@ -1754,10 +1508,6 @@ extension DataSync {
     }
 
     public struct LocationListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
-            AWSShapeMember(label: "LocationUri", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
         public let locationArn: String?
@@ -1776,9 +1526,6 @@ extension DataSync {
     }
 
     public struct NfsMountOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .enum)
-        ]
 
         /// The specific NFS version that you want DataSync to use to mount your NFS share. If the server refuses to use the version specified, the sync will fail. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server. You can specify the following NFS versions:     NFSv3  - stateless protocol version that allows for asynchronous writes on the server.     NFSv4.0  - stateful, firewall-friendly protocol version that supports delegations and pseudo filesystems.     NFSv4.1  - stateful protocol version that supports sessions, directory delegations, and parallel data processing. Version 4.1 also includes all features available in version 4.0.  
         public let version: NfsVersion?
@@ -1793,9 +1540,6 @@ extension DataSync {
     }
 
     public struct OnPremConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArns", required: true, type: .list)
-        ]
 
         /// ARNs)of the agents to use for an NFS location.
         public let agentArns: [String]
@@ -1819,20 +1563,6 @@ extension DataSync {
     }
 
     public struct Options: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Atime", required: false, type: .enum), 
-            AWSShapeMember(label: "BytesPerSecond", required: false, type: .long), 
-            AWSShapeMember(label: "Gid", required: false, type: .enum), 
-            AWSShapeMember(label: "LogLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "Mtime", required: false, type: .enum), 
-            AWSShapeMember(label: "OverwriteMode", required: false, type: .enum), 
-            AWSShapeMember(label: "PosixPermissions", required: false, type: .enum), 
-            AWSShapeMember(label: "PreserveDeletedFiles", required: false, type: .enum), 
-            AWSShapeMember(label: "PreserveDevices", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskQueueing", required: false, type: .enum), 
-            AWSShapeMember(label: "Uid", required: false, type: .enum), 
-            AWSShapeMember(label: "VerifyMode", required: false, type: .enum)
-        ]
 
         /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so AWS DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT. BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.  
         public let atime: Atime?
@@ -1895,12 +1625,6 @@ extension DataSync {
     }
 
     public struct PrivateLinkConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrivateLinkEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupArns", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetArns", required: false, type: .list), 
-            AWSShapeMember(label: "VpcEndpointId", required: false, type: .string)
-        ]
 
         /// The private endpoint that is configured for an agent that has access to IP addresses in a PrivateLink. An agent that is configured with this endpoint will not be accessible over the public Internet.
         public let privateLinkEndpoint: String?
@@ -1927,9 +1651,6 @@ extension DataSync {
     }
 
     public struct S3Config: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketAccessRoleArn", required: true, type: .string)
-        ]
 
         /// The Amazon S3 bucket to access. This bucket is used as a parameter in the CreateLocationS3 operation. 
         public let bucketAccessRoleArn: String
@@ -1949,9 +1670,6 @@ extension DataSync {
     }
 
     public struct SmbMountOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .enum)
-        ]
 
         /// The specific SMB version that you want DataSync to use to mount your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the SMB server.
         public let version: SmbVersion?
@@ -1966,11 +1684,6 @@ extension DataSync {
     }
 
     public struct StartTaskExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Includes", required: false, type: .list), 
-            AWSShapeMember(label: "OverrideOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "TaskArn", required: true, type: .string)
-        ]
 
         /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"   
         public let includes: [FilterRule]?
@@ -2003,9 +1716,6 @@ extension DataSync {
     }
 
     public struct StartTaskExecutionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the specific task execution that was started.
         public let taskExecutionArn: String?
@@ -2020,10 +1730,6 @@ extension DataSync {
     }
 
     public struct TagListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The key for an AWS resource tag.
         public let key: String
@@ -2051,10 +1757,6 @@ extension DataSync {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to apply the tag to.
         public let resourceArn: String
@@ -2091,10 +1793,6 @@ extension DataSync {
     }
 
     public struct TaskExecutionListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskExecutionArn", required: false, type: .string)
-        ]
 
         /// The status of a task execution.
         public let status: TaskExecutionStatus?
@@ -2113,17 +1811,6 @@ extension DataSync {
     }
 
     public struct TaskExecutionResultDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
-            AWSShapeMember(label: "PrepareDuration", required: false, type: .long), 
-            AWSShapeMember(label: "PrepareStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "TotalDuration", required: false, type: .long), 
-            AWSShapeMember(label: "TransferDuration", required: false, type: .long), 
-            AWSShapeMember(label: "TransferStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "VerifyDuration", required: false, type: .long), 
-            AWSShapeMember(label: "VerifyStatus", required: false, type: .enum)
-        ]
 
         /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
         public let errorCode: String?
@@ -2170,11 +1857,6 @@ extension DataSync {
     }
 
     public struct TaskListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TaskArn", required: false, type: .string)
-        ]
 
         /// The name of the task.
         public let name: String?
@@ -2197,9 +1879,6 @@ extension DataSync {
     }
 
     public struct TaskSchedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleExpression", required: true, type: .string)
-        ]
 
         /// A cron expression that specifies when AWS DataSync initiates a scheduled transfer from a source to a destination location. 
         public let scheduleExpression: String
@@ -2219,10 +1898,6 @@ extension DataSync {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Keys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The keys in the key-value pair in the tag to remove.
         public let keys: [String]
@@ -2261,10 +1936,6 @@ extension DataSync {
     }
 
     public struct UpdateAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AgentArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the agent to update.
         public let agentArn: String
@@ -2299,14 +1970,6 @@ extension DataSync {
     }
 
     public struct UpdateTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "Excludes", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
-            AWSShapeMember(label: "TaskArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource name of the CloudWatch LogGroup.
         public let cloudWatchLogGroupArn: String?

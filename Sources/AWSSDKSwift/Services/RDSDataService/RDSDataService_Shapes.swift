@@ -23,13 +23,6 @@ extension RDSDataService {
     //MARK: Shapes
 
     public class ArrayValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayValues", required: false, type: .list), 
-            AWSShapeMember(label: "booleanValues", required: false, type: .list), 
-            AWSShapeMember(label: "doubleValues", required: false, type: .list), 
-            AWSShapeMember(label: "longValues", required: false, type: .list), 
-            AWSShapeMember(label: "stringValues", required: false, type: .list)
-        ]
 
         /// An array of arrays.
         public let arrayValues: [ArrayValue]?
@@ -60,15 +53,6 @@ extension RDSDataService {
     }
 
     public struct BatchExecuteStatementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "database", required: false, type: .string), 
-            AWSShapeMember(label: "parameterSets", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "secretArn", required: true, type: .string), 
-            AWSShapeMember(label: "sql", required: true, type: .string), 
-            AWSShapeMember(label: "transactionId", required: false, type: .string)
-        ]
 
         /// The name of the database.
         public let database: String?
@@ -122,9 +106,6 @@ extension RDSDataService {
     }
 
     public struct BatchExecuteStatementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "updateResults", required: false, type: .list)
-        ]
 
         /// The execution results of each batch entry.
         public let updateResults: [UpdateResult]?
@@ -139,12 +120,6 @@ extension RDSDataService {
     }
 
     public struct BeginTransactionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "database", required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "secretArn", required: true, type: .string)
-        ]
 
         /// The name of the database.
         public let database: String?
@@ -182,9 +157,6 @@ extension RDSDataService {
     }
 
     public struct BeginTransactionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transactionId", required: false, type: .string)
-        ]
 
         /// The transaction ID of the transaction started by the call.
         public let transactionId: String?
@@ -199,22 +171,6 @@ extension RDSDataService {
     }
 
     public struct ColumnMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayBaseColumnType", required: false, type: .integer), 
-            AWSShapeMember(label: "isAutoIncrement", required: false, type: .boolean), 
-            AWSShapeMember(label: "isCaseSensitive", required: false, type: .boolean), 
-            AWSShapeMember(label: "isCurrency", required: false, type: .boolean), 
-            AWSShapeMember(label: "isSigned", required: false, type: .boolean), 
-            AWSShapeMember(label: "label", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "nullable", required: false, type: .integer), 
-            AWSShapeMember(label: "precision", required: false, type: .integer), 
-            AWSShapeMember(label: "scale", required: false, type: .integer), 
-            AWSShapeMember(label: "schemaName", required: false, type: .string), 
-            AWSShapeMember(label: "tableName", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .integer), 
-            AWSShapeMember(label: "typeName", required: false, type: .string)
-        ]
 
         /// The type of the column.
         public let arrayBaseColumnType: Int?
@@ -281,11 +237,6 @@ extension RDSDataService {
     }
 
     public struct CommitTransactionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "secretArn", required: true, type: .string), 
-            AWSShapeMember(label: "transactionId", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
@@ -317,9 +268,6 @@ extension RDSDataService {
     }
 
     public struct CommitTransactionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transactionStatus", required: false, type: .string)
-        ]
 
         /// The status of the commit operation.
         public let transactionStatus: String?
@@ -334,13 +282,6 @@ extension RDSDataService {
     }
 
     public struct ExecuteSqlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsSecretStoreArn", required: true, type: .string), 
-            AWSShapeMember(label: "database", required: false, type: .string), 
-            AWSShapeMember(label: "dbClusterOrInstanceArn", required: true, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "sqlStatements", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster.
         public let awsSecretStoreArn: String
@@ -384,9 +325,6 @@ extension RDSDataService {
     }
 
     public struct ExecuteSqlResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sqlStatementResults", required: false, type: .list)
-        ]
 
         /// The results of the SQL statement or statements.
         public let sqlStatementResults: [SqlStatementResult]?
@@ -401,18 +339,6 @@ extension RDSDataService {
     }
 
     public struct ExecuteStatementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "continueAfterTimeout", required: false, type: .boolean), 
-            AWSShapeMember(label: "database", required: false, type: .string), 
-            AWSShapeMember(label: "includeResultMetadata", required: false, type: .boolean), 
-            AWSShapeMember(label: "parameters", required: false, type: .list), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "resultSetOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "secretArn", required: true, type: .string), 
-            AWSShapeMember(label: "sql", required: true, type: .string), 
-            AWSShapeMember(label: "transactionId", required: false, type: .string)
-        ]
 
         /// A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out.  For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures. 
         public let continueAfterTimeout: Bool?
@@ -478,12 +404,6 @@ extension RDSDataService {
     }
 
     public struct ExecuteStatementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "columnMetadata", required: false, type: .list), 
-            AWSShapeMember(label: "generatedFields", required: false, type: .list), 
-            AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long), 
-            AWSShapeMember(label: "records", required: false, type: .list)
-        ]
 
         /// Metadata for the columns included in the results.
         public let columnMetadata: [ColumnMetadata]?
@@ -510,15 +430,6 @@ extension RDSDataService {
     }
 
     public struct Field: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayValue", required: false, type: .structure), 
-            AWSShapeMember(label: "blobValue", required: false, type: .blob), 
-            AWSShapeMember(label: "booleanValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
-            AWSShapeMember(label: "isNull", required: false, type: .boolean), 
-            AWSShapeMember(label: "longValue", required: false, type: .long), 
-            AWSShapeMember(label: "stringValue", required: false, type: .string)
-        ]
 
         /// An array of values.
         public let arrayValue: ArrayValue?
@@ -557,9 +468,6 @@ extension RDSDataService {
     }
 
     public struct Record: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The values returned in the record.
         public let values: [Value]?
@@ -574,10 +482,6 @@ extension RDSDataService {
     }
 
     public struct ResultFrame: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "records", required: false, type: .list), 
-            AWSShapeMember(label: "resultSetMetadata", required: false, type: .structure)
-        ]
 
         /// The records in the result set.
         public let records: [Record]?
@@ -596,10 +500,6 @@ extension RDSDataService {
     }
 
     public struct ResultSetMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "columnCount", required: false, type: .long), 
-            AWSShapeMember(label: "columnMetadata", required: false, type: .list)
-        ]
 
         /// The number of columns in the result set.
         public let columnCount: Int64?
@@ -618,9 +518,6 @@ extension RDSDataService {
     }
 
     public struct ResultSetOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "decimalReturnType", required: false, type: .enum)
-        ]
 
         /// A value that indicates how a field of DECIMAL type is represented in the response. The value of STRING, the default, specifies that it is converted to a String value. The value of DOUBLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise.  Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, especially when working with currency values. 
         public let decimalReturnType: DecimalReturnType?
@@ -635,11 +532,6 @@ extension RDSDataService {
     }
 
     public struct RollbackTransactionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "secretArn", required: true, type: .string), 
-            AWSShapeMember(label: "transactionId", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
@@ -671,9 +563,6 @@ extension RDSDataService {
     }
 
     public struct RollbackTransactionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transactionStatus", required: false, type: .string)
-        ]
 
         /// The status of the rollback operation.
         public let transactionStatus: String?
@@ -688,11 +577,6 @@ extension RDSDataService {
     }
 
     public struct SqlParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "typeHint", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .structure)
-        ]
 
         /// The name of the parameter.
         public let name: String?
@@ -715,10 +599,6 @@ extension RDSDataService {
     }
 
     public struct SqlStatementResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long), 
-            AWSShapeMember(label: "resultFrame", required: false, type: .structure)
-        ]
 
         /// The number of records updated by a SQL statement.
         public let numberOfRecordsUpdated: Int64?
@@ -737,9 +617,6 @@ extension RDSDataService {
     }
 
     public struct StructValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .list)
-        ]
 
         /// The attributes returned in the record.
         public let attributes: [Value]?
@@ -754,9 +631,6 @@ extension RDSDataService {
     }
 
     public struct UpdateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "generatedFields", required: false, type: .list)
-        ]
 
         /// Values for fields generated during the request.
         public let generatedFields: [Field]?
@@ -771,18 +645,6 @@ extension RDSDataService {
     }
 
     public class Value: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arrayValues", required: false, type: .list), 
-            AWSShapeMember(label: "bigIntValue", required: false, type: .long), 
-            AWSShapeMember(label: "bitValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "blobValue", required: false, type: .blob), 
-            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
-            AWSShapeMember(label: "intValue", required: false, type: .integer), 
-            AWSShapeMember(label: "isNull", required: false, type: .boolean), 
-            AWSShapeMember(label: "realValue", required: false, type: .float), 
-            AWSShapeMember(label: "stringValue", required: false, type: .string), 
-            AWSShapeMember(label: "structValue", required: false, type: .structure)
-        ]
 
         /// An array of column values.
         public let arrayValues: [Value]?

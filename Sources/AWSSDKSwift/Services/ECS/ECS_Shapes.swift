@@ -316,12 +316,6 @@ extension ECS {
     //MARK: Shapes
 
     public struct Attachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .list), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string)
-        ]
 
         /// Details of the attachment. For elastic network interfaces, this includes the network interface ID, the MAC address, the subnet ID, and the private IPv4 address.
         public let details: [KeyValuePair]?
@@ -348,10 +342,6 @@ extension ECS {
     }
 
     public struct AttachmentStateChange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentArn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the attachment.
         public let attachmentArn: String
@@ -370,12 +360,6 @@ extension ECS {
     }
 
     public struct Attribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "targetId", required: false, type: .string), 
-            AWSShapeMember(label: "targetType", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
         public let name: String
@@ -402,11 +386,6 @@ extension ECS {
     }
 
     public struct AutoScalingGroupProvider: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoScalingGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "managedScaling", required: false, type: .structure), 
-            AWSShapeMember(label: "managedTerminationProtection", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the Auto Scaling group.
         public let autoScalingGroupArn: String
@@ -433,11 +412,6 @@ extension ECS {
     }
 
     public struct AwsVpcConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "assignPublicIp", required: false, type: .enum), 
-            AWSShapeMember(label: "securityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "subnets", required: true, type: .list)
-        ]
 
         /// Whether the task's elastic network interface receives a public IP address. The default value is DISABLED.
         public let assignPublicIp: AssignPublicIp?
@@ -460,13 +434,6 @@ extension ECS {
     }
 
     public struct CapacityProvider: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoScalingGroupProvider", required: false, type: .structure), 
-            AWSShapeMember(label: "capacityProviderArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The Auto Scaling group settings for the capacity provider.
         public let autoScalingGroupProvider: AutoScalingGroupProvider?
@@ -497,11 +464,6 @@ extension ECS {
     }
 
     public struct CapacityProviderStrategyItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "base", required: false, type: .integer), 
-            AWSShapeMember(label: "capacityProvider", required: true, type: .string), 
-            AWSShapeMember(label: "weight", required: false, type: .integer)
-        ]
 
         /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined.
         public let base: Int?
@@ -531,22 +493,6 @@ extension ECS {
     }
 
     public struct Cluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "activeServicesCount", required: false, type: .integer), 
-            AWSShapeMember(label: "attachments", required: false, type: .list), 
-            AWSShapeMember(label: "attachmentsStatus", required: false, type: .string), 
-            AWSShapeMember(label: "capacityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "clusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "clusterName", required: false, type: .string), 
-            AWSShapeMember(label: "defaultCapacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "pendingTasksCount", required: false, type: .integer), 
-            AWSShapeMember(label: "registeredContainerInstancesCount", required: false, type: .integer), 
-            AWSShapeMember(label: "runningTasksCount", required: false, type: .integer), 
-            AWSShapeMember(label: "settings", required: false, type: .list), 
-            AWSShapeMember(label: "statistics", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with ListServices.
         public let activeServicesCount: Int?
@@ -613,10 +559,6 @@ extension ECS {
     }
 
     public struct ClusterSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The name of the cluster setting. The only supported value is containerInsights.
         public let name: ClusterSettingName?
@@ -635,24 +577,6 @@ extension ECS {
     }
 
     public struct Container: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerArn", required: false, type: .string), 
-            AWSShapeMember(label: "cpu", required: false, type: .string), 
-            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "gpuIds", required: false, type: .list), 
-            AWSShapeMember(label: "healthStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "image", required: false, type: .string), 
-            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .string), 
-            AWSShapeMember(label: "memory", required: false, type: .string), 
-            AWSShapeMember(label: "memoryReservation", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "networkBindings", required: false, type: .list), 
-            AWSShapeMember(label: "networkInterfaces", required: false, type: .list), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "runtimeId", required: false, type: .string), 
-            AWSShapeMember(label: "taskArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the container.
         public let containerArn: String?
@@ -727,46 +651,6 @@ extension ECS {
     }
 
     public struct ContainerDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "command", required: false, type: .list), 
-            AWSShapeMember(label: "cpu", required: false, type: .integer), 
-            AWSShapeMember(label: "dependsOn", required: false, type: .list), 
-            AWSShapeMember(label: "disableNetworking", required: false, type: .boolean), 
-            AWSShapeMember(label: "dnsSearchDomains", required: false, type: .list), 
-            AWSShapeMember(label: "dnsServers", required: false, type: .list), 
-            AWSShapeMember(label: "dockerLabels", required: false, type: .map), 
-            AWSShapeMember(label: "dockerSecurityOptions", required: false, type: .list), 
-            AWSShapeMember(label: "entryPoint", required: false, type: .list), 
-            AWSShapeMember(label: "environment", required: false, type: .list), 
-            AWSShapeMember(label: "essential", required: false, type: .boolean), 
-            AWSShapeMember(label: "extraHosts", required: false, type: .list), 
-            AWSShapeMember(label: "firelensConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "healthCheck", required: false, type: .structure), 
-            AWSShapeMember(label: "hostname", required: false, type: .string), 
-            AWSShapeMember(label: "image", required: false, type: .string), 
-            AWSShapeMember(label: "interactive", required: false, type: .boolean), 
-            AWSShapeMember(label: "links", required: false, type: .list), 
-            AWSShapeMember(label: "linuxParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "logConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "memory", required: false, type: .integer), 
-            AWSShapeMember(label: "memoryReservation", required: false, type: .integer), 
-            AWSShapeMember(label: "mountPoints", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "portMappings", required: false, type: .list), 
-            AWSShapeMember(label: "privileged", required: false, type: .boolean), 
-            AWSShapeMember(label: "pseudoTerminal", required: false, type: .boolean), 
-            AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeMember(label: "repositoryCredentials", required: false, type: .structure), 
-            AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
-            AWSShapeMember(label: "secrets", required: false, type: .list), 
-            AWSShapeMember(label: "startTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "stopTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "systemControls", required: false, type: .list), 
-            AWSShapeMember(label: "ulimits", required: false, type: .list), 
-            AWSShapeMember(label: "user", required: false, type: .string), 
-            AWSShapeMember(label: "volumesFrom", required: false, type: .list), 
-            AWSShapeMember(label: "workingDirectory", required: false, type: .string)
-        ]
 
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd. If there are multiple arguments, each argument should be a separated string in the array.
         public let command: [String]?
@@ -929,10 +813,6 @@ extension ECS {
     }
 
     public struct ContainerDependency: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "condition", required: true, type: .enum), 
-            AWSShapeMember(label: "containerName", required: true, type: .string)
-        ]
 
         /// The dependency condition of the container. The following are the available conditions and their behavior:    START - This condition emulates the behavior of links and volumes today. It validates that a dependent container is started before permitting other containers to start.    COMPLETE - This condition validates that a dependent container runs to completion (exits) before permitting other containers to start. This can be useful for nonessential containers that run a script and then exit.    SUCCESS - This condition is the same as COMPLETE, but it also requires that the container exits with a zero status.    HEALTHY - This condition validates that the dependent container passes its Docker health check before permitting other containers to start. This requires that the dependent container has health checks configured. This condition is confirmed only at task startup.  
         public let condition: ContainerCondition
@@ -951,25 +831,6 @@ extension ECS {
     }
 
     public struct ContainerInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentConnected", required: false, type: .boolean), 
-            AWSShapeMember(label: "agentUpdateStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "attachments", required: false, type: .list), 
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "capacityProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ec2InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "pendingTasksCount", required: false, type: .integer), 
-            AWSShapeMember(label: "registeredAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "registeredResources", required: false, type: .list), 
-            AWSShapeMember(label: "remainingResources", required: false, type: .list), 
-            AWSShapeMember(label: "runningTasksCount", required: false, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "version", required: false, type: .long), 
-            AWSShapeMember(label: "versionInfo", required: false, type: .structure)
-        ]
 
         /// This parameter returns true if the agent is connected to Amazon ECS. Registered instances with an agent that may be unhealthy or stopped return false. Only instances connected to an agent can accept placement requests.
         public let agentConnected: Bool?
@@ -1048,15 +909,6 @@ extension ECS {
     }
 
     public struct ContainerOverride: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "command", required: false, type: .list), 
-            AWSShapeMember(label: "cpu", required: false, type: .integer), 
-            AWSShapeMember(label: "environment", required: false, type: .list), 
-            AWSShapeMember(label: "memory", required: false, type: .integer), 
-            AWSShapeMember(label: "memoryReservation", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceRequirements", required: false, type: .list)
-        ]
 
         /// The command to send to the container that overrides the default command from the Docker image or the task definition. You must also specify a container name.
         public let command: [String]?
@@ -1095,15 +947,6 @@ extension ECS {
     }
 
     public struct ContainerStateChange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerName", required: false, type: .string), 
-            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
-            AWSShapeMember(label: "networkBindings", required: false, type: .list), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "runtimeId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string)
-        ]
 
         /// The name of the container.
         public let containerName: String?
@@ -1142,11 +985,6 @@ extension ECS {
     }
 
     public struct CreateCapacityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoScalingGroupProvider", required: true, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The details of the Auto Scaling group for the capacity provider.
         public let autoScalingGroupProvider: AutoScalingGroupProvider
@@ -1178,9 +1016,6 @@ extension ECS {
     }
 
     public struct CreateCapacityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProvider", required: false, type: .structure)
-        ]
 
         /// The full description of the new capacity provider.
         public let capacityProvider: CapacityProvider?
@@ -1195,13 +1030,6 @@ extension ECS {
     }
 
     public struct CreateClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "clusterName", required: false, type: .string), 
-            AWSShapeMember(label: "defaultCapacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "settings", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created and not already associated with another cluster. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviders: [String]?
@@ -1243,9 +1071,6 @@ extension ECS {
     }
 
     public struct CreateClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .structure)
-        ]
 
         /// The full description of your new cluster.
         public let cluster: Cluster?
@@ -1260,29 +1085,6 @@ extension ECS {
     }
 
     public struct CreateServiceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentController", required: false, type: .structure), 
-            AWSShapeMember(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeMember(label: "enableECSManagedTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "healthCheckGracePeriodSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeMember(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "propagateTags", required: false, type: .enum), 
-            AWSShapeMember(label: "role", required: false, type: .string), 
-            AWSShapeMember(label: "schedulingStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "serviceName", required: true, type: .string), 
-            AWSShapeMember(label: "serviceRegistries", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: false, type: .string)
-        ]
 
         /// The capacity provider strategy to use for the service. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
@@ -1388,9 +1190,6 @@ extension ECS {
     }
 
     public struct CreateServiceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "service", required: false, type: .structure)
-        ]
 
         /// The full description of your service following the create call. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. If the service is using the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
         public let service: Service?
@@ -1405,21 +1204,6 @@ extension ECS {
     }
 
     public struct CreateTaskSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "cluster", required: true, type: .string), 
-            AWSShapeMember(label: "externalId", required: false, type: .string), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "scale", required: false, type: .structure), 
-            AWSShapeMember(label: "service", required: true, type: .string), 
-            AWSShapeMember(label: "serviceRegistries", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: true, type: .string)
-        ]
 
         /// The capacity provider strategy to use for the task set. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
@@ -1491,9 +1275,6 @@ extension ECS {
     }
 
     public struct CreateTaskSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskSet", required: false, type: .structure)
-        ]
 
         public let taskSet: TaskSet?
 
@@ -1507,10 +1288,6 @@ extension ECS {
     }
 
     public struct DeleteAccountSettingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .enum), 
-            AWSShapeMember(label: "principalArn", required: false, type: .string)
-        ]
 
         /// The resource name for which to disable the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
         public let name: SettingName
@@ -1529,9 +1306,6 @@ extension ECS {
     }
 
     public struct DeleteAccountSettingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setting", required: false, type: .structure)
-        ]
 
         /// The account setting for the specified principal ARN.
         public let setting: Setting?
@@ -1546,10 +1320,6 @@ extension ECS {
     }
 
     public struct DeleteAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
-            AWSShapeMember(label: "cluster", required: false, type: .string)
-        ]
 
         /// The attributes to delete from your resource. You can specify up to 10 attributes per request. For custom attributes, specify the attribute name and target ID, but do not specify the value. If you specify the target ID using the short form, you must also specify the target type.
         public let attributes: [Attribute]
@@ -1568,9 +1338,6 @@ extension ECS {
     }
 
     public struct DeleteAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .list)
-        ]
 
         /// A list of attribute objects that were successfully deleted from your resource.
         public let attributes: [Attribute]?
@@ -1585,9 +1352,6 @@ extension ECS {
     }
 
     public struct DeleteClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
         public let cluster: String
@@ -1602,9 +1366,6 @@ extension ECS {
     }
 
     public struct DeleteClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .structure)
-        ]
 
         /// The full description of the deleted cluster.
         public let cluster: Cluster?
@@ -1619,11 +1380,6 @@ extension ECS {
     }
 
     public struct DeleteServiceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "service", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -1646,9 +1402,6 @@ extension ECS {
     }
 
     public struct DeleteServiceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "service", required: false, type: .structure)
-        ]
 
         /// The full description of the deleted service.
         public let service: Service?
@@ -1663,12 +1416,6 @@ extension ECS {
     }
 
     public struct DeleteTaskSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: true, type: .string), 
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "service", required: true, type: .string), 
-            AWSShapeMember(label: "taskSet", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in to delete.
         public let cluster: String
@@ -1695,9 +1442,6 @@ extension ECS {
     }
 
     public struct DeleteTaskSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskSet", required: false, type: .structure)
-        ]
 
         public let taskSet: TaskSet?
 
@@ -1711,20 +1455,6 @@ extension ECS {
     }
 
     public struct Deployment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "pendingCount", required: false, type: .integer), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "runningCount", required: false, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
-        ]
 
         /// The capacity provider strategy that the deployment is using.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
@@ -1783,10 +1513,6 @@ extension ECS {
     }
 
     public struct DeploymentConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maximumPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "minimumHealthyPercent", required: false, type: .integer)
-        ]
 
         /// If a service is using the rolling update (ECS) deployment type, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desired number of tasks (rounded down to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the maximum percent value is set to the default value and is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the maximum percent value is not used, although it is returned when describing your service.
         public let maximumPercent: Int?
@@ -1805,9 +1531,6 @@ extension ECS {
     }
 
     public struct DeploymentController: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The deployment controller type to use. There are three deployment controller types available:  ECS  The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the DeploymentConfiguration.  CODE_DEPLOY  The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by AWS CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it.  EXTERNAL  The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service.  
         public let `type`: DeploymentControllerType
@@ -1822,11 +1545,6 @@ extension ECS {
     }
 
     public struct DeregisterContainerInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstance", required: true, type: .string), 
-            AWSShapeMember(label: "force", required: false, type: .boolean)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -1849,9 +1567,6 @@ extension ECS {
     }
 
     public struct DeregisterContainerInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerInstance", required: false, type: .structure)
-        ]
 
         /// The container instance that was deregistered.
         public let containerInstance: ContainerInstance?
@@ -1866,9 +1581,6 @@ extension ECS {
     }
 
     public struct DeregisterTaskDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskDefinition", required: true, type: .string)
-        ]
 
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
         public let taskDefinition: String
@@ -1883,9 +1595,6 @@ extension ECS {
     }
 
     public struct DeregisterTaskDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
-        ]
 
         /// The full description of the deregistered task.
         public let taskDefinition: TaskDefinition?
@@ -1900,12 +1609,6 @@ extension ECS {
     }
 
     public struct DescribeCapacityProvidersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "include", required: false, type: .list), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to 100 capacity providers can be described in an action.
         public let capacityProviders: [String]?
@@ -1932,11 +1635,6 @@ extension ECS {
     }
 
     public struct DescribeCapacityProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of capacity providers.
         public let capacityProviders: [CapacityProvider]?
@@ -1959,10 +1657,6 @@ extension ECS {
     }
 
     public struct DescribeClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusters", required: false, type: .list), 
-            AWSShapeMember(label: "include", required: false, type: .list)
-        ]
 
         /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
@@ -1981,10 +1675,6 @@ extension ECS {
     }
 
     public struct DescribeClustersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusters", required: false, type: .list), 
-            AWSShapeMember(label: "failures", required: false, type: .list)
-        ]
 
         /// The list of clusters.
         public let clusters: [Cluster]?
@@ -2003,11 +1693,6 @@ extension ECS {
     }
 
     public struct DescribeContainerInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstances", required: true, type: .list), 
-            AWSShapeMember(label: "include", required: false, type: .list)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the container instance or container instances you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
@@ -2030,10 +1715,6 @@ extension ECS {
     }
 
     public struct DescribeContainerInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerInstances", required: false, type: .list), 
-            AWSShapeMember(label: "failures", required: false, type: .list)
-        ]
 
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
@@ -2052,11 +1733,6 @@ extension ECS {
     }
 
     public struct DescribeServicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "include", required: false, type: .list), 
-            AWSShapeMember(label: "services", required: true, type: .list)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the service or services you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
@@ -2079,10 +1755,6 @@ extension ECS {
     }
 
     public struct DescribeServicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "services", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -2101,10 +1773,6 @@ extension ECS {
     }
 
     public struct DescribeTaskDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "include", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: true, type: .string)
-        ]
 
         /// Specifies whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
         public let include: [TaskDefinitionField]?
@@ -2123,10 +1791,6 @@ extension ECS {
     }
 
     public struct DescribeTaskDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
-        ]
 
         /// The metadata that is applied to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
@@ -2145,12 +1809,6 @@ extension ECS {
     }
 
     public struct DescribeTaskSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: true, type: .string), 
-            AWSShapeMember(label: "include", required: false, type: .list), 
-            AWSShapeMember(label: "service", required: true, type: .string), 
-            AWSShapeMember(label: "taskSets", required: false, type: .list)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
         public let cluster: String
@@ -2177,10 +1835,6 @@ extension ECS {
     }
 
     public struct DescribeTaskSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "taskSets", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -2199,11 +1853,6 @@ extension ECS {
     }
 
     public struct DescribeTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "include", required: false, type: .list), 
-            AWSShapeMember(label: "tasks", required: true, type: .list)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the task or tasks you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
@@ -2226,10 +1875,6 @@ extension ECS {
     }
 
     public struct DescribeTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "tasks", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -2248,11 +1893,6 @@ extension ECS {
     }
 
     public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerPath", required: false, type: .string), 
-            AWSShapeMember(label: "hostPath", required: true, type: .string), 
-            AWSShapeMember(label: "permissions", required: false, type: .list)
-        ]
 
         /// The path inside the container at which to expose the host device.
         public let containerPath: String?
@@ -2275,10 +1915,6 @@ extension ECS {
     }
 
     public struct DiscoverPollEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstance", required: false, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster to which the container instance belongs.
         public let cluster: String?
@@ -2297,10 +1933,6 @@ extension ECS {
     }
 
     public struct DiscoverPollEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "telemetryEndpoint", required: false, type: .string)
-        ]
 
         /// The endpoint for the Amazon ECS agent to poll.
         public let endpoint: String?
@@ -2319,13 +1951,6 @@ extension ECS {
     }
 
     public struct DockerVolumeConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoprovision", required: false, type: .boolean), 
-            AWSShapeMember(label: "driver", required: false, type: .string), 
-            AWSShapeMember(label: "driverOpts", required: false, type: .map), 
-            AWSShapeMember(label: "labels", required: false, type: .map), 
-            AWSShapeMember(label: "scope", required: false, type: .enum)
-        ]
 
         /// If this value is true, the Docker volume is created if it does not already exist.  This field is only used if the scope is shared. 
         public let autoprovision: Bool?
@@ -2356,10 +1981,6 @@ extension ECS {
     }
 
     public struct EFSVolumeConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "rootDirectory", required: false, type: .string)
-        ]
 
         /// The Amazon EFS file system ID to use.
         public let fileSystemId: String
@@ -2378,11 +1999,6 @@ extension ECS {
     }
 
     public struct Failure: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "detail", required: false, type: .string), 
-            AWSShapeMember(label: "reason", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the failed resource.
         public let arn: String?
@@ -2405,10 +2021,6 @@ extension ECS {
     }
 
     public struct FirelensConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "options", required: false, type: .map), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The options to use when configuring the log router. This field is optional and can be used to specify a custom configuration file or to add additional metadata, such as the task, task definition, cluster, and container instance details to the log event. If specified, the syntax to use is "options":{"enable-ecs-log-metadata":"true|false","config-file-type:"s3|file","config-file-value":"arn:aws:s3:::mybucket/fluent.conf|filepath"}. For more information, see Creating a Task Definition that Uses a FireLens Configuration in the Amazon Elastic Container Service Developer Guide.
         public let options: [String: String]?
@@ -2427,13 +2039,6 @@ extension ECS {
     }
 
     public struct HealthCheck: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "command", required: true, type: .list), 
-            AWSShapeMember(label: "interval", required: false, type: .integer), 
-            AWSShapeMember(label: "retries", required: false, type: .integer), 
-            AWSShapeMember(label: "startPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "timeout", required: false, type: .integer)
-        ]
 
         /// A string array representing the command that the container runs to determine if it is healthy. The string array must start with CMD to execute the command arguments directly, or CMD-SHELL to run the command with the container's default shell. For example:  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  An exit code of 0 indicates success, and non-zero exit code indicates failure. For more information, see HealthCheck in the Create a container section of the Docker Remote API.
         public let command: [String]
@@ -2464,10 +2069,6 @@ extension ECS {
     }
 
     public struct HostEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hostname", required: true, type: .string), 
-            AWSShapeMember(label: "ipAddress", required: true, type: .string)
-        ]
 
         /// The hostname to use in the /etc/hosts entry.
         public let hostname: String
@@ -2486,9 +2087,6 @@ extension ECS {
     }
 
     public struct HostVolumeProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourcePath", required: false, type: .string)
-        ]
 
         /// When the host parameter is used, specify a sourcePath to declare the path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. If you are using the Fargate launch type, the sourcePath parameter is not supported.
         public let sourcePath: String?
@@ -2503,10 +2101,6 @@ extension ECS {
     }
 
     public struct InferenceAccelerator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceName", required: true, type: .string), 
-            AWSShapeMember(label: "deviceType", required: true, type: .string)
-        ]
 
         /// The Elastic Inference accelerator device name. The deviceName must also be referenced in a container definition as a ResourceRequirement.
         public let deviceName: String
@@ -2525,10 +2119,6 @@ extension ECS {
     }
 
     public struct InferenceAcceleratorOverride: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceName", required: false, type: .string), 
-            AWSShapeMember(label: "deviceType", required: false, type: .string)
-        ]
 
         /// The Elastic Inference accelerator device name to override for the task. This parameter must match a deviceName specified in the task definition.
         public let deviceName: String?
@@ -2547,10 +2137,6 @@ extension ECS {
     }
 
     public struct KernelCapabilities: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "add", required: false, type: .list), 
-            AWSShapeMember(label: "drop", required: false, type: .list)
-        ]
 
         /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the Create a container section of the Docker Remote API and the --cap-add option to docker run.  If you are using tasks that use the Fargate launch type, the add parameter is not supported.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM" 
         public let add: [String]?
@@ -2569,10 +2155,6 @@ extension ECS {
     }
 
     public struct KeyValuePair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
@@ -2591,15 +2173,6 @@ extension ECS {
     }
 
     public struct LinuxParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capabilities", required: false, type: .structure), 
-            AWSShapeMember(label: "devices", required: false, type: .list), 
-            AWSShapeMember(label: "initProcessEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "maxSwap", required: false, type: .integer), 
-            AWSShapeMember(label: "sharedMemorySize", required: false, type: .integer), 
-            AWSShapeMember(label: "swappiness", required: false, type: .integer), 
-            AWSShapeMember(label: "tmpfs", required: false, type: .list)
-        ]
 
         /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.  If you are using tasks that use the Fargate launch type, capabilities is supported but the add parameter is not supported. 
         public let capabilities: KernelCapabilities?
@@ -2638,14 +2211,6 @@ extension ECS {
     }
 
     public struct ListAccountSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "effectiveSettings", required: false, type: .boolean), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "principalArn", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// Specifies whether to return the effective settings. If true, the account settings for the root user or the default setting for the principalArn are returned. If false, the account settings for the principalArn are returned if they are set. Otherwise, no account settings are returned.
         public let effectiveSettings: Bool?
@@ -2680,10 +2245,6 @@ extension ECS {
     }
 
     public struct ListAccountSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "settings", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListAccountSettings request. When the results of a ListAccountSettings request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -2702,14 +2263,6 @@ extension ECS {
     }
 
     public struct ListAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributeName", required: false, type: .string), 
-            AWSShapeMember(label: "attributeValue", required: false, type: .string), 
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "targetType", required: true, type: .enum)
-        ]
 
         /// The name of the attribute with which to filter the results. 
         public let attributeName: String?
@@ -2744,10 +2297,6 @@ extension ECS {
     }
 
     public struct ListAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of attribute objects that meet the criteria of the request.
         public let attributes: [Attribute]?
@@ -2766,10 +2315,6 @@ extension ECS {
     }
 
     public struct ListClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of cluster results returned by ListClusters in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListClusters returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
@@ -2788,10 +2333,6 @@ extension ECS {
     }
 
     public struct ListClustersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of full Amazon Resource Name (ARN) entries for each cluster associated with your account.
         public let clusterArns: [String]?
@@ -2810,13 +2351,6 @@ extension ECS {
     }
 
     public struct ListContainerInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "filter", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -2847,10 +2381,6 @@ extension ECS {
     }
 
     public struct ListContainerInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerInstanceArns", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of container instances with full ARN entries for each container instance associated with the specified cluster.
         public let containerInstanceArns: [String]?
@@ -2869,13 +2399,6 @@ extension ECS {
     }
 
     public struct ListServicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "schedulingStrategy", required: false, type: .enum)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the services to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -2906,10 +2429,6 @@ extension ECS {
     }
 
     public struct ListServicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "serviceArns", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListServices request. When the results of a ListServices request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -2928,9 +2447,6 @@ extension ECS {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
@@ -2945,9 +2461,6 @@ extension ECS {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
 
         /// The tags for the resource.
         public let tags: [Tag]?
@@ -2962,12 +2475,6 @@ extension ECS {
     }
 
     public struct ListTaskDefinitionFamiliesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "familyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The familyPrefix is a string that is used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
         public let familyPrefix: String?
@@ -2994,10 +2501,6 @@ extension ECS {
     }
 
     public struct ListTaskDefinitionFamiliesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "families", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
         public let families: [String]?
@@ -3016,13 +2519,6 @@ extension ECS {
     }
 
     public struct ListTaskDefinitionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "familyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sort", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The full family name with which to filter the ListTaskDefinitions results. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
         public let familyPrefix: String?
@@ -3053,10 +2549,6 @@ extension ECS {
     }
 
     public struct ListTaskDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "taskDefinitionArns", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListTaskDefinitions request. When the results of a ListTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -3075,17 +2567,6 @@ extension ECS {
     }
 
     public struct ListTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstance", required: false, type: .string), 
-            AWSShapeMember(label: "desiredStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "family", required: false, type: .string), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "serviceName", required: false, type: .string), 
-            AWSShapeMember(label: "startedBy", required: false, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the tasks to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -3132,10 +2613,6 @@ extension ECS {
     }
 
     public struct ListTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "taskArns", required: false, type: .list)
-        ]
 
         /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -3154,12 +2631,6 @@ extension ECS {
     }
 
     public struct LoadBalancer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerName", required: false, type: .string), 
-            AWSShapeMember(label: "containerPort", required: false, type: .integer), 
-            AWSShapeMember(label: "loadBalancerName", required: false, type: .string), 
-            AWSShapeMember(label: "targetGroupArn", required: false, type: .string)
-        ]
 
         /// The name of the container (as it appears in a container definition) to associate with the load balancer.
         public let containerName: String?
@@ -3186,11 +2657,6 @@ extension ECS {
     }
 
     public struct LogConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logDriver", required: true, type: .enum), 
-            AWSShapeMember(label: "options", required: false, type: .map), 
-            AWSShapeMember(label: "secretOptions", required: false, type: .list)
-        ]
 
         /// The log driver to use for the container. The valid values listed earlier are log drivers that the Amazon ECS container agent can communicate with by default. For tasks using the Fargate launch type, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks using the EC2 launch type, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries,syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see Using the awslogs Log Driver in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see Custom Log Routing in the Amazon Elastic Container Service Developer Guide.  If you have a custom driver that is not listed, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we do not currently provide support for running modified copies of this software. 
         public let logDriver: LogDriver
@@ -3213,12 +2679,6 @@ extension ECS {
     }
 
     public struct ManagedScaling: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maximumScalingStepSize", required: false, type: .integer), 
-            AWSShapeMember(label: "minimumScalingStepSize", required: false, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "targetCapacity", required: false, type: .integer)
-        ]
 
         /// The maximum number of container instances that Amazon ECS will scale in or scale out at one time. If this parameter is omitted, the default value of 10000 is used.
         public let maximumScalingStepSize: Int?
@@ -3254,11 +2714,6 @@ extension ECS {
     }
 
     public struct MountPoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerPath", required: false, type: .string), 
-            AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "sourceVolume", required: false, type: .string)
-        ]
 
         /// The path on the container to mount the host volume at.
         public let containerPath: String?
@@ -3281,12 +2736,6 @@ extension ECS {
     }
 
     public struct NetworkBinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bindIP", required: false, type: .string), 
-            AWSShapeMember(label: "containerPort", required: false, type: .integer), 
-            AWSShapeMember(label: "hostPort", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum)
-        ]
 
         /// The IP address that the container is bound to on the container instance.
         public let bindIP: String?
@@ -3313,9 +2762,6 @@ extension ECS {
     }
 
     public struct NetworkConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsvpcConfiguration", required: false, type: .structure)
-        ]
 
         /// The VPC subnets and security groups associated with a task.  All specified subnets and security groups must be from the same VPC. 
         public let awsvpcConfiguration: AwsVpcConfiguration?
@@ -3330,11 +2776,6 @@ extension ECS {
     }
 
     public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentId", required: false, type: .string), 
-            AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
-            AWSShapeMember(label: "privateIpv4Address", required: false, type: .string)
-        ]
 
         /// The attachment ID for the network interface.
         public let attachmentId: String?
@@ -3357,10 +2798,6 @@ extension ECS {
     }
 
     public struct PlacementConstraint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expression", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
@@ -3379,10 +2816,6 @@ extension ECS {
     }
 
     public struct PlacementStrategy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "field", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
         public let field: String?
@@ -3401,10 +2834,6 @@ extension ECS {
     }
 
     public struct PlatformDevice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The ID for the GPU(s) on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
         public let id: String
@@ -3423,11 +2852,6 @@ extension ECS {
     }
 
     public struct PortMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerPort", required: false, type: .integer), 
-            AWSShapeMember(label: "hostPort", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum)
-        ]
 
         /// The port number on the container that is bound to the user-specified or automatically assigned host port. If you are using containers in a task with the awsvpc or host network mode, exposed ports should be specified using containerPort. If you are using containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.  You cannot expose the same container port for multiple protocols. An error will be returned if this is attempted. 
         public let containerPort: Int?
@@ -3450,11 +2874,6 @@ extension ECS {
     }
 
     public struct ProxyConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerName", required: true, type: .string), 
-            AWSShapeMember(label: "properties", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The name of the container that will serve as the App Mesh proxy.
         public let containerName: String
@@ -3477,10 +2896,6 @@ extension ECS {
     }
 
     public struct PutAccountSettingDefaultRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .enum), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected.
         public let name: SettingName
@@ -3499,9 +2914,6 @@ extension ECS {
     }
 
     public struct PutAccountSettingDefaultResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setting", required: false, type: .structure)
-        ]
 
         public let setting: Setting?
 
@@ -3515,11 +2927,6 @@ extension ECS {
     }
 
     public struct PutAccountSettingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .enum), 
-            AWSShapeMember(label: "principalArn", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The Amazon ECS resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected.
         public let name: SettingName
@@ -3542,9 +2949,6 @@ extension ECS {
     }
 
     public struct PutAccountSettingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setting", required: false, type: .structure)
-        ]
 
         /// The current account setting for a resource.
         public let setting: Setting?
@@ -3559,10 +2963,6 @@ extension ECS {
     }
 
     public struct PutAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: true, type: .list), 
-            AWSShapeMember(label: "cluster", required: false, type: .string)
-        ]
 
         /// The attributes to apply to your resource. You can specify up to 10 custom attributes per resource. You can specify up to 10 attributes in a single call.
         public let attributes: [Attribute]
@@ -3581,9 +2981,6 @@ extension ECS {
     }
 
     public struct PutAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .list)
-        ]
 
         /// The attributes applied to your resource.
         public let attributes: [Attribute]?
@@ -3598,11 +2995,6 @@ extension ECS {
     }
 
     public struct PutClusterCapacityProvidersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviders", required: true, type: .list), 
-            AWSShapeMember(label: "cluster", required: true, type: .string), 
-            AWSShapeMember(label: "defaultCapacityProviderStrategy", required: true, type: .list)
-        ]
 
         /// The name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used.
         public let capacityProviders: [String]
@@ -3631,9 +3023,6 @@ extension ECS {
     }
 
     public struct PutClusterCapacityProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .structure)
-        ]
 
         public let cluster: Cluster?
 
@@ -3647,17 +3036,6 @@ extension ECS {
     }
 
     public struct RegisterContainerInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "instanceIdentityDocument", required: false, type: .string), 
-            AWSShapeMember(label: "instanceIdentityDocumentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "platformDevices", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "totalResources", required: false, type: .list), 
-            AWSShapeMember(label: "versionInfo", required: false, type: .structure)
-        ]
 
         /// The container instance attributes that this container instance supports.
         public let attributes: [Attribute]?
@@ -3712,9 +3090,6 @@ extension ECS {
     }
 
     public struct RegisterContainerInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerInstance", required: false, type: .structure)
-        ]
 
         /// The container instance that was registered.
         public let containerInstance: ContainerInstance?
@@ -3729,23 +3104,6 @@ extension ECS {
     }
 
     public struct RegisterTaskDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerDefinitions", required: true, type: .list), 
-            AWSShapeMember(label: "cpu", required: false, type: .string), 
-            AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "family", required: true, type: .string), 
-            AWSShapeMember(label: "inferenceAccelerators", required: false, type: .list), 
-            AWSShapeMember(label: "ipcMode", required: false, type: .enum), 
-            AWSShapeMember(label: "memory", required: false, type: .string), 
-            AWSShapeMember(label: "networkMode", required: false, type: .enum), 
-            AWSShapeMember(label: "pidMode", required: false, type: .enum), 
-            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeMember(label: "proxyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "requiresCompatibilities", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "volumes", required: false, type: .list)
-        ]
 
         /// A list of container definitions in JSON format that describe the different containers that make up your task.
         public let containerDefinitions: [ContainerDefinition]
@@ -3823,10 +3181,6 @@ extension ECS {
     }
 
     public struct RegisterTaskDefinitionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
-        ]
 
         /// The list of tags associated with the task definition.
         public let tags: [Tag]?
@@ -3845,9 +3199,6 @@ extension ECS {
     }
 
     public struct RepositoryCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "credentialsParameter", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.  When you are using the Amazon ECS API, AWS CLI, or AWS SDK, if the secret exists in the same Region as the task that you are launching then you can use either the full ARN or the name of the secret. When you are using the AWS Management Console, you must specify the full ARN of the secret. 
         public let credentialsParameter: String
@@ -3862,14 +3213,6 @@ extension ECS {
     }
 
     public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
-            AWSShapeMember(label: "integerValue", required: false, type: .integer), 
-            AWSShapeMember(label: "longValue", required: false, type: .long), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "stringSetValue", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: false, type: .string)
-        ]
 
         /// When the doubleValue type is set, the value of the resource must be a double precision floating-point type.
         public let doubleValue: Double?
@@ -3904,10 +3247,6 @@ extension ECS {
     }
 
     public struct ResourceRequirement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "value", required: true, type: .string)
-        ]
 
         /// The type of resource to assign to a container. The supported values are GPU or InferenceAccelerator.
         public let `type`: ResourceType
@@ -3926,24 +3265,6 @@ extension ECS {
     }
 
     public struct RunTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "count", required: false, type: .integer), 
-            AWSShapeMember(label: "enableECSManagedTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "group", required: false, type: .string), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
-            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeMember(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "propagateTags", required: false, type: .enum), 
-            AWSShapeMember(label: "referenceId", required: false, type: .string), 
-            AWSShapeMember(label: "startedBy", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: true, type: .string)
-        ]
 
         /// The capacity provider strategy to use for the task. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
@@ -4029,10 +3350,6 @@ extension ECS {
     }
 
     public struct RunTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "tasks", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -4051,10 +3368,6 @@ extension ECS {
     }
 
     public struct Scale: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "unit", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .double)
-        ]
 
         /// The unit of measure for the scale value.
         public let unit: ScaleUnit?
@@ -4073,10 +3386,6 @@ extension ECS {
     }
 
     public struct Secret: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "valueFrom", required: true, type: .string)
-        ]
 
         /// The name of the secret.
         public let name: String
@@ -4095,37 +3404,6 @@ extension ECS {
     }
 
     public struct Service: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "clusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdBy", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentController", required: false, type: .structure), 
-            AWSShapeMember(label: "deployments", required: false, type: .list), 
-            AWSShapeMember(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeMember(label: "enableECSManagedTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "events", required: false, type: .list), 
-            AWSShapeMember(label: "healthCheckGracePeriodSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "pendingCount", required: false, type: .integer), 
-            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeMember(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "propagateTags", required: false, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "runningCount", required: false, type: .integer), 
-            AWSShapeMember(label: "schedulingStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "serviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "serviceName", required: false, type: .string), 
-            AWSShapeMember(label: "serviceRegistries", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "taskSets", required: false, type: .list)
-        ]
 
         /// The capacity provider strategy associated with the service.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
@@ -4252,11 +3530,6 @@ extension ECS {
     }
 
     public struct ServiceEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
 
         /// The Unix timestamp for when the event was triggered.
         public let createdAt: TimeStamp?
@@ -4279,12 +3552,6 @@ extension ECS {
     }
 
     public struct ServiceRegistry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerName", required: false, type: .string), 
-            AWSShapeMember(label: "containerPort", required: false, type: .integer), 
-            AWSShapeMember(label: "port", required: false, type: .integer), 
-            AWSShapeMember(label: "registryArn", required: false, type: .string)
-        ]
 
         /// The container name value, already specified in the task definition, to be used for your service discovery service. If the task definition that your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition that your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value, but not both.
         public let containerName: String?
@@ -4311,11 +3578,6 @@ extension ECS {
     }
 
     public struct Setting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .enum), 
-            AWSShapeMember(label: "principalArn", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The Amazon ECS resource name.
         public let name: SettingName?
@@ -4338,19 +3600,6 @@ extension ECS {
     }
 
     public struct StartTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstances", required: true, type: .list), 
-            AWSShapeMember(label: "enableECSManagedTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "group", required: false, type: .string), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
-            AWSShapeMember(label: "propagateTags", required: false, type: .enum), 
-            AWSShapeMember(label: "referenceId", required: false, type: .string), 
-            AWSShapeMember(label: "startedBy", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to start your task. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -4413,10 +3662,6 @@ extension ECS {
     }
 
     public struct StartTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failures", required: false, type: .list), 
-            AWSShapeMember(label: "tasks", required: false, type: .list)
-        ]
 
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -4435,11 +3680,6 @@ extension ECS {
     }
 
     public struct StopTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "task", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -4462,9 +3702,6 @@ extension ECS {
     }
 
     public struct StopTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "task", required: false, type: .structure)
-        ]
 
         /// The task that was stopped.
         public let task: Task?
@@ -4479,10 +3716,6 @@ extension ECS {
     }
 
     public struct SubmitAttachmentStateChangesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachments", required: true, type: .list), 
-            AWSShapeMember(label: "cluster", required: false, type: .string)
-        ]
 
         /// Any attachments associated with the state change request.
         public let attachments: [AttachmentStateChange]
@@ -4501,9 +3734,6 @@ extension ECS {
     }
 
     public struct SubmitAttachmentStateChangesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "acknowledgment", required: false, type: .string)
-        ]
 
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
@@ -4518,16 +3748,6 @@ extension ECS {
     }
 
     public struct SubmitContainerStateChangeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerName", required: false, type: .string), 
-            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "networkBindings", required: false, type: .list), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "runtimeId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "task", required: false, type: .string)
-        ]
 
         /// The short name or full ARN of the cluster that hosts the container.
         public let cluster: String?
@@ -4570,9 +3790,6 @@ extension ECS {
     }
 
     public struct SubmitContainerStateChangeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "acknowledgment", required: false, type: .string)
-        ]
 
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
@@ -4587,17 +3804,6 @@ extension ECS {
     }
 
     public struct SubmitTaskStateChangeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachments", required: false, type: .list), 
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containers", required: false, type: .list), 
-            AWSShapeMember(label: "executionStoppedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pullStartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pullStoppedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "reason", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "task", required: false, type: .string)
-        ]
 
         /// Any attachments associated with the state change request.
         public let attachments: [AttachmentStateChange]?
@@ -4644,9 +3850,6 @@ extension ECS {
     }
 
     public struct SubmitTaskStateChangeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "acknowledgment", required: false, type: .string)
-        ]
 
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
@@ -4661,10 +3864,6 @@ extension ECS {
     }
 
     public struct SystemControl: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "namespace", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The namespaced kernel parameter for which to set a value.
         public let namespace: String?
@@ -4683,10 +3882,6 @@ extension ECS {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
@@ -4714,10 +3909,6 @@ extension ECS {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
@@ -4752,41 +3943,6 @@ extension ECS {
     }
 
     public struct Task: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachments", required: false, type: .list), 
-            AWSShapeMember(label: "attributes", required: false, type: .list), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "capacityProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "clusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "connectivity", required: false, type: .enum), 
-            AWSShapeMember(label: "connectivityAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "containers", required: false, type: .list), 
-            AWSShapeMember(label: "cpu", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "desiredStatus", required: false, type: .string), 
-            AWSShapeMember(label: "executionStoppedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "group", required: false, type: .string), 
-            AWSShapeMember(label: "healthStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "inferenceAccelerators", required: false, type: .list), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .string), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "memory", required: false, type: .string), 
-            AWSShapeMember(label: "overrides", required: false, type: .structure), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "pullStartedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pullStoppedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startedBy", required: false, type: .string), 
-            AWSShapeMember(label: "stopCode", required: false, type: .enum), 
-            AWSShapeMember(label: "stoppedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "stoppedReason", required: false, type: .string), 
-            AWSShapeMember(label: "stoppingAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskArn", required: false, type: .string), 
-            AWSShapeMember(label: "taskDefinitionArn", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
 
         /// The Elastic Network Adapter associated with the task if the task uses the awsvpc network mode.
         public let attachments: [Attachment]?
@@ -4929,27 +4085,6 @@ extension ECS {
     }
 
     public struct TaskDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "compatibilities", required: false, type: .list), 
-            AWSShapeMember(label: "containerDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "cpu", required: false, type: .string), 
-            AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "family", required: false, type: .string), 
-            AWSShapeMember(label: "inferenceAccelerators", required: false, type: .list), 
-            AWSShapeMember(label: "ipcMode", required: false, type: .enum), 
-            AWSShapeMember(label: "memory", required: false, type: .string), 
-            AWSShapeMember(label: "networkMode", required: false, type: .enum), 
-            AWSShapeMember(label: "pidMode", required: false, type: .enum), 
-            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeMember(label: "proxyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "requiresAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "requiresCompatibilities", required: false, type: .list), 
-            AWSShapeMember(label: "revision", required: false, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "taskDefinitionArn", required: false, type: .string), 
-            AWSShapeMember(label: "taskRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "volumes", required: false, type: .list)
-        ]
 
         /// The launch type to use with your task. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
         public let compatibilities: [Compatibility]?
@@ -5036,10 +4171,6 @@ extension ECS {
     }
 
     public struct TaskDefinitionPlacementConstraint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expression", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// A cluster query language expression to apply to the constraint. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
@@ -5058,14 +4189,6 @@ extension ECS {
     }
 
     public struct TaskOverride: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerOverrides", required: false, type: .list), 
-            AWSShapeMember(label: "cpu", required: false, type: .string), 
-            AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "inferenceAcceleratorOverrides", required: false, type: .list), 
-            AWSShapeMember(label: "memory", required: false, type: .string), 
-            AWSShapeMember(label: "taskRoleArn", required: false, type: .string)
-        ]
 
         /// One or more container overrides sent to a task.
         public let containerOverrides: [ContainerOverride]?
@@ -5100,31 +4223,6 @@ extension ECS {
     }
 
     public struct TaskSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "clusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "computedDesiredCount", required: false, type: .integer), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "externalId", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "launchType", required: false, type: .enum), 
-            AWSShapeMember(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "pendingCount", required: false, type: .integer), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "runningCount", required: false, type: .integer), 
-            AWSShapeMember(label: "scale", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "serviceRegistries", required: false, type: .list), 
-            AWSShapeMember(label: "stabilityStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "stabilityStatusAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startedBy", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeMember(label: "taskSetArn", required: false, type: .string), 
-            AWSShapeMember(label: "updatedAt", required: false, type: .timestamp)
-        ]
 
         /// The capacity provider strategy associated with the task set.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
@@ -5227,11 +4325,6 @@ extension ECS {
     }
 
     public struct Tmpfs: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerPath", required: true, type: .string), 
-            AWSShapeMember(label: "mountOptions", required: false, type: .list), 
-            AWSShapeMember(label: "size", required: true, type: .integer)
-        ]
 
         /// The absolute file path where the tmpfs volume is to be mounted.
         public let containerPath: String
@@ -5254,11 +4347,6 @@ extension ECS {
     }
 
     public struct Ulimit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hardLimit", required: true, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .enum), 
-            AWSShapeMember(label: "softLimit", required: true, type: .integer)
-        ]
 
         /// The hard limit for the ulimit type.
         public let hardLimit: Int
@@ -5281,10 +4369,6 @@ extension ECS {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
@@ -5319,10 +4403,6 @@ extension ECS {
     }
 
     public struct UpdateClusterSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: true, type: .string), 
-            AWSShapeMember(label: "settings", required: true, type: .list)
-        ]
 
         /// The name of the cluster to modify the settings for.
         public let cluster: String
@@ -5341,9 +4421,6 @@ extension ECS {
     }
 
     public struct UpdateClusterSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .structure)
-        ]
 
         public let cluster: Cluster?
 
@@ -5357,10 +4434,6 @@ extension ECS {
     }
 
     public struct UpdateContainerAgentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstance", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -5379,9 +4452,6 @@ extension ECS {
     }
 
     public struct UpdateContainerAgentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerInstance", required: false, type: .structure)
-        ]
 
         /// The container instance for which the container agent was updated.
         public let containerInstance: ContainerInstance?
@@ -5396,11 +4466,6 @@ extension ECS {
     }
 
     public struct UpdateContainerInstancesStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "containerInstances", required: true, type: .list), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -5423,10 +4488,6 @@ extension ECS {
     }
 
     public struct UpdateContainerInstancesStateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "containerInstances", required: false, type: .list), 
-            AWSShapeMember(label: "failures", required: false, type: .list)
-        ]
 
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
@@ -5445,11 +4506,6 @@ extension ECS {
     }
 
     public struct UpdateServicePrimaryTaskSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: true, type: .string), 
-            AWSShapeMember(label: "primaryTaskSet", required: true, type: .string), 
-            AWSShapeMember(label: "service", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
         public let cluster: String
@@ -5472,9 +4528,6 @@ extension ECS {
     }
 
     public struct UpdateServicePrimaryTaskSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskSet", required: false, type: .structure)
-        ]
 
         public let taskSet: TaskSet?
 
@@ -5488,18 +4541,6 @@ extension ECS {
     }
 
     public struct UpdateServiceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityProviderStrategy", required: false, type: .list), 
-            AWSShapeMember(label: "cluster", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeMember(label: "forceNewDeployment", required: false, type: .boolean), 
-            AWSShapeMember(label: "healthCheckGracePeriodSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "networkConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "platformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "service", required: true, type: .string), 
-            AWSShapeMember(label: "taskDefinition", required: false, type: .string)
-        ]
 
         /// The capacity provider strategy to update the service to use. If the service is using the default capacity provider strategy for the cluster, the service can be updated to use one or more capacity providers. However, when a service is using a non-default capacity provider strategy, the service cannot be updated to use the cluster's default capacity provider strategy. 
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
@@ -5555,9 +4596,6 @@ extension ECS {
     }
 
     public struct UpdateServiceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "service", required: false, type: .structure)
-        ]
 
         /// The full description of your service following the update call.
         public let service: Service?
@@ -5572,12 +4610,6 @@ extension ECS {
     }
 
     public struct UpdateTaskSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cluster", required: true, type: .string), 
-            AWSShapeMember(label: "scale", required: true, type: .structure), 
-            AWSShapeMember(label: "service", required: true, type: .string), 
-            AWSShapeMember(label: "taskSet", required: true, type: .string)
-        ]
 
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
         public let cluster: String
@@ -5603,9 +4635,6 @@ extension ECS {
     }
 
     public struct UpdateTaskSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskSet", required: false, type: .structure)
-        ]
 
         public let taskSet: TaskSet?
 
@@ -5619,11 +4648,6 @@ extension ECS {
     }
 
     public struct VersionInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "agentHash", required: false, type: .string), 
-            AWSShapeMember(label: "agentVersion", required: false, type: .string), 
-            AWSShapeMember(label: "dockerVersion", required: false, type: .string)
-        ]
 
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent  GitHub repository.
         public let agentHash: String?
@@ -5646,12 +4670,6 @@ extension ECS {
     }
 
     public struct Volume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dockerVolumeConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "efsVolumeConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "host", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// This parameter is specified when you are using Docker volumes. Docker volumes are only supported when you are using the EC2 launch type. Windows containers only support the use of the local driver. To use bind mounts, specify the host parameter instead.
         public let dockerVolumeConfiguration: DockerVolumeConfiguration?
@@ -5678,10 +4696,6 @@ extension ECS {
     }
 
     public struct VolumeFrom: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "sourceContainer", required: false, type: .string)
-        ]
 
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
         public let readOnly: Bool?

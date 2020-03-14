@@ -20,9 +20,6 @@ extension PinpointSMSVoice {
     //MARK: Shapes
 
     public struct CallInstructionsMessageType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Text", required: false, type: .string)
-        ]
 
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let text: String?
@@ -37,10 +34,6 @@ extension PinpointSMSVoice {
     }
 
     public struct CloudWatchLogsDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "LogGroupArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an Amazon Identity and Access Management (IAM) role that is able to write event data to an Amazon CloudWatch destination.
         public let iamRoleArn: String?
@@ -59,10 +52,8 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "EventDestinationName", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -92,9 +83,6 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string)
-        ]
 
         /// The name that you want to give the configuration set.
         public let configurationSetName: String?
@@ -117,9 +105,9 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         public let configurationSetName: String
@@ -145,8 +133,8 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -169,14 +157,6 @@ extension PinpointSMSVoice {
     }
 
     public struct EventDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogsDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SnsDestination", required: false, type: .structure)
-        ]
 
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
@@ -207,13 +187,6 @@ extension PinpointSMSVoice {
     }
 
     public struct EventDestinationDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLogsDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "SnsDestination", required: false, type: .structure)
-        ]
 
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
@@ -240,8 +213,8 @@ extension PinpointSMSVoice {
     }
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
 
         public let configurationSetName: String
@@ -256,9 +229,6 @@ extension PinpointSMSVoice {
     }
 
     public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestinations", required: false, type: .list)
-        ]
 
         public let eventDestinations: [EventDestination]?
 
@@ -272,10 +242,6 @@ extension PinpointSMSVoice {
     }
 
     public struct KinesisFirehoseDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamArn", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an IAM role that can write data to an Amazon Kinesis Data Firehose stream.
         public let deliveryStreamArn: String?
@@ -294,9 +260,9 @@ extension PinpointSMSVoice {
     }
 
     public struct ListConfigurationSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
         ]
 
         public let nextToken: String?
@@ -314,10 +280,6 @@ extension PinpointSMSVoice {
     }
 
     public struct ListConfigurationSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An object that contains a list of configuration sets for your account in the current region.
         public let configurationSets: [String]?
@@ -336,11 +298,6 @@ extension PinpointSMSVoice {
     }
 
     public struct PlainTextMessageType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .string), 
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "VoiceId", required: false, type: .string)
-        ]
 
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let languageCode: String?
@@ -363,11 +320,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SSMLMessageType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .string), 
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "VoiceId", required: false, type: .string)
-        ]
 
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let languageCode: String?
@@ -390,13 +342,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SendVoiceMessageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerId", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Content", required: false, type: .structure), 
-            AWSShapeMember(label: "DestinationPhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "OriginationPhoneNumber", required: false, type: .string)
-        ]
 
         /// The phone number that appears on recipients' devices when they receive the message.
         public let callerId: String?
@@ -426,9 +371,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SendVoiceMessageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
 
         /// A unique identifier for the voice message.
         public let messageId: String?
@@ -443,9 +385,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SnsDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         public let topicArn: String?
@@ -460,10 +399,9 @@ extension PinpointSMSVoice {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
         public let configurationSetName: String
@@ -492,11 +430,6 @@ extension PinpointSMSVoice {
     }
 
     public struct VoiceMessageContent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallInstructionsMessage", required: false, type: .structure), 
-            AWSShapeMember(label: "PlainTextMessage", required: false, type: .structure), 
-            AWSShapeMember(label: "SSMLMessage", required: false, type: .structure)
-        ]
 
         public let callInstructionsMessage: CallInstructionsMessageType?
         public let plainTextMessage: PlainTextMessageType?

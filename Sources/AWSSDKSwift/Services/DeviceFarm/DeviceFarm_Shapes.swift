@@ -314,16 +314,6 @@ extension DeviceFarm {
     //MARK: Shapes
 
     public struct AccountSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsAccountNumber", required: false, type: .string), 
-            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "maxJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "maxSlots", required: false, type: .map), 
-            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
-            AWSShapeMember(label: "trialMinutes", required: false, type: .structure), 
-            AWSShapeMember(label: "unmeteredDevices", required: false, type: .map), 
-            AWSShapeMember(label: "unmeteredRemoteAccessDevices", required: false, type: .map)
-        ]
 
         /// The AWS account number specified in the AccountSettings container.
         public let awsAccountNumber: String?
@@ -366,13 +356,6 @@ extension DeviceFarm {
     }
 
     public struct Artifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "extension", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
 
         /// The artifact's ARN.
         public let arn: String?
@@ -403,11 +386,6 @@ extension DeviceFarm {
     }
 
     public struct CPU: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "architecture", required: false, type: .string), 
-            AWSShapeMember(label: "clock", required: false, type: .double), 
-            AWSShapeMember(label: "frequency", required: false, type: .string)
-        ]
 
         /// The CPU's architecture (for example, x86 or ARM).
         public let architecture: String?
@@ -430,15 +408,6 @@ extension DeviceFarm {
     }
 
     public struct Counters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errored", required: false, type: .integer), 
-            AWSShapeMember(label: "failed", required: false, type: .integer), 
-            AWSShapeMember(label: "passed", required: false, type: .integer), 
-            AWSShapeMember(label: "skipped", required: false, type: .integer), 
-            AWSShapeMember(label: "stopped", required: false, type: .integer), 
-            AWSShapeMember(label: "total", required: false, type: .integer), 
-            AWSShapeMember(label: "warned", required: false, type: .integer)
-        ]
 
         /// The number of errored entities.
         public let errored: Int?
@@ -477,13 +446,6 @@ extension DeviceFarm {
     }
 
     public struct CreateDevicePoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "maxDevices", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string), 
-            AWSShapeMember(label: "rules", required: true, type: .list)
-        ]
 
         /// The device pool's description.
         public let description: String?
@@ -524,9 +486,6 @@ extension DeviceFarm {
     }
 
     public struct CreateDevicePoolResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devicePool", required: false, type: .structure)
-        ]
 
         /// The newly created device pool.
         public let devicePool: DevicePool?
@@ -541,13 +500,6 @@ extension DeviceFarm {
     }
 
     public struct CreateInstanceProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "excludeAppPackagesFromCleanup", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
-            AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean)
-        ]
 
         /// The description of your instance profile.
         public let description: String?
@@ -585,9 +537,6 @@ extension DeviceFarm {
     }
 
     public struct CreateInstanceProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
-        ]
 
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
@@ -602,20 +551,6 @@ extension DeviceFarm {
     }
 
     public struct CreateNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "downlinkBandwidthBits", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkDelayMs", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkLossPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "uplinkBandwidthBits", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkDelayMs", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer)
-        ]
 
         /// The description of the network profile.
         public let description: String?
@@ -688,9 +623,6 @@ extension DeviceFarm {
     }
 
     public struct CreateNetworkProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkProfile", required: false, type: .structure)
-        ]
 
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
@@ -705,10 +637,6 @@ extension DeviceFarm {
     }
 
     public struct CreateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
         public let defaultJobTimeoutMinutes: Int?
@@ -732,9 +660,6 @@ extension DeviceFarm {
     }
 
     public struct CreateProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "project", required: false, type: .structure)
-        ]
 
         /// The newly created project.
         public let project: Project?
@@ -749,10 +674,6 @@ extension DeviceFarm {
     }
 
     public struct CreateRemoteAccessSessionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "vpceConfigurationArns", required: false, type: .list)
-        ]
 
         /// The billing method for the remote access session.
         public let billingMethod: BillingMethod?
@@ -779,20 +700,6 @@ extension DeviceFarm {
     }
 
     public struct CreateRemoteAccessSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceArn", required: true, type: .string), 
-            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "interactionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string), 
-            AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "remoteRecordAppArn", required: false, type: .string), 
-            AWSShapeMember(label: "remoteRecordEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
-            AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
-        ]
 
         /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
         public let clientId: String?
@@ -873,9 +780,6 @@ extension DeviceFarm {
     }
 
     public struct CreateRemoteAccessSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
-        ]
 
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
@@ -890,10 +794,6 @@ extension DeviceFarm {
     }
 
     public struct CreateTestGridProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// Human-readable description of the project.
         public let description: String?
@@ -921,9 +821,6 @@ extension DeviceFarm {
     }
 
     public struct CreateTestGridProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "testGridProject", required: false, type: .structure)
-        ]
 
         /// ARN of the Selenium testing project that was created.
         public let testGridProject: TestGridProject?
@@ -938,10 +835,6 @@ extension DeviceFarm {
     }
 
     public struct CreateTestGridUrlRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expiresInSeconds", required: true, type: .integer), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string)
-        ]
 
         /// Lifetime, in seconds, of the URL.
         public let expiresInSeconds: Int
@@ -968,10 +861,6 @@ extension DeviceFarm {
     }
 
     public struct CreateTestGridUrlResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expires", required: false, type: .timestamp), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
 
         /// The number of seconds the URL from CreateTestGridUrlResult$url stays active.
         public let expires: TimeStamp?
@@ -990,12 +879,6 @@ extension DeviceFarm {
     }
 
     public struct CreateUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contentType", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The upload's content type (for example, application/octet-stream).
         public let contentType: String?
@@ -1032,9 +915,6 @@ extension DeviceFarm {
     }
 
     public struct CreateUploadResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "upload", required: false, type: .structure)
-        ]
 
         /// The newly created upload.
         public let upload: Upload?
@@ -1049,12 +929,6 @@ extension DeviceFarm {
     }
 
     public struct CreateVPCEConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serviceDnsName", required: true, type: .string), 
-            AWSShapeMember(label: "vpceConfigurationDescription", required: false, type: .string), 
-            AWSShapeMember(label: "vpceConfigurationName", required: true, type: .string), 
-            AWSShapeMember(label: "vpceServiceName", required: true, type: .string)
-        ]
 
         /// The DNS name of the service running in your VPC that you want Device Farm to test.
         public let serviceDnsName: String
@@ -1092,9 +966,6 @@ extension DeviceFarm {
     }
 
     public struct CreateVPCEConfigurationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
-        ]
 
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
@@ -1109,11 +980,6 @@ extension DeviceFarm {
     }
 
     public struct CustomerArtifactPaths: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "androidPaths", required: false, type: .list), 
-            AWSShapeMember(label: "deviceHostPaths", required: false, type: .list), 
-            AWSShapeMember(label: "iosPaths", required: false, type: .list)
-        ]
 
         /// Comma-separated list of paths on the Android device where the artifacts generated by the customer's tests are pulled from.
         public let androidPaths: [String]?
@@ -1136,9 +1002,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteDevicePoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool to delete.
         public let arn: String
@@ -1167,9 +1030,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteInstanceProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
         public let arn: String
@@ -1198,9 +1058,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The ARN of the network profile to delete.
         public let arn: String
@@ -1229,9 +1086,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
         public let arn: String
@@ -1260,9 +1114,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteRemoteAccessSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
         public let arn: String
@@ -1291,9 +1142,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) for the run to delete.
         public let arn: String
@@ -1322,9 +1170,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteTestGridProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectArn", required: true, type: .string)
-        ]
 
         /// The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
@@ -1353,9 +1198,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload to delete.
         public let arn: String
@@ -1384,9 +1226,6 @@ extension DeviceFarm {
     }
 
     public struct DeleteVPCEConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
         public let arn: String
@@ -1415,29 +1254,6 @@ extension DeviceFarm {
     }
 
     public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "availability", required: false, type: .enum), 
-            AWSShapeMember(label: "carrier", required: false, type: .string), 
-            AWSShapeMember(label: "cpu", required: false, type: .structure), 
-            AWSShapeMember(label: "fleetName", required: false, type: .string), 
-            AWSShapeMember(label: "fleetType", required: false, type: .string), 
-            AWSShapeMember(label: "formFactor", required: false, type: .enum), 
-            AWSShapeMember(label: "heapSize", required: false, type: .long), 
-            AWSShapeMember(label: "image", required: false, type: .string), 
-            AWSShapeMember(label: "instances", required: false, type: .list), 
-            AWSShapeMember(label: "manufacturer", required: false, type: .string), 
-            AWSShapeMember(label: "memory", required: false, type: .long), 
-            AWSShapeMember(label: "model", required: false, type: .string), 
-            AWSShapeMember(label: "modelId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "os", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "radio", required: false, type: .string), 
-            AWSShapeMember(label: "remoteAccessEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "resolution", required: false, type: .structure)
-        ]
 
         /// The device's ARN.
         public let arn: String?
@@ -1532,11 +1348,6 @@ extension DeviceFarm {
     }
 
     public struct DeviceFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attribute", required: false, type: .enum), 
-            AWSShapeMember(label: "operator", required: false, type: .enum), 
-            AWSShapeMember(label: "values", required: false, type: .list)
-        ]
 
         /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list.  ARN  The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example). Supported operators: EQUALS, IN, NOT_IN   PLATFORM  The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS   OS_VERSION  The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   MODEL  The device model (for example, iPad 5th Gen). Supported operators: CONTAINS, EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS   MANUFACTURER  The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS  Because remote debugging is no longer supported, this filter is ignored.  INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance. Supported operators: EQUALS, IN, NOT_IN   INSTANCE_LABELS  The label of the device instance. Supported operators: CONTAINS   FLEET_TYPE  The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS   
         public let attribute: DeviceFilterAttribute?
@@ -1559,14 +1370,6 @@ extension DeviceFarm {
     }
 
     public struct DeviceInstance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "deviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "instanceProfile", required: false, type: .structure), 
-            AWSShapeMember(label: "labels", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "udid", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String?
@@ -1601,11 +1404,6 @@ extension DeviceFarm {
     }
 
     public struct DeviceMinutes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metered", required: false, type: .double), 
-            AWSShapeMember(label: "total", required: false, type: .double), 
-            AWSShapeMember(label: "unmetered", required: false, type: .double)
-        ]
 
         /// When specified, represents only the sum of metered minutes used by the resource to run tests.
         public let metered: Double?
@@ -1628,14 +1426,6 @@ extension DeviceFarm {
     }
 
     public struct DevicePool: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "maxDevices", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "rules", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The device pool's ARN.
         public let arn: String?
@@ -1670,11 +1460,6 @@ extension DeviceFarm {
     }
 
     public struct DevicePoolCompatibilityResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "compatible", required: false, type: .boolean), 
-            AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "incompatibilityMessages", required: false, type: .list)
-        ]
 
         /// Whether the result was compatible with the device pool.
         public let compatible: Bool?
@@ -1697,10 +1482,6 @@ extension DeviceFarm {
     }
 
     public struct DeviceSelectionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: true, type: .list), 
-            AWSShapeMember(label: "maxDevices", required: true, type: .integer)
-        ]
 
         /// Used to dynamically select a set of devices for a test run. A filter is made up of an attribute, an operator, and one or more values.    Attribute  The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example).   PLATFORM: The device platform. Valid values are ANDROID or IOS.   OS_VERSION: The operating system version (for example, 10.3.2).   MODEL: The device model (for example, iPad 5th Gen).   AVAILABILITY: The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.   MANUFACTURER: The device manufacturer (for example, Apple).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are TRUE or FALSE.   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Because remote debugging is no longer supported, this filter is ignored.   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.      Operator  The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.      Values  An array of one or more filter values.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to ANDROID or IOS.   The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   The FORM_FACTOR attribute can be set to PHONE or TABLET.   The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.    
         public let filters: [DeviceFilter]
@@ -1719,11 +1500,6 @@ extension DeviceFarm {
     }
 
     public struct DeviceSelectionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "matchedDevicesCount", required: false, type: .integer), 
-            AWSShapeMember(label: "maxDevices", required: false, type: .integer)
-        ]
 
         /// The filters in a device selection result.
         public let filters: [DeviceFilter]?
@@ -1746,13 +1522,6 @@ extension DeviceFarm {
     }
 
     public struct ExecutionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountsCleanup", required: false, type: .boolean), 
-            AWSShapeMember(label: "appPackagesCleanup", required: false, type: .boolean), 
-            AWSShapeMember(label: "jobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
-            AWSShapeMember(label: "videoCapture", required: false, type: .boolean)
-        ]
 
         /// True if account cleanup is enabled at the beginning of the test. Otherwise, false.
         public let accountsCleanup: Bool?
@@ -1791,9 +1560,6 @@ extension DeviceFarm {
     }
 
     public struct GetAccountSettingsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountSettings", required: false, type: .structure)
-        ]
 
         /// The account settings.
         public let accountSettings: AccountSettings?
@@ -1808,9 +1574,6 @@ extension DeviceFarm {
     }
 
     public struct GetDeviceInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
         public let arn: String
@@ -1831,9 +1594,6 @@ extension DeviceFarm {
     }
 
     public struct GetDeviceInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceInstance", required: false, type: .structure)
-        ]
 
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
@@ -1848,13 +1608,6 @@ extension DeviceFarm {
     }
 
     public struct GetDevicePoolCompatibilityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appArn", required: false, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "devicePoolArn", required: true, type: .string), 
-            AWSShapeMember(label: "test", required: false, type: .structure), 
-            AWSShapeMember(label: "testType", required: false, type: .enum)
-        ]
 
         /// The ARN of the app that is associated with the specified device pool.
         public let appArn: String?
@@ -1896,10 +1649,6 @@ extension DeviceFarm {
     }
 
     public struct GetDevicePoolCompatibilityResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "compatibleDevices", required: false, type: .list), 
-            AWSShapeMember(label: "incompatibleDevices", required: false, type: .list)
-        ]
 
         /// Information about compatible devices.
         public let compatibleDevices: [DevicePoolCompatibilityResult]?
@@ -1918,9 +1667,6 @@ extension DeviceFarm {
     }
 
     public struct GetDevicePoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The device pool's ARN.
         public let arn: String
@@ -1941,9 +1687,6 @@ extension DeviceFarm {
     }
 
     public struct GetDevicePoolResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devicePool", required: false, type: .structure)
-        ]
 
         /// An object that contains information about the requested device pool.
         public let devicePool: DevicePool?
@@ -1958,9 +1701,6 @@ extension DeviceFarm {
     }
 
     public struct GetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The device type's ARN.
         public let arn: String
@@ -1981,9 +1721,6 @@ extension DeviceFarm {
     }
 
     public struct GetDeviceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "device", required: false, type: .structure)
-        ]
 
         /// An object that contains information about the requested device.
         public let device: Device?
@@ -1998,9 +1735,6 @@ extension DeviceFarm {
     }
 
     public struct GetInstanceProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an instance profile.
         public let arn: String
@@ -2021,9 +1755,6 @@ extension DeviceFarm {
     }
 
     public struct GetInstanceProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
-        ]
 
         /// An object that contains information about an instance profile.
         public let instanceProfile: InstanceProfile?
@@ -2038,9 +1769,6 @@ extension DeviceFarm {
     }
 
     public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The job's ARN.
         public let arn: String
@@ -2061,9 +1789,6 @@ extension DeviceFarm {
     }
 
     public struct GetJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: false, type: .structure)
-        ]
 
         /// An object that contains information about the requested job.
         public let job: Job?
@@ -2078,9 +1803,6 @@ extension DeviceFarm {
     }
 
     public struct GetNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The ARN of the network profile to return information about.
         public let arn: String
@@ -2101,9 +1823,6 @@ extension DeviceFarm {
     }
 
     public struct GetNetworkProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkProfile", required: false, type: .structure)
-        ]
 
         /// The network profile.
         public let networkProfile: NetworkProfile?
@@ -2118,9 +1837,6 @@ extension DeviceFarm {
     }
 
     public struct GetOfferingStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2140,11 +1856,6 @@ extension DeviceFarm {
     }
 
     public struct GetOfferingStatusResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "current", required: false, type: .map), 
-            AWSShapeMember(label: "nextPeriod", required: false, type: .map), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// When specified, gets the offering status for the current period.
         public let current: [String: OfferingStatus]?
@@ -2167,9 +1878,6 @@ extension DeviceFarm {
     }
 
     public struct GetProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The project's ARN.
         public let arn: String
@@ -2190,9 +1898,6 @@ extension DeviceFarm {
     }
 
     public struct GetProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "project", required: false, type: .structure)
-        ]
 
         /// The project to get information about.
         public let project: Project?
@@ -2207,9 +1912,6 @@ extension DeviceFarm {
     }
 
     public struct GetRemoteAccessSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
@@ -2230,9 +1932,6 @@ extension DeviceFarm {
     }
 
     public struct GetRemoteAccessSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
-        ]
 
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
@@ -2247,9 +1946,6 @@ extension DeviceFarm {
     }
 
     public struct GetRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The run's ARN.
         public let arn: String
@@ -2270,9 +1966,6 @@ extension DeviceFarm {
     }
 
     public struct GetRunResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "run", required: false, type: .structure)
-        ]
 
         /// The run to get results from.
         public let run: Run?
@@ -2287,9 +1980,6 @@ extension DeviceFarm {
     }
 
     public struct GetSuiteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The suite's ARN.
         public let arn: String
@@ -2310,9 +2000,6 @@ extension DeviceFarm {
     }
 
     public struct GetSuiteResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "suite", required: false, type: .structure)
-        ]
 
         /// A collection of one or more tests.
         public let suite: Suite?
@@ -2327,9 +2014,6 @@ extension DeviceFarm {
     }
 
     public struct GetTestGridProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectArn", required: true, type: .string)
-        ]
 
         /// The ARN of the Selenium testing project, from either CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
@@ -2350,9 +2034,6 @@ extension DeviceFarm {
     }
 
     public struct GetTestGridProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "testGridProject", required: false, type: .structure)
-        ]
 
         /// A TestGridProject.
         public let testGridProject: TestGridProject?
@@ -2367,11 +2048,6 @@ extension DeviceFarm {
     }
 
     public struct GetTestGridSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectArn", required: false, type: .string), 
-            AWSShapeMember(label: "sessionArn", required: false, type: .string), 
-            AWSShapeMember(label: "sessionId", required: false, type: .string)
-        ]
 
         /// The ARN for the project that this session belongs to. See CreateTestGridProject and ListTestGridProjects.
         public let projectArn: String?
@@ -2406,9 +2082,6 @@ extension DeviceFarm {
     }
 
     public struct GetTestGridSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "testGridSession", required: false, type: .structure)
-        ]
 
         /// The TestGridSession that was requested.
         public let testGridSession: TestGridSession?
@@ -2423,9 +2096,6 @@ extension DeviceFarm {
     }
 
     public struct GetTestRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The test's ARN.
         public let arn: String
@@ -2446,9 +2116,6 @@ extension DeviceFarm {
     }
 
     public struct GetTestResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "test", required: false, type: .structure)
-        ]
 
         /// A test condition that is evaluated.
         public let test: Test?
@@ -2463,9 +2130,6 @@ extension DeviceFarm {
     }
 
     public struct GetUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The upload's ARN.
         public let arn: String
@@ -2486,9 +2150,6 @@ extension DeviceFarm {
     }
 
     public struct GetUploadResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "upload", required: false, type: .structure)
-        ]
 
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
@@ -2503,9 +2164,6 @@ extension DeviceFarm {
     }
 
     public struct GetVPCEConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
         public let arn: String
@@ -2526,9 +2184,6 @@ extension DeviceFarm {
     }
 
     public struct GetVPCEConfigurationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
-        ]
 
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
@@ -2543,10 +2198,6 @@ extension DeviceFarm {
     }
 
     public struct IncompatibilityMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// A message about the incompatibility.
         public let message: String?
@@ -2565,10 +2216,6 @@ extension DeviceFarm {
     }
 
     public struct InstallToRemoteAccessSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appArn", required: true, type: .string), 
-            AWSShapeMember(label: "remoteAccessSessionArn", required: true, type: .string)
-        ]
 
         /// The ARN of the app about which you are requesting information.
         public let appArn: String
@@ -2596,9 +2243,6 @@ extension DeviceFarm {
     }
 
     public struct InstallToRemoteAccessSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appUpload", required: false, type: .structure)
-        ]
 
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
@@ -2613,14 +2257,6 @@ extension DeviceFarm {
     }
 
     public struct InstanceProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "excludeAppPackagesFromCleanup", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
-            AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean)
-        ]
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -2655,23 +2291,6 @@ extension DeviceFarm {
     }
 
     public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "counters", required: false, type: .structure), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "started", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "videoCapture", required: false, type: .boolean), 
-            AWSShapeMember(label: "videoEndpoint", required: false, type: .string)
-        ]
 
         /// The job's ARN.
         public let arn: String?
@@ -2742,11 +2361,6 @@ extension DeviceFarm {
     }
 
     public struct ListArtifactsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The run, job, suite, or test ARN.
         public let arn: String
@@ -2777,10 +2391,6 @@ extension DeviceFarm {
     }
 
     public struct ListArtifactsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifacts", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Information about the artifacts.
         public let artifacts: [Artifact]?
@@ -2799,10 +2409,6 @@ extension DeviceFarm {
     }
 
     public struct ListDeviceInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
@@ -2826,10 +2432,6 @@ extension DeviceFarm {
     }
 
     public struct ListDeviceInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceInstances", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An object that contains information about your device instances.
         public let deviceInstances: [DeviceInstance]?
@@ -2848,11 +2450,6 @@ extension DeviceFarm {
     }
 
     public struct ListDevicePoolsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The project ARN.
         public let arn: String
@@ -2883,10 +2480,6 @@ extension DeviceFarm {
     }
 
     public struct ListDevicePoolsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devicePools", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Information about the device pools.
         public let devicePools: [DevicePool]?
@@ -2905,11 +2498,6 @@ extension DeviceFarm {
     }
 
     public struct ListDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "filters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project.
         public let arn: String?
@@ -2940,10 +2528,6 @@ extension DeviceFarm {
     }
 
     public struct ListDevicesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devices", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Information about the devices.
         public let devices: [Device]?
@@ -2962,10 +2546,6 @@ extension DeviceFarm {
     }
 
     public struct ListInstanceProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
@@ -2989,10 +2569,6 @@ extension DeviceFarm {
     }
 
     public struct ListInstanceProfilesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceProfiles", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An object that contains information about your instance profiles.
         public let instanceProfiles: [InstanceProfile]?
@@ -3011,10 +2587,6 @@ extension DeviceFarm {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The run's Amazon Resource Name (ARN).
         public let arn: String
@@ -3041,10 +2613,6 @@ extension DeviceFarm {
     }
 
     public struct ListJobsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Information about the jobs.
         public let jobs: [Job]?
@@ -3063,11 +2631,6 @@ extension DeviceFarm {
     }
 
     public struct ListNetworkProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
         public let arn: String
@@ -3098,10 +2661,6 @@ extension DeviceFarm {
     }
 
     public struct ListNetworkProfilesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkProfiles", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of the available network profiles.
         public let networkProfiles: [NetworkProfile]?
@@ -3120,9 +2679,6 @@ extension DeviceFarm {
     }
 
     public struct ListOfferingPromotionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3142,10 +2698,6 @@ extension DeviceFarm {
     }
 
     public struct ListOfferingPromotionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "offeringPromotions", required: false, type: .list)
-        ]
 
         /// An identifier to be used in the next call to this operation, to return the next set of items in the list.
         public let nextToken: String?
@@ -3164,9 +2716,6 @@ extension DeviceFarm {
     }
 
     public struct ListOfferingTransactionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3186,10 +2735,6 @@ extension DeviceFarm {
     }
 
     public struct ListOfferingTransactionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "offeringTransactions", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3208,9 +2753,6 @@ extension DeviceFarm {
     }
 
     public struct ListOfferingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3230,10 +2772,6 @@ extension DeviceFarm {
     }
 
     public struct ListOfferingsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "offerings", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3252,10 +2790,6 @@ extension DeviceFarm {
     }
 
     public struct ListProjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
         public let arn: String?
@@ -3282,10 +2816,6 @@ extension DeviceFarm {
     }
 
     public struct ListProjectsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projects", required: false, type: .list)
-        ]
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3304,10 +2834,6 @@ extension DeviceFarm {
     }
 
     public struct ListRemoteAccessSessionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project about which you are requesting information.
         public let arn: String
@@ -3334,10 +2860,6 @@ extension DeviceFarm {
     }
 
     public struct ListRemoteAccessSessionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "remoteAccessSessions", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3356,10 +2878,6 @@ extension DeviceFarm {
     }
 
     public struct ListRunsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project for which you want to list runs.
         public let arn: String
@@ -3386,10 +2904,6 @@ extension DeviceFarm {
     }
 
     public struct ListRunsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "runs", required: false, type: .list)
-        ]
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3408,10 +2922,6 @@ extension DeviceFarm {
     }
 
     public struct ListSamplesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the job used to list samples.
         public let arn: String
@@ -3438,10 +2948,6 @@ extension DeviceFarm {
     }
 
     public struct ListSamplesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "samples", required: false, type: .list)
-        ]
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3460,10 +2966,6 @@ extension DeviceFarm {
     }
 
     public struct ListSuitesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The job's Amazon Resource Name (ARN).
         public let arn: String
@@ -3490,10 +2992,6 @@ extension DeviceFarm {
     }
 
     public struct ListSuitesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "suites", required: false, type: .list)
-        ]
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3512,9 +3010,6 @@ extension DeviceFarm {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
@@ -3535,9 +3030,6 @@ extension DeviceFarm {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
@@ -3552,10 +3044,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridProjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResult", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// Return no more than this number of results.
         public let maxResult: Int?
@@ -3581,10 +3069,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridProjectsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "testGridProjects", required: false, type: .list)
-        ]
 
         /// Used for pagination. Pass into ListTestGridProjects to get more results in a paginated request.
         public let nextToken: String?
@@ -3603,11 +3087,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridSessionActionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResult", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sessionArn", required: true, type: .string)
-        ]
 
         /// The maximum number of sessions to return per response.
         public let maxResult: Int?
@@ -3640,10 +3119,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridSessionActionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The action taken by the session.
         public let actions: [TestGridSessionAction]?
@@ -3662,12 +3137,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridSessionArtifactsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResult", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sessionArn", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The maximum number of results to be returned by a request.
         public let maxResult: Int?
@@ -3704,10 +3173,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridSessionArtifactsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifacts", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// A list of test grid session artifacts for a TestGridSession.
         public let artifacts: [TestGridSessionArtifact]?
@@ -3726,16 +3191,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridSessionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "creationTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "endTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "endTimeBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "maxResult", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// Return only sessions created after this time.
         public let creationTimeAfter: TimeStamp?
@@ -3788,10 +3243,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridSessionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "testGridSessions", required: false, type: .list)
-        ]
 
         /// Pagination token.
         public let nextToken: String?
@@ -3810,10 +3261,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The test suite's Amazon Resource Name (ARN).
         public let arn: String
@@ -3840,10 +3287,6 @@ extension DeviceFarm {
     }
 
     public struct ListTestsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tests", required: false, type: .list)
-        ]
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3862,10 +3305,6 @@ extension DeviceFarm {
     }
 
     public struct ListUniqueProblemsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The unique problems' ARNs.
         public let arn: String
@@ -3892,10 +3331,6 @@ extension DeviceFarm {
     }
 
     public struct ListUniqueProblemsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "uniqueProblems", required: false, type: .map)
-        ]
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3914,11 +3349,6 @@ extension DeviceFarm {
     }
 
     public struct ListUploadsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
         public let arn: String
@@ -3949,10 +3379,6 @@ extension DeviceFarm {
     }
 
     public struct ListUploadsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "uploads", required: false, type: .list)
-        ]
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3971,10 +3397,6 @@ extension DeviceFarm {
     }
 
     public struct ListVPCEConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
@@ -3998,10 +3420,6 @@ extension DeviceFarm {
     }
 
     public struct ListVPCEConfigurationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "vpceConfigurations", required: false, type: .list)
-        ]
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -4020,10 +3438,6 @@ extension DeviceFarm {
     }
 
     public struct Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "latitude", required: true, type: .double), 
-            AWSShapeMember(label: "longitude", required: true, type: .double)
-        ]
 
         /// The latitude.
         public let latitude: Double
@@ -4042,10 +3456,6 @@ extension DeviceFarm {
     }
 
     public struct MonetaryAmount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "amount", required: false, type: .double), 
-            AWSShapeMember(label: "currencyCode", required: false, type: .enum)
-        ]
 
         /// The numerical amount of an offering or transaction.
         public let amount: Double?
@@ -4064,20 +3474,6 @@ extension DeviceFarm {
     }
 
     public struct NetworkProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "downlinkBandwidthBits", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkDelayMs", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkLossPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "uplinkBandwidthBits", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkDelayMs", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the network profile.
         public let arn: String?
@@ -4136,13 +3532,6 @@ extension DeviceFarm {
     }
 
     public struct Offering: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "recurringCharges", required: false, type: .list), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// A string that describes the offering.
         public let description: String?
@@ -4173,10 +3562,6 @@ extension DeviceFarm {
     }
 
     public struct OfferingPromotion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
 
         /// A string that describes the offering promotion.
         public let description: String?
@@ -4195,12 +3580,6 @@ extension DeviceFarm {
     }
 
     public struct OfferingStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "effectiveOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "offering", required: false, type: .structure), 
-            AWSShapeMember(label: "quantity", required: false, type: .integer), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The date on which the offering is effective.
         public let effectiveOn: TimeStamp?
@@ -4227,13 +3606,6 @@ extension DeviceFarm {
     }
 
     public struct OfferingTransaction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cost", required: false, type: .structure), 
-            AWSShapeMember(label: "createdOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "offeringPromotionId", required: false, type: .string), 
-            AWSShapeMember(label: "offeringStatus", required: false, type: .structure), 
-            AWSShapeMember(label: "transactionId", required: false, type: .string)
-        ]
 
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
@@ -4264,15 +3636,6 @@ extension DeviceFarm {
     }
 
     public struct Problem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "job", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "run", required: false, type: .structure), 
-            AWSShapeMember(label: "suite", required: false, type: .structure), 
-            AWSShapeMember(label: "test", required: false, type: .structure)
-        ]
 
         /// Information about the associated device.
         public let device: Device?
@@ -4311,10 +3674,6 @@ extension DeviceFarm {
     }
 
     public struct ProblemDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The problem detail's ARN.
         public let arn: String?
@@ -4333,12 +3692,6 @@ extension DeviceFarm {
     }
 
     public struct Project: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The project's ARN.
         public let arn: String?
@@ -4365,11 +3718,6 @@ extension DeviceFarm {
     }
 
     public struct PurchaseOfferingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offeringId", required: false, type: .string), 
-            AWSShapeMember(label: "offeringPromotionId", required: false, type: .string), 
-            AWSShapeMember(label: "quantity", required: false, type: .integer)
-        ]
 
         /// The ID of the offering.
         public let offeringId: String?
@@ -4397,9 +3745,6 @@ extension DeviceFarm {
     }
 
     public struct PurchaseOfferingResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
-        ]
 
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
@@ -4414,12 +3759,6 @@ extension DeviceFarm {
     }
 
     public struct Radios: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bluetooth", required: false, type: .boolean), 
-            AWSShapeMember(label: "gps", required: false, type: .boolean), 
-            AWSShapeMember(label: "nfc", required: false, type: .boolean), 
-            AWSShapeMember(label: "wifi", required: false, type: .boolean)
-        ]
 
         /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
         public let bluetooth: Bool?
@@ -4446,10 +3785,6 @@ extension DeviceFarm {
     }
 
     public struct RecurringCharge: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cost", required: false, type: .structure), 
-            AWSShapeMember(label: "frequency", required: false, type: .enum)
-        ]
 
         /// The cost of the recurring charge.
         public let cost: MonetaryAmount?
@@ -4468,29 +3803,6 @@ extension DeviceFarm {
     }
 
     public struct RemoteAccessSession: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "billingMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceUdid", required: false, type: .string), 
-            AWSShapeMember(label: "endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "hostAddress", required: false, type: .string), 
-            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "interactionMode", required: false, type: .enum), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "remoteRecordAppArn", required: false, type: .string), 
-            AWSShapeMember(label: "remoteRecordEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
-            AWSShapeMember(label: "started", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "stopped", required: false, type: .timestamp)
-        ]
 
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
@@ -4585,10 +3897,6 @@ extension DeviceFarm {
     }
 
     public struct RenewOfferingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offeringId", required: false, type: .string), 
-            AWSShapeMember(label: "quantity", required: false, type: .integer)
-        ]
 
         /// The ID of a request to renew an offering.
         public let offeringId: String?
@@ -4611,9 +3919,6 @@ extension DeviceFarm {
     }
 
     public struct RenewOfferingResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
-        ]
 
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
@@ -4628,10 +3933,6 @@ extension DeviceFarm {
     }
 
     public struct Resolution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "height", required: false, type: .integer), 
-            AWSShapeMember(label: "width", required: false, type: .integer)
-        ]
 
         /// The screen resolution's height, expressed in pixels.
         public let height: Int?
@@ -4650,11 +3951,6 @@ extension DeviceFarm {
     }
 
     public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attribute", required: false, type: .enum), 
-            AWSShapeMember(label: "operator", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". The supported operators for each attribute are provided in the following list.  APPIUM_VERSION  The Appium version for the test. Supported operators: CONTAINS   ARN  The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example. Supported operators: EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS   FLEET_TYPE  The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS, IN, NOT_IN   INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance. Supported operators: IN, NOT_IN   INSTANCE_LABELS  The label of the device instance. Supported operators: CONTAINS   MANUFACTURER  The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN   MODEL  The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS, EQUALS, IN, NOT_IN   OS_VERSION  The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   PLATFORM  The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS  Because remote debugging is no longer supported, this filter is ignored.  
         public let attribute: DeviceAttribute?
@@ -4677,39 +3973,6 @@ extension DeviceFarm {
     }
 
     public struct Run: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appUpload", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "billingMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "completedJobs", required: false, type: .integer), 
-            AWSShapeMember(label: "counters", required: false, type: .structure), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "customerArtifactPaths", required: false, type: .structure), 
-            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeMember(label: "devicePoolArn", required: false, type: .string), 
-            AWSShapeMember(label: "deviceSelectionResult", required: false, type: .structure), 
-            AWSShapeMember(label: "eventCount", required: false, type: .integer), 
-            AWSShapeMember(label: "jobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "locale", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "networkProfile", required: false, type: .structure), 
-            AWSShapeMember(label: "parsingResultUrl", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "radios", required: false, type: .structure), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "resultCode", required: false, type: .enum), 
-            AWSShapeMember(label: "seed", required: false, type: .integer), 
-            AWSShapeMember(label: "skipAppResign", required: false, type: .boolean), 
-            AWSShapeMember(label: "started", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeMember(label: "testSpecArn", required: false, type: .string), 
-            AWSShapeMember(label: "totalJobs", required: false, type: .integer), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "webUrl", required: false, type: .string)
-        ]
 
         /// An app to upload or that has been uploaded.
         public let appUpload: String?
@@ -4844,11 +4107,6 @@ extension DeviceFarm {
     }
 
     public struct Sample: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
 
         /// The sample's ARN.
         public let arn: String?
@@ -4871,17 +4129,6 @@ extension DeviceFarm {
     }
 
     public struct ScheduleRunConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auxiliaryApps", required: false, type: .list), 
-            AWSShapeMember(label: "billingMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "customerArtifactPaths", required: false, type: .structure), 
-            AWSShapeMember(label: "extraDataPackageArn", required: false, type: .string), 
-            AWSShapeMember(label: "locale", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "networkProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "radios", required: false, type: .structure), 
-            AWSShapeMember(label: "vpceConfigurationArns", required: false, type: .list)
-        ]
 
         /// A list of upload ARNs for app packages to be installed with your app.
         public let auxiliaryApps: [String]?
@@ -4947,16 +4194,6 @@ extension DeviceFarm {
     }
 
     public struct ScheduleRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appArn", required: false, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "devicePoolArn", required: false, type: .string), 
-            AWSShapeMember(label: "deviceSelectionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "executionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string), 
-            AWSShapeMember(label: "test", required: true, type: .structure)
-        ]
 
         /// The ARN of an application package to run tests against, created with CreateUpload. See ListUploads.
         public let appArn: String?
@@ -5015,9 +4252,6 @@ extension DeviceFarm {
     }
 
     public struct ScheduleRunResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "run", required: false, type: .structure)
-        ]
 
         /// Information about the scheduled run.
         public let run: Run?
@@ -5032,13 +4266,6 @@ extension DeviceFarm {
     }
 
     public struct ScheduleRunTest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filter", required: false, type: .string), 
-            AWSShapeMember(label: "parameters", required: false, type: .map), 
-            AWSShapeMember(label: "testPackageArn", required: false, type: .string), 
-            AWSShapeMember(label: "testSpecArn", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
 
         /// The test's filter.
         public let filter: String?
@@ -5080,9 +4307,6 @@ extension DeviceFarm {
     }
 
     public struct StopJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
         public let arn: String
@@ -5103,9 +4327,6 @@ extension DeviceFarm {
     }
 
     public struct StopJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: false, type: .structure)
-        ]
 
         /// The job that was stopped.
         public let job: Job?
@@ -5120,9 +4341,6 @@ extension DeviceFarm {
     }
 
     public struct StopRemoteAccessSessionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the remote access session to stop.
         public let arn: String
@@ -5143,9 +4361,6 @@ extension DeviceFarm {
     }
 
     public struct StopRemoteAccessSessionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
-        ]
 
         /// A container that represents the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
@@ -5160,9 +4375,6 @@ extension DeviceFarm {
     }
 
     public struct StopRunRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
         public let arn: String
@@ -5183,9 +4395,6 @@ extension DeviceFarm {
     }
 
     public struct StopRunResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "run", required: false, type: .structure)
-        ]
 
         /// The run that was stopped.
         public let run: Run?
@@ -5200,19 +4409,6 @@ extension DeviceFarm {
     }
 
     public struct Suite: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "counters", required: false, type: .structure), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "started", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The suite's ARN.
         public let arn: String?
@@ -5267,10 +4463,6 @@ extension DeviceFarm {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
@@ -5296,10 +4488,6 @@ extension DeviceFarm {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
@@ -5336,19 +4524,6 @@ extension DeviceFarm {
     }
 
     public struct Test: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "counters", required: false, type: .structure), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "started", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
 
         /// The test's ARN.
         public let arn: String?
@@ -5403,12 +4578,6 @@ extension DeviceFarm {
     }
 
     public struct TestGridProject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The ARN for the project.
         public let arn: String?
@@ -5435,14 +4604,6 @@ extension DeviceFarm {
     }
 
     public struct TestGridSession: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "billingMinutes", required: false, type: .double), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ended", required: false, type: .timestamp), 
-            AWSShapeMember(label: "seleniumProperties", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
 
         /// The ARN of the session.
         public let arn: String?
@@ -5477,13 +4638,6 @@ extension DeviceFarm {
     }
 
     public struct TestGridSessionAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: false, type: .string), 
-            AWSShapeMember(label: "duration", required: false, type: .long), 
-            AWSShapeMember(label: "requestMethod", required: false, type: .string), 
-            AWSShapeMember(label: "started", required: false, type: .timestamp), 
-            AWSShapeMember(label: "statusCode", required: false, type: .string)
-        ]
 
         /// The action taken by the session.
         public let action: String?
@@ -5514,11 +4668,6 @@ extension DeviceFarm {
     }
 
     public struct TestGridSessionArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filename", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
 
         /// The file name of the artifact.
         public let filename: String?
@@ -5541,10 +4690,6 @@ extension DeviceFarm {
     }
 
     public struct TrialMinutes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "remaining", required: false, type: .double), 
-            AWSShapeMember(label: "total", required: false, type: .double)
-        ]
 
         /// The number of free trial minutes remaining in the account.
         public let remaining: Double?
@@ -5563,10 +4708,6 @@ extension DeviceFarm {
     }
 
     public struct UniqueProblem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "problems", required: false, type: .list)
-        ]
 
         /// A message about the unique problems' result.
         public let message: String?
@@ -5585,10 +4726,6 @@ extension DeviceFarm {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
@@ -5626,11 +4763,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateDeviceInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "labels", required: false, type: .list), 
-            AWSShapeMember(label: "profileArn", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String
@@ -5662,9 +4794,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateDeviceInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceInstance", required: false, type: .structure)
-        ]
 
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
@@ -5679,14 +4808,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateDevicePoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "clearMaxDevices", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "maxDevices", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "rules", required: false, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the Device Farm device pool to update.
         public let arn: String
@@ -5731,9 +4852,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateDevicePoolResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devicePool", required: false, type: .structure)
-        ]
 
         /// The device pool you just updated.
         public let devicePool: DevicePool?
@@ -5748,14 +4866,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateInstanceProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "excludeAppPackagesFromCleanup", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "packageCleanup", required: false, type: .boolean), 
-            AWSShapeMember(label: "rebootAfterUse", required: false, type: .boolean)
-        ]
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String
@@ -5800,9 +4910,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateInstanceProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceProfile", required: false, type: .structure)
-        ]
 
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
@@ -5817,20 +4924,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "downlinkBandwidthBits", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkDelayMs", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
-            AWSShapeMember(label: "downlinkLossPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "uplinkBandwidthBits", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkDelayMs", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
-            AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project for which you want to update network profile settings.
         public let arn: String
@@ -5903,9 +4996,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateNetworkProfileResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "networkProfile", required: false, type: .structure)
-        ]
 
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
@@ -5920,11 +5010,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the project whose name to update.
         public let arn: String
@@ -5955,9 +5040,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "project", required: false, type: .structure)
-        ]
 
         /// The project to update.
         public let project: Project?
@@ -5972,11 +5054,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateTestGridProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "projectArn", required: true, type: .string)
-        ]
 
         /// Human-readable description for the project.
         public let description: String?
@@ -6011,9 +5088,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateTestGridProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "testGridProject", required: false, type: .structure)
-        ]
 
         /// The project, including updated information.
         public let testGridProject: TestGridProject?
@@ -6028,12 +5102,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateUploadRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "contentType", required: false, type: .string), 
-            AWSShapeMember(label: "editContent", required: false, type: .boolean), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the uploaded test spec.
         public let arn: String
@@ -6070,9 +5138,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateUploadResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "upload", required: false, type: .structure)
-        ]
 
         /// A test spec uploaded to Device Farm.
         public let upload: Upload?
@@ -6087,13 +5152,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateVPCEConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "serviceDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "vpceConfigurationDescription", required: false, type: .string), 
-            AWSShapeMember(label: "vpceConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "vpceServiceName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update.
         public let arn: String
@@ -6138,9 +5196,6 @@ extension DeviceFarm {
     }
 
     public struct UpdateVPCEConfigurationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vpceConfiguration", required: false, type: .structure)
-        ]
 
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
@@ -6155,18 +5210,6 @@ extension DeviceFarm {
     }
 
     public struct Upload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "category", required: false, type: .enum), 
-            AWSShapeMember(label: "contentType", required: false, type: .string), 
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "metadata", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
 
         /// The upload's ARN.
         public let arn: String?
@@ -6217,13 +5260,6 @@ extension DeviceFarm {
     }
 
     public struct VPCEConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "serviceDnsName", required: false, type: .string), 
-            AWSShapeMember(label: "vpceConfigurationDescription", required: false, type: .string), 
-            AWSShapeMember(label: "vpceConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "vpceServiceName", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
         public let arn: String?

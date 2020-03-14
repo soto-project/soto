@@ -59,9 +59,6 @@ extension FMS {
     //MARK: Shapes
 
     public struct AssociateAdminAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdminAccount", required: true, type: .string)
-        ]
 
         /// The AWS account ID to associate with AWS Firewall Manager as the AWS Firewall Manager administrator account. This can be an AWS Organizations master account or a member account. For more information about AWS Organizations and master accounts, see Managing the AWS Accounts in Your Organization.
         public let adminAccount: String
@@ -82,11 +79,6 @@ extension FMS {
     }
 
     public struct ComplianceViolator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "ViolationReason", required: false, type: .enum)
-        ]
 
         /// The resource ID.
         public let resourceId: String?
@@ -117,10 +109,6 @@ extension FMS {
     }
 
     public struct DeletePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteAllPolicyResources", required: false, type: .boolean), 
-            AWSShapeMember(label: "PolicyId", required: true, type: .string)
-        ]
 
         /// If True, the request performs cleanup according to the policy type.  For AWS WAF and Shield Advanced policies, the cleanup does the following:   Deletes rule groups created by AWS Firewall Manager   Removes web ACLs from in-scope resources   Deletes web ACLs that contain no rules or rule groups   For security group policies, the cleanup does the following for each security group in the policy:   Disassociates the security group from in-scope resources    Deletes the security group if it was created through Firewall Manager and if it's no longer associated with any resources through another policy   After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope. 
         public let deleteAllPolicyResources: Bool?
@@ -153,11 +141,6 @@ extension FMS {
     }
 
     public struct EvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "EvaluationLimitExceeded", required: false, type: .boolean), 
-            AWSShapeMember(label: "ViolatorCount", required: false, type: .long)
-        ]
 
         /// Describes an AWS account's compliance with the AWS Firewall Manager policy.
         public let complianceStatus: PolicyComplianceStatusType?
@@ -188,10 +171,6 @@ extension FMS {
     }
 
     public struct GetAdminAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdminAccount", required: false, type: .string), 
-            AWSShapeMember(label: "RoleStatus", required: false, type: .enum)
-        ]
 
         /// The AWS account that is set as the AWS Firewall Manager administrator.
         public let adminAccount: String?
@@ -210,10 +189,6 @@ extension FMS {
     }
 
     public struct GetComplianceDetailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberAccount", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: true, type: .string)
-        ]
 
         /// The AWS account that owns the resources that you want to get the details for.
         public let memberAccount: String
@@ -241,9 +216,6 @@ extension FMS {
     }
 
     public struct GetComplianceDetailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyComplianceDetail", required: false, type: .structure)
-        ]
 
         /// Information about the resources and the policy that you specified in the GetComplianceDetail request.
         public let policyComplianceDetail: PolicyComplianceDetail?
@@ -266,10 +238,6 @@ extension FMS {
     }
 
     public struct GetNotificationChannelResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnsRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string)
-        ]
 
         /// The IAM role that is used by AWS Firewall Manager to record activity to SNS.
         public let snsRoleName: String?
@@ -288,9 +256,6 @@ extension FMS {
     }
 
     public struct GetPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: true, type: .string)
-        ]
 
         /// The ID of the AWS Firewall Manager policy that you want the details for.
         public let policyId: String
@@ -311,10 +276,6 @@ extension FMS {
     }
 
     public struct GetPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
-        ]
 
         /// Information about the specified AWS Firewall Manager policy.
         public let policy: Policy?
@@ -333,14 +294,6 @@ extension FMS {
     }
 
     public struct GetProtectionStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "MemberAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The end of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
         public let endTime: TimeStamp?
@@ -389,12 +342,6 @@ extension FMS {
     }
 
     public struct GetProtectionStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdminAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Data", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceType", required: false, type: .enum)
-        ]
 
         /// The ID of the AWS Firewall administrator account for this policy.
         public let adminAccountId: String?
@@ -421,11 +368,6 @@ extension FMS {
     }
 
     public struct ListComplianceStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: true, type: .string)
-        ]
 
         /// Specifies the number of PolicyComplianceStatus objects that you want AWS Firewall Manager to return for this request. If you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicyComplianceStatus objects.
         public let maxResults: Int?
@@ -459,10 +401,6 @@ extension FMS {
     }
 
     public struct ListComplianceStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyComplianceStatusList", required: false, type: .list)
-        ]
 
         /// If you have more PolicyComplianceStatus objects than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more PolicyComplianceStatus objects, submit another ListComplianceStatus request, and specify the NextToken value from the response in the NextToken value in the next request.
         public let nextToken: String?
@@ -481,10 +419,6 @@ extension FMS {
     }
 
     public struct ListMemberAccountsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Specifies the number of member account IDs that you want AWS Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs.
         public let maxResults: Int?
@@ -511,10 +445,6 @@ extension FMS {
     }
 
     public struct ListMemberAccountsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberAccounts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of account IDs.
         public let memberAccounts: [String]?
@@ -533,10 +463,6 @@ extension FMS {
     }
 
     public struct ListPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Specifies the number of PolicySummary objects that you want AWS Firewall Manager to return for this request. If you have more PolicySummary objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicySummary objects.
         public let maxResults: Int?
@@ -563,10 +489,6 @@ extension FMS {
     }
 
     public struct ListPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyList", required: false, type: .list)
-        ]
 
         /// If you have more PolicySummary objects than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more PolicySummary objects, submit another ListPolicies request, and specify the NextToken value from the response in the NextToken value in the next request.
         public let nextToken: String?
@@ -585,9 +507,6 @@ extension FMS {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN..
         public let resourceArn: String
@@ -608,9 +527,6 @@ extension FMS {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The tags associated with the resource.
         public let tagList: [Tag]?
@@ -625,19 +541,6 @@ extension FMS {
     }
 
     public struct Policy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExcludeMap", required: false, type: .map), 
-            AWSShapeMember(label: "ExcludeResourceTags", required: true, type: .boolean), 
-            AWSShapeMember(label: "IncludeMap", required: false, type: .map), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyUpdateToken", required: false, type: .string), 
-            AWSShapeMember(label: "RemediationEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceTypeList", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityServicePolicyData", required: true, type: .structure)
-        ]
 
         /// Specifies the AWS account IDs to exclude from the policy. The IncludeMap values are evaluated first, with all the appropriate account IDs added to the policy. Then the accounts listed in ExcludeMap are removed, resulting in the final list of accounts to add to the policy. The key to the map is ACCOUNT. For example, a valid ExcludeMap would be {“ACCOUNT” : [“accountID1”, “accountID2”]}.
         public let excludeMap: [CustomerPolicyScopeIdType: [String]]?
@@ -718,15 +621,6 @@ extension FMS {
     }
 
     public struct PolicyComplianceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationLimitExceeded", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExpiredAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IssueInfoMap", required: false, type: .map), 
-            AWSShapeMember(label: "MemberAccount", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyOwner", required: false, type: .string), 
-            AWSShapeMember(label: "Violators", required: false, type: .list)
-        ]
 
         /// Indicates if over 100 resources are noncompliant with the AWS Firewall Manager policy.
         public let evaluationLimitExceeded: Bool?
@@ -765,15 +659,6 @@ extension FMS {
     }
 
     public struct PolicyComplianceStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
-            AWSShapeMember(label: "IssueInfoMap", required: false, type: .map), 
-            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MemberAccount", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyOwner", required: false, type: .string)
-        ]
 
         /// An array of EvaluationResult objects.
         public let evaluationResults: [EvaluationResult]?
@@ -812,14 +697,6 @@ extension FMS {
     }
 
     public struct PolicySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
-            AWSShapeMember(label: "RemediationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityServiceType", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the specified policy.
         public let policyArn: String?
@@ -854,10 +731,6 @@ extension FMS {
     }
 
     public struct PutNotificationChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnsRoleName", required: true, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to record AWS Firewall Manager activity. 
         public let snsRoleName: String
@@ -885,10 +758,6 @@ extension FMS {
     }
 
     public struct PutPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: true, type: .structure), 
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The details of the AWS Firewall Manager policy to be created.
         public let policy: Policy
@@ -916,10 +785,6 @@ extension FMS {
     }
 
     public struct PutPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure), 
-            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
-        ]
 
         /// The details of the AWS Firewall Manager policy that was created.
         public let policy: Policy?
@@ -938,10 +803,6 @@ extension FMS {
     }
 
     public struct ResourceTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The resource tag key.
         public let key: String
@@ -968,10 +829,6 @@ extension FMS {
     }
 
     public struct SecurityServicePolicyData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManagedServiceData", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// Details about the service that are specific to the service type, in JSON format. For service type SHIELD_ADVANCED, this is an empty string.   Example: WAF   ManagedServiceData": "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\": \"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}    Example: SECURITY_GROUPS_COMMON   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_COMMON","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}    Example: SECURITY_GROUPS_CONTENT_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_CONTENT_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd \"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}  The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.   Example: SECURITY_GROUPS_USAGE_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_USAGE_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"},"RemediationEnabled":false,"Resou rceType":"AWS::EC2::SecurityGroup"}   
         public let managedServiceData: String?
@@ -995,10 +852,6 @@ extension FMS {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
@@ -1026,10 +879,6 @@ extension FMS {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
         public let resourceArn: String
@@ -1067,10 +916,6 @@ extension FMS {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
         public let resourceArn: String

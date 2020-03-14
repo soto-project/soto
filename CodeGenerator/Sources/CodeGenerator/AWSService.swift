@@ -41,7 +41,7 @@ struct AWSService {
     var errors: [ErrorShape] = []
     var shapeDoc: [String: [String: String]] = [:]
     var shapePostProcessOperations: [(name: String, operation: ShapeOperation)] = []
-    
+
     var version: String {
         return apiJSON["metadata"]["apiVersion"].stringValue
     }
@@ -73,7 +73,7 @@ struct AWSService {
     var signingName: String {
         return apiJSON["metadata"]["signingName"].string ?? endpointPrefix
     }
-    
+
     var serviceErrorName: String {
         return serviceName+"ErrorType"
     }
@@ -119,7 +119,7 @@ struct AWSService {
         (self.operations, self.errors) = try parseOperation()
         self.paginators = try parsePaginators()
         self.shapeDoc = parseDoc()
-        
+
         self.applyShapeOperations(shapePostProcessOperations, shapes: &shapes)
     }
 
@@ -165,6 +165,7 @@ struct AWSService {
             type = .list(shape, max: max, min: min)
 
         case "structure":
+            let payloadName = json["payload"].string
             // Note that we need to do some extra preprocessing to clean up the formatting of the structure. Sometimes we have a "flattened" object which does not have extra fields (typically named `members`) wrapping the contents. Other times we do, and need to clear that out.
             var structure: [String: ShapeType] = [:]
             for (_, _struct) in json["members"].dictionaryValue {
@@ -208,6 +209,12 @@ struct AWSService {
                 default:
                     break
                 }
+                // if we have a data blob, if it is the payload we need to set its encoding to blob
+                if case .blob = shape.type {
+                    if name == payloadName {
+                        encoding = .blob
+                    }
+                }
                 // If the list is flattened, then we need to pull out the right location name
                 if memberLocationName != nil, shapeJSON["flattened"].bool == true {
                     location = Location(json: shapeJSON["member"])
@@ -222,7 +229,7 @@ struct AWSService {
                 if let memberXMLNamespace = memberJSON["xmlNamespace"]["uri"].string {
                     xmlNamespace = memberXMLNamespace
                 }
-                
+
                 return Member(
                     name: name,
                     required: requireds.contains(name),
@@ -326,7 +333,7 @@ struct AWSService {
         }
         return paginators.sorted{ $0.methodName < $1.methodName }
     }
-    
+
     private mutating func parseShapes() throws -> [Shape] {
         var shapes: [Shape] = []
         for (key, json) in apiJSON["shapes"].dictionaryValue {
@@ -419,7 +426,7 @@ struct AWSService {
                     inputShape = shapes[index]
                 }
             }
-            
+
             var outputShape: Shape?
             if let outputShapeName = json["output"]["shape"].string {
                 if let index = shapes.firstIndex(where: { outputShapeName == $0.name }) {
@@ -449,7 +456,7 @@ struct AWSService {
         }
         return (operations.sorted { $0.name < $1.name }, errors.sorted { $0.name < $1.name })
     }
-    
+
     /// Add operation to be applied to shape once everything has loaded
     /// - Parameters:
     ///   - shapeName: name of shape
@@ -457,7 +464,7 @@ struct AWSService {
     mutating func addShapeOperation(shapeName: String, operation: ShapeOperation ) {
         shapePostProcessOperations.append((name: shapeName, operation: operation))
     }
-    
+
     /// Apply the collated shape operations to the shapes in the shape array
     /// - Parameter operations: list of shape name, operation tuples
     func applyShapeOperations(_ operations: [(name: String, operation: ShapeOperation)], shapes: inout [Shape]) {

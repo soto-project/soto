@@ -9,16 +9,6 @@ extension SSOOIDC {
     //MARK: Shapes
 
     public struct CreateTokenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientId", required: true, type: .string), 
-            AWSShapeMember(label: "clientSecret", required: true, type: .string), 
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "deviceCode", required: true, type: .string), 
-            AWSShapeMember(label: "grantType", required: true, type: .string), 
-            AWSShapeMember(label: "redirectUri", required: false, type: .string), 
-            AWSShapeMember(label: "refreshToken", required: false, type: .string), 
-            AWSShapeMember(label: "scope", required: false, type: .list)
-        ]
 
         /// The unique identifier string for each client. This value should come from the persisted result of the RegisterClient API.
         public let clientId: String
@@ -61,13 +51,6 @@ extension SSOOIDC {
     }
 
     public struct CreateTokenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessToken", required: false, type: .string), 
-            AWSShapeMember(label: "expiresIn", required: false, type: .integer), 
-            AWSShapeMember(label: "idToken", required: false, type: .string), 
-            AWSShapeMember(label: "refreshToken", required: false, type: .string), 
-            AWSShapeMember(label: "tokenType", required: false, type: .string)
-        ]
 
         /// An opaque token to access AWS SSO resources assigned to a user.
         public let accessToken: String?
@@ -98,11 +81,6 @@ extension SSOOIDC {
     }
 
     public struct RegisterClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientName", required: true, type: .string), 
-            AWSShapeMember(label: "clientType", required: true, type: .string), 
-            AWSShapeMember(label: "scopes", required: false, type: .list)
-        ]
 
         /// The friendly name of the client.
         public let clientName: String
@@ -125,14 +103,6 @@ extension SSOOIDC {
     }
 
     public struct RegisterClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizationEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
-            AWSShapeMember(label: "clientIdIssuedAt", required: false, type: .long), 
-            AWSShapeMember(label: "clientSecret", required: false, type: .string), 
-            AWSShapeMember(label: "clientSecretExpiresAt", required: false, type: .long), 
-            AWSShapeMember(label: "tokenEndpoint", required: false, type: .string)
-        ]
 
         /// The endpoint where the client can request authorization.
         public let authorizationEndpoint: String?
@@ -167,11 +137,6 @@ extension SSOOIDC {
     }
 
     public struct StartDeviceAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clientId", required: true, type: .string), 
-            AWSShapeMember(label: "clientSecret", required: true, type: .string), 
-            AWSShapeMember(label: "startUrl", required: true, type: .string)
-        ]
 
         /// The unique identifier string for the client that is registered with AWS SSO. This value should come from the persisted result of the RegisterClient API operation.
         public let clientId: String
@@ -194,14 +159,6 @@ extension SSOOIDC {
     }
 
     public struct StartDeviceAuthorizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deviceCode", required: false, type: .string), 
-            AWSShapeMember(label: "expiresIn", required: false, type: .integer), 
-            AWSShapeMember(label: "interval", required: false, type: .integer), 
-            AWSShapeMember(label: "userCode", required: false, type: .string), 
-            AWSShapeMember(label: "verificationUri", required: false, type: .string), 
-            AWSShapeMember(label: "verificationUriComplete", required: false, type: .string)
-        ]
 
         /// The short-lived code that is used by the device when polling for a session token.
         public let deviceCode: String?

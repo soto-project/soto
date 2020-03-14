@@ -65,12 +65,6 @@ extension ApplicationInsights {
     //MARK: Shapes
 
     public struct ApplicationComponent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentName", required: false, type: .string), 
-            AWSShapeMember(label: "Monitor", required: false, type: .boolean), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Tier", required: false, type: .enum)
-        ]
 
         /// The name of the component.
         public let componentName: String?
@@ -97,13 +91,6 @@ extension ApplicationInsights {
     }
 
     public struct ApplicationInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifeCycle", required: false, type: .string), 
-            AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "Remarks", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
-        ]
 
         /// The lifecycle of the application. 
         public let lifeCycle: String?
@@ -134,14 +121,6 @@ extension ApplicationInsights {
     }
 
     public struct ConfigurationEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDetail", required: false, type: .string), 
-            AWSShapeMember(label: "EventResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "EventResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "EventStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MonitoredResourceARN", required: false, type: .string)
-        ]
 
         ///  The details of the event in plain text. 
         public let eventDetail: String?
@@ -176,12 +155,6 @@ extension ApplicationInsights {
     }
 
     public struct CreateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         ///  When set to true, creates opsItems for any problems detected on an application. 
         public let opsCenterEnabled: Bool?
@@ -221,9 +194,6 @@ extension ApplicationInsights {
     }
 
     public struct CreateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationInfo", required: false, type: .structure)
-        ]
 
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
@@ -238,11 +208,6 @@ extension ApplicationInsights {
     }
 
     public struct CreateComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceList", required: true, type: .list)
-        ]
 
         /// The name of the component.
         public let componentName: String
@@ -283,13 +248,6 @@ extension ApplicationInsights {
     }
 
     public struct CreateLogPatternRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pattern", required: true, type: .string), 
-            AWSShapeMember(label: "PatternName", required: true, type: .string), 
-            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
-            AWSShapeMember(label: "Rank", required: true, type: .integer), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The log pattern.
         public let pattern: String
@@ -334,10 +292,6 @@ extension ApplicationInsights {
     }
 
     public struct CreateLogPatternResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogPattern", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
-        ]
 
         /// The successfully created log pattern.
         public let logPattern: LogPattern?
@@ -356,9 +310,6 @@ extension ApplicationInsights {
     }
 
     public struct DeleteApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The name of the resource group.
         public let resourceGroupName: String
@@ -387,10 +338,6 @@ extension ApplicationInsights {
     }
 
     public struct DeleteComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The name of the component.
         public let componentName: String
@@ -423,11 +370,6 @@ extension ApplicationInsights {
     }
 
     public struct DeleteLogPatternRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PatternName", required: true, type: .string), 
-            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The name of the log pattern.
         public let patternName: String
@@ -470,9 +412,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The name of the resource group.
         public let resourceGroupName: String
@@ -493,9 +432,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationInfo", required: false, type: .structure)
-        ]
 
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
@@ -510,11 +446,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRecommendationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tier", required: true, type: .enum)
-        ]
 
         /// The name of the component.
         public let componentName: String
@@ -543,9 +474,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRecommendationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentConfiguration", required: false, type: .string)
-        ]
 
         /// The recommended configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
@@ -560,10 +488,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The name of the component.
         public let componentName: String
@@ -588,11 +512,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Monitor", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tier", required: false, type: .enum)
-        ]
 
         /// The configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
@@ -615,10 +534,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The name of the component.
         public let componentName: String
@@ -643,10 +558,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationComponent", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceList", required: false, type: .list)
-        ]
 
         public let applicationComponent: ApplicationComponent?
         /// The list of resource ARNs that belong to the component.
@@ -664,11 +575,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PatternName", required: true, type: .string), 
-            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The name of the log pattern.
         public let patternName: String
@@ -703,10 +609,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogPattern", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
-        ]
 
         /// The successfully created log pattern.
         public let logPattern: LogPattern?
@@ -725,9 +627,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeObservationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObservationId", required: true, type: .string)
-        ]
 
         /// The ID of the observation.
         public let observationId: String
@@ -748,9 +647,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeObservationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Observation", required: false, type: .structure)
-        ]
 
         /// Information about the observation.
         public let observation: Observation?
@@ -765,9 +661,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemObservationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProblemId", required: true, type: .string)
-        ]
 
         /// The ID of the problem.
         public let problemId: String
@@ -788,9 +681,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemObservationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RelatedObservations", required: false, type: .structure)
-        ]
 
         /// Observations related to the problem.
         public let relatedObservations: RelatedObservations?
@@ -805,9 +695,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProblemId", required: true, type: .string)
-        ]
 
         /// The ID of the problem.
         public let problemId: String
@@ -828,9 +715,6 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Problem", required: false, type: .structure)
-        ]
 
         /// Information about the problem. 
         public let problem: Problem?
@@ -845,10 +729,6 @@ extension ApplicationInsights {
     }
 
     public struct ListApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -872,10 +752,6 @@ extension ApplicationInsights {
     }
 
     public struct ListApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationInfoList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of applications.
         public let applicationInfoList: [ApplicationInfo]?
@@ -894,11 +770,6 @@ extension ApplicationInsights {
     }
 
     public struct ListComponentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -929,10 +800,6 @@ extension ApplicationInsights {
     }
 
     public struct ListComponentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationComponentList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of application components.
         public let applicationComponentList: [ApplicationComponent]?
@@ -951,14 +818,6 @@ extension ApplicationInsights {
     }
 
     public struct ListConfigurationHistoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The end time of the event.
         public let endTime: TimeStamp?
@@ -1001,10 +860,6 @@ extension ApplicationInsights {
     }
 
     public struct ListConfigurationHistoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         ///  The list of configuration events and their corresponding details. 
         public let eventList: [ConfigurationEvent]?
@@ -1023,11 +878,6 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -1058,11 +908,6 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogPatternSets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
-        ]
 
         /// The list of log pattern sets.
         public let logPatternSets: [String]?
@@ -1085,12 +930,6 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PatternSetName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -1128,11 +967,6 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogPatterns", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
-        ]
 
         /// The list of log patterns.
         public let logPatterns: [LogPattern]?
@@ -1155,13 +989,6 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
-        ]
 
         /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
         public let endTime: TimeStamp?
@@ -1200,10 +1027,6 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProblemList", required: false, type: .list)
-        ]
 
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -1222,9 +1045,6 @@ extension ApplicationInsights {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for.
         public let resourceARN: String
@@ -1244,9 +1064,6 @@ extension ApplicationInsights {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// An array that lists all the tags that are associated with the application. Each tag consists of a required tag key (Key) and an associated tag value (Value).
         public let tags: [Tag]?
@@ -1261,12 +1078,6 @@ extension ApplicationInsights {
     }
 
     public struct LogPattern: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pattern", required: false, type: .string), 
-            AWSShapeMember(label: "PatternName", required: false, type: .string), 
-            AWSShapeMember(label: "PatternSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Rank", required: false, type: .integer)
-        ]
 
         /// A regular expression that defines the log pattern. A log pattern can contains at many as 50 characters, and it cannot be empty.
         public let pattern: String?
@@ -1293,21 +1104,6 @@ extension ApplicationInsights {
     }
 
     public struct Observation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LineTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LogFilter", required: false, type: .enum), 
-            AWSShapeMember(label: "LogGroup", required: false, type: .string), 
-            AWSShapeMember(label: "LogText", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: false, type: .string), 
-            AWSShapeMember(label: "MetricNamespace", required: false, type: .string), 
-            AWSShapeMember(label: "SourceARN", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .double)
-        ]
 
         /// The time when the observation ended, in epoch seconds.
         public let endTime: TimeStamp?
@@ -1370,18 +1166,6 @@ extension ApplicationInsights {
     }
 
     public struct Problem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AffectedResource", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Feedback", required: false, type: .map), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Insights", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SeverityLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Title", required: false, type: .string)
-        ]
 
         /// The resource affected by the problem.
         public let affectedResource: String?
@@ -1432,9 +1216,6 @@ extension ApplicationInsights {
     }
 
     public struct RelatedObservations: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObservationList", required: false, type: .list)
-        ]
 
         /// The list of observations related to the problem.
         public let observationList: [Observation]?
@@ -1449,10 +1230,6 @@ extension ApplicationInsights {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         public let key: String
@@ -1478,10 +1255,6 @@ extension ApplicationInsights {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the application that you want to add one or more tags to.
         public let resourceARN: String
@@ -1518,10 +1291,6 @@ extension ApplicationInsights {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the application that you want to remove one or more tags from.
         public let resourceARN: String
@@ -1559,12 +1328,6 @@ extension ApplicationInsights {
     }
 
     public struct UpdateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "RemoveSNSTopic", required: false, type: .boolean), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         ///  When set to true, creates opsItems for any problems detected on an application. 
         public let opsCenterEnabled: Bool?
@@ -1599,9 +1362,6 @@ extension ApplicationInsights {
     }
 
     public struct UpdateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationInfo", required: false, type: .structure)
-        ]
 
         /// Information about the application. 
         public let applicationInfo: ApplicationInfo?
@@ -1616,13 +1376,6 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "ComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "Monitor", required: false, type: .boolean), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tier", required: false, type: .enum)
-        ]
 
         /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration.
         public let componentConfiguration: String?
@@ -1669,12 +1422,6 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComponentName", required: true, type: .string), 
-            AWSShapeMember(label: "NewComponentName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceList", required: false, type: .list)
-        ]
 
         /// The name of the component.
         public let componentName: String
@@ -1719,13 +1466,6 @@ extension ApplicationInsights {
     }
 
     public struct UpdateLogPatternRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pattern", required: false, type: .string), 
-            AWSShapeMember(label: "PatternName", required: true, type: .string), 
-            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
-            AWSShapeMember(label: "Rank", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
-        ]
 
         /// The log pattern.
         public let pattern: String?
@@ -1770,10 +1510,6 @@ extension ApplicationInsights {
     }
 
     public struct UpdateLogPatternResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogPattern", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
-        ]
 
         /// The successfully created log pattern.
         public let logPattern: LogPattern?

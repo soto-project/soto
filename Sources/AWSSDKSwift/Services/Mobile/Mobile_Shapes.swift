@@ -27,14 +27,6 @@ extension Mobile {
     //MARK: Shapes
 
     public struct BundleDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "availablePlatforms", required: false, type: .list), 
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "iconUrl", required: false, type: .string), 
-            AWSShapeMember(label: "title", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
 
         public let availablePlatforms: [Platform]?
         public let bundleId: String?
@@ -65,11 +57,11 @@ extension Mobile {
     public struct CreateProjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contents", required: false, type: .blob), 
-            AWSShapeMember(label: "name", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "region", location: .querystring(locationName: "region"), required: false, type: .string), 
-            AWSShapeMember(label: "snapshotId", location: .querystring(locationName: "snapshotId"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contents", encoding: .blob), 
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "region", location: .querystring(locationName: "region")), 
+            AWSMemberEncoding(label: "snapshotId", location: .querystring(locationName: "snapshotId"))
         ]
 
         ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation. 
@@ -97,9 +89,6 @@ extension Mobile {
     }
 
     public struct CreateProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .structure)
-        ]
 
         ///  Detailed information about the created AWS Mobile Hub project. 
         public let details: ProjectDetails?
@@ -114,8 +103,8 @@ extension Mobile {
     }
 
     public struct DeleteProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
         ///  Unique project identifier. 
@@ -131,10 +120,6 @@ extension Mobile {
     }
 
     public struct DeleteProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deletedResources", required: false, type: .list), 
-            AWSShapeMember(label: "orphanedResources", required: false, type: .list)
-        ]
 
         ///  Resources which were deleted. 
         public let deletedResources: [Resource]?
@@ -153,8 +138,8 @@ extension Mobile {
     }
 
     public struct DescribeBundleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId"))
         ]
 
         ///  Unique bundle identifier. 
@@ -170,9 +155,6 @@ extension Mobile {
     }
 
     public struct DescribeBundleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .structure)
-        ]
 
         ///  The details of the bundle. 
         public let details: BundleDetails?
@@ -187,9 +169,9 @@ extension Mobile {
     }
 
     public struct DescribeProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: true, type: .string), 
-            AWSShapeMember(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"), required: false, type: .boolean)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId")), 
+            AWSMemberEncoding(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"))
         ]
 
         ///  Unique project identifier. 
@@ -209,9 +191,6 @@ extension Mobile {
     }
 
     public struct DescribeProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .structure)
-        ]
 
         public let details: ProjectDetails?
 
@@ -225,10 +204,10 @@ extension Mobile {
     }
 
     public struct ExportBundleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"), required: true, type: .string), 
-            AWSShapeMember(label: "platform", location: .querystring(locationName: "platform"), required: false, type: .enum), 
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId")), 
+            AWSMemberEncoding(label: "platform", location: .querystring(locationName: "platform")), 
+            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
         ]
 
         ///  Unique bundle identifier. 
@@ -252,9 +231,6 @@ extension Mobile {
     }
 
     public struct ExportBundleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "downloadUrl", required: false, type: .string)
-        ]
 
         ///  URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project. 
         public let downloadUrl: String?
@@ -269,8 +245,8 @@ extension Mobile {
     }
 
     public struct ExportProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
         ///  Unique project identifier. 
@@ -286,11 +262,6 @@ extension Mobile {
     }
 
     public struct ExportProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "downloadUrl", required: false, type: .string), 
-            AWSShapeMember(label: "shareUrl", required: false, type: .string), 
-            AWSShapeMember(label: "snapshotId", required: false, type: .string)
-        ]
 
         ///  URL which can be used to download the exported project configuation file(s). 
         public let downloadUrl: String?
@@ -313,9 +284,9 @@ extension Mobile {
     }
 
     public struct ListBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response. 
@@ -335,10 +306,6 @@ extension Mobile {
     }
 
     public struct ListBundlesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         ///  A list of bundles. 
         public let bundleList: [BundleDetails]?
@@ -357,9 +324,9 @@ extension Mobile {
     }
 
     public struct ListProjectsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         ///  Maximum number of records to list in a single response. 
@@ -379,10 +346,6 @@ extension Mobile {
     }
 
     public struct ListProjectsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "projects", required: false, type: .list)
-        ]
 
         public let nextToken: String?
         public let projects: [ProjectSummary]?
@@ -399,16 +362,6 @@ extension Mobile {
     }
 
     public struct ProjectDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "consoleUrl", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "projectId", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "resources", required: false, type: .list), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
-        ]
 
         ///  Website URL for this project in the AWS Mobile Hub console. 
         public let consoleUrl: String?
@@ -446,10 +399,6 @@ extension Mobile {
     }
 
     public struct ProjectSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "projectId", required: false, type: .string)
-        ]
 
         ///  Name of the project. 
         public let name: String?
@@ -468,13 +417,6 @@ extension Mobile {
     }
 
     public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "feature", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string)
-        ]
 
         public let arn: String?
         public let attributes: [String: String]?
@@ -502,9 +444,9 @@ extension Mobile {
     public struct UpdateProjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contents", required: false, type: .blob), 
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contents", encoding: .blob), 
+            AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
         ]
 
         ///  ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation. 
@@ -524,9 +466,6 @@ extension Mobile {
     }
 
     public struct UpdateProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .structure)
-        ]
 
         ///  Detailed information about the updated AWS Mobile Hub project. 
         public let details: ProjectDetails?

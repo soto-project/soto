@@ -220,11 +220,6 @@ extension AlexaForBusiness {
     //MARK: Shapes
 
     public struct AddressBook: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the address book.
         public let addressBookArn: String?
@@ -247,11 +242,6 @@ extension AlexaForBusiness {
     }
 
     public struct AddressBookData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the address book.
         public let addressBookArn: String?
@@ -274,9 +264,6 @@ extension AlexaForBusiness {
     }
 
     public struct ApproveSkillRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the skill.
         public let skillId: String
@@ -303,10 +290,6 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateContactWithAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string), 
-            AWSShapeMember(label: "ContactArn", required: true, type: .string)
-        ]
 
         /// The ARN of the address book with which to associate the contact.
         public let addressBookArn: String
@@ -338,10 +321,6 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateDeviceWithNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: true, type: .string), 
-            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string)
-        ]
 
         /// The device ARN.
         public let deviceArn: String
@@ -373,10 +352,6 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateDeviceWithRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
 
         /// The ARN of the device to associate to a room. Required.
         public let deviceArn: String?
@@ -408,10 +383,6 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateSkillGroupWithRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
 
         /// The ARN of the room with which to associate the skill group. Required.
         public let roomArn: String?
@@ -443,10 +414,6 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateSkillWithSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The ARN of the skill group to associate the skill to. Required.
         public let skillGroupArn: String?
@@ -478,9 +445,6 @@ extension AlexaForBusiness {
     }
 
     public struct AssociateSkillWithUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The private skill ID you want to make available to enrolled users.
         public let skillId: String
@@ -507,10 +471,6 @@ extension AlexaForBusiness {
     }
 
     public struct Audio: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Locale", required: true, type: .enum), 
-            AWSShapeMember(label: "Location", required: true, type: .string)
-        ]
 
         /// The locale of the audio message. Currently, en-US is supported.
         public let locale: Locale
@@ -535,13 +495,6 @@ extension AlexaForBusiness {
     }
 
     public struct BusinessReport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DownloadUrl", required: false, type: .string), 
-            AWSShapeMember(label: "FailureCode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The time of report delivery.
         public let deliveryTime: TimeStamp?
@@ -572,9 +525,6 @@ extension AlexaForBusiness {
     }
 
     public struct BusinessReportContentRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Interval", required: false, type: .enum)
-        ]
 
         /// The interval of the content range.
         public let interval: BusinessReportInterval?
@@ -589,9 +539,6 @@ extension AlexaForBusiness {
     }
 
     public struct BusinessReportRecurrence: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartDate", required: false, type: .string)
-        ]
 
         /// The start date.
         public let startDate: String?
@@ -610,10 +557,6 @@ extension AlexaForBusiness {
     }
 
     public struct BusinessReportS3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
 
         /// The S3 bucket name of the output reports.
         public let bucketName: String?
@@ -632,16 +575,6 @@ extension AlexaForBusiness {
     }
 
     public struct BusinessReportSchedule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentRange", required: false, type: .structure), 
-            AWSShapeMember(label: "Format", required: false, type: .enum), 
-            AWSShapeMember(label: "LastBusinessReport", required: false, type: .structure), 
-            AWSShapeMember(label: "Recurrence", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleName", required: false, type: .string)
-        ]
 
         /// The content range of the reports.
         public let contentRange: BusinessReportContentRange?
@@ -684,10 +617,6 @@ extension AlexaForBusiness {
     }
 
     public struct Category: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CategoryId", required: false, type: .long), 
-            AWSShapeMember(label: "CategoryName", required: false, type: .string)
-        ]
 
         /// The ID of the skill store category.
         public let categoryId: Int64?
@@ -706,9 +635,6 @@ extension AlexaForBusiness {
     }
 
     public struct ConferencePreference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultConferenceProviderArn", required: false, type: .string)
-        ]
 
         /// The ARN of the default conference provider.
         public let defaultConferenceProviderArn: String?
@@ -727,14 +653,6 @@ extension AlexaForBusiness {
     }
 
     public struct ConferenceProvider: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "IPDialIn", required: false, type: .structure), 
-            AWSShapeMember(label: "MeetingSetting", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// The ARN of the newly created conference provider.
         public let arn: String?
@@ -769,15 +687,6 @@ extension AlexaForBusiness {
     }
 
     public struct Contact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
-            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
-        ]
 
         /// The ARN of the contact.
         public let contactArn: String?
@@ -816,15 +725,6 @@ extension AlexaForBusiness {
     }
 
     public struct ContactData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
-            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
-        ]
 
         /// The ARN of the contact.
         public let contactArn: String?
@@ -863,11 +763,6 @@ extension AlexaForBusiness {
     }
 
     public struct Content: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AudioList", required: false, type: .list), 
-            AWSShapeMember(label: "SsmlList", required: false, type: .list), 
-            AWSShapeMember(label: "TextList", required: false, type: .list)
-        ]
 
         /// The list of audio messages.
         public let audioList: [Audio]?
@@ -905,11 +800,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// A unique, user-specified identifier for the request that ensures idempotency.
         public let clientRequestToken: String?
@@ -944,9 +834,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateAddressBookResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: false, type: .string)
-        ]
 
         /// The ARN of the newly created address book.
         public let addressBookArn: String?
@@ -961,15 +848,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateBusinessReportScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "ContentRange", required: true, type: .structure), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "Recurrence", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleName", required: false, type: .string)
-        ]
 
         /// The client request token.
         public let clientRequestToken: String?
@@ -1022,9 +900,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateBusinessReportScheduleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleArn", required: false, type: .string)
-        ]
 
         /// The ARN of the business report schedule.
         public let scheduleArn: String?
@@ -1039,14 +914,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateConferenceProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "ConferenceProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "ConferenceProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "IPDialIn", required: false, type: .structure), 
-            AWSShapeMember(label: "MeetingSetting", required: true, type: .structure), 
-            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure)
-        ]
 
         /// The request token of the client.
         public let clientRequestToken: String?
@@ -1092,9 +959,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateConferenceProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviderArn", required: false, type: .string)
-        ]
 
         /// The ARN of the newly-created conference provider.
         public let conferenceProviderArn: String?
@@ -1109,15 +973,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: true, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
-            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
-        ]
 
         /// A unique, user-specified identifier for this request that ensures idempotency.
         public let clientRequestToken: String?
@@ -1184,9 +1039,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateContactResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: false, type: .string)
-        ]
 
         /// The ARN of the newly created address book.
         public let contactArn: String?
@@ -1201,11 +1053,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateEndOfMeetingReminder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "ReminderAtMinutes", required: true, type: .list), 
-            AWSShapeMember(label: "ReminderType", required: true, type: .enum)
-        ]
 
         /// Whether an end of meeting reminder is enabled or not.
         public let enabled: Bool
@@ -1233,11 +1080,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateGatewayGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         ///  A unique, user-specified identifier for the request that ensures idempotency.
         public let clientRequestToken: String
@@ -1271,9 +1113,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateGatewayGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string)
-        ]
 
         /// The ARN of the created gateway group.
         public let gatewayGroupArn: String?
@@ -1288,10 +1127,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateInstantBooking: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInMinutes", required: true, type: .integer), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
 
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
         public let durationInMinutes: Int
@@ -1310,12 +1145,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateMeetingRoomConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndOfMeetingReminder", required: false, type: .structure), 
-            AWSShapeMember(label: "InstantBooking", required: false, type: .structure), 
-            AWSShapeMember(label: "RequireCheckIn", required: false, type: .structure), 
-            AWSShapeMember(label: "RoomUtilizationMetricsEnabled", required: false, type: .boolean)
-        ]
 
         public let endOfMeetingReminder: CreateEndOfMeetingReminder?
         /// Settings to automatically book a room for a configured duration if it's free when joining a meeting with Alexa.
@@ -1345,18 +1174,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "CurrentPassword", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EapMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "NextPassword", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityType", required: true, type: .enum), 
-            AWSShapeMember(label: "Ssid", required: true, type: .string), 
-            AWSShapeMember(label: "TrustAnchors", required: false, type: .list)
-        ]
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
         public let certificateAuthorityArn: String?
@@ -1433,9 +1250,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateNetworkProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string)
-        ]
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String?
@@ -1450,20 +1264,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DistanceUnit", required: true, type: .enum), 
-            AWSShapeMember(label: "Locale", required: false, type: .string), 
-            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "MeetingRoomConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "TemperatureUnit", required: true, type: .enum), 
-            AWSShapeMember(label: "Timezone", required: true, type: .string), 
-            AWSShapeMember(label: "WakeWord", required: true, type: .enum)
-        ]
 
         /// The valid address for the room.
         public let address: String
@@ -1538,9 +1338,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
-        ]
 
         /// The ARN of the newly created room profile in the response.
         public let profileArn: String?
@@ -1555,10 +1352,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateRequireCheckIn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "ReleaseAfterMinutes", required: true, type: .integer)
-        ]
 
         /// Whether require check in is enabled or not.
         public let enabled: Bool
@@ -1577,14 +1370,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A unique, user-specified identifier for this request that ensures idempotency. 
         public let clientRequestToken: String?
@@ -1637,9 +1422,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateRoomResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
 
         /// The ARN of the newly created room in the response.
         public let roomArn: String?
@@ -1654,11 +1436,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupName", required: true, type: .string)
-        ]
 
         /// A unique, user-specified identifier for this request that ensures idempotency. 
         public let clientRequestToken: String?
@@ -1693,9 +1470,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateSkillGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
 
         /// The ARN of the newly created skill group in the response.
         public let skillGroupArn: String?
@@ -1710,14 +1484,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "UserId", required: true, type: .string)
-        ]
 
         /// A unique, user-specified identifier for this request that ensures idempotency. 
         public let clientRequestToken: String?
@@ -1773,9 +1539,6 @@ extension AlexaForBusiness {
     }
 
     public struct CreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserArn", required: false, type: .string)
-        ]
 
         /// The ARN of the newly created user in the response.
         public let userArn: String?
@@ -1790,9 +1553,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string)
-        ]
 
         /// The ARN of the address book to delete.
         public let addressBookArn: String
@@ -1819,9 +1579,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteBusinessReportScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduleArn", required: true, type: .string)
-        ]
 
         /// The ARN of the business report schedule.
         public let scheduleArn: String
@@ -1848,9 +1605,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteConferenceProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string)
-        ]
 
         /// The ARN of the conference provider.
         public let conferenceProviderArn: String
@@ -1877,9 +1631,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: true, type: .string)
-        ]
 
         /// The ARN of the contact to delete.
         public let contactArn: String
@@ -1906,9 +1657,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: true, type: .string)
-        ]
 
         /// The ARN of the device for which to request details.
         public let deviceArn: String
@@ -1935,10 +1683,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteDeviceUsageDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceUsageType", required: true, type: .enum)
-        ]
 
         /// The ARN of the device.
         public let deviceArn: String
@@ -1969,9 +1713,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteGatewayGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayGroupArn", required: true, type: .string)
-        ]
 
         /// The ARN of the gateway group to delete.
         public let gatewayGroupArn: String
@@ -1998,9 +1739,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string)
-        ]
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String
@@ -2027,9 +1765,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
-        ]
 
         /// The ARN of the room profile to delete. Required.
         public let profileArn: String?
@@ -2056,9 +1791,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
 
         /// The ARN of the room to delete. Required.
         public let roomArn: String?
@@ -2085,11 +1817,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteRoomSkillParameterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The room skill parameter key for which to remove details.
         public let parameterKey: String
@@ -2127,10 +1854,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteSkillAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The room that the skill is authorized for.
         public let roomArn: String?
@@ -2162,9 +1885,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
 
         /// The ARN of the skill group to delete. Required.
         public let skillGroupArn: String?
@@ -2191,10 +1911,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnrollmentId", required: true, type: .string), 
-            AWSShapeMember(label: "UserArn", required: false, type: .string)
-        ]
 
         /// The ARN of the user's enrollment in the organization. Required.
         public let enrollmentId: String
@@ -2227,12 +1943,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeveloperInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeveloperName", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "PrivacyPolicy", required: false, type: .string), 
-            AWSShapeMember(label: "Url", required: false, type: .string)
-        ]
 
         /// The name of the developer.
         public let developerName: String?
@@ -2259,18 +1969,6 @@ extension AlexaForBusiness {
     }
 
     public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceType", required: false, type: .string), 
-            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkProfileInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
-        ]
 
         /// The ARN of a device.
         public let deviceArn: String?
@@ -2321,21 +2019,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeviceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceSerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceType", required: false, type: .string), 
-            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
-        ]
 
         /// The time (in epoch) when the device data was created.
         public let createdTime: TimeStamp?
@@ -2398,11 +2081,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeviceEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The time (in epoch) when the event occurred. 
         public let timestamp: TimeStamp?
@@ -2425,11 +2103,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeviceNetworkProfileInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateExpirationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string)
-        ]
 
         /// The ARN of the certificate associated with a device.
         public let certificateArn: String?
@@ -2452,10 +2125,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeviceStatusDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .enum), 
-            AWSShapeMember(label: "Feature", required: false, type: .enum)
-        ]
 
         /// The device status detail code.
         public let code: DeviceStatusDetailCode?
@@ -2474,11 +2143,6 @@ extension AlexaForBusiness {
     }
 
     public struct DeviceStatusInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ConnectionStatusUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeviceStatusDetails", required: false, type: .list)
-        ]
 
         /// The latest available information about the connection status of a device. 
         public let connectionStatus: ConnectionStatus?
@@ -2501,10 +2165,6 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateContactFromAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string), 
-            AWSShapeMember(label: "ContactArn", required: true, type: .string)
-        ]
 
         /// The ARN of the address from which to disassociate the contact.
         public let addressBookArn: String
@@ -2536,9 +2196,6 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateDeviceFromRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
-        ]
 
         /// The ARN of the device to disassociate from a room. Required.
         public let deviceArn: String?
@@ -2565,10 +2222,6 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateSkillFromSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The unique identifier of a skill. Required.
         public let skillGroupArn: String?
@@ -2600,9 +2253,6 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateSkillFromUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         ///  The private skill ID you want to make unavailable for enrolled users.
         public let skillId: String
@@ -2629,10 +2279,6 @@ extension AlexaForBusiness {
     }
 
     public struct DisassociateSkillGroupFromRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
 
         /// The ARN of the room from which the skill group is to be disassociated. Required.
         public let roomArn: String?
@@ -2664,11 +2310,6 @@ extension AlexaForBusiness {
     }
 
     public struct EndOfMeetingReminder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReminderAtMinutes", required: false, type: .list), 
-            AWSShapeMember(label: "ReminderType", required: false, type: .enum)
-        ]
 
         /// Whether an end of meeting reminder is enabled or not.
         public let enabled: Bool?
@@ -2691,10 +2332,6 @@ extension AlexaForBusiness {
     }
 
     public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
 
         /// The key of a filter.
         public let key: String
@@ -2723,9 +2360,6 @@ extension AlexaForBusiness {
     }
 
     public struct ForgetSmartHomeAppliancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: true, type: .string)
-        ]
 
         /// The room that the appliances are associated with.
         public let roomArn: String
@@ -2752,13 +2386,6 @@ extension AlexaForBusiness {
     }
 
     public struct Gateway: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
-        ]
 
         /// The ARN of the gateway.
         public let arn: String?
@@ -2789,11 +2416,6 @@ extension AlexaForBusiness {
     }
 
     public struct GatewayGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the gateway group.
         public let arn: String?
@@ -2816,11 +2438,6 @@ extension AlexaForBusiness {
     }
 
     public struct GatewayGroupSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the gateway group.
         public let arn: String?
@@ -2843,13 +2460,6 @@ extension AlexaForBusiness {
     }
 
     public struct GatewaySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
-        ]
 
         /// The ARN of the gateway.
         public let arn: String?
@@ -2880,9 +2490,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string)
-        ]
 
         /// The ARN of the address book for which to request details.
         public let addressBookArn: String
@@ -2901,9 +2508,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetAddressBookResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBook", required: false, type: .structure)
-        ]
 
         /// The details of the requested address book.
         public let addressBook: AddressBook?
@@ -2926,9 +2530,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetConferencePreferenceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Preference", required: false, type: .structure)
-        ]
 
         /// The conference preference.
         public let preference: ConferencePreference?
@@ -2943,9 +2544,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetConferenceProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string)
-        ]
 
         /// The ARN of the newly created conference provider.
         public let conferenceProviderArn: String
@@ -2964,9 +2562,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetConferenceProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProvider", required: false, type: .structure)
-        ]
 
         /// The conference provider.
         public let conferenceProvider: ConferenceProvider?
@@ -2981,9 +2576,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: true, type: .string)
-        ]
 
         /// The ARN of the contact for which to request details.
         public let contactArn: String
@@ -3002,9 +2594,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetContactResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Contact", required: false, type: .structure)
-        ]
 
         /// The details of the requested contact.
         public let contact: Contact?
@@ -3019,9 +2608,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
-        ]
 
         /// The ARN of the device for which to request details. Required.
         public let deviceArn: String?
@@ -3040,9 +2626,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: false, type: .structure)
-        ]
 
         /// The details of the device requested. Required.
         public let device: Device?
@@ -3057,9 +2640,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetGatewayGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayGroupArn", required: true, type: .string)
-        ]
 
         /// The ARN of the gateway group to get.
         public let gatewayGroupArn: String
@@ -3078,9 +2658,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetGatewayGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayGroup", required: false, type: .structure)
-        ]
 
         public let gatewayGroup: GatewayGroup?
 
@@ -3094,9 +2671,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayArn", required: true, type: .string)
-        ]
 
         /// The ARN of the gateway to get.
         public let gatewayArn: String
@@ -3115,9 +2689,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetGatewayResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Gateway", required: false, type: .structure)
-        ]
 
         /// The details of the gateway.
         public let gateway: Gateway?
@@ -3140,11 +2711,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetInvitationConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactEmail", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationName", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateSkillIds", required: false, type: .list)
-        ]
 
         /// The email ID of the organization or individual contact that the enrolled user can use. 
         public let contactEmail: String?
@@ -3167,9 +2733,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string)
-        ]
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String
@@ -3188,9 +2751,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetNetworkProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkProfile", required: false, type: .structure)
-        ]
 
         /// The network profile associated with a device.
         public let networkProfile: NetworkProfile?
@@ -3205,9 +2765,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string)
-        ]
 
         /// The ARN of the room profile for which to request details. Required.
         public let profileArn: String?
@@ -3226,9 +2783,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Profile", required: false, type: .structure)
-        ]
 
         /// The details of the room profile requested. Required.
         public let profile: Profile?
@@ -3243,9 +2797,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
 
         /// The ARN of the room for which to request details. Required.
         public let roomArn: String?
@@ -3264,9 +2815,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetRoomResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Room", required: false, type: .structure)
-        ]
 
         /// The details of the room requested.
         public let room: Room?
@@ -3281,11 +2829,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetRoomSkillParameterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The room skill parameter key for which to get details. Required.
         public let parameterKey: String
@@ -3315,9 +2858,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetRoomSkillParameterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomSkillParameter", required: false, type: .structure)
-        ]
 
         /// The details of the room skill parameter requested. Required.
         public let roomSkillParameter: RoomSkillParameter?
@@ -3332,9 +2872,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string)
-        ]
 
         /// The ARN of the skill group for which to get details. Required.
         public let skillGroupArn: String?
@@ -3353,9 +2890,6 @@ extension AlexaForBusiness {
     }
 
     public struct GetSkillGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillGroup", required: false, type: .structure)
-        ]
 
         /// The details of the skill group requested. Required.
         public let skillGroup: SkillGroup?
@@ -3370,10 +2904,6 @@ extension AlexaForBusiness {
     }
 
     public struct IPDialIn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommsProtocol", required: true, type: .enum), 
-            AWSShapeMember(label: "Endpoint", required: true, type: .string)
-        ]
 
         /// The protocol, including SIP, SIPS, and H323.
         public let commsProtocol: CommsProtocol
@@ -3397,10 +2927,6 @@ extension AlexaForBusiness {
     }
 
     public struct InstantBooking: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa. 
         public let durationInMinutes: Int?
@@ -3419,10 +2945,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListBusinessReportSchedulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of schedules listed in the call.
         public let maxResults: Int?
@@ -3448,10 +2970,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListBusinessReportSchedulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BusinessReportSchedules", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The schedule of the reports.
         public let businessReportSchedules: [BusinessReportSchedule]?
@@ -3470,10 +2988,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListConferenceProvidersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of conference providers to be returned, per paginated calls.
         public let maxResults: Int?
@@ -3499,10 +3013,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListConferenceProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviders", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The conference providers.
         public let conferenceProviders: [ConferenceProvider]?
@@ -3521,12 +3031,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListDeviceEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: true, type: .string), 
-            AWSShapeMember(label: "EventType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARN of a device.
         public let deviceArn: String
@@ -3561,10 +3065,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListDeviceEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceEvents", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The device events requested for the device ARN.
         public let deviceEvents: [DeviceEvent]?
@@ -3583,10 +3083,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListGatewayGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of gateway group summaries to return. The default is 50.
         public let maxResults: Int?
@@ -3612,10 +3108,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListGatewayGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The gateway groups in the list.
         public let gatewayGroups: [GatewayGroupSummary]?
@@ -3634,11 +3126,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListGatewaysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The gateway group ARN for which to list gateways.
         public let gatewayGroupArn: String?
@@ -3669,10 +3156,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListGatewaysResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Gateways", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The gateways in the list.
         public let gateways: [GatewaySummary]?
@@ -3691,13 +3174,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSkillsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnablementType", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillType", required: false, type: .enum)
-        ]
 
         /// Whether the skill is enabled under the user's account.
         public let enablementType: EnablementTypeFilter?
@@ -3736,10 +3212,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSkillsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SkillSummaries", required: false, type: .list)
-        ]
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -3758,10 +3230,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSkillsStoreCategoriesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of categories returned, per paginated calls.
         public let maxResults: Int?
@@ -3787,10 +3255,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSkillsStoreCategoriesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CategoryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of categories.
         public let categoryList: [Category]?
@@ -3809,11 +3273,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSkillsStoreSkillsByCategoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CategoryId", required: true, type: .long), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The category ID for which the skills are being retrieved from the skill store.
         public let categoryId: Int64
@@ -3844,10 +3303,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSkillsStoreSkillsByCategoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SkillsStoreSkills", required: false, type: .list)
-        ]
 
         /// The tokens used for pagination.
         public let nextToken: String?
@@ -3866,11 +3321,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSmartHomeAppliancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: true, type: .string)
-        ]
 
         /// The maximum number of appliances to be returned, per paginated calls.
         public let maxResults: Int?
@@ -3901,10 +3351,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListSmartHomeAppliancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SmartHomeAppliances", required: false, type: .list)
-        ]
 
         /// The tokens used for pagination.
         public let nextToken: String?
@@ -3923,11 +3369,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The ARN of the specified resource for which to list tags.
         public let arn: String
@@ -3958,10 +3399,6 @@ extension AlexaForBusiness {
     }
 
     public struct ListTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -3980,12 +3417,6 @@ extension AlexaForBusiness {
     }
 
     public struct MeetingRoomConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndOfMeetingReminder", required: false, type: .structure), 
-            AWSShapeMember(label: "InstantBooking", required: false, type: .structure), 
-            AWSShapeMember(label: "RequireCheckIn", required: false, type: .structure), 
-            AWSShapeMember(label: "RoomUtilizationMetricsEnabled", required: false, type: .boolean)
-        ]
 
         /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending. 
         public let endOfMeetingReminder: EndOfMeetingReminder?
@@ -4012,9 +3443,6 @@ extension AlexaForBusiness {
     }
 
     public struct MeetingSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequirePin", required: true, type: .enum)
-        ]
 
         /// The values that indicate whether the pin is always required.
         public let requirePin: RequirePin
@@ -4029,18 +3457,6 @@ extension AlexaForBusiness {
     }
 
     public struct NetworkProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentPassword", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EapMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "NextPassword", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityType", required: false, type: .enum), 
-            AWSShapeMember(label: "Ssid", required: false, type: .string), 
-            AWSShapeMember(label: "TrustAnchors", required: false, type: .list)
-        ]
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
         public let certificateAuthorityArn: String?
@@ -4091,15 +3507,6 @@ extension AlexaForBusiness {
     }
 
     public struct NetworkProfileData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EapMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityType", required: false, type: .enum), 
-            AWSShapeMember(label: "Ssid", required: false, type: .string)
-        ]
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
         public let certificateAuthorityArn: String?
@@ -4138,12 +3545,6 @@ extension AlexaForBusiness {
     }
 
     public struct PSTNDialIn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountryCode", required: true, type: .string), 
-            AWSShapeMember(label: "OneClickIdDelay", required: true, type: .string), 
-            AWSShapeMember(label: "OneClickPinDelay", required: true, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: true, type: .string)
-        ]
 
         /// The zip code.
         public let countryCode: String
@@ -4179,10 +3580,6 @@ extension AlexaForBusiness {
     }
 
     public struct PhoneNumber: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Number", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The raw value of the phone number.
         public let number: String
@@ -4207,22 +3604,6 @@ extension AlexaForBusiness {
     }
 
     public struct Profile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
-            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "Locale", required: false, type: .string), 
-            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "MeetingRoomConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "WakeWord", required: false, type: .enum)
-        ]
 
         /// The address of a room profile.
         public let address: String?
@@ -4289,17 +3670,6 @@ extension AlexaForBusiness {
     }
 
     public struct ProfileData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "Locale", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "WakeWord", required: false, type: .enum)
-        ]
 
         /// The address of a room profile.
         public let address: String?
@@ -4346,9 +3716,6 @@ extension AlexaForBusiness {
     }
 
     public struct PutConferencePreferenceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferencePreference", required: true, type: .structure)
-        ]
 
         /// The conference preference of a specific conference provider.
         public let conferencePreference: ConferencePreference
@@ -4375,11 +3742,6 @@ extension AlexaForBusiness {
     }
 
     public struct PutInvitationConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactEmail", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationName", required: true, type: .string), 
-            AWSShapeMember(label: "PrivateSkillIds", required: false, type: .list)
-        ]
 
         /// The email ID of the organization or individual contact that the enrolled user can use. 
         public let contactEmail: String?
@@ -4424,11 +3786,6 @@ extension AlexaForBusiness {
     }
 
     public struct PutRoomSkillParameterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomSkillParameter", required: true, type: .structure), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The ARN of the room associated with the room skill parameter. Required.
         public let roomArn: String?
@@ -4465,11 +3822,6 @@ extension AlexaForBusiness {
     }
 
     public struct PutSkillAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizationResult", required: true, type: .map), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The authorization result specific to OAUTH code grant output. "Code” must be populated in the AuthorizationResult map to establish the authorization.
         public let authorizationResult: [String: String]
@@ -4509,13 +3861,6 @@ extension AlexaForBusiness {
     }
 
     public struct RegisterAVSDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmazonId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceSerialNumber", required: true, type: .string), 
-            AWSShapeMember(label: "ProductId", required: true, type: .string), 
-            AWSShapeMember(label: "UserCode", required: true, type: .string)
-        ]
 
         /// The device type ID for your AVS device generated by Amazon when the OEM creates a new product on Amazon's Developer Console.
         public let amazonId: String
@@ -4555,9 +3900,6 @@ extension AlexaForBusiness {
     }
 
     public struct RegisterAVSDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string)
-        ]
 
         /// The ARN of the device.
         public let deviceArn: String?
@@ -4572,9 +3914,6 @@ extension AlexaForBusiness {
     }
 
     public struct RejectSkillRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillId", required: true, type: .string)
-        ]
 
         /// The unique identifier of the skill.
         public let skillId: String
@@ -4601,10 +3940,6 @@ extension AlexaForBusiness {
     }
 
     public struct RequireCheckIn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReleaseAfterMinutes", required: false, type: .integer)
-        ]
 
         /// Whether require check in is enabled or not.
         public let enabled: Bool?
@@ -4623,10 +3958,6 @@ extension AlexaForBusiness {
     }
 
     public struct ResolveRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SkillId", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", required: true, type: .string)
-        ]
 
         /// The ARN of the skill that was requested. Required.
         public let skillId: String
@@ -4650,11 +3981,6 @@ extension AlexaForBusiness {
     }
 
     public struct ResolveRoomResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string), 
-            AWSShapeMember(label: "RoomSkillParameters", required: false, type: .list)
-        ]
 
         /// The ARN of the room from which the skill request was invoked.
         public let roomArn: String?
@@ -4677,10 +4003,6 @@ extension AlexaForBusiness {
     }
 
     public struct RevokeInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnrollmentId", required: false, type: .string), 
-            AWSShapeMember(label: "UserArn", required: false, type: .string)
-        ]
 
         /// The ARN of the enrollment invitation to revoke. Required.
         public let enrollmentId: String?
@@ -4713,13 +4035,6 @@ extension AlexaForBusiness {
     }
 
     public struct Room: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string)
-        ]
 
         /// The description of a room.
         public let description: String?
@@ -4750,14 +4065,6 @@ extension AlexaForBusiness {
     }
 
     public struct RoomData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string)
-        ]
 
         /// The description of a room.
         public let description: String?
@@ -4792,10 +4099,6 @@ extension AlexaForBusiness {
     }
 
     public struct RoomSkillParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterKey", required: true, type: .string), 
-            AWSShapeMember(label: "ParameterValue", required: true, type: .string)
-        ]
 
         /// The parameter key of a room skill parameter. ParameterKey is an enumerated type that only takes “DEFAULT” or “SCOPE” as valid values.
         public let parameterKey: String
@@ -4821,12 +4124,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchAddressBooksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use to list a specified set of address books. The supported filter key is AddressBookName.
         public let filters: [Filter]?
@@ -4868,11 +4165,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchAddressBooksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBooks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
 
         /// The address books that meet the specified set of filter criteria, in sort order.
         public let addressBooks: [AddressBookData]?
@@ -4895,12 +4187,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchContactsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use to list a specified set of address books. The supported filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
         public let filters: [Filter]?
@@ -4942,11 +4228,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchContactsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Contacts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
 
         /// The contacts that meet the specified set of filter criteria, in sort order.
         public let contacts: [ContactData]?
@@ -4969,12 +4250,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE), NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         public let filters: [Filter]?
@@ -5016,11 +4291,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchDevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Devices", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
 
         /// The devices that meet the specified set of filter criteria, in sort order.
         public let devices: [DeviceData]?
@@ -5043,12 +4313,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchNetworkProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use to list a specified set of network profiles. Valid filters are NetworkProfileName, Ssid, and SecurityType.
         public let filters: [Filter]?
@@ -5090,11 +4354,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchNetworkProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NetworkProfiles", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
 
         /// The network profiles that meet the specified set of filter criteria, in sort order. It is a list of NetworkProfileData objects. 
         public let networkProfiles: [NetworkProfileData]?
@@ -5117,12 +4376,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use to list a specified set of room profiles. Supported filter keys are ProfileName and Address. Required. 
         public let filters: [Filter]?
@@ -5164,11 +4417,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchProfilesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Profiles", required: false, type: .list), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -5191,12 +4439,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchRoomsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use to list a specified set of rooms. The supported filter keys are RoomName and ProfileName.
         public let filters: [Filter]?
@@ -5238,11 +4480,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchRoomsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Rooms", required: false, type: .list), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -5265,12 +4502,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchSkillGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use to list a specified set of skill groups. The supported filter key is SkillGroupName. 
         public let filters: [Filter]?
@@ -5312,11 +4543,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchSkillGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroups", required: false, type: .list), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
-        ]
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -5339,12 +4565,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
-        ]
 
         /// The filters to use for listing a specific set of users. Required. Supported filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
         public let filters: [Filter]?
@@ -5386,11 +4606,6 @@ extension AlexaForBusiness {
     }
 
     public struct SearchUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TotalCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Users", required: false, type: .list)
-        ]
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -5413,12 +4628,6 @@ extension AlexaForBusiness {
     }
 
     public struct SendAnnouncementRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
-            AWSShapeMember(label: "Content", required: true, type: .structure), 
-            AWSShapeMember(label: "RoomFilters", required: true, type: .list), 
-            AWSShapeMember(label: "TimeToLiveInSeconds", required: false, type: .integer)
-        ]
 
         /// The unique, user-specified identifier for the request that ensures idempotency.
         public let clientRequestToken: String
@@ -5458,9 +4667,6 @@ extension AlexaForBusiness {
     }
 
     public struct SendAnnouncementResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnnouncementArn", required: false, type: .string)
-        ]
 
         /// The identifier of the announcement.
         public let announcementArn: String?
@@ -5475,9 +4681,6 @@ extension AlexaForBusiness {
     }
 
     public struct SendInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserArn", required: false, type: .string)
-        ]
 
         /// The ARN of the user to whom to send an invitation. Required.
         public let userArn: String?
@@ -5504,10 +4707,6 @@ extension AlexaForBusiness {
     }
 
     public struct SipAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Uri", required: true, type: .string)
-        ]
 
         /// The type of the SIP address.
         public let `type`: SipType
@@ -5532,18 +4731,6 @@ extension AlexaForBusiness {
     }
 
     public struct SkillDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BulletPoints", required: false, type: .list), 
-            AWSShapeMember(label: "DeveloperInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "EndUserLicenseAgreement", required: false, type: .string), 
-            AWSShapeMember(label: "GenericKeywords", required: false, type: .list), 
-            AWSShapeMember(label: "InvocationPhrase", required: false, type: .string), 
-            AWSShapeMember(label: "NewInThisVersionBulletPoints", required: false, type: .list), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ReleaseDate", required: false, type: .string), 
-            AWSShapeMember(label: "Reviews", required: false, type: .map), 
-            AWSShapeMember(label: "SkillTypes", required: false, type: .list)
-        ]
 
         /// The details about what the skill supports organized as bullet points.
         public let bulletPoints: [String]?
@@ -5594,11 +4781,6 @@ extension AlexaForBusiness {
     }
 
     public struct SkillGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupName", required: false, type: .string)
-        ]
 
         /// The description of a skill group.
         public let description: String?
@@ -5621,11 +4803,6 @@ extension AlexaForBusiness {
     }
 
     public struct SkillGroupData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupName", required: false, type: .string)
-        ]
 
         /// The description of a skill group.
         public let description: String?
@@ -5648,13 +4825,6 @@ extension AlexaForBusiness {
     }
 
     public struct SkillSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnablementType", required: false, type: .enum), 
-            AWSShapeMember(label: "SkillId", required: false, type: .string), 
-            AWSShapeMember(label: "SkillName", required: false, type: .string), 
-            AWSShapeMember(label: "SkillType", required: false, type: .enum), 
-            AWSShapeMember(label: "SupportsLinking", required: false, type: .boolean)
-        ]
 
         /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
         public let enablementType: EnablementType?
@@ -5685,15 +4855,6 @@ extension AlexaForBusiness {
     }
 
     public struct SkillsStoreSkill: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IconUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "ShortDescription", required: false, type: .string), 
-            AWSShapeMember(label: "SkillDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "SkillId", required: false, type: .string), 
-            AWSShapeMember(label: "SkillName", required: false, type: .string), 
-            AWSShapeMember(label: "SupportsLinking", required: false, type: .boolean)
-        ]
 
         /// The URL where the skill icon resides.
         public let iconUrl: String?
@@ -5732,11 +4893,6 @@ extension AlexaForBusiness {
     }
 
     public struct SmartHomeAppliance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FriendlyName", required: false, type: .string), 
-            AWSShapeMember(label: "ManufacturerName", required: false, type: .string)
-        ]
 
         /// The description of the smart home appliance.
         public let description: String?
@@ -5759,10 +4915,6 @@ extension AlexaForBusiness {
     }
 
     public struct Sort: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .enum)
-        ]
 
         /// The sort key of a sort object.
         public let key: String
@@ -5786,10 +4938,6 @@ extension AlexaForBusiness {
     }
 
     public struct Ssml: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Locale", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The locale of the SSML message. Currently, en-US is supported.
         public let locale: Locale
@@ -5814,11 +4962,6 @@ extension AlexaForBusiness {
     }
 
     public struct StartDeviceSyncRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Features", required: true, type: .list), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string)
-        ]
 
         /// The ARN of the device to sync. Required.
         public let deviceArn: String?
@@ -5854,9 +4997,6 @@ extension AlexaForBusiness {
     }
 
     public struct StartSmartHomeApplianceDiscoveryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoomArn", required: true, type: .string)
-        ]
 
         /// The room where smart home appliance discovery was initiated.
         public let roomArn: String
@@ -5883,10 +5023,6 @@ extension AlexaForBusiness {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The key of a tag. Tag keys are case-sensitive. 
         public let key: String
@@ -5914,10 +5050,6 @@ extension AlexaForBusiness {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The ARN of the resource to which to add metadata tags. Required. 
         public let arn: String
@@ -5951,10 +5083,6 @@ extension AlexaForBusiness {
     }
 
     public struct Text: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Locale", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The locale of the text message. Currently, en-US is supported.
         public let locale: Locale
@@ -5979,10 +5107,6 @@ extension AlexaForBusiness {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The ARN of the resource from which to remove metadata tags. Required. 
         public let arn: String
@@ -6018,11 +5142,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateAddressBookRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressBookArn", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The ARN of the room to update.
         public let addressBookArn: String
@@ -6063,14 +5182,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateBusinessReportScheduleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Format", required: false, type: .enum), 
-            AWSShapeMember(label: "Recurrence", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ScheduleName", required: false, type: .string)
-        ]
 
         /// The format of the generated report (individual CSV files or zipped files of individual files).
         public let format: BusinessReportFormat?
@@ -6125,13 +5236,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateConferenceProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string), 
-            AWSShapeMember(label: "ConferenceProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "IPDialIn", required: false, type: .structure), 
-            AWSShapeMember(label: "MeetingSetting", required: true, type: .structure), 
-            AWSShapeMember(label: "PSTNDialIn", required: false, type: .structure)
-        ]
 
         /// The ARN of the conference provider.
         public let conferenceProviderArn: String
@@ -6176,15 +5280,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateContactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContactArn", required: true, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
-            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
-        ]
 
         /// The ARN of the contact to update.
         public let contactArn: String
@@ -6257,10 +5352,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string)
-        ]
 
         /// The ARN of the device to update. Required.
         public let deviceArn: String?
@@ -6294,11 +5385,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateEndOfMeetingReminder: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReminderAtMinutes", required: false, type: .list), 
-            AWSShapeMember(label: "ReminderType", required: false, type: .enum)
-        ]
 
         /// Whether an end of meeting reminder is enabled or not.
         public let enabled: Bool?
@@ -6326,11 +5412,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateGatewayGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
 
         /// The updated description of the gateway group.
         public let description: String?
@@ -6370,12 +5451,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayArn", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
-        ]
 
         /// The updated description of the gateway.
         public let description: String?
@@ -6422,10 +5497,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateInstantBooking: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
 
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
         public let durationInMinutes: Int?
@@ -6444,12 +5515,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateMeetingRoomConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndOfMeetingReminder", required: false, type: .structure), 
-            AWSShapeMember(label: "InstantBooking", required: false, type: .structure), 
-            AWSShapeMember(label: "RequireCheckIn", required: false, type: .structure), 
-            AWSShapeMember(label: "RoomUtilizationMetricsEnabled", required: false, type: .boolean)
-        ]
 
         /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending. 
         public let endOfMeetingReminder: UpdateEndOfMeetingReminder?
@@ -6480,15 +5545,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateNetworkProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "CurrentPassword", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string), 
-            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "NextPassword", required: false, type: .string), 
-            AWSShapeMember(label: "TrustAnchors", required: false, type: .list)
-        ]
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
         public let certificateAuthorityArn: String?
@@ -6557,21 +5613,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "Locale", required: false, type: .string), 
-            AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "MeetingRoomConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "WakeWord", required: false, type: .enum)
-        ]
 
         /// The updated address for the room profile.
         public let address: String?
@@ -6656,10 +5697,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateRequireCheckIn: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReleaseAfterMinutes", required: false, type: .integer)
-        ]
 
         /// Whether require check in is enabled or not.
         public let enabled: Bool?
@@ -6678,13 +5715,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateRoomRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderCalendarId", required: false, type: .string), 
-            AWSShapeMember(label: "RoomArn", required: false, type: .string), 
-            AWSShapeMember(label: "RoomName", required: false, type: .string)
-        ]
 
         /// The updated description for the room.
         public let description: String?
@@ -6736,11 +5766,6 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateSkillGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SkillGroupName", required: false, type: .string)
-        ]
 
         /// The updated description for the skill group.
         public let description: String?
@@ -6781,14 +5806,6 @@ extension AlexaForBusiness {
     }
 
     public struct UserData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "EnrollmentId", required: false, type: .string), 
-            AWSShapeMember(label: "EnrollmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "FirstName", required: false, type: .string), 
-            AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "UserArn", required: false, type: .string)
-        ]
 
         /// The email of a user.
         public let email: String?

@@ -9,10 +9,6 @@ extension Support {
     //MARK: Shapes
 
     public struct AddAttachmentsToSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachments", required: true, type: .list), 
-            AWSShapeMember(label: "attachmentSetId", required: false, type: .string)
-        ]
 
         /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
         public let attachments: [Attachment]
@@ -31,10 +27,6 @@ extension Support {
     }
 
     public struct AddAttachmentsToSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
-            AWSShapeMember(label: "expiryTime", required: false, type: .string)
-        ]
 
         /// The ID of the attachment set. If an attachmentSetId was not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId was specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
@@ -53,12 +45,6 @@ extension Support {
     }
 
     public struct AddCommunicationToCaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
-            AWSShapeMember(label: "caseId", required: false, type: .string), 
-            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "communicationBody", required: true, type: .string)
-        ]
 
         /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet 
         public let attachmentSetId: String?
@@ -92,9 +78,6 @@ extension Support {
     }
 
     public struct AddCommunicationToCaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "result", required: false, type: .boolean)
-        ]
 
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
         public let result: Bool?
@@ -109,10 +92,6 @@ extension Support {
     }
 
     public struct Attachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "data", required: false, type: .blob), 
-            AWSShapeMember(label: "fileName", required: false, type: .string)
-        ]
 
         /// The content of the attachment file.
         public let data: Data?
@@ -131,10 +110,6 @@ extension Support {
     }
 
     public struct AttachmentDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentId", required: false, type: .string), 
-            AWSShapeMember(label: "fileName", required: false, type: .string)
-        ]
 
         /// The ID of the attachment.
         public let attachmentId: String?
@@ -153,20 +128,6 @@ extension Support {
     }
 
     public struct CaseDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string), 
-            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
-            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "displayId", required: false, type: .string), 
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "recentCommunications", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceCode", required: false, type: .string), 
-            AWSShapeMember(label: "severityCode", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "subject", required: false, type: .string), 
-            AWSShapeMember(label: "submittedBy", required: false, type: .string), 
-            AWSShapeMember(label: "timeCreated", required: false, type: .string)
-        ]
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -225,10 +186,6 @@ extension Support {
     }
 
     public struct Category: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The category code for the support case.
         public let code: String?
@@ -247,13 +204,6 @@ extension Support {
     }
 
     public struct Communication: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentSet", required: false, type: .list), 
-            AWSShapeMember(label: "body", required: false, type: .string), 
-            AWSShapeMember(label: "caseId", required: false, type: .string), 
-            AWSShapeMember(label: "submittedBy", required: false, type: .string), 
-            AWSShapeMember(label: "timeCreated", required: false, type: .string)
-        ]
 
         /// Information about the attachments to the case communication.
         public let attachmentSet: [AttachmentDetails]?
@@ -284,17 +234,6 @@ extension Support {
     }
 
     public struct CreateCaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
-            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
-            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "communicationBody", required: true, type: .string), 
-            AWSShapeMember(label: "issueType", required: false, type: .string), 
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "serviceCode", required: false, type: .string), 
-            AWSShapeMember(label: "severityCode", required: false, type: .string), 
-            AWSShapeMember(label: "subject", required: true, type: .string)
-        ]
 
         /// The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet.
         public let attachmentSetId: String?
@@ -348,9 +287,6 @@ extension Support {
     }
 
     public struct CreateCaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string)
-        ]
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -365,9 +301,6 @@ extension Support {
     }
 
     public struct DescribeAttachmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentId", required: true, type: .string)
-        ]
 
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
         public let attachmentId: String
@@ -382,9 +315,6 @@ extension Support {
     }
 
     public struct DescribeAttachmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachment", required: false, type: .structure)
-        ]
 
         /// The attachment content and file name.
         public let attachment: Attachment?
@@ -399,17 +329,6 @@ extension Support {
     }
 
     public struct DescribeCasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterTime", required: false, type: .string), 
-            AWSShapeMember(label: "beforeTime", required: false, type: .string), 
-            AWSShapeMember(label: "caseIdList", required: false, type: .list), 
-            AWSShapeMember(label: "displayId", required: false, type: .string), 
-            AWSShapeMember(label: "includeCommunications", required: false, type: .boolean), 
-            AWSShapeMember(label: "includeResolvedCases", required: false, type: .boolean), 
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
@@ -463,10 +382,6 @@ extension Support {
     }
 
     public struct DescribeCasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cases", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The details for the cases that match the request.
         public let cases: [CaseDetails]?
@@ -485,13 +400,6 @@ extension Support {
     }
 
     public struct DescribeCommunicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "afterTime", required: false, type: .string), 
-            AWSShapeMember(label: "beforeTime", required: false, type: .string), 
-            AWSShapeMember(label: "caseId", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
@@ -527,10 +435,6 @@ extension Support {
     }
 
     public struct DescribeCommunicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "communications", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The communications for the case.
         public let communications: [Communication]?
@@ -549,10 +453,6 @@ extension Support {
     }
 
     public struct DescribeServicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "serviceCodeList", required: false, type: .list)
-        ]
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -576,9 +476,6 @@ extension Support {
     }
 
     public struct DescribeServicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "services", required: false, type: .list)
-        ]
 
         /// A JSON-formatted list of AWS services.
         public let services: [Service]?
@@ -593,9 +490,6 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "language", required: false, type: .string)
-        ]
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -610,9 +504,6 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "severityLevels", required: false, type: .list)
-        ]
 
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
         public let severityLevels: [SeverityLevel]?
@@ -627,9 +518,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkIds", required: true, type: .list)
-        ]
 
         /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkIds: [String]
@@ -644,9 +532,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statuses", required: true, type: .list)
-        ]
 
         /// The refresh status of the specified Trusted Advisor checks.
         public let statuses: [TrustedAdvisorCheckRefreshStatus]
@@ -661,10 +546,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkId", required: true, type: .string), 
-            AWSShapeMember(label: "language", required: false, type: .string)
-        ]
 
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
@@ -683,9 +564,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "result", required: false, type: .structure)
-        ]
 
         /// The detailed results of the Trusted Advisor check.
         public let result: TrustedAdvisorCheckResult?
@@ -700,9 +578,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkIds", required: true, type: .list)
-        ]
 
         /// The IDs of the Trusted Advisor checks.
         public let checkIds: [String]
@@ -717,9 +592,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summaries", required: true, type: .list)
-        ]
 
         /// The summary information for the requested Trusted Advisor checks.
         public let summaries: [TrustedAdvisorCheckSummary]
@@ -734,9 +606,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "language", required: true, type: .string)
-        ]
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String
@@ -751,9 +620,6 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checks", required: true, type: .list)
-        ]
 
         /// Information about all available Trusted Advisor checks.
         public let checks: [TrustedAdvisorCheckDescription]
@@ -768,10 +634,6 @@ extension Support {
     }
 
     public struct RecentCaseCommunications: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "communications", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
 
         /// The five most recent communications associated with the case.
         public let communications: [Communication]?
@@ -790,9 +652,6 @@ extension Support {
     }
 
     public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkId", required: true, type: .string)
-        ]
 
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
@@ -807,9 +666,6 @@ extension Support {
     }
 
     public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .structure)
-        ]
 
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
         public let status: TrustedAdvisorCheckRefreshStatus
@@ -824,9 +680,6 @@ extension Support {
     }
 
     public struct ResolveCaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string)
-        ]
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -841,10 +694,6 @@ extension Support {
     }
 
     public struct ResolveCaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "finalCaseStatus", required: false, type: .string), 
-            AWSShapeMember(label: "initialCaseStatus", required: false, type: .string)
-        ]
 
         /// The status of the case after the ResolveCase request was processed.
         public let finalCaseStatus: String?
@@ -863,11 +712,6 @@ extension Support {
     }
 
     public struct Service: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "categories", required: false, type: .list), 
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
         public let categories: [Category]?
@@ -890,10 +734,6 @@ extension Support {
     }
 
     public struct SeverityLevel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
 
         /// The code for case severity level. Valid values: low | normal | high | urgent | critical 
         public let code: String?
@@ -912,9 +752,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "costOptimizing", required: false, type: .structure)
-        ]
 
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
@@ -929,13 +766,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "metadata", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
 
         /// The category of the Trusted Advisor check.
         public let category: String
@@ -966,11 +796,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkId", required: true, type: .string), 
-            AWSShapeMember(label: "millisUntilNextRefreshable", required: true, type: .long), 
-            AWSShapeMember(label: "status", required: true, type: .string)
-        ]
 
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
@@ -993,14 +818,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
-            AWSShapeMember(label: "checkId", required: true, type: .string), 
-            AWSShapeMember(label: "flaggedResources", required: true, type: .list), 
-            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure), 
-            AWSShapeMember(label: "status", required: true, type: .string), 
-            AWSShapeMember(label: "timestamp", required: true, type: .string)
-        ]
 
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
         public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
@@ -1034,14 +851,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
-            AWSShapeMember(label: "checkId", required: true, type: .string), 
-            AWSShapeMember(label: "hasFlaggedResources", required: false, type: .boolean), 
-            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure), 
-            AWSShapeMember(label: "status", required: true, type: .string), 
-            AWSShapeMember(label: "timestamp", required: true, type: .string)
-        ]
 
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
         public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
@@ -1075,10 +884,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "estimatedMonthlySavings", required: true, type: .double), 
-            AWSShapeMember(label: "estimatedPercentMonthlySavings", required: true, type: .double)
-        ]
 
         /// The estimated monthly savings that might be realized if the recommended actions are taken.
         public let estimatedMonthlySavings: Double
@@ -1097,13 +902,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorResourceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isSuppressed", required: false, type: .boolean), 
-            AWSShapeMember(label: "metadata", required: true, type: .list), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "resourceId", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .string)
-        ]
 
         /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
         public let isSuppressed: Bool?
@@ -1134,12 +932,6 @@ extension Support {
     }
 
     public struct TrustedAdvisorResourcesSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourcesFlagged", required: true, type: .long), 
-            AWSShapeMember(label: "resourcesIgnored", required: true, type: .long), 
-            AWSShapeMember(label: "resourcesProcessed", required: true, type: .long), 
-            AWSShapeMember(label: "resourcesSuppressed", required: true, type: .long)
-        ]
 
         /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
         public let resourcesFlagged: Int64

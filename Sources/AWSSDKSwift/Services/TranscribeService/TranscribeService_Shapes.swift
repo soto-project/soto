@@ -79,12 +79,6 @@ extension TranscribeService {
     //MARK: Shapes
 
     public struct CreateVocabularyFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "VocabularyFilterFileUri", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyFilterName", required: true, type: .string), 
-            AWSShapeMember(label: "Words", required: false, type: .list)
-        ]
 
         /// The language code of the words in the vocabulary filter. All words in the filter must be in the same language. The vocabulary filter can only be used with transcription jobs in the specified language.
         public let languageCode: LanguageCode
@@ -125,11 +119,6 @@ extension TranscribeService {
     }
 
     public struct CreateVocabularyFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyFilterName", required: false, type: .string)
-        ]
 
         /// The language code of the words in the collection.
         public let languageCode: LanguageCode?
@@ -152,12 +141,6 @@ extension TranscribeService {
     }
 
     public struct CreateVocabularyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Phrases", required: false, type: .list), 
-            AWSShapeMember(label: "VocabularyFileUri", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyName", required: true, type: .string)
-        ]
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
@@ -198,13 +181,6 @@ extension TranscribeService {
     }
 
     public struct CreateVocabularyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
-        ]
 
         /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
         public let failureReason: String?
@@ -235,9 +211,6 @@ extension TranscribeService {
     }
 
     public struct DeleteTranscriptionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
-        ]
 
         /// The name of the transcription job to be deleted.
         public let transcriptionJobName: String
@@ -258,9 +231,6 @@ extension TranscribeService {
     }
 
     public struct DeleteVocabularyFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VocabularyFilterName", required: true, type: .string)
-        ]
 
         /// The name of the vocabulary filter to remove.
         public let vocabularyFilterName: String
@@ -281,9 +251,6 @@ extension TranscribeService {
     }
 
     public struct DeleteVocabularyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VocabularyName", required: true, type: .string)
-        ]
 
         /// The name of the vocabulary to delete. 
         public let vocabularyName: String
@@ -304,9 +271,6 @@ extension TranscribeService {
     }
 
     public struct GetTranscriptionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
-        ]
 
         /// The name of the job.
         public let transcriptionJobName: String
@@ -327,9 +291,6 @@ extension TranscribeService {
     }
 
     public struct GetTranscriptionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TranscriptionJob", required: false, type: .structure)
-        ]
 
         /// An object that contains the results of the transcription job.
         public let transcriptionJob: TranscriptionJob?
@@ -344,9 +305,6 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VocabularyFilterName", required: true, type: .string)
-        ]
 
         /// The name of the vocabulary filter for which to return information.
         public let vocabularyFilterName: String
@@ -367,12 +325,6 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DownloadUri", required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyFilterName", required: false, type: .string)
-        ]
 
         /// The URI of the list of words in the vocabulary filter. You can use this URI to get the list of words.
         public let downloadUri: String?
@@ -399,9 +351,6 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VocabularyName", required: true, type: .string)
-        ]
 
         /// The name of the vocabulary to return information about. The name is case-sensitive.
         public let vocabularyName: String
@@ -422,14 +371,6 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DownloadUri", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
-        ]
 
         /// The S3 location where the vocabulary is stored. Use this URI to get the contents of the vocabulary. The URI is available for a limited time.
         public let downloadUri: String?
@@ -464,10 +405,6 @@ extension TranscribeService {
     }
 
     public struct JobExecutionSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowDeferredExecution", required: false, type: .boolean), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string)
-        ]
 
         /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and will be executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let allowDeferredExecution: Bool?
@@ -490,12 +427,6 @@ extension TranscribeService {
     }
 
     public struct ListTranscriptionJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobNameContains", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
         public let jobNameContains: String?
@@ -532,11 +463,6 @@ extension TranscribeService {
     }
 
     public struct ListTranscriptionJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TranscriptionJobSummaries", required: false, type: .list)
-        ]
 
         /// The ListTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListTranscriptionJobs operation to return in the next page of jobs.
         public let nextToken: String?
@@ -559,12 +485,6 @@ extension TranscribeService {
     }
 
     public struct ListVocabulariesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StateEquals", required: false, type: .enum)
-        ]
 
         /// The maximum number of vocabularies to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
@@ -601,11 +521,6 @@ extension TranscribeService {
     }
 
     public struct ListVocabulariesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Vocabularies", required: false, type: .list)
-        ]
 
         /// The ListVocabularies operation returns a page of vocabularies at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularies operation to return in the next page of jobs.
         public let nextToken: String?
@@ -628,11 +543,6 @@ extension TranscribeService {
     }
 
     public struct ListVocabularyFiltersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NameContains", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The maximum number of filters to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
@@ -665,10 +575,6 @@ extension TranscribeService {
     }
 
     public struct ListVocabularyFiltersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyFilters", required: false, type: .list)
-        ]
 
         /// The ListVocabularyFilters operation returns a page of collections at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularyFilters operation to return in the next page of jobs.
         public let nextToken: String?
@@ -687,9 +593,6 @@ extension TranscribeService {
     }
 
     public struct Media: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MediaFileUri", required: false, type: .string)
-        ]
 
         /// The S3 location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is:   https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3.us-east-1.amazonaws.com/examplebucket/example.mp4   https://s3.us-east-1.amazonaws.com/examplebucket/mediadocs/example.mp4  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
         public let mediaFileUri: String?
@@ -710,16 +613,6 @@ extension TranscribeService {
     }
 
     public struct Settings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChannelIdentification", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxAlternatives", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxSpeakerLabels", required: false, type: .integer), 
-            AWSShapeMember(label: "ShowAlternatives", required: false, type: .boolean), 
-            AWSShapeMember(label: "ShowSpeakerLabels", required: false, type: .boolean), 
-            AWSShapeMember(label: "VocabularyFilterMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "VocabularyFilterName", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyName", required: false, type: .string)
-        ]
 
         /// Instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription.  Amazon Transcribe also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of the item including the confidence that Amazon Transcribe has in the transcription. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let channelIdentification: Bool?
@@ -775,17 +668,6 @@ extension TranscribeService {
     }
 
     public struct StartTranscriptionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobExecutionSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Media", required: true, type: .structure), 
-            AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
-            AWSShapeMember(label: "OutputBucketName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputEncryptionKMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
-        ]
 
         /// Provides information about how a transcription job is executed. Use this field to indicate that the job can be queued for deferred execution if the concurrency limit is reached and there are no slots available to immediately run the job.
         public let jobExecutionSettings: JobExecutionSettings?
@@ -848,9 +730,6 @@ extension TranscribeService {
     }
 
     public struct StartTranscriptionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TranscriptionJob", required: false, type: .structure)
-        ]
 
         /// An object containing details of the asynchronous transcription job.
         public let transcriptionJob: TranscriptionJob?
@@ -865,9 +744,6 @@ extension TranscribeService {
     }
 
     public struct Transcript: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TranscriptFileUri", required: false, type: .string)
-        ]
 
         /// The location where the transcription is stored. Use this URI to access the transcription. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcription in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
         public let transcriptFileUri: String?
@@ -882,21 +758,6 @@ extension TranscribeService {
     }
 
     public struct TranscriptionJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "JobExecutionSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "Media", required: false, type: .structure), 
-            AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
-            AWSShapeMember(label: "Settings", required: false, type: .structure), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Transcript", required: false, type: .structure), 
-            AWSShapeMember(label: "TranscriptionJobName", required: false, type: .string), 
-            AWSShapeMember(label: "TranscriptionJobStatus", required: false, type: .enum)
-        ]
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
@@ -959,16 +820,6 @@ extension TranscribeService {
     }
 
     public struct TranscriptionJobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "OutputLocationType", required: false, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TranscriptionJobName", required: false, type: .string), 
-            AWSShapeMember(label: "TranscriptionJobStatus", required: false, type: .enum)
-        ]
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
@@ -1011,11 +862,6 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VocabularyFilterFileUri", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyFilterName", required: true, type: .string), 
-            AWSShapeMember(label: "Words", required: false, type: .list)
-        ]
 
         /// The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
         public let vocabularyFilterFileUri: String?
@@ -1052,11 +898,6 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyFilterName", required: false, type: .string)
-        ]
 
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
@@ -1079,12 +920,6 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Phrases", required: false, type: .list), 
-            AWSShapeMember(label: "VocabularyFileUri", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyName", required: true, type: .string)
-        ]
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
@@ -1125,12 +960,6 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
-        ]
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
@@ -1157,11 +986,6 @@ extension TranscribeService {
     }
 
     public struct VocabularyFilterInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyFilterName", required: false, type: .string)
-        ]
 
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
@@ -1184,12 +1008,6 @@ extension TranscribeService {
     }
 
     public struct VocabularyInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VocabularyName", required: false, type: .string), 
-            AWSShapeMember(label: "VocabularyState", required: false, type: .enum)
-        ]
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?

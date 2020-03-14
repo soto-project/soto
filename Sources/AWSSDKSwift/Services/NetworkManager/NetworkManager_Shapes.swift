@@ -66,11 +66,8 @@ extension NetworkManager {
     //MARK: Shapes
 
     public struct AssociateCustomerGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGatewayArn", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceId", required: true, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkId", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
@@ -98,9 +95,6 @@ extension NetworkManager {
     }
 
     public struct AssociateCustomerGatewayResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGatewayAssociation", required: false, type: .structure)
-        ]
 
         /// The customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
@@ -115,10 +109,8 @@ extension NetworkManager {
     }
 
     public struct AssociateLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", required: true, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkId", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the device.
@@ -142,9 +134,6 @@ extension NetworkManager {
     }
 
     public struct AssociateLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LinkAssociation", required: false, type: .structure)
-        ]
 
         /// The link association.
         public let linkAssociation: LinkAssociation?
@@ -159,10 +148,6 @@ extension NetworkManager {
     }
 
     public struct Bandwidth: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DownloadSpeed", required: false, type: .integer), 
-            AWSShapeMember(label: "UploadSpeed", required: false, type: .integer)
-        ]
 
         /// Download speed in Mbps.
         public let downloadSpeed: Int?
@@ -181,16 +166,8 @@ extension NetworkManager {
     }
 
     public struct CreateDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Model", required: false, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "Vendor", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of the device. Length Constraints: Maximum length of 256 characters.
@@ -238,9 +215,6 @@ extension NetworkManager {
     }
 
     public struct CreateDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: false, type: .structure)
-        ]
 
         /// Information about the device.
         public let device: Device?
@@ -255,10 +229,6 @@ extension NetworkManager {
     }
 
     public struct CreateGlobalNetworkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// A description of the global network. Length Constraints: Maximum length of 256 characters.
         public let description: String?
@@ -277,9 +247,6 @@ extension NetworkManager {
     }
 
     public struct CreateGlobalNetworkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetwork", required: false, type: .structure)
-        ]
 
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
@@ -294,14 +261,8 @@ extension NetworkManager {
     }
 
     public struct CreateLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bandwidth", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "Provider", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         ///  The upload speed and download speed in Mbps. 
@@ -341,9 +302,6 @@ extension NetworkManager {
     }
 
     public struct CreateLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Link", required: false, type: .structure)
-        ]
 
         /// Information about the link.
         public let link: Link?
@@ -358,11 +316,8 @@ extension NetworkManager {
     }
 
     public struct CreateSiteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of your site. Length Constraints: Maximum length of 256 characters.
@@ -390,9 +345,6 @@ extension NetworkManager {
     }
 
     public struct CreateSiteResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Site", required: false, type: .structure)
-        ]
 
         /// Information about the site.
         public let site: Site?
@@ -407,13 +359,6 @@ extension NetworkManager {
     }
 
     public struct CustomerGatewayAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGatewayArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceId", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "LinkId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The Amazon Resource Name (ARN) of the customer gateway.
         public let customerGatewayArn: String?
@@ -444,9 +389,9 @@ extension NetworkManager {
     }
 
     public struct DeleteDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the device.
@@ -466,9 +411,6 @@ extension NetworkManager {
     }
 
     public struct DeleteDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: false, type: .structure)
-        ]
 
         /// Information about the device.
         public let device: Device?
@@ -483,8 +425,8 @@ extension NetworkManager {
     }
 
     public struct DeleteGlobalNetworkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the global network.
@@ -500,9 +442,6 @@ extension NetworkManager {
     }
 
     public struct DeleteGlobalNetworkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetwork", required: false, type: .structure)
-        ]
 
         /// Information about the global network.
         public let globalNetwork: GlobalNetwork?
@@ -517,9 +456,9 @@ extension NetworkManager {
     }
 
     public struct DeleteLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkId", location: .uri(locationName: "linkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
         ]
 
         /// The ID of the global network.
@@ -539,9 +478,6 @@ extension NetworkManager {
     }
 
     public struct DeleteLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Link", required: false, type: .structure)
-        ]
 
         /// Information about the link.
         public let link: Link?
@@ -556,9 +492,9 @@ extension NetworkManager {
     }
 
     public struct DeleteSiteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "SiteId", location: .uri(locationName: "siteId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
         ]
 
         /// The ID of the global network.
@@ -578,9 +514,6 @@ extension NetworkManager {
     }
 
     public struct DeleteSiteResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Site", required: false, type: .structure)
-        ]
 
         /// Information about the site.
         public let site: Site?
@@ -595,9 +528,9 @@ extension NetworkManager {
     }
 
     public struct DeregisterTransitGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "TransitGatewayArn", location: .uri(locationName: "transitGatewayArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "transitGatewayArn", location: .uri(locationName: "transitGatewayArn"))
         ]
 
         /// The ID of the global network.
@@ -617,9 +550,6 @@ extension NetworkManager {
     }
 
     public struct DeregisterTransitGatewayResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayRegistration", required: false, type: .structure)
-        ]
 
         /// The transit gateway registration information.
         public let transitGatewayRegistration: TransitGatewayRegistration?
@@ -634,10 +564,10 @@ extension NetworkManager {
     }
 
     public struct DescribeGlobalNetworksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkIds", location: .querystring(locationName: "globalNetworkIds"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkIds", location: .querystring(locationName: "globalNetworkIds")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The IDs of one or more global networks. The maximum is 10.
@@ -666,10 +596,6 @@ extension NetworkManager {
     }
 
     public struct DescribeGlobalNetworksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Information about the global networks.
         public let globalNetworks: [GlobalNetwork]?
@@ -688,21 +614,6 @@ extension NetworkManager {
     }
 
     public struct Device: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceId", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Model", required: false, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "Vendor", required: false, type: .string)
-        ]
 
         /// The date and time that the site was created.
         public let createdAt: TimeStamp?
@@ -765,9 +676,9 @@ extension NetworkManager {
     }
 
     public struct DisassociateCustomerGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGatewayArn", location: .uri(locationName: "customerGatewayArn"), required: true, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "customerGatewayArn", location: .uri(locationName: "customerGatewayArn")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
@@ -787,9 +698,6 @@ extension NetworkManager {
     }
 
     public struct DisassociateCustomerGatewayResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGatewayAssociation", required: false, type: .structure)
-        ]
 
         /// Information about the customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
@@ -804,10 +712,10 @@ extension NetworkManager {
     }
 
     public struct DisassociateLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .querystring(locationName: "deviceId"), required: true, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkId", location: .querystring(locationName: "linkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .querystring(locationName: "linkId"))
         ]
 
         /// The ID of the device.
@@ -831,9 +739,6 @@ extension NetworkManager {
     }
 
     public struct DisassociateLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LinkAssociation", required: false, type: .structure)
-        ]
 
         /// Information about the link association.
         public let linkAssociation: LinkAssociation?
@@ -848,11 +753,11 @@ extension NetworkManager {
     }
 
     public struct GetCustomerGatewayAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGatewayArns", location: .querystring(locationName: "customerGatewayArns"), required: false, type: .list), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "customerGatewayArns", location: .querystring(locationName: "customerGatewayArns")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// One or more customer gateway Amazon Resource Names (ARNs). For more information, see Resources Defined by Amazon EC2. The maximum is 10.
@@ -885,10 +790,6 @@ extension NetworkManager {
     }
 
     public struct GetCustomerGatewayAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomerGatewayAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The customer gateway associations.
         public let customerGatewayAssociations: [CustomerGatewayAssociation]?
@@ -907,12 +808,12 @@ extension NetworkManager {
     }
 
     public struct GetDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceIds", location: .querystring(locationName: "deviceIds"), required: false, type: .list), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", location: .querystring(locationName: "siteId"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deviceIds", location: .querystring(locationName: "deviceIds")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "siteId", location: .querystring(locationName: "siteId"))
         ]
 
         /// One or more device IDs. The maximum is 10.
@@ -949,10 +850,6 @@ extension NetworkManager {
     }
 
     public struct GetDevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Devices", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The devices.
         public let devices: [Device]?
@@ -971,12 +868,12 @@ extension NetworkManager {
     }
 
     public struct GetLinkAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .querystring(locationName: "deviceId"), required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkId", location: .querystring(locationName: "linkId"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .querystring(locationName: "linkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The ID of the device.
@@ -1013,10 +910,6 @@ extension NetworkManager {
     }
 
     public struct GetLinkAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LinkAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The link associations.
         public let linkAssociations: [LinkAssociation]?
@@ -1035,14 +928,14 @@ extension NetworkManager {
     }
 
     public struct GetLinksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkIds", location: .querystring(locationName: "linkIds"), required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Provider", location: .querystring(locationName: "provider"), required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", location: .querystring(locationName: "siteId"), required: false, type: .string), 
-            AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkIds", location: .querystring(locationName: "linkIds")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "provider", location: .querystring(locationName: "provider")), 
+            AWSMemberEncoding(label: "siteId", location: .querystring(locationName: "siteId")), 
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
         /// The ID of the global network.
@@ -1087,10 +980,6 @@ extension NetworkManager {
     }
 
     public struct GetLinksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Links", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The links.
         public let links: [Link]?
@@ -1109,11 +998,11 @@ extension NetworkManager {
     }
 
     public struct GetSitesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "SiteIds", location: .querystring(locationName: "siteIds"), required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "siteIds", location: .querystring(locationName: "siteIds"))
         ]
 
         /// The ID of the global network.
@@ -1146,10 +1035,6 @@ extension NetworkManager {
     }
 
     public struct GetSitesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Sites", required: false, type: .list)
-        ]
 
         /// The token for the next page of results.
         public let nextToken: String?
@@ -1168,11 +1053,11 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayRegistrationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "TransitGatewayArns", location: .querystring(locationName: "transitGatewayArns"), required: false, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "transitGatewayArns", location: .querystring(locationName: "transitGatewayArns"))
         ]
 
         /// The ID of the global network.
@@ -1205,10 +1090,6 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayRegistrationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TransitGatewayRegistrations", required: false, type: .list)
-        ]
 
         /// The token for the next page of results.
         public let nextToken: String?
@@ -1227,14 +1108,6 @@ extension NetworkManager {
     }
 
     public struct GlobalNetwork: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkArn", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The date and time that the global network was created.
         public let createdAt: TimeStamp?
@@ -1269,19 +1142,6 @@ extension NetworkManager {
     }
 
     public struct Link: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bandwidth", required: false, type: .structure), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "LinkArn", required: false, type: .string), 
-            AWSShapeMember(label: "LinkId", required: false, type: .string), 
-            AWSShapeMember(label: "Provider", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
 
         /// The bandwidth for the link.
         public let bandwidth: Bandwidth?
@@ -1336,12 +1196,6 @@ extension NetworkManager {
     }
 
     public struct LinkAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "LinkAssociationState", required: false, type: .enum), 
-            AWSShapeMember(label: "LinkId", required: false, type: .string)
-        ]
 
         /// The device ID for the link association.
         public let deviceId: String?
@@ -1368,8 +1222,8 @@ extension NetworkManager {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1385,9 +1239,6 @@ extension NetworkManager {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .list)
-        ]
 
         /// The list of tags.
         public let tagList: [Tag]?
@@ -1402,11 +1253,6 @@ extension NetworkManager {
     }
 
     public struct Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "Latitude", required: false, type: .string), 
-            AWSShapeMember(label: "Longitude", required: false, type: .string)
-        ]
 
         /// The physical address.
         public let address: String?
@@ -1429,9 +1275,8 @@ extension NetworkManager {
     }
 
     public struct RegisterTransitGatewayRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "TransitGatewayArn", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// The ID of the global network.
@@ -1451,9 +1296,6 @@ extension NetworkManager {
     }
 
     public struct RegisterTransitGatewayResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TransitGatewayRegistration", required: false, type: .structure)
-        ]
 
         /// Information about the transit gateway registration.
         public let transitGatewayRegistration: TransitGatewayRegistration?
@@ -1468,16 +1310,6 @@ extension NetworkManager {
     }
 
     public struct Site: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "SiteArn", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// The date and time that the site was created.
         public let createdAt: TimeStamp?
@@ -1520,10 +1352,6 @@ extension NetworkManager {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// The tag key. Length Constraints: Maximum length of 128 characters.
         public let key: String?
@@ -1542,9 +1370,8 @@ extension NetworkManager {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1572,11 +1399,6 @@ extension NetworkManager {
     }
 
     public struct TransitGatewayRegistration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetworkId", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .structure), 
-            AWSShapeMember(label: "TransitGatewayArn", required: false, type: .string)
-        ]
 
         /// The ID of the global network.
         public let globalNetworkId: String?
@@ -1599,10 +1421,6 @@ extension NetworkManager {
     }
 
     public struct TransitGatewayRegistrationStateReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
 
         /// The code for the state reason.
         public let code: TransitGatewayRegistrationState?
@@ -1621,9 +1439,9 @@ extension NetworkManager {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
         /// The Amazon Resource Name (ARN) of the resource.
@@ -1651,16 +1469,9 @@ extension NetworkManager {
     }
 
     public struct UpdateDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "Model", required: false, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "SiteId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "Vendor", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of the device. Length Constraints: Maximum length of 256 characters.
@@ -1707,9 +1518,6 @@ extension NetworkManager {
     }
 
     public struct UpdateDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: false, type: .structure)
-        ]
 
         /// Information about the device.
         public let device: Device?
@@ -1724,9 +1532,8 @@ extension NetworkManager {
     }
 
     public struct UpdateGlobalNetworkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
         /// A description of the global network. Length Constraints: Maximum length of 256 characters.
@@ -1746,9 +1553,6 @@ extension NetworkManager {
     }
 
     public struct UpdateGlobalNetworkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GlobalNetwork", required: false, type: .structure)
-        ]
 
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
@@ -1763,13 +1567,9 @@ extension NetworkManager {
     }
 
     public struct UpdateLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bandwidth", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkId", location: .uri(locationName: "linkId"), required: true, type: .string), 
-            AWSShapeMember(label: "Provider", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
         ]
 
         /// The upload and download speed in Mbps. 
@@ -1805,9 +1605,6 @@ extension NetworkManager {
     }
 
     public struct UpdateLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Link", required: false, type: .structure)
-        ]
 
         /// Information about the link.
         public let link: Link?
@@ -1822,11 +1619,9 @@ extension NetworkManager {
     }
 
     public struct UpdateSiteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GlobalNetworkId", location: .uri(locationName: "globalNetworkId"), required: true, type: .string), 
-            AWSShapeMember(label: "Location", required: false, type: .structure), 
-            AWSShapeMember(label: "SiteId", location: .uri(locationName: "siteId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
         ]
 
         /// A description of your site. Length Constraints: Maximum length of 256 characters.
@@ -1854,9 +1649,6 @@ extension NetworkManager {
     }
 
     public struct UpdateSiteResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Site", required: false, type: .structure)
-        ]
 
         /// Information about the site.
         public let site: Site?

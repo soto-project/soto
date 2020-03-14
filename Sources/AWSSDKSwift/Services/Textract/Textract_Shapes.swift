@@ -58,11 +58,6 @@ extension Textract {
     //MARK: Shapes
 
     public struct AnalyzeDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Document", required: true, type: .structure), 
-            AWSShapeMember(label: "FeatureTypes", required: true, type: .list), 
-            AWSShapeMember(label: "HumanLoopConfig", required: false, type: .structure)
-        ]
 
         /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. 
         public let document: Document
@@ -90,12 +85,6 @@ extension Textract {
     }
 
     public struct AnalyzeDocumentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyzeDocumentModelVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Blocks", required: false, type: .list), 
-            AWSShapeMember(label: "DocumentMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "HumanLoopActivationOutput", required: false, type: .structure)
-        ]
 
         /// The version of the model used to analyze the document.
         public let analyzeDocumentModelVersion: String?
@@ -122,21 +111,6 @@ extension Textract {
     }
 
     public struct Block: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockType", required: false, type: .enum), 
-            AWSShapeMember(label: "ColumnIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "ColumnSpan", required: false, type: .integer), 
-            AWSShapeMember(label: "Confidence", required: false, type: .float), 
-            AWSShapeMember(label: "EntityTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Geometry", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Page", required: false, type: .integer), 
-            AWSShapeMember(label: "Relationships", required: false, type: .list), 
-            AWSShapeMember(label: "RowIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "RowSpan", required: false, type: .integer), 
-            AWSShapeMember(label: "SelectionStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Text", required: false, type: .string)
-        ]
 
         /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.  
         public let blockType: BlockType?
@@ -199,12 +173,6 @@ extension Textract {
     }
 
     public struct BoundingBox: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Height", required: false, type: .float), 
-            AWSShapeMember(label: "Left", required: false, type: .float), 
-            AWSShapeMember(label: "Top", required: false, type: .float), 
-            AWSShapeMember(label: "Width", required: false, type: .float)
-        ]
 
         /// The height of the bounding box as a ratio of the overall document page height.
         public let height: Float?
@@ -231,9 +199,6 @@ extension Textract {
     }
 
     public struct DetectDocumentTextRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Document", required: true, type: .structure)
-        ]
 
         /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. 
         public let document: Document
@@ -252,11 +217,6 @@ extension Textract {
     }
 
     public struct DetectDocumentTextResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Blocks", required: false, type: .list), 
-            AWSShapeMember(label: "DetectDocumentTextModelVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentMetadata", required: false, type: .structure)
-        ]
 
         /// An array of Block objects that contain the text that's detected in the document.
         public let blocks: [Block]?
@@ -278,10 +238,6 @@ extension Textract {
     }
 
     public struct Document: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bytes", required: false, type: .blob), 
-            AWSShapeMember(label: "S3Object", required: false, type: .structure)
-        ]
 
         /// A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. 
         public let bytes: Data?
@@ -306,9 +262,6 @@ extension Textract {
     }
 
     public struct DocumentLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Object", required: false, type: .structure)
-        ]
 
         /// The Amazon S3 bucket that contains the input document.
         public let s3Object: S3Object?
@@ -327,9 +280,6 @@ extension Textract {
     }
 
     public struct DocumentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pages", required: false, type: .integer)
-        ]
 
         /// The number of pages that are detected in the document.
         public let pages: Int?
@@ -344,10 +294,6 @@ extension Textract {
     }
 
     public struct Geometry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
-            AWSShapeMember(label: "Polygon", required: false, type: .list)
-        ]
 
         /// An axis-aligned coarse representation of the location of the recognized item on the document page.
         public let boundingBox: BoundingBox?
@@ -366,11 +312,6 @@ extension Textract {
     }
 
     public struct GetDocumentAnalysisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A unique identifier for the text-detection job. The JobId is returned from StartDocumentAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String
@@ -403,15 +344,6 @@ extension Textract {
     }
 
     public struct GetDocumentAnalysisResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyzeDocumentModelVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Blocks", required: false, type: .list), 
-            AWSShapeMember(label: "DocumentMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", required: false, type: .list)
-        ]
 
         public let analyzeDocumentModelVersion: String?
         /// The results of the text-analysis operation.
@@ -449,11 +381,6 @@ extension Textract {
     }
 
     public struct GetDocumentTextDetectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A unique identifier for the text detection job. The JobId is returned from StartDocumentTextDetection. A JobId value is only valid for 7 days.
         public let jobId: String
@@ -486,15 +413,6 @@ extension Textract {
     }
 
     public struct GetDocumentTextDetectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Blocks", required: false, type: .list), 
-            AWSShapeMember(label: "DetectDocumentTextModelVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Warnings", required: false, type: .list)
-        ]
 
         /// The results of the text-detection operation.
         public let blocks: [Block]?
@@ -532,11 +450,6 @@ extension Textract {
     }
 
     public struct HumanLoopActivationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopActivationConditionsEvaluationResults", required: false, type: .string), 
-            AWSShapeMember(label: "HumanLoopActivationReasons", required: false, type: .list), 
-            AWSShapeMember(label: "HumanLoopArn", required: false, type: .string)
-        ]
 
         /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public let humanLoopActivationConditionsEvaluationResults: String?
@@ -559,11 +472,6 @@ extension Textract {
     }
 
     public struct HumanLoopConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
-            AWSShapeMember(label: "HumanLoopName", required: true, type: .string)
-        ]
 
         /// Sets attributes of the input data.
         public let dataAttributes: HumanLoopDataAttributes?
@@ -594,9 +502,6 @@ extension Textract {
     }
 
     public struct HumanLoopDataAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentClassifiers", required: false, type: .list)
-        ]
 
         /// Sets whether the input image is free of personally identifiable information or adult content.
         public let contentClassifiers: [ContentClassifier]?
@@ -615,10 +520,6 @@ extension Textract {
     }
 
     public struct NotificationChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "SNSTopicArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic. 
         public let roleArn: String
@@ -646,10 +547,6 @@ extension Textract {
     }
 
     public struct Point: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "X", required: false, type: .float), 
-            AWSShapeMember(label: "Y", required: false, type: .float)
-        ]
 
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
@@ -668,10 +565,6 @@ extension Textract {
     }
 
     public struct Relationship: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ids", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
 
         /// An array of IDs for related blocks. You can get the type of the relationship from the Type element.
         public let ids: [String]?
@@ -690,11 +583,6 @@ extension Textract {
     }
 
     public struct S3Object: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
-        ]
 
         /// The name of the S3 bucket.
         public let bucket: String?
@@ -729,13 +617,6 @@ extension Textract {
     }
 
     public struct StartDocumentAnalysisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentLocation", required: true, type: .structure), 
-            AWSShapeMember(label: "FeatureTypes", required: true, type: .list), 
-            AWSShapeMember(label: "JobTag", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure)
-        ]
 
         /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
         public let clientRequestToken: String?
@@ -777,9 +658,6 @@ extension Textract {
     }
 
     public struct StartDocumentAnalysisResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string)
-        ]
 
         /// The identifier for the document text detection job. Use JobId to identify the job in a subsequent call to GetDocumentAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String?
@@ -794,12 +672,6 @@ extension Textract {
     }
 
     public struct StartDocumentTextDetectionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentLocation", required: true, type: .structure), 
-            AWSShapeMember(label: "JobTag", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure)
-        ]
 
         /// The idempotent token that's used to identify the start request. If you use the same token with multiple StartDocumentTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
         public let clientRequestToken: String?
@@ -837,9 +709,6 @@ extension Textract {
     }
 
     public struct StartDocumentTextDetectionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string)
-        ]
 
         /// The identifier of the text detection job for the document. Use JobId to identify the job in a subsequent call to GetDocumentTextDetection. A JobId value is only valid for 7 days.
         public let jobId: String?
@@ -854,10 +723,6 @@ extension Textract {
     }
 
     public struct Warning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "Pages", required: false, type: .list)
-        ]
 
         /// The error code for the warning.
         public let errorCode: String?

@@ -30,8 +30,8 @@ extension AugmentedAIRuntime {
     //MARK: Shapes
 
     public struct DeleteHumanLoopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
         /// The name of the human loop you want to delete.
@@ -61,8 +61,8 @@ extension AugmentedAIRuntime {
     }
 
     public struct DescribeHumanLoopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
 
         /// The name of the human loop.
@@ -84,17 +84,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct DescribeHumanLoopResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FailureCode", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
-            AWSShapeMember(label: "HumanLoopArn", required: true, type: .string), 
-            AWSShapeMember(label: "HumanLoopInput", required: true, type: .structure), 
-            AWSShapeMember(label: "HumanLoopName", required: true, type: .string), 
-            AWSShapeMember(label: "HumanLoopOutput", required: false, type: .structure), 
-            AWSShapeMember(label: "HumanLoopStatus", required: true, type: .enum)
-        ]
 
         /// The timestamp when Amazon Augmented AI created the human loop.
         public let creationTimestamp: TimeStamp
@@ -141,9 +130,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct HumanLoopActivationReason: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionsMatched", required: false, type: .boolean)
-        ]
 
         /// True if the specified conditions were matched to trigger the human loop.
         public let conditionsMatched: Bool?
@@ -158,10 +144,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct HumanLoopActivationResults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopActivationConditionsEvaluationResults", required: false, type: .string), 
-            AWSShapeMember(label: "HumanLoopActivationReason", required: false, type: .structure)
-        ]
 
         /// A copy of the human loop activation conditions of the flow definition, augmented with the results of evaluating those conditions on the input provided to the StartHumanLoop operation.
         public let humanLoopActivationConditionsEvaluationResults: String?
@@ -180,9 +162,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct HumanLoopInputContent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputContent", required: true, type: .string)
-        ]
 
         /// Serialized input from the human loop.
         public let inputContent: String
@@ -201,9 +180,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct HumanLoopOutputContent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputS3Uri", required: true, type: .string)
-        ]
 
         /// The location of the Amazon S3 object where Amazon Augmented AI stores your human loop output. The output is stored at the following location: s3://S3OutputPath/HumanLoopName/CreationTime/output.json.
         public let outputS3Uri: String
@@ -218,13 +194,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct HumanLoopSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
-            AWSShapeMember(label: "FlowDefinitionArn", required: false, type: .string), 
-            AWSShapeMember(label: "HumanLoopName", required: false, type: .string), 
-            AWSShapeMember(label: "HumanLoopStatus", required: false, type: .enum)
-        ]
 
         /// When Amazon Augmented AI created the human loop.
         public let creationTime: TimeStamp?
@@ -255,9 +224,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct HumanReviewDataAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentClassifiers", required: true, type: .list)
-        ]
 
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker may restrict the Amazon Mechanical Turk workers that can view your task based on this information.
         public let contentClassifiers: [ContentClassifier]
@@ -276,12 +242,12 @@ extension AugmentedAIRuntime {
     }
 
     public struct ListHumanLoopsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimeAfter", location: .querystring(locationName: "CreationTimeAfter"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreationTimeBefore", location: .querystring(locationName: "CreationTimeBefore"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "SortOrder", location: .querystring(locationName: "SortOrder"), required: false, type: .enum)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "creationTimeAfter", location: .querystring(locationName: "CreationTimeAfter")), 
+            AWSMemberEncoding(label: "creationTimeBefore", location: .querystring(locationName: "CreationTimeBefore")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "sortOrder", location: .querystring(locationName: "SortOrder"))
         ]
 
         /// (Optional) The timestamp of the date when you want the human loops to begin. For example, 1551000000.
@@ -320,10 +286,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct ListHumanLoopsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopSummaries", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of objects containing information about the human loops.
         public let humanLoopSummaries: [HumanLoopSummary]
@@ -342,12 +304,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct StartHumanLoopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
-            AWSShapeMember(label: "HumanLoopInput", required: true, type: .structure), 
-            AWSShapeMember(label: "HumanLoopName", required: true, type: .string)
-        ]
 
         /// Attributes of the data specified by the customer.
         public let dataAttributes: HumanReviewDataAttributes?
@@ -384,10 +340,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct StartHumanLoopResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopActivationResults", required: false, type: .structure), 
-            AWSShapeMember(label: "HumanLoopArn", required: false, type: .string)
-        ]
 
         /// An object containing information about the human loop activation.
         public let humanLoopActivationResults: HumanLoopActivationResults?
@@ -406,9 +358,6 @@ extension AugmentedAIRuntime {
     }
 
     public struct StopHumanLoopRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopName", required: true, type: .string)
-        ]
 
         /// The name of the human loop you want to stop.
         public let humanLoopName: String

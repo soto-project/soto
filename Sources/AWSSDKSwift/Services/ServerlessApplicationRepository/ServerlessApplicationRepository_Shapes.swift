@@ -24,10 +24,6 @@ extension ServerlessApplicationRepository {
     //MARK: Shapes
 
     public struct ApplicationDependencySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the nested application.
         public let applicationId: String
@@ -46,11 +42,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ApplicationPolicyStatement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", location: .body(locationName: "actions"), required: true, type: .list), 
-            AWSShapeMember(label: "Principals", location: .body(locationName: "principals"), required: true, type: .list), 
-            AWSShapeMember(label: "StatementId", location: .body(locationName: "statementId"), required: false, type: .string)
-        ]
 
         /// For the list of actions supported for this operation, see Application 
         ///  Permissions.
@@ -74,16 +65,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ApplicationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string)
-        ]
 
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
@@ -126,23 +107,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "LicenseBody", location: .body(locationName: "licenseBody"), required: false, type: .string), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
-        ]
 
         public let author: String
         public let description: String
@@ -198,21 +162,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "IsVerifiedAuthor", location: .body(locationName: "isVerifiedAuthor"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
-            AWSShapeMember(label: "VerifiedAuthorUrl", location: .body(locationName: "verifiedAuthorUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
-        ]
 
         public let applicationId: String?
         public let author: String?
@@ -262,13 +211,9 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateApplicationVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .uri(locationName: "semanticVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "semanticVersion", location: .uri(locationName: "semanticVersion"))
         ]
 
         public let applicationId: String
@@ -298,17 +243,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateApplicationVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "ParameterDefinitions", location: .body(locationName: "parameterDefinitions"), required: false, type: .list), 
-            AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: false, type: .list), 
-            AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
-        ]
 
         public let applicationId: String?
         public let creationTime: String?
@@ -346,20 +280,8 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateCloudFormationChangeSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Capabilities", location: .body(locationName: "capabilities"), required: false, type: .list), 
-            AWSShapeMember(label: "ChangeSetName", location: .body(locationName: "changeSetName"), required: false, type: .string), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "NotificationArns", location: .body(locationName: "notificationArns"), required: false, type: .list), 
-            AWSShapeMember(label: "ParameterOverrides", location: .body(locationName: "parameterOverrides"), required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypes", location: .body(locationName: "resourceTypes"), required: false, type: .list), 
-            AWSShapeMember(label: "RollbackConfiguration", location: .body(locationName: "rollbackConfiguration"), required: false, type: .structure), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "StackName", location: .body(locationName: "stackName"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -410,12 +332,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateCloudFormationChangeSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "ChangeSetId", location: .body(locationName: "changeSetId"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "StackId", location: .body(locationName: "stackId"), required: false, type: .string)
-        ]
 
         public let applicationId: String?
         public let changeSetId: String?
@@ -438,9 +354,8 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateCloudFormationTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -458,15 +373,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateCloudFormationTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
-        ]
 
         public let applicationId: String?
         public let creationTime: String?
@@ -498,8 +404,8 @@ extension ServerlessApplicationRepository {
     }
 
     public struct DeleteApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -514,8 +420,8 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetApplicationPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -530,9 +436,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetApplicationPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
-        ]
 
         public let statements: [ApplicationPolicyStatement]?
 
@@ -546,9 +449,9 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
         ]
 
         public let applicationId: String
@@ -566,21 +469,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "IsVerifiedAuthor", location: .body(locationName: "isVerifiedAuthor"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
-            AWSShapeMember(label: "VerifiedAuthorUrl", location: .body(locationName: "verifiedAuthorUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
-        ]
 
         public let applicationId: String?
         public let author: String?
@@ -630,9 +518,9 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetCloudFormationTemplateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "templateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "templateId", location: .uri(locationName: "templateId"))
         ]
 
         public let applicationId: String
@@ -650,15 +538,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetCloudFormationTemplateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
-        ]
 
         public let applicationId: String?
         public let creationTime: String?
@@ -690,11 +569,11 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationDependenciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
         ]
 
         public let applicationId: String
@@ -723,10 +602,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationDependenciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dependencies", location: .body(locationName: "dependencies"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
 
         public let dependencies: [ApplicationDependencySummary]?
         public let nextToken: String?
@@ -743,10 +618,10 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let applicationId: String
@@ -772,10 +647,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "Versions", location: .body(locationName: "versions"), required: false, type: .list)
-        ]
 
         public let nextToken: String?
         public let versions: [VersionSummary]?
@@ -792,9 +663,9 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         public let maxItems: Int?
@@ -817,10 +688,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Applications", location: .body(locationName: "applications"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
 
         public let applications: [ApplicationSummary]?
         public let nextToken: String?
@@ -837,21 +704,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ParameterDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedPattern", location: .body(locationName: "allowedPattern"), required: false, type: .string), 
-            AWSShapeMember(label: "AllowedValues", location: .body(locationName: "allowedValues"), required: false, type: .list), 
-            AWSShapeMember(label: "ConstraintDescription", location: .body(locationName: "constraintDescription"), required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", location: .body(locationName: "defaultValue"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxLength", location: .body(locationName: "maxLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "MaxValue", location: .body(locationName: "maxValue"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinLength", location: .body(locationName: "minLength"), required: false, type: .integer), 
-            AWSShapeMember(label: "MinValue", location: .body(locationName: "minValue"), required: false, type: .integer), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "NoEcho", location: .body(locationName: "noEcho"), required: false, type: .boolean), 
-            AWSShapeMember(label: "ReferencedByResources", location: .body(locationName: "referencedByResources"), required: true, type: .list), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
-        ]
 
         /// A regular expression that represents the patterns to allow for String types.
         public let allowedPattern: String?
@@ -931,10 +783,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ParameterValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string)
-        ]
 
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation
         ///  uses the default value that is specified in your template.
@@ -954,9 +802,8 @@ extension ServerlessApplicationRepository {
     }
 
     public struct PutApplicationPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -974,9 +821,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct PutApplicationPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
-        ]
 
         public let statements: [ApplicationPolicyStatement]?
 
@@ -990,10 +834,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct RollbackConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MonitoringTimeInMinutes", location: .body(locationName: "monitoringTimeInMinutes"), required: false, type: .integer), 
-            AWSShapeMember(label: "RollbackTriggers", location: .body(locationName: "rollbackTriggers"), required: false, type: .list)
-        ]
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
         ///   Data Type.
@@ -1014,10 +854,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct RollbackTrigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: true, type: .string)
-        ]
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
         ///   Data Type.
@@ -1038,10 +874,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", location: .body(locationName: "key"), required: true, type: .string), 
-            AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string)
-        ]
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation Tag
         ///   Data Type.
@@ -1064,14 +896,8 @@ extension ServerlessApplicationRepository {
     }
 
     public struct UpdateApplicationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
 
         public let applicationId: String
@@ -1104,21 +930,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct UpdateApplicationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: false, type: .string), 
-            AWSShapeMember(label: "Author", location: .body(locationName: "author"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "IsVerifiedAuthor", location: .body(locationName: "isVerifiedAuthor"), required: false, type: .boolean), 
-            AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
-            AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
-            AWSShapeMember(label: "VerifiedAuthorUrl", location: .body(locationName: "verifiedAuthorUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
-        ]
 
         public let applicationId: String?
         public let author: String?
@@ -1168,17 +979,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct Version: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string), 
-            AWSShapeMember(label: "ParameterDefinitions", location: .body(locationName: "parameterDefinitions"), required: true, type: .list), 
-            AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: true, type: .list), 
-            AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: true, type: .boolean), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
-            AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string)
-        ]
 
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
@@ -1250,12 +1050,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct VersionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .string), 
-            AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string)
-        ]
 
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String

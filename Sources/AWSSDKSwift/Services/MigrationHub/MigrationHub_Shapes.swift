@@ -38,11 +38,6 @@ extension MigrationHub {
     //MARK: Shapes
 
     public struct ApplicationState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp)
-        ]
 
         /// The configurationId from the Application Discovery Service that uniquely identifies an application.
         public let applicationId: String?
@@ -65,12 +60,6 @@ extension MigrationHub {
     }
 
     public struct AssociateCreatedArtifactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedArtifact", required: true, type: .structure), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) 
         public let createdArtifact: CreatedArtifact
@@ -115,12 +104,6 @@ extension MigrationHub {
     }
 
     public struct AssociateDiscoveredResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscoveredResource", required: true, type: .structure), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// Object representing a Resource.
         public let discoveredResource: DiscoveredResource
@@ -165,10 +148,6 @@ extension MigrationHub {
     }
 
     public struct CreateProgressUpdateStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "ProgressUpdateStreamName", required: true, type: .string)
-        ]
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -201,10 +180,6 @@ extension MigrationHub {
     }
 
     public struct CreatedArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
 
         /// A description that can be free-form text to record additional detail about the artifact for clarity or for later reference.
         public let description: String?
@@ -231,10 +206,6 @@ extension MigrationHub {
     }
 
     public struct DeleteProgressUpdateStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "ProgressUpdateStreamName", required: true, type: .string)
-        ]
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -267,9 +238,6 @@ extension MigrationHub {
     }
 
     public struct DescribeApplicationStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: true, type: .string)
-        ]
 
         /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
         public let applicationId: String
@@ -289,10 +257,6 @@ extension MigrationHub {
     }
 
     public struct DescribeApplicationStateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp)
-        ]
 
         /// Status of the application - Not Started, In-Progress, Complete.
         public let applicationStatus: ApplicationStatus?
@@ -311,10 +275,6 @@ extension MigrationHub {
     }
 
     public struct DescribeMigrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// The identifier given to the MigrationTask. Do not store personal data in this field. 
         public let migrationTaskName: String
@@ -342,9 +302,6 @@ extension MigrationHub {
     }
 
     public struct DescribeMigrationTaskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MigrationTask", required: false, type: .structure)
-        ]
 
         /// Object encapsulating information about the migration task.
         public let migrationTask: MigrationTask?
@@ -359,12 +316,6 @@ extension MigrationHub {
     }
 
     public struct DisassociateCreatedArtifactRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedArtifactName", required: true, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.)
         public let createdArtifactName: String
@@ -411,12 +362,6 @@ extension MigrationHub {
     }
 
     public struct DisassociateDiscoveredResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", required: true, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// ConfigurationId of the Application Discovery Service resource to be disassociated.
         public let configurationId: String
@@ -461,10 +406,6 @@ extension MigrationHub {
     }
 
     public struct DiscoveredResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationId", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
 
         /// The configurationId in Application Discovery Service that uniquely identifies the on-premise resource.
         public let configurationId: String
@@ -489,11 +430,6 @@ extension MigrationHub {
     }
 
     public struct ImportMigrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -533,11 +469,6 @@ extension MigrationHub {
     }
 
     public struct ListApplicationStatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The configurationIds from the Application Discovery Service that uniquely identifies your applications.
         public let applicationIds: [String]?
@@ -571,10 +502,6 @@ extension MigrationHub {
     }
 
     public struct ListApplicationStatesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationStateList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// A list of Applications that exist in Application Discovery Service.
         public let applicationStateList: [ApplicationState]?
@@ -593,12 +520,6 @@ extension MigrationHub {
     }
 
     public struct ListCreatedArtifactsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// Maximum number of results to be returned per page.
         public let maxResults: Int?
@@ -636,10 +557,6 @@ extension MigrationHub {
     }
 
     public struct ListCreatedArtifactsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedArtifactList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// List of created artifacts up to the maximum number of results specified in the request.
         public let createdArtifactList: [CreatedArtifact]?
@@ -658,12 +575,6 @@ extension MigrationHub {
     }
 
     public struct ListDiscoveredResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
-        ]
 
         /// The maximum number of results returned per page.
         public let maxResults: Int?
@@ -701,10 +612,6 @@ extension MigrationHub {
     }
 
     public struct ListDiscoveredResourcesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiscoveredResourceList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Returned list of discovered resources associated with the given MigrationTask.
         public let discoveredResourceList: [DiscoveredResource]?
@@ -723,11 +630,6 @@ extension MigrationHub {
     }
 
     public struct ListMigrationTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string)
-        ]
 
         /// Value to specify how many results are returned per page.
         public let maxResults: Int?
@@ -757,10 +659,6 @@ extension MigrationHub {
     }
 
     public struct ListMigrationTasksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MigrationTaskSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Lists the migration task's summary which includes: MigrationTaskName, ProgressPercent, ProgressUpdateStream, Status, and the UpdateDateTime for each task.
         public let migrationTaskSummaryList: [MigrationTaskSummary]?
@@ -779,10 +677,6 @@ extension MigrationHub {
     }
 
     public struct ListProgressUpdateStreamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// Filter to limit the maximum number of results to list per page.
         public let maxResults: Int?
@@ -806,10 +700,6 @@ extension MigrationHub {
     }
 
     public struct ListProgressUpdateStreamsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStreamSummaryList", required: false, type: .list)
-        ]
 
         /// If there are more streams created than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
         public let nextToken: String?
@@ -828,13 +718,6 @@ extension MigrationHub {
     }
 
     public struct MigrationTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MigrationTaskName", required: false, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceAttributeList", required: false, type: .list), 
-            AWSShapeMember(label: "Task", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateDateTime", required: false, type: .timestamp)
-        ]
 
         /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String?
@@ -865,14 +748,6 @@ extension MigrationHub {
     }
 
     public struct MigrationTaskSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MigrationTaskName", required: false, type: .string), 
-            AWSShapeMember(label: "ProgressPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusDetail", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateDateTime", required: false, type: .timestamp)
-        ]
 
         /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String?
@@ -907,12 +782,6 @@ extension MigrationHub {
     }
 
     public struct NotifyApplicationStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "UpdateDateTime", required: false, type: .timestamp)
-        ]
 
         /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
         public let applicationId: String
@@ -952,14 +821,6 @@ extension MigrationHub {
     }
 
     public struct NotifyMigrationTaskStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "NextUpdateSeconds", required: true, type: .integer), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string), 
-            AWSShapeMember(label: "Task", required: true, type: .structure), 
-            AWSShapeMember(label: "UpdateDateTime", required: true, type: .timestamp)
-        ]
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -1013,9 +874,6 @@ extension MigrationHub {
     }
 
     public struct ProgressUpdateStreamSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProgressUpdateStreamName", required: false, type: .string)
-        ]
 
         /// The name of the ProgressUpdateStream. Do not store personal data in this field. 
         public let progressUpdateStreamName: String?
@@ -1030,12 +888,6 @@ extension MigrationHub {
     }
 
     public struct PutResourceAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "MigrationTaskName", required: true, type: .string), 
-            AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceAttributeList", required: true, type: .list)
-        ]
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -1084,10 +936,6 @@ extension MigrationHub {
     }
 
     public struct ResourceAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// Type of resource.
         public let `type`: ResourceAttributeType
@@ -1111,11 +959,6 @@ extension MigrationHub {
     }
 
     public struct Task: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProgressPercent", required: false, type: .integer), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "StatusDetail", required: false, type: .string)
-        ]
 
         /// Indication of the percentage completion of the task.
         public let progressPercent: Int?

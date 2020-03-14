@@ -144,10 +144,6 @@ extension Firehose {
     //MARK: Shapes
 
     public struct BufferingHints: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
-        ]
 
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300. This parameter is optional but if you specify a value for it, you must also specify a value for SizeInMBs, and vice versa.
         public let intervalInSeconds: Int?
@@ -173,11 +169,6 @@ extension Firehose {
     }
 
     public struct CloudWatchLoggingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "LogStreamName", required: false, type: .string)
-        ]
 
         /// Enables or disables CloudWatch logging.
         public let enabled: Bool?
@@ -200,11 +191,6 @@ extension Firehose {
     }
 
     public struct CopyCommand: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyOptions", required: false, type: .string), 
-            AWSShapeMember(label: "DataTableColumns", required: false, type: .string), 
-            AWSShapeMember(label: "DataTableName", required: true, type: .string)
-        ]
 
         /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of Amazon Redshift COPY command. Some possible examples that would apply to Kinesis Data Firehose are as follows:  delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop.  delimiter '|' - fields are delimited with "|" (this is the default delimiter).  delimiter '|' escape - the delimiter should be escaped.  fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table.  JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see Amazon Redshift COPY command examples.
         public let copyOptions: String?
@@ -231,17 +217,6 @@ extension Firehose {
     }
 
     public struct CreateDeliveryStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamEncryptionConfigurationInput", required: false, type: .structure), 
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryStreamType", required: false, type: .enum), 
-            AWSShapeMember(label: "ElasticsearchDestinationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ExtendedS3DestinationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisStreamSourceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RedshiftDestinationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SplunkDestinationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
 
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
@@ -305,9 +280,6 @@ extension Firehose {
     }
 
     public struct CreateDeliveryStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamARN", required: false, type: .string)
-        ]
 
         /// The ARN of the delivery stream.
         public let deliveryStreamARN: String?
@@ -322,12 +294,6 @@ extension Firehose {
     }
 
     public struct DataFormatConversionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "InputFormatConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputFormatConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SchemaConfiguration", required: false, type: .structure)
-        ]
 
         /// Defaults to true. Set it to false if you want to disable format conversion while preserving the configuration details.
         public let enabled: Bool?
@@ -360,10 +326,6 @@ extension Firehose {
     }
 
     public struct DeleteDeliveryStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowForceDelete", required: false, type: .boolean), 
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
-        ]
 
         /// Set this to true if you want to delete the delivery stream even if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the RevokeGrant operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the grant happens due to an AWS KMS issue, Kinesis Data Firehose keeps retrying the delete operation. The default value is false.
         public let allowForceDelete: Bool?
@@ -396,20 +358,6 @@ extension Firehose {
     }
 
     public struct DeliveryStreamDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeliveryStreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryStreamEncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryStreamStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "DeliveryStreamType", required: true, type: .enum), 
-            AWSShapeMember(label: "Destinations", required: true, type: .list), 
-            AWSShapeMember(label: "FailureDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "HasMoreDestinations", required: true, type: .boolean), 
-            AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Source", required: false, type: .structure), 
-            AWSShapeMember(label: "VersionId", required: true, type: .string)
-        ]
 
         /// The date and time that the delivery stream was created.
         public let createTimestamp: TimeStamp?
@@ -468,12 +416,6 @@ extension Firehose {
     }
 
     public struct DeliveryStreamEncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "KeyARN", required: false, type: .string), 
-            AWSShapeMember(label: "KeyType", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// Provides details in case one of the following operations fails due to an error related to KMS: CreateDeliveryStream, DeleteDeliveryStream, StartDeliveryStreamEncryption, StopDeliveryStreamEncryption.
         public let failureDescription: FailureDescription?
@@ -500,10 +442,6 @@ extension Firehose {
     }
 
     public struct DeliveryStreamEncryptionConfigurationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyARN", required: false, type: .string), 
-            AWSShapeMember(label: "KeyType", required: true, type: .enum)
-        ]
 
         /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to AWS_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
         public let keyARN: String?
@@ -528,11 +466,6 @@ extension Firehose {
     }
 
     public struct DescribeDeliveryStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "ExclusiveStartDestinationId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -565,9 +498,6 @@ extension Firehose {
     }
 
     public struct DescribeDeliveryStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamDescription", required: true, type: .structure)
-        ]
 
         /// Information about the delivery stream.
         public let deliveryStreamDescription: DeliveryStreamDescription
@@ -582,10 +512,6 @@ extension Firehose {
     }
 
     public struct Deserializer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HiveJsonSerDe", required: false, type: .structure), 
-            AWSShapeMember(label: "OpenXJsonSerDe", required: false, type: .structure)
-        ]
 
         /// The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the OpenX SerDe.
         public let hiveJsonSerDe: HiveJsonSerDe?
@@ -609,14 +535,6 @@ extension Firehose {
     }
 
     public struct DestinationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationId", required: true, type: .string), 
-            AWSShapeMember(label: "ElasticsearchDestinationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "ExtendedS3DestinationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "RedshiftDestinationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "SplunkDestinationDescription", required: false, type: .structure)
-        ]
 
         /// The ID of the destination.
         public let destinationId: String
@@ -651,10 +569,6 @@ extension Firehose {
     }
 
     public struct ElasticsearchBufferingHints: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
-        ]
 
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
@@ -680,20 +594,6 @@ extension Firehose {
     }
 
     public struct ElasticsearchDestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "DomainARN", required: false, type: .string), 
-            AWSShapeMember(label: "IndexName", required: true, type: .string), 
-            AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3Configuration", required: true, type: .structure), 
-            AWSShapeMember(label: "TypeName", required: false, type: .string)
-        ]
 
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -772,20 +672,6 @@ extension Firehose {
     }
 
     public struct ElasticsearchDestinationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "DomainARN", required: false, type: .string), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "TypeName", required: false, type: .string)
-        ]
 
         /// The buffering options.
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -844,19 +730,6 @@ extension Firehose {
     }
 
     public struct ElasticsearchDestinationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "DomainARN", required: false, type: .string), 
-            AWSShapeMember(label: "IndexName", required: false, type: .string), 
-            AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "S3Update", required: false, type: .structure), 
-            AWSShapeMember(label: "TypeName", required: false, type: .string)
-        ]
 
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used. 
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -931,9 +804,6 @@ extension Firehose {
     }
 
     public struct ElasticsearchRetryOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
-        ]
 
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int?
@@ -953,10 +823,6 @@ extension Firehose {
     }
 
     public struct EncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSEncryptionConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "NoEncryptionConfig", required: false, type: .enum)
-        ]
 
         /// The encryption key.
         public let kMSEncryptionConfig: KMSEncryptionConfig?
@@ -979,20 +845,6 @@ extension Firehose {
     }
 
     public struct ExtendedS3DestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "S3BackupConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum)
-        ]
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -1065,20 +917,6 @@ extension Firehose {
     }
 
     public struct ExtendedS3DestinationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "BufferingHints", required: true, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
-            AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "S3BackupDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum)
-        ]
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -1137,20 +975,6 @@ extension Firehose {
     }
 
     public struct ExtendedS3DestinationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3BackupUpdate", required: false, type: .structure)
-        ]
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String?
@@ -1223,10 +1047,6 @@ extension Firehose {
     }
 
     public struct FailureDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Details", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// A message providing details about the error that caused the failure.
         public let details: String
@@ -1245,9 +1065,6 @@ extension Firehose {
     }
 
     public struct HiveJsonSerDe: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimestampFormats", required: false, type: .list)
-        ]
 
         /// Indicates how you want Kinesis Data Firehose to parse the date and timestamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see Class DateTimeFormat. You can also use the special value millis to parse timestamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
         public let timestampFormats: [String]?
@@ -1268,9 +1085,6 @@ extension Firehose {
     }
 
     public struct InputFormatConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deserializer", required: false, type: .structure)
-        ]
 
         /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
         public let deserializer: Deserializer?
@@ -1289,9 +1103,6 @@ extension Firehose {
     }
 
     public struct KMSEncryptionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AWSKMSKeyARN", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let aWSKMSKeyARN: String
@@ -1312,10 +1123,6 @@ extension Firehose {
     }
 
     public struct KinesisStreamSourceConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KinesisStreamARN", required: true, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// The ARN of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String
@@ -1343,11 +1150,6 @@ extension Firehose {
     }
 
     public struct KinesisStreamSourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStartTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "KinesisStreamARN", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting with this timestamp.
         public let deliveryStartTimestamp: TimeStamp?
@@ -1370,11 +1172,6 @@ extension Firehose {
     }
 
     public struct ListDeliveryStreamsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamType", required: false, type: .enum), 
-            AWSShapeMember(label: "ExclusiveStartDeliveryStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
 
         /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.   This parameter is optional. If this parameter is omitted, delivery streams of all types are returned.
         public let deliveryStreamType: DeliveryStreamType?
@@ -1405,10 +1202,6 @@ extension Firehose {
     }
 
     public struct ListDeliveryStreamsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamNames", required: true, type: .list), 
-            AWSShapeMember(label: "HasMoreDeliveryStreams", required: true, type: .boolean)
-        ]
 
         /// The names of the delivery streams.
         public let deliveryStreamNames: [String]
@@ -1427,11 +1220,6 @@ extension Firehose {
     }
 
     public struct ListTagsForDeliveryStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "ExclusiveStartTagKey", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
-        ]
 
         /// The name of the delivery stream whose tags you want to list.
         public let deliveryStreamName: String
@@ -1464,10 +1252,6 @@ extension Firehose {
     }
 
     public struct ListTagsForDeliveryStreamOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HasMoreTags", required: true, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// If this is true in the response, more tags are available. To list the remaining tags, set ExclusiveStartTagKey to the key of the last tag returned and call ListTagsForDeliveryStream again.
         public let hasMoreTags: Bool
@@ -1486,11 +1270,6 @@ extension Firehose {
     }
 
     public struct OpenXJsonSerDe: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaseInsensitive", required: false, type: .boolean), 
-            AWSShapeMember(label: "ColumnToJsonKeyMappings", required: false, type: .map), 
-            AWSShapeMember(label: "ConvertDotsInJsonKeysToUnderscores", required: false, type: .boolean)
-        ]
 
         /// When set to true, which is the default, Kinesis Data Firehose converts JSON keys to lowercase before deserializing them.
         public let caseInsensitive: Bool?
@@ -1520,18 +1299,6 @@ extension Firehose {
     }
 
     public struct OrcSerDe: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockSizeBytes", required: false, type: .integer), 
-            AWSShapeMember(label: "BloomFilterColumns", required: false, type: .list), 
-            AWSShapeMember(label: "BloomFilterFalsePositiveProbability", required: false, type: .double), 
-            AWSShapeMember(label: "Compression", required: false, type: .enum), 
-            AWSShapeMember(label: "DictionaryKeyThreshold", required: false, type: .double), 
-            AWSShapeMember(label: "EnablePadding", required: false, type: .boolean), 
-            AWSShapeMember(label: "FormatVersion", required: false, type: .enum), 
-            AWSShapeMember(label: "PaddingTolerance", required: false, type: .double), 
-            AWSShapeMember(label: "RowIndexStride", required: false, type: .integer), 
-            AWSShapeMember(label: "StripeSizeBytes", required: false, type: .integer)
-        ]
 
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
         public let blockSizeBytes: Int?
@@ -1597,9 +1364,6 @@ extension Firehose {
     }
 
     public struct OutputFormatConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Serializer", required: false, type: .structure)
-        ]
 
         /// Specifies which serializer to use. You can choose either the ORC SerDe or the Parquet SerDe. If both are non-null, the server rejects the request.
         public let serializer: Serializer?
@@ -1618,14 +1382,6 @@ extension Firehose {
     }
 
     public struct ParquetSerDe: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockSizeBytes", required: false, type: .integer), 
-            AWSShapeMember(label: "Compression", required: false, type: .enum), 
-            AWSShapeMember(label: "EnableDictionaryCompression", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxPaddingBytes", required: false, type: .integer), 
-            AWSShapeMember(label: "PageSizeBytes", required: false, type: .integer), 
-            AWSShapeMember(label: "WriterVersion", required: false, type: .enum)
-        ]
 
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
         public let blockSizeBytes: Int?
@@ -1666,10 +1422,6 @@ extension Firehose {
     }
 
     public struct ProcessingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Processors", required: false, type: .list)
-        ]
 
         /// Enables or disables data processing.
         public let enabled: Bool?
@@ -1694,10 +1446,6 @@ extension Firehose {
     }
 
     public struct Processor: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
 
         /// The processor parameters.
         public let parameters: [ProcessorParameter]?
@@ -1722,10 +1470,6 @@ extension Firehose {
     }
 
     public struct ProcessorParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterName", required: true, type: .enum), 
-            AWSShapeMember(label: "ParameterValue", required: true, type: .string)
-        ]
 
         /// The name of the parameter.
         public let parameterName: ProcessorParameterName
@@ -1749,10 +1493,6 @@ extension Firehose {
     }
 
     public struct PutRecordBatchInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "Records", required: true, type: .list)
-        ]
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -1782,11 +1522,6 @@ extension Firehose {
     }
 
     public struct PutRecordBatchOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "FailedPutCount", required: true, type: .integer), 
-            AWSShapeMember(label: "RequestResponses", required: true, type: .list)
-        ]
 
         /// Indicates whether server-side encryption (SSE) was enabled during this operation.
         public let encrypted: Bool?
@@ -1809,11 +1544,6 @@ extension Firehose {
     }
 
     public struct PutRecordBatchResponseEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "RecordId", required: false, type: .string)
-        ]
 
         /// The error code for an individual record result.
         public let errorCode: String?
@@ -1836,10 +1566,6 @@ extension Firehose {
     }
 
     public struct PutRecordInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "Record", required: true, type: .structure)
-        ]
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -1865,10 +1591,6 @@ extension Firehose {
     }
 
     public struct PutRecordOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "RecordId", required: true, type: .string)
-        ]
 
         /// Indicates whether server-side encryption (SSE) was enabled during this operation.
         public let encrypted: Bool?
@@ -1887,9 +1609,6 @@ extension Firehose {
     }
 
     public struct Record: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: true, type: .blob)
-        ]
 
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB.
         public let data: Data
@@ -1909,19 +1628,6 @@ extension Firehose {
     }
 
     public struct RedshiftDestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterJDBCURL", required: true, type: .string), 
-            AWSShapeMember(label: "CopyCommand", required: true, type: .structure), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "S3BackupConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3Configuration", required: true, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// The CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -1991,18 +1697,6 @@ extension Firehose {
     }
 
     public struct RedshiftDestinationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterJDBCURL", required: true, type: .string), 
-            AWSShapeMember(label: "CopyCommand", required: true, type: .structure), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "S3BackupDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3DestinationDescription", required: true, type: .structure), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2053,19 +1747,6 @@ extension Firehose {
     }
 
     public struct RedshiftDestinationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterJDBCURL", required: false, type: .string), 
-            AWSShapeMember(label: "CopyCommand", required: false, type: .structure), 
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3BackupUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "S3Update", required: false, type: .structure), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2135,9 +1816,6 @@ extension Firehose {
     }
 
     public struct RedshiftRetryOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
-        ]
 
         /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public let durationInSeconds: Int?
@@ -2157,16 +1835,6 @@ extension Firehose {
     }
 
     public struct S3DestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -2220,16 +1888,6 @@ extension Firehose {
     }
 
     public struct S3DestinationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
-            AWSShapeMember(label: "BufferingHints", required: true, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -2272,16 +1930,6 @@ extension Firehose {
     }
 
     public struct S3DestinationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
-            AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string)
-        ]
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String?
@@ -2335,14 +1983,6 @@ extension Firehose {
     }
 
     public struct SchemaConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS account ID is used by default.
         public let catalogId: String?
@@ -2386,10 +2026,6 @@ extension Firehose {
     }
 
     public struct Serializer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrcSerDe", required: false, type: .structure), 
-            AWSShapeMember(label: "ParquetSerDe", required: false, type: .structure)
-        ]
 
         /// A serializer to use for converting data to the ORC format before storing it in Amazon S3. For more information, see Apache ORC.
         public let orcSerDe: OrcSerDe?
@@ -2413,9 +2049,6 @@ extension Firehose {
     }
 
     public struct SourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KinesisStreamSourceDescription", required: false, type: .structure)
-        ]
 
         /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
@@ -2430,17 +2063,6 @@ extension Firehose {
     }
 
     public struct SplunkDestinationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "HECAcknowledgmentTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HECEndpoint", required: true, type: .string), 
-            AWSShapeMember(label: "HECEndpointType", required: true, type: .enum), 
-            AWSShapeMember(label: "HECToken", required: true, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3Configuration", required: true, type: .structure)
-        ]
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2495,17 +2117,6 @@ extension Firehose {
     }
 
     public struct SplunkDestinationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "HECAcknowledgmentTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HECEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "HECEndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "HECToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure)
-        ]
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2552,17 +2163,6 @@ extension Firehose {
     }
 
     public struct SplunkDestinationUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "HECAcknowledgmentTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HECEndpoint", required: false, type: .string), 
-            AWSShapeMember(label: "HECEndpointType", required: false, type: .enum), 
-            AWSShapeMember(label: "HECToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeMember(label: "S3Update", required: false, type: .structure)
-        ]
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2617,9 +2217,6 @@ extension Firehose {
     }
 
     public struct SplunkRetryOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
-        ]
 
         /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
         public let durationInSeconds: Int?
@@ -2639,10 +2236,6 @@ extension Firehose {
     }
 
     public struct StartDeliveryStreamEncryptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamEncryptionConfigurationInput", required: false, type: .structure), 
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
-        ]
 
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
@@ -2676,9 +2269,6 @@ extension Firehose {
     }
 
     public struct StopDeliveryStreamEncryptionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
-        ]
 
         /// The name of the delivery stream for which you want to disable server-side encryption (SSE).
         public let deliveryStreamName: String
@@ -2707,10 +2297,6 @@ extension Firehose {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
 
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let key: String
@@ -2736,10 +2322,6 @@ extension Firehose {
     }
 
     public struct TagDeliveryStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
 
         /// The name of the delivery stream to which you want to add the tags.
         public let deliveryStreamName: String
@@ -2777,10 +2359,6 @@ extension Firehose {
     }
 
     public struct UntagDeliveryStreamInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -2819,15 +2397,6 @@ extension Firehose {
     }
 
     public struct UpdateDestinationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CurrentDeliveryStreamVersionId", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationId", required: true, type: .string), 
-            AWSShapeMember(label: "ElasticsearchDestinationUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "ExtendedS3DestinationUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "RedshiftDestinationUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "SplunkDestinationUpdate", required: false, type: .structure)
-        ]
 
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
         public let currentDeliveryStreamVersionId: String

@@ -38,10 +38,6 @@ extension CloudHSM {
     //MARK: Shapes
 
     public struct AddTagsToResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
         public let resourceArn: String
@@ -67,9 +63,6 @@ extension CloudHSM {
     }
 
     public struct AddTagsToResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
 
         /// The status of the operation.
         public let status: String
@@ -84,9 +77,6 @@ extension CloudHSM {
     }
 
     public struct CreateHapgRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Label", required: true, type: .string)
-        ]
 
         /// The label of the new high-availability partition group.
         public let label: String
@@ -105,9 +95,6 @@ extension CloudHSM {
     }
 
     public struct CreateHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: false, type: .string)
-        ]
 
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -122,15 +109,15 @@ extension CloudHSM {
     }
 
     public struct CreateHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "ClientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
-            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: true, type: .string), 
-            AWSShapeMember(label: "SshKey", location: .body(locationName: "SshKey"), required: true, type: .string), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionType", location: .body(locationName: "SubscriptionType"), required: true, type: .enum), 
-            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .body(locationName: "ClientToken")), 
+            AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
+            AWSMemberEncoding(label: "externalId", location: .body(locationName: "ExternalId")), 
+            AWSMemberEncoding(label: "iamRoleArn", location: .body(locationName: "IamRoleArn")), 
+            AWSMemberEncoding(label: "sshKey", location: .body(locationName: "SshKey")), 
+            AWSMemberEncoding(label: "subnetId", location: .body(locationName: "SubnetId")), 
+            AWSMemberEncoding(label: "subscriptionType", location: .body(locationName: "SubscriptionType")), 
+            AWSMemberEncoding(label: "syslogIp", location: .body(locationName: "SyslogIp"))
         ]
 
         /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
@@ -183,9 +170,6 @@ extension CloudHSM {
     }
 
     public struct CreateHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmArn", required: false, type: .string)
-        ]
 
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -200,10 +184,6 @@ extension CloudHSM {
     }
 
     public struct CreateLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: true, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string)
-        ]
 
         /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
         public let certificate: String
@@ -229,9 +209,6 @@ extension CloudHSM {
     }
 
     public struct CreateLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: false, type: .string)
-        ]
 
         /// The ARN of the client.
         public let clientArn: String?
@@ -246,9 +223,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHapgRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: true, type: .string)
-        ]
 
         /// The ARN of the high-availability partition group to delete.
         public let hapgArn: String
@@ -267,9 +241,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
 
         /// The status of the action.
         public let status: String
@@ -284,8 +255,8 @@ extension CloudHSM {
     }
 
     public struct DeleteHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hsmArn", location: .body(locationName: "HsmArn"))
         ]
 
         /// The ARN of the HSM to delete.
@@ -305,9 +276,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
 
         /// The status of the operation.
         public let status: String
@@ -322,9 +290,6 @@ extension CloudHSM {
     }
 
     public struct DeleteLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: true, type: .string)
-        ]
 
         /// The ARN of the client to delete.
         public let clientArn: String
@@ -343,9 +308,6 @@ extension CloudHSM {
     }
 
     public struct DeleteLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
 
         /// The status of the action.
         public let status: String
@@ -360,9 +322,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHapgRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: true, type: .string)
-        ]
 
         /// The ARN of the high-availability partition group to describe.
         public let hapgArn: String
@@ -381,17 +340,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: false, type: .string), 
-            AWSShapeMember(label: "HapgSerial", required: false, type: .string), 
-            AWSShapeMember(label: "HsmsLastActionFailed", required: false, type: .list), 
-            AWSShapeMember(label: "HsmsPendingDeletion", required: false, type: .list), 
-            AWSShapeMember(label: "HsmsPendingRegistration", required: false, type: .list), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
 
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -435,10 +383,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmArn", required: false, type: .string), 
-            AWSShapeMember(label: "HsmSerialNumber", required: false, type: .string)
-        ]
 
         /// The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be specified.
         public let hsmArn: String?
@@ -462,29 +406,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "EniId", required: false, type: .string), 
-            AWSShapeMember(label: "EniIp", required: false, type: .string), 
-            AWSShapeMember(label: "HsmArn", required: false, type: .string), 
-            AWSShapeMember(label: "HsmType", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Partitions", required: false, type: .list), 
-            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "ServerCertLastUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "ServerCertUri", required: false, type: .string), 
-            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SshKeyLastUpdated", required: false, type: .string), 
-            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionEndDate", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionStartDate", required: false, type: .string), 
-            AWSShapeMember(label: "SubscriptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "VendorName", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string)
-        ]
 
         /// The Availability Zone that the HSM is in.
         public let availabilityZone: String?
@@ -578,10 +499,6 @@ extension CloudHSM {
     }
 
     public struct DescribeLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "ClientArn", required: false, type: .string)
-        ]
 
         /// The certificate fingerprint.
         public let certificateFingerprint: String?
@@ -605,13 +522,6 @@ extension CloudHSM {
     }
 
     public struct DescribeLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "ClientArn", required: false, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string)
-        ]
 
         /// The certificate installed on the HSMs used by this client.
         public let certificate: String?
@@ -642,11 +552,6 @@ extension CloudHSM {
     }
 
     public struct GetConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: true, type: .string), 
-            AWSShapeMember(label: "ClientVersion", required: true, type: .enum), 
-            AWSShapeMember(label: "HapgList", required: true, type: .list)
-        ]
 
         /// The ARN of the client.
         public let clientArn: String
@@ -676,11 +581,6 @@ extension CloudHSM {
     }
 
     public struct GetConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigCred", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigFile", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigType", required: false, type: .string)
-        ]
 
         /// The certificate file containing the server.pem files of the HSMs.
         public let configCred: String?
@@ -711,9 +611,6 @@ extension CloudHSM {
     }
 
     public struct ListAvailableZonesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AZList", required: false, type: .list)
-        ]
 
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public let aZList: [String]?
@@ -728,9 +625,6 @@ extension CloudHSM {
     }
 
     public struct ListHapgsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
         public let nextToken: String?
@@ -749,10 +643,6 @@ extension CloudHSM {
     }
 
     public struct ListHapgsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of high-availability partition groups.
         public let hapgList: [String]
@@ -771,9 +661,6 @@ extension CloudHSM {
     }
 
     public struct ListHsmsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
         public let nextToken: String?
@@ -792,10 +679,6 @@ extension CloudHSM {
     }
 
     public struct ListHsmsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of ARNs that identify the HSMs.
         public let hsmList: [String]?
@@ -814,9 +697,6 @@ extension CloudHSM {
     }
 
     public struct ListLunaClientsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
         public let nextToken: String?
@@ -835,10 +715,6 @@ extension CloudHSM {
     }
 
     public struct ListLunaClientsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientList", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// The list of clients.
         public let clientList: [String]
@@ -857,9 +733,6 @@ extension CloudHSM {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
@@ -878,9 +751,6 @@ extension CloudHSM {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: true, type: .list)
-        ]
 
         /// One or more tags.
         public let tagList: [Tag]
@@ -895,11 +765,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHapgRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: true, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list)
-        ]
 
         /// The ARN of the high-availability partition group to modify.
         public let hapgArn: String
@@ -930,9 +795,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHapgResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HapgArn", required: false, type: .string)
-        ]
 
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -947,13 +809,13 @@ extension CloudHSM {
     }
 
     public struct ModifyHsmRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
-            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
-            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: false, type: .string), 
-            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
+            AWSMemberEncoding(label: "externalId", location: .body(locationName: "ExternalId")), 
+            AWSMemberEncoding(label: "hsmArn", location: .body(locationName: "HsmArn")), 
+            AWSMemberEncoding(label: "iamRoleArn", location: .body(locationName: "IamRoleArn")), 
+            AWSMemberEncoding(label: "subnetId", location: .body(locationName: "SubnetId")), 
+            AWSMemberEncoding(label: "syslogIp", location: .body(locationName: "SyslogIp"))
         ]
 
         /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.
@@ -998,9 +860,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHsmResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HsmArn", required: false, type: .string)
-        ]
 
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -1015,10 +874,6 @@ extension CloudHSM {
     }
 
     public struct ModifyLunaClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: true, type: .string), 
-            AWSShapeMember(label: "ClientArn", required: true, type: .string)
-        ]
 
         /// The new certificate for the client.
         public let certificate: String
@@ -1044,9 +899,6 @@ extension CloudHSM {
     }
 
     public struct ModifyLunaClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientArn", required: false, type: .string)
-        ]
 
         /// The ARN of the client.
         public let clientArn: String?
@@ -1061,10 +913,6 @@ extension CloudHSM {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list)
-        ]
 
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
@@ -1091,9 +939,6 @@ extension CloudHSM {
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string)
-        ]
 
         /// The status of the operation.
         public let status: String
@@ -1108,10 +953,6 @@ extension CloudHSM {
     }
 
     public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string)
-        ]
 
         /// The key of the tag.
         public let key: String

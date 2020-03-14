@@ -14,6 +14,7 @@ public enum ShapeEncoding {
     case list(member: String)
     case flatMap(key: String, value: String)
     case map(entry: String, key: String, value: String)
+    case blob
 }
 
 public struct Member {

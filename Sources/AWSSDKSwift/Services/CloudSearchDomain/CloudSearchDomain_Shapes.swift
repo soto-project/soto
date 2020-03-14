@@ -23,10 +23,6 @@ extension CloudSearchDomain {
     //MARK: Shapes
 
     public struct Bucket: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "count", required: false, type: .long), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
 
         /// The number of hits that contain the facet value in the specified facet field.
         public let count: Int64?
@@ -45,9 +41,6 @@ extension CloudSearchDomain {
     }
 
     public struct BucketInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "buckets", required: false, type: .list)
-        ]
 
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
@@ -62,9 +55,6 @@ extension CloudSearchDomain {
     }
 
     public struct DocumentServiceWarning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
 
         /// The description for a warning returned by the document service.
         public let message: String?
@@ -79,16 +69,6 @@ extension CloudSearchDomain {
     }
 
     public struct FieldStats: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "count", required: false, type: .long), 
-            AWSShapeMember(label: "max", required: false, type: .string), 
-            AWSShapeMember(label: "mean", required: false, type: .string), 
-            AWSShapeMember(label: "min", required: false, type: .string), 
-            AWSShapeMember(label: "missing", required: false, type: .long), 
-            AWSShapeMember(label: "stddev", required: false, type: .double), 
-            AWSShapeMember(label: "sum", required: false, type: .double), 
-            AWSShapeMember(label: "sumOfSquares", required: false, type: .double)
-        ]
 
         /// The number of documents that contain a value in the specified field in the result set.
         public let count: Int64?
@@ -131,12 +111,6 @@ extension CloudSearchDomain {
     }
 
     public struct Hit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exprs", required: false, type: .map), 
-            AWSShapeMember(label: "fields", required: false, type: .map), 
-            AWSShapeMember(label: "highlights", required: false, type: .map), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
 
         /// The expressions returned from a document that matches the search request.
         public let exprs: [String: String]?
@@ -163,12 +137,6 @@ extension CloudSearchDomain {
     }
 
     public struct Hits: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cursor", required: false, type: .string), 
-            AWSShapeMember(label: "found", required: false, type: .long), 
-            AWSShapeMember(label: "hit", required: false, type: .list), 
-            AWSShapeMember(label: "start", required: false, type: .long)
-        ]
 
         /// A cursor that can be used to retrieve the next set of matching documents when you want to page through a large result set.
         public let cursor: String?
@@ -195,21 +163,21 @@ extension CloudSearchDomain {
     }
 
     public struct SearchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cursor", location: .querystring(locationName: "cursor"), required: false, type: .string), 
-            AWSShapeMember(label: "expr", location: .querystring(locationName: "expr"), required: false, type: .string), 
-            AWSShapeMember(label: "facet", location: .querystring(locationName: "facet"), required: false, type: .string), 
-            AWSShapeMember(label: "filterQuery", location: .querystring(locationName: "fq"), required: false, type: .string), 
-            AWSShapeMember(label: "highlight", location: .querystring(locationName: "highlight"), required: false, type: .string), 
-            AWSShapeMember(label: "partial", location: .querystring(locationName: "partial"), required: false, type: .boolean), 
-            AWSShapeMember(label: "query", location: .querystring(locationName: "q"), required: true, type: .string), 
-            AWSShapeMember(label: "queryOptions", location: .querystring(locationName: "q.options"), required: false, type: .string), 
-            AWSShapeMember(label: "queryParser", location: .querystring(locationName: "q.parser"), required: false, type: .enum), 
-            AWSShapeMember(label: "return", location: .querystring(locationName: "return"), required: false, type: .string), 
-            AWSShapeMember(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
-            AWSShapeMember(label: "sort", location: .querystring(locationName: "sort"), required: false, type: .string), 
-            AWSShapeMember(label: "start", location: .querystring(locationName: "start"), required: false, type: .long), 
-            AWSShapeMember(label: "stats", location: .querystring(locationName: "stats"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "cursor", location: .querystring(locationName: "cursor")), 
+            AWSMemberEncoding(label: "expr", location: .querystring(locationName: "expr")), 
+            AWSMemberEncoding(label: "facet", location: .querystring(locationName: "facet")), 
+            AWSMemberEncoding(label: "filterQuery", location: .querystring(locationName: "fq")), 
+            AWSMemberEncoding(label: "highlight", location: .querystring(locationName: "highlight")), 
+            AWSMemberEncoding(label: "partial", location: .querystring(locationName: "partial")), 
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")), 
+            AWSMemberEncoding(label: "queryOptions", location: .querystring(locationName: "q.options")), 
+            AWSMemberEncoding(label: "queryParser", location: .querystring(locationName: "q.parser")), 
+            AWSMemberEncoding(label: "return", location: .querystring(locationName: "return")), 
+            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")), 
+            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")), 
+            AWSMemberEncoding(label: "start", location: .querystring(locationName: "start")), 
+            AWSMemberEncoding(label: "stats", location: .querystring(locationName: "stats"))
         ]
 
         /// Retrieves a cursor value you can use to page through large result sets. Use the size parameter to control the number of hits to include in each response. You can specify either the cursor or start parameter in a request; they are mutually exclusive. To get the first cursor, set the cursor value to initial. In subsequent requests, specify the cursor value returned in the hits section of the response.  For more information, see Paginating Results in the Amazon CloudSearch Developer Guide.
@@ -277,12 +245,6 @@ extension CloudSearchDomain {
     }
 
     public struct SearchResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "facets", required: false, type: .map), 
-            AWSShapeMember(label: "hits", required: false, type: .structure), 
-            AWSShapeMember(label: "stats", required: false, type: .map), 
-            AWSShapeMember(label: "status", required: false, type: .structure)
-        ]
 
         /// The requested facet information.
         public let facets: [String: BucketInfo]?
@@ -309,10 +271,6 @@ extension CloudSearchDomain {
     }
 
     public struct SearchStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rid", required: false, type: .string), 
-            AWSShapeMember(label: "timems", required: false, type: .long)
-        ]
 
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -331,11 +289,6 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestModel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "found", required: false, type: .long), 
-            AWSShapeMember(label: "query", required: false, type: .string), 
-            AWSShapeMember(label: "suggestions", required: false, type: .list)
-        ]
 
         /// The number of documents that were found to match the query string.
         public let found: Int64?
@@ -358,10 +311,10 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "query", location: .querystring(locationName: "q"), required: true, type: .string), 
-            AWSShapeMember(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
-            AWSShapeMember(label: "suggester", location: .querystring(locationName: "suggester"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")), 
+            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")), 
+            AWSMemberEncoding(label: "suggester", location: .querystring(locationName: "suggester"))
         ]
 
         /// Specifies the string for which you want to get suggestions.
@@ -385,10 +338,6 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .structure), 
-            AWSShapeMember(label: "suggest", required: false, type: .structure)
-        ]
 
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public let status: SuggestStatus?
@@ -407,10 +356,6 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rid", required: false, type: .string), 
-            AWSShapeMember(label: "timems", required: false, type: .long)
-        ]
 
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -429,11 +374,6 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestionMatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "score", required: false, type: .long), 
-            AWSShapeMember(label: "suggestion", required: false, type: .string)
-        ]
 
         /// The document ID of the suggested document.
         public let id: String?
@@ -458,9 +398,9 @@ extension CloudSearchDomain {
     public struct UploadDocumentsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "documents"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .enum), 
-            AWSShapeMember(label: "documents", required: true, type: .blob)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "documents", encoding: .blob)
         ]
 
         /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml 
@@ -480,12 +420,6 @@ extension CloudSearchDomain {
     }
 
     public struct UploadDocumentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "adds", required: false, type: .long), 
-            AWSShapeMember(label: "deletes", required: false, type: .long), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "warnings", required: false, type: .list)
-        ]
 
         /// The number of documents that were added to the search domain.
         public let adds: Int64?

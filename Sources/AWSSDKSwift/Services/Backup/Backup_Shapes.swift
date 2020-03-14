@@ -77,25 +77,6 @@ extension Backup {
     //MARK: Shapes
 
     public struct BackupJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupJobId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpectedCompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "PercentDone", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "StartBy", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
@@ -174,10 +155,6 @@ extension Backup {
     }
 
     public struct BackupPlan: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: true, type: .list)
-        ]
 
         /// The display name of a backup plan.
         public let backupPlanName: String
@@ -196,10 +173,6 @@ extension Backup {
     }
 
     public struct BackupPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanName", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", required: true, type: .list)
-        ]
 
         /// The display name of a backup plan.
         public let backupPlanName: String
@@ -224,10 +197,6 @@ extension Backup {
     }
 
     public struct BackupPlanTemplatesListMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanTemplateId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanTemplateName", required: false, type: .string)
-        ]
 
         /// Uniquely identifies a stored backup plan template.
         public let backupPlanTemplateId: String?
@@ -246,16 +215,6 @@ extension Backup {
     }
 
     public struct BackupPlansListMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastExecutionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
@@ -298,17 +257,6 @@ extension Backup {
     }
 
     public struct BackupRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletionWindowMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "CopyActions", required: false, type: .list), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointTags", required: false, type: .map), 
-            AWSShapeMember(label: "RuleId", required: false, type: .string), 
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "StartWindowMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "TargetBackupVaultName", required: true, type: .string)
-        ]
 
         /// A value in minutes after a backup job is successfully started before it must be completed or it is canceled by AWS Backup. This value is optional.
         public let completionWindowMinutes: Int64?
@@ -355,16 +303,6 @@ extension Backup {
     }
 
     public struct BackupRuleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletionWindowMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "CopyActions", required: false, type: .list), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointTags", required: false, type: .map), 
-            AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "StartWindowMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "TargetBackupVaultName", required: true, type: .string)
-        ]
 
         /// The amount of time AWS Backup attempts a backup before canceling the job and returning an error.
         public let completionWindowMinutes: Int64?
@@ -412,12 +350,6 @@ extension Backup {
     }
 
     public struct BackupSelection: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ListOfTags", required: false, type: .list), 
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "SelectionName", required: true, type: .string)
-        ]
 
         /// The ARN of the IAM role that AWS Backup uses to authenticate when restoring the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
@@ -448,14 +380,6 @@ extension Backup {
     }
 
     public struct BackupSelectionsListMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SelectionId", required: false, type: .string), 
-            AWSShapeMember(label: "SelectionName", required: false, type: .string)
-        ]
 
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
@@ -490,14 +414,6 @@ extension Backup {
     }
 
     public struct BackupVaultListMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfRecoveryPoints", required: false, type: .long)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
@@ -532,10 +448,6 @@ extension Backup {
     }
 
     public struct CalculatedLifecycle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MoveToColdStorageAt", required: false, type: .timestamp)
-        ]
 
         /// A timestamp that specifies when to delete a recovery point.
         public let deleteAt: TimeStamp?
@@ -554,11 +466,6 @@ extension Backup {
     }
 
     public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionKey", required: true, type: .string), 
-            AWSShapeMember(label: "ConditionType", required: true, type: .enum), 
-            AWSShapeMember(label: "ConditionValue", required: true, type: .string)
-        ]
 
         /// The key in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "ec2:ResourceTag/Department" is the key.
         public let conditionKey: String
@@ -581,10 +488,6 @@ extension Backup {
     }
 
     public struct CopyAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationBackupVaultArn", required: true, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup. For example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let destinationBackupVaultArn: String
@@ -602,22 +505,6 @@ extension Backup {
     }
 
     public struct CopyJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CopyJobId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DestinationBackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationRecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "SourceBackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceRecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// The size, in bytes, of a copy job.
         public let backupSizeInBytes: Int64?
@@ -683,11 +570,6 @@ extension Backup {
     }
 
     public struct CreateBackupPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlan", required: true, type: .structure), 
-            AWSShapeMember(label: "BackupPlanTags", required: false, type: .map), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string)
-        ]
 
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlanInput
@@ -714,12 +596,6 @@ extension Backup {
     }
 
     public struct CreateBackupPlanOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
@@ -746,10 +622,8 @@ extension Backup {
     }
 
     public struct CreateBackupSelectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string), 
-            AWSShapeMember(label: "BackupSelection", required: true, type: .structure), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId"))
         ]
 
         /// Uniquely identifies the backup plan to be associated with the selection of resources.
@@ -777,11 +651,6 @@ extension Backup {
     }
 
     public struct CreateBackupSelectionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SelectionId", required: false, type: .string)
-        ]
 
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
@@ -804,11 +673,8 @@ extension Backup {
     }
 
     public struct CreateBackupVaultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "BackupVaultTags", required: false, type: .map), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionKeyArn", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -840,11 +706,6 @@ extension Backup {
     }
 
     public struct CreateBackupVaultOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
@@ -867,8 +728,8 @@ extension Backup {
     }
 
     public struct DeleteBackupPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -884,12 +745,6 @@ extension Backup {
     }
 
     public struct DeleteBackupPlanOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
@@ -916,9 +771,9 @@ extension Backup {
     }
 
     public struct DeleteBackupSelectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string), 
-            AWSShapeMember(label: "SelectionId", location: .uri(locationName: "selectionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "selectionId", location: .uri(locationName: "selectionId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -938,8 +793,8 @@ extension Backup {
     }
 
     public struct DeleteBackupVaultAccessPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -959,8 +814,8 @@ extension Backup {
     }
 
     public struct DeleteBackupVaultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and theAWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -976,8 +831,8 @@ extension Backup {
     }
 
     public struct DeleteBackupVaultNotificationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -997,9 +852,9 @@ extension Backup {
     }
 
     public struct DeleteRecoveryPointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", location: .uri(locationName: "recoveryPointArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1023,8 +878,8 @@ extension Backup {
     }
 
     public struct DescribeBackupJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupJobId", location: .uri(locationName: "backupJobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupJobId", location: .uri(locationName: "backupJobId"))
         ]
 
         /// Uniquely identifies a request to AWS Backup to back up a resource.
@@ -1040,25 +895,6 @@ extension Backup {
     }
 
     public struct DescribeBackupJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupJobId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpectedCompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "PercentDone", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "StartBy", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
@@ -1137,8 +973,8 @@ extension Backup {
     }
 
     public struct DescribeBackupVaultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1154,14 +990,6 @@ extension Backup {
     }
 
     public struct DescribeBackupVaultOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfRecoveryPoints", required: false, type: .long)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
@@ -1196,8 +1024,8 @@ extension Backup {
     }
 
     public struct DescribeCopyJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyJobId", location: .uri(locationName: "copyJobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "copyJobId", location: .uri(locationName: "copyJobId"))
         ]
 
         /// Uniquely identifies a request to AWS Backup to copy a resource.
@@ -1213,9 +1041,6 @@ extension Backup {
     }
 
     public struct DescribeCopyJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyJob", required: false, type: .structure)
-        ]
 
         /// Contains detailed information about a copy job.
         public let copyJob: CopyJob?
@@ -1230,8 +1055,8 @@ extension Backup {
     }
 
     public struct DescribeProtectedResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -1247,11 +1072,6 @@ extension Backup {
     }
 
     public struct DescribeProtectedResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastBackupTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The date and time that a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastBackupTime: TimeStamp?
@@ -1274,9 +1094,9 @@ extension Backup {
     }
 
     public struct DescribeRecoveryPointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", location: .uri(locationName: "recoveryPointArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1300,25 +1120,6 @@ extension Backup {
     }
 
     public struct DescribeRecoveryPointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "CalculatedLifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EncryptionKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "IsEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "LastRestoreTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
-        ]
 
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
@@ -1397,8 +1198,8 @@ extension Backup {
     }
 
     public struct DescribeRestoreJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RestoreJobId", location: .uri(locationName: "restoreJobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "restoreJobId", location: .uri(locationName: "restoreJobId"))
         ]
 
         /// Uniquely identifies the job that restores a recovery point.
@@ -1414,19 +1215,6 @@ extension Backup {
     }
 
     public struct DescribeRestoreJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpectedCompletionTimeMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "PercentDone", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "RestoreJobId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// The size, in bytes, of the restored resource.
         public let backupSizeInBytes: Int64?
@@ -1481,8 +1269,8 @@ extension Backup {
     }
 
     public struct ExportBackupPlanTemplateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -1498,9 +1286,6 @@ extension Backup {
     }
 
     public struct ExportBackupPlanTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanTemplateJson", required: false, type: .string)
-        ]
 
         /// The body of a backup plan template in JSON format.  This is a signed JSON document that cannot be modified before being passed to GetBackupPlanFromJSON.  
         public let backupPlanTemplateJson: String?
@@ -1515,9 +1300,6 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromJSONInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanTemplateJson", required: true, type: .string)
-        ]
 
         /// A customer-supplied backup plan document in JSON format.
         public let backupPlanTemplateJson: String
@@ -1532,9 +1314,6 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromJSONOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlan", required: false, type: .structure)
-        ]
 
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlan?
@@ -1549,8 +1328,8 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromTemplateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanTemplateId", location: .uri(locationName: "templateId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanTemplateId", location: .uri(locationName: "templateId"))
         ]
 
         /// Uniquely identifies a stored backup plan template.
@@ -1566,9 +1345,6 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromTemplateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanDocument", required: false, type: .structure)
-        ]
 
         /// Returns the body of a backup plan based on the target template, including the name, rules, and backup vault of the plan.
         public let backupPlanDocument: BackupPlan?
@@ -1583,9 +1359,9 @@ extension Backup {
     }
 
     public struct GetBackupPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string), 
-            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -1605,16 +1381,6 @@ extension Backup {
     }
 
     public struct GetBackupPlanOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlan", required: false, type: .structure), 
-            AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastExecutionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlan?
@@ -1657,9 +1423,9 @@ extension Backup {
     }
 
     public struct GetBackupSelectionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string), 
-            AWSShapeMember(label: "SelectionId", location: .uri(locationName: "selectionId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "selectionId", location: .uri(locationName: "selectionId"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -1679,13 +1445,6 @@ extension Backup {
     }
 
     public struct GetBackupSelectionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupSelection", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "SelectionId", required: false, type: .string)
-        ]
 
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
@@ -1716,8 +1475,8 @@ extension Backup {
     }
 
     public struct GetBackupVaultAccessPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1737,11 +1496,6 @@ extension Backup {
     }
 
     public struct GetBackupVaultAccessPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
@@ -1764,8 +1518,8 @@ extension Backup {
     }
 
     public struct GetBackupVaultNotificationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1785,12 +1539,6 @@ extension Backup {
     }
 
     public struct GetBackupVaultNotificationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultEvents", required: false, type: .list), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "SNSTopicArn", required: false, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
@@ -1817,9 +1565,9 @@ extension Backup {
     }
 
     public struct GetRecoveryPointRestoreMetadataInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", location: .uri(locationName: "recoveryPointArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1843,11 +1591,6 @@ extension Backup {
     }
 
     public struct GetRecoveryPointRestoreMetadataOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "RestoreMetadata", required: false, type: .map)
-        ]
 
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
@@ -1870,9 +1613,6 @@ extension Backup {
     }
 
     public struct GetSupportedResourceTypesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list)
-        ]
 
         /// Contains a string with the supported AWS resource types:    EBS for Amazon Elastic Block Store    Storage Gateway for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
         public let resourceTypes: [String]?
@@ -1887,10 +1627,6 @@ extension Backup {
     }
 
     public struct Lifecycle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteAfterDays", required: false, type: .long), 
-            AWSShapeMember(label: "MoveToColdStorageAfterDays", required: false, type: .long)
-        ]
 
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public let deleteAfterDays: Int64?
@@ -1909,15 +1645,15 @@ extension Backup {
     }
 
     public struct ListBackupJobsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ByBackupVaultName", location: .querystring(locationName: "backupVaultName"), required: false, type: .string), 
-            AWSShapeMember(label: "ByCreatedAfter", location: .querystring(locationName: "createdAfter"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ByCreatedBefore", location: .querystring(locationName: "createdBefore"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ByResourceArn", location: .querystring(locationName: "resourceArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ByResourceType", location: .querystring(locationName: "resourceType"), required: false, type: .string), 
-            AWSShapeMember(label: "ByState", location: .querystring(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "byBackupVaultName", location: .querystring(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1968,10 +1704,6 @@ extension Backup {
     }
 
     public struct ListBackupJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupJobs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of structures containing metadata about your backup jobs returned in JSON format.
         public let backupJobs: [BackupJob]?
@@ -1990,9 +1722,9 @@ extension Backup {
     }
 
     public struct ListBackupPlanTemplatesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2017,10 +1749,6 @@ extension Backup {
     }
 
     public struct ListBackupPlanTemplatesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanTemplatesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of template list items containing metadata about your saved templates.
         public let backupPlanTemplatesList: [BackupPlanTemplatesListMember]?
@@ -2039,10 +1767,10 @@ extension Backup {
     }
 
     public struct ListBackupPlanVersionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -2071,10 +1799,6 @@ extension Backup {
     }
 
     public struct ListBackupPlanVersionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanVersionsList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of version list items containing metadata about your backup plans.
         public let backupPlanVersionsList: [BackupPlansListMember]?
@@ -2093,10 +1817,10 @@ extension Backup {
     }
 
     public struct ListBackupPlansInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeDeleted", location: .querystring(locationName: "includeDeleted"), required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "includeDeleted", location: .querystring(locationName: "includeDeleted")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE.
@@ -2125,10 +1849,6 @@ extension Backup {
     }
 
     public struct ListBackupPlansOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlansList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of backup plan list items containing metadata about your saved backup plans.
         public let backupPlansList: [BackupPlansListMember]?
@@ -2147,10 +1867,10 @@ extension Backup {
     }
 
     public struct ListBackupSelectionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Uniquely identifies a backup plan.
@@ -2179,10 +1899,6 @@ extension Backup {
     }
 
     public struct ListBackupSelectionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSelectionsList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of backup selection list items containing metadata about each resource in the list.
         public let backupSelectionsList: [BackupSelectionsListMember]?
@@ -2201,9 +1917,9 @@ extension Backup {
     }
 
     public struct ListBackupVaultsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2228,10 +1944,6 @@ extension Backup {
     }
 
     public struct ListBackupVaultsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of backup vault list members containing vault metadata, including Amazon Resource Name (ARN), display name, creation date, number of saved recovery points, and encryption information if the resources saved in the backup vault are encrypted.
         public let backupVaultList: [BackupVaultListMember]?
@@ -2250,15 +1962,15 @@ extension Backup {
     }
 
     public struct ListCopyJobsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ByCreatedAfter", location: .querystring(locationName: "createdAfter"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ByCreatedBefore", location: .querystring(locationName: "createdBefore"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ByDestinationVaultArn", location: .querystring(locationName: "destinationVaultArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ByResourceArn", location: .querystring(locationName: "resourceArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ByResourceType", location: .querystring(locationName: "resourceType"), required: false, type: .string), 
-            AWSShapeMember(label: "ByState", location: .querystring(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring(locationName: "destinationVaultArn")), 
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// Returns only copy jobs that were created after the specified date.
@@ -2308,10 +2020,6 @@ extension Backup {
     }
 
     public struct ListCopyJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyJobs", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
 
         /// An array of structures containing metadata about your copy jobs returned in JSON format. 
         public let copyJobs: [CopyJob]?
@@ -2330,9 +2038,9 @@ extension Backup {
     }
 
     public struct ListProtectedResourcesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2357,10 +2065,6 @@ extension Backup {
     }
 
     public struct ListProtectedResourcesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Results", required: false, type: .list)
-        ]
 
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
@@ -2379,15 +2083,15 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByBackupVaultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "ByBackupPlanId", location: .querystring(locationName: "backupPlanId"), required: false, type: .string), 
-            AWSShapeMember(label: "ByCreatedAfter", location: .querystring(locationName: "createdAfter"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ByCreatedBefore", location: .querystring(locationName: "createdBefore"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ByResourceArn", location: .querystring(locationName: "resourceArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ByResourceType", location: .querystring(locationName: "resourceType"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "byBackupPlanId", location: .querystring(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2438,10 +2142,6 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByBackupVaultOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPoints", required: false, type: .list)
-        ]
 
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
@@ -2460,10 +2160,10 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2492,10 +2192,6 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPoints", required: false, type: .list)
-        ]
 
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
@@ -2514,9 +2210,9 @@ extension Backup {
     }
 
     public struct ListRestoreJobsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2541,10 +2237,6 @@ extension Backup {
     }
 
     public struct ListRestoreJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RestoreJobs", required: false, type: .list)
-        ]
 
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
@@ -2563,10 +2255,10 @@ extension Backup {
     }
 
     public struct ListTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// The maximum number of items to be returned.
@@ -2595,10 +2287,6 @@ extension Backup {
     }
 
     public struct ListTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
 
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
@@ -2617,11 +2305,6 @@ extension Backup {
     }
 
     public struct ProtectedResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastBackupTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastBackupTime: TimeStamp?
@@ -2644,9 +2327,8 @@ extension Backup {
     }
 
     public struct PutBackupVaultAccessPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2670,10 +2352,8 @@ extension Backup {
     }
 
     public struct PutBackupVaultNotificationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultEvents", required: true, type: .list), 
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "SNSTopicArn", required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
         /// An array of events that indicate the status of jobs to back up resources to the backup vault.
@@ -2701,24 +2381,6 @@ extension Backup {
     }
 
     public struct RecoveryPointByBackupVault: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "CalculatedLifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EncryptionKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "IsEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "LastRestoreTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
@@ -2793,14 +2455,6 @@ extension Backup {
     }
 
     public struct RecoveryPointByResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSizeBytes", required: false, type: .long), 
-            AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EncryptionKeyArn", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
 
         /// The size, in bytes, of a backup.
         public let backupSizeBytes: Int64?
@@ -2835,12 +2489,6 @@ extension Backup {
     }
 
     public struct RecoveryPointCreator: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanVersion", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRuleId", required: false, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
@@ -2867,19 +2515,6 @@ extension Backup {
     }
 
     public struct RestoreJobsListMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CreatedResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ExpectedCompletionTimeMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "PercentDone", required: false, type: .string), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string), 
-            AWSShapeMember(label: "RestoreJobId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
-        ]
 
         /// The size, in bytes, of the restored resource.
         public let backupSizeInBytes: Int64?
@@ -2934,16 +2569,6 @@ extension Backup {
     }
 
     public struct StartBackupJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", required: true, type: .string), 
-            AWSShapeMember(label: "CompleteWindowMinutes", required: false, type: .long), 
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointTags", required: false, type: .map), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "StartWindowMinutes", required: false, type: .long)
-        ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
@@ -2990,11 +2615,6 @@ extension Backup {
     }
 
     public struct StartBackupJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupJobId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string)
-        ]
 
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
@@ -3017,14 +2637,6 @@ extension Backup {
     }
 
     public struct StartCopyJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationBackupVaultArn", required: true, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointArn", required: true, type: .string), 
-            AWSShapeMember(label: "SourceBackupVaultName", required: true, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let destinationBackupVaultArn: String
@@ -3062,10 +2674,6 @@ extension Backup {
     }
 
     public struct StartCopyJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CopyJobId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
-        ]
 
         /// Uniquely identifies a request to AWS Backup to copy a resource.
         public let copyJobId: String?
@@ -3084,13 +2692,6 @@ extension Backup {
     }
 
     public struct StartRestoreJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "Metadata", required: true, type: .map), 
-            AWSShapeMember(label: "RecoveryPointArn", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string)
-        ]
 
         /// The Amazon Resource Name (ARN) of the IAM role that AWS Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
@@ -3125,9 +2726,6 @@ extension Backup {
     }
 
     public struct StartRestoreJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RestoreJobId", required: false, type: .string)
-        ]
 
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
@@ -3142,8 +2740,8 @@ extension Backup {
     }
 
     public struct StopBackupJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupJobId", location: .uri(locationName: "backupJobId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupJobId", location: .uri(locationName: "backupJobId"))
         ]
 
         /// Uniquely identifies a request to AWS Backup to back up a resource.
@@ -3159,9 +2757,8 @@ extension Backup {
     }
 
     public struct TagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .map)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
@@ -3181,9 +2778,8 @@ extension Backup {
     }
 
     public struct UntagResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeyList", required: true, type: .list)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
@@ -3203,9 +2799,8 @@ extension Backup {
     }
 
     public struct UpdateBackupPlanInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlan", required: true, type: .structure), 
-            AWSShapeMember(label: "BackupPlanId", location: .uri(locationName: "backupPlanId"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId"))
         ]
 
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
@@ -3229,12 +2824,6 @@ extension Backup {
     }
 
     public struct UpdateBackupPlanOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string)
-        ]
 
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
@@ -3261,10 +2850,9 @@ extension Backup {
     }
 
     public struct UpdateRecoveryPointLifecycleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultName", location: .uri(locationName: "backupVaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointArn", location: .uri(locationName: "recoveryPointArn"), required: true, type: .string)
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -3292,12 +2880,6 @@ extension Backup {
     }
 
     public struct UpdateRecoveryPointLifecycleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
-            AWSShapeMember(label: "CalculatedLifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
-            AWSShapeMember(label: "RecoveryPointArn", required: false, type: .string)
-        ]
 
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
