@@ -496,7 +496,7 @@ extension AWSService {
         var validationContexts : [ValidationContext] = []
         var usedLocationPath : [String] = []
         var shapeProtocol: String
-        
+
         if shape.usedInInput {
             shapeProtocol = "AWSEncodableShape"
             if shape.usedInOutput {
@@ -507,11 +507,11 @@ extension AWSService {
         } else {
             preconditionFailure("AWSShape has to be used in either input or output")
         }
-        
+
         if type.payload != nil {
             shapeProtocol += " & AWSShapeWithPayload"
         }
-        
+
         for member in type.members {
             var memberContext = generateMemberContext(member, shape: shape)
 
@@ -525,7 +525,7 @@ extension AWSService {
 
             memberContexts.append(memberContext)
 
-            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape, forceOutput: type.payload == member.name) {
+            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape, forceOutput: type.payload == member.name && shape.response) {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
             }
 
